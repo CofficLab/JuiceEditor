@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+[contenteditable]:focus {
+  @apply border-none outline-none;
+}
+
+/* 点击TOC里的目录时，能让文字和顶部有一定的距离 */
+.prose {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply my-0 py-4 !important;
+  }
+}
+
+.prose {
+  ul {
+    @apply my-0 py-0 !important;
+
+    li {
+      @apply my-0 p-0 !important;
+    }
+  }
+
+  p {
+    @apply my-0 py-0 !important;
+  }
+}
