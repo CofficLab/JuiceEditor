@@ -1,10 +1,10 @@
 <template>
   <div v-if="editor" class="flex">
     <!-- 选中文字后弹出的菜单 -->
-    <BubbleMenus :editor="editor"></BubbleMenus>
+    <BubbleMenus :editor="editor" v-if="editable"></BubbleMenus>
 
     <!-- 回车后弹出的菜单 -->
-    <FloatMenus :editor="editor"></FloatMenus>
+    <FloatMenus :editor="editor" v-if="editable"></FloatMenus>
 
     <div class="container mx-auto px-4 md:px-0 flex flex-col pb-48 prose dark:prose-invert">
       <div class="flex flex-row bg-blue-300 rounded justify-center text-sm py-1" v-if="isDebug && !editable">
