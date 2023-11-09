@@ -7,6 +7,12 @@
     <FloatMenus :editor="editor"></FloatMenus>
 
     <div class="container mx-auto px-4 md:px-0 flex flex-col pt-12 pb-48 prose dark:prose-invert">
+      <div class="flex flex-row bg-blue-300 rounded justify-center text-sm py-1" v-if="!editable">
+        <IconInfo></IconInfo>
+        <div class="flex items-center ml-2">
+          <p>只读模式</p>
+        </div>
+      </div>
       <editor-content :editor="editor" />
     </div>
   </div>
@@ -27,6 +33,7 @@ import { SmartBanner } from '../extensions/SmartBanner/SmartBanner'
 import BubbleMenus from './BubbleMenus.vue'
 import FloatMenus from './FloatMenus.vue'
 import TreeNode from '../entities/TreeNode'
+import IconInfo from '../icons/IconInfo.vue'
 
 let isDebug = process.env.NODE_ENV === 'development'
 
@@ -61,6 +68,10 @@ const props = defineProps({
   content: {
     type: String,
     default: ''
+  },
+  editable: {
+    type: Boolean,
+    default: false,
   },
   onUpdate: {
     type: Function,
@@ -103,6 +114,7 @@ var editor = new Editor({
   ],
   autofocus: true,
   content: props.content,
+  editable: props.editable,
   onUpdate() {
     let treeNode = getTreeNodeFromEditor()
     console.log('TiptapEditor: onUpdate, callback with TreeNode')

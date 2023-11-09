@@ -20,7 +20,7 @@
 
       <!-- 编辑器 -->
       <div>
-        <TiptapEditor v-if="showEditor" :content="node.content" :onUpdate="onUpdate" />
+        <TiptapEditor v-if="showEditor" :content="node.content" :editable="editable" :onUpdate="onUpdate" />
       </div>
 
       <!-- 子节点 -->
@@ -42,6 +42,7 @@ import IconBook from '../icons/IconBook.vue'
 let isDebug = process.env.NODE_ENV === 'development'
 let loading = ref(false)
 let showEditor = ref(true)
+let editable = ref(false)
 let node = ref<TreeNode>(new TreeNode({}))
 
 // 当页面内容发生变动时
@@ -74,6 +75,8 @@ onMounted(() => {
   window.updater = {
     showEditor: () => (showEditor.value = true),
     hideEditor: () => (showEditor.value = false),
+    enableEdit: () => (editable.value = true),
+    disableEdit: () => (editable.value = false),
 
     updateNode: function (newNode: Object) {
       loading.value = true
