@@ -31,7 +31,7 @@
       <!-- 代码框，存储从文件系统读出的代码，然后放到Monaco编辑器中 -->
       <NodeViewContent ref="nodeViewContent" class="hidden" />
 
-      <div class="operation-bar">
+      <div class="operation-bar" v-if="editor.isEditable">
         <!-- 语言按钮 -->
         <div class="dropdown dropdown-hover dropdown-bottom dropdown-end">
           <label tabindex="0">

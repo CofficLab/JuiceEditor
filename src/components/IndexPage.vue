@@ -39,11 +39,20 @@ import { onMounted, ref } from 'vue'
 import Loading from '../components/Loading.vue'
 import IconBook from '../icons/IconBook.vue'
 
+const sampleImgSrc = 'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=';
+const sampleNode = new TreeNode({
+  content: `
+    <h1>测试内容</h1>
+    <img src="${sampleImgSrc}"></img>
+    <pre><code>console.log("ABC")</code></pre>
+  `
+})
+
 let isDebug = process.env.NODE_ENV === 'development'
 let loading = ref(false)
 let showEditor = ref(true)
 let editable = ref(false)
-let node = ref<TreeNode>(new TreeNode({}))
+let node = ref<TreeNode>(isDebug ? sampleNode : new TreeNode({}))
 
 // 当页面内容发生变动时
 function onUpdate(updatedNode: TreeNode) {
