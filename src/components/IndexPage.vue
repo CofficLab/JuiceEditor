@@ -45,6 +45,8 @@ const sampleNode = new TreeNode({
     <h1>测试内容</h1>
     <img src="${sampleImgSrc}"></img>
     <pre><code>console.log("ABC")</code></pre>
+    <h2>画图</h2>
+    <draw src="${sampleImgSrc}"></draw>
   `
 })
 

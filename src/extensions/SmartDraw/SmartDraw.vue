@@ -12,6 +12,10 @@ const img = ref(null)
 const props = defineProps(nodeViewProps)
 
 const showIframe = function () {
+  if (!props.editor.isEditable) {
+    return
+  }
+
   const dialog = document.createElement('dialog')
   dialog.classList.add('modal')
 
