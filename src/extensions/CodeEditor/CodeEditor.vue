@@ -48,7 +48,7 @@
           <label tabindex="0">
             <Setting></Setting>
           </label>
-          <ul class="menu">
+          <ul class="menu z-50">
             <li>
               <a @click="createTab">新标签</a>
             </li>
