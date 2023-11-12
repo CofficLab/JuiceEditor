@@ -1,13 +1,21 @@
 <template>
   <div class="flex flex-col h-full w-full">
+    <!-- 开发模式操作栏 -->
+    <div v-if="isDebug" class="flex flex-row container mx-auto justify-center my-4 gap-4">
+      <button class="btn btn-primary" @click="setEditable">编辑模式</button>
+      <button class="btn btn-primary" @click="setReadonly">只读模式</button>
+    </div>
+
     <div v-if="loading" class="flex justify-center items-center h-full">
       <Loading></Loading>
     </div>
 
     <div v-else class="flex flex-col">
       <!-- 图书简介 -->
-      <div v-if="node.isBook"
-        class="rounded-2xl bg-base-200 m-12 p-4 container mx-auto flex flex-col gap-4 justify-center">
+      <div
+        v-if="node.isBook"
+        class="rounded-2xl bg-base-200 m-12 p-4 container mx-auto flex flex-col gap-4 justify-center"
+      >
         <div class="flex flex-row gap-2">
           <IconBook class="w-24 h-24"></IconBook>
           <h1 class="text-5xl font-bold flex items-center" v-html="node.title"></h1>
@@ -20,11 +28,19 @@
 
       <!-- 编辑器 -->
       <div>
-        <TiptapEditor v-if="showEditor" :content="node.content" :editable="editable" :onUpdate="onUpdate" />
+        <TiptapEditor
+          v-if="showEditor"
+          :content="node.content"
+          :editable="editable"
+          :onUpdate="onUpdate"
+        />
       </div>
 
       <!-- 子节点 -->
-      <div class="container mx-auto px-4 py-4 flex mt-24 justify-center border-t dark:border-gray-700/30" v-if="node.children.length > 0">
+      <div
+        class="container mx-auto px-4 py-4 flex mt-24 justify-center border-t dark:border-gray-700/30"
+        v-if="node.children.length > 0"
+      >
         <NodeCardList :nodes="node.children"></NodeCardList>
       </div>
     </div>
@@ -39,7 +55,7 @@ import { onMounted, ref } from 'vue'
 import Loading from '../components/Loading.vue'
 import IconBook from '../icons/IconBook.vue'
 
-const sampleImgSrc = 'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=';
+const sampleImgSrc = 'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs='
 const sampleNode = new TreeNode({
   content: `
     <h1>测试内容</h1>
@@ -56,6 +72,14 @@ let showEditor = ref(true)
 let editable = ref(false)
 let node = ref<TreeNode>(isDebug ? sampleNode : new TreeNode({}))
 
+function setEditable() {
+  editable.value = true
+}
+
+function setReadonly() {
+  editable.value = false
+}
+
 // 当页面内容发生变动时
 function onUpdate(updatedNode: TreeNode) {
   console.log('IndexPage: onUpdate')
@@ -68,7 +92,7 @@ function onUpdate(updatedNode: TreeNode) {
   console.log('调用 WebKit 以更新节点内容')
   setTimeout(() => {
     try {
-      ; (window as any).webkit.messageHandlers.updateContent.postMessage({
+      ;(window as any).webkit.messageHandlers.updateContent.postMessage({
         content: updatedNode.content,
         title: updatedNode.title,
         id: `${updatedNode.id}`,
@@ -105,7 +129,7 @@ onMounted(() => {
 
   console.log('调用 WebKit 以通知 Swift 页面加载完成')
   try {
-    ; (window as any).webkit.messageHandlers.pageLoaded.postMessage({})
+    ;(window as any).webkit.messageHandlers.pageLoaded.postMessage({})
   } catch (e) {
     console.log('调用 WebKit 以通知 Swift 页面加载完成，失败', e)
   }

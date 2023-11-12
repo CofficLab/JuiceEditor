@@ -7,7 +7,10 @@
     <FloatMenus :editor="editor" v-if="editable"></FloatMenus>
 
     <div class="container mx-auto px-4 md:px-0 flex flex-col pb-48 prose dark:prose-invert">
-      <div class="flex flex-row bg-blue-300 rounded justify-center text-sm py-1" v-if="isDebug && !editable">
+      <div
+        class="flex flex-row bg-blue-300 rounded justify-center text-sm py-1"
+        v-if="isDebug && !editable"
+      >
         <IconInfo></IconInfo>
         <div class="flex items-center ml-2">
           <p>只读模式</p>
@@ -71,11 +74,11 @@ const props = defineProps({
   },
   editable: {
     type: Boolean,
-    default: false,
+    default: false
   },
   onUpdate: {
     type: Function,
-    default: (editor: Editor) => { }
+    default: (editor: Editor) => {}
   }
 })
 
@@ -181,7 +184,7 @@ function getTreeNodeFromEditor(): TreeNode {
 
 <style lang="scss">
 .ProseMirror {
-  >*+* {
+  > * + * {
     margin-top: 0.75em;
   }
 
@@ -198,7 +201,7 @@ function getTreeNodeFromEditor(): TreeNode {
 
 /* Basic editor styles */
 .ProseMirror {
-  >*+* {
+  > * + * {
     margin-top: 0.75em;
   }
 }
