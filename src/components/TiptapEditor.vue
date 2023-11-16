@@ -126,16 +126,16 @@ var editor = new Editor({
 })
 
 watch(props, () => {
-  console.log('TiptapEditor: props.content changed')
+  console.log('TiptapEditor: props changed')
 
-  const isSame = editor.getHTML() === props.content
-
-  if (isSame) {
-    return
+  if (props.editable != editor.isEditable) {
+    editor.setEditable(props.editable)
   }
 
-  console.log('TiptapEditor: props.content changed, update content')
-  editor.commands.setContent(props.content, false)
+  if (editor.getHTML() !== props.content) {
+    console.log('TiptapEditor: props.content changed, update content')
+    editor.commands.setContent(props.content, false)
+  }
 })
 
 onMounted(() => {

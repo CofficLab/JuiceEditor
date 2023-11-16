@@ -83,7 +83,10 @@ function setReadonly() {
 // 当页面内容发生变动时
 function onUpdate(updatedNode: TreeNode) {
   console.log('IndexPage: onUpdate')
-  node.value = updatedNode
+  node.value.content = updatedNode.content
+  node.value.title = updatedNode.title
+  node.value.characterCount = updatedNode.characterCount
+  node.value.wordCount = updatedNode.wordCount
 
   if (!('webkit' in window)) {
     return
@@ -92,12 +95,13 @@ function onUpdate(updatedNode: TreeNode) {
   console.log('调用 WebKit 以更新节点内容')
   setTimeout(() => {
     try {
+      // 只能传字符、只能传普通object
       ;(window as any).webkit.messageHandlers.updateContent.postMessage({
-        content: updatedNode.content,
-        title: updatedNode.title,
-        id: `${updatedNode.id}`,
-        characterCount: `${updatedNode.characterCount}`,
-        wordCount: `${updatedNode.wordCount}`
+        content: node.value.content,
+        title: node.value.title,
+        id: node.value.id,
+        characterCount: `${node.value.characterCount}`,
+        wordCount: `${node.value.wordCount}`
       })
     } catch (e) {
       console.log('更新内容失败', e)
