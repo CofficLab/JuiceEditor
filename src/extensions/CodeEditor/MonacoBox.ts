@@ -164,7 +164,7 @@ class MonacoBox {
             value: options.content,
             language: options.language,
             readOnly: options.readOnly,
-            theme: "vs-dark",
+            theme: "hc-black",
             fontSize: 14,
             lineNumbers: options.showLineNumbers ? "on" : "off",
             automaticLayout: true,
