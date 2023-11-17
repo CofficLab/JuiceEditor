@@ -22,50 +22,15 @@
 </template>
 
 <script lang="ts" setup>
-import Document from '@tiptap/extension-document'
-import Placeholder from '@tiptap/extension-placeholder'
-import CharacterCount from '@tiptap/extension-character-count'
-import { CodeEditor } from '../extensions/CodeEditor/CodeEditor'
-import { Toc } from '../extensions/Toc/Toc.js'
-import SmartImage from '../extensions/SmartImage/SmartImage'
 import { Editor, EditorContent } from '@tiptap/vue-3'
-import { computed, onBeforeUnmount, onMounted, watch } from 'vue'
-import StarterKit from '@tiptap/starter-kit'
-import SmartDraw from '../extensions/SmartDraw/SmartDraw'
-import { SmartBanner } from '../extensions/SmartBanner/SmartBanner'
+import { onBeforeUnmount, onMounted, watch } from 'vue'
 import BubbleMenus from './BubbleMenus.vue'
 import FloatMenus from './FloatMenus.vue'
-import TreeNode from '../entities/TreeNode'
 import IconInfo from '../icons/IconInfo.vue'
+import TiptapAgent from '../entities/TiptapAgent'
+import DrawAgent from '../entities/DrawAgent'
 
 let isDebug = process.env.NODE_ENV === 'development'
-
-const drawIoLink = computed(() => {
-  const query = httpBuildQuery({
-    embed: '1',
-    ui: 'min',
-    spin: '1',
-    modified: 'unsavedChanges',
-    proto: 'json',
-    lang: 'zh',
-    'hide-pages': '1',
-    lightbox: '0',
-    browser: '0',
-    gapi: '0',
-    db: '0',
-    od: '0',
-    tr: '0',
-    gh: '0',
-    gl: '0',
-    noSaveBtn: '0',
-    noExitBtn: '1',
-    saveAndExit: '0',
-    dev: isDebug ? '1' : '0'
-  })
-  return isDebug
-    ? 'http://localhost:5173/drawio/src/main/webapp/index.html?' + query
-    : 'http://localhost:8080/dist/draw/index.html?' + query
-})
 
 const props = defineProps({
   content: {
@@ -82,47 +47,10 @@ const props = defineProps({
   }
 })
 
-var editor = new Editor({
-  extensions: [
-    CodeEditor,
-    CharacterCount,
-    SmartBanner,
-    SmartDraw.configure({
-      drawIoLink: drawIoLink.value,
-      openDialog: 'click'
-    }),
-    Toc,
-    SmartImage.configure({
-      allowBase64: true,
-      HTMLAttributes: {
-        class: ''
-      }
-    }),
-    Document.extend({
-      content: 'heading block*'
-    }),
-    StarterKit.configure({
-      document: false,
-      codeBlock: false
-    }),
-    Placeholder.configure({
-      placeholder: ({ node }) => {
-        if (node.type.name === 'heading' && node.attrs.level == 1) {
-          return '输入标题'
-        }
-
-        return ''
-      }
-    })
-  ],
-  autofocus: true,
+var editor = TiptapAgent.create({
   content: props.content,
   editable: props.editable,
-  onUpdate() {
-    let treeNode = getTreeNodeFromEditor()
-    console.log('TiptapEditor: onUpdate, callback with TreeNode')
-    props.onUpdate(treeNode)
-  }
+  drawIoLink: DrawAgent.getLink(),
 })
 
 watch(props, () => {
@@ -147,39 +75,6 @@ onMounted(() => {
 onBeforeUnmount(() => {
   editor.destroy()
 })
-
-function httpBuildQuery(params: { [x: string]: any; hasOwnProperty: (arg0: string) => any }) {
-  var queryString = ''
-
-  for (var key in params) {
-    if (params.hasOwnProperty(key)) {
-      var value = params[key]
-      queryString += encodeURIComponent(key) + '=' + encodeURIComponent(value) + '&'
-    }
-  }
-
-  // 去除最后一个多余的"&"
-  queryString = queryString.slice(0, -1)
-
-  return queryString
-}
-
-function getTreeNodeFromEditor(): TreeNode {
-  let nodes = editor.state.doc.content
-  let title = ''
-  nodes.forEach((node) => {
-    if (node.type.name == 'heading' && title == '') {
-      title = node.textContent!
-    }
-  })
-
-  return new TreeNode({
-    title: title,
-    content: editor.getHTML(),
-    characterCount: editor.storage.characterCount.characters(),
-    wordCount: editor.storage.characterCount.words()
-  })
-}
 </script>
 
 <style lang="scss">
@@ -207,7 +102,7 @@ function getTreeNodeFromEditor(): TreeNode {
 }
 
 /* Placeholder (at the top) */
-/*.ProseMirror p.is-editor-empty:first-child::before {
+.ProseMirror p.is-editor-empty:first-child::before {
   content: attr(data-placeholder);
   float: left;
   color: #ced4da;
