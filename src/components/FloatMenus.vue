@@ -161,7 +161,7 @@ let setHardBreak = function () {
 
 <style scoped lang="postcss">
 .floating-menu {
-  @apply bg-info/60 rounded-md px-2 py-1 flex items-center;
+  @apply bg-info text-info-content rounded-md px-2 py-1 flex items-center;
   button {
     @apply btn btn-xs btn-ghost;
   }

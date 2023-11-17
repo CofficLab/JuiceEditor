@@ -67,10 +67,20 @@
     </button>
     <button @click="setHardBreak">换行</button>
 
-    <button @click="setLink" 
-      :class="{ 'btn-disabled': editor.isActive('link') }">设为链接</button>
-    <button @click="editor.chain().focus().unsetLink().run()" 
-    :class="{ 'btn-disabled': !editor.isActive('link') }">取消链接</button>
+    <button
+      v-if="!editor.isActive('link')"
+      @click="setLink"
+      :class="{ 'btn-disabled': editor.isActive('link') }"
+    >
+      设为链接
+    </button>
+    <button
+      v-else
+      @click="editor.chain().focus().unsetLink().run()"
+      :class="{ 'btn-disabled': !editor.isActive('link') }"
+    >
+      取消链接
+    </button>
   </bubble-menu>
 </template>
 
@@ -78,7 +88,7 @@
 import { EditorState } from '@tiptap/pm/state'
 import { EditorView } from '@tiptap/pm/view'
 import { Editor, BubbleMenu, isTextSelection } from '@tiptap/vue-3'
-import { Editor as TiptapEditor} from '@tiptap/core'
+import { Editor as TiptapEditor } from '@tiptap/core'
 
 const props = defineProps({
   editor: {
@@ -88,7 +98,7 @@ const props = defineProps({
 })
 
 const shouldShow = function (props: {
-  editor: TiptapEditor,
+  editor: TiptapEditor
   view: import('prosemirror-view').EditorView
   state: import('prosemirror-state').EditorState
   oldState?: import('prosemirror-state').EditorState | undefined
@@ -127,29 +137,19 @@ const setLink = () => {
 
   // empty
   if (url === '') {
-    props.editor
-      .chain()
-      .focus()
-      .extendMarkRange('link')
-      .unsetLink()
-      .run()
+    props.editor.chain().focus().extendMarkRange('link').unsetLink().run()
 
     return
   }
 
   // update link
-  props.editor
-    .chain()
-    .focus()
-    .extendMarkRange('link')
-    .setLink({ href: url })
-    .run()
+  props.editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
 }
 </script>
 
 <style scoped lang="postcss">
 .bubble-menu {
-  @apply bg-accent/90 rounded-md px-2 py-1 flex items-center;
+  @apply bg-accent text-accent-content rounded-md px-2 py-1 flex items-center;
   button {
     @apply btn btn-xs btn-ghost;
   }

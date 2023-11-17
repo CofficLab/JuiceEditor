@@ -87,7 +87,18 @@ clipboard
 
 const props = defineProps(nodeViewProps)
 
-const languages = ['javascript', 'typescript', 'java', 'html', 'go', 'php', 'python', 'shell']
+const languages = [
+  'plaintext',
+  'javascript',
+  'typescript',
+  'java',
+  'html',
+  'go',
+  'php',
+  'python',
+  'shell',
+  'swift'
+]
 
 // 复制按钮相关的属性
 let codeForCopy = ref('test code')
