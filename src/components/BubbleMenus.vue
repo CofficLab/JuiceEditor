@@ -66,6 +66,11 @@
       无序列表
     </button>
     <button @click="setHardBreak">换行</button>
+
+    <button @click="setLink" 
+      :class="{ 'btn-disabled': editor.isActive('link') }">设为链接</button>
+    <button @click="editor.chain().focus().unsetLink().run()" 
+    :class="{ 'btn-disabled': !editor.isActive('link') }">取消链接</button>
   </bubble-menu>
 </template>
 
@@ -73,6 +78,7 @@
 import { EditorState } from '@tiptap/pm/state'
 import { EditorView } from '@tiptap/pm/view'
 import { Editor, BubbleMenu, isTextSelection } from '@tiptap/vue-3'
+import { Editor as TiptapEditor} from '@tiptap/core'
 
 const props = defineProps({
   editor: {
@@ -82,7 +88,7 @@ const props = defineProps({
 })
 
 const shouldShow = function (props: {
-  editor: import('@tiptap/core').Editor
+  editor: TiptapEditor,
   view: import('prosemirror-view').EditorView
   state: import('prosemirror-state').EditorState
   oldState?: import('prosemirror-state').EditorState | undefined
@@ -108,6 +114,36 @@ const shouldShow = function (props: {
 
 let setHardBreak = function () {
   props.editor.chain().focus().setHardBreak().run()
+}
+
+const setLink = () => {
+  const previousUrl = props.editor.getAttributes('link').href
+  const url = window.prompt('URL', previousUrl)
+
+  // cancelled
+  if (url === null) {
+    return
+  }
+
+  // empty
+  if (url === '') {
+    props.editor
+      .chain()
+      .focus()
+      .extendMarkRange('link')
+      .unsetLink()
+      .run()
+
+    return
+  }
+
+  // update link
+  props.editor
+    .chain()
+    .focus()
+    .extendMarkRange('link')
+    .setLink({ href: url })
+    .run()
 }
 </script>
 

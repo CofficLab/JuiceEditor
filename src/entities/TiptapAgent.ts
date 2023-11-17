@@ -10,6 +10,7 @@ import StarterKit from '@tiptap/starter-kit'
 import SmartDraw from '../extensions/SmartDraw/SmartDraw'
 import { SmartBanner } from '../extensions/SmartBanner/SmartBanner'
 import TreeNode from '../entities/TreeNode'
+import SmartLink from '../extensions/SmartLink/SmartLink'
 
 interface Props {
     content: string
@@ -51,6 +52,15 @@ class TiptapAgent {
 
                         return ''
                     }
+                }),
+                SmartLink.configure({
+                    protocols: ['ftp', 'mailto'],
+                    autolink: true,
+                    openOnClick: true,
+                    linkOnPaste: true,
+                    HTMLAttributes: {
+                        class: 'link link-primary link-hover mx-1',
+                    },
                 })
             ],
             autofocus: true,
@@ -58,7 +68,7 @@ class TiptapAgent {
             editable: props.editable,
             onUpdate: ({ editor }) => {
                 let treeNode = TiptapAgent.getTreeNodeFromEditor(editor)
-                console.log('TiptapEditor: onUpdate, callback with TreeNode')
+                console.log('TiptapEditor: onUpdate, callback with TreeNode', treeNode)
                 if (props.onUpdate) {
                     props.onUpdate(treeNode)
                 }

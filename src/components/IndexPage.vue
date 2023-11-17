@@ -12,10 +12,8 @@
 
     <div v-else class="flex flex-col">
       <!-- 图书简介 -->
-      <div
-        v-if="node.isBook"
-        class="rounded-2xl bg-base-200 m-12 p-4 container mx-auto flex flex-col gap-4 justify-center"
-      >
+      <div v-if="node.isBook"
+        class="rounded-2xl bg-base-200 m-12 p-4 container mx-auto flex flex-col gap-4 justify-center">
         <div class="flex flex-row gap-2">
           <IconBook class="w-24 h-24"></IconBook>
           <h1 class="text-5xl font-bold flex items-center" v-html="node.title"></h1>
@@ -28,19 +26,12 @@
 
       <!-- 编辑器 -->
       <div>
-        <TiptapEditor
-          v-if="showEditor"
-          :content="node.content"
-          :editable="editable"
-          :onUpdate="onUpdate"
-        />
+        <TiptapEditor v-if="showEditor" :content="node.content" :editable="editable" :onUpdate="onUpdate" />
       </div>
 
       <!-- 子节点 -->
-      <div
-        class="container mx-auto px-4 py-4 flex mt-24 justify-center border-t dark:border-gray-700/30"
-        v-if="node.children.length > 0"
-      >
+      <div class="container mx-auto px-4 py-4 flex mt-24 justify-center border-t dark:border-gray-700/30"
+        v-if="node.children.length > 0">
         <NodeCardList :nodes="node.children"></NodeCardList>
       </div>
     </div>
@@ -59,10 +50,13 @@ const sampleImgSrc = 'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQAB
 const sampleNode = new TreeNode({
   content: `
     <h1>测试内容</h1>
+    <p>下面是一张图片，非常小</p>
     <img src="${sampleImgSrc}"></img>
     <pre><code>console.log("ABC")</code></pre>
     <h2>画图</h2>
     <draw src="${sampleImgSrc}"></draw>
+    <h2>链接</h2>
+    <a href="https://www.baidu.com">百度</a>与谷歌的竞争
   `
 })
 
@@ -96,7 +90,7 @@ function onUpdate(updatedNode: TreeNode) {
   setTimeout(() => {
     try {
       // 只能传字符、只能传普通object
-      ;(window as any).webkit.messageHandlers.updateContent.postMessage({
+      ; (window as any).webkit.messageHandlers.updateContent.postMessage({
         content: node.value.content,
         title: node.value.title,
         id: node.value.id,
@@ -133,7 +127,7 @@ onMounted(() => {
 
   console.log('调用 WebKit 以通知 Swift 页面加载完成')
   try {
-    ;(window as any).webkit.messageHandlers.pageLoaded.postMessage({})
+    ; (window as any).webkit.messageHandlers.pageLoaded.postMessage({})
   } catch (e) {
     console.log('调用 WebKit 以通知 Swift 页面加载完成，失败', e)
   }
