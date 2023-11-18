@@ -138,7 +138,7 @@ const setLink = () => {
   props.editor
     .chain()
     .deleteSelection()
-    .insertContent('<a>' + text + '</a>')
+    .insertContent('<a href="' + text + '">' + text + '</a>')
     .run()
 }
 </script>
