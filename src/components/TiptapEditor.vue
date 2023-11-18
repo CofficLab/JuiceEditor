@@ -22,13 +22,14 @@
 </template>
 
 <script lang="ts" setup>
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import { EditorContent } from '@tiptap/vue-3'
 import { onBeforeUnmount, onMounted, watch } from 'vue'
 import BubbleMenus from './BubbleMenus.vue'
 import FloatMenus from './FloatMenus.vue'
 import IconInfo from '../icons/IconInfo.vue'
 import TiptapAgent from '../entities/TiptapAgent'
 import DrawAgent from '../entities/DrawAgent'
+import TreeNode from 'src/entities/TreeNode'
 
 let isDebug = process.env.NODE_ENV === 'development'
 
@@ -43,7 +44,7 @@ const props = defineProps({
   },
   onUpdate: {
     type: Function,
-    default: (editor: Editor) => {}
+    default: () => {}
   }
 })
 
@@ -51,6 +52,9 @@ var editor = TiptapAgent.create({
   content: props.content,
   editable: props.editable,
   drawIoLink: DrawAgent.getLink(),
+  onUpdate: (treeNode: TreeNode) => {
+    props.onUpdate(treeNode)
+  }
 })
 
 watch(props, () => {

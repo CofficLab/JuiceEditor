@@ -15,7 +15,7 @@ import SmartLink from '../extensions/SmartLink/SmartLink'
 interface Props {
     content: string
     editable: boolean
-    onUpdate?: (treeNode: TreeNode) => void
+    onUpdate: (treeNode: TreeNode) => void
     drawIoLink?: string
 }
 
@@ -68,9 +68,11 @@ class TiptapAgent {
             editable: props.editable,
             onUpdate: ({ editor }) => {
                 let treeNode = TiptapAgent.getTreeNodeFromEditor(editor)
-                console.log('TiptapEditor: onUpdate, callback with TreeNode', treeNode)
                 if (props.onUpdate) {
+                    console.log('TiptapEditor: onUpdate, callback with TreeNode', treeNode)
                     props.onUpdate(treeNode)
+                } else {
+                    console.log('TiptapEditor: onUpdate, no callback', treeNode)
                 }
             }
         })
