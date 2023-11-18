@@ -69,10 +69,10 @@ class TiptapAgent {
             onUpdate: ({ editor }) => {
                 let treeNode = TiptapAgent.getTreeNodeFromEditor(editor)
                 if (props.onUpdate) {
-                    console.log('TiptapEditor: onUpdate, callback with TreeNode', treeNode)
+                    console.log('TiptapEditor: onUpdate, callback with TreeNode')
                     props.onUpdate(treeNode)
                 } else {
-                    console.log('TiptapEditor: onUpdate, no callback', treeNode)
+                    console.log('TiptapEditor: onUpdate, no callback')
                 }
             }
         })

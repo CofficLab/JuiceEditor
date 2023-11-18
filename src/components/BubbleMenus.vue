@@ -127,23 +127,19 @@ let setHardBreak = function () {
 }
 
 const setLink = () => {
-  const previousUrl = props.editor.getAttributes('link').href
-  const url = window.prompt('URL', previousUrl)
+  const from = props.editor.state.selection.from
+  const to = props.editor.state.selection.to
+  const nodes = props.editor.state.selection.content().content
+  let text = ''
+  nodes.forEach((node) => {
+    text += node.textContent
+  })
 
-  // cancelled
-  if (url === null) {
-    return
-  }
-
-  // empty
-  if (url === '') {
-    props.editor.chain().focus().extendMarkRange('link').unsetLink().run()
-
-    return
-  }
-
-  // update link
-  props.editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
+  props.editor
+    .chain()
+    .deleteSelection()
+    .insertContent('<a>' + text + '</a>')
+    .run()
 }
 </script>
 
