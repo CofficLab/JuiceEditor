@@ -8,7 +8,9 @@
       <div tabindex="0" class="dropdown-content z-50 menu p-2 w-96 flex flex-col gap-2">
         <div class="join rounded-none flex justify-end" contenteditable="false">
           <button class="btn btn-xs join-item" @click="notLink">取消链接</button>
-          <button class="btn btn-xs join-item" @click="goto">访问</button>
+          <button class="btn btn-xs join-item">
+            <a :href="props.node.attrs.href" target="_blank" class="no-underline">访问</a>
+          </button>
           <button class="btn btn-xs join-item" @click="deleteNode">删除</button>
         </div>
         <input
@@ -32,10 +34,6 @@ import { nodeViewProps, NodeViewWrapper, NodeViewContent } from '@tiptap/vue-3'
 import { watch } from 'vue'
 
 const props = defineProps(nodeViewProps)
-
-const goto = () => {
-  window.open(props.node.attrs.href)
-}
 
 const deleteNode = () => {
   props.deleteNode()
