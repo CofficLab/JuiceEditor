@@ -11,6 +11,11 @@ import { ref } from 'vue'
 const img = ref(null)
 const props = defineProps(nodeViewProps)
 
+const closeListener = (_event: any) => {
+  console.log('收到关闭画图的事件')
+  document.getElementsByTagName('iframe').item(0)?.contentWindow?.postMessage(JSON.stringify({ action: 'exit' }), '*');
+};
+
 const showIframe = function () {
   if (!props.editor.isEditable) {
     return
@@ -32,6 +37,8 @@ const showIframe = function () {
   window.addEventListener('message', (event: MessageEvent) => {
     receive(event, iframe, dialog)
   })
+
+  document.addEventListener('close-draw', closeListener)
 }
 
 const receive = function (
@@ -82,6 +89,7 @@ const receive = function (
       break
     case 'exit':
       window.removeEventListener('message', receive)
+      document.removeEventListener('close-draw', closeListener)
       document.body.removeChild(dialog)
       dialog.close()
       break
