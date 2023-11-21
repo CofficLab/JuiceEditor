@@ -11,6 +11,8 @@
     "@tiptap/core": "^2.1.12",
     "@tiptap/extension-character-count": "^2.1.12",
     "@tiptap/extension-code-block": "^2.1.12",
+    "@tiptap/extension-collaboration": "^2.1.12",
+    "@tiptap/extension-collaboration-cursor": "^2.1.12",
     "@tiptap/extension-document": "^2.1.12",
     "@tiptap/extension-image": "^2.1.12",
     "@tiptap/extension-link": "^2.1.12",
@@ -26,7 +28,9 @@
     "monaco-editor": "^0.44.0",
     "sass": "^1.69.5",
     "scss": "^0.2.4",
-    "vue": "^3.3.7"
+    "vue": "^3.3.7",
+    "y-webrtc": "^10.2.6",
+    "yjs": "^13.6.9"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.10",

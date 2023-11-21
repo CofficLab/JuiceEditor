@@ -1,6 +1,7 @@
 import Document from '@tiptap/extension-document'
 import Placeholder from '@tiptap/extension-placeholder'
 import CharacterCount from '@tiptap/extension-character-count'
+import Collaboration from '@tiptap/extension-collaboration'
 import { CodeEditor } from '../extensions/CodeEditor/CodeEditor'
 import { Toc } from '../extensions/Toc/Toc.js'
 import SmartImage from '../extensions/SmartImage/SmartImage'
@@ -13,6 +14,10 @@ import TreeNode from '../entities/TreeNode'
 import SmartLink from '../extensions/SmartLink/SmartLink'
 import TaskList from '@tiptap/extension-task-list'
 import TaskItem from '@tiptap/extension-task-item'
+import * as Y from 'yjs'
+import { WebrtcProvider } from 'y-webrtc'
+
+const ydoc = new Y.Doc()
 
 interface Props {
     content: string
@@ -21,38 +26,24 @@ interface Props {
     drawIoLink?: string
 }
 
+const provider = new WebrtcProvider('tiptap-collaboration-cursor-extension', ydoc)
+
 class TiptapAgent {
     static create(props: Props): Editor {
         return new Editor({
             extensions: [
+                StarterKit.configure({
+                    document: false,
+                    codeBlock: false,
+                    history: false
+                }),
                 CodeEditor,
                 CharacterCount,
-                TaskItem.configure({
-                    nested: true,
-                }),
-                TaskList.configure({
-                    HTMLAttributes: {
-                        class: 'my-task-class',
-                    },
-                }),
-                SmartBanner,
-                SmartDraw.configure({
-                    drawIoLink: props.drawIoLink,
-                    openDialog: 'click'
-                }),
-                Toc,
-                SmartImage.configure({
-                    allowBase64: true,
-                    HTMLAttributes: {
-                        class: ''
-                    }
+                Collaboration.configure({
+                    document: ydoc,
                 }),
                 Document.extend({
                     content: 'heading block*'
-                }),
-                StarterKit.configure({
-                    document: false,
-                    codeBlock: false
                 }),
                 Placeholder.configure({
                     placeholder: ({ node }) => {
@@ -63,6 +54,13 @@ class TiptapAgent {
                         return ''
                     }
                 }),
+                SmartBanner,
+                SmartImage.configure({
+                    allowBase64: true,
+                    HTMLAttributes: {
+                        class: ''
+                    }
+                }),
                 SmartLink.configure({
                     protocols: ['ftp', 'mailto'],
                     autolink: true,
@@ -71,7 +69,20 @@ class TiptapAgent {
                     HTMLAttributes: {
                         class: 'link link-primary link-hover mx-1',
                     },
-                })
+                }),
+                SmartDraw.configure({
+                    drawIoLink: props.drawIoLink,
+                    openDialog: 'click'
+                }),
+                TaskItem.configure({
+                    nested: true,
+                }),
+                TaskList.configure({
+                    HTMLAttributes: {
+                        class: 'my-task-class',
+                    },
+                }),
+                Toc
             ],
             autofocus: true,
             content: props.content,
