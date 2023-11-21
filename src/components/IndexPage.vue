@@ -57,6 +57,11 @@ const sampleNode = new TreeNode({
     <draw src="${sampleImgSrc}"></draw>
     <h2>链接</h2>
     <a href="https://www.baidu.com">百度</a>与谷歌的竞争
+    <h2>待办列表</h2>
+    <ul data-type="taskList">
+      <li data-type="taskItem" data-checked="true">A list item</li>
+      <li data-type="taskItem" data-checked="false">And another one</li>
+    </ul>
   `
 })
 
@@ -76,7 +81,7 @@ function setReadonly() {
 
 // 当页面内容发生变动时
 function onUpdate(updatedNode: TreeNode) {
-  console.log('IndexPage: onUpdate')
+  console.log('IndexPage: onUpdate', updatedNode)
   node.value.content = updatedNode.content
   node.value.title = updatedNode.title
   node.value.characterCount = updatedNode.characterCount

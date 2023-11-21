@@ -11,6 +11,8 @@ import SmartDraw from '../extensions/SmartDraw/SmartDraw'
 import { SmartBanner } from '../extensions/SmartBanner/SmartBanner'
 import TreeNode from '../entities/TreeNode'
 import SmartLink from '../extensions/SmartLink/SmartLink'
+import TaskList from '@tiptap/extension-task-list'
+import TaskItem from '@tiptap/extension-task-item'
 
 interface Props {
     content: string
@@ -25,6 +27,14 @@ class TiptapAgent {
             extensions: [
                 CodeEditor,
                 CharacterCount,
+                TaskItem.configure({
+                    nested: true,
+                }),
+                TaskList.configure({
+                    HTMLAttributes: {
+                        class: 'my-task-class',
+                    },
+                }),
                 SmartBanner,
                 SmartDraw.configure({
                     drawIoLink: props.drawIoLink,
