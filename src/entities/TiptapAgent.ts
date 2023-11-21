@@ -111,6 +111,7 @@ class TiptapAgent {
         return new TreeNode({
             title: title,
             content: editor.getHTML(),
+            jsonContent: editor.getJSON(),
             characterCount: editor.storage.characterCount.characters(),
             wordCount: editor.storage.characterCount.words()
         })

@@ -1,9 +1,12 @@
+import { JSONContent } from "@tiptap/core";
+
 interface TreeNodeParams {
     id?: string;
     title?: string;
     isBook?: boolean;
     priority?: number;
     content?: string;
+    jsonContent?: JSONContent;
     characterCount?: number;
     wordCount?: number;
     lastSyncedAt?: string;
@@ -20,12 +23,14 @@ export default class TreeNode {
     public wordCount: number = 0
     public lastSyncedAt: string = ""
     public children: TreeNode[] = []
+    jsonContent: JSONContent = {};
 
     constructor(public params: TreeNodeParams) {
         this.id = params.id || ""
         this.title = params.title || ""
         this.priority = params.priority || 0
         this.content = params.content || ""
+        this.jsonContent = params.jsonContent || {}
         this.characterCount = params.characterCount || 0
         this.wordCount = params.wordCount || 0
         this.lastSyncedAt = params.lastSyncedAt || ""
