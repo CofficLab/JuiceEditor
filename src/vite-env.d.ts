@@ -8,4 +8,6 @@ declare module '*.vue' {
 
 declare interface Window {
     updater: Object
+    runner: Function
+    runnerCallback: Function
 }

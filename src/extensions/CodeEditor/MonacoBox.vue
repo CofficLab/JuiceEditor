@@ -2,14 +2,14 @@
   <div>
     <div class="relative rounded-3xl">
       <!-- 运行按钮 -->
-      <!-- <button
+      <button
         contenteditable="false"
         class="btn-sm btn absolute bottom-8 right-2 z-20 transition-none"
         :class="{ loading: running }"
         @click="handleRun"
         v-html="runTitle"
         v-show="runnable"
-      ></button> -->
+      ></button>
 
       <div ref="codeDom" class="relative z-10 rounded-md" contenteditable="true"></div>
     </div>
@@ -78,6 +78,12 @@ const props = defineProps({
   showLineNumbers: {
     type: Boolean,
     default: true
+  },
+  runner: {
+    type: Function,
+    default: () => {
+      console.log('monaco runner')
+    }
   }
 })
 
@@ -187,12 +193,31 @@ let handleRun = () => {
 
   running.value = true
 
-  // setTimeout(() => {
-  //   let result = Preload.ipc.sendSync("run", editorBox.value?.getContent(), editorBox.value?.getLanguage());
-  //   resultBox.setContent(result == "" ? "「程序没有输出」" : result);
-  //   // console.log("运行结果", result);
-  //   running.value = false;
-  //   runResultVisible.value = true;
-  // }, 500);
+  setTimeout(() => {
+    window.runner(editorBox.value?.getContent(), editorBox.value?.getLanguage(), (result:string) => {
+      resultBox.setContent(result == "" ? "「程序没有输出」" : result);
+      console.log("运行结果", result);
+      running.value = false;
+      runResultVisible.value = true;
+    });
+  }, 500);
+
+  window.runner = (code: String, lan: String, callback: Function) => {
+    console.log('调用 WebKit 以运行代码', code, lan)
+
+    try {
+      (window as any).webkit.messageHandlers.runCode.postMessage({
+        code: code,
+        lan: lan
+      })
+
+      window.runnerCallback = function (result: string) {
+        console.log("收到 WebKit 运行结果", result)
+        callback(result)
+      }
+    } catch (e) {
+      callback('调用 WebKit 运行代码失败'+ e)
+    }
+  }
 }
 </script>
