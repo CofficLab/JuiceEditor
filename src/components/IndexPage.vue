@@ -12,8 +12,10 @@
 
     <div v-else class="flex flex-col">
       <!-- 图书简介 -->
-      <div v-if="node.isBook"
-        class="rounded-2xl bg-base-200 m-12 p-4 container mx-auto flex flex-col gap-4 justify-center">
+      <div
+        v-if="node.isBook"
+        class="rounded-2xl bg-base-200 m-12 p-4 container mx-auto flex flex-col gap-4 justify-center"
+      >
         <div class="flex flex-row gap-2">
           <IconBook class="w-24 h-24"></IconBook>
           <h1 class="text-5xl font-bold flex items-center" v-html="node.title"></h1>
@@ -26,12 +28,19 @@
 
       <!-- 编辑器 -->
       <div>
-        <TiptapEditor v-if="showEditor" :content="node.content" :editable="editable" :onUpdate="onUpdate" />
+        <TiptapEditor
+          v-if="showEditor"
+          :content="node.content"
+          :editable="editable"
+          :onUpdate="onUpdate"
+        />
       </div>
 
       <!-- 子节点 -->
-      <div class="container mx-auto px-4 py-4 flex mt-24 justify-center border-t dark:border-gray-700/30"
-        v-if="node.children.length > 0">
+      <div
+        class="container mx-auto px-4 py-4 flex mt-24 justify-center border-t dark:border-gray-700/30"
+        v-if="node.children.length > 0"
+      >
         <NodeCardList :nodes="node.children"></NodeCardList>
       </div>
     </div>
@@ -78,7 +87,7 @@ function onUpdate(updatedNode: TreeNode) {
   setTimeout(() => {
     try {
       // 只能传字符、只能传普通object
-      ; (window as any).webkit.messageHandlers.updateContent.postMessage({
+      ;(window as any).webkit.messageHandlers.updateContent.postMessage({
         content: node.value.content,
         title: node.value.title,
         id: node.value.id,
@@ -98,6 +107,10 @@ onMounted(() => {
     hideEditor: () => (showEditor.value = false),
     enableEdit: () => (editable.value = true),
     disableEdit: () => (editable.value = false),
+    showAndEditable: () => {
+      showEditor.value = true
+      editable.value = true
+    },
 
     updateNode: function (newNode: Object) {
       loading.value = true
@@ -118,15 +131,17 @@ onMounted(() => {
 
   console.log('调用 WebKit 以通知 Swift 页面加载完成')
   try {
-    ; (window as any).webkit.messageHandlers.pageLoaded.postMessage({})
+    ;(window as any).webkit.messageHandlers.pageLoaded.postMessage({})
   } catch (e) {
     console.log('调用 WebKit 以通知 Swift 页面加载完成，失败', e)
   }
 })
 
 const mergeContent = () => {
-  let a = '{"type":"doc","content":[{"type":"heading","attrs":{"id":null,"level":1},"content":[{"type":"text","text":"测试内容"}]},{"type":"heading","attrs":{"id":null,"level":2},"content":[{"type":"text","text":"链接"}]}]}'
-  let b = '{"type":"doc","content":[{"type":"heading","attrs":{"id":null,"level":1},"content":[{"type":"text","text":"测试内容"}]},{"type":"heading","attrs":{"id":null,"level":2},"content":[{"type":"text","text":"链接2"}]}]}'
+  let a =
+    '{"type":"doc","content":[{"type":"heading","attrs":{"id":null,"level":1},"content":[{"type":"text","text":"测试内容"}]},{"type":"heading","attrs":{"id":null,"level":2},"content":[{"type":"text","text":"链接"}]}]}'
+  let b =
+    '{"type":"doc","content":[{"type":"heading","attrs":{"id":null,"level":1},"content":[{"type":"text","text":"测试内容"}]},{"type":"heading","attrs":{"id":null,"level":2},"content":[{"type":"text","text":"链接2"}]}]}'
 
   const ydoc = new Y.Doc()
   const ymap = ydoc.getMap()
@@ -141,6 +156,6 @@ const mergeContent = () => {
   const update = Y.encodeStateAsUpdateV2(ydocRemote)
   Y.applyUpdate(ydoc, update)
 
-  console.log(ymap.toJSON()) 
+  console.log(ymap.toJSON())
 }
 </script>

@@ -29,7 +29,7 @@ import FloatMenus from './FloatMenus.vue'
 import IconInfo from '../icons/IconInfo.vue'
 import TiptapAgent from '../entities/TiptapAgent'
 import DrawAgent from '../entities/DrawAgent'
-import TreeNode from 'src/entities/TreeNode'
+import TreeNode from '../entities/TreeNode'
 
 let isDebug = process.env.NODE_ENV === 'development'
 
