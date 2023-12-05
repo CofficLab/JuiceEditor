@@ -40,46 +40,48 @@
       @click="editor.chain().focus().setParagraph().run()"
       :class="{ 'is-active': editor.isActive('paragraph', { level: 3 }) }"
     >
-      正文
+      <img src="../icons/character.svg" alt="" class="m-0" />
     </button>
     <button
       @click="editor.chain().focus().toggleBold().run()"
       :class="{ 'is-active': editor.isActive('bold') }"
     >
-      加粗
+      <img src="../icons/bold.svg" class="m-0" />
     </button>
     <button
       @click="editor.chain().focus().toggleItalic().run()"
       :class="{ 'is-active': editor.isActive('italic') }"
     >
-      斜体
+      <img src="../icons/italic.svg" class="m-0" />
     </button>
     <button
       @click="editor.chain().focus().toggleStrike().run()"
       :class="{ 'is-active': editor.isActive('strike') }"
     >
-      删除线
+      <img src="../icons/strikethrough.svg" class="m-0" />
     </button>
     <button
       @click="editor.chain().focus().toggleBulletList().run()"
       :class="{ 'is-active': editor.isActive('bulletList') }"
     >
-      无序列表
+      <img src="../icons/list.bullet.svg" class="m-0" />
     </button>
-    <button @click="setHardBreak">换行</button>
+    <button @click="setHardBreak">
+      <img src="../icons/return.svg" class="m-0" />
+    </button>
 
     <button
       v-if="!editor.isActive('link')"
       @click="setLink"
       :class="{ 'btn-disabled': editor.isActive('link') }"
     >
-      设为链接
+      <img src="../icons/link.svg" class="m-0" />
     </button>
     <button
       @click="editor.chain().focus().toggleTaskList().run()"
       :class="{ 'is-active': editor.isActive('taskList') }"
     >
-      待办事项
+      <img src="../icons/checklist.svg" alt="" class="m-0" />
     </button>
     <!-- <button @click="editor.chain().focus().splitListItem('taskItem').run()"
       :disabled="!editor.can().splitListItem('taskItem')">
@@ -89,13 +91,25 @@
       @click="editor.chain().focus().sinkListItem('taskItem').run()"
       :disabled="!editor.can().sinkListItem('taskItem')"
     >
-      向右缩进
+      <img src="../icons/increase.indent.svg" alt="" class="m-0" />
     </button>
     <button
       @click="editor.chain().focus().liftListItem('taskItem').run()"
       :disabled="!editor.can().liftListItem('taskItem')"
     >
-      向左缩进
+      <img src="../icons/decrease.indent.svg" alt="" class="m-0" />
+    </button>
+    <button
+      @click="editor.chain().focus().toggleBlockquote().run()"
+      :class="{ 'is-active': editor.isActive('blockquote') }"
+    >
+      <img src="../icons/quote.opening.svg" alt="" class="m-0" />
+    </button>
+    <button
+      @click="editor.chain().focus().toggleCode().run()"
+      :class="{ 'is-active': editor.isActive('code') }"
+    >
+      <icon-code></icon-code>
     </button>
   </bubble-menu>
 </template>
@@ -105,6 +119,7 @@ import { EditorState } from '@tiptap/pm/state'
 import { EditorView } from '@tiptap/pm/view'
 import { Editor, BubbleMenu, isTextSelection } from '@tiptap/vue-3'
 import { Editor as TiptapEditor } from '@tiptap/core'
+import IconCode from '../icons/IconCode.vue'
 
 const props = defineProps({
   editor: {
@@ -159,10 +174,14 @@ const setLink = () => {
 
 <style scoped lang="postcss">
 .bubble-menu {
-  @apply bg-accent text-accent-content rounded-md px-2 py-1 flex items-center;
+  @apply bg-gray-400/95 text-accent-content rounded-md px-2 py-1 gap-1 flex items-center flex-wrap;
 
   button {
-    @apply btn btn-xs btn-ghost;
+    @apply btn btn-sm btn-ghost px-1 w-10;
+  }
+
+  button:disabled {
+    @apply bg-gray-700/40;
   }
 }
 </style>

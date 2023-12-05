@@ -9,7 +9,9 @@
   },
   "dependencies": {
     "@tiptap/core": "^2.1.12",
+    "@tiptap/extension-blockquote": "^2.1.13",
     "@tiptap/extension-character-count": "^2.1.12",
+    "@tiptap/extension-code": "^2.1.13",
     "@tiptap/extension-code-block": "^2.1.12",
     "@tiptap/extension-collaboration": "^2.1.12",
     "@tiptap/extension-collaboration-cursor": "^2.1.12",

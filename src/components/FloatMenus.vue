@@ -8,60 +8,75 @@
       :should-show="shouldShowFloatingMenu"
     >
       <button
+        class="w-10"
         @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
         :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }"
       >
         H2
       </button>
       <button
+        class="w-10"
         @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
         :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }"
       >
         H3
       </button>
       <button
+        class="w-10"
         @click="editor.chain().focus().toggleHeading({ level: 4 }).run()"
         :class="{ 'is-active': editor.isActive('heading', { level: 4 }) }"
       >
         H4
       </button>
       <button
+        class="w-10"
         @click="editor.chain().focus().toggleHeading({ level: 5 }).run()"
         :class="{ 'is-active': editor.isActive('heading', { level: 5 }) }"
       >
         H5
       </button>
       <button
+        class="w-10"
         @click="editor.chain().focus().toggleHeading({ level: 6 }).run()"
         :class="{ 'is-active': editor.isActive('heading', { level: 6 }) }"
       >
         H6
       </button>
       <button
+        class="w-10"
         @click="editor.chain().focus().toggleBulletList().run()"
         :class="{ 'is-active': editor.isActive('bulletList') }"
       >
-        无序列表
+        <img src="../icons/list.bullet.svg" alt="" class="m-0" />
       </button>
       <button
+        class="w-10"
         @click="editor.chain().focus().toggleCodeBlock().run()"
         :class="{ 'is-active': editor.isActive('codeBlock') }"
       >
-        代码块
+        <IconCode></IconCode>
       </button>
       <button
+        class="w-10"
         @click="editor.chain().focus().toggleBanner().run()"
         :class="{ 'is-active': editor.isActive('banner') }"
       >
-        提示
+        <img src="../icons/123.rectangle.fill.svg" alt="" class="m-0" />
       </button>
-      <button @click="addImage" :class="{ 'is-active': editor.isActive('banner') }">图片</button>
-      <button @click="editor.commands.insertDrawIo()">绘图</button>
-      <button @click="setHardBreak">换行</button>
+      <button class="w-10" @click="addImage" :class="{ 'is-active': editor.isActive('banner') }">
+        <img src="../icons/photo.svg" alt="" class="m-0" />
+      </button>
+      <button class="w-10" @click="editor.commands.insertDrawIo()">
+        <img src="../icons/compass.drawing.svg" alt="" class="m-0" />
+      </button>
+      <button class="w-10" @click="setHardBreak">
+        <img src="../icons/return.svg" alt="" class="m-0" />
+      </button>
       <button
+        class="w-10"
         @click="editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()"
       >
-        表格
+        <img src="../icons/tablecells.svg" alt="" class="m-0" />
       </button>
 
       <!-- 表格的操作 -->
@@ -184,6 +199,7 @@
 
 <script lang="ts" setup>
 import { Editor, FloatingMenu } from '@tiptap/vue-3'
+import IconCode from '../icons/IconCode.vue'
 import { ref } from 'vue'
 let fileInput = ref<HTMLInputElement | null>(null)
 
@@ -268,9 +284,9 @@ let setHardBreak = function () {
 
 <style scoped lang="postcss">
 .floating-menu {
-  @apply bg-info text-info-content rounded-md px-2 py-1 flex flex-wrap items-center;
+  @apply bg-info/95 text-info-content rounded-md px-2 py-1 flex flex-wrap items-center;
   button {
-    @apply btn btn-xs btn-ghost;
+    @apply btn btn-sm btn-ghost px-1;
   }
 }
 </style>

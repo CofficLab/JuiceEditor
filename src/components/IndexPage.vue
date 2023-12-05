@@ -61,7 +61,7 @@ let isDebug = process.env.NODE_ENV === 'development'
 let loading = ref(false)
 let showEditor = ref(true)
 let editable = ref(true)
-let node = ref<TreeNode>(isDebug ? Sample.liteNode : new TreeNode({}))
+let node = ref<TreeNode>(isDebug ? Sample.sampleNode : new TreeNode({}))
 
 function setEditable() {
   editable.value = true

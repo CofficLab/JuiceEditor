@@ -1,5 +1,7 @@
 import Document from '@tiptap/extension-document'
+import Code from '@tiptap/extension-code'
 import Placeholder from '@tiptap/extension-placeholder'
+import Blockquote from '@tiptap/extension-blockquote'
 import CharacterCount from '@tiptap/extension-character-count'
 import Collaboration from '@tiptap/extension-collaboration'
 import { CodeEditor } from '../extensions/CodeEditor/CodeEditor'
@@ -39,7 +41,19 @@ class TiptapAgent {
                 StarterKit.configure({
                     document: false,
                     codeBlock: false,
-                    history: false
+                    history: false,
+                    blockquote: false,
+                    code: false,
+                }),
+                Blockquote.configure({
+                    HTMLAttributes: {
+                        class: 'my-custom-class',
+                    },
+                }),
+                Code.configure({
+                    HTMLAttributes: {
+                        class: 'my-custom-class',
+                    },
                 }),
                 CodeEditor,
                 CharacterCount,
