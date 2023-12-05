@@ -7,182 +7,187 @@
       :editor="editor"
       :should-show="shouldShowFloatingMenu"
     >
-      <button
-        class="w-10"
-        @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
-        :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }"
-      >
-        H2
-      </button>
-      <button
-        class="w-10"
-        @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
-        :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }"
-      >
-        H3
-      </button>
-      <button
-        class="w-10"
-        @click="editor.chain().focus().toggleHeading({ level: 4 }).run()"
-        :class="{ 'is-active': editor.isActive('heading', { level: 4 }) }"
-      >
-        H4
-      </button>
-      <button
-        class="w-10"
-        @click="editor.chain().focus().toggleHeading({ level: 5 }).run()"
-        :class="{ 'is-active': editor.isActive('heading', { level: 5 }) }"
-      >
-        H5
-      </button>
-      <button
-        class="w-10"
-        @click="editor.chain().focus().toggleHeading({ level: 6 }).run()"
-        :class="{ 'is-active': editor.isActive('heading', { level: 6 }) }"
-      >
-        H6
-      </button>
-      <button
-        class="w-10"
-        @click="editor.chain().focus().toggleBulletList().run()"
-        :class="{ 'is-active': editor.isActive('bulletList') }"
-      >
-        <img src="../icons/list.bullet.svg" alt="" class="m-0" />
-      </button>
-      <button
-        class="w-10"
-        @click="editor.chain().focus().toggleCodeBlock().run()"
-        :class="{ 'is-active': editor.isActive('codeBlock') }"
-      >
-        <IconCode></IconCode>
-      </button>
-      <button
-        class="w-10"
-        @click="editor.chain().focus().toggleBanner().run()"
-        :class="{ 'is-active': editor.isActive('banner') }"
-      >
-        <img src="../icons/123.rectangle.fill.svg" alt="" class="m-0" />
-      </button>
-      <button class="w-10" @click="addImage" :class="{ 'is-active': editor.isActive('banner') }">
-        <img src="../icons/photo.svg" alt="" class="m-0" />
-      </button>
-      <button class="w-10" @click="editor.commands.insertDrawIo()">
-        <img src="../icons/compass.drawing.svg" alt="" class="m-0" />
-      </button>
-      <button class="w-10" @click="setHardBreak">
-        <img src="../icons/return.svg" alt="" class="m-0" />
-      </button>
-      <button
-        class="w-10"
-        @click="editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()"
-      >
-        <img src="../icons/tablecells.svg" alt="" class="m-0" />
-      </button>
+      <!-- 普通的操作 -->
+      <div class="flex flex-wrap">
+        <button
+          class="w-10"
+          @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
+          :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }"
+        >
+          H2
+        </button>
+        <button
+          class="w-10"
+          @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
+          :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }"
+        >
+          H3
+        </button>
+        <button
+          class="w-10"
+          @click="editor.chain().focus().toggleHeading({ level: 4 }).run()"
+          :class="{ 'is-active': editor.isActive('heading', { level: 4 }) }"
+        >
+          H4
+        </button>
+        <button
+          class="w-10"
+          @click="editor.chain().focus().toggleHeading({ level: 5 }).run()"
+          :class="{ 'is-active': editor.isActive('heading', { level: 5 }) }"
+        >
+          H5
+        </button>
+        <button
+          class="w-10"
+          @click="editor.chain().focus().toggleHeading({ level: 6 }).run()"
+          :class="{ 'is-active': editor.isActive('heading', { level: 6 }) }"
+        >
+          H6
+        </button>
+        <button
+          class="w-10"
+          @click="editor.chain().focus().toggleBulletList().run()"
+          :class="{ 'is-active': editor.isActive('bulletList') }"
+        >
+          <img src="../icons/list.bullet.svg" alt="" class="m-0" />
+        </button>
+        <button
+          class="w-10"
+          @click="editor.chain().focus().toggleCodeBlock().run()"
+          :class="{ 'is-active': editor.isActive('codeBlock') }"
+        >
+          <IconCode></IconCode>
+        </button>
+        <button
+          class="w-10"
+          @click="editor.chain().focus().toggleBanner().run()"
+          :class="{ 'is-active': editor.isActive('banner') }"
+        >
+          <img src="../icons/123.rectangle.fill.svg" alt="" class="m-0" />
+        </button>
+        <button class="w-10" @click="addImage" :class="{ 'is-active': editor.isActive('banner') }">
+          <img src="../icons/photo.svg" alt="" class="m-0" />
+        </button>
+        <button class="w-10" @click="editor.commands.insertDrawIo()">
+          <img src="../icons/compass.drawing.svg" alt="" class="m-0" />
+        </button>
+        <button class="w-10" @click="setHardBreak">
+          <img src="../icons/return.svg" alt="" class="m-0" />
+        </button>
+        <button
+          class="w-10"
+          @click="
+            editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()
+          "
+        >
+          <img src="../icons/tablecells.svg" alt="" class="m-0" />
+        </button>
+      </div>
 
       <!-- 表格的操作 -->
-      <div class="flex flex-wrap">
+      <div class="flex flex-wrap justify-start flex-row mt-2">
         <button
           v-if="editor.isActive('tableCell')"
           @click="editor.chain().focus().addColumnBefore().run()"
         >
-          前插一列
+          <img src="../icons/table.column.plus.before.svg" alt="" class="m-0 w-5 h-5" />
         </button>
         <button
           v-if="editor.isActive('tableCell')"
           @click="editor.chain().focus().addColumnAfter().run()"
         >
-          后插一列
+          <img src="../icons/table.column.plus.after.svg" alt="" class="m-0 w-5 h-5" />
         </button>
         <button
           v-if="editor.isActive('tableCell')"
           @click="editor.chain().focus().deleteColumn().run()"
         >
-          删除该列
+          <img src="../icons/table.column.remove.svg" alt="" class="m-0 w-6 h-6" />
         </button>
         <button
           v-if="editor.isActive('tableCell')"
           @click="editor.chain().focus().addRowBefore().run()"
         >
-          前插一行
+          <img src="../icons/table.row.plus.before.svg" alt="" class="m-0 w-6 h-6" />
         </button>
         <button
           v-if="editor.isActive('tableCell')"
           @click="editor.chain().focus().addRowAfter().run()"
         >
-          后插一行
+          <img src="../icons/table.row.plus.after.svg" alt="" class="m-0 w-6 h-6" />
         </button>
         <button
           v-if="editor.isActive('tableCell')"
           @click="editor.chain().focus().deleteRow().run()"
         >
-          删除该行
+          <img src="../icons/table.row.remove.svg" alt="" class="m-0 w-6 h-6" />
         </button>
         <button
           v-if="editor.isActive('tableCell')"
           @click="editor.chain().focus().deleteTable().run()"
         >
-          删除表格
+          <img src="../icons/table.remove.svg" alt="" class="m-0 w-6 h-6" />
         </button>
         <button
           v-if="editor.isActive('tableCell')"
           @click="editor.chain().focus().mergeCells().run()"
         >
-          合并单元
+          <img src="../icons/table.cell.merge.svg" alt="" class="m-0 w-6 h-6" />
         </button>
         <button
           v-if="editor.isActive('tableCell')"
           @click="editor.chain().focus().splitCell().run()"
         >
-          拆分单元
+          <img src="../icons/table.cell.split.svg" alt="" class="w-6 h-6 m-0" />
         </button>
-        <button
+        <!-- <button
           v-if="editor.isActive('tableCell')"
           @click="editor.chain().focus().toggleHeaderColumn().run()"
         >
           切换表头列
-        </button>
-        <button
+        </button> -->
+        <!-- <button
           v-if="editor.isActive('tableCell')"
           @click="editor.chain().focus().toggleHeaderRow().run()"
         >
           切换表头行
-        </button>
-        <button
+        </button> -->
+        <!-- <button
           v-if="editor.isActive('tableCell')"
           @click="editor.chain().focus().toggleHeaderCell().run()"
         >
           切换表头格
-        </button>
-        <button
+        </button> -->
+        <!-- <button
           v-if="editor.isActive('tableCell')"
           @click="editor.chain().focus().mergeOrSplit().run()"
         >
           合并或拆分
-        </button>
-        <button
+        </button> -->
+        <!-- <button
           v-if="editor.isActive('tableCell')"
           @click="editor.chain().focus().setCellAttribute('colspan', 2).run()"
         >
           占两格
-        </button>
-        <button
+        </button> -->
+        <!-- <button
           v-if="editor.isActive('tableCell')"
           @click="editor.chain().focus().fixTables().run()"
         >
           修复
-        </button>
-        <button
+        </button> -->
+        <!-- <button
           v-if="editor.isActive('tableCell')"
           @click="editor.chain().focus().goToNextCell().run()"
         >
           下一格
-        </button>
-        <button
+        </button> -->
+        <!-- <button
           v-if="editor.isActive('tableCell')"
           @click="editor.chain().focus().goToPreviousCell().run()"
         >
           上一格
-        </button>
+        </button> -->
       </div>
     </floating-menu>
   </div>
@@ -284,7 +289,7 @@ let setHardBreak = function () {
 
 <style scoped lang="postcss">
 .floating-menu {
-  @apply bg-info/95 text-info-content rounded-md px-2 py-1 flex flex-wrap items-center;
+  @apply bg-info/95 text-info-content rounded-md px-2 py-1 flex flex-col flex-wrap;
   button {
     @apply btn btn-sm btn-ghost px-1;
   }

@@ -54,7 +54,7 @@ import NodeCardList from './NodeCardList.vue'
 import { onMounted, ref } from 'vue'
 import Loading from '../components/Loading.vue'
 import IconBook from '../icons/IconBook.vue'
-import Sample from '../Sample'
+import Sample from '../entities/Sample'
 import * as Y from 'yjs'
 
 let isDebug = process.env.NODE_ENV === 'development'
