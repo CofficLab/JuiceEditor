@@ -1,10 +1,15 @@
 <template>
-  <div v-if="editor" class="flex">
+  <div v-if="editor" class="flex flex-col tiptap">
     <!-- 选中文字后弹出的菜单 -->
     <BubbleMenus :editor="editor" v-if="editable"></BubbleMenus>
 
     <!-- 回车后弹出的菜单 -->
     <FloatMenus :editor="editor" v-if="editable"></FloatMenus>
+
+    <!-- 操作栏 -->
+    <div v-if="editor">
+      <editor-content :editor="editor" />
+    </div>
 
     <div class="container mx-auto px-4 md:px-0 flex flex-col pb-48 prose dark:prose-invert">
       <div
@@ -123,7 +128,7 @@ onBeforeUnmount(() => {
   height: 0;
 }
 
-ul[data-type="taskList"] {
+ul[data-type='taskList'] {
   list-style: none;
   padding: 0;
 
@@ -149,9 +154,83 @@ ul[data-type="taskList"] {
       display: list-item;
     }
 
-    ul[data-type="taskList"] > li {
+    ul[data-type='taskList'] > li {
       display: flex;
     }
   }
+}
+</style>
+
+<style lang="scss">
+.tiptap {
+  table {
+    border-collapse: collapse;
+    table-layout: fixed;
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
+
+    td,
+    th {
+      min-width: 1em;
+      border: 2px solid #ced4da;
+      padding: 3px 5px;
+      vertical-align: top;
+      box-sizing: border-box;
+      position: relative;
+
+      > * {
+        margin-bottom: 0;
+      }
+    }
+
+    th {
+      font-weight: bold;
+      text-align: left;
+      background-color: #f1f3f5;
+    }
+
+    .selectedCell:after {
+      z-index: 2;
+      position: absolute;
+      content: '';
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      background: rgba(200, 200, 255, 0.4);
+      pointer-events: none;
+    }
+
+    .column-resize-handle {
+      position: absolute;
+      right: -2px;
+      top: 0;
+      bottom: -2px;
+      width: 4px;
+      background-color: #adf;
+      pointer-events: none;
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+}
+
+.tableWrapper {
+  padding: 1rem 0;
+  overflow-x: auto;
+}
+
+.resize-cursor {
+  cursor: ew-resize;
+  cursor: col-resize;
+}
+</style>
+
+<style lang="postcss" scoped>
+button {
+  @apply btn btn-primary btn-xs;
 }
 </style>

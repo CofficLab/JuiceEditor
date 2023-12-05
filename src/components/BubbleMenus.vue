@@ -1,61 +1,100 @@
 <template>
-  <bubble-menu class="bubble-menu" :should-show="shouldShow" :tippy-options="{ duration: 100, maxWidth: 800 }"
-    :editor="editor">
-    <button @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
-      :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }">
+  <!-- 选中后弹出的菜单 -->
+  <bubble-menu
+    class="bubble-menu"
+    :should-show="shouldShow"
+    :tippy-options="{ duration: 100, maxWidth: 800 }"
+    :editor="editor"
+  >
+    <button
+      @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
+      :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }"
+    >
       H2
     </button>
-    <button @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
-      :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }">
+    <button
+      @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
+      :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }"
+    >
       H3
     </button>
-    <button @click="editor.chain().focus().toggleHeading({ level: 4 }).run()"
-      :class="{ 'is-active': editor.isActive('heading', { level: 4 }) }">
+    <button
+      @click="editor.chain().focus().toggleHeading({ level: 4 }).run()"
+      :class="{ 'is-active': editor.isActive('heading', { level: 4 }) }"
+    >
       H4
     </button>
-    <button @click="editor.chain().focus().toggleHeading({ level: 5 }).run()"
-      :class="{ 'is-active': editor.isActive('heading', { level: 5 }) }">
+    <button
+      @click="editor.chain().focus().toggleHeading({ level: 5 }).run()"
+      :class="{ 'is-active': editor.isActive('heading', { level: 5 }) }"
+    >
       H5
     </button>
-    <button @click="editor.chain().focus().toggleHeading({ level: 6 }).run()"
-      :class="{ 'is-active': editor.isActive('heading', { level: 6 }) }">
+    <button
+      @click="editor.chain().focus().toggleHeading({ level: 6 }).run()"
+      :class="{ 'is-active': editor.isActive('heading', { level: 6 }) }"
+    >
       H6
     </button>
-    <button @click="editor.chain().focus().setParagraph().run()"
-      :class="{ 'is-active': editor.isActive('paragraph', { level: 3 }) }">
+    <button
+      @click="editor.chain().focus().setParagraph().run()"
+      :class="{ 'is-active': editor.isActive('paragraph', { level: 3 }) }"
+    >
       正文
     </button>
-    <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
+    <button
+      @click="editor.chain().focus().toggleBold().run()"
+      :class="{ 'is-active': editor.isActive('bold') }"
+    >
       加粗
     </button>
-    <button @click="editor.chain().focus().toggleItalic().run()" :class="{ 'is-active': editor.isActive('italic') }">
+    <button
+      @click="editor.chain().focus().toggleItalic().run()"
+      :class="{ 'is-active': editor.isActive('italic') }"
+    >
       斜体
     </button>
-    <button @click="editor.chain().focus().toggleStrike().run()" :class="{ 'is-active': editor.isActive('strike') }">
+    <button
+      @click="editor.chain().focus().toggleStrike().run()"
+      :class="{ 'is-active': editor.isActive('strike') }"
+    >
       删除线
     </button>
-    <button @click="editor.chain().focus().toggleBulletList().run()"
-      :class="{ 'is-active': editor.isActive('bulletList') }">
+    <button
+      @click="editor.chain().focus().toggleBulletList().run()"
+      :class="{ 'is-active': editor.isActive('bulletList') }"
+    >
       无序列表
     </button>
     <button @click="setHardBreak">换行</button>
 
-    <button v-if="!editor.isActive('link')" @click="setLink" :class="{ 'btn-disabled': editor.isActive('link') }">
+    <button
+      v-if="!editor.isActive('link')"
+      @click="setLink"
+      :class="{ 'btn-disabled': editor.isActive('link') }"
+    >
       设为链接
     </button>
-    <button @click="editor.chain().focus().toggleTaskList().run()" :class="{ 'is-active': editor.isActive('taskList') }">
+    <button
+      @click="editor.chain().focus().toggleTaskList().run()"
+      :class="{ 'is-active': editor.isActive('taskList') }"
+    >
       待办事项
     </button>
     <!-- <button @click="editor.chain().focus().splitListItem('taskItem').run()"
       :disabled="!editor.can().splitListItem('taskItem')">
       拆分
     </button> -->
-    <button @click="editor.chain().focus().sinkListItem('taskItem').run()"
-      :disabled="!editor.can().sinkListItem('taskItem')">
+    <button
+      @click="editor.chain().focus().sinkListItem('taskItem').run()"
+      :disabled="!editor.can().sinkListItem('taskItem')"
+    >
       向右缩进
     </button>
-    <button @click="editor.chain().focus().liftListItem('taskItem').run()"
-      :disabled="!editor.can().liftListItem('taskItem')">
+    <button
+      @click="editor.chain().focus().liftListItem('taskItem').run()"
+      :disabled="!editor.can().liftListItem('taskItem')"
+    >
       向左缩进
     </button>
   </bubble-menu>
@@ -84,7 +123,7 @@ const shouldShow = function (props: {
 }) {
   const { selection } = props.state
   const { empty } = selection
-  const excludes = ['toc', 'image', 'draw']
+  const excludes = ['toc', 'image', 'draw', 'table', 'link', 'tableCell', 'tableRow', 'tableHeader']
 
   excludes.forEach((exclude) => {
     if (props.editor.isActive(exclude)) {

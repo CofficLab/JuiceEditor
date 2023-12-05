@@ -1,4 +1,5 @@
 <template>
+  <!-- 回车后显示的菜单 -->
   <div>
     <floating-menu
       class="floating-menu"
@@ -57,6 +58,117 @@
       <button @click="addImage" :class="{ 'is-active': editor.isActive('banner') }">图片</button>
       <button @click="editor.commands.insertDrawIo()">绘图</button>
       <button @click="setHardBreak">换行</button>
+      <button
+        @click="editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()"
+      >
+        表格
+      </button>
+
+      <!-- 表格的操作 -->
+      <div class="flex flex-wrap">
+        <button
+          v-if="editor.isActive('tableCell')"
+          @click="editor.chain().focus().addColumnBefore().run()"
+        >
+          前插一列
+        </button>
+        <button
+          v-if="editor.isActive('tableCell')"
+          @click="editor.chain().focus().addColumnAfter().run()"
+        >
+          后插一列
+        </button>
+        <button
+          v-if="editor.isActive('tableCell')"
+          @click="editor.chain().focus().deleteColumn().run()"
+        >
+          删除该列
+        </button>
+        <button
+          v-if="editor.isActive('tableCell')"
+          @click="editor.chain().focus().addRowBefore().run()"
+        >
+          前插一行
+        </button>
+        <button
+          v-if="editor.isActive('tableCell')"
+          @click="editor.chain().focus().addRowAfter().run()"
+        >
+          后插一行
+        </button>
+        <button
+          v-if="editor.isActive('tableCell')"
+          @click="editor.chain().focus().deleteRow().run()"
+        >
+          删除该行
+        </button>
+        <button
+          v-if="editor.isActive('tableCell')"
+          @click="editor.chain().focus().deleteTable().run()"
+        >
+          删除表格
+        </button>
+        <button
+          v-if="editor.isActive('tableCell')"
+          @click="editor.chain().focus().mergeCells().run()"
+        >
+          合并单元
+        </button>
+        <button
+          v-if="editor.isActive('tableCell')"
+          @click="editor.chain().focus().splitCell().run()"
+        >
+          拆分单元
+        </button>
+        <button
+          v-if="editor.isActive('tableCell')"
+          @click="editor.chain().focus().toggleHeaderColumn().run()"
+        >
+          切换表头列
+        </button>
+        <button
+          v-if="editor.isActive('tableCell')"
+          @click="editor.chain().focus().toggleHeaderRow().run()"
+        >
+          切换表头行
+        </button>
+        <button
+          v-if="editor.isActive('tableCell')"
+          @click="editor.chain().focus().toggleHeaderCell().run()"
+        >
+          切换表头格
+        </button>
+        <button
+          v-if="editor.isActive('tableCell')"
+          @click="editor.chain().focus().mergeOrSplit().run()"
+        >
+          合并或拆分
+        </button>
+        <button
+          v-if="editor.isActive('tableCell')"
+          @click="editor.chain().focus().setCellAttribute('colspan', 2).run()"
+        >
+          占两格
+        </button>
+        <button
+          v-if="editor.isActive('tableCell')"
+          @click="editor.chain().focus().fixTables().run()"
+        >
+          修复
+        </button>
+        <button
+          v-if="editor.isActive('tableCell')"
+          @click="editor.chain().focus().goToNextCell().run()"
+        >
+          下一格
+        </button>
+        <button
+          v-if="editor.isActive('tableCell')"
+          @click="editor.chain().focus().goToPreviousCell().run()"
+        >
+          上一格
+        </button>
+      </div>
     </floating-menu>
   </div>
 
@@ -90,26 +202,21 @@ const shouldShowFloatingMenu = function (props: {
 }) {
   let isAtBannerPosition = props.editor.isActive('banner')
   let isAtSmartImagePosition = props.editor.isActive('image')
+  const excludes = ['banner', 'draw', 'table', 'link', 'tableCell', 'tableRow', 'tableHeader']
   const { selection } = props.state
   const { $anchor, empty } = selection
   const isEmptyTextBlock =
     $anchor.parent.isTextblock && !$anchor.parent.type.spec.code && !$anchor.parent.textContent
   const type = $anchor.parent.type.name
 
-  // console.log('shouldShowFloatingMenu: type', type)
+  console.log('shouldShowFloatingMenu: type', type)
 
   // 如果在 H1 中，不展示
   if (type == 'heading' && selection.$head.parent.attrs.level == 1) {
     return false
   }
 
-  // 如果在 Banner 中，不展示
-  if (type == 'banner') {
-    return false
-  }
-
-  // 如果在 draw 中，不展示
-  if (type == 'draw') {
+  if (excludes.includes(type)) {
     return false
   }
 
@@ -161,7 +268,7 @@ let setHardBreak = function () {
 
 <style scoped lang="postcss">
 .floating-menu {
-  @apply bg-info text-info-content rounded-md px-2 py-1 flex items-center;
+  @apply bg-info text-info-content rounded-md px-2 py-1 flex flex-wrap items-center;
   button {
     @apply btn btn-xs btn-ghost;
   }
