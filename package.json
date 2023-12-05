@@ -29,7 +29,7 @@
     "@tiptap/starter-kit": "^2.1.12",
     "@tiptap/vue-3": "^2.1.12",
     "clipboard": "^2.0.11",
-    "daisyui": "^3.9.4",
+    "daisyui": "^4.0.0",
     "fs-extra": "^11.1.1",
     "monaco-editor": "^0.44.0",
     "prosemirror-model": "^1.7.1",
