@@ -16,6 +16,10 @@ import TaskList from '@tiptap/extension-task-list'
 import TaskItem from '@tiptap/extension-task-item'
 import * as Y from 'yjs'
 import { WebrtcProvider } from 'y-webrtc'
+import Table from '@tiptap/extension-table'
+import TableRow from '@tiptap/extension-table-row'
+import TableCell from '@tiptap/extension-table-cell'
+import TableHeader from '@tiptap/extension-table-header'
 
 const ydoc = new Y.Doc()
 
@@ -74,6 +78,14 @@ class TiptapAgent {
                     drawIoLink: props.drawIoLink,
                     openDialog: 'click'
                 }),
+                Table.configure({
+                    HTMLAttributes: {
+                        class: 'my-custom-class',
+                    },
+                }),
+                TableRow,
+                TableCell,
+                TableHeader,
                 TaskItem.configure({
                     nested: true,
                 }),

@@ -11,6 +11,10 @@ specifiers:
   '@tiptap/extension-image': ^2.1.12
   '@tiptap/extension-link': ^2.1.12
   '@tiptap/extension-placeholder': ^2.1.12
+  '@tiptap/extension-table': ^2.1.13
+  '@tiptap/extension-table-cell': ^2.1.13
+  '@tiptap/extension-table-header': ^2.1.13
+  '@tiptap/extension-table-row': ^2.1.13
   '@tiptap/extension-task-item': ^2.1.12
   '@tiptap/extension-task-list': ^2.1.12
   '@tiptap/pm': ^2.1.12
@@ -55,6 +59,10 @@ dependencies:
   '@tiptap/extension-image': 2.1.13_@tiptap+core@2.1.13
   '@tiptap/extension-link': 2.1.13_pl3sqo46cbryyaj2mnye4pgkpy
   '@tiptap/extension-placeholder': 2.1.13_pl3sqo46cbryyaj2mnye4pgkpy
+  '@tiptap/extension-table': 2.1.13_pl3sqo46cbryyaj2mnye4pgkpy
+  '@tiptap/extension-table-cell': 2.1.13_@tiptap+core@2.1.13
+  '@tiptap/extension-table-header': 2.1.13_@tiptap+core@2.1.13
+  '@tiptap/extension-table-row': 2.1.13_@tiptap+core@2.1.13
   '@tiptap/extension-task-item': 2.1.13_pl3sqo46cbryyaj2mnye4pgkpy
   '@tiptap/extension-task-list': 2.1.13_@tiptap+core@2.1.13
   '@tiptap/pm': 2.1.13
@@ -650,6 +658,40 @@ packages:
       '@tiptap/core': ^2.0.0
     dependencies:
       '@tiptap/core': 2.1.13_@tiptap+pm@2.1.13
+    dev: false
+
+  /@tiptap/extension-table-cell/2.1.13_@tiptap+core@2.1.13:
+    resolution: {integrity: sha512-30pyVt2PxGAk8jmsXKxDheql8K/xIRA9FiDo++kS2Kr6Y7I42/kNPQttJ2W+Q1JdRJvedNfQtziQfKWDRLLCNA==}
+    peerDependencies:
+      '@tiptap/core': ^2.0.0
+    dependencies:
+      '@tiptap/core': 2.1.13_@tiptap+pm@2.1.13
+    dev: false
+
+  /@tiptap/extension-table-header/2.1.13_@tiptap+core@2.1.13:
+    resolution: {integrity: sha512-FwIV5iso5kmpu01QyvrPCjJqZfqxRTjtjMsDyut2uIgx9v5TXk0V5XvMWobx435ANIDJoGTYCMRlIqcgtyqwAQ==}
+    peerDependencies:
+      '@tiptap/core': ^2.0.0
+    dependencies:
+      '@tiptap/core': 2.1.13_@tiptap+pm@2.1.13
+    dev: false
+
+  /@tiptap/extension-table-row/2.1.13_@tiptap+core@2.1.13:
+    resolution: {integrity: sha512-27Mb9/oYbiLd+/BUFMhQzRIqMd2Z5j1BZMYsktwtDG8vGdYVlaW257UVaoNR9TmiXyIzd3Dh1mOil8G35+HRHg==}
+    peerDependencies:
+      '@tiptap/core': ^2.0.0
+    dependencies:
+      '@tiptap/core': 2.1.13_@tiptap+pm@2.1.13
+    dev: false
+
+  /@tiptap/extension-table/2.1.13_pl3sqo46cbryyaj2mnye4pgkpy:
+    resolution: {integrity: sha512-yMWt2LqotOsWJhLwFNo8fyTwJNLPtnk+eCUxKLlMXP23mJ/lpF+jvTihhHVVic5GqV9vLYZFU2Tn+5k/Vd5P1w==}
+    peerDependencies:
+      '@tiptap/core': ^2.0.0
+      '@tiptap/pm': ^2.0.0
+    dependencies:
+      '@tiptap/core': 2.1.13_@tiptap+pm@2.1.13
+      '@tiptap/pm': 2.1.13
     dev: false
 
   /@tiptap/extension-task-item/2.1.13_pl3sqo46cbryyaj2mnye4pgkpy:
