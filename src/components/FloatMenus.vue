@@ -71,9 +71,6 @@
         <button class="w-10" @click="editor.commands.insertDrawIo()">
           <img src="../icons/compass.drawing.svg" alt="" class="m-0" />
         </button>
-        <button class="w-10" @click="setHardBreak">
-          <img src="../icons/return.svg" alt="" class="m-0" />
-        </button>
         <button
           class="w-10"
           @click="
@@ -82,10 +79,13 @@
         >
           <img src="../icons/tablecells.svg" alt="" class="m-0" />
         </button>
+          <button class="w-10" @click="setHardBreak">
+            <img src="../icons/return.svg" alt="" class="m-0" />
+          </button>
       </div>
 
       <!-- 表格的操作 -->
-      <div class="flex flex-wrap justify-start flex-row mt-2">
+      <div class="flex flex-wrap justify-start flex-row pt-2 gap-4" v-if="editor.isActive('table')">
         <button
           v-if="editor.isActive('tableCell')"
           @click="editor.chain().focus().addColumnBefore().run()"
@@ -289,7 +289,7 @@ let setHardBreak = function () {
 
 <style scoped lang="postcss">
 .floating-menu {
-  @apply bg-info/95 text-info-content rounded-md px-2 py-1 flex flex-col flex-wrap;
+  @apply bg-info/95 text-info-content rounded-md px-2 py-1 flex flex-col flex-wrap ml-2;
   button {
     @apply btn btn-sm btn-ghost px-1;
   }
