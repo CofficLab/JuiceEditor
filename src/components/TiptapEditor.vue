@@ -12,15 +12,6 @@
     </div>
 
     <div class="container mx-auto px-4 md:px-0 flex flex-col pb-48 prose dark:prose-invert">
-      <div
-        class="flex flex-row bg-blue-300 rounded justify-center text-sm py-1"
-        v-if="isDebug && !editable"
-      >
-        <IconInfo></IconInfo>
-        <div class="flex items-center ml-2">
-          <p>只读模式</p>
-        </div>
-      </div>
       <editor-content :editor="editor" />
     </div>
   </div>
