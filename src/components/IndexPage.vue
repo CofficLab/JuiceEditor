@@ -1,9 +1,11 @@
 <template>
-  <div class="flex flex-col h-full w-full relative">
+  <div class="flex flex-col h-full w-full relative overflow-scroll">
     <!-- 操作栏 -->
     <div class="flex flex-row container mx-auto justify-end mt-4 sticky top-4 join">
-      <button class="btn btn-primary btn-sm join-item" @click="setEditable">编辑模式</button>
-      <button class="btn btn-primary btn-sm join-item" @click="setReadonly">只读模式</button>
+      <button class="btn btn-primary btn-xs join-item" @click="setEditable">编辑模式</button>
+      <button class="btn btn-primary btn-xs join-item" @click="setReadonly">只读模式</button>
+      <button class="btn btn-primary btn-xs join-item" @click="setReadonly">复制</button>
+      <button class="btn btn-primary btn-xs join-item" @click="setReadonly">TOC</button>
     </div>
 
     <div v-if="loading" class="flex justify-center items-center h-full">
