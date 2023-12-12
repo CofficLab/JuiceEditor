@@ -144,7 +144,7 @@ onMounted(() => {
   MonacoBox.createEditor(resultBox, {
     content: '',
     target: resultDom.value!,
-    language: props.language,
+    language: 'shell',
     runnable: props.runnable,
     name: '结果编辑器',
     onCreated: (monacoBox) => {
@@ -194,29 +194,33 @@ let handleRun = () => {
   running.value = true
 
   setTimeout(() => {
-    window.runner(editorBox.value?.getContent(), editorBox.value?.getLanguage(), (result:string) => {
-      resultBox.setContent(result == "" ? "「程序没有输出」" : result);
-      console.log("运行结果", result);
-      running.value = false;
-      runResultVisible.value = true;
-    });
-  }, 500);
+    window.runner(
+      editorBox.value?.getContent(),
+      editorBox.value?.getLanguage(),
+      (result: string) => {
+        resultBox.setContent(result == '' ? '「程序没有输出」' : result)
+        console.log('运行结果', result)
+        running.value = false
+        runResultVisible.value = true
+      }
+    )
+  }, 500)
 
   window.runner = (code: String, lan: String, callback: Function) => {
     console.log('调用 WebKit 以运行代码', code, lan)
 
     try {
-      (window as any).webkit.messageHandlers.runCode.postMessage({
+      ;(window as any).webkit.messageHandlers.runCode.postMessage({
         code: code,
         lan: lan
       })
 
       window.runnerCallback = function (result: string) {
-        console.log("收到 WebKit 运行结果", result)
+        console.log('收到 WebKit 运行结果', result)
         callback(result)
       }
     } catch (e) {
-      callback('调用 WebKit 运行代码失败'+ e)
+      callback('调用 WebKit 运行代码失败' + e)
     }
   }
 }
