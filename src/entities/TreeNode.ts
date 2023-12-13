@@ -103,4 +103,8 @@ export default class TreeNode {
             children: this.children
         }
     }
+
+    sameWith(node: TreeNode): boolean {
+        return JSON.stringify(this.toJSON()) == JSON.stringify(node.toJSON())
+    }
 }

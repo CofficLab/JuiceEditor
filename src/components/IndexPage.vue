@@ -34,7 +34,7 @@
           v-if="appStore.editorVisible"
           :content="node.content"
           :editable="appStore.editable"
-          :onUpdate="onUpdate"
+          :onUpdate="appStore.updateNode"
         />
       </div>
 
@@ -51,7 +51,6 @@
 
 <script lang="ts" setup>
 import TiptapEditor from './TiptapEditor.vue'
-import TreeNode from '../entities/TreeNode'
 import NodeCardList from './NodeCardList.vue'
 import { computed, onMounted } from 'vue'
 import Loading from '../components/Loading.vue'
@@ -64,12 +63,6 @@ const appStore = useAppStore()
 const node = computed(() => {
   return appStore.node
 })
-
-// 当页面内容发生变动时
-function onUpdate(updatedNode: TreeNode) {
-  console.log('IndexPage: onUpdate', updatedNode, JSON.stringify(updatedNode.jsonContent))
-  appStore.updateNode(updatedNode)
-}
 
 onMounted(() => {
   appStore.setReady()

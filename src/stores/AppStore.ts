@@ -42,6 +42,11 @@ export const useAppStore = defineStore('app-store', {
         },
 
         updateNode: function (newNode: Object) {
+            if (this.node.sameWith(new TreeNode(newNode))) {
+                console.log('更新节点时发现无变化，忽略')
+                return
+            }
+
             this.loading = true
             console.log('更新节点')
 
