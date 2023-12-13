@@ -4,7 +4,7 @@ export const useFeatureStore = defineStore('feature-store', {
     state: () => {
         return {
             updatedAt: Date.now(),
-            editable: true,
+            editable: false,
             editorVisible: true,
             drawEnabled: false,
             tableEnabled: false,
