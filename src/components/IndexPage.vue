@@ -1,15 +1,13 @@
 <template>
   <div class="flex flex-col h-full w-full relative overflow-scroll">
     <!-- 操作栏 -->
-    <div class="flex flex-row container mx-auto justify-end mt-4 sticky top-4 join">
+    <div class="flex flex-row container mx-auto justify-end mt-4 sticky top-4 join" v-if="featureStore.toolbarVisible">
       <button class="btn btn-primary btn-xs join-item" @click="featureStore.enableEdit">编辑模式</button>
       <button class="btn btn-primary btn-xs join-item" @click="featureStore.disableEdit">只读模式</button>
       <button class="btn btn-primary btn-xs join-item" @click="featureStore.enableTable">开启 Table</button>
       <button class="btn btn-primary btn-xs join-item" @click="featureStore.disableTable">关闭 Table</button>
       <button class="btn btn-primary btn-xs join-item" @click="featureStore.enableDraw">开启 Draw</button>
       <button class="btn btn-primary btn-xs join-item" @click="featureStore.disableDraw">关闭 Draw</button>
-      <button class="btn btn-primary btn-xs join-item" @click="featureStore.enableEdit">复制</button>
-      <button class="btn btn-primary btn-xs join-item" @click="featureStore.enableEdit">TOC</button>
     </div>
 
     <!-- loading -->

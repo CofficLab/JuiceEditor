@@ -1,17 +1,30 @@
 import { defineStore } from 'pinia'
 
+const isDebug = process.env.NODE_ENV === 'development'
+
 export const useFeatureStore = defineStore('feature-store', {
     state: () => {
         return {
             updatedAt: Date.now(),
             editable: false,
             editorVisible: true,
+            toolbarVisible: isDebug,
             drawEnabled: false,
             tableEnabled: false,
         }
     },
 
     actions: {
+        showToolbar() {
+            this.toolbarVisible = true
+            this.updatedAt = Date.now()
+        },
+
+        hideToolbar() {
+            this.toolbarVisible = false
+            this.updatedAt = Date.now()
+        },
+
         showEditor() {
             this.editorVisible = true
             this.updatedAt = Date.now()
