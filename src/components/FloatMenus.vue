@@ -1,143 +1,93 @@
 <template>
   <!-- 回车后显示的菜单 -->
   <div>
-    <floating-menu
-      class="floating-menu"
-      :tippy-options="{ duration: 100, maxWidth: 800 }"
-      :editor="editor"
-      :should-show="shouldShowFloatingMenu"
-    >
+    <floating-menu class="floating-menu" :tippy-options="{ duration: 100, maxWidth: 800 }" :editor="editor"
+      :should-show="shouldShowFloatingMenu">
       <!-- 普通的操作 -->
       <div class="flex flex-wrap">
-        <button
-          class="w-10"
-          @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
-          :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }"
-        >
+        <button class="w-10" @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
+          :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }">
           H2
         </button>
-        <button
-          class="w-10"
-          @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
-          :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }"
-        >
+        <button class="w-10" @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
+          :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }">
           H3
         </button>
-        <button
-          class="w-10"
-          @click="editor.chain().focus().toggleHeading({ level: 4 }).run()"
-          :class="{ 'is-active': editor.isActive('heading', { level: 4 }) }"
-        >
+        <button class="w-10" @click="editor.chain().focus().toggleHeading({ level: 4 }).run()"
+          :class="{ 'is-active': editor.isActive('heading', { level: 4 }) }">
           H4
         </button>
-        <button
-          class="w-10"
-          @click="editor.chain().focus().toggleHeading({ level: 5 }).run()"
-          :class="{ 'is-active': editor.isActive('heading', { level: 5 }) }"
-        >
+        <button class="w-10" @click="editor.chain().focus().toggleHeading({ level: 5 }).run()"
+          :class="{ 'is-active': editor.isActive('heading', { level: 5 }) }">
           H5
         </button>
-        <button
-          class="w-10"
-          @click="editor.chain().focus().toggleHeading({ level: 6 }).run()"
-          :class="{ 'is-active': editor.isActive('heading', { level: 6 }) }"
-        >
+        <button class="w-10" @click="editor.chain().focus().toggleHeading({ level: 6 }).run()"
+          :class="{ 'is-active': editor.isActive('heading', { level: 6 }) }">
           H6
         </button>
-        <button
-          class="w-10"
-          @click="editor.chain().focus().toggleBulletList().run()"
-          :class="{ 'is-active': editor.isActive('bulletList') }"
-        >
+        <button class="w-10" @click="editor.chain().focus().toggleBulletList().run()"
+          :class="{ 'is-active': editor.isActive('bulletList') }">
           <img src="../icons/list.bullet.svg" alt="" class="m-0" />
         </button>
-        <button
-          class="w-10"
-          @click="editor.chain().focus().toggleCodeBlock().run()"
-          :class="{ 'is-active': editor.isActive('codeBlock') }"
-        >
+        <button class="w-10" @click="editor.chain().focus().toggleCodeBlock().run()"
+          :class="{ 'is-active': editor.isActive('codeBlock') }">
           <IconCode></IconCode>
         </button>
-        <button
-          class="w-10"
-          @click="editor.chain().focus().toggleBanner().run()"
-          :class="{ 'is-active': editor.isActive('banner') }"
-        >
+        <button class="w-10" @click="editor.chain().focus().toggleBanner().run()"
+          :class="{ 'is-active': editor.isActive('banner') }">
           <img src="../icons/123.rectangle.fill.svg" alt="" class="m-0" />
         </button>
+
+        <!-- 图片 -->
         <button class="w-10" @click="addImage" :class="{ 'is-active': editor.isActive('banner') }">
           <img src="../icons/photo.svg" alt="" class="m-0" />
         </button>
-        <button class="w-10" @click="editor.commands.insertDrawIo()">
+
+        <!-- 画图 -->
+        <button class="w-10"  v-if="isDrawEnable" @click="editor.commands.insertDrawIo()">
           <img src="../icons/compass.drawing.svg" alt="" class="m-0" />
         </button>
-        <button
-          class="w-10"
-          @click="
-            editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()
-          "
-        >
+
+        <!-- 添加表格 -->
+        <button class="w-10" v-if="isTableEnable" @click="
+          editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()
+          ">
           <img src="../icons/tablecells.svg" alt="" class="m-0" />
         </button>
-          <button class="w-10" @click="setHardBreak">
-            <img src="../icons/return.svg" alt="" class="m-0" />
-          </button>
+
+        <!-- 添加换行 -->
+        <button class="w-10" @click="setHardBreak">
+          <img src="../icons/return.svg" alt="" class="m-0" />
+        </button>
       </div>
 
       <!-- 表格的操作 -->
       <div class="flex flex-wrap justify-start flex-row pt-2 gap-4" v-if="editor.isActive('table')">
-        <button
-          v-if="editor.isActive('tableCell')"
-          @click="editor.chain().focus().addColumnBefore().run()"
-        >
+        <button v-if="editor.isActive('tableCell')" @click="editor.chain().focus().addColumnBefore().run()">
           <img src="../icons/table.column.plus.before.svg" alt="" class="m-0 w-5 h-5" />
         </button>
-        <button
-          v-if="editor.isActive('tableCell')"
-          @click="editor.chain().focus().addColumnAfter().run()"
-        >
+        <button v-if="editor.isActive('tableCell')" @click="editor.chain().focus().addColumnAfter().run()">
           <img src="../icons/table.column.plus.after.svg" alt="" class="m-0 w-5 h-5" />
         </button>
-        <button
-          v-if="editor.isActive('tableCell')"
-          @click="editor.chain().focus().deleteColumn().run()"
-        >
+        <button v-if="editor.isActive('tableCell')" @click="editor.chain().focus().deleteColumn().run()">
           <img src="../icons/table.column.remove.svg" alt="" class="m-0 w-6 h-6" />
         </button>
-        <button
-          v-if="editor.isActive('tableCell')"
-          @click="editor.chain().focus().addRowBefore().run()"
-        >
+        <button v-if="editor.isActive('tableCell')" @click="editor.chain().focus().addRowBefore().run()">
           <img src="../icons/table.row.plus.before.svg" alt="" class="m-0 w-6 h-6" />
         </button>
-        <button
-          v-if="editor.isActive('tableCell')"
-          @click="editor.chain().focus().addRowAfter().run()"
-        >
+        <button v-if="editor.isActive('tableCell')" @click="editor.chain().focus().addRowAfter().run()">
           <img src="../icons/table.row.plus.after.svg" alt="" class="m-0 w-6 h-6" />
         </button>
-        <button
-          v-if="editor.isActive('tableCell')"
-          @click="editor.chain().focus().deleteRow().run()"
-        >
+        <button v-if="editor.isActive('tableCell')" @click="editor.chain().focus().deleteRow().run()">
           <img src="../icons/table.row.remove.svg" alt="" class="m-0 w-6 h-6" />
         </button>
-        <button
-          v-if="editor.isActive('tableCell')"
-          @click="editor.chain().focus().deleteTable().run()"
-        >
+        <button v-if="editor.isActive('tableCell')" @click="editor.chain().focus().deleteTable().run()">
           <img src="../icons/table.remove.svg" alt="" class="m-0 w-6 h-6" />
         </button>
-        <button
-          v-if="editor.isActive('tableCell')"
-          @click="editor.chain().focus().mergeCells().run()"
-        >
+        <button v-if="editor.isActive('tableCell')" @click="editor.chain().focus().mergeCells().run()">
           <img src="../icons/table.cell.merge.svg" alt="" class="m-0 w-6 h-6" />
         </button>
-        <button
-          v-if="editor.isActive('tableCell')"
-          @click="editor.chain().focus().splitCell().run()"
-        >
+        <button v-if="editor.isActive('tableCell')" @click="editor.chain().focus().splitCell().run()">
           <img src="../icons/table.cell.split.svg" alt="" class="w-6 h-6 m-0" />
         </button>
         <!-- <button
@@ -192,19 +142,13 @@
     </floating-menu>
   </div>
 
-  <input
-    ref="fileInput"
-    multiple="false"
-    accept="image/*"
-    type="file"
-    style="display: none"
-    @change="onFileSelected"
-  />
+  <input ref="fileInput" multiple="false" accept="image/*" type="file" style="display: none" @change="onFileSelected" />
 </template>
 
 <script lang="ts" setup>
 import { Editor, FloatingMenu } from '@tiptap/vue-3'
 import IconCode from '../icons/IconCode.vue'
+import TiptapAgent from '../entities/TiptapAgent'
 import { ref } from 'vue'
 let fileInput = ref<HTMLInputElement | null>(null)
 
@@ -215,46 +159,11 @@ let props = defineProps({
   }
 })
 
-const shouldShowFloatingMenu = function (props: {
-  editor: import('@tiptap/core').Editor
-  view: import('prosemirror-view').EditorView
-  state: import('prosemirror-state').EditorState
-  oldState?: import('prosemirror-state').EditorState | undefined
-}) {
-  let isAtBannerPosition = props.editor.isActive('banner')
-  let isAtSmartImagePosition = props.editor.isActive('image')
-  const excludes = ['banner', 'draw', 'table', 'link', 'tableCell', 'tableRow', 'tableHeader']
-  const { selection } = props.state
-  const { $anchor, empty } = selection
-  const isEmptyTextBlock =
-    $anchor.parent.isTextblock && !$anchor.parent.type.spec.code && !$anchor.parent.textContent
-  const type = $anchor.parent.type.name
+const shouldShowFloatingMenu = TiptapAgent.shouldShowFloatingMenu
+const isDrawEnable = TiptapAgent.isDrawEnable(props.editor)
+const isTableEnable = TiptapAgent.isTableEnable(props.editor)
 
-  console.log('shouldShowFloatingMenu: type', type)
-
-  // 如果在 H1 中，不展示
-  if (type == 'heading' && selection.$head.parent.attrs.level == 1) {
-    return false
-  }
-
-  if (excludes.includes(type)) {
-    return false
-  }
-
-  if (isAtBannerPosition && !isEmptyTextBlock) {
-    return false
-  }
-
-  if (isAtSmartImagePosition) {
-    return false
-  }
-
-  if (!isEmptyTextBlock) {
-    return false
-  }
-
-  return true
-}
+console.log(isDrawEnable)
 
 function addImage() {
   console.log('添加图片')
@@ -290,6 +199,7 @@ let setHardBreak = function () {
 <style scoped lang="postcss">
 .floating-menu {
   @apply bg-info/95 text-info-content rounded-md px-2 py-1 flex flex-col flex-wrap ml-2;
+
   button {
     @apply btn btn-sm btn-ghost px-1;
   }

@@ -1,15 +1,12 @@
 import { defineStore } from 'pinia'
 import Sample from '../entities/Sample'
 import TreeNode from '../entities/TreeNode'
-import EditorData from 'src/entities/EditorData'
 
 const isDebug = process.env.NODE_ENV === 'development'
 
 export const useAppStore = defineStore('app-store', {
     state: () => {
         return {
-            editorVisible: true,
-            editable: true,
             node: isDebug ? Sample.sampleNode : new TreeNode({}),
             loading: false,
             ready: false,
@@ -19,27 +16,6 @@ export const useAppStore = defineStore('app-store', {
     actions: {
         getContent() {
             return this.node.content
-        },
-
-        showEditor() {
-            this.editorVisible = true
-        },
-
-        hideEditor() {
-            this.editorVisible = false
-        },
-
-        enableEdit() {
-            this.editable = true
-        },
-
-        disableEdit() {
-            this.editable = false
-        },
-
-        showEditorAndEnableEdit() {
-            this.showEditor()
-            this.enableEdit()
         },
 
         updateNode: function (data: object) {

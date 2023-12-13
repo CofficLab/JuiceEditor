@@ -19,12 +19,13 @@
 
 <script lang="ts" setup>
 import { EditorContent } from '@tiptap/vue-3'
-import { onBeforeUnmount, onMounted, watch } from 'vue'
+import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import BubbleMenus from './BubbleMenus.vue'
 import FloatMenus from './FloatMenus.vue'
 import TiptapAgent from '../entities/TiptapAgent'
 import DrawAgent from '../entities/DrawAgent'
 import EditorData from 'src/entities/EditorData'
+import { Editor } from '@tiptap/vue-3'
 
 const props = defineProps({
   content: {
@@ -35,20 +36,36 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
+  drawEnable: {
+    required: true,
+    type: Boolean,
+    default: false,
+  },
+  tableEnable: {
+    type: Boolean,
+    default: false,
+    required: true
+  },
   onUpdate: {
     type: Function,
     default: () => {}
   }
 })
 
-var editor = TiptapAgent.create({
-  content: props.content,
-  editable: props.editable,
-  drawIoLink: DrawAgent.getLink(),
-  onUpdate: (data: EditorData) => {
-    props.onUpdate(data)
-  }
-})
+const editor = makeEditor(props)
+
+function makeEditor(props: any): Editor {
+  return TiptapAgent.create({
+    content: props.content,
+    editable: props.editable,
+    drawIoLink: DrawAgent.getLink(),
+    drawEnable: props.drawEnable,
+    tableEnable: props.tableEnable,
+    onUpdate: (data: EditorData) => {
+      props.onUpdate(data)
+    }
+  })
+}
 
 watch(props, () => {
   console.log('TiptapEditor: props changed')

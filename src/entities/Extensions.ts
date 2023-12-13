@@ -1,7 +1,6 @@
 import Blockquote from "@tiptap/extension-blockquote"
 import CharacterCount from "@tiptap/extension-character-count"
 import Code from "@tiptap/extension-code"
-import Collaboration from "@tiptap/extension-collaboration"
 import Placeholder from "@tiptap/extension-placeholder"
 import Table from "@tiptap/extension-table"
 import TableCell from "@tiptap/extension-table-cell"
@@ -16,19 +15,16 @@ import SmartDraw from "../extensions/SmartDraw/SmartDraw"
 import SmartImage from "../extensions/SmartImage/SmartImage"
 import SmartLink from "../extensions/SmartLink/SmartLink"
 import { Toc } from "../extensions/Toc/Toc"
-import * as Y from 'yjs'
-import { WebrtcProvider } from 'y-webrtc'
 import { Document } from "@tiptap/extension-document"
 
 interface makeExtensionsProps {
-    drawIoLink?: string
+    drawIoLink?: string,
+    drawEnable?: boolean,
+    tableEnable?: boolean
 }
 
-const ydoc = new Y.Doc()
-const provider = new WebrtcProvider('tiptap-collaboration-cursor-extension', ydoc)
-
 function makeExtensions(props: makeExtensionsProps) {
-    return [
+    var extensions = [
         StarterKit.configure({
             document: false,
             codeBlock: false,
@@ -48,9 +44,6 @@ function makeExtensions(props: makeExtensionsProps) {
         }),
         CodeEditor,
         CharacterCount,
-        Collaboration.configure({
-            document: ydoc,
-        }),
         Document.extend({
             content: 'heading block*'
         }),
@@ -79,18 +72,6 @@ function makeExtensions(props: makeExtensionsProps) {
                 class: 'link link-primary link-hover mx-1',
             },
         }),
-        SmartDraw.configure({
-            drawIoLink: props.drawIoLink,
-            openDialog: 'click'
-        }),
-        Table.configure({
-            HTMLAttributes: {
-                class: 'my-custom-class',
-            },
-        }),
-        TableRow,
-        TableCell,
-        TableHeader,
         TaskItem.configure({
             nested: true,
         }),
@@ -101,6 +82,30 @@ function makeExtensions(props: makeExtensionsProps) {
         }),
         Toc
     ]
+
+    if (props.drawEnable) {
+        extensions.push(
+            SmartDraw.configure({
+                drawIoLink: props.drawIoLink,
+                openDialog: 'click'
+            })
+        );
+    }
+
+    if (props.tableEnable) {
+        extensions.push(
+            Table.configure({
+                HTMLAttributes: {
+                    class: 'my-custom-class',
+                },
+            }),
+            TableRow,
+            TableCell,
+            TableHeader
+        );
+    }
+
+    return extensions
  }
 
 export default makeExtensions

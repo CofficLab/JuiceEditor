@@ -2,10 +2,14 @@
   <div class="flex flex-col h-full w-full relative overflow-scroll">
     <!-- 操作栏 -->
     <div class="flex flex-row container mx-auto justify-end mt-4 sticky top-4 join">
-      <button class="btn btn-primary btn-xs join-item" @click="appStore.enableEdit">编辑模式</button>
-      <button class="btn btn-primary btn-xs join-item" @click="appStore.disableEdit">只读模式</button>
-      <button class="btn btn-primary btn-xs join-item" @click="appStore.enableEdit">复制</button>
-      <button class="btn btn-primary btn-xs join-item" @click="appStore.enableEdit">TOC</button>
+      <button class="btn btn-primary btn-xs join-item" @click="featureStore.enableEdit">编辑模式</button>
+      <button class="btn btn-primary btn-xs join-item" @click="featureStore.disableEdit">只读模式</button>
+      <button class="btn btn-primary btn-xs join-item" @click="featureStore.enableTable">开启 Table</button>
+      <button class="btn btn-primary btn-xs join-item" @click="featureStore.disableTable">关闭 Table</button>
+      <button class="btn btn-primary btn-xs join-item" @click="featureStore.enableDraw">开启 Draw</button>
+      <button class="btn btn-primary btn-xs join-item" @click="featureStore.disableDraw">关闭 Draw</button>
+      <button class="btn btn-primary btn-xs join-item" @click="featureStore.enableEdit">复制</button>
+      <button class="btn btn-primary btn-xs join-item" @click="featureStore.enableEdit">TOC</button>
     </div>
 
     <!-- loading -->
@@ -18,8 +22,8 @@
       <BookIntro :node="node" />
 
       <!-- 编辑器 -->
-      <TiptapEditor v-if="appStore.editorVisible" :content="node.content" :editable="appStore.editable"
-        :onUpdate="appStore.updateNode" />
+      <TiptapEditor v-if="featureStore.editorVisible" :content="node.content" :editable="featureStore.editable"
+        :tableEnable="featureStore.tableEnabled" :drawEnable="featureStore.drawEnabled" :onUpdate="appStore.updateNode" />
 
       <!-- 子节点 -->
       <div class="container mx-auto px-4 py-4 flex mt-24 justify-center border-t dark:border-gray-700/30"
@@ -33,15 +37,30 @@
 <script lang="ts" setup>
 import TiptapEditor from './TiptapEditor.vue'
 import NodeCardList from './NodeCardList.vue'
-import { computed, onMounted } from 'vue'
+import { computed, nextTick, onMounted, watch } from 'vue'
 import Loading from '../components/Loading.vue'
 import { useAppStore } from '../stores/AppStore'
 import BookIntro from './BookIntro.vue'
+import { useFeatureStore } from '../stores/FeatureStore'
 
 const appStore = useAppStore()
+const featureStore = useFeatureStore()
 
 const node = computed(() => {
   return appStore.node
+})
+
+const featureUpdatedAt = computed(() => {
+  return featureStore.updatedAt
+})
+
+watch(featureUpdatedAt, () => {
+  console.log('featureUpdatedAt: ' + featureUpdatedAt.value)
+
+  featureStore.hideEditor()
+  nextTick(() => {
+    featureStore.showEditor()
+  })
 })
 
 onMounted(() => {

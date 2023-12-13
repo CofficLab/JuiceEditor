@@ -8,8 +8,10 @@
 import { onMounted, ref } from 'vue';
 import IndexPage from './components/IndexPage.vue'
 import { useAppStore } from './stores/AppStore'
+import { useFeatureStore } from './stores/FeatureStore';
 
 const appStore = useAppStore()
+const featureStore = useFeatureStore()
 const ready = ref(false)
 
 onMounted(() => {
@@ -17,12 +19,8 @@ onMounted(() => {
 
   // 将方法暴露到外部，swift 可以调用
   window.updater = {
-    showEditor: appStore.showEditor,
-    hideEditor: appStore.hideEditor,
-    enableEdit: appStore.enableEdit,
-    disableEdit: appStore.disableEdit,
-    showAndEditable: appStore.showEditorAndEnableEdit,
-    updateNode: appStore.updateNode
+    appStore: appStore,
+    featureStore: featureStore
   }
 })
 </script>
