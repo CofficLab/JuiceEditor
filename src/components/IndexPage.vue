@@ -16,6 +16,11 @@
         v-if="!featureStore.drawEnabled">开启 Draw</button>
       <button class="btn btn-primary btn-xs join-item" @click="featureStore.disableDraw"
         v-if="featureStore.drawEnabled">关闭 Draw</button>
+
+        <button class="btn btn-primary btn-xs join-item" @click="featureStore.showEditor"
+          v-if="!featureStore.editorVisible">显示 Editor</button>
+        <button class="btn btn-primary btn-xs join-item" @click="featureStore.hideEditor"
+          v-if="featureStore.editorVisible">隐藏 Editor</button>
     </div>
 
     <!-- loading -->
@@ -62,6 +67,10 @@ const featureUpdatedAt = computed(() => {
 
 watch(featureUpdatedAt, () => {
   console.log('featureUpdatedAt: ' + featureUpdatedAt.value)
+
+  if (!featureStore.editorVisible) {
+    return
+  }
 
   featureStore.hideEditor()
   nextTick(() => {
