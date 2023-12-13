@@ -2,13 +2,13 @@
   <div class="flex flex-col h-full w-full relative overflow-scroll">
     <!-- 操作栏 -->
     <div class="flex flex-row container mx-auto justify-end mt-4 sticky top-4 join">
-      <button class="btn btn-primary btn-xs join-item" @click="setEditable">编辑模式</button>
-      <button class="btn btn-primary btn-xs join-item" @click="setReadonly">只读模式</button>
-      <button class="btn btn-primary btn-xs join-item" @click="setReadonly">复制</button>
-      <button class="btn btn-primary btn-xs join-item" @click="setReadonly">TOC</button>
+      <button class="btn btn-primary btn-xs join-item" @click="appStore.enableEdit">编辑模式</button>
+      <button class="btn btn-primary btn-xs join-item" @click="appStore.disableEdit">只读模式</button>
+      <button class="btn btn-primary btn-xs join-item" @click="appStore.enableEdit">复制</button>
+      <button class="btn btn-primary btn-xs join-item" @click="appStore.enableEdit">TOC</button>
     </div>
 
-    <div v-if="loading" class="flex justify-center items-center h-full">
+    <div v-if="appStore.loading" class="flex justify-center items-center h-full">
       <Loading></Loading>
     </div>
 
@@ -31,9 +31,9 @@
       <!-- 编辑器 -->
       <div>
         <TiptapEditor
-          v-if="showEditor"
+          v-if="appStore.editorVisible"
           :content="node.content"
-          :editable="editable"
+          :editable="appStore.editable"
           :onUpdate="onUpdate"
         />
       </div>
@@ -53,90 +53,26 @@
 import TiptapEditor from './TiptapEditor.vue'
 import TreeNode from '../entities/TreeNode'
 import NodeCardList from './NodeCardList.vue'
-import { onMounted, ref } from 'vue'
+import { computed, onMounted } from 'vue'
 import Loading from '../components/Loading.vue'
 import IconBook from '../icons/IconBook.vue'
-import Sample from '../entities/Sample'
+import { useAppStore } from '../stores/AppStore'
 import * as Y from 'yjs'
 
-let isDebug = process.env.NODE_ENV === 'development'
-let loading = ref(false)
-let showEditor = ref(true)
-let editable = ref(true)
-let node = ref<TreeNode>(isDebug ? Sample.sampleNode : new TreeNode({}))
+const appStore = useAppStore()
 
-function setEditable() {
-  editable.value = true
-}
-
-function setReadonly() {
-  editable.value = false
-}
+const node = computed(() => {
+  return appStore.node
+})
 
 // 当页面内容发生变动时
 function onUpdate(updatedNode: TreeNode) {
   console.log('IndexPage: onUpdate', updatedNode, JSON.stringify(updatedNode.jsonContent))
-  node.value.content = updatedNode.content
-  node.value.title = updatedNode.title
-  node.value.characterCount = updatedNode.characterCount
-  node.value.wordCount = updatedNode.wordCount
-
-  if (!('webkit' in window)) {
-    return
-  }
-
-  console.log('调用 WebKit 以更新节点内容')
-  setTimeout(() => {
-    try {
-      // 只能传字符、只能传普通object
-      ;(window as any).webkit.messageHandlers.updateContent.postMessage({
-        content: node.value.content,
-        title: node.value.title,
-        id: node.value.id,
-        characterCount: `${node.value.characterCount}`,
-        wordCount: `${node.value.wordCount}`
-      })
-    } catch (e) {
-      console.log('更新内容失败', e)
-    }
-  }, 0)
+  appStore.updateNode(updatedNode)
 }
 
 onMounted(() => {
-  // 将方法暴露到外部，swift 可以调用
-  window.updater = {
-    showEditor: () => (showEditor.value = true),
-    hideEditor: () => (showEditor.value = false),
-    enableEdit: () => (editable.value = true),
-    disableEdit: () => (editable.value = false),
-    showAndEditable: () => {
-      showEditor.value = true
-      editable.value = true
-    },
-
-    updateNode: function (newNode: Object) {
-      loading.value = true
-      console.log('更新节点')
-
-      try {
-        node.value = new TreeNode(newNode)
-
-        // 关闭画图
-        document.dispatchEvent(new CustomEvent('close-draw'))
-      } catch (e) {
-        console.log('执行 updateNode 失败', e)
-      }
-
-      loading.value = false
-    }
-  }
-
-  console.log('调用 WebKit 以通知 Swift 页面加载完成')
-  try {
-    ;(window as any).webkit.messageHandlers.pageLoaded.postMessage({})
-  } catch (e) {
-    console.log('调用 WebKit 以通知 Swift 页面加载完成，失败', e)
-  }
+  appStore.setReady()
 })
 
 const mergeContent = () => {

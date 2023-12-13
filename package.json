@@ -32,6 +32,7 @@
     "daisyui": "^4.0.0",
     "fs-extra": "^11.1.1",
     "monaco-editor": "^0.44.0",
+    "pinia": "^2.1.7",
     "prosemirror-model": "^1.7.1",
     "prosemirror-state": "^1.2.3",
     "prosemirror-view": "^1.9.10",

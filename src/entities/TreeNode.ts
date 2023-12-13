@@ -43,4 +43,64 @@ export default class TreeNode {
             });
         }
     }
+
+    setTitle(title: string): this {
+        this.title = title
+        return this
+    }
+
+    setContent(content: string): this {
+        this.content = content
+        return this
+    }
+
+    setJsonContent(jsonContent: JSONContent): this {
+        this.jsonContent = jsonContent
+        return this
+    }
+
+    setCharacterCount(characterCount: number): this {
+        this.characterCount = characterCount
+        return this
+    }
+
+    setWordCount(wordCount: number): this {
+        this.wordCount = wordCount
+        return this
+    }
+
+    setLastSyncedAt(lastSyncedAt: string): this {
+        this.lastSyncedAt = lastSyncedAt
+        return this
+    }
+
+    setPriority(priority: number): this {
+        this.priority = priority
+        return this
+    }
+
+    setIsBook(isBook: boolean): this {
+        this.isBook = isBook
+        return this
+    }
+
+    setChildren(children: TreeNode[]): this {
+        this.children = children
+        return this
+    }
+
+    toJSON(): Object {
+        return {
+            id: this.id,
+            title: this.title,
+            isBook: this.isBook,
+            priority: this.priority,
+            content: this.content,
+            jsonContent: this.jsonContent,
+            characterCount: this.characterCount,
+            wordCount: this.wordCount,
+            lastSyncedAt: this.lastSyncedAt,
+            children: this.children
+        }
+    }
 }
