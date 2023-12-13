@@ -1,145 +1,32 @@
-import Document from '@tiptap/extension-document'
-import Code from '@tiptap/extension-code'
-import Placeholder from '@tiptap/extension-placeholder'
-import Blockquote from '@tiptap/extension-blockquote'
-import CharacterCount from '@tiptap/extension-character-count'
-import Collaboration from '@tiptap/extension-collaboration'
-import { CodeEditor } from '../extensions/CodeEditor/CodeEditor'
-import { Toc } from '../extensions/Toc/Toc.js'
-import SmartImage from '../extensions/SmartImage/SmartImage'
 import { Editor } from '@tiptap/vue-3'
-import { Editor as TiptapEditor } from '@tiptap/core'
-import StarterKit from '@tiptap/starter-kit'
-import SmartDraw from '../extensions/SmartDraw/SmartDraw'
-import { SmartBanner } from '../extensions/SmartBanner/SmartBanner'
-import TreeNode from '../entities/TreeNode'
-import SmartLink from '../extensions/SmartLink/SmartLink'
-import TaskList from '@tiptap/extension-task-list'
-import TaskItem from '@tiptap/extension-task-item'
-import * as Y from 'yjs'
-import { WebrtcProvider } from 'y-webrtc'
-import Table from '@tiptap/extension-table'
-import TableRow from '@tiptap/extension-table-row'
-import TableCell from '@tiptap/extension-table-cell'
-import TableHeader from '@tiptap/extension-table-header'
-
-const ydoc = new Y.Doc()
+import makeExtensions from './Extensions'
+import EditorData from './EditorData'
 
 interface Props {
     content: string
     editable: boolean
-    onUpdate: (treeNode: TreeNode) => void
+    onUpdate: (data: EditorData) => void
     drawIoLink?: string
 }
-
-const provider = new WebrtcProvider('tiptap-collaboration-cursor-extension', ydoc)
 
 class TiptapAgent {
     static create(props: Props): Editor {
         return new Editor({
-            extensions: [
-                StarterKit.configure({
-                    document: false,
-                    codeBlock: false,
-                    history: false,
-                    blockquote: false,
-                    code: false,
-                }),
-                Blockquote.configure({
-                    HTMLAttributes: {
-                        class: 'my-custom-class',
-                    },
-                }),
-                Code.configure({
-                    HTMLAttributes: {
-                        class: 'my-custom-class',
-                    },
-                }),
-                CodeEditor,
-                CharacterCount,
-                Collaboration.configure({
-                    document: ydoc,
-                }),
-                Document.extend({
-                    content: 'heading block*'
-                }),
-                Placeholder.configure({
-                    placeholder: ({ node }) => {
-                        if (node.type.name === 'heading' && node.attrs.level == 1) {
-                            return '输入标题'
-                        }
-
-                        return ''
-                    }
-                }),
-                SmartBanner,
-                SmartImage.configure({
-                    allowBase64: true,
-                    HTMLAttributes: {
-                        class: ''
-                    }
-                }),
-                SmartLink.configure({
-                    protocols: ['ftp', 'mailto'],
-                    autolink: true,
-                    openOnClick: true,
-                    linkOnPaste: true,
-                    HTMLAttributes: {
-                        class: 'link link-primary link-hover mx-1',
-                    },
-                }),
-                SmartDraw.configure({
-                    drawIoLink: props.drawIoLink,
-                    openDialog: 'click'
-                }),
-                Table.configure({
-                    HTMLAttributes: {
-                        class: 'my-custom-class',
-                    },
-                }),
-                TableRow,
-                TableCell,
-                TableHeader,
-                TaskItem.configure({
-                    nested: true,
-                }),
-                TaskList.configure({
-                    HTMLAttributes: {
-                        class: 'my-task-class',
-                    },
-                }),
-                Toc
-            ],
+            extensions: makeExtensions({
+                drawIoLink: props.drawIoLink,
+            }),
             autofocus: true,
             content: props.content,
             editable: props.editable,
             onUpdate: ({ editor }) => {
-                let treeNode = TiptapAgent.getTreeNodeFromEditor(editor)
+                let editorData = EditorData.fromEditor(editor)
                 if (props.onUpdate) {
                     console.log('TiptapEditor: onUpdate, callback with TreeNode')
-                    props.onUpdate(treeNode)
+                    props.onUpdate(editorData)
                 } else {
                     console.log('TiptapEditor: onUpdate, no callback')
                 }
             }
-        })
-    }
-
-    static getTreeNodeFromEditor(editor: TiptapEditor): TreeNode {
-        let nodes = editor.state.doc.content
-        let title = ''
-        nodes.forEach((node) => {
-            if (node.type.name == 'heading' && title == '') {
-                title = node.textContent!
-            }
-        })
-
-        return new TreeNode({
-            title: title,
-            content: editor.getHTML(),
-            jsonContent: editor.getJSON(),
-            characterCount: editor.storage.characterCount.characters(),
-            wordCount: editor.storage.characterCount.words()
         })
     }
 }

@@ -22,12 +22,9 @@ import { EditorContent } from '@tiptap/vue-3'
 import { onBeforeUnmount, onMounted, watch } from 'vue'
 import BubbleMenus from './BubbleMenus.vue'
 import FloatMenus from './FloatMenus.vue'
-import IconInfo from '../icons/IconInfo.vue'
 import TiptapAgent from '../entities/TiptapAgent'
 import DrawAgent from '../entities/DrawAgent'
-import TreeNode from '../entities/TreeNode'
-
-let isDebug = process.env.NODE_ENV === 'development'
+import EditorData from 'src/entities/EditorData'
 
 const props = defineProps({
   content: {
@@ -48,8 +45,8 @@ var editor = TiptapAgent.create({
   content: props.content,
   editable: props.editable,
   drawIoLink: DrawAgent.getLink(),
-  onUpdate: (treeNode: TreeNode) => {
-    props.onUpdate(treeNode)
+  onUpdate: (data: EditorData) => {
+    props.onUpdate(data)
   }
 })
 

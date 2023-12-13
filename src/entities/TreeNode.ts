@@ -44,6 +44,30 @@ export default class TreeNode {
         }
     }
 
+    update(params: TreeNodeParams): this {
+        this.id = params.id || this.id
+        this.title = params.title || this.title
+        this.priority = params.priority || this.priority
+        this.isBook = params.isBook || this.isBook
+        this.content = params.content || this.content
+        this.characterCount = params.characterCount || this.characterCount
+        this.wordCount = params.wordCount || this.wordCount
+        this.lastSyncedAt = params.lastSyncedAt || this.lastSyncedAt
+        this.children = []
+        if (params.children) {
+            params.children.forEach((element: Object) => {
+                this.children.push(new TreeNode(element))
+            });
+        }
+
+        return this
+    }
+
+    setId(id: string): this {
+        this.id = id
+        return this
+    }
+
     setTitle(title: string): this {
         this.title = title
         return this

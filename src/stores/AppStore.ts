@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import Sample from '../entities/Sample'
 import TreeNode from '../entities/TreeNode'
+import EditorData from 'src/entities/EditorData'
 
 const isDebug = process.env.NODE_ENV === 'development'
 
@@ -41,25 +42,22 @@ export const useAppStore = defineStore('app-store', {
             this.enableEdit()
         },
 
-        updateNode: function (newNode: Object) {
-            if (this.node.sameWith(new TreeNode(newNode))) {
-                console.log('更新节点时发现无变化，忽略')
-                return
-            }
-
+        updateNode: function (data: object) {
             this.loading = true
             console.log('更新节点')
 
-            try {
-                this.node = new TreeNode(newNode)
+            const oldNode = this.node.toJSON()
 
-                // 关闭画图
-                document.dispatchEvent(new CustomEvent('close-draw'))
-            } catch (e) {
-                console.log('执行 updateNode 失败', e)
-            }
+            this.node = this.node.update(data)
+
+            document.dispatchEvent(new CustomEvent('close-draw'))
 
             this.loading = false
+
+            if (this.node.toJSON() == oldNode) {
+                console.log('更新节点时发现无变化，无需通知 WebKit', this.node, oldNode)
+                return
+            }
 
             if (!('webkit' in window)) {
                 return
