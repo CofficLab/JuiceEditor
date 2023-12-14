@@ -2,7 +2,7 @@
   <div class="flex flex-col h-full w-full relative overflow-scroll">
     <!-- 操作栏 -->
     <div
-      class="flex flex-row container mx-auto justify-end mt-4 sticky top-4 join"
+      class="flex flex-row container mx-auto justify-end mt-4 sticky top-4 join z-50"
       v-if="featureStore.toolbarVisible"
     >
       <button

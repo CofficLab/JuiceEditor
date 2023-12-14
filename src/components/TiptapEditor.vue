@@ -11,7 +11,7 @@
       <editor-content :editor="editor" />
     </div>
 
-    <div class="container mx-auto px-4 md:px-0 flex flex-col pb-48 prose dark:prose-invert">
+    <div class="container mx-4 lg:mx-auto px-4 md:px-0 flex flex-col pb-48 prose dark:prose-invert">
       <editor-content :editor="editor" />
     </div>
   </div>
@@ -19,7 +19,7 @@
 
 <script lang="ts" setup>
 import { EditorContent } from '@tiptap/vue-3'
-import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { onBeforeUnmount, onMounted, watch } from 'vue'
 import BubbleMenus from './BubbleMenus.vue'
 import FloatMenus from './FloatMenus.vue'
 import TiptapAgent from '../entities/TiptapAgent'
