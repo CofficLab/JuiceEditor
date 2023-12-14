@@ -14,7 +14,7 @@
         </figure>
 
         <!-- 菜单按钮 -->
-        <div class="absolute top-0 right-0 z-50 p-0 flex items-end" v-if="editor.isEditable">
+        <div class="absolute top-0 right-0 z-40 p-0 flex items-end" v-if="editor.isEditable">
           <div class="dropdown dropdown-hover dropdown-bottom dropdown-end m-0">
             <label
               tabindex="0"
