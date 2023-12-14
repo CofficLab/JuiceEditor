@@ -27,7 +27,7 @@
         </button>
         <button class="w-10" @click="editor.chain().focus().toggleBulletList().run()"
           :class="{ 'is-active': editor.isActive('bulletList') }">
-          <img src="../icons/list.bullet.svg" alt="" class="m-0" />
+          <img src="../assets/list.bullet.svg" alt="" class="m-0" />
         </button>
         <button class="w-10" @click="editor.chain().focus().toggleCodeBlock().run()"
           :class="{ 'is-active': editor.isActive('codeBlock') }">
@@ -35,60 +35,60 @@
         </button>
         <button class="w-10" @click="editor.chain().focus().toggleBanner().run()"
           :class="{ 'is-active': editor.isActive('banner') }">
-          <img src="../icons/123.rectangle.fill.svg" alt="" class="m-0" />
+          <img src="../assets/123.rectangle.fill.svg" alt="" class="m-0" />
         </button>
 
         <!-- 图片 -->
         <button class="w-10" @click="addImage" :class="{ 'is-active': editor.isActive('banner') }">
-          <img src="../icons/photo.svg" alt="" class="m-0" />
+          <img src="../assets/photo.svg" alt="" class="m-0" />
         </button>
 
         <!-- 画图 -->
         <button class="w-10"  v-if="isDrawEnable" @click="editor.commands.insertDrawIo()">
-          <img src="../icons/compass.drawing.svg" alt="" class="m-0" />
+          <img src="../assets/compass.drawing.svg" alt="" class="m-0" />
         </button>
 
         <!-- 添加表格 -->
         <button class="w-10" v-if="isTableEnable" @click="
           editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()
           ">
-          <img src="../icons/tablecells.svg" alt="" class="m-0" />
+          <img src="../assets/tablecells.svg" alt="" class="m-0" />
         </button>
 
         <!-- 添加换行 -->
         <button class="w-10" @click="setHardBreak">
-          <img src="../icons/return.svg" alt="" class="m-0" />
+          <img src="../assets/return.svg" alt="" class="m-0" />
         </button>
       </div>
 
       <!-- 表格的操作 -->
       <div class="flex flex-wrap justify-start flex-row pt-2 gap-4" v-if="editor.isActive('table')">
         <button v-if="editor.isActive('tableCell')" @click="editor.chain().focus().addColumnBefore().run()">
-          <img src="../icons/table.column.plus.before.svg" alt="" class="m-0 w-5 h-5" />
+          <img src="../assets/table.column.plus.before.svg" alt="" class="m-0 w-5 h-5" />
         </button>
         <button v-if="editor.isActive('tableCell')" @click="editor.chain().focus().addColumnAfter().run()">
-          <img src="../icons/table.column.plus.after.svg" alt="" class="m-0 w-5 h-5" />
+          <img src="../assets/table.column.plus.after.svg" alt="" class="m-0 w-5 h-5" />
         </button>
         <button v-if="editor.isActive('tableCell')" @click="editor.chain().focus().deleteColumn().run()">
-          <img src="../icons/table.column.remove.svg" alt="" class="m-0 w-6 h-6" />
+          <img src="../assets/table.column.remove.svg" alt="" class="m-0 w-6 h-6" />
         </button>
         <button v-if="editor.isActive('tableCell')" @click="editor.chain().focus().addRowBefore().run()">
-          <img src="../icons/table.row.plus.before.svg" alt="" class="m-0 w-6 h-6" />
+          <img src="../assets/table.row.plus.before.svg" alt="" class="m-0 w-6 h-6" />
         </button>
         <button v-if="editor.isActive('tableCell')" @click="editor.chain().focus().addRowAfter().run()">
-          <img src="../icons/table.row.plus.after.svg" alt="" class="m-0 w-6 h-6" />
+          <img src="../assets/table.row.plus.after.svg" alt="" class="m-0 w-6 h-6" />
         </button>
         <button v-if="editor.isActive('tableCell')" @click="editor.chain().focus().deleteRow().run()">
-          <img src="../icons/table.row.remove.svg" alt="" class="m-0 w-6 h-6" />
+          <img src="../assets/table.row.remove.svg" alt="" class="m-0 w-6 h-6" />
         </button>
         <button v-if="editor.isActive('tableCell')" @click="editor.chain().focus().deleteTable().run()">
-          <img src="../icons/table.remove.svg" alt="" class="m-0 w-6 h-6" />
+          <img src="../assets/table.remove.svg" alt="" class="m-0 w-6 h-6" />
         </button>
         <button v-if="editor.isActive('tableCell')" @click="editor.chain().focus().mergeCells().run()">
-          <img src="../icons/table.cell.merge.svg" alt="" class="m-0 w-6 h-6" />
+          <img src="../assets/table.cell.merge.svg" alt="" class="m-0 w-6 h-6" />
         </button>
         <button v-if="editor.isActive('tableCell')" @click="editor.chain().focus().splitCell().run()">
-          <img src="../icons/table.cell.split.svg" alt="" class="w-6 h-6 m-0" />
+          <img src="../assets/table.cell.split.svg" alt="" class="w-6 h-6 m-0" />
         </button>
         <!-- <button
           v-if="editor.isActive('tableCell')"

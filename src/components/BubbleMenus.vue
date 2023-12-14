@@ -40,34 +40,34 @@
       @click="editor.chain().focus().setParagraph().run()"
       :class="{ 'is-active': editor.isActive('paragraph', { level: 3 }) }"
     >
-      <img src="../icons/character.svg" alt="" class="m-0" />
+      <img src="../assets/character.svg" alt="" class="m-0" />
     </button>
     <button
       @click="editor.chain().focus().toggleBold().run()"
       :class="{ 'is-active': editor.isActive('bold') }"
     >
-      <img src="../icons/bold.svg" class="m-0" />
+      <img src="../assets/bold.svg" class="m-0" />
     </button>
     <button
       @click="editor.chain().focus().toggleItalic().run()"
       :class="{ 'is-active': editor.isActive('italic') }"
     >
-      <img src="../icons/italic.svg" class="m-0" />
+      <img src="../assets/italic.svg" class="m-0" />
     </button>
     <button
       @click="editor.chain().focus().toggleStrike().run()"
       :class="{ 'is-active': editor.isActive('strike') }"
     >
-      <img src="../icons/strikethrough.svg" class="m-0" />
+      <img src="../assets/strikethrough.svg" class="m-0" />
     </button>
     <button
       @click="editor.chain().focus().toggleBulletList().run()"
       :class="{ 'is-active': editor.isActive('bulletList') }"
     >
-      <img src="../icons/list.bullet.svg" class="m-0" />
+      <img src="../assets/list.bullet.svg" class="m-0" />
     </button>
     <button @click="setHardBreak">
-      <img src="../icons/return.svg" class="m-0" />
+      <img src="../assets/return.svg" class="m-0" />
     </button>
 
     <button
@@ -75,13 +75,13 @@
       @click="setLink"
       :class="{ 'btn-disabled': editor.isActive('link') }"
     >
-      <img src="../icons/link.svg" class="m-0" />
+      <img src="../assets/link.svg" class="m-0" />
     </button>
     <button
       @click="editor.chain().focus().toggleTaskList().run()"
       :class="{ 'is-active': editor.isActive('taskList') }"
     >
-      <img src="../icons/checklist.svg" alt="" class="m-0" />
+      <img src="../assets/checklist.svg" alt="" class="m-0" />
     </button>
     <!-- <button @click="editor.chain().focus().splitListItem('taskItem').run()"
       :disabled="!editor.can().splitListItem('taskItem')">
@@ -91,19 +91,19 @@
       @click="editor.chain().focus().sinkListItem('taskItem').run()"
       :disabled="!editor.can().sinkListItem('taskItem')"
     >
-      <img src="../icons/increase.indent.svg" alt="" class="m-0" />
+      <img src="../assets/increase.indent.svg" alt="" class="m-0" />
     </button>
     <button
       @click="editor.chain().focus().liftListItem('taskItem').run()"
       :disabled="!editor.can().liftListItem('taskItem')"
     >
-      <img src="../icons/decrease.indent.svg" alt="" class="m-0" />
+      <img src="../assets/decrease.indent.svg" alt="" class="m-0" />
     </button>
     <button
       @click="editor.chain().focus().toggleBlockquote().run()"
       :class="{ 'is-active': editor.isActive('blockquote') }"
     >
-      <img src="../icons/quote.opening.svg" alt="" class="m-0" />
+      <img src="../assets/quote.opening.svg" alt="" class="m-0" />
     </button>
     <button
       @click="editor.chain().focus().toggleCode().run()"
