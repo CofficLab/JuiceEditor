@@ -3,6 +3,7 @@ import makeExtensions from './Extensions'
 import EditorData from './EditorData'
 
 interface Props {
+    uuid: string,
     content: string
     editable: boolean
     onUpdate: (data: EditorData) => void
@@ -19,6 +20,7 @@ class TiptapAgent {
                 drawEnable: props.drawEnable,
                 tableEnable: props.tableEnable,
             }),
+            injectNonce: props.uuid,
             autofocus: true,
             content: props.content,
             editable: props.editable,
@@ -46,7 +48,7 @@ class TiptapAgent {
         })
     }
 
-    static shouldShowFloatingMenu (props: {
+    static shouldShowFloatingMenu(props: {
         editor: import('@tiptap/core').Editor
         view: import('prosemirror-view').EditorView
         state: import('prosemirror-state').EditorState

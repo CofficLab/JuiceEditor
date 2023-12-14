@@ -83,6 +83,7 @@
         :tableEnable="featureStore.tableEnabled"
         :drawEnable="featureStore.drawEnabled"
         :onUpdate="appStore.updateNode"
+        :uuid="node.id"
       />
 
       <!-- 子节点 -->

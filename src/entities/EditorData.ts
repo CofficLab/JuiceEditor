@@ -1,6 +1,7 @@
 import { Editor } from '@tiptap/core'
 
 export default class EditorData {
+    public uuid: string = ""
     public title: string = ""
     public content: string = ""
     public characterCount: number = 0
@@ -16,10 +17,16 @@ export default class EditorData {
         })
 
         return new EditorData()
+            .setUuid(editor.options.injectNonce ?? "")
             .setTitle(title)
             .setContent(editor.getHTML())
             .setCharacterCount(editor.storage.characterCount.characters())
             .setWordCount(editor.storage.characterCount.words())
+    }
+
+    setUuid(uuid: string): this {
+        this.uuid = uuid
+        return this
     }
 
     setTitle(title: string): this {

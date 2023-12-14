@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import Sample from '../entities/Sample'
 import TreeNode from '../entities/TreeNode'
+import EditorData from '../entities/EditorData'
 
 const isDebug = process.env.NODE_ENV === 'development'
 
@@ -18,22 +19,19 @@ export const useAppStore = defineStore('app-store', {
             return this.node.content
         },
 
-        updateNode: function (data: object) {
+        setCurrentNode: function (data: object) {
             this.loading = true
-            console.log('更新节点')
+            console.log('设置当前节点', data)
 
-            const oldNode = this.node.toJSON()
-
-            this.node = this.node.update(data)
+            this.node = new TreeNode(data)
 
             document.dispatchEvent(new CustomEvent('close-draw'))
 
             this.loading = false
+        },
 
-            if (this.node.toJSON() == oldNode) {
-                console.log('更新节点时发现无变化，无需通知 WebKit', this.node, oldNode)
-                return
-            }
+        updateNode: function (data: EditorData) {
+            console.log('更新节点', data)
 
             if (!('webkit' in window)) {
                 return
@@ -44,11 +42,11 @@ export const useAppStore = defineStore('app-store', {
                 try {
                     // 只能传字符、只能传普通object
                     ; (window as any).webkit.messageHandlers.updateContent.postMessage({
-                        content: this.node.content,
-                        title: this.node.title,
-                        id: this.node.id,
-                        characterCount: `${this.node.characterCount}`,
-                        wordCount: `${this.node.wordCount}`
+                        content: data.content,
+                        title: data.title,
+                        id: data.uuid,
+                        characterCount: `${data.characterCount}`,
+                        wordCount: `${data.wordCount}`
                     })
                 } catch (e) {
                     console.log('更新内容失败', e)

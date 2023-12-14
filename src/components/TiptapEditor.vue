@@ -23,6 +23,10 @@ import EditorData from 'src/entities/EditorData'
 import { Editor } from '@tiptap/vue-3'
 
 const props = defineProps({
+  uuid: {
+    type: String,
+    required: true
+  },
   content: {
     type: String,
     default: ''
@@ -34,7 +38,7 @@ const props = defineProps({
   drawEnable: {
     required: true,
     type: Boolean,
-    default: false,
+    default: false
   },
   tableEnable: {
     type: Boolean,
@@ -51,6 +55,7 @@ const editor = makeEditor(props)
 
 function makeEditor(props: any): Editor {
   return TiptapAgent.create({
+    uuid: props.uuid,
     content: props.content,
     editable: props.editable,
     drawIoLink: DrawAgent.getLink(),
@@ -65,14 +70,11 @@ function makeEditor(props: any): Editor {
 watch(props, () => {
   console.log('TiptapEditor: props changed')
 
-  if (props.editable != editor.isEditable) {
-    editor.setEditable(props.editable)
-  }
-
-  if (editor.getHTML() !== props.content) {
-    console.log('TiptapEditor: props.content changed, update content')
-    editor.commands.setContent(props.content, false)
-  }
+  editor.setEditable(props.editable)
+  editor.commands.setContent(props.content, false)
+  editor.setOptions({
+    injectNonce: props.uuid
+  })
 })
 
 onMounted(() => {
