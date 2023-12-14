@@ -59,6 +59,10 @@ export const useAppStore = defineStore('app-store', {
         setReady() {
             this.ready = true
 
+            if (!('webkit' in window)) {
+                return
+            }
+
             console.log('调用 WebKit 以通知 Swift 页面加载完成')
             try {
                 ; (window as any).webkit.messageHandlers.pageLoaded.postMessage({})

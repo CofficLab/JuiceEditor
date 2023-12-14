@@ -6,11 +6,6 @@
     <!-- 回车后弹出的菜单 -->
     <FloatMenus :editor="editor" v-if="editable"></FloatMenus>
 
-    <!-- 操作栏 -->
-    <div v-if="editor">
-      <editor-content :editor="editor" />
-    </div>
-
     <div class="container mx-4 lg:mx-auto px-4 md:px-0 flex flex-col pb-48 prose dark:prose-invert">
       <editor-content :editor="editor" />
     </div>
