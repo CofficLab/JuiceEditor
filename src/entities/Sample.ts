@@ -29,10 +29,31 @@ const liteNode = new TreeNode({
   `
 })
 
+const nodeWithChildren = new TreeNode({
+  content: `
+    <h1>带有子节点</h1>
+  `,
+  children: [
+    new TreeNode({
+      title: '子节点',
+      content: `
+        <h1>子节点</h1>
+      `
+    }),
+    new TreeNode({
+      title: '子节点',
+      content: `
+        <h1>子节点</h1>
+      `
+    })
+  ]
+})
+
 const Sample = {
   sampleNode,
   liteNode,
-  sampleImgSrc
+  sampleImgSrc,
+  nodeWithChildren
 }
 
 export default Sample
