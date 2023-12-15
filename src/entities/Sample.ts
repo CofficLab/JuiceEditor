@@ -36,6 +36,7 @@ const tableNode = new TreeNode({
   content: `
     <h1>测试内容</h1>
     <h2>表格</h2>
+    <p>记得开启表格功能</p>
     <table>
       <tr>
         <td>1</td>
