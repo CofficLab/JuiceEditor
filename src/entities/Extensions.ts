@@ -95,6 +95,7 @@ function makeExtensions(props: makeExtensionsProps) {
     if (props.tableEnable) {
         extensions.push(
             Table.configure({
+                resizable: true,
                 HTMLAttributes: {
                     class: 'my-custom-class',
                 },
