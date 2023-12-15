@@ -16,6 +16,10 @@ import SmartImage from "../extensions/SmartImage/SmartImage"
 import SmartLink from "../extensions/SmartLink/SmartLink"
 import { Toc } from "../extensions/Toc/Toc"
 import { Document } from "@tiptap/extension-document"
+import { SmartTableView } from "../extensions/SmartTable/SmartTableView"
+import SmartTable from "../extensions/SmartTable/SmartTable"
+import SmartTableCell from "../extensions/SmartTableCell/SmartTableCell"
+import SmartTableRow from "../extensions/SmartTableRow/SmartTableRow"
 
 interface makeExtensionsProps {
     drawIoLink?: string,
@@ -94,13 +98,15 @@ function makeExtensions(props: makeExtensionsProps) {
 
     if (props.tableEnable) {
         extensions.push(
-            Table.configure({
+            SmartTable.configure({
                 resizable: true,
+                // @ts-ignore
+                View: SmartTableView,
                 HTMLAttributes: {
-                    class: 'my-custom-class',
+                    class: 'smart-table',
                 },
             }),
-            TableRow,
+            SmartTableRow,
             TableCell,
             TableHeader
         );

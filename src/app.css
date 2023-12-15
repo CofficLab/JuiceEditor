@@ -31,3 +31,7 @@
     @apply my-0 py-0 !important;
   }
 }
+
+.operations {
+  @apply bg-info w-full h-10
+}

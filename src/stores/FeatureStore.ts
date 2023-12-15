@@ -6,11 +6,11 @@ export const useFeatureStore = defineStore('feature-store', {
     state: () => {
         return {
             updatedAt: Date.now(),
-            editable: false,
+            editable: isDebug,
             editorVisible: true,
             toolbarVisible: isDebug,
             drawEnabled: false,
-            tableEnabled: false,
+            tableEnabled: isDebug,
         }
     },
 

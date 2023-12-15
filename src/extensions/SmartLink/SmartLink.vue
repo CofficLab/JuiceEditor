@@ -38,7 +38,7 @@
 </template>
 <script setup lang="ts">
 import { nodeViewProps, NodeViewWrapper, NodeViewContent } from '@tiptap/vue-3'
-import IconDelete from './icons/Delete.vue'
+import IconDelete from './Icons/Delete.vue'
 import { watch } from 'vue'
 
 const props = defineProps(nodeViewProps)

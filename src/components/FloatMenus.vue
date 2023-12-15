@@ -163,8 +163,6 @@ const shouldShowFloatingMenu = TiptapAgent.shouldShowFloatingMenu
 const isDrawEnable = TiptapAgent.isDrawEnable(props.editor)
 const isTableEnable = TiptapAgent.isTableEnable(props.editor)
 
-console.log(isDrawEnable)
-
 function addImage() {
   console.log('添加图片')
   fileInput.value?.click()
@@ -198,7 +196,7 @@ let setHardBreak = function () {
 
 <style scoped lang="postcss">
 .floating-menu {
-  @apply bg-info/95 text-info-content rounded-md px-2 py-1 flex flex-col flex-wrap ml-2;
+  @apply bg-info/95 text-info-content rounded-md px-2 py-1 flex flex-col flex-wrap ml-2 mb-40;
 
   button {
     @apply btn btn-sm btn-ghost px-1;
