@@ -2,7 +2,7 @@
   <node-view-wrapper>
     <!-- 表格的操作 -->
     <template v-if="shouldShow">
-      <div class="menus" contenteditable="false">
+      <div class="table-menus" contenteditable="false">
         <button @click="editor.chain().focus().addColumnBefore().run()">
           <img src="../../assets/table.column.plus.before.svg" alt="" class="m-0 w-5 h-5" />
         </button>
@@ -80,12 +80,86 @@ onMounted(() => {
 })
 </script>
 
-<style lang="postcss" scoped>
-.menus {
+<style lang="postcss">
+.table-menus {
   @apply bg-success/90 text-info-content rounded-md px-2 py-1 flex flex-row flex-wrap;
 
   button {
     @apply btn btn-sm btn-ghost px-1;
   }
+}
+
+.tiptap {
+  table {
+    border-collapse: collapse;
+    table-layout: fixed;
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
+
+    td,
+    th {
+      min-width: 1em;
+      border: 2px solid #ced4da;
+      padding: 3px 5px;
+      vertical-align: top;
+      box-sizing: border-box;
+      position: relative;
+
+      > * {
+        margin-bottom: 0;
+      }
+    }
+
+    th {
+      font-weight: bold;
+      text-align: left;
+      background-color: #f1f3f5;
+    }
+
+    th {
+      @apply dark:bg-green-800/20 dark:border-blue-800;
+    }
+
+    td {
+      @apply dark:border-blue-900;
+    }
+
+    .selectedCell:after {
+      z-index: 2;
+      position: absolute;
+      content: '';
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      background: rgba(200, 200, 255, 0.4);
+      pointer-events: none;
+    }
+
+    .column-resize-handle {
+      position: absolute;
+      right: -2px;
+      top: 0;
+      bottom: -2px;
+      width: 4px;
+      background-color: #adf;
+      pointer-events: none;
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+}
+
+.tableWrapper {
+  padding: 1rem 0;
+  overflow-x: auto;
+}
+
+.resize-cursor {
+  cursor: ew-resize;
+  cursor: col-resize;
 }
 </style>

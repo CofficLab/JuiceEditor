@@ -40,12 +40,16 @@ const tableNode = new TreeNode({
     <smart-table>
     <table>
       <tr>
-        <td>1</td>
-        <td>2</td>
+        <th>1</th>
+        <th>2</th>
       </tr>
       <tr>
         <td>3</td>
         <td>4</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>6</td>
       </tr>
     </table>
     </smart-table>
