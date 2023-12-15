@@ -115,10 +115,14 @@
 
 <script setup lang="ts">
 import { nodeViewProps, NodeViewWrapper, NodeViewContent } from '@tiptap/vue-3'
-import { ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 
 const props = defineProps(nodeViewProps)
 const shouldShow = ref(false)
+// 是否是整个editor.state.doc.content的最后一个node
+let isTheLastNode = computed(
+  () => props.node.nodeSize + props.getPos() == props.editor.state.doc.content.size
+)
 
 document.addEventListener('click', function () {
   console.log('clicked', props.getPos(), props.node.nodeSize, props.editor.state.selection.anchor)
@@ -127,6 +131,19 @@ document.addEventListener('click', function () {
   const start = props.getPos()
   const end = props.getPos() + props.node.nodeSize
   shouldShow.value = currentPos >= start && currentPos <= end
+})
+
+onMounted(() => {
+  // 如果是最后一个节点，在本节点后插入一个空的p，防止光标无法移动到下一个节点
+  if (isTheLastNode.value) {
+    let tail = props.editor.state.doc.content.size
+    props.editor.commands.insertContentAt(tail, '<p></p>', {
+      updateSelection: false,
+      parseOptions: {
+        preserveWhitespace: 'full'
+      }
+    })
+  }
 })
 </script>
 
