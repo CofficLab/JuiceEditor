@@ -1,7 +1,7 @@
 <template>
-  <node-view-wrapper class="tiptap">
+  <node-view-wrapper class="tiptap" @click="onClicked">
     <!-- 表格的操作 -->
-    <template v-if="editor.isActive('table')">
+    <template v-if="shouldShow">
       <div class="menus">
         <button
           v-if="editor.isActive('tableCell')"
@@ -112,15 +112,31 @@
     <NodeViewContent as="div" />
   </node-view-wrapper>
 </template>
+
 <script setup lang="ts">
 import { nodeViewProps, NodeViewWrapper, NodeViewContent } from '@tiptap/vue-3'
 import IconDelete from './Icons/Delete.vue'
-import { watch, onMounted } from 'vue'
+import { watch, onMounted, ref } from 'vue'
+
+const props = defineProps(nodeViewProps)
+const shouldShow = ref(false)
+
+function onClicked() {
+  shouldShow.value = true
+}
+
+document.addEventListener('click', function () {
+  console.log('clicked', props.getPos(), props.node.nodeSize, props.editor.state.selection.anchor)
+
+  const currentPos = props.editor.state.selection.anchor
+  shouldShow.value =
+    currentPos >= props.getPos() && currentPos <= props.getPos() + props.node.nodeSize
+})
 </script>
 
 <style lang="postcss" scoped>
 .menus {
-  @apply bg-info/95 text-info-content rounded-md px-2 py-1 flex flex-row flex-wrap;
+  @apply bg-success/90 text-info-content rounded-md px-2 py-1 flex flex-row flex-wrap;
 
   button {
     @apply btn btn-sm btn-ghost px-1;
