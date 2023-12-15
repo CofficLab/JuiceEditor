@@ -1,5 +1,5 @@
 <template>
-  <node-view-wrapper class="tiptap" @click="onClicked">
+  <node-view-wrapper class="tiptap">
     <!-- 表格的操作 -->
     <template v-if="shouldShow">
       <div class="menus">
@@ -115,22 +115,18 @@
 
 <script setup lang="ts">
 import { nodeViewProps, NodeViewWrapper, NodeViewContent } from '@tiptap/vue-3'
-import IconDelete from './Icons/Delete.vue'
-import { watch, onMounted, ref } from 'vue'
+import { ref } from 'vue'
 
 const props = defineProps(nodeViewProps)
 const shouldShow = ref(false)
-
-function onClicked() {
-  shouldShow.value = true
-}
 
 document.addEventListener('click', function () {
   console.log('clicked', props.getPos(), props.node.nodeSize, props.editor.state.selection.anchor)
 
   const currentPos = props.editor.state.selection.anchor
-  shouldShow.value =
-    currentPos >= props.getPos() && currentPos <= props.getPos() + props.node.nodeSize
+  const start = props.getPos()
+  const end = props.getPos() + props.node.nodeSize
+  shouldShow.value = currentPos >= start && currentPos <= end
 })
 </script>
 
