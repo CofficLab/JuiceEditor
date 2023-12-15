@@ -6,88 +6,6 @@
     <!-- 回车后弹出的菜单 -->
     <FloatMenus :editor="editor" v-if="editable"></FloatMenus>
 
-    <!-- 操作栏 -->
-    <div class="operation-bar hidden">
-      <!-- 表格的操作 -->
-      <!-- <div class="operation-bar-table hidden" v-if="editor.isActive('table')">
-        <button v-if="editor.isActive('tableCell')" @click="editor.chain().focus().addColumnBefore().run()">
-          <img src="../assets/table.column.plus.before.svg" alt="" class="m-0 w-5 h-5" />
-        </button>
-        <button v-if="editor.isActive('tableCell')" @click="editor.chain().focus().addColumnAfter().run()">
-          <img src="../assets/table.column.plus.after.svg" alt="" class="m-0 w-5 h-5" />
-        </button>
-        <button v-if="editor.isActive('tableCell')" @click="editor.chain().focus().deleteColumn().run()">
-          <img src="../assets/table.column.remove.svg" alt="" class="m-0 w-6 h-6" />
-        </button>
-        <button v-if="editor.isActive('tableCell')" @click="editor.chain().focus().addRowBefore().run()">
-          <img src="../assets/table.row.plus.before.svg" alt="" class="m-0 w-6 h-6" />
-        </button>
-        <button v-if="editor.isActive('tableCell')" @click="editor.chain().focus().addRowAfter().run()">
-          <img src="../assets/table.row.plus.after.svg" alt="" class="m-0 w-6 h-6" />
-        </button>
-        <button v-if="editor.isActive('tableCell')" @click="editor.chain().focus().deleteRow().run()">
-          <img src="../assets/table.row.remove.svg" alt="" class="m-0 w-6 h-6" />
-        </button>
-        <button v-if="editor.isActive('tableCell')" @click="editor.chain().focus().deleteTable().run()">
-          <img src="../assets/table.remove.svg" alt="" class="m-0 w-6 h-6" />
-        </button>
-        <button v-if="editor.isActive('tableCell')" @click="editor.chain().focus().mergeCells().run()">
-          <img src="../assets/table.cell.merge.svg" alt="" class="m-0 w-6 h-6" />
-        </button>
-        <button v-if="editor.isActive('tableCell')" @click="editor.chain().focus().splitCell().run()">
-          <img src="../assets/table.cell.split.svg" alt="" class="w-6 h-6 m-0" />
-        </button>
-        <button
-          v-if="editor.isActive('tableCell')"
-          @click="editor.chain().focus().toggleHeaderColumn().run()"
-        >
-          切换表头列
-        </button>
-        <button
-          v-if="editor.isActive('tableCell')"
-          @click="editor.chain().focus().toggleHeaderRow().run()"
-        >
-          切换表头行
-        </button>
-        <button
-          v-if="editor.isActive('tableCell')"
-          @click="editor.chain().focus().toggleHeaderCell().run()"
-        >
-          切换表头格
-        </button>
-        <button
-          v-if="editor.isActive('tableCell')"
-          @click="editor.chain().focus().mergeOrSplit().run()"
-        >
-          合并或拆分
-        </button>
-        <button
-          v-if="editor.isActive('tableCell')"
-          @click="editor.chain().focus().setCellAttribute('colspan', 2).run()"
-        >
-          占两格
-        </button>
-        <button
-          v-if="editor.isActive('tableCell')"
-          @click="editor.chain().focus().fixTables().run()"
-        >
-          修复
-        </button>
-        <button
-          v-if="editor.isActive('tableCell')"
-          @click="editor.chain().focus().goToNextCell().run()"
-        >
-          下一格
-        </button>
-        <button
-          v-if="editor.isActive('tableCell')"
-          @click="editor.chain().focus().goToPreviousCell().run()"
-        >
-          上一格
-        </button>
-      </div> -->
-    </div>
-
     <div class="container mx-4 lg:mx-auto px-4 md:px-0 flex flex-col pb-48 prose dark:prose-invert">
       <editor-content :editor="editor" />
     </div>
@@ -129,7 +47,7 @@ const props = defineProps({
   },
   onUpdate: {
     type: Function,
-    default: () => { }
+    default: () => {}
   }
 })
 
@@ -166,9 +84,9 @@ watch(isTableActive, (newValue, oldValue) => {
   console.log('TiptapEditor: isTableActive changed')
 
   if (newValue) {
-    let tableOperationsDom = document.getElementsByClassName("operations").item(0)
+    let tableOperationsDom = document.getElementsByClassName('operations').item(0)
     if (tableOperationsDom) {
-      tableOperationsDom.innerHTML = "xxxxx"
+      tableOperationsDom.innerHTML = 'xxxxx'
     }
   }
 })
@@ -191,7 +109,7 @@ document.addEventListener('add-row', (event) => {
 
 <style lang="scss">
 .ProseMirror {
-  >*+* {
+  > * + * {
     margin-top: 0.75em;
   }
 
@@ -208,7 +126,7 @@ document.addEventListener('add-row', (event) => {
 
 /* Basic editor styles */
 .ProseMirror {
-  >*+* {
+  > * + * {
     margin-top: 0.75em;
   }
 }
@@ -242,13 +160,13 @@ ul[data-type='taskList'] {
   li {
     display: flex;
 
-    >label {
+    > label {
       flex: 0 0 auto;
       margin-right: 0.5rem;
       user-select: none;
     }
 
-    >div {
+    > div {
       flex: 1 1 auto;
     }
 
@@ -257,7 +175,7 @@ ul[data-type='taskList'] {
       display: list-item;
     }
 
-    ul[data-type='taskList']>li {
+    ul[data-type='taskList'] > li {
       display: flex;
     }
   }
@@ -282,7 +200,7 @@ ul[data-type='taskList'] {
       box-sizing: border-box;
       position: relative;
 
-      >* {
+      > * {
         margin-bottom: 0;
       }
     }
@@ -337,7 +255,7 @@ ul[data-type='taskList'] {
   @apply container mx-auto flex justify-center bg-transparent;
 
   .operation-bar-table {
-    @apply bg-info/95 text-info-content max-w-xl flex flex-wrap justify-center flex-row gap-4 rounded-md px-2 py-1
+    @apply bg-info/95 text-info-content max-w-xl flex flex-wrap justify-center flex-row gap-4 rounded-md px-2 py-1;
   }
 
   button {
