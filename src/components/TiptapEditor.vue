@@ -19,7 +19,7 @@ import BubbleMenus from './BubbleMenus.vue'
 import FloatMenus from './FloatMenus.vue'
 import TiptapAgent from '../entities/TiptapAgent'
 import DrawAgent from '../entities/DrawAgent'
-import EditorData from 'src/entities/EditorData'
+import EditorData from '../entities/EditorData'
 import { Editor } from '@tiptap/vue-3'
 
 const props = defineProps({

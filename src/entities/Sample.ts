@@ -31,6 +31,24 @@ const liteNode = new TreeNode({
   `
 })
 
+const tableNode = new TreeNode({
+  id: 'tableNode',
+  content: `
+    <h1>测试内容</h1>
+    <h2>表格</h2>
+    <table>
+      <tr>
+        <td>1</td>
+        <td>2</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>4</td>
+      </tr>
+    </table>
+  `
+})
+
 const nodeWithChildren = new TreeNode({
   id: "nodeWithChildren",
   content: `
@@ -56,6 +74,7 @@ const Sample = {
   sampleNode,
   liteNode,
   sampleImgSrc,
+  tableNode,
   nodeWithChildren
 }
 
