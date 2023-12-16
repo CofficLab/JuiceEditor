@@ -4,6 +4,7 @@ import Code from "@tiptap/extension-code"
 import Color from "@tiptap/extension-color"
 import Heading from "@tiptap/extension-heading"
 import History from "@tiptap/extension-history"
+import Italic from "@tiptap/extension-italic"
 import Paragraph from "@tiptap/extension-paragraph"
 import Placeholder from "@tiptap/extension-placeholder"
 import Table from "@tiptap/extension-table"
@@ -51,6 +52,11 @@ function makeExtensions(props: makeExtensionsProps) {
         Heading,
         History.configure({
             depth: 100,
+        }),
+        Italic.configure({
+            HTMLAttributes: {
+                class: 'my-custom-class',
+            },
         }),
         Paragraph,
         Placeholder.configure({
