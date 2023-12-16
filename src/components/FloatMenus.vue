@@ -16,7 +16,8 @@
       <Banner :editor="editor" />
       <Image :editor="editor" />
       <Draw :editor="editor" />
-      <Table :editor="editor" />
+      <TaskList :editor="editor" />
+      <Table :editor="editor"></Table>
     </floating-menu>
   </div>
 </template>
@@ -30,6 +31,7 @@ import Banner from '../operators/Banner.vue'
 import Image from '../operators/Image.vue'
 import Draw from '../operators/Draw.vue'
 import Table from '../operators/Table.vue'
+import TaskList from '../operators/TaskList.vue'
 
 defineProps({
   editor: {
