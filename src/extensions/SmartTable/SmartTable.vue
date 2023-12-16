@@ -3,7 +3,7 @@
     <!-- 表格的操作 -->
     <template v-if="shouldShow">
       <div class="dropdown dropdown-top dropdown-open flex">
-        <div class="table-menus" contenteditable="false">
+        <div class="table-menus shadow-2xl" contenteditable="false">
           <button @click="focusedNode.addColumnBefore().run()">
             <img src="../../assets/table.column.plus.before.svg" />
           </button>
