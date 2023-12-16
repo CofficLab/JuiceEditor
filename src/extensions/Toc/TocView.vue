@@ -1,15 +1,35 @@
 <template>
   <node-view-wrapper class="toc">
-    <ul style="padding-left: 0">
-      <div v-for="(heading, index) in headings">
-        <li style="margin: 0" :key="index">
-          <a :href="getLink(heading)">
-            <DynamicPadding :count="heading.level - 1"></DynamicPadding>
-            {{ heading.text }}
-          </a>
-        </li>
-      </div>
-    </ul>
+    <div class="overflow-y-scroll w-full h-2/3">
+      <ul style="padding-left: 0">
+        <template v-for="(heading, index) in headings" :key="index">
+          <li style="margin: 0">
+            <a :href="getLink(heading)">
+              <DynamicPadding :count="heading.level - 1"></DynamicPadding>
+              {{ heading.text }}
+            </a>
+          </li>
+        </template>
+      </ul>
+    </div>
+    <!-- <ul>
+      <li><a>Item 1</a></li>
+      <li>
+        <a>Parent</a>
+        <ul>
+          <li><a>Submenu 1</a></li>
+          <li><a>Submenu 2</a></li>
+          <li>
+            <a>Parent</a>
+            <ul>
+              <li><a>Submenu 1</a></li>
+              <li><a>Submenu 2</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li><a>Item 3</a></li>
+    </ul> -->
   </node-view-wrapper>
 </template>
 
@@ -111,9 +131,9 @@ onUnmounted(() => {
 
 <style lang="postcss" scoped>
 .toc {
-  @apply flex;
+  @apply fixed h-full top-0 w-36 md:w-40 xl:w-48 2xl:w-56 right-3 z-50 flex justify-end items-start pt-12;
   ul {
-    @apply menu fixed right-3 top-32 z-30 w-36 overflow-scroll border-l dark:border-gray-700/50 backdrop-blur-sm backdrop-filter md:w-40 xl:w-48 2xl:w-56;
+    @apply menu w-full dark:border-gray-700/50 backdrop-blur-sm backdrop-filter border-l !important;
 
     li {
       @apply list-none text-xs rounded-none !important;
