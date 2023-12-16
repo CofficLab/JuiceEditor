@@ -17,6 +17,7 @@
     <StrikeVue :editor="editor"></StrikeVue>
     <BulletList :editor="editor"></BulletList>
     <Code :editor="editor"></Code>
+    <Link :editor="editor"></Link>
   </bubble-menu>
 </template>
 
@@ -32,6 +33,7 @@ import Paragraph from '../operators/Paragraph.vue'
 import StrikeVue from '../operators/Strike.vue'
 import BulletList from '../operators/BulletList.vue'
 import Code from '../operators/Code.vue'
+import Link from '../operators/Link.vue'
 
 defineProps({
   editor: {
