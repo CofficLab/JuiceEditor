@@ -1,6 +1,10 @@
 import Blockquote from "@tiptap/extension-blockquote"
 import CharacterCount from "@tiptap/extension-character-count"
 import Code from "@tiptap/extension-code"
+import Color from "@tiptap/extension-color"
+import Heading from "@tiptap/extension-heading"
+import History from "@tiptap/extension-history"
+import Paragraph from "@tiptap/extension-paragraph"
 import Placeholder from "@tiptap/extension-placeholder"
 import Table from "@tiptap/extension-table"
 import TableCell from "@tiptap/extension-table-cell"
@@ -8,7 +12,7 @@ import TableHeader from "@tiptap/extension-table-header"
 import TableRow from "@tiptap/extension-table-row"
 import TaskItem from "@tiptap/extension-task-item"
 import TaskList from "@tiptap/extension-task-list"
-import { StarterKit } from "@tiptap/starter-kit"
+import Text from "@tiptap/extension-text"
 import { CodeEditor } from "../extensions/CodeEditor/CodeEditor"
 import { SmartBanner } from "../extensions/SmartBanner/SmartBanner"
 import SmartDraw from "../extensions/SmartDraw/SmartDraw"
@@ -26,13 +30,6 @@ interface makeExtensionsProps {
 
 function makeExtensions(props: makeExtensionsProps) {
     var extensions = [
-        StarterKit.configure({
-            document: false,
-            codeBlock: false,
-            history: false,
-            blockquote: false,
-            code: false,
-        }),
         Blockquote.configure({
             HTMLAttributes: {
                 class: 'my-custom-class',
@@ -44,10 +41,18 @@ function makeExtensions(props: makeExtensionsProps) {
             },
         }),
         CodeEditor,
+        Color.configure({
+            types: ['textStyle'],
+        }),
         CharacterCount,
         Document.extend({
             content: 'heading block*'
         }),
+        Heading,
+        History.configure({
+            depth: 100,
+        }),
+        Paragraph,
         Placeholder.configure({
             placeholder: ({ node }) => {
                 if (node.type.name === 'heading' && node.attrs.level == 1) {
@@ -81,6 +86,7 @@ function makeExtensions(props: makeExtensionsProps) {
                 class: 'my-task-class',
             },
         }),
+        Text,
         Toc
     ]
 
