@@ -22,6 +22,4 @@ const props = defineProps({
 })
 
 const isTableEnable = TiptapAgent.isTableEnable(props.editor)
-
-const focusedNode = computed(() => props.editor.chain().focus())
 </script>

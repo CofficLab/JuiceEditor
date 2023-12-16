@@ -27,4 +27,8 @@ const props = defineProps({
 })
 
 const focusedNode = computed(() => props.editor.chain().focus())
+
+const shouldShow = computed(() => {
+  return !props.editor.isActive('heading', { level: props.level })
+})
 </script>
