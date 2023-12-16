@@ -1,12 +1,16 @@
 import Blockquote from "@tiptap/extension-blockquote"
+import Bold from "@tiptap/extension-bold"
+import BulletList from "@tiptap/extension-bullet-list"
 import CharacterCount from "@tiptap/extension-character-count"
 import Code from "@tiptap/extension-code"
 import Color from "@tiptap/extension-color"
 import Heading from "@tiptap/extension-heading"
 import History from "@tiptap/extension-history"
 import Italic from "@tiptap/extension-italic"
+import ListItem from "@tiptap/extension-list-item"
 import Paragraph from "@tiptap/extension-paragraph"
 import Placeholder from "@tiptap/extension-placeholder"
+import Strike from "@tiptap/extension-strike"
 import Table from "@tiptap/extension-table"
 import TableCell from "@tiptap/extension-table-cell"
 import TableHeader from "@tiptap/extension-table-header"
@@ -36,6 +40,19 @@ function makeExtensions(props: makeExtensionsProps) {
                 class: 'my-custom-class',
             },
         }),
+        BulletList.configure({
+            HTMLAttributes: {
+                class: 'my-custom-class',
+            },
+            itemTypeName: 'listItem',
+            keepMarks: false,
+            keepAttributes: false,
+        }),
+        Bold.configure({
+            HTMLAttributes: {
+                class: 'my-custom-class',
+            },
+        }),
         Code.configure({
             HTMLAttributes: {
                 class: 'my-custom-class',
@@ -54,6 +71,11 @@ function makeExtensions(props: makeExtensionsProps) {
             depth: 100,
         }),
         Italic.configure({
+            HTMLAttributes: {
+                class: 'my-custom-class',
+            },
+        }),
+        ListItem.configure({
             HTMLAttributes: {
                 class: 'my-custom-class',
             },
@@ -82,6 +104,11 @@ function makeExtensions(props: makeExtensionsProps) {
             linkOnPaste: true,
             HTMLAttributes: {
                 class: 'link link-primary link-hover mx-1',
+            },
+        }),
+        Strike.configure({
+            HTMLAttributes: {
+                class: 'my-custom-class',
             },
         }),
         TaskItem.configure({
