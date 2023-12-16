@@ -6,122 +6,34 @@
     :tippy-options="{ duration: 100, maxWidth: 800 }"
     :editor="editor"
   >
-    <button
-      @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
-      :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }"
-    >
-      H2
-    </button>
-    <button
-      @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
-      :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }"
-    >
-      H3
-    </button>
-    <button
-      @click="editor.chain().focus().toggleHeading({ level: 4 }).run()"
-      :class="{ 'is-active': editor.isActive('heading', { level: 4 }) }"
-    >
-      H4
-    </button>
-    <button
-      @click="editor.chain().focus().toggleHeading({ level: 5 }).run()"
-      :class="{ 'is-active': editor.isActive('heading', { level: 5 }) }"
-    >
-      H5
-    </button>
-    <button
-      @click="editor.chain().focus().toggleHeading({ level: 6 }).run()"
-      :class="{ 'is-active': editor.isActive('heading', { level: 6 }) }"
-    >
-      H6
-    </button>
-    <button
-      @click="editor.chain().focus().setParagraph().run()"
-      :class="{ 'is-active': editor.isActive('paragraph', { level: 3 }) }"
-    >
-      <img src="../assets/character.svg" alt="" class="m-0" />
-    </button>
-    <button
-      @click="editor.chain().focus().toggleBold().run()"
-      :class="{ 'is-active': editor.isActive('bold') }"
-    >
-      <img src="../assets/bold.svg" class="m-0" />
-    </button>
-    <button
-      @click="editor.chain().focus().toggleItalic().run()"
-      :class="{ 'is-active': editor.isActive('italic') }"
-    >
-      <img src="../assets/italic.svg" class="m-0" />
-    </button>
-    <button
-      @click="editor.chain().focus().toggleStrike().run()"
-      :class="{ 'is-active': editor.isActive('strike') }"
-    >
-      <img src="../assets/strikethrough.svg" class="m-0" />
-    </button>
-    <button
-      @click="editor.chain().focus().toggleBulletList().run()"
-      :class="{ 'is-active': editor.isActive('bulletList') }"
-    >
-      <img src="../assets/list.bullet.svg" class="m-0" />
-    </button>
-    <button @click="setHardBreak">
-      <img src="../assets/return.svg" class="m-0" />
-    </button>
-
-    <button
-      v-if="!editor.isActive('link')"
-      @click="setLink"
-      :class="{ 'btn-disabled': editor.isActive('link') }"
-    >
-      <img src="../assets/link.svg" class="m-0" />
-    </button>
-    <button
-      @click="editor.chain().focus().toggleTaskList().run()"
-      :class="{ 'is-active': editor.isActive('taskList') }"
-    >
-      <img src="../assets/checklist.svg" alt="" class="m-0" />
-    </button>
-    <!-- <button @click="editor.chain().focus().splitListItem('taskItem').run()"
-      :disabled="!editor.can().splitListItem('taskItem')">
-      拆分
-    </button> -->
-    <button
-      @click="editor.chain().focus().sinkListItem('taskItem').run()"
-      :disabled="!editor.can().sinkListItem('taskItem')"
-    >
-      <img src="../assets/increase.indent.svg" alt="" class="m-0" />
-    </button>
-    <button
-      @click="editor.chain().focus().liftListItem('taskItem').run()"
-      :disabled="!editor.can().liftListItem('taskItem')"
-    >
-      <img src="../assets/decrease.indent.svg" alt="" class="m-0" />
-    </button>
-    <button
-      @click="editor.chain().focus().toggleBlockquote().run()"
-      :class="{ 'is-active': editor.isActive('blockquote') }"
-    >
-      <img src="../assets/quote.opening.svg" alt="" class="m-0" />
-    </button>
-    <button
-      @click="editor.chain().focus().toggleCode().run()"
-      :class="{ 'is-active': editor.isActive('code') }"
-    >
-      <icon-code></icon-code>
-    </button>
+    <Heading :editor="editor" :level="2" />
+    <Heading :editor="editor" :level="3" />
+    <Heading :editor="editor" :level="4" />
+    <Heading :editor="editor" :level="5" />
+    <Heading :editor="editor" :level="6" />
+    <Paragraph :editor="editor"></Paragraph>
+    <Bold :editor="editor"></Bold>
+    <Italic :editor="editor"></Italic>
+    <StrikeVue :editor="editor"></StrikeVue>
+    <BulletList :editor="editor"></BulletList>
+    <Code :editor="editor"></Code>
   </bubble-menu>
 </template>
 
 <script lang="ts" setup>
 import { EditorState } from '@tiptap/pm/state'
 import { EditorView } from '@tiptap/pm/view'
-import { Editor, BubbleMenu, isTextSelection } from '@tiptap/vue-3'
+import { Editor, BubbleMenu } from '@tiptap/vue-3'
 import { Editor as TiptapEditor } from '@tiptap/core'
-import IconCode from '../icons/IconCode.vue'
+import Bold from '../operators/Bold.vue'
+import Heading from '../operators/Heading.vue'
+import Italic from '../operators/Italic.vue'
+import Paragraph from '../operators/Paragraph.vue'
+import StrikeVue from '../operators/Strike.vue'
+import BulletList from '../operators/BulletList.vue'
+import Code from '../operators/Code.vue'
 
-const props = defineProps({
+defineProps({
   editor: {
     type: Editor,
     required: true
@@ -152,24 +64,6 @@ const shouldShow = function (props: {
 
   return !empty
 }
-
-let setHardBreak = function () {
-  props.editor.chain().focus().setHardBreak().run()
-}
-
-const setLink = () => {
-  const nodes = props.editor.state.selection.content().content
-  let text = ''
-  nodes.forEach((node) => {
-    text += node.textContent
-  })
-
-  props.editor
-    .chain()
-    .deleteSelection()
-    .insertContent('<a href="' + text + '">' + text + '</a>')
-    .run()
-}
 </script>
 
 <style scoped lang="postcss">
@@ -178,6 +72,10 @@ const setLink = () => {
 
   button {
     @apply btn btn-sm btn-ghost px-1 w-10;
+
+    svg {
+      @apply m-0;
+    }
   }
 
   button:disabled {
