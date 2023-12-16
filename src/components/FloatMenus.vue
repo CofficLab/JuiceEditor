@@ -8,56 +8,64 @@
       :should-show="shouldShowFloatingMenu"
     >
       <button
-        class="w-10"
+        class="w-10 tooltip"
+        data-tip="2号标题"
         @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
         :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }"
       >
         H2
       </button>
       <button
-        class="w-10"
+        class="w-10 tooltip"
+        data-tip="3号标题"
         @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
         :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }"
       >
         H3
       </button>
       <button
-        class="w-10"
+        class="w-10 tooltip"
+        data-tip="4号标题"
         @click="editor.chain().focus().toggleHeading({ level: 4 }).run()"
         :class="{ 'is-active': editor.isActive('heading', { level: 4 }) }"
       >
         H4
       </button>
       <button
-        class="w-10"
+        class="w-10 tooltip"
+        data-tip="5号标题"
         @click="editor.chain().focus().toggleHeading({ level: 5 }).run()"
         :class="{ 'is-active': editor.isActive('heading', { level: 5 }) }"
       >
         H5
       </button>
       <button
-        class="w-10"
+        class="w-10 tooltip"
+        data-tip="6号标题"
         @click="editor.chain().focus().toggleHeading({ level: 6 }).run()"
         :class="{ 'is-active': editor.isActive('heading', { level: 6 }) }"
       >
         H6
       </button>
       <button
-        class="w-10"
+        class="w-10 tooltip"
+        data-tip="无序列表"
         @click="editor.chain().focus().toggleBulletList().run()"
         :class="{ 'is-active': editor.isActive('bulletList') }"
       >
         <img src="../assets/list.bullet.svg" alt="" class="m-0" />
       </button>
       <button
-        class="w-10"
+        class="w-10 tooltip"
+        data-tip="代码"
         @click="editor.chain().focus().toggleCodeBlock().run()"
         :class="{ 'is-active': editor.isActive('codeBlock') }"
       >
         <IconCode></IconCode>
       </button>
       <button
-        class="w-10"
+        class="w-10 tooltip"
+        data-tip="提示框"
         @click="editor.chain().focus().toggleBanner().run()"
         :class="{ 'is-active': editor.isActive('banner') }"
       >
@@ -65,18 +73,29 @@
       </button>
 
       <!-- 图片 -->
-      <button class="w-10" @click="addImage" :class="{ 'is-active': editor.isActive('banner') }">
+      <button
+        class="w-10 tooltip"
+        data-tip="添加图片"
+        @click="addImage"
+        :class="{ 'is-active': editor.isActive('banner') }"
+      >
         <img src="../assets/photo.svg" alt="" class="m-0" />
       </button>
 
       <!-- 画图 -->
-      <button class="w-10" v-if="isDrawEnable" @click="editor.commands.insertDrawIo()">
+      <button
+        class="w-10 tooltip"
+        data-tip="画图"
+        v-if="isDrawEnable"
+        @click="editor.commands.insertDrawIo()"
+      >
         <img src="../assets/compass.drawing.svg" alt="" class="m-0" />
       </button>
 
       <!-- 添加表格 -->
       <button
-        class="w-10"
+        class="w-10 tooltip"
+        data-tip="添加表格"
         v-if="isTableEnable"
         @click="editor.chain().focus().insertSmartTable().run()"
       >
@@ -84,7 +103,7 @@
       </button>
 
       <!-- 添加换行 -->
-      <button class="w-10" @click="setHardBreak">
+      <button class="w-10 tooltip" data-tip="添加换行" @click="setHardBreak">
         <img src="../assets/return.svg" alt="" class="m-0" />
       </button>
     </floating-menu>
