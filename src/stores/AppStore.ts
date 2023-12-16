@@ -41,7 +41,7 @@ export const useAppStore = defineStore('app-store', {
             setTimeout(() => {
                 try {
                     // 只能传字符、只能传普通object
-                    ; (window as any).webkit.messageHandlers.updateContent.postMessage({
+                    (window as any).webkit.messageHandlers.updateContent.postMessage({
                         content: data.content,
                         title: data.title,
                         id: data.uuid,

@@ -11,6 +11,8 @@ export const useFeatureStore = defineStore('feature-store', {
             toolbarVisible: isDebug,
             drawEnabled: false,
             tableEnabled: isDebug,
+            // 代码框中的代码是否开启运行功能
+            runCodeEnabled: false,
         }
     },
 
@@ -55,7 +57,7 @@ export const useFeatureStore = defineStore('feature-store', {
             this.drawEnabled = true
             this.updatedAt = Date.now()
         },
-        
+
         disableDraw() {
             this.drawEnabled = false
             this.updatedAt = Date.now()

@@ -24,10 +24,25 @@ class TiptapAgent {
             autofocus: true,
             content: props.content,
             editable: props.editable,
+            onBeforeCreate: ({ editor }) => {
+                console.log('TiptapEditor: onBeforeCreate')
+            },
+            onCreate: ({ editor }) => {
+                console.log('TiptapEditor: onCreate')
+            },
+            onFocus: ({ editor }) => {
+                console.log('TiptapEditor: onFocus')
+            },
+            onDestroy(props) {
+                console.log('TiptapEditor: onDestroy')
+            },
+            onSelectionUpdate: ({ editor }) => {
+                console.log('TiptapEditor: onSelectionUpdate')
+            },
             onUpdate: ({ editor }) => {
                 let editorData = EditorData.fromEditor(editor)
                 if (props.onUpdate) {
-                    console.log('TiptapEditor: onUpdate, callback with TreeNode')
+                    console.log('TiptapEditor: onUpdate, callback with EditorData')
                     props.onUpdate(editorData)
                 } else {
                     console.log('TiptapEditor: onUpdate, no callback')
@@ -63,7 +78,7 @@ class TiptapAgent {
             $anchor.parent.isTextblock && !$anchor.parent.type.spec.code && !$anchor.parent.textContent
         const type = $anchor.parent.type.name
 
-        console.log('shouldShowFloatingMenu: type', type)
+        // console.log('shouldShowFloatingMenu: type', type)
 
         // 如果在 H1 中，不展示
         if (type == 'heading' && selection.$head.parent.attrs.level == 1) {

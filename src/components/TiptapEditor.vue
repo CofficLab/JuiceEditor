@@ -6,21 +6,22 @@
     <!-- 回车后弹出的菜单 -->
     <FloatMenus :editor="editor" v-if="editable"></FloatMenus>
 
-    <div class="container mx-4 lg:mx-auto px-4 md:px-0 flex flex-col pb-48 prose dark:prose-invert">
-      <editor-content :editor="editor" />
-    </div>
+    <!-- 编辑器 -->
+    <editor-content
+      :editor="editor"
+      class="container mx-auto px-4 md:px-0 flex flex-col pb-48 prose prose-sm lg:prose-lg dark:prose-invert"
+    />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { EditorContent } from '@tiptap/vue-3'
-import { computed, onBeforeUnmount, onMounted, watch } from 'vue'
+import { onBeforeUnmount, onMounted, watch } from 'vue'
 import BubbleMenus from './BubbleMenus.vue'
 import FloatMenus from './FloatMenus.vue'
 import TiptapAgent from '../entities/TiptapAgent'
 import DrawAgent from '../entities/DrawAgent'
 import EditorData from '../entities/EditorData'
-import { Editor } from '@tiptap/vue-3'
 
 const props = defineProps({
   uuid: {
@@ -51,24 +52,17 @@ const props = defineProps({
   }
 })
 
-const editor = makeEditor(props)
-const isTableActive = computed(() => {
-  return editor.isActive('table')
+const editor = TiptapAgent.create({
+  uuid: props.uuid,
+  content: props.content,
+  editable: props.editable,
+  drawIoLink: DrawAgent.getLink(),
+  drawEnable: props.drawEnable,
+  tableEnable: props.tableEnable,
+  onUpdate: (data: EditorData) => {
+    props.onUpdate(data)
+  }
 })
-
-function makeEditor(props: any): Editor {
-  return TiptapAgent.create({
-    uuid: props.uuid,
-    content: props.content,
-    editable: props.editable,
-    drawIoLink: DrawAgent.getLink(),
-    drawEnable: props.drawEnable,
-    tableEnable: props.tableEnable,
-    onUpdate: (data: EditorData) => {
-      props.onUpdate(data)
-    }
-  })
-}
 
 watch(props, () => {
   console.log('TiptapEditor: props changed')
@@ -80,17 +74,6 @@ watch(props, () => {
   })
 })
 
-watch(isTableActive, (newValue, oldValue) => {
-  console.log('TiptapEditor: isTableActive changed')
-
-  if (newValue) {
-    let tableOperationsDom = document.getElementsByClassName('operations').item(0)
-    if (tableOperationsDom) {
-      tableOperationsDom.innerHTML = 'xxxxx'
-    }
-  }
-})
-
 onMounted(() => {
   document.addEventListener('ToggleToc', function (e) {
     editor.chain().focus().toggleToc().run()
@@ -99,11 +82,6 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   editor.destroy()
-})
-
-document.addEventListener('add-row', (event) => {
-  console.log(event)
-  editor.chain().focus().addColumnBefore().run()
 })
 </script>
 
@@ -179,23 +157,5 @@ ul[data-type='taskList'] {
       display: flex;
     }
   }
-}
-</style>
-
-<style lang="postcss" scoped>
-.operation-bar {
-  @apply container mx-auto flex justify-center bg-transparent;
-
-  .operation-bar-table {
-    @apply bg-info/95 text-info-content max-w-xl flex flex-wrap justify-center flex-row gap-4 rounded-md px-2 py-1;
-  }
-
-  button {
-    @apply btn btn-sm btn-ghost px-1;
-  }
-}
-
-button {
-  @apply btn btn-primary btn-xs;
 }
 </style>

@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts" setup>
-import IconInfo from '../Icons/IconInfo.vue';
+import IconInfo from '../icons/IconInfo.vue'
 
 defineProps({
   messages: {

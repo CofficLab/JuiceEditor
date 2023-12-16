@@ -58,7 +58,7 @@ let isTheLastNode = computed(
 )
 
 document.addEventListener('click', function () {
-  console.log('clicked', props.getPos(), props.node.nodeSize, props.editor.state.selection.anchor)
+  // console.log('clicked', props.getPos(), props.node.nodeSize, props.editor.state.selection.anchor)
 
   const currentPos = props.editor.state.selection.anchor
   const start = props.getPos()
@@ -70,6 +70,7 @@ onMounted(() => {
   // 如果是最后一个节点，在本节点后插入一个空的p，防止光标无法移动到下一个节点
   if (isTheLastNode.value) {
     let tail = props.editor.state.doc.content.size
+    console.log('SmartTable: 结尾插入p，防止光标无法移动')
     props.editor.commands.insertContentAt(tail, '<p></p>', {
       updateSelection: false,
       parseOptions: {

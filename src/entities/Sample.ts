@@ -53,6 +53,7 @@ const tableNode = new TreeNode({
       </tr>
     </table>
     </smart-table>
+    <p></p>
   `
 })
 
