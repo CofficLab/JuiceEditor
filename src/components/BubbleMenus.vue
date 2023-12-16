@@ -58,6 +58,10 @@ const shouldShow = function (props: {
     }
   })
 
+  if (props.editor.isActive('heading', { level: 1 })) {
+    return false
+  }
+
   if (!selection.visible) {
     return false
   }
