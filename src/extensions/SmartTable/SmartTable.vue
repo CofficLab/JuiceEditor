@@ -63,6 +63,12 @@ let isTheLastNode = computed(
 document.addEventListener('click', function () {
   // console.log('clicked', props.getPos(), props.node.nodeSize, props.editor.state.selection.anchor)
 
+  if (!props.editor.isEditable) {
+    return
+  }
+
+  // 如果鼠标在 Table 内，显示菜单
+
   const currentPos = props.editor.state.selection.anchor
   const start = props.getPos()
   const end = props.getPos() + props.node.nodeSize
