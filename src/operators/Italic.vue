@@ -5,7 +5,8 @@
     data-tip="斜体"
     :class="{ 'is-active': editor.isActive('italic') }"
   >
-    <img src="../assets/italic.svg" />
+    <img src="../assets/italic.svg" v-if="iconOnly" />
+    <span v-if="!iconOnly">斜体</span>
   </button>
 </template>
 
@@ -17,6 +18,10 @@ const props = defineProps({
   editor: {
     type: Editor,
     required: true
+  },
+  iconOnly: {
+    type: Boolean,
+    default: true
   }
 })
 

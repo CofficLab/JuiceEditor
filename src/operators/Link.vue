@@ -6,7 +6,8 @@
     data-tip="链接"
     :class="{ 'btn-disabled': editor.isActive('link') }"
   >
-    <img src="../assets/link.svg" />
+    <img src="../assets/link.svg" v-if="iconOnly" />
+    <span v-if="!iconOnly">链接</span>
   </button>
 </template>
 
@@ -18,10 +19,12 @@ const props = defineProps({
   editor: {
     type: Editor,
     required: true
+  },
+  iconOnly: {
+    type: Boolean,
+    default: true
   }
 })
-
-const focusedNode = computed(() => props.editor.chain().focus())
 
 const setLink = () => {
   const nodes = props.editor.state.selection.content().content

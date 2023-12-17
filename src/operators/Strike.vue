@@ -5,7 +5,8 @@
     data-tip="中横线"
     :class="{ 'is-active': editor.isActive('strike') }"
   >
-    <img src="../assets/strikethrough.svg" />
+    <img src="../assets/strikethrough.svg" v-if="iconOnly" />
+    <span v-if="!iconOnly">中横线</span>
   </button>
 </template>
 
@@ -17,6 +18,10 @@ const props = defineProps({
   editor: {
     type: Editor,
     required: true
+  },
+  iconOnly: {
+    type: Boolean,
+    default: true
   }
 })
 

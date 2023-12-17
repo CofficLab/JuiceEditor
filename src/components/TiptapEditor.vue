@@ -11,6 +11,9 @@
       :editor="editor"
       class="container mx-auto px-4 md:px-0 flex flex-col pb-48 prose prose-sm lg:prose-lg dark:prose-invert"
     />
+
+    <!-- 右键菜单 -->
+    <ContextMenu :editor="editor"></ContextMenu>
   </div>
 </template>
 
@@ -22,6 +25,7 @@ import FloatMenus from './FloatMenus.vue'
 import TiptapAgent from '../entities/TiptapAgent'
 import DrawAgent from '../entities/DrawAgent'
 import EditorData from '../entities/EditorData'
+import ContextMenu from './ContextMenu.vue'
 
 const props = defineProps({
   uuid: {

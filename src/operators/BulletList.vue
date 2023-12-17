@@ -5,7 +5,8 @@
     data-tip="无序列表"
     :class="{ 'is-active': editor.isActive('bulletList') }"
   >
-    <img src="../assets/list.bullet.svg" />
+    <img src="../assets/list.bullet.svg" v-if="iconOnly" />
+    <span v-if="!iconOnly">无序列表</span>
   </button>
 </template>
 
@@ -17,6 +18,10 @@ const props = defineProps({
   editor: {
     type: Editor,
     required: true
+  },
+  iconOnly: {
+    type: Boolean,
+    default: true
   }
 })
 

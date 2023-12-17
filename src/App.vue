@@ -1,14 +1,12 @@
 <template>
   <div v-show="ready" class="w-full">
     <IndexPage></IndexPage>
-    <ContextMenu></ContextMenu>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
 import IndexPage from './components/IndexPage.vue'
-import ContextMenu from './components/ContextMenu.vue'
 import { useAppStore } from './stores/AppStore'
 import { useFeatureStore } from './stores/FeatureStore'
 

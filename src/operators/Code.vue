@@ -5,7 +5,8 @@
     data-tip="代码"
     :class="{ 'is-active': editor.isActive('code') }"
   >
-    <img src="../assets/code.bracket.svg" />
+    <img src="../assets/code.bracket.svg" v-if="iconOnly" />
+    <span v-if="!iconOnly">代码</span>
   </button>
 </template>
 
@@ -17,6 +18,10 @@ const props = defineProps({
   editor: {
     type: Editor,
     required: true
+  },
+  iconOnly: {
+    type: Boolean,
+    default: true
   }
 })
 

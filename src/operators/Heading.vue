@@ -1,12 +1,11 @@
 <template>
   <button
     @click="focusedNode.toggleHeading({ level: props.level as Level }).run()"
-    class="tooltip"
     :data-tip="props.level + '号标题'"
     :class="{ 'is-active': editor.isActive('heading', { level: props.level }) }"
-  >
-    H{{ props.level }}
-  </button>
+    class="flex"
+    v-text="text"
+  ></button>
 </template>
 
 <script lang="ts" setup>
@@ -23,12 +22,15 @@ const props = defineProps({
   level: {
     type: Number,
     required: true
+  },
+  iconOnly: {
+    type: Boolean,
+    default: true
   }
 })
 
 const focusedNode = computed(() => props.editor.chain().focus())
-
-const shouldShow = computed(() => {
-  return !props.editor.isActive('heading', { level: props.level })
+const text = computed(() => {
+  return props.iconOnly ? 'H' + props.level : props.level + '号标题'
 })
 </script>
