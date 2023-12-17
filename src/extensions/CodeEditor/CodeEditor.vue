@@ -201,7 +201,7 @@ function setLanguage(language: string) {
 }
 </script>
 
-<style lang="postcss">
+<style lang="postcss" scoped>
 ul.menu {
   @apply p-0 bg-base-200 w-24 mt-0 dropdown-content border-0 border-red-950 !important;
 
