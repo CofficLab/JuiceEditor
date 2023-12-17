@@ -1,9 +1,8 @@
 <template>
   <button
     @click="focusedNode.setParagraph().run()"
-    class="tooltip"
     data-tip="正文"
-    :class="{ 'is-active': editor.isActive('paragraph', { level: 3 }) }"
+    :class="{ 'is-active': editor.isActive('paragraph', { level: 3 }), tooltip: iconOnly }"
   >
     <img src="../assets/character.svg" v-if="iconOnly" />
     <span v-if="!iconOnly">正文</span>

@@ -1,9 +1,8 @@
 <template>
   <button
     @click="focusedNode.toggleBulletList().run()"
-    class="tooltip"
     data-tip="无序列表"
-    :class="{ 'is-active': editor.isActive('bulletList') }"
+    :class="{ 'is-active': editor.isActive('bulletList'), tooltip: iconOnly }"
   >
     <img src="../assets/list.bullet.svg" v-if="iconOnly" />
     <span v-if="!iconOnly">无序列表</span>

@@ -2,7 +2,10 @@
   <button
     @click="focusedNode.toggleHeading({ level: props.level as Level }).run()"
     :data-tip="props.level + '号标题'"
-    :class="{ 'is-active': editor.isActive('heading', { level: props.level }) }"
+    :class="{
+      'is-active': editor.isActive('heading', { level: props.level }),
+      tooltip: iconOnly
+    }"
     class="flex"
     v-text="text"
   ></button>

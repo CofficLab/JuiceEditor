@@ -2,9 +2,8 @@
   <button
     v-if="!editor.isActive('link')"
     @click="setLink"
-    class="tooltip"
     data-tip="链接"
-    :class="{ 'btn-disabled': editor.isActive('link') }"
+    :class="{ 'btn-disabled': editor.isActive('link'), tooltip: iconOnly }"
   >
     <img src="../assets/link.svg" v-if="iconOnly" />
     <span v-if="!iconOnly">链接</span>
@@ -13,7 +12,6 @@
 
 <script lang="ts" setup>
 import { Editor } from '@tiptap/vue-3'
-import { computed } from 'vue'
 
 const props = defineProps({
   editor: {

@@ -1,9 +1,8 @@
 <template>
   <button
     @click="focusedNode.toggleCode().run()"
-    class="tooltip"
     data-tip="代码"
-    :class="{ 'is-active': editor.isActive('code') }"
+    :class="{ 'is-active': editor.isActive('code'), tooltip: iconOnly }"
   >
     <img src="../assets/code.bracket.svg" v-if="iconOnly" />
     <span v-if="!iconOnly">代码</span>

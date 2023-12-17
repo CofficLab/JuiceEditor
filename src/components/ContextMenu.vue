@@ -4,40 +4,41 @@
     <ul>
       <!-- <li class="menu-title">Title</li> -->
       <li>
-        <a><Heading :editor="editor" :level="2" :icon-only="false" /></a>
+        <Heading :editor="editor" :level="2" :icon-only="false" />
       </li>
       <li>
-        <a><Heading :editor="editor" :level="3" :icon-only="false" /></a>
+        <Heading :editor="editor" :level="3" :icon-only="false" />
       </li>
       <li>
-        <a><Heading :editor="editor" :level="4" :icon-only="false" /></a>
+        <Heading :editor="editor" :level="4" :icon-only="false" />
       </li>
       <li>
-        <a><Heading :editor="editor" :level="5" :icon-only="false" /></a>
+        <Heading :editor="editor" :level="5" :icon-only="false" />
       </li>
       <li>
-        <a><Heading :editor="editor" :level="6" :icon-only="false" /></a>
+        <Heading :editor="editor" :level="6" :icon-only="false" />
       </li>
+      <div class="border-t border-gray-300 my-1"></div>
       <li>
-        <a><Paragraph :editor="editor" :icon-only="false"></Paragraph></a>
+        <Paragraph :editor="editor" :icon-only="false"></Paragraph>
       </li>
       <li v-if="!editor.isActive('heading')">
-        <a><Bold :editor="editor" :icon-only="false"></Bold></a>
+        <Bold :editor="editor" :icon-only="false"></Bold>
       </li>
       <li>
-        <a href=""><Italic :editor="editor" :icon-only="false"></Italic></a>
+        <Italic :editor="editor" :icon-only="false"></Italic>
       </li>
       <li>
-        <a href=""><StrikeVue :editor="editor" :icon-only="false"></StrikeVue></a>
+        <StrikeVue :editor="editor" :icon-only="false"></StrikeVue>
       </li>
       <li>
-        <a href=""><BulletList :editor="editor" :icon-only="false"></BulletList></a>
+        <BulletList :editor="editor" :icon-only="false"></BulletList>
       </li>
       <li>
-        <a><Code :editor="editor" :icon-only="false"></Code></a>
+        <Code :editor="editor" :icon-only="false"></Code>
       </li>
       <li>
-        <a href=""><Link :editor="editor" :icon-only="false"></Link></a>
+        <Link :editor="editor" :icon-only="false"></Link>
       </li>
     </ul>
   </div>
@@ -84,17 +85,17 @@ onMounted(() => {
 
 <style lang="postcss">
 #custom-menu {
-  @apply bg-base-300 rounded-md absolute shadow-lg border border-gray-500/20;
+  @apply bg-base-300 w-36 min-w-min rounded-md absolute shadow-lg border border-gray-500/20;
 
   ul {
     @apply p-1 menu;
-  }
-  a {
-    @apply cursor-default text-sm py-1 rounded;
+    li {
+      @apply text-xs py-0 m-0 rounded;
+    }
   }
 
   button {
-    @apply px-1 flex  !important;
+    @apply px-3 py-1 flex cursor-default rounded  !important;
 
     svg {
       @apply m-0;

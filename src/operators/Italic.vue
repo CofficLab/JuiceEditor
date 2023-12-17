@@ -1,9 +1,8 @@
 <template>
   <button
     @click="focusedNode.toggleItalic().run()"
-    class="tooltip"
     data-tip="斜体"
-    :class="{ 'is-active': editor.isActive('italic') }"
+    :class="{ 'is-active': editor.isActive('italic'), tooltip: iconOnly }"
   >
     <img src="../assets/italic.svg" v-if="iconOnly" />
     <span v-if="!iconOnly">斜体</span>
