@@ -85,7 +85,7 @@ onMounted(() => {
 
 <style lang="postcss">
 #custom-menu {
-  @apply bg-base-300 w-36 min-w-min rounded-md absolute shadow-lg border border-gray-500/20;
+  @apply bg-base-300 w-36 min-w-min hidden rounded-md absolute shadow-lg border border-gray-500/20;
 
   ul {
     @apply p-1 menu;
