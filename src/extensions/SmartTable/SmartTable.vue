@@ -31,14 +31,19 @@
           <button @click="focusedNode.splitCell().run()">
             <img src="../../assets/table.cell.split.svg" />
           </button>
-          <button @click="focusedNode.toggleHeaderColumn().run()">切换表头列</button>
-          <button @click="focusedNode.toggleHeaderRow().run()">切换表头行</button>
-          <button @click="focusedNode.toggleHeaderCell().run()">切换表头格</button>
-          <button @click="focusedNode.mergeOrSplit().run()">合并或拆分</button>
-          <button @click="focusedNode.setCellAttribute('colspan', 2).run()">占两格</button>
-          <button @click="focusedNode.fixTables().run()">修复</button>
-          <button @click="focusedNode.goToNextCell().run()">下一格</button>
-          <button @click="focusedNode.goToPreviousCell().run()">上一格</button>
+          <button @click="focusedNode.toggleHeaderColumn().run()">
+            <img src="../../assets/table.leading.header.svg" alt="" />
+          </button>
+          <button @click="focusedNode.toggleHeaderRow().run()">
+            <img src="../../assets/table-top-header.svg" alt="" />
+          </button>
+          <button @click="focusedNode.toggleHeaderCell().run()">
+            <img src="../../assets/table.toggle.header.svg" alt="" />
+          </button>
+          <!-- <button @click="focusedNode.setCellAttribute('colspan', 2).run()">占两格</button> -->
+          <!-- <button @click="focusedNode.fixTables().run()">修复</button> -->
+          <!-- <button @click="focusedNode.goToNextCell().run()">下一格</button> -->
+          <!-- <button @click="focusedNode.goToPreviousCell().run()">上一格</button> -->
         </div>
       </div>
     </template>
