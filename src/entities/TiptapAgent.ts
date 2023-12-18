@@ -1,4 +1,4 @@
-import { Editor } from '@tiptap/vue-3'
+import { Editor } from '@tiptap/core'
 import makeExtensions from './Extensions'
 import EditorData from './EditorData'
 
@@ -7,6 +7,7 @@ interface Props {
     content: string
     editable: boolean
     onUpdate: (data: EditorData) => void
+    onSelectionUpdate: (editor: Editor) => void
     drawIoLink?: string
     drawEnable: boolean
     tableEnable: boolean
@@ -37,7 +38,12 @@ class TiptapAgent {
                 console.log('TiptapEditor: onDestroy')
             },
             onSelectionUpdate: ({ editor }) => {
-                console.log('TiptapEditor: onSelectionUpdate')
+                if (props.onSelectionUpdate) {
+                    console.log('TiptapEditor: onSelectionUpdate, callback with Editor')
+                    props.onSelectionUpdate(editor)
+                } else {
+                    console.log('TiptapEditor: onSelectionUpdate, no callback')
+                }
             },
             onUpdate: ({ editor }) => {
                 let editorData = EditorData.fromEditor(editor)

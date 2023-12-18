@@ -11,6 +11,7 @@ export const useAppStore = defineStore('app-store', {
             node: isDebug ? Sample.tableNode : new TreeNode({}),
             loading: false,
             ready: false,
+            selectionType: '',
         }
     },
 
@@ -67,6 +68,26 @@ export const useAppStore = defineStore('app-store', {
             } catch (e) {
                 console.log('调用 WebKit 以通知 Swift 页面加载完成，失败', e)
             }
+        },
+
+        updateSelectionType(type: string) {
+            this.selectionType = type
+
+            if (!('webkit' in window)) {
+                return
+            }
+
+            console.log('调用 WebKit 以更新 SelectionType')
+            setTimeout(() => {
+                try {
+                    // 只能传字符、只能传普通object
+                    (window as any).webkit.messageHandlers.updateSelectionType.postMessage({
+                        type: this.selectionType
+                    })
+                } catch (e) {
+                    console.log('更新内容失败', e)
+                }
+            }, 0)
         }
     },
 })
