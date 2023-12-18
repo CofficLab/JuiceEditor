@@ -7,7 +7,7 @@ declare module '*.vue' {
 }
 
 declare interface Window {
-    updater: Object
+    api: Object
     runner: Function
     runnerCallback: Function
 }

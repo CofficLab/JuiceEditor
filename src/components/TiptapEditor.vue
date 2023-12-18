@@ -1,10 +1,10 @@
 <template>
   <div v-if="editor" class="flex flex-col tiptap">
     <!-- 选中文字后弹出的菜单 -->
-    <BubbleMenus :editor="editor" v-if="editable"></BubbleMenus>
+    <BubbleMenus :editor="editor" v-if="editable && bubbleMenusEnable"></BubbleMenus>
 
     <!-- 回车后弹出的菜单 -->
-    <FloatMenus :editor="editor" v-if="editable"></FloatMenus>
+    <FloatMenus :editor="editor" v-if="editable && floatingMenusEnable"></FloatMenus>
 
     <!-- 编辑器 -->
     <editor-content
@@ -26,6 +26,7 @@ import TiptapAgent from '../entities/TiptapAgent'
 import DrawAgent from '../entities/DrawAgent'
 import EditorData from '../entities/EditorData'
 import ContextMenu from './ContextMenu.vue'
+import EditorEventHandler from '../entities/EditorEventHandler'
 
 const props = defineProps({
   uuid: {
@@ -48,6 +49,16 @@ const props = defineProps({
   tableEnable: {
     type: Boolean,
     default: false,
+    required: true
+  },
+  bubbleMenusEnable: {
+    type: Boolean,
+    default: true,
+    required: true
+  },
+  floatingMenusEnable: {
+    type: Boolean,
+    default: true,
     required: true
   },
   onUpdate: {
@@ -79,9 +90,7 @@ watch(props, () => {
 })
 
 onMounted(() => {
-  document.addEventListener('ToggleToc', function (e) {
-    editor.chain().focus().toggleToc().run()
-  })
+  new EditorEventHandler(editor)
 })
 
 onBeforeUnmount(() => {

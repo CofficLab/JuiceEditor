@@ -9,8 +9,11 @@ export const useFeatureStore = defineStore('feature-store', {
             editable: isDebug,
             editorVisible: true,
             toolbarVisible: isDebug,
+            bubbleMenuVisible: true,
+            floatingMenuVisible: true,
             drawEnabled: false,
             tableEnabled: isDebug,
+            contextMenu: true,
             // 代码框中的代码是否开启运行功能
             runCodeEnabled: false,
         }
@@ -47,6 +50,16 @@ export const useFeatureStore = defineStore('feature-store', {
             this.updatedAt = Date.now()
         },
 
+        disableContextMenu() {
+            this.contextMenu = false
+            this.updatedAt = Date.now()
+        },
+
+        enableContextMenu() {
+            this.contextMenu = true
+            this.updatedAt = Date.now()
+        },
+
         showEditorAndEnableEdit() {
             this.showEditor()
             this.enableEdit()
@@ -71,6 +84,26 @@ export const useFeatureStore = defineStore('feature-store', {
         disableTable() {
             this.tableEnabled = false
             this.updatedAt = Date.now()
-        }
+        },
+
+        showBubbleMenu() {
+            this.bubbleMenuVisible = true
+            this.updatedAt = Date.now()
+        },
+
+        hideBubbleMenu() {
+            this.bubbleMenuVisible = false
+            this.updatedAt = Date.now()
+        },
+        
+        showFloatingMenu() {
+            this.floatingMenuVisible = true
+            this.updatedAt = Date.now()
+        },
+        
+        hideFloatingMenu() {
+            this.floatingMenuVisible = false
+            this.updatedAt = Date.now()
+        },
     },
 })

@@ -1,5 +1,5 @@
 <template>
-  <!-- 右键菜单 -->
+  <!-- APP渲染的右键菜单 -->
   <div id="custom-menu">
     <ul>
       <!-- <li class="menu-title">Title</li> -->
@@ -64,22 +64,22 @@ defineProps({
 })
 
 onMounted(() => {
-  document.addEventListener('contextmenu', function (event) {
-    let nodeName = (event.target as HTMLElement).nodeName
-    if (nodeName == 'H2') {
-      event.preventDefault()
-      var customMenu = document.getElementById('custom-menu')!
-      customMenu.style.left = event.pageX + 'px'
-      customMenu.style.top = event.pageY + 'px'
-      customMenu.style.display = 'block'
-    }
-  })
+  // document.addEventListener('contextmenu', function (event) {
+  //   let nodeName = (event.target as HTMLElement).nodeName
+  //   if (nodeName == 'H2') {
+  //     event.preventDefault()
+  //     var customMenu = document.getElementById('custom-menu')!
+  //     customMenu.style.left = event.pageX + 'px'
+  //     customMenu.style.top = event.pageY + 'px'
+  //     customMenu.style.display = 'block'
+  //   }
+  // })
 
-  document.addEventListener('click', function (event) {
-    var customMenu = document.getElementById('custom-menu')!
-    console.log(customMenu)
-    customMenu.style.display = 'none'
-  })
+  // document.addEventListener('click', function (event) {
+  //   var customMenu = document.getElementById('custom-menu')!
+  //   console.log(customMenu)
+  //   customMenu.style.display = 'none'
+  // })
 })
 </script>
 

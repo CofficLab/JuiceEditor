@@ -19,6 +19,8 @@
         :editable="featureStore.editable"
         :tableEnable="featureStore.tableEnabled"
         :drawEnable="featureStore.drawEnabled"
+        :bubbleMenusEnable="featureStore.bubbleMenuVisible"
+        :floatingMenusEnable="featureStore.floatingMenuVisible"
         :onUpdate="appStore.updateNode"
         :uuid="node.id"
       />
