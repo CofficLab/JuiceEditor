@@ -1,4 +1,5 @@
 import { Editor } from '@tiptap/vue-3'
+import { Editor as TiptapEditor } from '@tiptap/core'
 import makeExtensions from './Extensions'
 import EditorData from './EditorData'
 
@@ -34,22 +35,14 @@ class TiptapAgent {
             onFocus: ({ editor }) => {
                 console.log('TiptapEditor: onFocus')
             },
+            onBlur: ({ editor }) => {
+                console.log('TiptapEditor: onBlur')
+            },
             onDestroy(props) {
                 console.log('TiptapEditor: onDestroy')
             },
             onSelectionUpdate: ({ editor }) => {
-                let type = "paragraph"
-                if (editor.isActive('paragraph')) {
-                    type = "paragraph"
-                } else if (editor.isActive('heading')) {
-                    type = "heading"
-                } else if (editor.isActive('codeBlock')) {
-                    type = "codeBlock"
-                } else if (editor.isActive('blockquote')) {
-                    type = "blockquote"
-                } else if (editor.isActive('bulletList')) {
-                    type = "bulletList"
-                }
+                let type = TiptapAgent.getSelectionNodeType(editor)
 
                 if (props.onSelectionUpdate) {
                     console.log('TiptapEditor: onSelectionUpdate, callback with Editor', type)
@@ -80,6 +73,73 @@ class TiptapAgent {
         return editor.extensionManager.extensions.some(extension => {
             return extension.name === 'table'
         })
+    }
+
+    static getSelectionNodeType(editor: TiptapEditor): string {
+        let type = "paragraph"
+        if (editor.isActive('paragraph')) {
+            type = "paragraph"
+        } else if (editor.isActive('heading', { level: 1 })) {
+            type = "heading1"
+        } else if (editor.isActive('heading', { level: 2 })) {
+            type = "heading2"
+        } else if (editor.isActive('heading', { level: 3 })) {
+            type = "heading3"
+        } else if (editor.isActive('heading', { level: 4 })) {
+            type = "heading4"
+        } else if (editor.isActive('heading', { level: 5 })) {
+            type = "heading5"
+        } else if (editor.isActive('heading', { level: 6 })) {
+            type = "heading6"
+        } else if (editor.isActive('codeBlock')) {
+            type = "codeBlock"
+        } else if (editor.isActive('blockquote')) {
+            type = "blockquote"
+        } else if (editor.isActive('bulletList')) {
+            type = "bulletList"
+        } else if (editor.isActive('orderedList')) {
+            type = "orderedList"
+        } else if (editor.isActive('listItem')) {
+            type = "listItem"
+        } else if (editor.isActive('image')) {
+            type = "image"
+        } else if (editor.isActive('draw')) {
+            type = "draw"
+        } else if (editor.isActive('table')) {
+            type = "table"
+        } else if (editor.isActive('tableCell')) {
+            type = "tableCell"
+        } else if (editor.isActive('tableRow')) {
+            type = "tableRow"
+        } else if (editor.isActive('tableHeader')) {
+            type = "tableHeader"
+        } else if (editor.isActive('link')) {
+            type = "link"
+        } else if (editor.isActive('strike')) {
+            type = "strike"
+        } else if (editor.isActive('code')) {
+            type = "code"
+        } else if (editor.isActive('underline')) {
+            type = "underline"
+        } else if (editor.isActive('bold')) {
+            type = "bold"
+        } else if (editor.isActive('italic')) {
+            type = "italic"
+        } else if (editor.isActive('superscript')) {
+            type = "superscript"
+        } else if (editor.isActive('subscript')) {
+            type = "subscript"
+        } else if (editor.isActive('orderedList')) {
+            type = "orderedList"
+        } else if (editor.isActive('bulletList')) {
+            type = "bulletList"
+        } else if (editor.isActive('draw')) {
+            type = "draw"
+        } else if (editor.isActive('banner')) {
+            type = "banner"
+        } 
+
+        return type
     }
 
     static shouldShowFloatingMenu(props: {

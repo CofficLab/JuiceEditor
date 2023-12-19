@@ -1,4 +1,5 @@
 const eventNames = {
+    contextMenuWillOpen: 'contextMenuWillOpen',
     insertDraw: 'insertDraw',
     insertImage: 'insertImage',
     setHeading1:'setHeading1',
@@ -19,6 +20,10 @@ const eventNames = {
 }
 
 export default class EventManager {
+    contextMenuWillOpen() {
+        window.dispatchEvent(new CustomEvent(eventNames.contextMenuWillOpen));
+    }
+
     toggleBanner() {
         window.dispatchEvent(new CustomEvent(eventNames.toggleBanner));
     }
@@ -153,5 +158,9 @@ export default class EventManager {
 
     onSetHeading6(callback: Function) {
         window.addEventListener(eventNames.setHeading6, () => callback());
+    }
+
+    onContextMenuWillOpen(callback: Function) {
+        window.addEventListener(eventNames.contextMenuWillOpen, () => callback());
     }
 }

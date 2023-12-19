@@ -52,5 +52,9 @@ export default class EditorEventHandler {
         e.onSetHeading6(() => {
             editor.chain().focus().setHeading({ level: 6 }).run()
         })
+
+        e.onSetParagraph(() => {
+            editor.chain().focus().setParagraph().run()
+        })
     }
 }
