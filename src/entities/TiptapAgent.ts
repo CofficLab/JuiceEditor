@@ -45,7 +45,7 @@ class TiptapAgent {
                 let type = TiptapAgent.getSelectionNodeType(editor)
 
                 if (props.onSelectionUpdate) {
-                    console.log('TiptapEditor: onSelectionUpdate, callback with Editor', type)
+                    // console.log('TiptapEditor: onSelectionUpdate, callback with Editor', type)
                     props.onSelectionUpdate(type)
                 } else {
                     console.log('TiptapEditor: onSelectionUpdate, no callback')
@@ -137,7 +137,7 @@ class TiptapAgent {
             type = "draw"
         } else if (editor.isActive('banner')) {
             type = "banner"
-        } 
+        }
 
         return type
     }

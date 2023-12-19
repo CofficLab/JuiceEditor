@@ -88,20 +88,20 @@ const editor = TiptapAgent.create({
     props.onUpdate(data)
   },
   onSelectionUpdate(type) {
-    console.log('TiptapEditor: onSelectionUpdate', type)
+    // console.log('TiptapEditor: onSelectionUpdate', type)
     props.onSelectionUpdate(type)
   }
 })
 
 const contextMenuDidShow = ref(false)
-const contextMenuDidHide = ref(false)
 
 document.addEventListener('contextmenu', () => {
+  console.log('TiptapEditor: contextmenu')
   contextMenuDidShow.value = true
 })
 
 document.addEventListener('click', () => {
-  contextMenuDidHide.value = true
+  console.log('TiptapEditor: click，关闭右键菜单')
   contextMenuDidShow.value = false
 })
 

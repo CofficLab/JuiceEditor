@@ -22,7 +22,7 @@
             >
               <Setting></Setting>
             </label>
-            <ul class="menu">
+            <ul class="operators">
               <input
                 ref="fileInput"
                 multiple="false"
@@ -263,3 +263,13 @@ function fileToBase64(file: File) {
   })
 }
 </script>
+
+<style lang="postcss" scoped>
+.operators {
+  @apply menu p-2 shadow dropdown-content z-[1] bg-base-300 rounded w-32;
+
+  a {
+    @apply no-underline;
+  }
+}
+</style>

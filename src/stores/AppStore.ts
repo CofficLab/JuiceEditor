@@ -9,7 +9,7 @@ const isDebug = process.env.NODE_ENV === 'development'
 export const useAppStore = defineStore('app-store', {
     state: () => {
         return {
-            node: isDebug ? Sample.tableNode : new TreeNode({}),
+            node: isDebug ? Sample.sampleNode : new TreeNode({}),
             loading: false,
             ready: false,
             selectionType: '',
