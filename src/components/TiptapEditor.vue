@@ -1,10 +1,16 @@
 <template>
   <div v-if="editor" class="flex flex-col tiptap">
     <!-- 选中文字后弹出的菜单 -->
-    <BubbleMenus :editor="editor" v-if="editable && bubbleMenusEnable"></BubbleMenus>
+    <BubbleMenus
+      :editor="editor"
+      v-if="editable && bubbleMenusEnable && !contextMenuDidShow"
+    ></BubbleMenus>
 
     <!-- 回车后弹出的菜单 -->
-    <FloatMenus :editor="editor" v-if="editable && floatingMenusEnable"></FloatMenus>
+    <FloatMenus
+      :editor="editor"
+      v-if="editable && floatingMenusEnable && !contextMenuDidShow"
+    ></FloatMenus>
 
     <!-- 编辑器 -->
     <editor-content
@@ -19,7 +25,7 @@
 
 <script lang="ts" setup>
 import { EditorContent } from '@tiptap/vue-3'
-import { onBeforeUnmount, onMounted, watch } from 'vue'
+import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import BubbleMenus from './BubbleMenus.vue'
 import FloatMenus from './FloatMenus.vue'
 import TiptapAgent from '../entities/TiptapAgent'
@@ -84,7 +90,19 @@ const editor = TiptapAgent.create({
   onSelectionUpdate(type) {
     console.log('TiptapEditor: onSelectionUpdate', type)
     props.onSelectionUpdate(type)
-  },
+  }
+})
+
+const contextMenuDidShow = ref(false)
+const contextMenuDidHide = ref(false)
+
+document.addEventListener('contextmenu', () => {
+  contextMenuDidShow.value = true
+})
+
+document.addEventListener('click', () => {
+  contextMenuDidHide.value = true
+  contextMenuDidShow.value = false
 })
 
 watch(props, () => {
