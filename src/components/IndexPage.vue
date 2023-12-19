@@ -22,6 +22,7 @@
         :bubbleMenusEnable="featureStore.bubbleMenuVisible"
         :floatingMenusEnable="featureStore.floatingMenuVisible"
         :onUpdate="appStore.updateNode"
+        :onSelectionUpdate="appStore.updateSelectionType"
         :uuid="node.id"
       />
 

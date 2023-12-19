@@ -64,6 +64,10 @@ const props = defineProps({
   onUpdate: {
     type: Function,
     default: () => {}
+  },
+  onSelectionUpdate: {
+    type: Function,
+    default: () => {}
   }
 })
 
@@ -76,7 +80,11 @@ const editor = TiptapAgent.create({
   tableEnable: props.tableEnable,
   onUpdate: (data: EditorData) => {
     props.onUpdate(data)
-  }
+  },
+  onSelectionUpdate(type) {
+    console.log('TiptapEditor: onSelectionUpdate', type)
+    props.onSelectionUpdate(type)
+  },
 })
 
 watch(props, () => {
