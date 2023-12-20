@@ -107,7 +107,6 @@ export const useFeatureStore = defineStore('feature-store', {
         showEditorAndEnableEdit() {
             this.showEditor()
             this.enableEdit()
-            this.updateNonce()
         },
 
         showBubbleMenu() {

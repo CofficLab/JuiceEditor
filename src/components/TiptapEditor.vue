@@ -95,9 +95,12 @@ const editor = TiptapAgent.create({
 
 const contextMenuDidShow = ref(false)
 
-document.addEventListener('contextmenu', () => {
+document.addEventListener('contextmenu', (e) => {
   console.log('TiptapEditor: contextmenu')
   contextMenuDidShow.value = true
+
+  let target = e.target as HTMLElement
+  target.click()
 })
 
 document.addEventListener('click', () => {
