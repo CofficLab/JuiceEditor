@@ -88,25 +88,33 @@ const editor = TiptapAgent.create({
     props.onUpdate(data)
   },
   onSelectionUpdate(type) {
-    // console.log('TiptapEditor: onSelectionUpdate', type)
+    console.log('TiptapEditor: onSelectionUpdate', type)
     props.onSelectionUpdate(type)
   }
 })
 
 const contextMenuDidShow = ref(false)
 
-document.addEventListener('contextmenu', (e) => {
+function onMouseDown(e: Event) {
+  console.log('TiptapEditor: mousedown')
+
+  let target = e.target as HTMLElement
+  const pos = editor.view.posAtDOM(target,1)
+  editor.commands.focus(pos)
+}
+
+function onClick(e: Event) {
+  console.log('TiptapEditor: click，关闭应用的右键菜单')
+  contextMenuDidShow.value = false
+}
+
+function onContextMenu(e: Event) {
   console.log('TiptapEditor: contextmenu')
   contextMenuDidShow.value = true
 
   let target = e.target as HTMLElement
   target.click()
-})
-
-document.addEventListener('click', () => {
-  console.log('TiptapEditor: click，关闭右键菜单')
-  contextMenuDidShow.value = false
-})
+}
 
 watch(props, () => {
   console.log('TiptapEditor: props changed')
@@ -120,10 +128,18 @@ watch(props, () => {
 
 onMounted(() => {
   new EditorEventHandler(editor)
+
+  document.addEventListener('contextmenu', onContextMenu)
+  document.addEventListener('mousedown', onMouseDown)
+  document.addEventListener('click', onClick)
 })
 
 onBeforeUnmount(() => {
   editor.destroy()
+
+  document.removeEventListener('mousedown', onMouseDown)
+  document.removeEventListener('click', onClick)
+  document.removeEventListener('contextmenu', onContextMenu)
 })
 </script>
 
