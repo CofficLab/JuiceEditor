@@ -55,7 +55,7 @@ const node = computed(() => {
 })
 
 const featureUpdatedAt = computed(() => {
-  return featureStore.updatedAt
+  return featureStore.nonce
 })
 
 watch(featureUpdatedAt, () => {

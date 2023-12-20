@@ -5,7 +5,7 @@ const isDebug = process.env.NODE_ENV === 'development'
 export const useFeatureStore = defineStore('feature-store', {
     state: () => {
         return {
-            updatedAt: Date.now(),
+            nonce: Date.now().toString() + Math.random().toString(),
             editable: isDebug,
             editorVisible: true,
             toolbarVisible: isDebug,
@@ -20,90 +20,110 @@ export const useFeatureStore = defineStore('feature-store', {
     },
 
     actions: {
-        showToolbar() {
-            this.toolbarVisible = true
-            this.updatedAt = Date.now()
-        },
-
-        hideToolbar() {
-            this.toolbarVisible = false
-            this.updatedAt = Date.now()
-        },
-
-        showEditor() {
-            this.editorVisible = true
-            this.updatedAt = Date.now()
-        },
-
-        hideEditor() {
-            this.editorVisible = false
-            this.updatedAt = Date.now()
-        },
-
-        enableEdit() {
-            this.editable = true
-            this.updatedAt = Date.now()
-        },
-
         disableEdit() {
             this.editable = false
-            this.updatedAt = Date.now()
+            this.updateNonce()
+        },
+
+        disableTable() {
+            this.tableEnabled = false
+            this.updateNonce()
+        },
+
+        disableDraw() {
+            this.drawEnabled = false
+            this.updateNonce()
+        },
+
+        disableFloatingMenu() {
+            this.floatingMenuVisible = false
+            this.updateNonce()
+        },
+
+        disableBubbleMenu() {
+            this.bubbleMenuVisible = false
+            this.updateNonce()
+        },
+
+        disableFloatingMenuAndBubbleMenu() {
+            this.floatingMenuVisible = false
+            this.bubbleMenuVisible = false
+            this.updateNonce()
         },
 
         disableContextMenu() {
             this.contextMenu = false
-            this.updatedAt = Date.now()
+            this.updateNonce()
+        },
+
+        enableDraw() {
+            this.drawEnabled = true
+            this.updateNonce()
+        },
+
+        enableTable() {
+            this.tableEnabled = true
+            this.updateNonce()
         },
 
         enableContextMenu() {
             this.contextMenu = true
-            this.updatedAt = Date.now()
+            this.updateNonce()
+        },
+
+        enableEdit() {
+            this.editable = true
+            this.updateNonce()
+        },
+
+        hideFloatingMenu() {
+            this.floatingMenuVisible = false
+            this.updateNonce()
+        },
+
+        hideToolbar() {
+            this.toolbarVisible = false
+            this.updateNonce()
+        },
+
+        hideBubbleMenu() {
+            this.bubbleMenuVisible = false
+            this.updateNonce()
+        },
+
+        hideEditor() {
+            this.editorVisible = false
+            this.updateNonce()
+        },
+
+        showToolbar() {
+            this.toolbarVisible = true
+            this.updateNonce()
+        },
+
+        showEditor() {
+            this.editorVisible = true
+            this.updateNonce()
         },
 
         showEditorAndEnableEdit() {
             this.showEditor()
             this.enableEdit()
-            this.updatedAt = Date.now()
-        },
-
-        enableDraw() {
-            this.drawEnabled = true
-            this.updatedAt = Date.now()
-        },
-
-        disableDraw() {
-            this.drawEnabled = false
-            this.updatedAt = Date.now()
-        },
-
-        enableTable() {
-            this.tableEnabled = true
-            this.updatedAt = Date.now()
-        },
-
-        disableTable() {
-            this.tableEnabled = false
-            this.updatedAt = Date.now()
+            this.updateNonce()
         },
 
         showBubbleMenu() {
             this.bubbleMenuVisible = true
-            this.updatedAt = Date.now()
-        },
-
-        hideBubbleMenu() {
-            this.bubbleMenuVisible = false
-            this.updatedAt = Date.now()
+            this.updateNonce()
         },
         
         showFloatingMenu() {
             this.floatingMenuVisible = true
-            this.updatedAt = Date.now()
+            this.updateNonce()
         },
-        
-        hideFloatingMenu() {
-            this.floatingMenuVisible = false
-            this.updatedAt = Date.now()
-        },
+
+        updateNonce() {
+            this.nonce = Date.now().toString() + Math.random().toString()
+        }
     },
 })
