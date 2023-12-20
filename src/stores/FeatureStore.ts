@@ -93,7 +93,6 @@ export const useFeatureStore = defineStore('feature-store', {
 
         hideEditor() {
             this.editorVisible = false
-            this.updateNonce()
         },
 
         showToolbar() {
@@ -103,7 +102,6 @@ export const useFeatureStore = defineStore('feature-store', {
 
         showEditor() {
             this.editorVisible = true
-            this.updateNonce()
         },
 
         showEditorAndEnableEdit() {
