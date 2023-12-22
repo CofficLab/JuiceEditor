@@ -21,6 +21,10 @@ export default class EditorEventHandler {
             editor.chain().focus().toggleItalic().run()
         })
 
+        e.onToggleTaskList(() => {
+            editor.chain().focus().toggleTaskList().run()
+        })
+
         e.onInsertDraw(() => {
             editor.commands.insertDrawIo()
         })

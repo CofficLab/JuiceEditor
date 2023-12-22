@@ -17,6 +17,7 @@ const eventNames = {
     toggleItalic: 'toggleItalic',
     toggleLink: 'toggleLink',
     toggleTOC: 'toggleTOC',
+    toggleTaskList: 'toggleTaskList',
 }
 
 export default class EventManager {
@@ -50,6 +51,10 @@ export default class EventManager {
 
     toggleItalic() {
         window.dispatchEvent(new CustomEvent(eventNames.toggleItalic));
+    }
+
+    toggleTaskList() {
+        window.dispatchEvent(new CustomEvent(eventNames.toggleTaskList));
     }
 
     toggleLink() {
@@ -130,6 +135,10 @@ export default class EventManager {
 
     onToggleLink(callback: Function) {
         window.addEventListener(eventNames.toggleLink, () => callback());
+    }
+
+    onToggleTaskList(callback: Function) {
+        window.addEventListener(eventNames.toggleTaskList, () => callback());
     }
 
     onSetParagraph(callback: Function) {
