@@ -28,7 +28,8 @@
 
       <!-- 子节点 -->
       <div
-        class="container mx-auto px-4 pt-4 pb-24 flex mt-24 justify-center border-t dark:border-gray-700/30"
+        class="container mx-auto px-4 pt-4 pb-24 flex mt-24 justify-center dark:border-gray-700/30"
+        :class="{ 'border-t': shouldShowBorder }"
         v-if="node.children.length > 0"
       >
         <NodeCardList :nodes="node.children"></NodeCardList>
@@ -56,6 +57,11 @@ const node = computed(() => {
 
 const featureUpdatedAt = computed(() => {
   return featureStore.nonce
+})
+
+// 是否显示编辑器和子节点之间的横线
+const shouldShowBorder = computed(() => {
+  return featureStore.editorVisible && node.value.children.length > 0
 })
 
 watch(featureUpdatedAt, () => {
