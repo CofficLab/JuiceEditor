@@ -2,14 +2,14 @@
   <div>
     <div class="relative rounded-3xl">
       <!-- 运行按钮 -->
-      <button
+      <!-- <button
         contenteditable="false"
         class="btn-sm btn absolute bottom-8 right-2 z-20 transition-none"
         :class="{ loading: running }"
         @click="handleRun"
         v-html="runTitle"
         v-show="runnable"
-      ></button>
+      ></button> -->
 
       <div ref="codeDom" class="relative z-10 rounded-md" contenteditable="true"></div>
     </div>
