@@ -33,7 +33,7 @@ export const useAppStore = defineStore('app-store', {
         },
 
         updateNode: function (data: EditorData) {
-            console.log('更新节点', data)
+            // console.log('更新节点', data)
             webkit.updateNode(data)
         },
 
