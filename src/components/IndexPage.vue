@@ -23,7 +23,7 @@
         :floatingMenusEnable="featureStore.floatingMenuVisible"
         :onUpdate="appStore.updateNode"
         :onSelectionUpdate="appStore.updateSelectionType"
-        :uuid="node.id"
+        :uuid="node.uuid"
       />
 
       <!-- 子节点 -->

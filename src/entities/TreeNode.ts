@@ -1,7 +1,7 @@
 import { JSONContent } from "@tiptap/core";
 
 interface TreeNodeParams {
-    id?: string;
+    uuid?: string;
     title?: string;
     isBook?: boolean;
     priority?: number;
@@ -14,7 +14,7 @@ interface TreeNodeParams {
 }
 
 export default class TreeNode {
-    public id: string = ""
+    public uuid: string = ""
     public title: string = ""
     public priority: number = 0
     public isBook: boolean = false
@@ -26,7 +26,7 @@ export default class TreeNode {
     jsonContent: JSONContent = {};
 
     constructor(public params: TreeNodeParams) {
-        this.id = params.id || ""
+        this.uuid = params.uuid || ""
         this.title = params.title || ""
         this.priority = params.priority || 0
         this.content = params.content || ""
@@ -45,7 +45,7 @@ export default class TreeNode {
     }
 
     update(params: TreeNodeParams): this {
-        this.id = params.id || this.id
+        this.uuid = params.uuid || this.uuid
         this.title = params.title || this.title
         this.priority = params.priority || this.priority
         this.isBook = params.isBook || this.isBook
@@ -64,7 +64,7 @@ export default class TreeNode {
     }
 
     setId(id: string): this {
-        this.id = id
+        this.uuid = id
         return this
     }
 
@@ -115,7 +115,7 @@ export default class TreeNode {
 
     toJSON(): Object {
         return {
-            id: this.id,
+            uuid: this.uuid,
             title: this.title,
             isBook: this.isBook,
             priority: this.priority,
