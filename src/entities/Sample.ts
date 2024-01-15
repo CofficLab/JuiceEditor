@@ -7,6 +7,23 @@ const sampleNode = new TreeNode({
   content: `
     <h1>测试内容</h1>
     <h2>表格</h2>
+    <p>记得开启表格功能</p>
+    <smart-table>
+    <table>
+      <tr>
+        <th>1</th>
+        <th>2</th>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>4</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>6</td>
+      </tr>
+    </table>
+    </smart-table>
     <h2>图片</h2>
     <p>下面是一张图</p>
     <img src="${sampleImgSrc}"></img>
