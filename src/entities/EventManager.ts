@@ -2,6 +2,7 @@ const eventNames = {
     contextMenuWillOpen: 'contextMenuWillOpen',
     insertDraw: 'insertDraw',
     insertImage: 'insertImage',
+    insertTable: 'insertTable',
     setHeading1:'setHeading1',
     setHeading2:'setHeading2',
     setHeading3:'setHeading3',
@@ -63,6 +64,10 @@ export default class EventManager {
 
     insertDraw() {
         window.dispatchEvent(new CustomEvent(eventNames.insertDraw));
+    }
+
+    insertTable() {
+        window.dispatchEvent(new CustomEvent(eventNames.insertTable));
     }
 
     insertImage() {
@@ -127,6 +132,10 @@ export default class EventManager {
 
     onInsertImage(callback: Function) {
         window.addEventListener(eventNames.insertImage, () => callback());
+    }
+
+    onInsertTable(callback: Function) {
+        window.addEventListener(eventNames.insertTable, () => callback());
     }
 
     onToggleItalic(callback: Function) {

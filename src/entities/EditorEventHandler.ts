@@ -29,6 +29,10 @@ export default class EditorEventHandler {
             editor.commands.insertDrawIo()
         })
 
+        e.onInsertTable(() => {
+            editor.commands.insertTable()
+        })
+
         e.onToggleLink(() => {
             editor.chain().focus().toggleLink().run()
         })
