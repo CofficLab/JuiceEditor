@@ -30,7 +30,7 @@ export default class EditorEventHandler {
         })
 
         e.onInsertTable(() => {
-            editor.commands.insertTable()
+            editor.commands.insertSmartTable()
         })
 
         e.onToggleLink(() => {
