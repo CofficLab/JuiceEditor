@@ -130,7 +130,7 @@ onMounted(() => {
   new EditorEventHandler(editor)
 
   document.addEventListener('contextmenu', onContextMenu)
-  document.addEventListener('mousedown', onMouseDown)
+  // document.addEventListener('mousedown', onMouseDown)
   document.addEventListener('click', onClick)
 })
 
