@@ -154,7 +154,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  console.log('monaco component unmounted')
+  console.log('MonacoBox: monaco component unmounted')
 })
 
 watch(

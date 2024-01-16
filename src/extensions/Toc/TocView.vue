@@ -53,7 +53,7 @@ let getLink = function (heading: { id: any }) {
 }
 
 let handleUpdate = function () {
-  console.log('TOC: handle update')
+  console.log('Toc: handle update')
   headings.value = []
   const transaction = props.editor.state.tr
 
@@ -80,7 +80,7 @@ let handleUpdate = function () {
 }
 
 onMounted(() => {
-  console.log('TOC: mounted')
+  console.log('Toc: mounted')
   props.editor.on('update', handleUpdate)
   nextTick(() => handleUpdate())
 
@@ -124,7 +124,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  console.log('TOC: unmounted')
+  console.log('Toc: unmounted')
   props.editor.off('update', handleUpdate)
 })
 </script>

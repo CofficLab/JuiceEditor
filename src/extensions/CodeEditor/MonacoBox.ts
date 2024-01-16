@@ -111,7 +111,7 @@ class MonacoBox {
     public setHeight() {
         let height = this.getLinesHeight();
 
-        console.log("设置 monaco editor 的高度", height);
+        console.log("MonacoBox: 设置 monaco editor 的高度", height);
 
         this.editor.getDomNode()!.style.height = height + "px";
     }
@@ -158,7 +158,7 @@ class MonacoBox {
     }
 
     static createEditor(box: MonacoBox, options: CreateEditorOptions) {
-        console.log('创建 Monaco，名字是', options.name)
+        console.log('MonacoBox: 创建 Monaco，名字是', options.name)
         // console.log('创建 Monaco，配置是', options)
         const editor = monaco.editor.create(options.target, {
             value: options.content,
