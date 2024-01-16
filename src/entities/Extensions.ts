@@ -63,6 +63,11 @@ function makeExtensions(props: makeExtensionsProps) {
             types: ['textStyle'],
         }),
         CharacterCount,
+        // 始终加载 Draw 扩展，保证已经画好的能渲染出来
+        SmartDraw.configure({
+            drawIoLink: props.drawIoLink,
+            openDialog: 'click'
+        }),
         Document.extend({
             content: 'heading block*'
         }),
@@ -132,15 +137,6 @@ function makeExtensions(props: makeExtensionsProps) {
         TableHeader,
         Toc
     ]
-
-    if (props.drawEnable) {
-        extensions.push(
-            SmartDraw.configure({
-                drawIoLink: props.drawIoLink,
-                openDialog: 'click'
-            })
-        );
-    }
 
     if (props.tableEnable) {
         extensions.push(
