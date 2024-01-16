@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-row container mx-auto justify-end mt-4 sticky top-4 join z-50" v-if="feature.toolbarVisible">
+  <div class="flex flex-row container mx-auto justify-center mt-4 sticky top-4 join z-50" v-if="feature.toolbarVisible">
     <button class="btn btn-primary btn-xs join-item" @click="app.setCurrentNode(Sample.sampleNode)">
       通用文章
     </button>

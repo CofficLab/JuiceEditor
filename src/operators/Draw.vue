@@ -12,6 +12,9 @@
 <script lang="ts" setup>
 import { Editor } from '@tiptap/vue-3'
 import TiptapAgent from '../entities/TiptapAgent'
+import { useFeatureStore } from '../stores/FeatureStore';
+
+const feature = useFeatureStore()
 
 const props = defineProps({
   editor: {
@@ -20,5 +23,5 @@ const props = defineProps({
   }
 })
 
-const isDrawEnable = TiptapAgent.isDrawEnable(props.editor)
+const isDrawEnable = TiptapAgent.isDrawEnable(props.editor) && feature.drawEnabled
 </script>
