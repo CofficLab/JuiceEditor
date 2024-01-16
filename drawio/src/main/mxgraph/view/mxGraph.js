@@ -310,6 +310,7 @@
  * (code)
  * var enc = new mxCodec(mxUtils.createXmlDocument());
  * var node = enc.encode(graph.getModel());
+ * enc.document.appendChild(node);
  * (end)
  * 
  * This will produce an XML node than can be handled using the DOM API or
@@ -7464,6 +7465,11 @@ mxGraph.prototype.enterGroup = function(cell)
 	{
 		this.view.setCurrentRoot(cell);
 		this.clearSelection();
+
+		var gb = mxRectangle.fromRectangle(this.getGraphBounds());
+		gb.x -= this.view.translate.x;
+		gb.y -= this.view.translate.y;
+		this.scrollRectToVisible(gb);
 	}
 };
 
@@ -7506,6 +7512,7 @@ mxGraph.prototype.exitGroup = function()
 		if (state != null)
 		{
 			this.setSelectionCell(current);
+			this.scrollCellToVisible(current);
 		}
 	}
 };
@@ -12313,6 +12320,29 @@ mxGraph.prototype.traverse = function(vertex, directed, func, edge, visited, inv
 mxGraph.prototype.isCellSelected = function(cell)
 {
 	return this.getSelectionModel().isSelected(cell);
+};
+
+/**
+ * Function: isAncestorSelected
+ * 
+ * Returns true if the given cell or of any of its ancestors in the
+ * current view is selected.
+ */
+mxGraph.prototype.isAncestorSelected = function(cell)
+{
+	var parent = this.model.getParent(cell);
+
+	while (parent != null && parent != this.getCurrentRoot())
+	{
+		if (this.isCellSelected(parent))
+		{
+			return true;
+		}
+		
+		parent = this.model.getParent(parent);
+	}
+
+	return false;
 };
 
 /**

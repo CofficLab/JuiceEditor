@@ -15,13 +15,14 @@
 ## 对draw.io的改动
 
 - index.html dev 模式下的域名
-- index.html 删除初始化时的提示
-- index.html 700 行左右删除一批代码来解决弹窗问题：  
-  [Dev] Bootstrap script change requires update of CSP
 
   ```js
-  // 往数据库写入画图数据，然后初始化
-  initDB(function () {
-    ...
-  })
+  '//test.draw.io/drawio/src/main' -> '/drawio/src/main'
+  ```
+
+- index.html 删除初始化时的提示
+- `/src/main/webapp/js/diagramly/App.js` 700 行左右删除一批代码来解决弹窗问题：
+
+  ```js
+  [Dev] Bootstrap script change requires update of CSP
   ```

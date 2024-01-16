@@ -401,7 +401,7 @@
 </head>
 
 <body class="geEditor">
-	<!-- <div id="geInfo">
+	<div id="geInfo">
 		<div class="geBlock">
 			<h1>Flowchart Maker and Online Diagram Software</h1>
 			<p>
@@ -415,9 +415,11 @@
 				Please ensure JavaScript is enabled.
 			</p>
 		</div>
-	</div> -->
-
+	</div>
 	<script type="text/javascript">
+		/**
+		 * Main
+		 */
 		if (urlParams['dev'] != '1' && typeof document.createElement('canvas').getContext === "function") {
 			window.addEventListener('load', function () {
 				mxWinLoaded = true;

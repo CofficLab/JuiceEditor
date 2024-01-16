@@ -106,7 +106,7 @@ Editor.useLocalStorage = typeof(Storage) != 'undefined' && mxClient.IS_IOS;
 /**
  * Window width for simple mode to collapse panels.
  */
-Editor.smallScreenWidth = 800;
+Editor.smallScreenWidth = 1024;
 
 /**
  * 
@@ -156,6 +156,8 @@ Editor.expandLessImage = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3
 Editor.gearImage = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMjQiIHdpZHRoPSIyNCI+PHBhdGggZD0ibTkuMjUgMjItLjQtMy4ycS0uMzI1LS4xMjUtLjYxMi0uMy0uMjg4LS4xNzUtLjU2My0uMzc1TDQuNyAxOS4zNzVsLTIuNzUtNC43NSAyLjU3NS0xLjk1UTQuNSAxMi41IDQuNSAxMi4zMzd2LS42NzVxMC0uMTYyLjAyNS0uMzM3TDEuOTUgOS4zNzVsMi43NS00Ljc1IDIuOTc1IDEuMjVxLjI3NS0uMi41NzUtLjM3NS4zLS4xNzUuNi0uM2wuNC0zLjJoNS41bC40IDMuMnEuMzI1LjEyNS42MTMuMy4yODcuMTc1LjU2Mi4zNzVsMi45NzUtMS4yNSAyLjc1IDQuNzUtMi41NzUgMS45NXEuMDI1LjE3NS4wMjUuMzM3di42NzVxMCAuMTYzLS4wNS4zMzhsMi41NzUgMS45NS0yLjc1IDQuNzUtMi45NS0xLjI1cS0uMjc1LjItLjU3NS4zNzUtLjMuMTc1LS42LjNsLS40IDMuMlptMi44LTYuNXExLjQ1IDAgMi40NzUtMS4wMjVRMTUuNTUgMTMuNDUgMTUuNTUgMTJxMC0xLjQ1LTEuMDI1LTIuNDc1UTEzLjUgOC41IDEyLjA1IDguNXEtMS40NzUgMC0yLjQ4OCAxLjAyNVE4LjU1IDEwLjU1IDguNTUgMTJxMCAxLjQ1IDEuMDEyIDIuNDc1UTEwLjU3NSAxNS41IDEyLjA1IDE1LjVabTAtMnEtLjYyNSAwLTEuMDYyLS40MzgtLjQzOC0uNDM3LS40MzgtMS4wNjJ0LjQzOC0xLjA2MnEuNDM3LS40MzggMS4wNjItLjQzOHQxLjA2My40MzhxLjQzNy40MzcuNDM3IDEuMDYydC0uNDM3IDEuMDYycS0uNDM4LjQzOC0xLjA2My40MzhaTTEyIDEyWm0tMSA4aDEuOTc1bC4zNS0yLjY1cS43NzUtLjIgMS40MzgtLjU4OC42NjItLjM4NyAxLjIxMi0uOTM3bDIuNDc1IDEuMDI1Ljk3NS0xLjctMi4xNS0xLjYyNXEuMTI1LS4zNS4xNzUtLjczOC4wNS0uMzg3LjA1LS43ODd0LS4wNS0uNzg4cS0uMDUtLjM4Ny0uMTc1LS43MzdsMi4xNS0xLjYyNS0uOTc1LTEuNy0yLjQ3NSAxLjA1cS0uNTUtLjU3NS0xLjIxMi0uOTYzLS42NjMtLjM4Ny0xLjQzOC0uNTg3TDEzIDRoLTEuOTc1bC0uMzUgMi42NXEtLjc3NS4yLTEuNDM3LjU4Ny0uNjYzLjM4OC0xLjIxMy45MzhMNS41NSA3LjE1bC0uOTc1IDEuNyAyLjE1IDEuNnEtLjEyNS4zNzUtLjE3NS43NS0uMDUuMzc1LS4wNS44IDAgLjQuMDUuNzc1dC4xNzUuNzVsLTIuMTUgMS42MjUuOTc1IDEuNyAyLjQ3NS0xLjA1cS41NS41NzUgMS4yMTMuOTYyLjY2Mi4zODggMS40MzcuNTg4WiIvPjwvc3ZnPg==';
 Editor.extensionImage = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMjQiIHdpZHRoPSIyNCI+PHBhdGggZD0iTTguOCAyMUg1cS0uODI1IDAtMS40MTMtLjU4N1EzIDE5LjgyNSAzIDE5di0zLjhxMS4yIDAgMi4xLS43NjIuOS0uNzYzLjktMS45MzggMC0xLjE3NS0uOS0xLjkzOFE0LjIgOS44IDMgOS44VjZxMC0uODI1LjU4Ny0xLjQxMlE0LjE3NSA0IDUgNGg0cTAtMS4wNS43MjUtMS43NzVRMTAuNDUgMS41IDExLjUgMS41cTEuMDUgMCAxLjc3NS43MjVRMTQgMi45NSAxNCA0aDRxLjgyNSAwIDEuNDEzLjU4OFEyMCA1LjE3NSAyMCA2djRxMS4wNSAwIDEuNzc1LjcyNS43MjUuNzI1LjcyNSAxLjc3NSAwIDEuMDUtLjcyNSAxLjc3NVEyMS4wNSAxNSAyMCAxNXY0cTAgLjgyNS0uNTg3IDEuNDEzUTE4LjgyNSAyMSAxOCAyMWgtMy44cTAtMS4yNS0uNzg3LTIuMTI1UTEyLjYyNSAxOCAxMS41IDE4dC0xLjkxMi44NzVROC44IDE5Ljc1IDguOCAyMVpNNSAxOWgyLjEyNXEuNi0xLjY1IDEuOTI1LTIuMzI1UTEwLjM3NSAxNiAxMS41IDE2cTEuMTI1IDAgMi40NS42NzUgMS4zMjUuNjc1IDEuOTI1IDIuMzI1SDE4di02aDJxLjIgMCAuMzUtLjE1LjE1LS4xNS4xNS0uMzUgMC0uMi0uMTUtLjM1UTIwLjIgMTIgMjAgMTJoLTJWNmgtNlY0cTAtLjItLjE1LS4zNS0uMTUtLjE1LS4zNS0uMTUtLjIgMC0uMzUuMTVRMTEgMy44IDExIDR2Mkg1djIuMnExLjM1LjUgMi4xNzUgMS42NzVROCAxMS4wNSA4IDEyLjVxMCAxLjQyNS0uODI1IDIuNlQ1IDE2LjhabTcuNzUtNy43NVoiLz48L3N2Zz4=';
 Editor.colorDropperImage = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iNDgiIHdpZHRoPSI0OCI+PHBhdGggZD0iTTYgNDJ2LTguNGwxOC44NS0xOC44NS0zLjYtMy42TDIzLjMgOS4xbDQuNiA0LjZMMzUgNi42cS41NS0uNTUgMS4xNzUtLjU1dDEuMTc1LjU1bDQuMDUgNC4wNXEuNTUuNTUuNTUgMS4xNzVUNDEuNCAxM2wtNy4xIDcuMSA0LjYgNC42LTIuMDUgMi4wNS0zLjYtMy42TDE0LjQgNDJabTMtM2g0LjM1TDMxLjEgMjEuMjVsLTQuMzUtNC4zNUw5IDM0LjY1Wm0yMy4xNS0yMSA2LjItNi4yLTIuMTUtMi4xNS02LjIgNi4yWm0wIDBMMzAgMTUuODUgMzIuMTUgMThaIi8+PC9zdmc+';
+Editor.magnifyImage = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgLTk2MCA5NjAgOTYwIiB3aWR0aD0iMjQiPjxwYXRoIGQ9Ik03ODQtMTIwIDUzMi0zNzJxLTMwIDI0LTY5IDM4dC04MyAxNHEtMTA5IDAtMTg0LjUtNzUuNVQxMjAtNTgwcTAtMTA5IDc1LjUtMTg0LjVUMzgwLTg0MHExMDkgMCAxODQuNSA3NS41VDY0MC01ODBxMCA0NC0xNCA4M3QtMzggNjlsMjUyIDI1Mi01NiA1NlpNMzgwLTQwMHE3NSAwIDEyNy41LTUyLjVUNTYwLTU4MHEwLTc1LTUyLjUtMTI3LjVUMzgwLTc2MHEtNzUgMC0xMjcuNSA1Mi41VDIwMC01ODBxMCA3NSA1Mi41IDEyNy41VDM4MC00MDBaIi8+PC9zdmc+';
+Editor.sendImage = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgLTk2MCA5NjAgOTYwIiB3aWR0aD0iMjQiPjxwYXRoIGQ9Ik0xMjAtMTYwdi02NDBsNzYwIDMyMC03NjAgMzIwWm04MC0xMjAgNDc0LTIwMC00NzQtMjAwdjE0MGwyNDAgNjAtMjQwIDYwdjE0MFptMCAwdi00MDAgNDAwWiIvPjwvc3ZnPg==';
 Editor.helpImage = Editor.lightHelpImage;
 Editor.checkmarkImage = Editor.lightCheckmarkImage;
 
@@ -176,9 +178,9 @@ Editor.fillStyles = [{val: 'auto', dispName: 'Auto'}, {val: 'hatch', dispName: '
 	{val: 'zigzag-line', dispName: 'ZigZag Line'}];
 
 /**
- * Graph themes for the format panel.
+ * List of supported custom themes.
  */
-Editor.themes = null;
+Editor.themes = [];
 
 /**
  * Specifies the image URL to be used for the transparent background.
@@ -825,10 +827,12 @@ Editor.prototype.getGraphXml = function(ignoreSelection)
 	{
 		var enc = new mxCodec(mxUtils.createXmlDocument());
 		node = enc.encode(this.graph.getModel());
+		enc.document.appendChild(node);
 	}
 	else
 	{
-		node = this.graph.encodeCells(mxUtils.sortCells(this.graph.model.getTopmostCells(
+		node = this.graph.encodeCells(mxUtils.sortCells(
+			this.graph.model.getTopmostCells(
 			this.graph.getSelectionCells())));
 	}
 
@@ -868,8 +872,8 @@ Editor.prototype.updateGraphComponents = function()
 	if (graph.container != null)
 	{
 		graph.view.validateBackground();
-		graph.container.style.overflow = (graph.scrollbars) ? 'auto' : this.defaultGraphOverflow;
-		
+		graph.container.style.overflow = (graph.scrollbars) ?
+			'auto' : this.defaultGraphOverflow;
 		this.fireEvent(new mxEventObject('updateGraphComponents'));
 	}
 };
@@ -1236,6 +1240,11 @@ Dialog.prototype.zIndex = mxPopupMenu.prototype.zIndex - 2;
  * 
  */
 Dialog.prototype.noColorImage = (!mxClient.IS_SVG) ? IMAGE_PATH + '/nocolor.png' : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyBpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBXaW5kb3dzIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOkEzRDlBMUUwODYxMTExRTFCMzA4RDdDMjJBMEMxRDM3IiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOkEzRDlBMUUxODYxMTExRTFCMzA4RDdDMjJBMEMxRDM3Ij4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6QTNEOUExREU4NjExMTFFMUIzMDhEN0MyMkEwQzFEMzciIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6QTNEOUExREY4NjExMTFFMUIzMDhEN0MyMkEwQzFEMzciLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5xh3fmAAAABlBMVEX////MzMw46qqDAAAAGElEQVR42mJggAJGKGAYIIGBth8KAAIMAEUQAIElnLuQAAAAAElFTkSuQmCC';
+
+/**
+ * 
+ */
+Dialog.prototype.defaultColorImage = (!mxClient.IS_SVG) ? IMAGE_PATH + '/defaultcolor.png' : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAABlBMVEUAAAD///+l2Z/dAAAAKUlEQVQI1wXBMREAIAwEsHAMjJVQKZVW6U8CDpdH0QxLnLjxoqJjYvMBewMJ51TWcscAAAAASUVORK5CYII=';
 
 /**
  * 
@@ -1696,7 +1705,23 @@ PrintDialog.createPrintPreview = function(graph, scale, pf, border, x0, y0, auto
 	}
 	
 	preview.backgroundColor = bg;
-	
+
+	// Excludes hints from being printed as text labels
+	var isTextLabel = preview.isTextLabel;
+
+	preview.isTextLabel = function(node)
+	{
+		return !node.className == 'geHint' && isTextLabel.apply(this, arguments);
+	};
+
+	// Makes relative links absolute
+	var getLinkForCellState = preview.getLinkForCellState;
+
+	preview.getLinkForCellState = function(state)
+	{
+		return graph.getAbsoluteUrl(getLinkForCellState.apply(this, arguments));
+	};
+
 	var writeHead = preview.writeHead;
 	
 	// Adds a border in the preview
@@ -2239,30 +2264,48 @@ PageSetupDialog.getFormats = function()
 /**
  * Constructs a new filename dialog.
  */
-var FilenameDialog = function(editorUi, filename, buttonText, fn, label, validateFn, content, helpLink, closeOnBtn, cancelFn, hints, w, lblW)
+var FilenameDialog = function(editorUi, filename, buttonText, fn, label,
+	validateFn, content, helpLink, closeOnBtn, cancelFn, hints)
 {
 	closeOnBtn = (closeOnBtn != null) ? closeOnBtn : true;
 
-	var table = document.createElement('table');
-	var tbody = document.createElement('tbody');
-	var row = document.createElement('tr');
-	var td = document.createElement('td');
-	table.style.margin = '0 auto';
+	var container = document.createElement('div');
+	var table = document.createElement('div');
+	table.style.width = '100%';
+	table.style.display = 'grid';
+	table.style.gap = '5px 8px';
+	table.style.gridAutoColumns = 'auto 1fr';
 
-	td.style.textOverflow = 'ellipsis';
-	td.style.whiteSpace = 'nowrap';
-	td.style.textAlign = 'right';
-	td.style.maxWidth = (lblW? lblW + 15 : 100) + 'px';
-	td.style.fontSize = '10pt';
-	td.style.width = (lblW? lblW : 84) + 'px';
-	mxUtils.write(td, (label || mxResources.get('filename')) + ':');
-	
-	row.appendChild(td);
+	// Workaround for clipped focus rectangle in FF
+	table.style.boxSizing = 'border-box';
+	table.style.padding = '3px';
+
+	var td = document.createElement('div');
+	td.style.display = 'inline-flex';
+	td.style.alignItems = 'center';
+	td.style.justifyContent = 'flex-end';
+	td.style.minWidth = '0';
+
+	// Wrapper for text ellipsis
+	var wrapper = document.createElement('div');
+	wrapper.style.display = 'inline-block';
+	wrapper.style.textOverflow = 'ellipsis';
+	wrapper.style.whiteSpace = 'nowrap';
+	wrapper.style.overflow = 'hidden';
+	wrapper.style.fontSize = '10pt';
+
+	// Workaround for vertical clipping
+	wrapper.style.padding = '2px 0';
+
+	wrapper.setAttribute('title', label || mxResources.get('filename'));
+	mxUtils.write(wrapper, (label || mxResources.get('filename')) + ':');
+
+	td.appendChild(wrapper);
+	table.appendChild(td);
 	
 	var nameInput = document.createElement('input');
 	nameInput.setAttribute('value', filename || '');
-	nameInput.style.marginLeft = '4px';
-	nameInput.style.width = (w != null) ? w + 'px' : '180px';
+	nameInput.style.flexGrow = '1';
 	
 	var genericBtn = mxUtils.button(buttonText, function()
 	{
@@ -2311,7 +2354,6 @@ var FilenameDialog = function(editorUi, filename, buttonText, fn, label, validat
 			
 			if (dlg != null)
 			{
-				var graph = editorUi.editor.graph;
 				var dropElt = null;
 					
 				mxEvent.addListener(dlg, 'dragleave', function(evt)
@@ -2360,66 +2402,54 @@ var FilenameDialog = function(editorUi, filename, buttonText, fn, label, validat
 		}
 	};
 
-	td = document.createElement('td');
+	td = document.createElement('div');
+	td.style.display = 'inline-flex';
+	td.style.alignItems = 'center';
+	td.style.gap = '4px';
 	td.style.whiteSpace = 'nowrap';
 	td.appendChild(nameInput);
-	row.appendChild(td);
+	table.appendChild(td);
 	
 	if (label != null || content == null)
 	{
-		tbody.appendChild(row);
-		
-		if (hints != null)
-		{	
-			td.appendChild(FilenameDialog.createTypeHint(editorUi, nameInput, hints));
+		if (hints != null && editorUi.editor.diagramFileTypes != null)
+		{
+			td = document.createElement('div');
+			td.style.display = 'inline-flex';
+			td.style.alignItems = 'center';
+			td.style.textOverflow = 'ellipsis';
+			td.style.justifyContent = 'flex-end';
+			td.style.fontSize = '10pt';
+			mxUtils.write(td, mxResources.get('type') + ':');
+			table.appendChild(td);
 
-			if (editorUi.editor.diagramFileTypes != null)
-			{
-				row = document.createElement('tr');
-		
-				td = document.createElement('td');
-				td.style.textOverflow = 'ellipsis';
-				td.style.textAlign = 'right';
-				td.style.maxWidth = '100px';
-				td.style.fontSize = '10pt';
-				td.style.width = '84px';
-				mxUtils.write(td, mxResources.get('type') + ':');
-				row.appendChild(td);
+			td = document.createElement('div');
+			td.style.display = 'inline-flex';
+			td.style.alignItems = 'center';
+			td.style.whiteSpace = 'nowrap';
+			table.appendChild(td);
 
-				td = document.createElement('td');
-				td.style.whiteSpace = 'nowrap';
-				row.appendChild(td);
+			var typeSelect = FilenameDialog.createFileTypes(editorUi,
+				nameInput, editorUi.editor.diagramFileTypes);
+			typeSelect.style.width = '100%';
 
-				var typeSelect = FilenameDialog.createFileTypes(editorUi,
-					nameInput, editorUi.editor.diagramFileTypes);
-				typeSelect.style.marginLeft = '4px';
-				typeSelect.style.width = '198px';
-
-				td.appendChild(typeSelect);
-				nameInput.style.width = (w != null) ? (w - 40) + 'px' : '190px';
-
-				row.appendChild(td);
-				tbody.appendChild(row);
-			}
+			td.appendChild(typeSelect);
 		}
 	}
 	
 	if (content != null)
 	{
-		row = document.createElement('tr');
-		td = document.createElement('td');
-		td.colSpan = 2;
-		td.appendChild(content);
-		row.appendChild(td);
-		tbody.appendChild(row);
+		table.appendChild(content);
 	}
 	
-	row = document.createElement('tr');
-	td = document.createElement('td');
-	td.colSpan = 2;
-	td.style.paddingTop = (hints != null) ? '12px' : '20px';
-	td.style.whiteSpace = 'nowrap';
-	td.setAttribute('align', 'right');
+	row = document.createElement('div');
+	row.style.gridColumn = '1 / span 2';
+	row.style.paddingTop = (hints != null) ? '6px' : '14px';
+	row.style.whiteSpace = 'nowrap';
+	row.style.display = 'inline-flex';
+	row.style.alignItems = 'center';
+	row.style.justifyContent = 'flex-end';
+	row.setAttribute('align', 'right');
 	
 	var cancelBtn = mxUtils.button(mxResources.get('cancel'), function()
 	{
@@ -2432,7 +2462,7 @@ var FilenameDialog = function(editorUi, filename, buttonText, fn, label, validat
 	});
 	cancelBtn.className = 'geBtn';
 	
-	if (helpLink != null)
+	if (helpLink != null && (!editorUi.isOffline() || mxClient.IS_CHROMEAPP))
 	{
 		var helpBtn = mxUtils.button(mxResources.get('help'), function()
 		{
@@ -2440,12 +2470,12 @@ var FilenameDialog = function(editorUi, filename, buttonText, fn, label, validat
 		});
 		
 		helpBtn.className = 'geBtn';	
-		td.appendChild(helpBtn);
+		row.appendChild(helpBtn);
 	}
 
 	if (editorUi.editor.cancelFirst)
 	{
-		td.appendChild(cancelBtn);
+		row.appendChild(cancelBtn);
 	}
 	
 	mxEvent.addListener(nameInput, 'keypress', function(e)
@@ -2456,81 +2486,23 @@ var FilenameDialog = function(editorUi, filename, buttonText, fn, label, validat
 		}
 	});
 	
-	td.appendChild(genericBtn);
+	row.appendChild(genericBtn);
 	
 	if (!editorUi.editor.cancelFirst)
 	{
-		td.appendChild(cancelBtn);
+		row.appendChild(cancelBtn);
 	}
-
-	row.appendChild(td);
-	tbody.appendChild(row);
-	table.appendChild(tbody);
 	
-	this.container = table;
+	table.appendChild(row);
+	container.appendChild(table);
+	
+	this.container = container;
 };
 
 /**
  * 
  */
 FilenameDialog.filenameHelpLink = null;
-
-/**
- * 
- */
-FilenameDialog.createTypeHint = function(ui, nameInput, hints)
-{
-	var hint = document.createElement('img');
-	hint.style.backgroundPosition = 'center bottom';
-	hint.style.backgroundRepeat = 'no-repeat';
-	hint.style.margin = '2px 0 0 4px';
-	hint.style.verticalAlign = 'top';
-	hint.style.cursor = 'pointer';
-	hint.style.height = '16px';
-	hint.style.width = '16px';
-	mxUtils.setOpacity(hint, 70);
-	
-	var nameChanged = function()
-	{
-		hint.setAttribute('src', Editor.helpImage);
-		hint.setAttribute('title', mxResources.get('help'));
-		
-		for (var i = 0; i < hints.length; i++)
-		{
-			if (hints[i].ext.length > 0 && nameInput.value.toLowerCase().substring(
-				nameInput.value.length - hints[i].ext.length - 1) == '.' + hints[i].ext)
-			{
-				hint.setAttribute('title', mxResources.get(hints[i].title));
-				break;
-			}
-		}
-	};
-	
-	mxEvent.addListener(nameInput, 'keyup', nameChanged);
-	mxEvent.addListener(nameInput, 'change', nameChanged);
-	mxEvent.addListener(hint, 'click', function(evt)
-	{
-		var title = hint.getAttribute('title');
-		
-		if (hint.getAttribute('src') == Editor.helpImage)
-		{
-			ui.editor.graph.openLink(FilenameDialog.filenameHelpLink);
-		}
-		else if (title != '')
-		{
-			ui.showError(null, title, mxResources.get('help'), function()
-			{
-				ui.editor.graph.openLink(FilenameDialog.filenameHelpLink);
-			}, null, mxResources.get('ok'), null, null, null, 340, 90);
-		}
-		
-		mxEvent.consume(evt);
-	});
-	
-	nameChanged();
-	
-	return hint;
-};
 
 /**
  * 

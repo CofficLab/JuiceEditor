@@ -632,6 +632,7 @@ Graph = function(container, model, renderHint, stylesheet, themes, standalone)
 						
 				    	if (state != null && this.isCellEditable(state.cell))
 				    	{
+							var parent = this.model.getParent(state.cell);
 				    		var cursor = null;
 				    		
 				    		// Checks if state was removed in call to stopEditing above
@@ -639,7 +640,14 @@ Graph = function(container, model, renderHint, stylesheet, themes, standalone)
 								!this.isCellSelected(state.cell) &&
 								!mxEvent.isAltDown(me.getEvent()) &&								
 								!mxEvent.isControlDown(me.getEvent()) &&
-								!mxEvent.isShiftDown(me.getEvent()))
+								!mxEvent.isShiftDown(me.getEvent()) &&
+
+								// Immediate edge handling unavailable
+								// in groups and selected ancestors
+								!this.isAncestorSelected(state.cell) &&
+								(this.isSwimlane(parent) ||
+								this.model.isLayer(parent) ||
+								this.getCurrentRoot() == parent))
 				    		{
 				    			var box = new mxRectangle(me.getGraphX(), me.getGraphY());
 		    					box.grow(mxEdgeHandler.prototype.handleImage.width / 2);
@@ -1373,6 +1381,12 @@ Graph.defaultJumpSize = 6;
  * Specifies if the mouse wheel is used for zoom without any modifiers.
  */
 Graph.zoomWheel = false;
+
+/**
+ * Specifies if the parent layer should be selected when the selection changes.
+ * Default is false.
+ */
+Graph.selectParentLayer = false;
 
 /**
  * Minimum width for table columns.
@@ -3976,17 +3990,23 @@ Graph.prototype.createLayouts = function(list)
 };
 
 /**
- * Returns the metadata of the given cells as a JSON object.
+ * Returns the metadata of the given cells as a JSON object. The value with
+ * resolved placeholders for the label is included if includeValues is true.
  */
-Graph.prototype.getDataForCells = function(cells)
+Graph.prototype.getDataForCells = function(cells, includeValues)
 {
 	var result = [];
 
 	for (var i = 0; i < cells.length; i++)
 	{
-		var attrs = (cells[i].value != null) ? cells[i].value.attributes : null;
 		var row = {};
 		row.id = cells[i].id;
+		var attrs = (cells[i].value != null) ? cells[i].value.attributes : null;
+
+		if (this.isReplacePlaceholders(cells[i]) && includeValues)
+		{
+			row.value = this.getLabel(cells[i]);
+		}
 
 		if (attrs != null)
 		{
@@ -5507,9 +5527,8 @@ Graph.prototype.getLinkForCell = function(cell)
 	{
 		var link = cell.value.getAttribute('link');
 		
-		// Removes links with leading javascript: protocol
-		// TODO: Check more possible attack vectors
-		if (link != null && link.toLowerCase().substring(0, 11) === 'javascript:')
+		// Removes javascript protocol
+		while (link != null && link.toLowerCase().substring(0, 11) === 'javascript:')
 		{
 			link = link.substring(11);
 		}
@@ -11459,7 +11478,7 @@ if (typeof mxVertexHandler !== 'undefined')
 				
 				imgExport.getLinkForCellState = function(state, canvas)
 				{
-					var result = imgExportGetLinkForCellState.apply(this, arguments);
+					var result = state.view.graph.getAbsoluteUrl(imgExportGetLinkForCellState.apply(this, arguments));
 					
 					return (result != null && !state.view.graph.isCustomLink(result)) ? result : null;
 				};
@@ -13507,7 +13526,9 @@ if (typeof mxVertexHandler !== 'undefined')
 		    }
 		};
 		
-		
+		/**
+		 * Format pixels in the given unit
+		 */
 		mxGraphView.prototype.formatUnitText = function(pixels) 
 		{
 			return pixels? formatHintText(pixels, this.unit) : pixels;
@@ -13548,11 +13569,15 @@ if (typeof mxVertexHandler !== 'undefined')
 		{
 			if (this.hint != null)
 			{
-				this.hint.parentNode.removeChild(this.hint);
+				if (this.hint.parentNode != null)
+				{
+					this.hint.parentNode.removeChild(this.hint);
+				}
+
 				this.hint = null;
 			}
 		};
-								
+		
 		/**
 		 * Overridden to allow for shrinking pools when lanes are resized.
 		 */

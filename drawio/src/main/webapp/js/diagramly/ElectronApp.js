@@ -283,8 +283,7 @@ mxStencilRegistry.allowEval = false;
 				}
 			}
 			
-			this.addMenuItems(menu, ['-', 'pageSetup', 'print', '-', 'close'], parent);
-			// LATER: Find API for application.quit
+			this.addMenuItems(menu, ['-', 'pageSetup', 'print', '-', 'close', '-', 'exit'], parent);
 		})));
 	};
 
@@ -321,10 +320,10 @@ mxStencilRegistry.allowEval = false;
 		var editorUi = this;
 		var graph = this.editor.graph;
 		
-		electron.registerMsgListener('isModified', () =>
+		electron.registerMsgListener('isModified', (uniqueId) =>
 		{
 			const currentFile = editorUi.getCurrentFile();
-			let reply = {isModified: false, draftPath: null};
+			let reply = {isModified: false, draftPath: null, uniqueId: uniqueId};
 
 			if (currentFile != null)
 			{
@@ -769,6 +768,13 @@ mxStencilRegistry.allowEval = false;
 					plugin: plugin
 				});
 			}, true).container, 360, 225, true, false);
+		});
+
+		editorUi.actions.addAction('exit', function()
+		{
+			electron.request({
+				action: 'exit'
+			});
 		});
 	}
 	
@@ -1624,6 +1630,9 @@ mxStencilRegistry.allowEval = false;
 	
 	LocalFile.prototype.saveDraft = function()
 	{
+		// Save draft only if file is not saved (prevents creating draft file after actual file is saved)
+		if (!this.isModified()) return;
+
 		if (this.fileObject == null)
 		{
 			//Use indexed db for unsaved files

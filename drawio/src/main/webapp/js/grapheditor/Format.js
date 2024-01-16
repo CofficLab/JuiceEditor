@@ -1097,8 +1097,8 @@ BaseFormatPanel.prototype.createColorOption = function(label, getColorFn, setCol
 	btn = mxUtils.button('', mxUtils.bind(this, function(evt)
 	{
 		var color = value;
-
-		if (color == 'default')
+		
+		if (color == 'default' && defaultColor != 'default')
 		{
 			color = defaultColorValue;
 		}
@@ -1106,7 +1106,8 @@ BaseFormatPanel.prototype.createColorOption = function(label, getColorFn, setCol
 		this.editorUi.pickColor(color, function(newColor)
 		{
 			apply(newColor, null, true);
-		}, defaultColorValue);
+		}, (defaultColor == 'default') ? 'default' : null,
+			defaultColorValue);
 
 		mxEvent.consume(evt);
 	}));
@@ -1830,15 +1831,50 @@ ArrangePanel.prototype.addGroupOps = function(div)
 		count += this.addActions(div, ['copySize', 'pasteSize', 'swap']);
 	}
 
-	var clearWaypoints = this.addAction(div, 'clearWaypoints');
+	var resetSelect = document.createElement('select');
+	resetSelect.style.width = '210px';
+	resetSelect.style.textAlign = 'center';
+	resetSelect.style.marginBottom = '2px';
 
-	if (clearWaypoints != null)
+	var ops = [{label: mxResources.get('reset'), action: 'reset'},
+		{label: mxResources.get('waypoints'), action: 'clearWaypoints'},
+		{label: mxResources.get('connectionPoints'), action: 'clearAnchors'}];
+
+	for (var i = 0; i < ops.length; i++)
 	{
+		var action = this.editorUi.actions.get(ops[i].action);
+
+		if (action == null || action.enabled)
+		{
+			var option = document.createElement('option');
+			option.setAttribute('value', ops[i].action);
+			option.setAttribute('title', ops[i].label +
+				((action != null && action.shortcut != null) ?
+					' (' + action.shortcut + ')' : ''));
+			mxUtils.write(option, ops[i].label);
+			resetSelect.appendChild(option);
+		}
+	}
+
+	if (resetSelect.children.length > 1)
+	{
+		resetSelect.value = 'reset';
+		div.appendChild(resetSelect);
 		mxUtils.br(div);
-		clearWaypoints.setAttribute('title', mxResources.get('clearWaypoints') +
-			' (' + this.editorUi.actions.get('clearWaypoints').shortcut + ')' +
-			' Shift+Click to Clear Anchor Points');
 		count++;
+
+		mxEvent.addListener(resetSelect, 'change', mxUtils.bind(this, function(evt)
+		{
+			var action = this.editorUi.actions.get(resetSelect.value);
+			resetSelect.value = 'reset';
+
+			console.log('here', action);
+
+			if (action != null)
+			{
+				action.funct();
+			}
+		}));
 	}
 
 	count += this.addActions(div, ['lockUnlock']);
@@ -2373,8 +2409,6 @@ ArrangePanel.prototype.addGeometry = function(container)
 
 					dyUpdate = this.addGeometryHandler(dy, function(geo, value)
 					{
-						console.log('value', value);
-
 						geo.y = panel.fromUnit(value);
 					});
 				}
@@ -3221,15 +3255,34 @@ TextFormatPanel.prototype.addFont = function(container)
 	// NOTE: For automatic we use the value null since automatic
 	// requires the text to be non formatted and non-wrapped
 	var dirs = ['automatic', 'leftToRight', 'rightToLeft'];
+
+	if (ss.html && urlParams['test'] == '1')
+	{
+		dirs.push('vertical-leftToRight');
+		dirs.push('vertical-rightToLeft');
+	}
+
 	var dirSet = {'automatic': null,
-			'leftToRight': mxConstants.TEXT_DIRECTION_LTR,
-			'rightToLeft': mxConstants.TEXT_DIRECTION_RTL};
+		'leftToRight': mxConstants.TEXT_DIRECTION_LTR,
+		'rightToLeft': mxConstants.TEXT_DIRECTION_RTL,
+		'vertical-leftToRight': mxConstants.TEXT_DIRECTION_VERTICAL_LR,
+		'vertical-rightToLeft': mxConstants.TEXT_DIRECTION_VERTICAL_RL};
 
 	for (var i = 0; i < dirs.length; i++)
 	{
 		var dirOption = document.createElement('option');
 		dirOption.setAttribute('value', dirs[i]);
-		mxUtils.write(dirOption, mxResources.get(dirs[i]));
+
+		if (dirs[i].substring(0, 9) == 'vertical-')
+		{
+			mxUtils.write(dirOption, mxResources.get('vertical') +
+				' (' + mxResources.get(dirs[i].substring(9)) + ')');
+		}
+		else
+		{
+			mxUtils.write(dirOption, mxResources.get(dirs[i]));
+		}
+
 		dirSelect.appendChild(dirOption);
 	}
 
@@ -3938,7 +3991,8 @@ TextFormatPanel.prototype.addFont = function(container)
 					{
 						var value = currentTable.getAttribute('cellPadding') || 0;
 						
-						var dlg = new FilenameDialog(ui, value, mxResources.get('apply'), mxUtils.bind(this, function(newValue)
+						var dlg = new FilenameDialog(ui, value, mxResources.get('apply'),
+							mxUtils.bind(this, function(newValue)
 						{
 							if (newValue != null && newValue.length > 0)
 							{
@@ -4082,9 +4136,17 @@ TextFormatPanel.prototype.addFont = function(container)
 		{
 			dirSelect.value = 'leftToRight';
 		}
-		else if (dir == mxConstants.TEXT_DIRECTION_AUTO)
+		else if (dir == mxConstants.TEXT_DIRECTION_AUTO || !ss.html)
 		{
 			dirSelect.value = 'automatic';
+		}
+		else if (dir == mxConstants.TEXT_DIRECTION_VERTICAL_LR)
+		{
+			dirSelect.value = 'vertical-leftToRight';
+		}
+		else if (dir == mxConstants.TEXT_DIRECTION_VERTICAL_RL)
+		{
+			dirSelect.value = 'vertical-rightToLeft';
 		}
 		
 		if (force || document.activeElement != globalSpacing)
@@ -4607,9 +4669,9 @@ StyleFormatPanel.prototype.addEditOps = function(div)
 		editSelect.style.textAlign = 'center';
 		editSelect.style.marginBottom = '2px';
 		
-		var ops = ['edit', 'editLink', 'editShape', 'editImage', 'editData',
-			'copyData', 'pasteData', 'editConnectionPoints', 'editGeometry',
-			'editTooltip', 'editStyle'];
+		var ops = ['edit', 'copyAsText', 'editLink', 'editShape', 'editImage',
+			'editData', 'copyData', 'pasteData', 'editConnectionPoints',
+			'editGeometry', 'editTooltip', 'editStyle'];
 		
 		for (var i = 0; i < ops.length; i++)
 		{
@@ -4952,16 +5014,15 @@ StyleFormatPanel.prototype.addStroke = function(container)
 		try
 		{
 			var keys = [mxConstants.STYLE_ROUNDED, mxConstants.STYLE_CURVED];
-			// Default for rounded is 1
-			var values = ['0', null];
+			var values = ['0', '0'];
 			
 			if (styleSelect.value == 'rounded')
 			{
-				values = ['1', null];
+				values = ['1', '0'];
 			}
 			else if (styleSelect.value == 'curved')
 			{
-				values = [null, '1'];
+				values = ['0', '1'];
 			}
 			
 			for (var i = 0; i < keys.length; i++)
@@ -5901,51 +5962,81 @@ DiagramStylePanel.prototype.getGlobalStyleButtons = function()
 	var editor = ui.editor;
 	var graph = editor.graph;
 
-	var buttons = [mxUtils.button(mxResources.get('sketch'), mxUtils.bind(this, function(evt)
+	var sketchDiv = document.createElement('div');
+	sketchDiv.style.fontWeight = 'bold';
+	sketchDiv.style.alignItems = 'center';
+	sketchDiv.style.textAlign = 'left';
+	sketchDiv.style.display = 'flex';
+	sketchDiv.style.padding = '4px';
+
+	var sketchInput = document.createElement('input');
+	sketchInput.setAttribute('type', 'checkbox');
+	sketchInput.style.margin = '1px 6px 0px 0px';
+	sketchInput.checked = Editor.sketchMode;
+	sketchDiv.appendChild(sketchInput);
+	mxUtils.write(sketchDiv, mxResources.get('sketch'));
+
+	mxEvent.addListener(sketchDiv, 'click', function(evt)
 	{
 		var value = !Editor.sketchMode;
+
+		// Temporary overrides sketch mode to avoid flickering
+		// for the first async update after updating cells
+		Editor.sketchMode = value;
+
 		graph.updateCellStyles({'sketch': (value) ? '1' : null,
 			'curveFitting': (value) ? Editor.sketchDefaultCurveFitting : null,
 			'jiggle': (value) ? Editor.sketchDefaultJiggle : null},
 			graph.getVerticesAndEdges());
-		ui.setSketchMode(value);
 		mxEvent.consume(evt);
-	})), mxUtils.button(mxResources.get('rounded'), mxUtils.bind(this, function(evt)
-	{
-		// Checks if all cells are rounded
-		var cells = graph.getVerticesAndEdges();
-		var rounded = true;
 
-		if (cells.length > 0)
+		// Restores and udpates sketch mode asynchronously
+		window.setTimeout(function()
 		{
-			for (var i = 0; i < cells.length; i++)
-			{
-				var style = graph.getCellStyle(cells[i]);
+			Editor.sketchMode = !value;
+			ui.setSketchMode(value);
+		});
+	});
 
-				if (mxUtils.getValue(style, mxConstants.STYLE_ROUNDED, 0) == 0)
+
+	var buttons = [sketchDiv, mxUtils.button(mxResources.get('rounded'),
+		mxUtils.bind(this, function(evt)
+		{
+			// Checks if all cells are rounded
+			var cells = graph.getVerticesAndEdges();
+			var rounded = true;
+
+			if (cells.length > 0)
+			{
+				for (var i = 0; i < cells.length; i++)
 				{
-					rounded = false;
-					break;
+					var style = graph.getCellStyle(cells[i]);
+
+					if (mxUtils.getValue(style, mxConstants.STYLE_ROUNDED, 0) == 0)
+					{
+						rounded = false;
+						break;
+					}
 				}
 			}
-		}
-		
-		rounded = !rounded;
-		graph.updateCellStyles({'rounded': (rounded) ? '1' : '0'}, cells);
+			
+			rounded = !rounded;
+			graph.updateCellStyles({'rounded': (rounded) ? '1' : '0'}, cells);
 
-		if (rounded)
-		{
-			graph.currentEdgeStyle['rounded'] = '1';
-			graph.currentVertexStyle['rounded'] = '1';
-		}
-		else
-		{
-			delete graph.currentEdgeStyle['rounded'];
-			delete graph.currentVertexStyle['rounded'];
-		}
+			if (rounded)
+			{
+				graph.currentEdgeStyle['rounded'] = '1';
+				graph.currentVertexStyle['rounded'] = '1';
+			}
+			else
+			{
+				delete graph.currentEdgeStyle['rounded'];
+				delete graph.currentVertexStyle['rounded'];
+			}
 
-		mxEvent.consume(evt);
-	}))];
+			mxEvent.consume(evt);
+		}
+	))];
 
 	return buttons;
 };

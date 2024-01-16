@@ -270,6 +270,26 @@
 	Editor.defaultBorder = 5;
 
 	/**
+	 * Specifies the ChatGPT API key. Default is null.
+	 */
+	Editor.gptApiKey = (urlParams['gpt-api-key'] != null) ?
+		decodeURIComponent(urlParams['gpt-api-key']) : null;
+
+	/**
+	 * Specifies the ChatGPT model. Default is 'gpt-3.5-turbo'.
+	 */
+	Editor.gptModel = (urlParams['gpt-model'] != null) ?
+		decodeURIComponent(urlParams['gpt-model']) : 'gpt-3.5-turbo';
+	
+	/**
+	 * Specifies the ChatGPT endpoint URL. Default is
+	 * 'https://api.openai.com/v1/chat/completions'.
+	 */
+	Editor.gptUrl = (urlParams['gpt-url'] != null) ?
+		decodeURIComponent(urlParams['gpt-url']) :
+		'https://api.openai.com/v1/chat/completions';
+	
+	/**
 	 * Common properties for all edges.
 	 */
 	Editor.commonProperties = [
@@ -360,6 +380,10 @@
         {name: 'jettySize', dispName: 'Jetty Size', type: 'int', min: 0, defVal: 'auto', allowAuto: true, isVisible: function(state)
         {
     		return mxUtils.getValue(state.style, mxConstants.STYLE_EDGE, null) == 'orthogonalEdgeStyle';
+        }},
+        {name: 'segment', dispName: 'Segment Size', type: 'int', min: 0, defVal: mxConstants.ENTITY_SEGMENT, isVisible: function(state)
+        {
+    		return mxUtils.getValue(state.style, mxConstants.STYLE_EDGE, null) == 'entityRelationEdgeStyle';
         }},
         {name: 'fillOpacity', dispName: 'Fill Opacity', type: 'int', min: 0, max: 100, defVal: 100},
         {name: 'strokeOpacity', dispName: 'Stroke Opacity', type: 'int', min: 0, max: 100, defVal: 100},
@@ -1822,6 +1846,11 @@
 				Graph.prototype.defaultEdgeLength = config.defaultEdgeLength
 			}
 
+			if (config.selectParentLayer != null)
+			{
+				Graph.selectParentLayer = config.selectParentLayer
+			}
+
 			if (config.autosaveDelay != null)
 			{
 				DrawioFile.prototype.autosaveDelay = config.autosaveDelay
@@ -1920,6 +1949,16 @@
 				var t = document.getElementsByTagName('script')[0];
 			  	t.parentNode.insertBefore(s, t);
 			}
+
+			if (config.expandLibraries != null)
+			{
+				Sidebar.prototype.expandLibraries = config.expandLibraries;
+			}
+			
+			if (config.appendCustomLibraries != null)
+			{
+				Sidebar.prototype.appendCustomLibraries = config.appendCustomLibraries;
+			}
 			
 			// Configures the custom libraries
 			if (config.libraries != null)
@@ -2000,6 +2039,21 @@
 				else
 				{
 					EditorUi.debug('Configuration Error: Float > 1 expected for zoomFactor');
+				}
+			}
+
+			// Overrides default grid size
+			if (config.defaultGridSize != null)
+			{
+				var val = parseInt(config.defaultGridSize);
+				
+				if (!isNaN(val) && val > 0)
+				{
+					mxGraph.prototype.gridSize = val;
+				}
+				else
+				{
+					EditorUi.debug('Configuration Error: Int > 0 expected for defaultGridSize');
 				}
 			}
 
@@ -2133,6 +2187,21 @@
 			{
 				DrawioFile.RESTRICT_EXPORT = config.restrictExport;
 			}
+
+			if (config.gptApiKey != null)
+			{
+				Editor.gptApiKey = config.gptApiKey;
+			}
+
+			if (config.gptModel != null)
+			{
+				Editor.gptModel = config.gptModel;
+			}
+
+			if (config.gptUrl != null)
+			{
+				Editor.gptUrl = config.gptUrl;
+			}
 		}
 	};
 	
@@ -2193,6 +2262,11 @@
      * Prefix for URLs that reference Google fonts.
      */
 	Editor.GOOGLE_FONTS = 'https://fonts.googleapis.com/css?family=';
+     
+    /**
+     * Prefix for URLs that reference Google fonts with CSS2.
+     */
+	Editor.GOOGLE_FONTS_CSS2 = 'https://fonts.googleapis.com/css2?family=';
     
 	/**
 	 * Alphabet for global unique IDs.
@@ -2698,8 +2772,7 @@
 			/app\.diagrams\.net$/.test(window.location.hostname)) &&
 			!this.isCorsEnabledForUrl(url))
 		{
-			var isVisioFilename = /(\.v(dx|sdx?))($|\?)/i.test(url) ||
-				/(\.vs(x|sx?))($|\?)/i.test(url);
+			var isVisioFilename = EditorUi.isVisioFilename(url);
 			var binary = /\.png$/i.test(url) || /\.pdf$/i.test(url);
 			var base64 = binary || isVisioFilename;
 			var nocache = 't=' + new Date().getTime();
@@ -3414,7 +3487,7 @@
 						{
 							waiting++;
 							
-							this.loadUrl(fontUrl, mxUtils.bind(this, function(css)
+							this.loadUrl(Graph.rewriteGoogleFontUrl(fontUrl), mxUtils.bind(this, function(css)
 		                    {
 								this.cachedGoogleFonts[fontUrl] = css;
 								content.push(css + '\n');
@@ -4835,15 +4908,18 @@
 				clrDiv.style.height = '4px';
 				clrDiv.style.margin = '2px';
 				clrDiv.style.border = '1px solid black';
-				clrDiv.style.background = !pValue || pValue == 'none'? 'url(\'' + Dialog.prototype.noColorImage + '\')' : pValue;
+				clrDiv.style.background = !pValue || pValue == 'none'?
+					'url(\'' + Dialog.prototype.noColorImage + '\')' : pValue;
 
 				btn = mxUtils.button('', mxUtils.bind(that, function(evt)
 				{
 					this.editorUi.pickColor(pValue, function(color)
 					{
-						clrDiv.style.background = color == 'none'? 'url(\'' + Dialog.prototype.noColorImage + '\')' : color;
+						clrDiv.style.background = color == 'none'?
+							'url(\'' + Dialog.prototype.noColorImage + '\')' : color;
 						applyStyleVal(pName, color, prop);
 					});
+					
 					mxEvent.consume(evt);
 				}));
 				
@@ -4860,7 +4936,9 @@
 				if (pValue != null)
 				{
 					var vals = pValue.split(',');
-					secondLevel.push({name: pName, values: vals, type: subType, defVal: defVal, countProperty: countProperty, parentRow: myRow, isDeletable: true, flipBkg: flipBkg});
+					secondLevel.push({name: pName, values: vals, type: subType,
+						defVal: defVal, countProperty: countProperty,
+						parentRow: myRow, isDeletable: true, flipBkg: flipBkg});
 				}
 				
 				btn = mxUtils.button('+', mxUtils.bind(that, function(evt)
@@ -4884,7 +4962,8 @@
 						}
 					}
 					
-					var newProp = {type: subType, parentRow: myRow, index: index, isDeletable: true, defVal: defVal, countProperty: countProperty};
+					var newProp = {type: subType, parentRow: myRow, index: index,
+						isDeletable: true, defVal: defVal, countProperty: countProperty};
 					var arrItem = createPropertyRow(pName, '', newProp, index % 2 == 0, flipBkg);
 					applyStyleVal(pName, defVal, newProp);
 					insertAfter(arrItem, beforeElem);
@@ -5615,18 +5694,14 @@
 	 * Lookup table for mapping from font URL and name to elements in the DOM.
 	 */
 	Graph.customFontElements = {};
-		
-	/**
-	 * Lookup table for recent custom fonts.
-	 */
-	Graph.recentCustomFonts = {};
 
 	/**
 	 * Returns true if the given font URL references a Google font.
 	 */
 	Graph.isGoogleFontUrl = function(url)
 	{
-		return url.substring(0, Editor.GOOGLE_FONTS.length) == Editor.GOOGLE_FONTS;
+		return url.substring(0, Editor.GOOGLE_FONTS.length) == Editor.GOOGLE_FONTS ||
+			url.substring(0, Editor.GOOGLE_FONTS_CSS2.length) == Editor.GOOGLE_FONTS_CSS2;
 	};
 
 	/**
@@ -5635,6 +5710,21 @@
 	Graph.isCssFontUrl = function(url)
 	{
 		return Graph.isGoogleFontUrl(url);
+	};
+
+	/**
+	 * Uses CSS2 for Google fonts to support bold font style eg.
+	 * https://fonts.googleapis.com/css?family=IBM+Plex+Sans is rewritten as
+	 * https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500
+	 */
+	Graph.rewriteGoogleFontUrl = function(url)
+	{
+		if (url != null && url.substring(0, Editor.GOOGLE_FONTS.length) == Editor.GOOGLE_FONTS)
+		{
+			url = Editor.GOOGLE_FONTS_CSS2 + url.substring(Editor.GOOGLE_FONTS.length) + ':wght@400;500';
+		}
+
+		return url;
 	};
 
 	/**
@@ -5651,7 +5741,7 @@
 			elt.setAttribute('rel', 'stylesheet');
 			elt.setAttribute('type', 'text/css');
 			elt.setAttribute('charset', 'UTF-8');
-			elt.setAttribute('href', url);
+			elt.setAttribute('href', Graph.rewriteGoogleFontUrl(url));
 		}
 		else
 		{
@@ -5668,7 +5758,15 @@
 		
 		return elt;
 	};
-	
+		
+	/**
+	 * Adds an entry to the recent custom fonts list.
+	 */
+	Graph.addRecentCustomFont = function(key, entry)
+	{
+		// Hook for registering recent custom fonts in the UI
+	};
+
 	/**
 	 * Adds a font to the document.
 	 */
@@ -5678,7 +5776,7 @@
 		{
 			var key = name.toLowerCase();
 			
-			// Blocks UI font from being overwritten
+			// Blocks UI fonts from being overwritten
 			if (key != 'helvetica' && name != 'arial' && key != 'sans-serif')
 			{
 				var entry = Graph.customFontElements[key];
@@ -5702,7 +5800,6 @@
 
 					entry = {name: name, url: url, elt: Graph.createFontElement(name, realUrl)};
 					Graph.customFontElements[key] = entry;
-					Graph.recentCustomFonts[key] = entry;
 					var head = document.getElementsByTagName('head')[0];
 					
 					if (callback != null)
@@ -5973,7 +6070,7 @@
 	 * Handles custom fonts in labels.
 	 */
 	var mxSvgCanvas2DUpdateTextNodes = mxSvgCanvas2D.prototype.updateTextNodes;
-	mxSvgCanvas2D.prototype.updateTextNodes = function(x, y, w, h, align, valign, wrap, overflow, clip, rotation, g)
+	mxSvgCanvas2D.prototype.updateTextNodes = function(x, y, w, h, align, valign, wrap, overflow, clip, rotation, dir, g)
 	{
 		mxSvgCanvas2DUpdateTextNodes.apply(this, arguments);
 		Graph.processFontAttributes(g);
@@ -6416,31 +6513,44 @@
 	{
 		// Adds the font element to the document
 		Graph.addFont(name, url);
-		
-		// Only valid known fonts are allowed as parameters so we set
-		// the real font name and the data-source-face in the element
-		// which is used as the face attribute when editing stops
-		// KNOWN: Undo for the DOM change is not working
-		document.execCommand('fontname', false, name);
 
-		// Finds element with new font name and checks its data-font-src attribute
-		if (url != null)
+		// Marks the element with a random font name so
+		// that it can be found in the code below
+		var temp = Editor.guid();
+		document.execCommand('fontname', false, temp);
+
+		// Finds the new or updated element and changes or
+		// removes is data-font-src attribute as required
+		var fonts = this.cellEditor.textarea.getElementsByTagName('font');
+		var elt = null;
+
+		for (var i = 0; i < fonts.length; i++)
 		{
-			var fonts = this.cellEditor.textarea.getElementsByTagName('font');
-			
-			// Enforces consistent font naming
-			url = Graph.getFontUrl(name, url);
-			
-			for (var i = 0; i < fonts.length; i++)
+			if (fonts[i].getAttribute('face') == temp)
 			{
-				if (fonts[i].getAttribute('face') == name)
-				{
-					if (fonts[i].getAttribute('data-font-src') != url)
-					{
-						fonts[i].setAttribute('data-font-src', url);
-					}
-				}
+				elt = fonts[i];
+				break;
 			}
+		}
+
+		if (elt != null)
+		{
+			fonts[i].setAttribute('face', name);
+
+			if (url != null)
+			{
+				fonts[i].setAttribute('data-font-src', url);
+			}
+			else
+			{
+				fonts[i].removeAttribute('data-font-src');
+			}
+		}
+		else
+		{
+			// Fallback to use the real font name if a new
+			// or updated element can not be found above
+			document.execCommand('fontname', false, name);
 		}
 	};
 	
@@ -6656,7 +6766,7 @@
 				
 				if (Graph.isCssFontUrl(fontUrl))
 				{
-					prefix += '@import url(' + fontUrl + ');\n';
+					prefix += '@import url(' + Graph.rewriteGoogleFontUrl(fontUrl) + ');\n';
 				}
 				else
 				{
@@ -7968,7 +8078,7 @@
 	mxStencilRegistry.libraries['cisco_safe'] = [SHAPES_PATH + '/mxCiscoSafe.js', STENCIL_PATH + '/cisco_safe/architecture.xml', STENCIL_PATH + '/cisco_safe/business_icons.xml', STENCIL_PATH + '/cisco_safe/capability.xml', STENCIL_PATH + '/cisco_safe/design.xml', STENCIL_PATH + '/cisco_safe/iot_things_icons.xml', STENCIL_PATH + '/cisco_safe/people_places_things_icons.xml', STENCIL_PATH + '/cisco_safe/security_icons.xml', STENCIL_PATH + '/cisco_safe/technology_icons.xml', STENCIL_PATH + '/cisco_safe/threat.xml'];
 	mxStencilRegistry.libraries['dfd'] = [SHAPES_PATH + '/mxDFD.js'];
 	mxStencilRegistry.libraries['er'] = [SHAPES_PATH + '/er/mxER.js'];
-	mxStencilRegistry.libraries['kubernetes'] = [SHAPES_PATH + '/mxKubernetes.js', STENCIL_PATH + '/kubernetes.xml'];
+	mxStencilRegistry.libraries['kubernetes'] = [SHAPES_PATH + '/mxKubernetes.js', STENCIL_PATH + '/kubernetes.xml', STENCIL_PATH + '/kubernetes2.xml'];
 	mxStencilRegistry.libraries['flowchart'] = [SHAPES_PATH + '/mxFlowchart.js', STENCIL_PATH + '/flowchart.xml'];
 	mxStencilRegistry.libraries['ios'] = [SHAPES_PATH + '/mockup/mxMockupiOS.js'];
 	mxStencilRegistry.libraries['rackGeneral'] = [SHAPES_PATH + '/rack/mxRack.js', STENCIL_PATH + '/rack/general.xml'];
@@ -8516,7 +8626,7 @@
 							if (Graph.isCssFontUrl(fontUrl))
 							{
 						   		doc.writeln('<link rel="stylesheet" href="' +
-						   			mxUtils.htmlEntities(fontUrl) +
+						   			mxUtils.htmlEntities(Graph.rewriteGoogleFontUrl(fontUrl)) +
 						   			'" charset="UTF-8" type="text/css">');
 							}
 							else

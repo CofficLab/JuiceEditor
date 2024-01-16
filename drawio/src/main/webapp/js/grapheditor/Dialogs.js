@@ -26,12 +26,13 @@ var OpenDialog = function()
 /**
  * Constructs a new color dialog.
  */
-var ColorDialog = function(editorUi, color, apply, cancelFn)
+var ColorDialog = function(editorUi, color, apply, cancelFn, defaultColor, defaultColorValue)
 {
 	this.editorUi = editorUi;
 	
 	var input = document.createElement('input');
 	input.style.marginBottom = '10px';
+	input.style.marginLeft = '8px';
 	
 	// Required for picker to render in IE
 	if (mxClient.IS_IE)
@@ -40,21 +41,93 @@ var ColorDialog = function(editorUi, color, apply, cancelFn)
 		document.body.appendChild(input);
 	}
 
-	var applyFunction = (apply != null) ? apply : this.createApplyFunction();
+	var applyFunction = (apply != null) ? apply :
+		this.createApplyFunction();
+
+	if (defaultColorValue == null)
+	{
+		defaultColorValue = (Editor.isDarkMode() &&
+			defaultColor == 'default') ?
+			'#ffffff' : '#000000';
+	}
+
+	var defaultColorLabel = defaultColorValue.substring(1).toUpperCase() +
+		' (' + mxResources.get('automatic') + ')';
+	
+	function validateColorName(value, resolveDefault, defaultTextValue)
+	{
+		var color = value;
+		var lc = color.toLowerCase();
+		
+		// Resolves special names for default color value
+		if (defaultColor != null &&
+			(color == '' || lc == 'automatic' ||
+			lc == defaultColorLabel.toLowerCase() ||
+			lc == mxResources.get('default').toLowerCase()) ||
+			lc == mxResources.get('automatic').toLowerCase())
+		{
+			color = 'default';
+		}
+
+		if (lc == mxResources.get('none').toLowerCase())
+		{
+			color = 'none';
+		}
+		
+		if (defaultColor != null && color == 'default')
+		{
+			if (resolveDefault)
+			{
+				color = defaultColorValue;
+			}
+			else if (defaultTextValue != null)
+			{
+				color = defaultTextValue;
+			}
+		}
+		else if (color != 'none' && color.charAt(0) != '#')
+		{
+			try
+			{
+				// Resolves color names
+				var ctx = document.createElement("canvas").getContext("2d");
+
+				// Check if color is hex value
+				ctx.fillStyle = '#' + color;
+
+				if (ctx.fillStyle != '#' + color.toLowerCase())
+				{
+					ctx.fillStyle = color;
+					color = ctx.fillStyle.substring(1).toUpperCase();
+				}
+			}
+			catch (e)
+			{
+				// ignore
+			}
+		}
+		
+		return color;
+	};
 	
 	function doApply()
 	{
-		var color = input.value;
-		
+		var color = validateColorName(input.value, false);
+
 		// Blocks any non-alphabetic chars in colors
 		if (/(^#?[a-zA-Z0-9]*$)/.test(color))
 		{
-			if (color != 'none' && color.charAt(0) != '#')
+			if (color != 'default')
 			{
-				color = '#' + color;
+				if (color != 'none' && color.charAt(0) != '#')
+				{
+					color = '#' + color;
+				}
+
+				ColorDialog.addRecentColor((color != 'none') ?
+					color.substring(1) : color, 12);
 			}
 
-			ColorDialog.addRecentColor((color != 'none') ? color.substring(1) : color, 12);
 			applyFunction(color);
 			editorUi.hideDialog();
 		}
@@ -63,13 +136,27 @@ var ColorDialog = function(editorUi, color, apply, cancelFn)
 			editorUi.handleError({message: mxResources.get('invalidInput')});	
 		}
 	};
-	
-	this.init = function()
+
+	function selectInput()
 	{
 		if (!mxClient.IS_TOUCH)
 		{
 			input.focus();
+
+			if (mxClient.IS_GC || mxClient.IS_FF || document.documentMode >= 5)
+			{
+				input.select();
+			}
+			else
+			{
+				document.execCommand('selectAll', false, null);
+			}
 		}
+	};
+	
+	this.init = function()
+	{
+		selectInput();
 	};
 
 	var picker = new mxJSColor.color(input);
@@ -87,8 +174,8 @@ var ColorDialog = function(editorUi, color, apply, cancelFn)
 	
 	function createRecentColorTable()
 	{
-		var table = addPresets((ColorDialog.recentColors.length == 0) ? ['FFFFFF'] :
-					ColorDialog.recentColors, 11, 'FFFFFF', true);
+		var table = addPresets((ColorDialog.recentColors.length == 0) ?
+			['FFFFFF'] : ColorDialog.recentColors, 11, 'FFFFFF', true);
 		table.style.marginBottom = '8px';
 		
 		return table;
@@ -179,12 +266,14 @@ var ColorDialog = function(editorUi, color, apply, cancelFn)
 		{
 			var td = document.createElement('td');
 			td.setAttribute('title', mxResources.get('reset'));
+			td.className = 'geAdaptiveAsset';
 			td.style.border = '1px solid black';
 			td.style.padding = '0px';
 			td.style.width = '16px';
 			td.style.height = '16px';
-			td.style.backgroundImage = 'url(\'' + Dialog.prototype.closeImage + '\')';
+			td.style.backgroundImage = 'url(\'' + Editor.crossImage + '\')';
 			td.style.backgroundPosition = 'center center';
+			td.style.backgroundSize = '14px 14px';
 			td.style.backgroundRepeat = 'no-repeat';
 			td.style.cursor = 'pointer';
 			
@@ -202,11 +291,45 @@ var ColorDialog = function(editorUi, color, apply, cancelFn)
 		return table;
 	});
 
+	var w = 216;
+
 	div.appendChild(input);
+
+	if (defaultColor != null)
+	{
+		w -= 34;
+
+		var defaultBtn = mxUtils.button('', function()
+		{
+			picker.fromString(defaultColorValue);
+			input.value = defaultColorLabel;
+		});
+
+		defaultBtn.setAttribute('title', mxResources.get('reset'));
+		defaultBtn.style.cursor = 'pointer';
+		defaultBtn.style.position = 'relative';
+		defaultBtn.style.marginLeft = '4px';
+		defaultBtn.innerText = '';
+
+		var def = document.createElement('div');
+		def.style.background = 'url(\'' + Dialog.prototype.defaultColorImage + '\')';
+		def.style.backgroundPosition = 'center center';
+		def.style.backgroundRepeat = 'no-repeat';
+		def.style.display = 'inline-block';
+		def.style.verticalAlign = 'middle';
+		def.style.marginTop = '-2px';
+		def.style.width = '12px';
+		def.style.height = '12px';
+
+		defaultBtn.appendChild(def);
+		div.appendChild(defaultBtn);
+
+		mxEvent.addListener(defaultBtn, 'dblclick', doApply);
+	}
 
 	if (!mxClient.IS_IE && !mxClient.IS_IE11)
 	{
-		input.style.width = '182px';
+		w -= 34;
 
 		var clrInput = document.createElement('input');
 		clrInput.setAttribute('type', 'color');
@@ -234,11 +357,14 @@ var ColorDialog = function(editorUi, color, apply, cancelFn)
 			}
 		});
 
+		dropperBtn.style.cursor = 'pointer';
+
 		var dropper = document.createElement('img');
 		dropper.src = Editor.colorDropperImage;
 		dropper.className = 'geAdaptiveAsset';
 		dropper.style.position = 'relative';
 		dropper.style.verticalAlign = 'middle';
+		dropper.style.marginTop = '-2px';
 		dropper.style.width = 'auto';
 		dropper.style.height = '14px';
 
@@ -247,13 +373,20 @@ var ColorDialog = function(editorUi, color, apply, cancelFn)
 
 		mxEvent.addListener(clrInput, 'change', function()
 		{
-			picker.fromString(clrInput.value.substring(1));
+			picker.fromString(validateColorName(clrInput.value, true));
 		});
 	}
-	else
+
+	mxEvent.addListener(input, 'change', function()
 	{
-		input.style.width = '216px';
-	}
+		var value = input.value;
+		picker.fromString(validateColorName(value, true));
+		input.value = validateColorName(value,
+			false, defaultColorLabel);
+		selectInput();
+	});
+
+	input.style.width = w + 'px';
 
 	mxUtils.br(div);
 	
@@ -299,7 +432,12 @@ var ColorDialog = function(editorUi, color, apply, cancelFn)
 	
 	if (color != null)
 	{
-		if (color == 'none')
+		if (color == 'default')
+		{
+			picker.fromString(defaultColorValue);
+			input.value = defaultColorLabel;
+		}
+		else if (color == 'none')
 		{
 			picker.fromString('ffffff');
 			input.value = 'none';
@@ -313,6 +451,14 @@ var ColorDialog = function(editorUi, color, apply, cancelFn)
 	div.appendChild(buttons);
 	this.picker = picker;
 	this.colorInput = input;
+
+	mxEvent.addListener(input, 'keypress', function(e)
+	{
+		if (e.keyCode == 13)
+		{
+			doApply();
+		}
+	});
 
 	// LATER: Only fires if input if focused, should always
 	// fire if this dialog is showing.
@@ -358,22 +504,30 @@ ColorDialog.prototype.defaultColors = ['none', 'FFFFFF', 'E6E6E6', 'CCCCCC', 'B3
  */
 ColorDialog.prototype.createApplyFunction = function()
 {
-	return mxUtils.bind(this, function(color)
+	return ColorDialog.createApplyFunction(this.editorUi, this.currentColorKey);
+};
+
+/**
+ * Creates function to apply value
+ */
+ColorDialog.createApplyFunction = function(editorUi, colorKey)
+{
+	return function(color)
 	{
-		var graph = this.editorUi.editor.graph;
+		var graph = editorUi.editor.graph;
 		
 		graph.getModel().beginUpdate();
 		try
 		{
-			graph.setCellStyles(this.currentColorKey, color);
-			this.editorUi.fireEvent(new mxEventObject('styleChanged', 'keys', [this.currentColorKey],
+			graph.setCellStyles(colorKey, color);
+			editorUi.fireEvent(new mxEventObject('styleChanged', 'keys', [colorKey],
 				'values', [color], 'cells', graph.getSelectionCells()));
 		}
 		finally
 		{
 			graph.getModel().endUpdate();
 		}
-	});
+	};
 };
 
 /**
@@ -627,8 +781,9 @@ var EditDiagramDialog = function(editorUi)
 	textarea.style.width = '600px';
 	textarea.style.height = '360px';
 	textarea.style.marginBottom = '16px';
-	
-	textarea.value = mxUtils.getPrettyXml(editorUi.editor.getGraphXml());
+
+	var snapshot = editorUi.getDiagramSnapshot();
+	textarea.value = mxUtils.getPrettyXml(snapshot.node);
 	div.appendChild(textarea);
 	
 	this.init = function()
@@ -685,15 +840,25 @@ var EditDiagramDialog = function(editorUi)
 	}
 	
 	var select = document.createElement('select');
+	select.style.textOverflow = 'ellipsis';
 	select.style.width = '196px';
 	select.className = 'geBtn';
 
 	if (editorUi.editor.graph.isEnabled())
 	{
-		var replaceOption = document.createElement('option');
-		replaceOption.setAttribute('value', 'replace');
-		mxUtils.write(replaceOption, mxResources.get('replaceExistingDrawing'));
-		select.appendChild(replaceOption);
+		var applyOption = document.createElement('option');
+		applyOption.setAttribute('value', 'apply');
+		mxUtils.write(applyOption, mxResources.get('apply',
+			null, 'Update Existing Drawing'));
+		select.appendChild(applyOption);
+	}
+
+	if (editorUi.editor.graph.isEnabled())
+	{
+		var insertOption = document.createElement('option');
+		insertOption.setAttribute('value', 'insert');
+		mxUtils.write(insertOption, mxResources.get('insert'));
+		select.appendChild(insertOption);
 	}
 
 	var newOption = document.createElement('option');
@@ -704,15 +869,7 @@ var EditDiagramDialog = function(editorUi)
 	{
 		select.appendChild(newOption);
 	}
-
-	if (editorUi.editor.graph.isEnabled())
-	{
-		var importOption = document.createElement('option');
-		importOption.setAttribute('value', 'import');
-		mxUtils.write(importOption, mxResources.get('addToExistingDrawing'));
-		select.appendChild(importOption);
-	}
-
+	
 	div.appendChild(select);
 
 	var okBtn = mxUtils.button(mxResources.get('ok'), function()
@@ -726,11 +883,12 @@ var EditDiagramDialog = function(editorUi)
 			editorUi.hideDialog();
 			editorUi.editor.editAsNew(data);
 		}
-		else if (select.value == 'replace')
+		else if (select.value == 'apply')
 		{
 			try
 			{
-				editorUi.replaceDiagramData(data);
+				var node = mxUtils.parseXml(data).documentElement;
+				editorUi.updateDiagramData(snapshot, node);
 				editorUi.hideDialog();
 			}
 			catch (e)
@@ -738,7 +896,7 @@ var EditDiagramDialog = function(editorUi)
 				error = e;
 			}
 		}
-		else if (select.value == 'import')
+		else if (select.value == 'insert')
 		{
 			editorUi.editor.graph.model.beginUpdate();
 			try
@@ -1546,7 +1704,8 @@ var EditDataDialog = function(ui, cell)
 		
 		mxEvent.addListener(text, 'dblclick', function(evt)
 		{
-			var dlg = new FilenameDialog(ui, id, mxResources.get('apply'), mxUtils.bind(this, function(value)
+			var dlg = new FilenameDialog(ui, id, mxResources.get('apply'),
+				mxUtils.bind(this, function(value)
 			{
 				if (value != null && value.length > 0 && value != id)
 				{
@@ -1571,7 +1730,8 @@ var EditDataDialog = function(ui, cell)
 							}
 							else
 							{
-								ui.handleError({message: mxResources.get('alreadyExst', [mxResources.get('page')])});
+								ui.handleError({message: mxResources.get('alreadyExst',
+									[mxResources.get('page')])});
 							}
 						}
 					}
@@ -1591,7 +1751,7 @@ var EditDataDialog = function(ui, cell)
 						}
 					}
 				}
-			}), mxResources.get('id'), null, null, null, null, null, null, 200);
+			}), mxResources.get('id'));
 			ui.showDialog(dlg.container, 300, 80, true, true);
 			dlg.init();
 		});
@@ -1728,7 +1888,7 @@ var EditDataDialog = function(ui, cell)
 
 	var exportBtn = mxUtils.button(mxResources.get('export'), mxUtils.bind(this, function(evt)
 	{
-		var result = graph.getDataForCells([cell]);
+		var result = graph.getDataForCells([cell], true);
 
 		var dlg = new EmbedDialog(ui, JSON.stringify(result, null, 2), null, null, function()
 		{

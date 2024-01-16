@@ -465,7 +465,8 @@ mxGraphHandler.prototype.getInitialCellForEvent = function(me)
 
 		while (next != null && !this.graph.isCellSelected(next.cell) &&
 			(model.isVertex(next.cell) || model.isEdge(next.cell)) &&
-			this.isPropagateSelectionCell(state.cell, true, me))
+			this.isPropagateSelectionCell(state.cell, true, me) &&
+			next.cell != this.graph.getCurrentRoot())
 		{
 			state = next;
 			next = this.graph.view.getState(this.graph.getModel().getParent(state.cell));
@@ -544,7 +545,8 @@ mxGraphHandler.prototype.selectCellForEvent = function(cell, me)
 				while (this.graph.view.getState(parent) != null &&
 					(model.isVertex(parent) || (model.isEdge(parent) &&
 					!this.graph.isToggleEvent(me.getEvent()))) &&
-					this.isPropagateSelectionCell(cell, false, me))
+					this.isPropagateSelectionCell(cell, false, me) &&
+					parent != this.graph.getCurrentRoot())
 				{
 					cell = parent;
 					parent = model.getParent(cell);
@@ -1033,7 +1035,15 @@ mxGraphHandler.prototype.roundLength = function(length)
  */
 mxGraphHandler.prototype.isValidDropTarget = function(target, me)
 {
-	return this.graph.model.getParent(this.cell) != target;
+	for (var i = 0; i < this.cells.length; i++)
+	{
+		if (this.graph.model.getParent(this.cells[i]) != target)
+		{
+			return true;
+		}
+	}
+
+	return false;
 };
 
 /**
@@ -1089,15 +1099,23 @@ mxGraphHandler.prototype.mouseMove = function(sender, me)
 			{
 				graph.addSelectionCell(this.cell);
 			}
-			else
+			else if (!this.graph.isAncestorSelected(this.cell))
 			{
 				graph.setSelectionCell(this.cell);
 			}
 		}
-		
+
+		var cells = graph.getSelectionCells();
+
+		if (!this.graph.isToggleEvent(me.getEvent()) ||
+			!mxEvent.isAltDown(me.getEvent()) ||
+			graph.isSelectionEmpty())
+		{
+			cells = cells.concat(this.cell);
+		}
+
 		this.start(this.cell, this.mouseDownX, this.mouseDownY,
-			this.getCells(null, graph.getSelectionCells().
-				concat(me.getCell())));
+			this.getCells(null, cells));
 	}
 
 	var delta = (this.first != null) ? this.getDelta(me) : null;
@@ -1133,6 +1151,7 @@ mxGraphHandler.prototype.mouseMove = function(sender, me)
 			{
 				return mxUtils.indexOf(this.cells, state.cell) >= 0;
 			}));
+			
 			var hideGuide = true;
 			var target = null;
 			this.cloning = clone;

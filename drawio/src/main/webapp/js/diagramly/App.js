@@ -707,6 +707,28 @@ App.main = function (callback, createUi) {
     }
 
     if (window.mxscript != null) {
+      // Checks for script content changes to avoid CSP errors in production
+      if (
+        urlParams['dev'] == '1' &&
+        !mxClient.IS_CHROMEAPP &&
+        !EditorUi.isElectronApp &&
+        CryptoJS != null &&
+        App.mode != App.MODE_DROPBOX &&
+        App.mode != App.MODE_TRELLO
+      ) {
+        var scripts = document.getElementsByTagName('script')
+
+        // Checks bootstrap script
+        if (scripts != null && scripts.length > 0) {
+          var content = mxUtils.getTextContent(scripts[0])
+        }
+
+        // Checks main script
+        if (scripts != null && scripts.length > 1) {
+          var content = mxUtils.getTextContent(scripts[scripts.length - 1])
+        }
+      }
+
       try {
         // Removes PWA cache on www.draw.io to force use of new domain via redirect
         if (
@@ -910,6 +932,16 @@ App.main = function (callback, createUi) {
           // Main
           function realMain() {
             try {
+              // Checks theme support
+              if (
+                Editor.currentTheme != '' &&
+                Editor.currentTheme != 'kennedy' &&
+                Editor.currentTheme != 'dark' &&
+                mxUtils.indexOf(Editor.themes, Editor.currentTheme) < 0
+              ) {
+                Editor.currentTheme = 'kennedy'
+              }
+
               var ui =
                 createUi != null
                   ? createUi()
@@ -2978,6 +3010,21 @@ App.prototype.start = function () {
               if (file == null || file.getHash() != id) {
                 this.loadFile(id, true)
               }
+            } else {
+              var obj = this.getHashObject()
+
+              if (
+                obj != null &&
+                obj.pageId != null &&
+                this.currentPage != null &&
+                obj.pageId != this.currentPage.getId()
+              ) {
+                var page = this.getPageById(obj.pageId)
+
+                if (page != null) {
+                  this.selectPage(page)
+                }
+              }
             }
           } catch (e) {
             // Workaround for possible scrollWidth of null in Dialog ctor
@@ -3594,14 +3641,6 @@ App.prototype.showSplash = function (force) {
         this.showSplash()
       })
     )
-  } else if (urlParams['fromLocalStorage']) {
-    // 从LocalStorage加载文档数据
-    const mockFile = {
-      title: 'luffyzh.drawio',
-      data: localStorage.getItem('drawing')
-    }
-    const file = new LocalFile(this, mockFile.data, mockFile.title, this.mode)
-    this.loadFile(`-1`, true, file)
   } else if (!mxClient.IS_CHROMEAPP && (this.mode == null || force)) {
     var rowLimit = serviceCount == 4 ? 2 : 3
 
@@ -3979,6 +4018,21 @@ App.prototype.pickFile = function (mode) {
 App.prototype.pickLibrary = function (mode) {
   mode = mode != null ? mode : this.mode
 
+  var doLoadLibary = mxUtils.bind(this, function (file) {
+    try {
+      this.loadLibrary(file)
+      this.showSidebar()
+
+      try {
+        this.sidebar.palettes[file.getHash()][0].scrollIntoView({ behavior: 'smooth' })
+      } catch (e) {
+        // ignore
+      }
+    } catch (e) {
+      this.handleError(e, mxResources.get('errorLoadingFile'))
+    }
+  })
+
   if (
     mode == App.MODE_GOOGLE ||
     mode == App.MODE_DROPBOX ||
@@ -3991,38 +4045,27 @@ App.prototype.pickLibrary = function (mode) {
       mode == App.MODE_GOOGLE
         ? this.drive
         : mode == App.MODE_ONEDRIVE
-        ? this.oneDrive
-        : mode == App.MODE_GITHUB
-        ? this.gitHub
-        : mode == App.MODE_GITLAB
-        ? this.gitLab
-        : mode == App.MODE_TRELLO
-        ? this.trello
-        : this.dropbox
+          ? this.oneDrive
+          : mode == App.MODE_GITHUB
+            ? this.gitHub
+            : mode == App.MODE_GITLAB
+              ? this.gitLab
+              : mode == App.MODE_TRELLO
+                ? this.trello
+                : this.dropbox
 
     if (peer != null) {
       peer.pickLibrary(
         mxUtils.bind(this, function (id, optionalFile) {
           if (optionalFile != null) {
-            try {
-              this.loadLibrary(optionalFile)
-              this.showSidebar()
-            } catch (e) {
-              this.handleError(e, mxResources.get('errorLoadingFile'))
-            }
+            doLoadLibary(optionalFile)
           } else {
             if (this.spinner.spin(document.body, mxResources.get('loading'))) {
               peer.getLibrary(
                 id,
                 mxUtils.bind(this, function (file) {
                   this.spinner.stop()
-
-                  try {
-                    this.loadLibrary(file)
-                    this.showSidebar()
-                  } catch (e) {
-                    this.handleError(e, mxResources.get('errorLoadingFile'))
-                  }
+                  doLoadLibary(file)
                 }),
                 mxUtils.bind(this, function (resp) {
                   this.handleError(resp, resp != null ? mxResources.get('errorLoadingFile') : null)
@@ -4048,12 +4091,7 @@ App.prototype.pickLibrary = function (mode) {
                 var reader = new FileReader()
 
                 reader.onload = mxUtils.bind(this, function (e) {
-                  try {
-                    this.loadLibrary(new LocalLibrary(this, e.target.result, file.name))
-                    this.showSidebar()
-                  } catch (e) {
-                    this.handleError(e, mxResources.get('errorLoadingFile'))
-                  }
+                  doLoadLibary(new LocalLibrary(this, e.target.result, file.name))
                 })
 
                 reader.readAsText(file)
@@ -4102,16 +4140,11 @@ App.prototype.pickLibrary = function (mode) {
 
     window.openFile.setConsumer(
       mxUtils.bind(this, function (xml, filename) {
-        try {
-          this.loadLibrary(
-            mode == App.MODE_BROWSER
-              ? new StorageLibrary(this, xml, filename)
-              : new LocalLibrary(this, xml, filename)
-          )
-          this.showSidebar()
-        } catch (e) {
-          this.handleError(e, mxResources.get('errorLoadingFile'))
-        }
+        doLoadLibary(
+          mode == App.MODE_BROWSER
+            ? new StorageLibrary(this, xml, filename)
+            : new LocalLibrary(this, xml, filename)
+        )
       })
     )
 
@@ -4558,9 +4591,8 @@ App.prototype.loadTemplate = function (url, onload, onerror, templateFilename, a
   var base64 = false
   var realUrl = url
   var filterFn = templateFilename != null ? templateFilename : url
-  var isVisioFilename =
-    /(\.v(dx|sdx?))($|\?)/i.test(filterFn) || /(\.vs(x|sx?))($|\?)/i.test(filterFn)
   var binary = /\.png$/i.test(filterFn) || /\.pdf$/i.test(filterFn)
+  var isVisioFilename = EditorUi.isVisioFilename(filterFn)
 
   if (!this.editor.isCorsEnabledForUrl(realUrl)) {
     base64 = binary || isVisioFilename
@@ -4576,8 +4608,8 @@ App.prototype.loadTemplate = function (url, onload, onerror, templateFilename, a
         var data = !base64
           ? responseData
           : window.atob && !mxClient.IS_IE && !mxClient.IS_IE11
-          ? atob(responseData)
-          : Base64.decode(responseData)
+            ? atob(responseData)
+            : Base64.decode(responseData)
 
         if (isVisioFilename || this.isVisioData(data)) {
           // Adds filename to control converter code
@@ -4639,9 +4671,7 @@ App.prototype.loadTemplate = function (url, onload, onerror, templateFilename, a
       }
     }),
     onerror,
-    /(\.png)($|\?)/i.test(filterFn) ||
-      /(\.v(dx|sdx?))($|\?)/i.test(filterFn) ||
-      /(\.vs(x|sx?))($|\?)/i.test(filterFn),
+    /(\.png)($|\?)/i.test(filterFn) || isVisioFilename,
     null,
     null,
     base64
@@ -5523,6 +5553,8 @@ App.prototype.loadLibraries = function (libs, done) {
                   null,
                   true
                 )
+              } else {
+                onerror(true)
               }
             } else if (service == 'R') {
               var libDesc = decodeURIComponent(id.substring(1))
@@ -6052,19 +6084,6 @@ App.prototype.showNotification = function (notifs, lsReadFlag) {
 App.prototype.save = function (name, done) {
   var file = this.getCurrentFile()
 
-  console.log(file)
-
-  // 创建一个自定义事件
-  const myEvent = new CustomEvent('save', {
-    detail: {
-      message: '保存',
-      data: file.data
-    }
-  })
-
-  // 发出自定义事件
-  document.dispatchEvent(myEvent)
-
   if (file != null && this.spinner.spin(document.body, mxResources.get('saving'))) {
     var onerror = mxUtils.bind(this, function (e) {
       this.handleError(e)
@@ -6254,30 +6273,6 @@ App.prototype.exportFile = function (data, filename, mimeType, base64Encoded, mo
         data,
         folderId,
         mxUtils.bind(this, function (resp) {
-          // TODO: Add callback with url param for clickable status message
-          // "File exported. Click here to open folder."
-          //				this.editor.setStatus('<div class="geStatusMessage">' +
-          //					mxResources.get('saved') + '</div>');
-          //
-          //				// Installs click handler for opening
-          //				if (this.statusContainer != null)
-          //				{
-          //					var links = this.statusContainer.getElementsByTagName('div');
-          //
-          //					if (links.length > 0)
-          //					{
-          //						links[0].style.cursor = 'pointer';
-          //
-          //						mxEvent.addListener(links[0], 'click', mxUtils.bind(this, function()
-          //						{
-          //							if (resp != null && resp.id != null)
-          //							{
-          //								window.open('https://drive.google.com/open?id=' + resp.id);
-          //							}
-          //						}));
-          //					}
-          //				}
-
           this.spinner.stop()
         }),
         mxUtils.bind(this, function (resp) {
@@ -6358,14 +6353,36 @@ App.prototype.exportFile = function (data, filename, mimeType, base64Encoded, mo
       )
     }
   } else if (mode == App.MODE_BROWSER) {
-    var fn = mxUtils.bind(this, function () {
-      localStorage.setItem(filename, data)
-    })
+    if (
+      window.StorageFile != null &&
+      !base64Encoded &&
+      this.spinner.spin(document.body, mxResources.get('saving'))
+    ) {
+      var file =
+        data.substring(0, 10) == '<mxlibrary'
+          ? new StorageLibrary(this, data, filename)
+          : new StorageFile(this, data, filename)
 
-    if (localStorage.getItem(filename) == null) {
-      fn()
+      StorageFile.doInsertFile(
+        file,
+        mxUtils.bind(this, function () {
+          this.spinner.stop()
+        }),
+        mxUtils.bind(this, function (resp) {
+          this.spinner.stop()
+          this.handleError(resp)
+        })
+      )
     } else {
-      this.confirm(mxResources.get('replaceIt', [filename]), fn)
+      var fn = mxUtils.bind(this, function () {
+        localStorage.setItem(filename, data)
+      })
+
+      if (localStorage.getItem(filename) == null) {
+        fn()
+      } else {
+        this.confirm(mxResources.get('replaceIt', [filename]), fn)
+      }
     }
   }
 }
@@ -7154,6 +7171,15 @@ App.prototype.updateUserElementIcon = function () {
 /**
  * Adds the listener for automatically saving the diagram for local changes.
  */
+App.prototype.hideUserPanel = function () {
+  if (this.userPanel != null && this.userPanel.parentNode != null) {
+    this.userPanel.parentNode.removeChild(this.userPanel)
+  }
+}
+
+/**
+ * Adds the listener for automatically saving the diagram for local changes.
+ */
 App.prototype.toggleUserPanel = function () {
   if (this.userPanel == null) {
     var div = document.createElement('div')
@@ -7170,12 +7196,8 @@ App.prototype.toggleUserPanel = function () {
       document.body,
       'click',
       mxUtils.bind(this, function (evt) {
-        if (
-          !mxEvent.isConsumed(evt) &&
-          this.userPanel != null &&
-          this.userPanel.parentNode != null
-        ) {
-          this.userPanel.parentNode.removeChild(this.userPanel)
+        if (!mxEvent.isConsumed(evt)) {
+          this.hideUserPanel()
         }
       })
     )
@@ -7199,9 +7221,7 @@ App.prototype.toggleUserPanel = function () {
       img,
       'click',
       mxUtils.bind(this, function () {
-        if (this.userPanel.parentNode != null) {
-          this.userPanel.parentNode.removeChild(this.userPanel)
-        }
+        this.hideUserPanel()
       })
     )
 
@@ -7218,8 +7238,6 @@ App.prototype.toggleUserPanel = function () {
 
           if (file != null && file.constructor == DriveFile) {
             this.spinner.spin(document.body, spinnerMsg)
-
-            //									file.close();
             this.fileLoaded(null)
 
             // LATER: Use callback to wait for thumbnail update
@@ -7237,8 +7255,6 @@ App.prototype.toggleUserPanel = function () {
 
         var createUserRow = mxUtils.bind(this, function (user) {
           var tr = document.createElement('tr')
-          tr.setAttribute('title', 'User ID: ' + user.id)
-
           var td = document.createElement('td')
           td.setAttribute('valig', 'middle')
           td.style.height = '59px'
@@ -7290,14 +7306,35 @@ App.prototype.toggleUserPanel = function () {
           td.appendChild(div)
           tr.appendChild(td)
 
-          if (!user.isCurrent) {
+          if (user.isCurrent) {
+            tr.setAttribute('title', 'User ID: ' + user.id)
+          } else {
+            tr.setAttribute('title', mxResources.get('login') + ' (' + 'User ID: ' + user.id + ')')
             tr.style.cursor = 'pointer'
             tr.style.opacity = '0.3'
 
             mxEvent.addListener(
               tr,
+              'mouseenter',
+              mxUtils.bind(this, function () {
+                tr.style.opacity = '1'
+              })
+            )
+
+            mxEvent.addListener(
+              tr,
+              'mouseleave',
+              mxUtils.bind(this, function () {
+                tr.style.opacity = '0.3'
+              })
+            )
+
+            mxEvent.addListener(
+              tr,
               'click',
               mxUtils.bind(this, function (evt) {
+                this.hideUserPanel()
+
                 closeFile(
                   mxUtils.bind(this, function () {
                     this.stateArg = null
@@ -7316,7 +7353,7 @@ App.prototype.toggleUserPanel = function () {
                       true
                     ) //Remember is true since add account imply keeping that account
                   }),
-                  mxResources.get('closingFile') + '...'
+                  mxResources.get('changeUser') + '...'
                 )
 
                 mxEvent.consume(evt)

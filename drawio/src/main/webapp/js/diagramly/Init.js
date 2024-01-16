@@ -230,7 +230,7 @@ if (urlParams['extAuth'] == '1' && /((iPhone|iPod|iPad).*AppleWebKit(?!.*Version
 }
 
 // Uses lightbox mode on viewer domain
-if (window.location.hostname == DRAWIO_LIGHTBOX_URL.substring(DRAWIO_LIGHTBOX_URL.indexOf('//') + 2))
+if (window.location.hostname == 'viewer.diagrams.net')
 {
 	urlParams['lightbox'] = '1';
 }	
@@ -309,7 +309,7 @@ window.uiTheme = window.uiTheme || (function()
 			var iw = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 			var userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
-			if (iw <= 800 ||  /android/i.test(userAgent) || (/iPad|iPhone|iPod/.test(userAgent) &&
+			if (iw <= 1024 ||  /android/i.test(userAgent) || (/iPad|iPhone|iPod/.test(userAgent) &&
 				!window.MSStream) || (navigator.userAgent.match(/Mac/) &&
 				navigator.maxTouchPoints && navigator.maxTouchPoints > 2))
 			{
