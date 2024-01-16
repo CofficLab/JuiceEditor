@@ -21,6 +21,7 @@ function closeListener(_event: any) {
     ?.contentWindow?.postMessage(JSON.stringify({ action: 'exit' }), '*')
 }
 
+// drawio有bug，当页面宽度小于1000px时，画图页面无法弹出 形状 菜单
 function showIframe() {
   if (!props.editor.isEditable) {
     return
