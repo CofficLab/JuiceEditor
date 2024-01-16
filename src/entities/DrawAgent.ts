@@ -27,6 +27,6 @@ export default class DrawAgent {
         })
         return isDebug
             ? 'http://localhost:5173/drawio/src/main/webapp/index.html?' + query
-            : 'http://localhost:49493/dist/draw/index.html?' + query
+            : 'http://localhost:49493/draw/index.html?' + query
     }
 }
