@@ -4,23 +4,16 @@
     <template v-if="shouldShow">
       <div class="dropdown dropdown-top dropdown-open flex">
         <div class="table-menus shadow-2xl" contenteditable="false">
-          <button
-            @click="focusedNode.addColumnBefore().run()"
-            class="tooltip"
-            data-tip="在左边加一列"
-          >
+          <button @click="focusedNode.addColumnBefore().run()" class="tooltip" data-tip="在左边加一列">
             <img src="../../assets/table.column.plus.before.svg" />
           </button>
-          <button
-            @click="focusedNode.addColumnAfter().run()"
-            class="tooltip"
-            data-tip="在右边加一列"
-          >
+          <button @click="focusedNode.addColumnAfter().run()" class="tooltip" data-tip="在右边加一列">
             <img src="../../assets/table.column.plus.after.svg" />
           </button>
           <button @click="focusedNode.deleteColumn().run()" class="tooltip" data-tip="删除当前列">
             <img src="../../assets/table.column.remove.svg" />
           </button>
+          <Divider></Divider>
           <button @click="focusedNode.addRowBefore().run()" class="tooltip" data-tip="在上面加一行">
             <img src="../../assets/table.row.plus.before.svg" />
           </button>
@@ -30,35 +23,26 @@
           <button @click="focusedNode.deleteRow().run()" class="tooltip" data-tip="删除当前行">
             <img src="../../assets/table.row.remove.svg" />
           </button>
-          <button @click="focusedNode.deleteTable().run()" class="tooltip" data-tip="删除整个表格">
-            <img src="../../assets/table.remove.svg" />
-          </button>
+          <Divider></Divider>
           <button @click="focusedNode.mergeCells().run()" class="tooltip" data-tip="合并">
             <img src="../../assets/table.cell.merge.svg" />
           </button>
           <button @click="focusedNode.splitCell().run()" class="tooltip" data-tip="拆分">
             <img src="../../assets/table.cell.split.svg" />
           </button>
-          <button
-            @click="focusedNode.toggleHeaderColumn().run()"
-            class="tooltip"
-            data-tip="切换表头列"
-          >
+          <Divider></Divider>
+          <button @click="focusedNode.toggleHeaderColumn().run()" class="tooltip" data-tip="切换表头列">
             <img src="../../assets/table.leading.header.svg" alt="" />
           </button>
-          <button
-            @click="focusedNode.toggleHeaderRow().run()"
-            class="tooltip"
-            data-tip="切换表头行"
-          >
+          <button @click="focusedNode.toggleHeaderRow().run()" class="tooltip" data-tip="切换表头行">
             <img src="../../assets/table-top-header.svg" alt="" />
           </button>
-          <button
-            @click="focusedNode.toggleHeaderCell().run()"
-            class="tooltip"
-            data-tip="切换普通和表头"
-          >
+          <button @click="focusedNode.toggleHeaderCell().run()" class="tooltip" data-tip="切换普通和表头">
             <img src="../../assets/table.toggle.header.svg" alt="" />
+          </button>
+          <Divider></Divider>
+          <button @click="focusedNode.deleteTable().run()" class="tooltip" data-tip="删除整个表格">
+            <img src="../../assets/table.remove.svg" />
           </button>
           <!-- <button @click="focusedNode.setCellAttribute('colspan', 2).run()">占两格</button> -->
           <!-- <button @click="focusedNode.fixTables().run()">修复</button> -->
@@ -76,6 +60,7 @@
 <script setup lang="ts">
 import { nodeViewProps, NodeViewWrapper, NodeViewContent } from '@tiptap/vue-3'
 import { computed, onMounted, ref } from 'vue'
+import Divider from './Divider.vue';
 
 const props = defineProps(nodeViewProps)
 const focusedNode = computed(() => props.editor.chain().focus())
@@ -145,7 +130,7 @@ onMounted(() => {
       box-sizing: border-box;
       position: relative;
 
-      > * {
+      >* {
         margin-bottom: 0;
       }
     }
