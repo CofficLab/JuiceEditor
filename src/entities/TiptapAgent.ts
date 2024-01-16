@@ -71,7 +71,7 @@ class TiptapAgent {
 
     static isTableEnable(editor: Editor): Boolean {
         return editor.extensionManager.extensions.some(extension => {
-            return extension.name === 'table'
+            return extension.name === 'smart-table'
         })
     }
 
