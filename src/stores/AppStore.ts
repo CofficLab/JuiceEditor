@@ -23,7 +23,7 @@ export const useAppStore = defineStore('app-store', {
 
         setCurrentNode: function (data: object) {
             this.loading = true
-            console.log('AppStore:设置当前节点', data)
+            console.log('AppStore:设置当前节点')
 
             this.node = new TreeNode(data)
 
