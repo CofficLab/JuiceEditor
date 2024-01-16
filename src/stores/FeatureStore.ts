@@ -76,6 +76,16 @@ export const useFeatureStore = defineStore('feature-store', {
             this.updateNonce()
         },
 
+        enableBubbleMenu() {
+            this.bubbleMenuVisible = true
+            this.updateNonce()
+        },
+
+        enableFloatingMenu() {
+            this.floatingMenuVisible = true
+            this.updateNonce()
+        },
+
         hideFloatingMenu() {
             this.floatingMenuVisible = false
             this.updateNonce()
@@ -116,6 +126,11 @@ export const useFeatureStore = defineStore('feature-store', {
         
         showFloatingMenu() {
             this.floatingMenuVisible = true
+            this.updateNonce()
+        },
+
+        toggleFloatingMenu() {
+            this.floatingMenuVisible = !this.floatingMenuVisible
             this.updateNonce()
         },
 

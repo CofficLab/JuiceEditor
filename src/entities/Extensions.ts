@@ -120,6 +120,16 @@ function makeExtensions(props: makeExtensionsProps) {
             },
         }),
         Text,
+        // 默认启用table，保证table能够正常渲染
+        Table.configure({
+            resizable: true,
+            HTMLAttributes: {
+                class: 'my-table',
+            },
+        }),
+        TableRow,
+        TableCell,
+        TableHeader,
         Toc
     ]
 
@@ -134,16 +144,7 @@ function makeExtensions(props: makeExtensionsProps) {
 
     if (props.tableEnable) {
         extensions.push(
-            SmartTable,
-            Table.configure({
-                resizable: true,
-                HTMLAttributes: {
-                    class: 'my-table',
-                },
-            }),
-            TableRow,
-            TableCell,
-            TableHeader
+            SmartTable
         );
     }
 
