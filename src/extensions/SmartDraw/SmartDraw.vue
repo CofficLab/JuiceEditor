@@ -20,6 +20,7 @@
         <label class="modal-backdrop" for="my_modal_7">Close</label>
       </div>
     </div>
+    <!-- 正常开启画图 -->
     <img v-else v-bind:src="node.attrs.src" alt="" @click="showIframe" ref="img" />
   </node-view-wrapper>
 </template>
@@ -72,8 +73,7 @@ function showIframe() {
   if (!props.editor.isEditable) {
     return
   }
-
-  window.removeEventListener('resize', handleResize);
+  
   hideAlert()
 
   dialog.classList.add('modal')
