@@ -20,7 +20,7 @@
   '//test.draw.io/drawio/src/main' -> '/drawio/src/main'
   ```
 
-- index.html 删除初始化时的提示
+- index.html 400 行左右，删除初始化时的提示
 - `/src/main/webapp/js/diagramly/App.js` 700 行左右删除一批代码来解决弹窗问题：
 
   ```js
