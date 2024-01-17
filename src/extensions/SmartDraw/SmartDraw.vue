@@ -1,17 +1,46 @@
 <template>
   <node-view-wrapper>
-    <img v-bind:src="node.attrs.src" alt="" @click="showIframe" ref="img" />
+    <template v-if="showWarning">
+      <!-- Open the modal using ID.showModal() method -->
+      <img v-bind:src="node.attrs.src" alt="" onclick="my_modal_2.showModal()" ref="img" />
+      <dialog id="my_modal_2" class="modal">
+        <div class="modal-box flex flex-col justify-center items-center w-56 p-0">
+          <div class="font-bold text-lg m-0 mt-4">请将窗口调宽一点</div>
+          <p class="text-center text-xs">画图要求的最小宽度：1000</p>
+          <div class="stats shadow-3xl bg-blue-100/50 w-full mt-4 rounded-none">
+            <div class="stat">
+              <div class="stat-title text-center">当前宽度</div>
+              <div class="stat-value text-center">{{ width }}</div>
+            </div>
+          </div>
+        </div>
+        <form method="dialog" class="modal-backdrop">
+          <button>close</button>
+        </form>
+      </dialog>
+    </template>
+
+    <img v-else v-bind:src="node.attrs.src" alt="" @click="showIframe" ref="img" />
   </node-view-wrapper>
 </template>
 
 <script setup lang="ts">
 import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
-import { ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 
 const img = ref(null)
 const props = defineProps(nodeViewProps)
+var width = ref(window.innerWidth)
 var iframe = document.createElement('iframe')
 var dialog = document.createElement('dialog')
+// drawio有bug，当页面宽度小于1000px时，画图页面无法弹出 形状 菜单
+var showWarning = computed(() => {
+  return width.value < 1000
+})
+
+function handleResize() {
+  width.value = window.innerWidth;
+}
 
 function closeListener(_event: any) {
   console.log('收到关闭画图的事件')
@@ -21,7 +50,6 @@ function closeListener(_event: any) {
     ?.contentWindow?.postMessage(JSON.stringify({ action: 'exit' }), '*')
 }
 
-// drawio有bug，当页面宽度小于1000px时，画图页面无法弹出 形状 菜单
 function showIframe() {
   if (!props.editor.isEditable) {
     return
@@ -97,6 +125,14 @@ function receive(event: MessageEvent): void {
       console.log('SmartDraw: 收到 Load 事件，表示画图 Iframe 已加载')
   }
 }
+
+onMounted(() => {
+  window.addEventListener('resize', handleResize);
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', handleResize);
+})
 </script>
 
 <style>
