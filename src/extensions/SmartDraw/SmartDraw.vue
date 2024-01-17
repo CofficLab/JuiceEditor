@@ -1,9 +1,12 @@
 <template>
   <node-view-wrapper>
-    <template v-if="showWarning">
-      <!-- Open the modal using ID.showModal() method -->
-      <img v-bind:src="node.attrs.src" alt="" onclick="my_modal_2.showModal()" ref="img" />
-      <dialog id="my_modal_2" class="modal">
+    <!-- 无法开启画图的提示 -->
+    <div v-if="showWarning" contenteditable="false">
+      <label for="my_modal_7">
+        <img v-bind:src="node.attrs.src" ref="img" />
+      </label>
+      <input type="checkbox" id="my_modal_7" class="modal-toggle" />
+      <div class="modal" role="dialog">
         <div class="modal-box flex flex-col justify-center items-center w-56 p-0">
           <div class="font-bold text-lg m-0 mt-4">请将窗口调宽一点</div>
           <p class="text-center text-xs">画图要求的最小宽度：1000</p>
@@ -14,22 +17,21 @@
             </div>
           </div>
         </div>
-        <form method="dialog" class="modal-backdrop">
-          <button>close</button>
-        </form>
-      </dialog>
-    </template>
-
+        <label class="modal-backdrop" for="my_modal_7">Close</label>
+      </div>
+    </div>
     <img v-else v-bind:src="node.attrs.src" alt="" @click="showIframe" ref="img" />
   </node-view-wrapper>
 </template>
 
 <script setup lang="ts">
 import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 
 const img = ref(null)
 const props = defineProps(nodeViewProps)
+const shouldShowAlert = ref(false)
+const modalVisible = ref(false)
 var width = ref(window.innerWidth)
 var iframe = document.createElement('iframe')
 var dialog = document.createElement('dialog')
@@ -38,8 +40,24 @@ var showWarning = computed(() => {
   return width.value < 1000
 })
 
+function hideAlert() {
+  shouldShowAlert.value = false
+}
+
 function handleResize() {
   width.value = window.innerWidth;
+
+  const checkbox = document.getElementById('my_modal_7');
+
+  if (checkbox instanceof HTMLInputElement && checkbox.type === 'checkbox') {
+    if (checkbox.checked) {
+      modalVisible.value = true;
+    } else {
+      modalVisible.value = false;
+    }
+  } else {
+    modalVisible.value = false;
+  }
 }
 
 function closeListener(_event: any) {
@@ -54,6 +72,9 @@ function showIframe() {
   if (!props.editor.isEditable) {
     return
   }
+
+  window.removeEventListener('resize', handleResize);
+  hideAlert()
 
   dialog.classList.add('modal')
 
@@ -132,6 +153,12 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   window.removeEventListener('resize', handleResize);
+})
+
+watch(modalVisible, (oldValue, newValue) => {
+  if (oldValue == false && newValue == true) {
+    showIframe()
+  }
 })
 </script>
 
