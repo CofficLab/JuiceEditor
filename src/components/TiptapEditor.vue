@@ -20,6 +20,9 @@
 
     <!-- 右键菜单 -->
     <ContextMenu :editor="editor"></ContextMenu>
+
+    <!-- 提示信息 -->
+    <Message :message="message"></Message>
   </div>
 </template>
 
@@ -33,6 +36,7 @@ import DrawAgent from '../entities/DrawAgent'
 import EditorData from '../entities/EditorData'
 import ContextMenu from './ContextMenu.vue'
 import EditorEventHandler from '../entities/EditorEventHandler'
+import Message from './Message.vue'
 
 const props = defineProps({
   uuid: {
@@ -94,6 +98,7 @@ const editor = TiptapAgent.create({
 })
 
 const contextMenuDidShow = ref(false)
+const message = ref("")
 
 function onMouseDown(e: Event) {
   console.log('TiptapEditor: mousedown')
@@ -127,7 +132,11 @@ watch(props, () => {
 })
 
 onMounted(() => {
-  new EditorEventHandler(editor)
+  // 处理事件
+  new EditorEventHandler(editor, (msg) => {
+    message.value = msg
+    document.getElementById('messageTrigger')?.click()
+  })
 
   document.addEventListener('contextmenu', onContextMenu)
   // document.addEventListener('mousedown', onMouseDown)
