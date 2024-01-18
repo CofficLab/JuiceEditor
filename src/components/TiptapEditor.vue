@@ -123,13 +123,15 @@ function onContextMenu(e: Event) {
 }
 
 watch(props, () => {
-  console.log('TiptapEditor: props changed')
+  console.log('TiptapEditor: props changed', props.uuid)
 
-  editor.setEditable(props.editable)
-  editor.commands.setContent(props.content, false)
+  // 更新，但不触发onUpdate
   editor.setOptions({
     injectNonce: props.uuid
   })
+  editor.commands.setContent(props.content, false)
+  // 最后一步，触发onUpdate
+  editor.setEditable(props.editable, true)
 })
 
 onMounted(() => {

@@ -22,7 +22,7 @@ const webkit = {
             return
         }
 
-        console.log('调用 WebKit 以更新节点内容')
+        console.log('调用 WebKit 以更新节点内容', data.uuid)
         setTimeout(() => {
             try {
                 // 只能传字符、只能传普通object
