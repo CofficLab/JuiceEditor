@@ -35,8 +35,8 @@ import TiptapAgent from '../entities/TiptapAgent'
 import DrawAgent from '../entities/DrawAgent'
 import EditorData from '../entities/EditorData'
 import ContextMenu from './ContextMenu.vue'
-import EditorEventHandler from '../entities/EditorEventHandler'
 import Message from './Message.vue'
+import EventManager from '../entities/EventManager'
 
 const props = defineProps({
   uuid: {
@@ -99,6 +99,7 @@ const editor = TiptapAgent.create({
 
 const contextMenuDidShow = ref(false)
 const message = ref("")
+const eventManager = new EventManager()
 
 function onMouseDown(e: Event) {
   console.log('TiptapEditor: mousedown')
@@ -121,6 +122,79 @@ function onContextMenu(e: Event) {
   target.click()
 }
 
+function listener(event: Event) {
+  let operators = eventManager.operators
+
+  if (!editor.isEditable) {
+    message.value = "只读模式"
+    document.getElementById('messageTrigger')?.click()
+    return
+  }
+
+  switch ((event as CustomEvent).detail.operator) {
+    case operators.toggleTOC: {
+      editor.chain().focus().toggleToc().run()
+    }
+
+    case operators.toggleBanner: {
+      editor.chain().focus().toggleBanner().run()
+    }
+
+    case operators.toggleBold: {
+      editor.chain().focus().toggleBold().run()
+    }
+
+    case operators.toggleItalic: {
+      editor.chain().focus().toggleItalic().run()
+    }
+
+    case operators.toggleTaskList: {
+      editor.chain().focus().toggleTaskList().run()
+    }
+
+    case operators.insertDraw: {
+      editor.chain().focus().insertDrawIo().run()
+    }
+
+    case operators.insertTable: {
+      editor.chain().focus().insertSmartTable().run()
+    }
+
+    case operators.toggleLink: {
+      editor.chain().focus().toggleLink().run()
+    }
+
+    case operators.setHeading1: {
+      console.log('set heading1')
+      editor.chain().focus().setHeading({ level: 1 }).run()
+    }
+
+    case operators.setHeading2: {
+      editor.chain().focus().setHeading({ level: 2 }).run()
+    }
+
+    case operators.setHeading3: {
+      editor.chain().focus().setHeading({ level: 3 }).run()
+    }
+
+    case operators.setHeading4: {
+      editor.chain().focus().setHeading({ level: 4 }).run()
+    }
+
+    case operators.setHeading5: {
+      editor.chain().focus().setHeading({ level: 5 }).run()
+    }
+
+    case operators.setHeading6: {
+      editor.chain().focus().setHeading({ level: 6 }).run()
+    }
+
+    case operators.setParagraph: {
+      editor.chain().focus().setParagraph().run()
+    }
+  }
+}
+
 watch(props, () => {
   console.log('TiptapEditor: props changed')
 
@@ -133,10 +207,7 @@ watch(props, () => {
 
 onMounted(() => {
   // 处理事件
-  new EditorEventHandler(editor, (msg) => {
-    message.value = msg
-    document.getElementById('messageTrigger')?.click()
-  })
+  eventManager.setListener(listener)
 
   document.addEventListener('contextmenu', onContextMenu)
   // document.addEventListener('mousedown', onMouseDown)
@@ -145,6 +216,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   editor.destroy()
+  eventManager.removeListener()
 
   document.removeEventListener('mousedown', onMouseDown)
   document.removeEventListener('click', onClick)

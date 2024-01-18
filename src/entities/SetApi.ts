@@ -1,4 +1,4 @@
-import EventManager from './EventManager';
+import EventManager  from './EventManager';
 import { Store } from 'pinia';
 
 export default function setApi(app: Store<any, any, any, any>, feature: Store<any, any, any, any>) {

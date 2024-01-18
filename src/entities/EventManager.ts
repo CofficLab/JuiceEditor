@@ -1,14 +1,16 @@
-const eventNames = {
+import { Editor } from "@tiptap/core";
+
+const operators = {
     contextMenuWillOpen: 'contextMenuWillOpen',
     insertDraw: 'insertDraw',
     insertImage: 'insertImage',
     insertTable: 'insertTable',
-    setHeading1:'setHeading1',
-    setHeading2:'setHeading2',
-    setHeading3:'setHeading3',
-    setHeading4:'setHeading4',
-    setHeading5:'setHeading5',
-    setHeading6:'setHeading6',
+    setHeading1: 'setHeading1',
+    setHeading2: 'setHeading2',
+    setHeading3: 'setHeading3',
+    setHeading4: 'setHeading4',
+    setHeading5: 'setHeading5',
+    setHeading6: 'setHeading6',
     setParagraph: 'setParagraph',
     toggleBanner: 'toggleBanner',
     toggleBold: 'toggleBold',
@@ -21,164 +23,189 @@ const eventNames = {
     toggleTaskList: 'toggleTaskList',
 }
 
-export default class EventManager {
+const apiEvent = "apiEvent";
+var theEditor: Editor | null = null
+var theOnMessage: (message: string) => void = () => { }
+
+function emit(operator: keyof typeof operators) {
+    window.dispatchEvent(new CustomEvent(apiEvent, {
+        detail: {
+            operator
+        }
+    }));
+}
+
+class EventManager {
+    public operators = operators
+    public listener = (event: Event) => {
+        
+    }
+
+    setListener(listener: (event: Event) => void) {
+        this.listener = listener
+        window.addEventListener(apiEvent, this.listener);
+    }
+
+    removeListener() {
+        window.removeEventListener(apiEvent, this.listener);
+    }
+
+    
+
     contextMenuWillOpen() {
-        window.dispatchEvent(new CustomEvent(eventNames.contextMenuWillOpen));
+        window.dispatchEvent(new CustomEvent(operators.contextMenuWillOpen));
     }
 
-    toggleBanner() {
-        window.dispatchEvent(new CustomEvent(eventNames.toggleBanner));
-    }
-
-    toggleToc() {
-        window.dispatchEvent(new CustomEvent(eventNames.toggleTOC));
-    }
+    toggleBanner() { emit("toggleBanner") }
+    toggleToc() { emit("toggleTOC") }
 
     toggleBold() {
-        window.dispatchEvent(new CustomEvent(eventNames.toggleBold));
+        emit("toggleBold");
     }
 
     toggleBulletList() {
-        window.dispatchEvent(new CustomEvent(eventNames.toggleBulletList));
+        emit("toggleBulletList");
     }
 
     toggleCode() {
-        window.dispatchEvent(new CustomEvent(eventNames.toggleCode));
+        emit("toggleCode");
     }
 
     toggleCodeBlock() {
-        window.dispatchEvent(new CustomEvent(eventNames.toggleCodeBlock));
+        emit("toggleCodeBlock");
     }
 
     toggleItalic() {
-        window.dispatchEvent(new CustomEvent(eventNames.toggleItalic));
+        emit("toggleItalic");
     }
 
     toggleTaskList() {
-        window.dispatchEvent(new CustomEvent(eventNames.toggleTaskList));
+        emit("toggleTaskList");
     }
 
     toggleLink() {
-        window.dispatchEvent(new CustomEvent(eventNames.toggleLink));
+        emit("toggleLink");
     }
 
     insertDraw() {
-        window.dispatchEvent(new CustomEvent(eventNames.insertDraw));
+        emit("insertDraw");
     }
 
     insertTable() {
-        window.dispatchEvent(new CustomEvent(eventNames.insertTable));
+        emit("insertTable");
     }
 
     insertImage() {
-        window.dispatchEvent(new CustomEvent(eventNames.insertImage));
+        emit("insertImage");
     }
 
     setParagraph() {
-        window.dispatchEvent(new CustomEvent(eventNames.setParagraph));
+        emit("setParagraph");
     }
 
     setHeading1() {
-        window.dispatchEvent(new CustomEvent(eventNames.setHeading1));
+        emit("setHeading1");
     }
 
     setHeading2() {
-        window.dispatchEvent(new CustomEvent(eventNames.setHeading2));
+        emit("setHeading2");
     }
 
     setHeading3() {
-        window.dispatchEvent(new CustomEvent(eventNames.setHeading3));
+        emit("setHeading3");
     }
 
     setHeading4() {
-        window.dispatchEvent(new CustomEvent(eventNames.setHeading4));
+        emit("setHeading4");
     }
 
     setHeading5() {
-        window.dispatchEvent(new CustomEvent(eventNames.setHeading5));
+        emit("setHeading5");
     }
 
     setHeading6() {
-        window.dispatchEvent(new CustomEvent(eventNames.setHeading6));
+        emit("setHeading6");
     }
 
     onToggleBanner(callback: Function) {
-        window.addEventListener(eventNames.toggleBanner, () => callback());
+        window.addEventListener(operators.toggleBanner, () => callback());
     }
 
     onToggleToc(callback: Function) {
-        window.addEventListener(eventNames.toggleTOC, () => callback());
+        window.addEventListener(operators.toggleTOC, () => callback());
     }
 
     onToggleBold(callback: Function) {
-        window.addEventListener(eventNames.toggleBold, () => callback());
+        window.addEventListener(operators.toggleBold, () => callback());
     }
 
     onToggleBulletList(callback: Function) {
-        window.addEventListener(eventNames.toggleBulletList, () => callback());
+        window.addEventListener(operators.toggleBulletList, () => callback());
     }
 
     onToggleCode(callback: Function) {
-        window.addEventListener(eventNames.toggleCode, () => callback());
+        window.addEventListener(operators.toggleCode, () => callback());
     }
 
     onToggleCodeBlock(callback: Function) {
-        window.addEventListener(eventNames.toggleCodeBlock, () => callback());
+        window.addEventListener(operators.toggleCodeBlock, () => callback());
     }
 
     onInsertDraw(callback: Function) {
-        window.addEventListener(eventNames.insertDraw, () => callback());
+        window.addEventListener(operators.insertDraw, () => callback());
     }
 
     onInsertImage(callback: Function) {
-        window.addEventListener(eventNames.insertImage, () => callback());
+        window.addEventListener(operators.insertImage, () => callback());
     }
 
     onInsertTable(callback: Function) {
-        window.addEventListener(eventNames.insertTable, () => callback());
+        window.addEventListener(operators.insertTable, () => callback());
     }
 
     onToggleItalic(callback: Function) {
-        window.addEventListener(eventNames.toggleItalic, () => callback());
+        window.addEventListener(operators.toggleItalic, () => callback());
     }
 
     onToggleLink(callback: Function) {
-        window.addEventListener(eventNames.toggleLink, () => callback());
+        window.addEventListener(operators.toggleLink, () => callback());
     }
 
     onToggleTaskList(callback: Function) {
-        window.addEventListener(eventNames.toggleTaskList, () => callback());
+        window.addEventListener(operators.toggleTaskList, () => callback());
     }
 
     onSetParagraph(callback: Function) {
-        window.addEventListener(eventNames.setParagraph, () => callback());
+        window.addEventListener(operators.setParagraph, () => callback());
     }
 
     onSetHeading1(callback: Function) {
-        window.addEventListener(eventNames.setHeading1, () => callback());
+        window.addEventListener(operators.setHeading1, () => callback());
     }
 
     onSetHeading2(callback: Function) {
-        window.addEventListener(eventNames.setHeading2, () => callback());
+        window.addEventListener(operators.setHeading2, () => callback());
     }
 
     onSetHeading3(callback: Function) {
-        window.addEventListener(eventNames.setHeading3, () => callback());
+        window.addEventListener(operators.setHeading3, () => callback());
     }
 
     onSetHeading4(callback: Function) {
-        window.addEventListener(eventNames.setHeading4, () => callback());
+        window.addEventListener(operators.setHeading4, () => callback());
     }
 
     onSetHeading5(callback: Function) {
-        window.addEventListener(eventNames.setHeading5, () => callback());
+        window.addEventListener(operators.setHeading5, () => callback());
     }
 
     onSetHeading6(callback: Function) {
-        window.addEventListener(eventNames.setHeading6, () => callback());
+        window.addEventListener(operators.setHeading6, () => callback());
     }
 
     onContextMenuWillOpen(callback: Function) {
-        window.addEventListener(eventNames.contextMenuWillOpen, () => callback());
+        window.addEventListener(operators.contextMenuWillOpen, () => callback());
     }
 }
+
+export default EventManager
