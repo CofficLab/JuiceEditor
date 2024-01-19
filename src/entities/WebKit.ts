@@ -80,7 +80,7 @@ const webkit = {
             } catch (e) {
                 console.log('运行代码失败', e)
             }
-        }, 3000)
+        }, 500)
     }
 }
 
