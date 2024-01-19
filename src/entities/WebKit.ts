@@ -67,7 +67,9 @@ const webkit = {
 
         console.log('WebKit: 调用 WebKit 以运行代码', code)
 
-        window.runnerCallback = callback
+        window.runnerCallback = function (result: string) {
+            callback(decodeURIComponent(result))
+        }
 
         setTimeout(() => {
             try {

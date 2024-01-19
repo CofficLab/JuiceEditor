@@ -112,7 +112,7 @@ onMounted(() => {
     readOnly: !props.editable,
     onCreated(monacoBox) {
       lan.value = monacoBox.getLanguage()
-      runnable.value = monacoBox.getRunnable()
+      runnable.value = monacoBox.getRunnable() && lan.value != "plaintext"
       editorBox.value = monacoBox
 
       setTimeout(() => {
@@ -132,6 +132,12 @@ onMounted(() => {
     },
     onLanguageChanged(editorBox) {
       lan.value = editorBox.getLanguage()
+      if (lan.value == "plaintext") {
+        runnable.value = false
+      } else {
+        runnable.value = editorBox.getRunnable()
+      }
+
       props.onLanguageChanged(editorBox)
     }
   })
@@ -185,11 +191,12 @@ let handleRun = () => {
 
   running.value = true
 
-
-  webkit.runCode(editorBox.value?.getContent() || "", editorBox.value?.getLanguage() || "go", (result) => {
-    resultBox.setContent(result == '' ? '「程序没有输出」' : result)
-    running.value = false
-    runResultVisible.value = true
-  })
+  setTimeout(() => {
+    webkit.runCode(editorBox.value?.getContent() || "", editorBox.value?.getLanguage() || "go", (result) => {
+      resultBox.setContent(result == '' ? '「程序没有输出」' : result)
+      runResultVisible.value = true
+      running.value = false
+    })
+  }, 5)
 }
 </script>
