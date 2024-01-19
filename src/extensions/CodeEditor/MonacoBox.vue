@@ -1,31 +1,30 @@
 <template>
   <div>
     <div class="relative rounded-3xl">
-      <!-- 运行按钮 -->
-      <!-- <button
-        contenteditable="false"
-        class="btn-sm btn absolute bottom-8 right-2 z-20 transition-none"
-        :class="{ loading: running }"
-        @click="handleRun"
-        v-html="runTitle"
-        v-show="runnable"
-      ></button> -->
+        <!-- 运行按钮 -->
+        <button class="btn btn-square btn-ghost text-accent btn-xs absolute bottom-2 right-2 z-20" @click="handleRun" v-show="runnable" contenteditable="false">
+          <template v-if="!runResultVisible">
+            <span class="loading loading-spinner" v-if="running"></span>
+            <PlayIcon v-else/>
+            </template>
+          <CloseIcon v-else="runResultVisible"/>
+        </button>
 
       <div ref="codeDom" class="relative z-10 rounded-md" contenteditable="true"></div>
     </div>
 
     <!-- 展示运行结果 -->
-    <div
-      ref="resultDom"
-      v-show="runResultVisible && runnable"
-      class="result-dom border-2 border-transparent border-t-sky-900"
-    ></div>
+    <div ref="resultDom" v-show="runResultVisible && runnable"
+      class="result-dom border-2 border-transparent border-t-sky-900"></div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, onUnmounted, watch, ref } from 'vue'
+import { onMounted, onUnmounted, watch, ref } from 'vue'
 import MonacoBox from './MonacoBox'
+import webkit from '../../entities/WebKit';
+import PlayIcon from './Icons/Play.vue'
+import CloseIcon from './Icons/Close.vue'
 
 const props = defineProps({
   content: {
@@ -93,7 +92,6 @@ const props = defineProps({
 let runnable = ref(false)
 let running = ref(false)
 let runResultVisible = ref(false)
-let runTitle = computed(() => (running.value ? '运行中' : runResultVisible.value ? '收起' : '运行'))
 
 /**
  * editor相关属性
@@ -138,8 +136,6 @@ onMounted(() => {
     }
   })
 
-  // console.log(editorBox.value);
-
   // 展示运行结果的编辑器
   MonacoBox.createEditor(resultBox, {
     content: '',
@@ -176,10 +172,6 @@ watch(
 /**
  * 处理页面点击事件
  */
-let handleToggleRun = () => {
-  editorBox.value!.toggleRunnable()
-  if (!editorBox.value!.runnable) runResultVisible.value = false
-}
 let handleRun = () => {
   if (running.value) return
 
@@ -193,35 +185,11 @@ let handleRun = () => {
 
   running.value = true
 
-  setTimeout(() => {
-    window.runner(
-      editorBox.value?.getContent(),
-      editorBox.value?.getLanguage(),
-      (result: string) => {
-        resultBox.setContent(result == '' ? '「程序没有输出」' : result)
-        console.log('运行结果', result)
-        running.value = false
-        runResultVisible.value = true
-      }
-    )
-  }, 500)
 
-  window.runner = (code: String, lan: String, callback: Function) => {
-    console.log('调用 WebKit 以运行代码', code, lan)
-
-    try {
-      ;(window as any).webkit.messageHandlers.runCode.postMessage({
-        code: code,
-        lan: lan
-      })
-
-      window.runnerCallback = function (result: string) {
-        console.log('收到 WebKit 运行结果', result)
-        callback(result)
-      }
-    } catch (e) {
-      callback('调用 WebKit 运行代码失败' + e)
-    }
-  }
+  webkit.runCode(editorBox.value?.getContent() || "", editorBox.value?.getLanguage() || "go", (result) => {
+    resultBox.setContent(result == '' ? '「程序没有输出」' : result)
+    running.value = false
+    runResultVisible.value = true
+  })
 }
 </script>
