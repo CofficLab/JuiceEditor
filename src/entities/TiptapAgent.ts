@@ -23,7 +23,7 @@ class TiptapAgent {
                 tableEnable: props.tableEnable,
             }),
             injectNonce: props.uuid,
-            autofocus: true,
+            autofocus: false,
             content: props.content,
             editable: props.editable,
             onBeforeCreate: ({ editor }) => {
