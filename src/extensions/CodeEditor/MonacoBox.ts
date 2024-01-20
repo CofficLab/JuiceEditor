@@ -192,7 +192,7 @@ class MonacoBox {
             minimap: { enabled: false },
         });
 
-        editor.focus();
+        // editor.focus();
 
         box = new MonacoBox(editor, monaco.editor.getModels().length - 1, options.runnable, options.name);
 

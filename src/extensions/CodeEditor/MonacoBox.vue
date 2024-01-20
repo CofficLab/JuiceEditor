@@ -1,28 +1,36 @@
 <template>
   <div>
     <div class="relative rounded-3xl">
-        <!-- 运行按钮 -->
-        <button class="btn btn-square btn-ghost text-accent btn-xs absolute bottom-2 right-2 z-20" @click="handleRun" v-show="runnable" contenteditable="false">
-          <template v-if="!runResultVisible">
-            <span class="loading loading-spinner" v-if="running"></span>
-            <PlayIcon v-else/>
-            </template>
-          <CloseIcon v-else="runResultVisible"/>
-        </button>
+      <!-- 运行按钮 -->
+      <button
+        class="btn btn-square btn-ghost text-accent btn-xs absolute bottom-2 right-2 z-20"
+        @click="handleRun"
+        v-show="runnable"
+        contenteditable="false"
+      >
+        <template v-if="!runResultVisible">
+          <span class="loading loading-spinner" v-if="running"></span>
+          <PlayIcon v-else />
+        </template>
+        <CloseIcon v-else="runResultVisible" />
+      </button>
 
       <div ref="codeDom" class="relative z-10 rounded-md" contenteditable="true"></div>
     </div>
 
     <!-- 展示运行结果 -->
-    <div ref="resultDom" v-show="runResultVisible && runnable"
-      class="result-dom border-2 border-transparent border-t-sky-900"></div>
+    <div
+      ref="resultDom"
+      v-show="runResultVisible && runnable"
+      class="result-dom border-2 border-transparent border-t-sky-900"
+    ></div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { onMounted, onUnmounted, watch, ref } from 'vue'
 import MonacoBox from './MonacoBox'
-import webkit from '../../entities/WebKit';
+import webkit from '../../entities/WebKit'
 import PlayIcon from './Icons/Play.vue'
 import CloseIcon from './Icons/Close.vue'
 
@@ -112,16 +120,16 @@ onMounted(() => {
     readOnly: !props.editable,
     onCreated(monacoBox) {
       lan.value = monacoBox.getLanguage()
-      runnable.value = monacoBox.getRunnable() && lan.value != "plaintext"
+      runnable.value = monacoBox.getRunnable() && lan.value != 'plaintext'
       editorBox.value = monacoBox
 
-      setTimeout(() => {
-        // 去掉setTimeout则不能获取焦点，原因暂时不明
-        // 如果内容为空，说明是新创建的，获取焦点
-        if (props.content == '') {
-          monacoBox.editor.focus()
-        }
-      }, 0)
+      // setTimeout(() => {
+      //   // 去掉setTimeout则不能获取焦点，原因暂时不明
+      //   // 如果内容为空，说明是新创建的，获取焦点
+      //   if (props.content == '') {
+      //     monacoBox.editor.focus()
+      //   }
+      // }, 0)
     },
     onContentChanged(monacoBox) {
       props.onContentChanged(monacoBox)
@@ -132,7 +140,7 @@ onMounted(() => {
     },
     onLanguageChanged(editorBox) {
       lan.value = editorBox.getLanguage()
-      if (lan.value == "plaintext") {
+      if (lan.value == 'plaintext') {
         runnable.value = false
       } else {
         runnable.value = editorBox.getRunnable()
@@ -192,11 +200,15 @@ let handleRun = () => {
   running.value = true
 
   setTimeout(() => {
-    webkit.runCode(editorBox.value?.getContent() || "", editorBox.value?.getLanguage() || "go", (result) => {
-      resultBox.setContent(result == '' ? '「程序没有输出」' : result)
-      runResultVisible.value = true
-      running.value = false
-    })
+    webkit.runCode(
+      editorBox.value?.getContent() || '',
+      editorBox.value?.getLanguage() || 'go',
+      (result) => {
+        resultBox.setContent(result == '' ? '「程序没有输出」' : result)
+        runResultVisible.value = true
+        running.value = false
+      }
+    )
   }, 5)
 }
 </script>
