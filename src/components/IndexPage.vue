@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col h-full w-full relative overflow-scroll">
+  <div class="flex flex-col h-full w-full relative overflow-scroll" id="index">
     <!-- 操作栏 -->
     <ToolBar></ToolBar>
 
