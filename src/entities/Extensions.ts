@@ -125,6 +125,7 @@ function makeExtensions(props: makeExtensionsProps) {
             },
         }),
         Text,
+        SmartTable,
         // 默认启用table，保证table能够正常渲染
         Table.configure({
             resizable: true,
@@ -137,12 +138,6 @@ function makeExtensions(props: makeExtensionsProps) {
         TableHeader,
         Toc
     ]
-
-    if (props.tableEnable) {
-        extensions.push(
-            SmartTable
-        );
-    }
 
     return extensions
 }

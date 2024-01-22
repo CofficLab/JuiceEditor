@@ -54,7 +54,7 @@ class TiptapAgent {
             onUpdate: ({ editor }) => {
                 let editorData = EditorData.fromEditor(editor)
                 if (props.onUpdate) {
-                    console.log('TiptapEditor: onUpdate, callback with EditorData')
+                    console.log('TiptapEditor: onUpdate, callback with EditorData', editorData)
                     props.onUpdate(editorData)
                 } else {
                     console.log('TiptapEditor: onUpdate, no callback')
