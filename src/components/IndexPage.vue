@@ -65,7 +65,7 @@ const shouldShowBorder = computed(() => {
 })
 
 watch(featureUpdatedAt, () => {
-  console.log('featureUpdatedAt: ' + featureUpdatedAt.value)
+  console.log('IndexPage: featureUpdatedAt ->' + featureUpdatedAt.value)
 
   if (!featureStore.editorVisible) {
     return
