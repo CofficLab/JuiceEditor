@@ -25,6 +25,7 @@
         :onContentChanged="handleContentChanged"
         :onRunnableChanged="handleRunnableChanged"
         :showLineNumbers="true"
+        :uuid="node.attrs.uuid"
       >
       </Monaco>
 

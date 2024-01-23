@@ -22,7 +22,7 @@ const webkit = {
             return
         }
 
-        console.log('WebKit: 调用 WebKit 以更新节点内容', data.uuid)
+        console.log('🍎 WebKit: 调用 WebKit 以更新节点内容', data.uuid, data.title)
         setTimeout(() => {
             try {
                 // 只能传字符、只能传普通object
@@ -45,7 +45,7 @@ const webkit = {
             return
         }
 
-        console.log('WebKit: 调用 WebKit 以更新 SelectionType')
+        console.log('🍎 WebKit: 调用 WebKit 以更新 SelectionType')
         setTimeout(() => {
             try {
                 // 只能传字符、只能传普通object

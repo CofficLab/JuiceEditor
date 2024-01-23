@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onUnmounted, watch, ref } from 'vue'
+import { onMounted, onUnmounted, watch, ref, onBeforeUnmount } from 'vue'
 import MonacoBox from './MonacoBox'
 import webkit from '../../entities/WebKit'
 import PlayIcon from './Icons/Play.vue'
@@ -67,7 +67,7 @@ const props = defineProps({
   onContentChanged: {
     type: Function,
     default: () => {
-      console.log('monaco content changed')
+      console.log('MonacoBox: monaco content changed')
     }
   },
   onRunnableChanged: {
@@ -79,7 +79,7 @@ const props = defineProps({
   onLanguageChanged: {
     type: Function,
     default: () => {
-      console.log('monaco language changed')
+      console.log('MonacoBox: monaco language changed')
     }
   },
   showLineNumbers: {
@@ -91,6 +91,10 @@ const props = defineProps({
     default: () => {
       console.log('monaco runner')
     }
+  },
+  uuid: {
+    type: String,
+    default: ''
   }
 })
 
@@ -111,9 +115,12 @@ let resultBox: MonacoBox
 let lan = ref()
 
 onMounted(() => {
+  console.log('🍋 MonacoBox: mounted, uuid = ', props.uuid)
+
   // 编辑器
   MonacoBox.createEditor(editorBox.value!, {
     name: '主编辑器',
+    uuid: props.uuid,
     content: props.content,
     target: codeDom.value!,
     language: props.language,
@@ -153,6 +160,7 @@ onMounted(() => {
   // 展示运行结果的编辑器
   MonacoBox.createEditor(resultBox, {
     content: '',
+    uuid: props.uuid + '-result',
     target: resultDom.value!,
     language: 'shell',
     runnable: props.runnable,
@@ -163,15 +171,18 @@ onMounted(() => {
   })
 })
 
+onBeforeUnmount(() => {
+  console.log('MonacoBox: monaco component before unmounted')
+})
+
 onUnmounted(() => {
   console.log('MonacoBox: monaco component unmounted')
-  // editorBox.value?.dispose()
 })
 
 watch(
   () => props.content,
   () => {
-    console.log('monaco 检测到 props.content 发生变化')
+    console.log('MonacoBox: 检测到 props.content 发生变化')
     editorBox.value!.setContent(props.content)
   }
 )
@@ -179,7 +190,7 @@ watch(
 watch(
   () => props.language,
   () => {
-    console.log('monaco 检测到 props.language 发生变化')
+    console.log('MonacoBox: 检测到 props.language 发生变化')
     editorBox.value!.setLanguage(props.language)
   }
 )

@@ -23,7 +23,7 @@ export const useAppStore = defineStore('app-store', {
 
         setCurrentNode: function (data: object) {
             this.loading = true
-            console.log('AppStore: setCurrentNode')
+            console.log('🍋 AppStore: setCurrentNode')
 
             this.node = new TreeNode(data)
 
@@ -33,7 +33,13 @@ export const useAppStore = defineStore('app-store', {
         },
 
         updateNode: function (data: EditorData) {
-            // console.log('更新节点', data)
+            if (data.content == this.node.content) {
+                console.log('🧮 AppStore: 更新节点，没变化，忽略')
+                return
+            }
+
+            console.log('🧮 AppStore: 更新节点')
+
             webkit.updateNode(data)
         },
 

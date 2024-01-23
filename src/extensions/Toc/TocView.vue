@@ -53,7 +53,7 @@ let getLink = function (heading: { id: any }) {
 }
 
 let handleUpdate = function () {
-  console.log('Toc: handle update')
+  console.log('🍋 Toc: handle update')
   headings.value = []
   const transaction = props.editor.state.tr
 

@@ -65,11 +65,11 @@ const shouldShowBorder = computed(() => {
 })
 
 watch(featureUpdatedAt, () => {
-  console.log('IndexPage: featureUpdatedAt ->' + featureUpdatedAt.value)
-
   if (!featureStore.editorVisible) {
     return
   }
+
+  console.log('IndexPage: feature变了，重新加载Tiptap，featureUpdatedAt ->' + featureUpdatedAt.value)
 
   featureStore.hideEditor()
   nextTick(() => {

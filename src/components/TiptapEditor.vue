@@ -92,7 +92,7 @@ const editor = TiptapAgent.create({
     props.onUpdate(data)
   },
   onSelectionUpdate(type) {
-    console.log('TiptapEditor: onSelectionUpdate', type)
+    console.log('🍋 TiptapEditor: onSelectionUpdate', type)
     props.onSelectionUpdate(type)
   }
 })
@@ -123,7 +123,7 @@ function onContextMenu(e: Event) {
 }
 
 watch(props, () => {
-  console.log('TiptapEditor: props changed', props.uuid)
+  console.log('🍋 TiptapEditor: props changed', props.uuid)
 
   // 更新，但不触发onUpdate
   editor.setOptions({
@@ -135,6 +135,8 @@ watch(props, () => {
 })
 
 onMounted(() => {
+  console.log("🍋 TiptapEditor: onMounted")
+
   // 处理事件
   eventManager.setListener(editor, (msg) => {
     message.value = msg
@@ -147,6 +149,7 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
+  console.log("TiptapEditor: onBeforeUnmount")
   editor.destroy()
   eventManager.removeListener()
   document.removeEventListener('mousedown', onMouseDown)

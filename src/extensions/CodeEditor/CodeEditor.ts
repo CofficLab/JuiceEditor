@@ -2,6 +2,9 @@ import CodeBlock from '@tiptap/extension-code-block'
 import { VueNodeViewRenderer } from '@tiptap/vue-3'
 import CodeEditorVue from './CodeEditor.vue'
 import { Database, CodeBlock as DatabaseCodeBlock } from './Database'
+import MonacoBox from './MonacoBox'
+import { randomUUID } from 'crypto'
+import { v4 as uuidv4 } from 'uuid';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -33,6 +36,18 @@ export const CodeEditor = CodeBlock.extend({
       height: {
         default: 0,
         rendered: true
+      },
+      uuid: {
+        default: uuidv4(),
+        parseHTML: (element) => {
+          let getFromAttribute = element.getAttribute('uuid')
+
+          if (getFromAttribute && getFromAttribute.length > 0) {
+            return getFromAttribute
+          }
+
+          return uuidv4()
+        }
       },
       code: {
         default: 'hello world',
@@ -75,7 +90,8 @@ export const CodeEditor = CodeBlock.extend({
       'pre',
       {
         height: node.attrs.height,
-        database: node.attrs.database
+        database: node.attrs.database,
+        uuid: node.attrs.uuid,
       },
       ['code', node.attrs.code]
     ]
@@ -92,5 +108,36 @@ export const CodeEditor = CodeBlock.extend({
           return commands.toggleNode(this.name, 'paragraph', attributes)
         },
     }
+  },
+
+  addStorage() {
+    return {
+      editorUUID: "",
+    }
+  },
+
+  onDestroy() {
+    console.log('🍋 CodeEditor: onTiptapDestroy')
+    MonacoBox.disposeAll()
+  },
+
+  onCreate() {
+    console.log('🍋 CodeEditor: onTiptapCreate, UUID', this.editor.options.injectNonce)
+    this.storage.editorUUID = this.editor.options.injectNonce
+  },
+
+  onUpdate() {
+    console.log('🍋 CodeEditor: onTiptapUpdate, UUID', this.editor.options.injectNonce)
+    let newUUID = this.editor.options.injectNonce
+
+    if (newUUID == this.storage.editorUUID) {
+        return
+    }
+
+    // Tiptap Editor 的 UUID 有变化，说明切换了节点，销毁所有 Monaco Editor
+    console.log('🍋 CodeEditor: onTiptapUpdate, UUID变化，销毁所有 Monaco Editor')
+
+    this.storage.editorUUID = newUUID
+    MonacoBox.disposeAll()
   },
 })

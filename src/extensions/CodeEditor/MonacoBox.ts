@@ -28,6 +28,7 @@ window.MonacoEnvironment = {
 
 export interface CreateEditorOptions {
     name?: string;
+    uuid: string;
     target: HTMLDivElement;
     content: string;
     language: string;
@@ -41,6 +42,14 @@ export interface CreateEditorOptions {
 }
 
 class MonacoBox {
+    static disposeAll() {
+        console.log('MonacoBox: disposeAll')
+
+        monaco.editor.getModels().forEach((model) => {
+            model.dispose()
+        })
+    }
+
     public editor: editor.IStandaloneCodeEditor;
     public index;
     public runnable;
@@ -108,16 +117,10 @@ class MonacoBox {
         return monaco.editor.getModels()[this.index.toString()].setValue(content)
     }
 
-    public dispose() {
-        console.log('MonacoBox: dispose')
-
-        return monaco.editor.getModels()[this.index.toString()].dispose()
-    }
-
     public setHeight() {
         let height = this.getLinesHeight();
 
-        console.log("MonacoBox: 设置 monaco editor 的高度", height);
+        // console.log("MonacoBox: 设置 monaco editor 的高度", height);
 
         this.editor.getDomNode()!.style.height = height + "px";
     }
@@ -164,7 +167,8 @@ class MonacoBox {
     }
 
     static createEditor(box: MonacoBox, options: CreateEditorOptions) {
-        console.log('MonacoBox: 创建 Monaco，名字是', options.name)
+        console.log('MonacoBox: 创建 Monaco，名字及UUID', options.name, options.uuid)
+
         // console.log('创建 Monaco，配置是', options)
         const editor = monaco.editor.create(options.target, {
             value: options.content,
@@ -197,6 +201,9 @@ class MonacoBox {
             },
             minimap: { enabled: false },
         });
+
+        let count = monaco.editor.getModels().length
+        console.log('MonacoBox: 现在有', count, '个 Monaco')
 
         // editor.focus();
 
