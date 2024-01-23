@@ -76,6 +76,7 @@ export default {
   },
 
   mounted() {
+    console.log("TimeLine: mounted");
     this.editor.on("update", this.handleUpdate);
     this.$nextTick(this.handleUpdate);
 

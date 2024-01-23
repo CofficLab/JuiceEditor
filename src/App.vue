@@ -20,8 +20,8 @@ onMounted(() => {
   // 将方法暴露到外部，swift 可以调用
   setApi(useAppStore(), feature)
 
-  if (!feature.contextMenu) {
-    document.addEventListener('contextmenu', event => event.preventDefault());
-  }
+  // if (!feature.contextMenu) {
+  //   document.addEventListener('contextmenu', event => event.preventDefault());
+  // }
 })
 </script>
