@@ -27,37 +27,37 @@ class TiptapAgent {
             content: props.content,
             editable: props.editable,
             onBeforeCreate: ({ editor }) => {
-                console.log('TiptapEditor: onBeforeCreate')
+                console.log('TiptapAgent: onBeforeCreate')
             },
             onCreate: ({ editor }) => {
-                console.log('TiptapEditor: onCreate')
+                console.log('TiptapAgent: onCreate')
             },
             onFocus: ({ editor }) => {
-                console.log('TiptapEditor: onFocus')
+                console.log('TiptapAgent: onFocus')
             },
             onBlur: ({ editor }) => {
-                console.log('TiptapEditor: onBlur')
+                console.log('TiptapAgent: onBlur')
             },
             onDestroy(props) {
-                console.log('TiptapEditor: onDestroy')
+                console.log('TiptapAgent: onDestroy')
             },
             onSelectionUpdate: ({ editor }) => {
                 let type = TiptapAgent.getSelectionNodeType(editor)
 
                 if (props.onSelectionUpdate) {
-                    // console.log('TiptapEditor: onSelectionUpdate, callback with Editor', type)
+                    // console.log('TiptapAgent: onSelectionUpdate, callback with Editor', type)
                     props.onSelectionUpdate(type)
                 } else {
-                    console.log('TiptapEditor: onSelectionUpdate, no callback')
+                    console.log('TiptapAgent: onSelectionUpdate, no callback')
                 }
             },
             onUpdate: ({ editor }) => {
                 let editorData = EditorData.fromEditor(editor)
                 if (props.onUpdate) {
-                    console.log('TiptapEditor: onUpdate, callback with EditorData', editorData)
+                    console.log('TiptapAgent: onUpdate, callback with EditorData')
                     props.onUpdate(editorData)
                 } else {
-                    console.log('TiptapEditor: onUpdate, no callback')
+                    console.log('TiptapAgent: onUpdate, no callback')
                 }
             }
         })
