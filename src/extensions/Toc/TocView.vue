@@ -80,7 +80,7 @@ let handleUpdate = function () {
 }
 
 onMounted(() => {
-  console.log('Toc: mounted')
+  console.log('🍋 Toc: mounted')
   props.editor.on('update', handleUpdate)
   nextTick(() => handleUpdate())
 
@@ -124,7 +124,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  console.log('Toc: unmounted')
+  console.log('🍋 Toc: unmounted')
   props.editor.off('update', handleUpdate)
 })
 </script>

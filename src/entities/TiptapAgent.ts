@@ -27,19 +27,19 @@ class TiptapAgent {
             content: props.content,
             editable: props.editable,
             onBeforeCreate: ({ editor }) => {
-                console.log('TiptapAgent: onBeforeCreate')
+                console.log('🍋 TiptapAgent: onBeforeCreate')
             },
             onCreate: ({ editor }) => {
-                console.log('TiptapAgent: onCreate')
+                console.log('🍋 TiptapAgent: onCreate')
             },
             onFocus: ({ editor }) => {
-                console.log('TiptapAgent: onFocus')
+                console.log('🍋 TiptapAgent: onFocus')
             },
             onBlur: ({ editor }) => {
-                console.log('TiptapAgent: onBlur')
+                console.log('🍋 TiptapAgent: onBlur')
             },
             onDestroy(props) {
-                console.log('TiptapAgent: onDestroy')
+                console.log('🍋 TiptapAgent: onDestroy')
             },
             onSelectionUpdate: ({ editor }) => {
                 let type = TiptapAgent.getSelectionNodeType(editor)

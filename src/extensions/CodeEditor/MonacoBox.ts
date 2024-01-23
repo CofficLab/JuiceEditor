@@ -43,7 +43,7 @@ export interface CreateEditorOptions {
 
 class MonacoBox {
     static disposeAll() {
-        console.log('MonacoBox: disposeAll')
+        console.log('🗑️ MonacoBox: disposeAll')
 
         monaco.editor.getModels().forEach((model) => {
             model.dispose()

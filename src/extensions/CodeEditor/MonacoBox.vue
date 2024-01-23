@@ -172,11 +172,11 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
-  console.log('MonacoBox: monaco component before unmounted')
+  console.log('🍋 MonacoBox: before unmounted')
 })
 
 onUnmounted(() => {
-  console.log('MonacoBox: monaco component unmounted')
+  console.log('🍋 MonacoBox: unmounted')
 })
 
 watch(
