@@ -108,6 +108,12 @@ class MonacoBox {
         return monaco.editor.getModels()[this.index.toString()].setValue(content)
     }
 
+    public dispose() {
+        console.log('MonacoBox: dispose')
+
+        return monaco.editor.getModels()[this.index.toString()].dispose()
+    }
+
     public setHeight() {
         let height = this.getLinesHeight();
 

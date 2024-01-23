@@ -28,7 +28,7 @@ const sampleNode = new TreeNode({
     <h2>图片</h2>
     <p>下面是一张图</p>
     <img src="${sampleImgSrc1}"></img>
-    <pre><code>console.log("ABC")</code></pre>
+    <pre><code>console.log("ABC 通用文章")</code></pre>
     <h2>画图</h2>
     <draw src="${sampleImgSrc1}"></draw>
     <h2>链接</h2>

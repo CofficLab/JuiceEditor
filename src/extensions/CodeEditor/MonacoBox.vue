@@ -165,6 +165,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   console.log('MonacoBox: monaco component unmounted')
+  // editorBox.value?.dispose()
 })
 
 watch(
