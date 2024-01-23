@@ -61,8 +61,7 @@ const webkit = {
 
     runCode(code: string,lan: string, callback: (result: string) => void) {
         if (!('webkit' in window)) {
-            console.log('WebKit: 调用 WebKit 以运行代码，无 WebKit', code)
-            return setTimeout(() => callback('无 WebKit'), 1000)
+            return setTimeout(() => callback('在 macOS 的 App Store 中搜索「快易知」运行代码'), 1000)
         }
 
         console.log('WebKit: 调用 WebKit 以运行代码', code)
