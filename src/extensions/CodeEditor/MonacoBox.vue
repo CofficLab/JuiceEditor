@@ -120,7 +120,7 @@ let lan = ref()
 
 onMounted(() => {
   console.log('🍋 💼 MonacoBox: mounted, uuid = ', props.uuid)
-  console.log('🍋 💼 MonacoBox: mounted, content = ', props.content)
+  // console.log('🍋 💼 MonacoBox: mounted, content = ', props.content)
 
   // 编辑器
   MonacoBox.createEditor(editorBox!, {
