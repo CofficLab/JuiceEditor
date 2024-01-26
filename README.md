@@ -26,3 +26,5 @@
   ```js
   [Dev] Bootstrap script change requires update of CSP
   ```
+
+也可以修改`src\main\webapp\js\PreConfig.js`
