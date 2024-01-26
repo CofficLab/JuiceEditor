@@ -83,6 +83,50 @@ window.DRAWIO_CONFIG = {
     .geSidebarFooter {
       display: none !important;
     }
+
+    table.mxPopupMenu>tbody>tr:nth-child(9) {
+      display: none !important;
+    }
+
+    table.mxPopupMenu>tbody>tr:nth-child(10) {
+      display: none !important;
+    }
+
+    table.mxPopupMenu>tbody>tr:nth-child(11) {
+      display: none !important;
+    }
+
+    table.mxPopupMenu>tbody>tr:nth-child(12) {
+      display: none !important;
+    }
+
+    table.mxPopupMenu>tbody>tr:nth-child(13) {
+      display: none !important;
+    }
+
+    table.mxPopupMenu>tbody>tr:nth-child(14) {
+      display: none !important;
+    }
+
+    table.mxPopupMenu>tbody>tr:nth-child(15) {
+      display: none !important;
+    }
+
+    table.mxPopupMenu>tbody>tr:nth-child(16) {
+      display: none !important;
+    }
+
+    table.mxPopupMenu>tbody>tr:nth-child(17) {
+      display: none !important;
+    }
+
+    table.mxPopupMenu>tbody>tr:nth-child(18) {
+      display: none !important;
+    }
+
+    table.mxPopupMenu>tbody>tr:nth-child(19) {
+      display: none !important;
+    }
   `
 }
 
