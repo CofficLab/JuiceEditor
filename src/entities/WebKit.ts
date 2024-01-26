@@ -59,7 +59,7 @@ const webkit = {
         }, 0)
     },
 
-    runCode(code: string,lan: string, callback: (result: string) => void) {
+    runCode(code: string, lan: string, callback: (result: string) => void) {
         if (!('webkit' in window)) {
             return setTimeout(() => callback('在 macOS 的 App Store 中搜索「快易知」运行代码'), 1000)
         }
@@ -82,6 +82,19 @@ const webkit = {
                 console.log('运行代码失败', e)
             }
         }, 500)
+    },
+
+    downloadImage(base64: String, name: String) {
+        if (!('webkit' in window)) {
+            console.log("🍎 WebKit: 下载图片，无 WebKit，忽略")
+            return
+        }
+        
+        (window as any).webkit.messageHandlers.sendMessage.postMessage({
+            channel: "downloadFile",
+            base64: base64,
+            name: name
+        })
     }
 }
 

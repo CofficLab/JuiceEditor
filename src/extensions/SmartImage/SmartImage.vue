@@ -66,6 +66,7 @@ import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 import Setting from './Icons/Setting.vue'
 import { ref } from 'vue'
 import Base64Helper from './Base64Helper'
+import webkit from '../../entities/WebKit';
 
 const isWebKit = 'webkit' in window
 let imgDom = ref<HTMLImageElement | null>(null)
@@ -231,10 +232,10 @@ function downloadImage() {
 function exportBase64(base64ImageString: string) {
   // 下载
   if (isWebKit) {
-    ;(window as any).webkit.messageHandlers.downloadFile.postMessage({
-      base64: Base64Helper.getBase64FromBase64Image(base64ImageString),
-      name: 'Image' + Base64Helper.getExtension(base64ImageString)
-    })
+    webkit.downloadImage(
+      Base64Helper.getBase64FromBase64Image(base64ImageString),
+      'Image' + Base64Helper.getExtension(base64ImageString)
+    )
   } else {
     let a = Base64Helper.download(base64ImageString)
 
