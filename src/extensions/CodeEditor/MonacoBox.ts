@@ -50,6 +50,11 @@ class MonacoBox {
         })
     }
 
+    static printCount() {
+        let count = monaco.editor.getModels().length
+        console.log('🍋 💼 MonacoBox: 现在有', count, '个 Monaco')
+    }
+
     public editor: editor.IStandaloneCodeEditor;
     public index;
     public runnable;
@@ -203,8 +208,7 @@ class MonacoBox {
             minimap: { enabled: false },
         });
 
-        let count = monaco.editor.getModels().length
-        console.log('💼 MonacoBox: 现在有', count, '个 Monaco')
+        MonacoBox.printCount()
 
         // editor.focus();
 

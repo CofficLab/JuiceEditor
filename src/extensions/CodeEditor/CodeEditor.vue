@@ -72,10 +72,11 @@ import { NodeViewContent, nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 import Monaco from './MonacoBox.vue'
 import CodeTabs from './CodeTabs.vue'
 import { Database, CodeBlock } from './Database'
-import { ref, computed, nextTick, onMounted } from 'vue'
+import { ref, computed, nextTick, onMounted, onBeforeUnmount, onUnmounted, onBeforeMount, onBeforeUpdate, onUpdated } from 'vue'
 import MonacoBox from './MonacoBox'
 import Setting from './Icons/Setting.vue'
 import ClipboardJS from 'clipboard'
+import languages from '../../entities/Languages'
 
 var clipboard = new ClipboardJS('.copy')
 clipboard
@@ -89,46 +90,31 @@ clipboard
 
 const props = defineProps(nodeViewProps)
 
-const languages = [
-  'plaintext',
-  'javascript',
-  'typescript',
-  'java',
-  'html',
-  'go',
-  'php',
-  'python',
-  'shell',
-  'swift'
-]
-
 // 复制按钮相关的属性
 let codeForCopy = ref('test code')
 
 let titlesDom = ref()
 let database = computed<Database>(() => new Database(props.node.attrs.database))
 let items = computed<CodeBlock[]>(() => database.value.items)
-let activatedIndex = computed(() => database.value.activatedIndex)
+
+// CodeEditor 支持多标签，当前活跃的标签
+// 默认从database读取，用户可改变
+let activatedIndex = ref(database.value.activatedIndex)
+
 let activatedItem = computed(() => items.value[activatedIndex.value])
-let content = ref(activatedItem.value.content)
+
+// 传递给 Monaco 的代码内容
+let content = computed(() => {
+  return activatedItem.value.content
+})
+
+// 编辑器区域
 let codeDom = ref(activatedItem.value.content)
+
 // 是否是整个editor.state.doc.content的最后一个node
 let isTheLastNode = computed(
   () => props.node.nodeSize + props.getPos() == props.editor.state.doc.content.size
 )
-
-onMounted(() => {
-  // 如果是最后一个节点，在本节点后插入一个空的p，防止光标无法移动到下一个节点
-  if (isTheLastNode.value) {
-    let tail = props.editor.state.doc.content.size
-    props.editor.commands.insertContentAt(tail, '<p></p>', {
-      updateSelection: false,
-      parseOptions: {
-        preserveWhitespace: 'full'
-      }
-    })
-  }
-})
 
 function createTab(): void {
   props.updateAttributes({
@@ -141,10 +127,10 @@ function createTab(): void {
 function activate(index: number) {
   if (index == activatedIndex.value) return
   console.log('激活标签下标', index)
+  activatedIndex.value = index
   props.updateAttributes({
     database: database.value.updateActivatedIndex(index).toJSON()
   })
-  content.value = items.value[index].content
 }
 
 function handleContentChanged(editorBox: MonacoBox) {
@@ -176,12 +162,6 @@ function handleDelete() {
   activate(database.value.getLastIndex())
 }
 
-function handleUpdateTitle(e: { target: any }) {
-  props.updateAttributes({
-    database: database.value.updateTitle(e.target!.innerText).toJSON()
-  })
-}
-
 function focusToLastTitle() {
   let titleTexts = titlesDom.value.querySelectorAll('.code-title')
   let lastTitle = titleTexts[titleTexts.length - 1]
@@ -201,6 +181,42 @@ function setLanguage(language: string) {
     database: database.value.updateLanguage(language).toJSON()
   })
 }
+
+onBeforeMount(() => {
+  console.log('🍋 💼 CodeEditor: before mounted')
+})
+
+onMounted(() => {
+  console.log('🍋 💼 CodeEditor: mounted, uuid = ', props.editor.options.injectNonce)
+
+  // 如果是最后一个节点，在本节点后插入一个空的p，防止光标无法移动到下一个节点
+  if (isTheLastNode.value) {
+    let tail = props.editor.state.doc.content.size
+    props.editor.commands.insertContentAt(tail, '<p></p>', {
+      updateSelection: false,
+      parseOptions: {
+        preserveWhitespace: 'full'
+      }
+    })
+  }
+})
+
+onBeforeUpdate(() => {
+  console.log('🍋 💼 CodeEditor: before update')
+})
+
+onUpdated(() => {
+  // 当 Tiptap 更新内容后，该组件不一定会被销毁，可能被 Vue 复用
+  console.log('🍋 💼 CodeEditor: updated')
+})
+
+onBeforeUnmount(() => {
+  console.log('🍋 💼 CodeEditor: before unmounted')
+})
+
+onUnmounted(() => {
+  console.log('🍋 💼 CodeEditor: unmounted')
+})
 </script>
 
 <style lang="postcss" scoped>

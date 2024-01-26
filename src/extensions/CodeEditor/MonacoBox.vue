@@ -113,15 +113,15 @@ let runResultVisible = ref(false)
  */
 let codeDom = ref<HTMLDivElement>()
 let resultDom = ref<HTMLDivElement>()
-let editorBox = ref<MonacoBox>()
+var editorBox: MonacoBox | null = null
 let lan = ref()
 
 onMounted(() => {
-  console.log('🍋 💼  MonacoBox: mounted, uuid = ', props.uuid)
-  console.log('🍋 💼  MonacoBox: mounted, content = ', props.content)
+  console.log('🍋 💼 MonacoBox: mounted, uuid = ', props.uuid)
+  console.log('🍋 💼 MonacoBox: mounted, content = ', props.content)
 
   // 编辑器
-  MonacoBox.createEditor(editorBox.value!, {
+  MonacoBox.createEditor(editorBox!, {
     name: '主编辑器',
     uuid: props.uuid,
     content: props.content,
@@ -132,7 +132,7 @@ onMounted(() => {
       console.log("🍋 🗒️ MonacoBox: created")
       lan.value = monacoBox.getLanguage()
       runnable.value = monacoBox.getRunnable() && lan.value != 'plaintext'
-      editorBox.value = monacoBox
+      editorBox = monacoBox
 
       // setTimeout(() => {
       //   // 去掉setTimeout则不能获取焦点，原因暂时不明
@@ -167,14 +167,19 @@ onBeforeUnmount(() => {
 })
 
 onUnmounted(() => {
-  console.log('🍋 💼  MonacoBox: unmounted')
+  console.log('🍋 💼 MonacoBox: unmounted，销毁 Monaco')
+
+  setTimeout(() => {
+    editorBox!.editor.dispose()
+  }, 1);
+  MonacoBox.printCount()
 })
 
 watch(
   () => props.content,
   () => {
-    console.log('MonacoBox: 检测到 props.content 发生变化')
-    editorBox.value!.setContent(props.content)
+    console.log('🍋 💼 MonacoBox: 检测到 props.content 发生变化')
+    editorBox!.setContent(props.content)
   }
 )
 
@@ -182,7 +187,7 @@ watch(
   () => props.language,
   () => {
     console.log('MonacoBox: 检测到 props.language 发生变化')
-    editorBox.value!.setLanguage(props.language)
+    editorBox!.setLanguage(props.language)
   }
 )
 
@@ -204,8 +209,8 @@ let handleRun = () => {
 
   setTimeout(() => {
     webkit.runCode(
-      editorBox.value?.getContent() || '',
-      editorBox.value?.getLanguage() || 'go',
+      editorBox?.getContent() || '',
+      editorBox?.getLanguage() || 'go',
       (result) => {
         resultDom.value!.innerHTML = result == '' ? '「程序没有输出」' : result
         runResultVisible.value = true

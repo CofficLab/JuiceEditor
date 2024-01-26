@@ -7,6 +7,7 @@ const sampleNode = new TreeNode({
   uuid: 'sampleNode',
   content: `
     <h1>测试内容</h1>
+    <pre><code>console.log("ABC 通用文章")</code></pre>
     <h2>表格</h2>
     <p>记得开启表格功能</p>
     <smart-table>
@@ -28,7 +29,6 @@ const sampleNode = new TreeNode({
     <h2>图片</h2>
     <p>下面是一张图</p>
     <img src="${sampleImgSrc1}"></img>
-    <pre><code>console.log("ABC 通用文章")</code></pre>
     <h2>画图</h2>
     <draw src="${sampleImgSrc1}"></draw>
     <h2>链接</h2>
@@ -117,11 +117,12 @@ const bigNode = new TreeNode({
   uuid: 'bigNode',
   content: `
     <h1>很长的测试内容</h1>
+    <pre><code>console.log("超长文章 bigNode xxxxx")</code></pre>
     <h2>表格</h2>
+    <pre><code>console.log("超长文章 bigNode yyyyyy")</code></pre>
     <h2>图片</h2>
     <p>下面是一张图</p>
     <img src="${sampleImgSrc1}"></img>
-    <pre><code>console.log("ABC")</code></pre>
     <h2>画图</h2>
     <draw src="${sampleImgSrc2}"></draw>
     <h2>链接</h2>
