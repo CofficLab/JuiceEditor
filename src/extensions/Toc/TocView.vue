@@ -36,7 +36,7 @@
 <script setup lang="ts">
 import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 import DynamicPadding from './DynamicPadding.vue'
-import { onMounted, nextTick, ref, onUnmounted } from 'vue'
+import { onMounted, nextTick, ref, onUnmounted, onBeforeUnmount } from 'vue'
 
 class Heading {
   level!: number
@@ -45,6 +45,7 @@ class Heading {
 }
 
 const props = defineProps(nodeViewProps)
+const uuid = props.editor.options.injectNonce
 
 let headings = ref<Heading[]>([])
 
@@ -53,7 +54,12 @@ let getLink = function (heading: { id: any }) {
 }
 
 let handleUpdate = function () {
-  console.log('🍋 Toc: handle update')
+  if (props.editor.options.injectNonce != uuid) {
+    console.log('🍋 📖 Toc: 查找 Headings，非当前UUID，忽略')
+    return
+  }
+
+  console.log('🍋 📖 Toc: 查找 Headings for Tiptap UUID ->', uuid)
   headings.value = []
   const transaction = props.editor.state.tr
 
@@ -74,13 +80,14 @@ let handleUpdate = function () {
   })
 
   transaction.setMeta('addToHistory', false)
-  transaction.setMeta('preventUpdate', false)
+  // console.log('🍋 Toc: 触发 Tiptap Editor 的 onUpdate')
+  transaction.setMeta('preventUpdate', true)
 
-  props.editor.view.dispatch(transaction)
+  // props.editor.view.dispatch(transaction)
 }
 
 onMounted(() => {
-  console.log('🍋 Toc: mounted')
+  console.log('🍋 📖 Toc: mounted，Tiptap UUID -> ', uuid)
   props.editor.on('update', handleUpdate)
   nextTick(() => handleUpdate())
 
@@ -123,8 +130,8 @@ onMounted(() => {
   // })
 })
 
-onUnmounted(() => {
-  console.log('🍋 Toc: unmounted')
+onBeforeUnmount(() => {
+  console.log('🍋 📖 Toc: onBeforeUnmount，destroy listener for Tiptap UUID', uuid)
   props.editor.off('update', handleUpdate)
 })
 </script>

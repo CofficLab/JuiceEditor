@@ -43,7 +43,7 @@ export interface CreateEditorOptions {
 
 class MonacoBox {
     static disposeAll() {
-        console.log('🗑️ MonacoBox: disposeAll')
+        console.log('🗑️ 💼 MonacoBox: disposeAll')
 
         monaco.editor.getModels().forEach((model) => {
             model.dispose()
@@ -56,7 +56,7 @@ class MonacoBox {
     public name;
     public runnableChangedCallback: Function;
 
-    public constructor(editor: any, index: any, runnable = true, name = "未命名Monaco编辑器") {
+    public constructor(editor: any, index: any, runnable = false, name = "未命名Monaco编辑器") {
         this.editor = editor;
         this.index = index;
         this.runnable = runnable
@@ -92,6 +92,7 @@ class MonacoBox {
     }
 
     public getRunnable(): boolean {
+        console.log("💼 MonacoBox: getRunnable", this.runnable);
         return this.runnable
     }
 
@@ -167,7 +168,7 @@ class MonacoBox {
     }
 
     static createEditor(box: MonacoBox, options: CreateEditorOptions) {
-        console.log('MonacoBox: 创建 Monaco，名字及UUID', options.name, options.uuid)
+        console.log('💼 MonacoBox: 创建 Monaco，名字及UUID', options.name, options.uuid)
 
         // console.log('创建 Monaco，配置是', options)
         const editor = monaco.editor.create(options.target, {
@@ -203,7 +204,7 @@ class MonacoBox {
         });
 
         let count = monaco.editor.getModels().length
-        console.log('MonacoBox: 现在有', count, '个 Monaco')
+        console.log('💼 MonacoBox: 现在有', count, '个 Monaco')
 
         // editor.focus();
 

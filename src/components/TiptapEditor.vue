@@ -110,12 +110,12 @@ function onMouseDown(e: Event) {
 }
 
 function onClick(e: Event) {
-  console.log('TiptapEditor: click，关闭应用的右键菜单')
+  console.log('🍋 TiptapEditor: click，关闭应用的右键菜单')
   contextMenuDidShow.value = false
 }
 
 function onContextMenu(e: Event) {
-  console.log('TiptapEditor: contextmenu')
+  console.log('🍋 TiptapEditor: contextmenu')
   contextMenuDidShow.value = true
 
   let target = e.target as HTMLElement
@@ -123,7 +123,7 @@ function onContextMenu(e: Event) {
 }
 
 watch(props, () => {
-  console.log('🍋 TiptapEditor: props changed', props.uuid)
+  console.log('🍋 🗒️ TiptapEditor: props changed', props.uuid)
 
   // 更新，但不触发onUpdate
   editor.setOptions({
@@ -135,7 +135,7 @@ watch(props, () => {
 })
 
 onMounted(() => {
-  console.log("🍋 TiptapEditor: onMounted")
+  console.log("🍋 🗒️ TiptapEditor: onMounted")
 
   // 处理事件
   eventManager.setListener(editor, (msg) => {
@@ -149,7 +149,7 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
-  console.log("TiptapEditor: onBeforeUnmount")
+  console.log("🍋 🗒️ TiptapEditor: onBeforeUnmount")
   editor.destroy()
   eventManager.removeListener()
   document.removeEventListener('mousedown', onMouseDown)

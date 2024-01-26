@@ -16,7 +16,7 @@ export class CodeBlock {
             title: 'new',
             content: "",
             language: 'javascript',
-            runnable: true
+            runnable: false
         });
     }
 }

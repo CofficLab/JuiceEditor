@@ -34,7 +34,7 @@ export const useAppStore = defineStore('app-store', {
 
         updateNode: function (data: EditorData) {
             if (data.content == this.node.content) {
-                console.log('🧮 AppStore: 更新节点，没变化，忽略')
+                console.log('🧮AppStore: 更新节点，没变化，忽略')
                 return
             }
 

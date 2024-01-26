@@ -17,8 +17,8 @@ const webkit = {
     },
 
     updateNode(data: EditorData) {
-        // console.log("更新节点", data)
         if (!('webkit' in window)) {
+            console.log("🍎 WebKit: 无 WebKit，忽略更新")
             return
         }
 

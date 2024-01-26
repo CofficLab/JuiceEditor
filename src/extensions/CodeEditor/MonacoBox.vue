@@ -115,7 +115,8 @@ let resultBox: MonacoBox
 let lan = ref()
 
 onMounted(() => {
-  console.log('🍋 MonacoBox: mounted, uuid = ', props.uuid)
+  console.log('🍋 💼  MonacoBox: mounted, uuid = ', props.uuid)
+  console.log('🍋 💼  MonacoBox: mounted, content = ', props.content)
 
   // 编辑器
   MonacoBox.createEditor(editorBox.value!, {
@@ -126,6 +127,7 @@ onMounted(() => {
     language: props.language,
     readOnly: !props.editable,
     onCreated(monacoBox) {
+      console.log("🍋 🗒️ MonacoBox: created")
       lan.value = monacoBox.getLanguage()
       runnable.value = monacoBox.getRunnable() && lan.value != 'plaintext'
       editorBox.value = monacoBox
@@ -172,11 +174,11 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
-  console.log('🍋 MonacoBox: before unmounted')
+  console.log('🍋 💼 MonacoBox: before unmounted')
 })
 
 onUnmounted(() => {
-  console.log('🍋 MonacoBox: unmounted')
+  console.log('🍋 💼  MonacoBox: unmounted')
 })
 
 watch(

@@ -117,17 +117,22 @@ export const CodeEditor = CodeBlock.extend({
   },
 
   onDestroy() {
-    console.log('🍋 CodeEditor: onTiptapDestroy')
+    console.log('🍋  💼 CodeEditor: onTiptapDestroy')
     MonacoBox.disposeAll()
   },
 
-  onCreate() {
-    console.log('🍋 CodeEditor: onTiptapCreate, UUID', this.editor.options.injectNonce)
+  onBeforeCreate() {
+    console.log('🍋 💼 CodeEditor: onBeforeCreate, 存储 UUID ->', this.editor.options.injectNonce)
     this.storage.editorUUID = this.editor.options.injectNonce
   },
 
+  // onCreate() {
+  //   console.log('🍋 💼 CodeEditor: onTiptapCreate, UUID', this.editor.options.injectNonce)
+  //   this.storage.editorUUID = this.editor.options.injectNonce
+  // },
+
   onUpdate() {
-    console.log('🍋 CodeEditor: onTiptapUpdate, UUID', this.editor.options.injectNonce)
+    console.log('🍋 💼 CodeEditor: onTiptapUpdate, UUID', this.editor.options.injectNonce)
     let newUUID = this.editor.options.injectNonce
 
     if (newUUID == this.storage.editorUUID) {
@@ -135,7 +140,7 @@ export const CodeEditor = CodeBlock.extend({
     }
 
     // Tiptap Editor 的 UUID 有变化，说明切换了节点，销毁所有 Monaco Editor
-    console.log('🍋 CodeEditor: onTiptapUpdate, UUID变化，销毁所有 Monaco Editor')
+    console.log('🍋 💼 CodeEditor: onTiptapUpdate, UUID变化，销毁所有 Monaco Editor，原UUID', this.storage.editorUUID)
 
     this.storage.editorUUID = newUUID
     MonacoBox.disposeAll()
