@@ -127,6 +127,10 @@ window.DRAWIO_CONFIG = {
     table.mxPopupMenu>tbody>tr:nth-child(19) {
       display: none !important;
     }
+
+    body div.geDiagramBackdrop {
+      margin-bottom: -32px !important;
+    }
   `
 }
 
