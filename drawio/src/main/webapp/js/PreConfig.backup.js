@@ -63,9 +63,6 @@ window.DRAWIO_CONFIG = {
   emptyDiagramXml:
     "<mxGraphModel><root><mxCell id='0'/><mxCell id='1' parent='0'/></root></mxGraphModel>",
   emptyLibraryXml: '<mxlibrary>[]</mxlibrary>',
-  sidebarTitleSize: 38,
-  gridSteps: [4, 4, 4, 4],
-  override: true,
   css: `
     .geMenuItem[title='绘图'],.geTabContainer { 
       display: none !important;
@@ -83,7 +80,10 @@ window.DRAWIO_CONFIG = {
     .geSidebarFooter {
       display: none !important;
     }
-  `
+  `,
+  sidebarTitleSize: 38,
+  gridSteps: [4, 4, 4, 4],
+  override: true
 }
 
 // 禁用外部存储服务
@@ -115,7 +115,7 @@ urlParams['nav'] = '1'
 urlParams['lang'] = 'zh'
 
 // 左侧显示哪些图库 general;uml;er;bpmn;flowchart;basic;arrows2
-urlParams['libs'] = 'general'
+urlParams['libs'] = 'general;uml;er;bpmn;flowchart;basic;arrows2'
 urlParams['ui'] = 'min'
 urlParams['modified'] = 'unsavedChanges'
 urlParams['embed'] = '1'
@@ -126,9 +126,8 @@ urlParams['toolbar'] = '0'
 // 不显示 打开图还是新建图 的弹窗
 urlParams['splash'] = '0'
 // 创建新文件的时候是否可以从远程获取模板
-// 值为1的时候左侧图标库-箭头，显示不正常
-// urlParams['offline'] = 1
-// urlParams['browser'] = '0'
+urlParams['offline'] = 1
+urlParams['browser'] = '0'
 urlParams['dark'] = 'auto'
-// urlParams['hide-pages'] = '1'
-// urlParams['lightbox'] = '0'
+urlParams['hide-pages'] = '1'
+urlParams['lightbox'] = '0'
