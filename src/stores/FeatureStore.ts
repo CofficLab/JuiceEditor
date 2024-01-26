@@ -11,7 +11,7 @@ export const useFeatureStore = defineStore('feature-store', {
             toolbarVisible: isDebug,
             bubbleMenuVisible: true,
             floatingMenuVisible: true,
-            drawEnabled: false,
+            drawEnabled: true,
             tableEnabled: true,
             contextMenu: true,
             // 代码框中的代码是否开启运行功能
