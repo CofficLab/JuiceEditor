@@ -28,8 +28,8 @@ window.DRAWIO_CONFIG = {
     width: 827,
     height: 1169
   },
-  search: true,
-  showStartScreen: true,
+  search: false,
+  showStartScreen: false,
   gridColor: '#d0d0d0',
   darkGridColor: '#424242',
   autosave: true,
@@ -37,7 +37,7 @@ window.DRAWIO_CONFIG = {
   openCounter: 62,
   version: 18,
   unit: 1,
-  isRulerOn: false,
+  isRulerOn: true,
   ui: '',
   defaultVertexStyle: {
     fontSize: '14',
@@ -48,7 +48,16 @@ window.DRAWIO_CONFIG = {
     rounded: '1',
     fontSize: '36',
     strokeWidth: '1.5'
-  }
+  },
+  comment1:
+    'Defines an array of strings of library keys which will be available in the More Shapes dialog. If you define this as null, all libraries will be visible. If you leave the array empty, no libraries will be visible (e.g. ["general", "uml"]) (9.2.5 and later).',
+  enabledLibraries: null,
+  sidebarWidth: 240,
+  defaultGridSize: 200,
+  defaultCustomLibraries: [],
+  emptyDiagramXml:
+    "<mxGraphModel><root><mxCell id='0'/><mxCell id='1' parent='0'/></root></mxGraphModel>",
+  emptyLibraryXml: '<mxlibrary>[]</mxlibrary>'
 }
 
 urlParams['sync'] = 'manual'
