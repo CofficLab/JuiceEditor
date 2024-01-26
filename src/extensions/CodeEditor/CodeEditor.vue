@@ -220,7 +220,7 @@ ul.menu {
   @apply bg-black/80 flex flex-row justify-end rounded-b-xl;
 
   .dropdown label {
-    @apply btn hover:bg-gray-600 font-normal btn-sm p-0 px-2 m-0 btn-ghost text-white rounded-none rounded-br-xl;
+    @apply btn hover:bg-gray-600 font-normal btn-sm p-0 px-2 m-0 btn-ghost text-white;
   }
 }
 </style>
