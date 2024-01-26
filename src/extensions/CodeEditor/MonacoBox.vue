@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="relative rounded-3xl">
+    <div class="relative">
       <!-- 运行按钮 -->
       <button
         class="btn btn-square btn-ghost text-accent btn-xs absolute bottom-2 right-2 z-20"
@@ -15,15 +15,18 @@
         <CloseIcon v-else="runResultVisible" />
       </button>
 
-      <div ref="codeDom" class="relative z-10 rounded-md" contenteditable="true"></div>
+      <!-- Monaco -->
+      <div ref="codeDom" class="relative z-10 bg-red-200 flex justify-center border-blue-900 border-0" contenteditable="true"></div>
     </div>
 
     <!-- 展示运行结果 -->
-    <div
-      ref="resultDom"
-      v-show="runResultVisible && runnable"
-      class="result-dom border-2 border-transparent border-t-sky-900"
-    ></div>
+    <div class="px-0">
+      <pre
+        ref="resultDom"
+        v-show="runResultVisible && runnable"
+        class="result-dom border border-transparent border-y-green-900 m-0 rounded-none"
+      ></pre>
+    </div>
   </div>
 </template>
 
@@ -111,7 +114,6 @@ let runResultVisible = ref(false)
 let codeDom = ref<HTMLDivElement>()
 let resultDom = ref<HTMLDivElement>()
 let editorBox = ref<MonacoBox>()
-let resultBox: MonacoBox
 let lan = ref()
 
 onMounted(() => {
@@ -158,19 +160,6 @@ onMounted(() => {
       props.onLanguageChanged(editorBox)
     }
   })
-
-  // 展示运行结果的编辑器
-  MonacoBox.createEditor(resultBox, {
-    content: '',
-    uuid: props.uuid + '-result',
-    target: resultDom.value!,
-    language: 'shell',
-    runnable: props.runnable,
-    name: '结果编辑器',
-    onCreated: (monacoBox) => {
-      resultBox = monacoBox
-    }
-  })
 })
 
 onBeforeUnmount(() => {
@@ -207,7 +196,7 @@ let handleRun = () => {
   if (runResultVisible.value) {
     runResultVisible.value = false
     running.value = false
-    resultBox.setContent('')
+    resultDom.value!.innerHTML = ""
     return
   }
 
@@ -218,7 +207,7 @@ let handleRun = () => {
       editorBox.value?.getContent() || '',
       editorBox.value?.getLanguage() || 'go',
       (result) => {
-        resultBox.setContent(result == '' ? '「程序没有输出」' : result)
+        resultDom.value!.innerHTML = result == '' ? '「程序没有输出」' : result
         runResultVisible.value = true
         running.value = false
       }

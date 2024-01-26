@@ -56,7 +56,7 @@ class MonacoBox {
     public name;
     public runnableChangedCallback: Function;
 
-    public constructor(editor: any, index: any, runnable = false, name = "未命名Monaco编辑器") {
+    public constructor(editor: any, index: any, runnable = true, name = "未命名Monaco编辑器") {
         this.editor = editor;
         this.index = index;
         this.runnable = runnable

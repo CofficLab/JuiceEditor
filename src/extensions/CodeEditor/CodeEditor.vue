@@ -13,7 +13,7 @@
     </CodeTabs>
 
     <!-- 编辑区域 -->
-    <div class="relative rounded-b" ref="codeDom">
+    <div class="relative" ref="codeDom">
       <Monaco
         contenteditable="true"
         :editable="editor.isEditable"
@@ -32,6 +32,7 @@
       <!-- 代码框，存储从文件系统读出的代码，然后放到Monaco编辑器中 -->
       <NodeViewContent ref="nodeViewContent" class="hidden" />
 
+      <!-- 代码块操作栏 -->
       <div class="operation-bar" v-if="editor.isEditable">
         <!-- 语言按钮 -->
         <div class="dropdown dropdown-hover dropdown-bottom dropdown-end">
@@ -216,10 +217,10 @@ ul.menu {
 }
 
 .operation-bar {
-  @apply bg-black/90 flex flex-row justify-end;
+  @apply bg-black/80 flex flex-row justify-end rounded-b-xl;
 
   .dropdown label {
-    @apply btn hover:bg-gray-600 font-normal btn-sm p-0 px-2 m-0 btn-ghost text-white rounded-none;
+    @apply btn hover:bg-gray-600 font-normal btn-sm p-0 px-2 m-0 btn-ghost text-white rounded-none rounded-br-xl;
   }
 }
 </style>
