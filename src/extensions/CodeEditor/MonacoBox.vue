@@ -16,7 +16,9 @@
       </button>
 
       <!-- Monaco -->
-      <div ref="codeDom" class="relative z-10 bg-red-200 flex justify-center border-blue-900 border-0" contenteditable="true"></div>
+      <!-- monaco有时候不能全部占满这个div，会在左侧或右侧留几个像素的padding -->
+      <!-- 所以让这个div的背景色=monaco的背景色 -->
+      <div ref="codeDom" class="relative z-10 bg-black" contenteditable="true"></div>
     </div>
 
     <!-- 展示运行结果 -->
