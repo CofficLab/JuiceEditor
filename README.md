@@ -8,11 +8,11 @@
 
 ### 参数
 
-通过 `/drawio/src/main/webapp/index.html?lang=zh&dev=1` 显示画板，更多参数说明在这里：
+通过 `/drawio/src/main/webapp/index.html?lang=zh&dev=1` 显示画板，也可以修改`src\main\webapp\js\PreConfig.js`，更多参数说明在这里：
 
 <https://www.drawio.com/doc/faq/supported-url-parameters>
 
-## 对draw.io的改动
+### 对draw.io的改动
 
 - index.html dev 模式下的域名
 
@@ -27,9 +27,12 @@
   [Dev] Bootstrap script change requires update of CSP
   ```
 
-也可以修改`src\main\webapp\js\PreConfig.js`
+### 问题
 
-## 参考资料
+- 左侧出现了“便签”  
+清空浏览器本地存储就消失了
+
+### 参考资料
 
 <https://www.drawio.com/blog/embedding-walkthrough>
 <https://www.drawio.com/doc/faq/embed-mode>
