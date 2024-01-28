@@ -14,7 +14,6 @@ window.DRAW_MATH_URL = 'math/es5'
 // Replace with your custom draw.io configurations. For more details, https://www.drawio.com/doc/faq/configure-diagram-editor
 window.DRAWIO_CONFIG = {
   customFonts: ['Noto Serif SC', 'Bitter', 'Arial', 'Inter'],
-  language: '',
   configVersion: null,
   customFonts: [],
   customLibraries: ['L.scratchpad'],
@@ -36,7 +35,6 @@ window.DRAWIO_CONFIG = {
   resizeImages: null,
   unit: 1,
   isRulerOn: true,
-  ui: '',
   defaultVertexStyle: {
     fontSize: '14',
     strokeWidth: '1.5'
@@ -58,6 +56,9 @@ window.DRAWIO_CONFIG = {
   emptyLibraryXml: '<mxlibrary>[]</mxlibrary>',
   sidebarTitleSize: 38,
   gridSteps: [4, 4, 4, 4],
+  defaultMacroParameters: {
+    toolbarStyle: 'inline'
+  },
   css: `
     .geMenuItem[title='绘图'],.geTabContainer { 
       display: none !important;
@@ -71,7 +72,6 @@ window.DRAWIO_CONFIG = {
       display: none !important;
     }
 
-    
     .geSidebarFooter {
       display: none !important;
     }
@@ -146,6 +146,9 @@ urlParams['tr'] = '0'
 urlParams['noSaveBtn'] = '0'
 urlParams['noExitBtn'] = '1'
 urlParams['saveAndExit'] = '0'
+
+// spin=1: Shows a Loading… spinner while waiting for the diagram data to load in embed mode.
+urlParams['spin'] = '1'
 
 // urlParams['sync'] = 'manual'
 // Enables folding in chromeless mode
