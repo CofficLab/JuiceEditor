@@ -145,7 +145,6 @@ urlParams['tr'] = '0'
 
 urlParams['noSaveBtn'] = '0'
 urlParams['noExitBtn'] = '1'
-// 是否显示 保存并退出 的按钮
 urlParams['saveAndExit'] = '0'
 
 // urlParams['sync'] = 'manual'
