@@ -27,6 +27,7 @@ export const useAppStore = defineStore('app-store', {
 
             this.node = new TreeNode(data)
 
+            console.log('🍋 AppStore: close draw')
             document.dispatchEvent(new CustomEvent('close-draw'))
 
             this.loading = false

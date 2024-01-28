@@ -16,10 +16,7 @@ export interface ImageOptions {
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
         drawIoExtension: {
-            /**
-             * Add an image
-             */
-            insertDrawIo: () => ReturnType,
+            insertDraw: () => ReturnType,
         }
     }
 }
@@ -51,7 +48,7 @@ export default Image.extend<ImageOptions>({
     addNodeView: () => VueNodeViewRenderer(SmartDrawVue),
     addCommands() {
         return {
-            insertDrawIo: () => ({ commands }) => {
+            insertDraw: () => ({ commands }) => {
                 return commands.insertContent({
                     type: this.name,
                     attrs: {
@@ -59,13 +56,6 @@ export default Image.extend<ImageOptions>({
                         alt: '',
                         title: ''
                     },
-                })
-            },
-            update: (image) => ({ commands }) => {
-                return commands.updateAttributes({
-                    src: image,
-                    alt: '',
-                    title: ''
                 })
             },
         }

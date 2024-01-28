@@ -5,12 +5,12 @@ const operators = {
     insertDraw: 'insertDraw',
     insertImage: 'insertImage',
     insertTable: 'insertTable',
-    setHeading1:'setHeading1',
-    setHeading2:'setHeading2',
-    setHeading3:'setHeading3',
-    setHeading4:'setHeading4',
-    setHeading5:'setHeading5',
-    setHeading6:'setHeading6',
+    setHeading1: 'setHeading1',
+    setHeading2: 'setHeading2',
+    setHeading3: 'setHeading3',
+    setHeading4: 'setHeading4',
+    setHeading5: 'setHeading5',
+    setHeading6: 'setHeading6',
     setParagraph: 'setParagraph',
     toggleBanner: 'toggleBanner',
     toggleBold: 'toggleBold',
@@ -71,7 +71,7 @@ export default class EventManager {
                 editor.chain().focus().toggleTaskList().run()
                 break;
             case operators.insertDraw:
-                editor.chain().focus().insertDrawIo().run()
+                editor.chain().focus().insertDraw().run()
                 break;
             case operators.insertTable:
                 editor.chain().focus().insertSmartTable().run()
@@ -110,7 +110,7 @@ export default class EventManager {
     toggleBanner() {
         emit("toggleBanner")
     }
-    
+
     toggleToc() {
         emit("toggleTOC")
     }
