@@ -28,3 +28,8 @@
   ```
 
 也可以修改`src\main\webapp\js\PreConfig.js`
+
+## 参考资料
+
+<https://www.drawio.com/blog/embedding-walkthrough>
+<https://www.drawio.com/doc/faq/embed-mode>

@@ -13,12 +13,7 @@ window.DRAW_MATH_URL = 'math/es5'
 
 // Replace with your custom draw.io configurations. For more details, https://www.drawio.com/doc/faq/configure-diagram-editor
 window.DRAWIO_CONFIG = {
-  "customFonts": [
-    "Noto Serif SC",
-    "Bitter",
-    "Arial",
-    "Inter"
-  ],
+  customFonts: ['Noto Serif SC', 'Bitter', 'Arial', 'Inter'],
   language: '',
   configVersion: null,
   customFonts: [],
@@ -39,8 +34,6 @@ window.DRAWIO_CONFIG = {
   darkGridColor: '#424242',
   autosave: true,
   resizeImages: null,
-  openCounter: 62,
-  version: 18,
   unit: 1,
   isRulerOn: true,
   ui: '',
@@ -65,7 +58,6 @@ window.DRAWIO_CONFIG = {
   emptyLibraryXml: '<mxlibrary>[]</mxlibrary>',
   sidebarTitleSize: 38,
   gridSteps: [4, 4, 4, 4],
-  override: true,
   css: `
     .geMenuItem[title='绘图'],.geTabContainer { 
       display: none !important;
@@ -153,10 +145,10 @@ urlParams['tr'] = '0'
 
 urlParams['noSaveBtn'] = '0'
 urlParams['noExitBtn'] = '1'
+// 是否显示 保存并退出 的按钮
 urlParams['saveAndExit'] = '0'
 
-urlParams['proto'] = 'json'
-urlParams['sync'] = 'manual'
+// urlParams['sync'] = 'manual'
 // Enables folding in chromeless mode
 urlParams['nav'] = '1'
 
@@ -165,8 +157,13 @@ urlParams['lang'] = 'zh'
 // 左侧显示哪些图库 general;uml;er;bpmn;flowchart;basic;arrows2
 urlParams['libs'] = 'general'
 urlParams['ui'] = 'min'
-urlParams['modified'] = 'unsavedChanges'
+// urlParams['modified'] = 'unsavedChanges'
+
+// 开启嵌入模式，能通过postMessage通信
 urlParams['embed'] = '1'
+// protocol=json means we are using the JSON protocol for message passing
+urlParams['proto'] = 'json'
+
 // Disables the format panel on the right
 urlParams['format'] = '0'
 // Disables the toolbar in chromeless mode

@@ -64,11 +64,11 @@ function handleResize() {
 function closeListener(_event: any) {
   console.log('🍋 SmartDraw: 收到关闭画图的事件')
 
-  console.log(document.getElementsByTagName('iframe'))
-  document
-    .getElementsByTagName('iframe')
-    .item(0)
-    ?.contentWindow?.postMessage(JSON.stringify({ action: 'exit' }), '*')
+  destroyIframe(dialog)
+}
+
+function sendToDrawio(message: object) {
+  iframe.contentWindow!.postMessage(JSON.stringify(message), '*')
 }
 
 function showIframe() {
@@ -96,6 +96,7 @@ function showIframe() {
 
 function destroyIframe(dialog: HTMLDialogElement) {
   console.log('🍋 SmartDraw: 销毁画图的 Iframe，同时取消事件监听')
+
   window.removeEventListener('message', receive)
   document.removeEventListener('close-draw', closeListener)
   document.body.removeChild(dialog)
@@ -104,7 +105,7 @@ function destroyIframe(dialog: HTMLDialogElement) {
 
 // 负责接收iframe中的drawio发来的消息
 function receive(event: MessageEvent): void {
-  console.log('🍋 SmartDraw: 收到 drawio 发来的消息，开始解析')
+  console.log('🍋 SmartDraw: 收到 drawio 发来的消息，开始解析', event)
   const source = img.value as unknown as HTMLElement
   if (event.data.length == 0) {
     return
@@ -117,36 +118,43 @@ function receive(event: MessageEvent): void {
 
   switch (msg.event) {
     case 'init':
-      console.log('🍋 SmartDraw: 收到 drawio 发来的消息 -> init')
-      iframe.contentWindow!.postMessage(
-        JSON.stringify({
-          action: 'load',
-          xmlpng: source.getAttribute('src')
-        }),
-        '*'
-      )
+      console.log('🍋 SmartDraw: 收到 drawio 发来的消息 -> init，向它发送消息 -> load')
+      sendToDrawio({
+        action: 'load',
+        xmlpng: source.getAttribute('src'),
+        autosave: 1
+      })
       break
     case 'save':
       console.log('🍋 SmartDraw: 收到 drawio 发来的消息 -> save，表示在画图 Iframe 中点击了保存')
-      iframe.contentWindow!.postMessage(
-        JSON.stringify({
-          action: 'export',
-          format: 'xmlpng',
-          spinKey: 'saving'
-        }),
-        '*'
-      )
-      break
-    case 'export':
-      console.log('🍋 SmartDraw: 收到 drawio 发来的消息 -> export，解析并存储数据')
-      props.updateAttributes({
-        src: msg.data
+      sendToDrawio({
+        action: 'export',
+        format: 'xmlpng',
+        spinKey: 'saving'
       })
       destroyIframe(dialog)
       break
+    case 'export':
+      console.log('🍋 SmartDraw: 收到 drawio 发来的消息 -> export，存储数据')
+      props.updateAttributes({
+        src: msg.data
+      })
+      break
+    case 'autosave':
+      console.log('🍋 SmartDraw: 收到 drawio 发来的消息 -> autosave，向它发送消息 -> export')
+      sendToDrawio({
+        action: 'export',
+        format: 'xmlpng'
+      })
+      break
     case 'exit':
       console.log('🍋 SmartDraw: 收到 drawio 发来的消息 -> exit，销毁 iframe')
-      destroyIframe(dialog)
+      console.log('🍋 SmartDraw: 收到 drawio 发来的消息 -> exit，先让 drawio 把数据发送出来')
+      sendToDrawio({
+        action: 'export',
+        format: 'xmlpng',
+        spinKey: 'saving'
+      })
       break
     case 'load':
       console.log('🍋 SmartDraw: 收到 drawio 发来的消息 -> load，表示画图 Iframe 已加载')

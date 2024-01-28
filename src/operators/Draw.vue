@@ -3,7 +3,7 @@
     class="w-10 tooltip"
     data-tip="画图"
     v-if="isDrawEnable"
-    @click="editor.commands.insertDrawIo()"
+    @click="editor.commands.insertDraw()"
   >
     <img src="../assets/compass.drawing.svg" alt="" class="m-0" />
   </button>
@@ -12,7 +12,7 @@
 <script lang="ts" setup>
 import { Editor } from '@tiptap/vue-3'
 import TiptapAgent from '../entities/TiptapAgent'
-import { useFeatureStore } from '../stores/FeatureStore';
+import { useFeatureStore } from '../stores/FeatureStore'
 
 const feature = useFeatureStore()
 
