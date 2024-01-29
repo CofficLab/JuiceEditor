@@ -4,25 +4,28 @@
     v-if="feature.toolbarVisible"
   >
     <button class="btn btn-primary btn-xs join-item" @click="app.setCurrentNode(Sample.sampleNode)">
-      通用文章
+      通用
+    </button>
+    <button class="btn btn-primary btn-xs join-item" @click="app.setCurrentNode(Sample.codeNode)">
+      代码
     </button>
     <button class="btn btn-primary btn-xs join-item" @click="app.setCurrentNode(Sample.drawNode)">
-      画图文章
+      画图
     </button>
     <button class="btn btn-primary btn-xs join-item" @click="app.setCurrentNode(Sample.tableNode)">
-      表格文章
+      表格
     </button>
     <button class="btn btn-primary btn-xs join-item" @click="app.setCurrentNode(Sample.bigNode)">
-      超长文章
+      超长
     </button>
     <button class="btn btn-primary btn-xs join-item" @click="app.setCurrentNode(Sample.liteNode)">
-      小型文章
+      小型
     </button>
     <button
       class="btn btn-primary btn-xs join-item"
       @click="app.setCurrentNode(Sample.nodeWithChildren)"
     >
-      带子节点文章
+      带子节点
     </button>
     <button
       class="btn btn-primary btn-xs join-item"

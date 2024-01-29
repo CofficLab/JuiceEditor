@@ -138,7 +138,7 @@ class MonacoBox {
         }
 
         console.log("🍋 💼 MonacoBox: 设置Monaco Editor的Language为", language.getTitle());
-        monaco.editor.setModelLanguage(this.getModel(), language.getTitle());
+        monaco.editor.setModelLanguage(this.getModel(), language.getMonacoLanguage());
     }
 
     public onContentChanged(callback: (arg0: any) => void) {
@@ -148,7 +148,7 @@ class MonacoBox {
 
     public onLanguageChanged(callback: (arg0: any) => void) {
         this.editor.getModel()?.onDidChangeLanguage(() => {
-            console.log('monaco editor language changed, call the callback function', this.editor.getModel()?.getLanguageId());
+            console.log('🍋 💼 MonacoBox: monaco editor language changed, call the callback function', this.editor.getModel()?.getLanguageId());
             callback(this)
         });
         return this
@@ -161,12 +161,12 @@ class MonacoBox {
     }
 
     static createEditor(box: MonacoBox, options: CreateEditorOptions) {
-        console.log('💼 MonacoBox: 创建 Monaco，名字及UUID', options.name, options.uuid)
+        console.log('🍋 💼 MonacoBox: 创建 Monaco，名字及UUID', options.name, options.uuid)
 
         // console.log('创建 Monaco，配置是', options)
         const editor = monaco.editor.create(options.target, {
             value: options.content,
-            language: options.language.getTitle(),
+            language: options.language.getMonacoLanguage(),
             readOnly: options.readOnly,
             theme: "hc-black",
             fontSize: 14,

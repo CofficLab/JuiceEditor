@@ -1,5 +1,6 @@
 class SmartLanguage {
-    names: string[] =['unknown']
+    key: string = 'unknown'
+    names: string[] = ['Unknown']
     runnable: boolean = true
 
     static fromString(s: string): SmartLanguage {
@@ -11,7 +12,7 @@ class SmartLanguage {
         }
 
         let language = new SmartLanguage()
-        
+
         languages.forEach((item) => {
             if (item.names.includes(s)) {
                 language = item
@@ -39,25 +40,34 @@ class SmartLanguage {
         return this
     }
 
+    setKey(key: string): this {
+        this.key = key
+        return this
+    }
+
     getTitle(): string {
         return this.names[0]
     }
 
+    getMonacoLanguage(): string {
+        return this.key
+    }
+
     toJSON(): string {
-        return this.getTitle()
+        return this.key
     }
 }
- 
+
 const languages = [
-    new SmartLanguage().setNames(['JavaScript']),
-    new SmartLanguage().setNames(['Java']),
-    new SmartLanguage().setNames(['Go']),
-    new SmartLanguage().setNames(['PHP']),
-    new SmartLanguage().setNames(['Python']),
-    new SmartLanguage().setNames(['Shell']),
-    new SmartLanguage().setNames(['Swift']),
-    new SmartLanguage().setRunnable(false).setNames(['Json']),
-    new SmartLanguage().setRunnable(false).setNames(['Text']),
+    new SmartLanguage().setNames(['JavaScript', 'javascript', 'js']).setKey('javascript'),
+    new SmartLanguage().setNames(['Java', 'java']).setKey('java'),
+    new SmartLanguage().setNames(['Go', 'Golang', 'golang', 'go']).setKey('go'),
+    new SmartLanguage().setNames(['PHP', 'php']).setKey('php'),
+    new SmartLanguage().setNames(['Python', 'python', 'py']).setKey('python'),
+    new SmartLanguage().setNames(['Shell', 'shell']).setKey('shell'),
+    new SmartLanguage().setNames(['Swift', 'swift']).setKey('swift'),
+    new SmartLanguage().setRunnable(false).setNames(['Json', 'json']).setKey('json'),
+    new SmartLanguage().setRunnable(false).setNames(['Text', 'text', 'plaintext', 'Plaintext']).setKey('plaintext'),
 ]
 
 export {

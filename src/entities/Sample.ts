@@ -224,6 +224,22 @@ const drawNode = new TreeNode({
   `
 })
 
+const codeNode = new TreeNode({
+  uuid: 'drawNode',
+  content: `
+    <h1>Hello World</h1>
+    <p>=========</p>
+    <pre><code>console.log("JS")</code></pre>
+    <p>=========</p>
+    <pre><code>echo("PHP")</code></pre>
+    <p>=========</p>
+    <pre><code>print("Python")</code></pre>
+    <p>=========</p>
+    <pre><code>fmt.Println("Golang")</code></pre>
+    <p>=========</p>
+  `
+})
+
 const Sample = {
   sampleNode,
   drawNode,
@@ -231,6 +247,7 @@ const Sample = {
   tableNode,
   nodeWithChildren,
   bigNode,
+  codeNode,
 }
 
 export default Sample

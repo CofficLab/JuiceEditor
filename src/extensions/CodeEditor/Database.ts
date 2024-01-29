@@ -9,7 +9,7 @@ export class Database {
     public activatedIndex = 0;
 
     constructor(json: string = "{}") {
-        console.log("💼 Database: 将字符转换成 Database", json)
+        // console.log("💼 Database: 将字符转换成 Database", json)
 
         this.json = json;
         this.activatedIndex = JSON.parse(this.json).activatedIndex || 0;
@@ -31,7 +31,7 @@ export class Database {
     }
 
     static createWithSingleCodeBlock(codeBlock: CodeBlock) {
-        console.log("💼 Database: 将 SingleCodeBlock 转换成 Database", codeBlock)
+        // console.log("💼 Database: 将 SingleCodeBlock 转换成 Database", codeBlock)
         return new Database(JSON.stringify({
             items: [codeBlock],
             activatedIndex: 0,

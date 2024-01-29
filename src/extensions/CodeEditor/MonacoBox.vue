@@ -86,7 +86,7 @@ const props = defineProps({
   onLanguageChanged: {
     type: Function,
     default: () => {
-      console.log('MonacoBox: monaco language changed')
+      console.log('🍋 💼 MonacoBox: monaco language changed')
     }
   },
   showLineNumbers: {
@@ -121,7 +121,7 @@ var editorBox: MonacoBox | null = null
 let lan = ref(languages[0])
 
 onMounted(() => {
-  console.log('🍋 💼 MonacoBox: mounted, uuid = ', props)
+  console.log('🍋 💼 MonacoBox: mounted')
   // console.log('🍋 💼 MonacoBox: mounted, content = ', props.content)
 
   // 编辑器
@@ -133,7 +133,7 @@ onMounted(() => {
     language: props.language,
     readOnly: !props.editable,
     onCreated(monacoBox) {
-      console.log("🍋 🗒️ MonacoBox: created")
+      console.log('🍋 🗒️ MonacoBox: created')
       lan.value = monacoBox.getLanguage()
       editorBox = monacoBox
 
@@ -149,6 +149,7 @@ onMounted(() => {
       props.onContentChanged(monacoBox)
     },
     onLanguageChanged(editorBox) {
+      console.log('🍋 💼 MonacoBox: onLanguageChanged ->', editorBox.getLanguage())
       lan.value = editorBox.getLanguage()
       props.onLanguageChanged(editorBox)
     }
@@ -164,7 +165,7 @@ onUnmounted(() => {
 
   setTimeout(() => {
     editorBox!.editor.dispose()
-  }, 1);
+  }, 1)
   MonacoBox.printCount()
 })
 
@@ -194,7 +195,7 @@ let handleRun = () => {
   if (runResultVisible.value) {
     runResultVisible.value = false
     running.value = false
-    resultDom.value!.innerHTML = ""
+    resultDom.value!.innerHTML = ''
     return
   }
 
