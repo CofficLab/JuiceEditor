@@ -141,30 +141,35 @@ urlParams['od'] = '0'
 // Disables the Trello integration
 urlParams['tr'] = '0'
 
+// 语言
+urlParams['lang'] = 'zh'
+
+// 暗黑模式
+urlParams['dark'] = 'auto'
+
 // 按钮配置
 
 urlParams['noSaveBtn'] = '0'
 urlParams['noExitBtn'] = '1'
 urlParams['saveAndExit'] = '0'
 
-// spin=1: Shows a Loading… spinner while waiting for the diagram data to load in embed mode.
+// 开启嵌入模式，能通过postMessage通信
+urlParams['embed'] = '1'
+// protocol=json means we are using the JSON protocol for message passing
+urlParams['proto'] = 'json'
+
+// Shows a Loading… spinner while waiting for the diagram data to load in embed mode
+// 这个不重要了，先显示外部的loading界面，加载完成后drawio发出load事件再关闭loading
 urlParams['spin'] = '1'
 
 // urlParams['sync'] = 'manual'
 // Enables folding in chromeless mode
 urlParams['nav'] = '1'
 
-urlParams['lang'] = 'zh'
-
 // 左侧显示哪些图库 general;uml;er;bpmn;flowchart;basic;arrows2
 urlParams['libs'] = 'general'
 urlParams['ui'] = 'min'
 // urlParams['modified'] = 'unsavedChanges'
-
-// 开启嵌入模式，能通过postMessage通信
-urlParams['embed'] = '1'
-// protocol=json means we are using the JSON protocol for message passing
-urlParams['proto'] = 'json'
 
 // Disables the format panel on the right
 urlParams['format'] = '0'
@@ -176,6 +181,5 @@ urlParams['splash'] = '0'
 // 值为1的时候左侧图标库-箭头，显示不正常
 // urlParams['offline'] = 1
 // urlParams['browser'] = '0'
-urlParams['dark'] = 'auto'
 // urlParams['hide-pages'] = '1'
 // urlParams['lightbox'] = '0'
