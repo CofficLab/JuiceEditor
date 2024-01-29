@@ -1,11 +1,11 @@
 <template>
   <node-view-wrapper>
-    <!-- 无法开启画图的提示 -->
+    <!-- 无法开启画图，点击会显示提示框 -->
     <div v-if="showWarning" contenteditable="false">
-      <label for="my_modal_7">
+      <label for="warning">
         <img v-bind:src="node.attrs.src" ref="img" />
       </label>
-      <input type="checkbox" id="my_modal_7" class="modal-toggle" />
+      <input type="checkbox" id="warning" class="modal-toggle" />
       <div class="modal" role="dialog">
         <div class="modal-box flex flex-col justify-center items-center w-56 p-0">
           <div class="font-bold text-lg m-0 mt-4">请将窗口调宽一点</div>
@@ -17,11 +17,33 @@
             </div>
           </div>
         </div>
-        <label class="modal-backdrop" for="my_modal_7">Close</label>
+        <label class="modal-backdrop" for="warning">Close</label>
       </div>
     </div>
-    <!-- 正常开启画图 -->
+
+    <!-- 正常开启画图，点击后先显示loading后显示画图 -->
     <img v-else v-bind:src="node.attrs.src" alt="" @click="showIframe" ref="img" />
+
+    <!-- 正在开启画图 -->
+    <div v-else contenteditable="false">
+        <label for="loading">
+          <img v-bind:src="node.attrs.src" alt="" @click="showIframe" ref="img" />
+        </label>
+        <input type="checkbox" id="loading" class="modal-toggle" />
+        <div class="modal" role="dialog">
+          <div class="modal-box flex flex-col justify-center items-center w-56 p-0">
+            <div class="font-bold text-lg m-0 mt-4">正在打开画图界面</div>
+            <div class="stats shadow-3xl bg-blue-100/50 w-full mt-4 rounded-none">
+              <div class="stat">
+                <div class="stat-title text-center">
+                  <span class="loading loading-ring loading-lg"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <label class="modal-backdrop" for="loading">Close</label>
+        </div>
+      </div>
   </node-view-wrapper>
 </template>
 
@@ -32,7 +54,7 @@ import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 const img = ref(null)
 const props = defineProps(nodeViewProps)
 const shouldShowAlert = ref(false)
-const modalVisible = ref(false)
+const warningVisible = ref(false)
 var width = ref(window.innerWidth)
 var iframe = document.createElement('iframe')
 var dialog = document.createElement('dialog')
@@ -41,6 +63,17 @@ var showWarning = computed(() => {
   return width.value < 1000
 })
 
+function openLoadingAndDraw() {
+  let loadingDom = document.querySelector("label[for='loading']") as HTMLElement
+  loadingDom.click()
+  showIframe()
+}
+
+function closeLoading() {
+  let loadingDom = document.querySelector("label[for='loading']") as HTMLElement
+  loadingDom.click()
+}
+
 function hideAlert() {
   shouldShowAlert.value = false
 }
@@ -48,16 +81,16 @@ function hideAlert() {
 function handleResize() {
   width.value = window.innerWidth
 
-  const checkbox = document.getElementById('my_modal_7')
+  const checkbox = document.getElementById('warning')
 
   if (checkbox instanceof HTMLInputElement && checkbox.type === 'checkbox') {
     if (checkbox.checked) {
-      modalVisible.value = true
+      warningVisible.value = true
     } else {
-      modalVisible.value = false
+      warningVisible.value = false
     }
   } else {
-    modalVisible.value = false
+    warningVisible.value = false
   }
 }
 
@@ -71,6 +104,7 @@ function sendToDrawio(message: object) {
   iframe.contentWindow!.postMessage(JSON.stringify(message), '*')
 }
 
+// 打开画图
 function showIframe() {
   if (!props.editor.isEditable) {
     return
@@ -88,12 +122,13 @@ function showIframe() {
   dialog.appendChild(iframe)
   document.body.appendChild(dialog)
 
-  dialog.showModal()
+  // 接收画图iframe传递的消息
   window.addEventListener('message', receive)
-
+  // 接收关闭画图的事件
   document.addEventListener('close-draw', closeListener)
 }
 
+// 销毁画图的Iframe
 function destroyIframe(dialog: HTMLDialogElement) {
   console.log('🍋 SmartDraw: 销毁画图的 Iframe，同时取消事件监听')
 
@@ -158,6 +193,8 @@ function receive(event: MessageEvent): void {
       break
     case 'load':
       console.log('🍋 SmartDraw: 收到 drawio 发来的消息 -> load，表示画图 Iframe 已加载')
+      dialog.showModal()
+      closeLoading()
   }
 }
 
@@ -169,9 +206,10 @@ onBeforeUnmount(() => {
   window.removeEventListener('resize', handleResize)
 })
 
-watch(modalVisible, (oldValue, newValue) => {
-  if (oldValue == false && newValue == true) {
-    showIframe()
+watch(warningVisible, (newValue, oldValue) => {
+  // 当宽度不足的提示框消失时，打开画图
+  if (newValue == false && oldValue == true) {
+    openLoadingAndDraw()
   }
 })
 </script>
