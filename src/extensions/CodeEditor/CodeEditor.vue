@@ -51,12 +51,9 @@
             <Setting></Setting>
           </label>
           <ul class="menu z-50">
-            <li>
-              <a @click="createTab">新标签</a>
-            </li>
-            <li>
-              <a class="copy" v-bind:data-clipboard-text="codeForCopy">复制代码 </a>
-            </li>
+            <li><a @click="createTab">新标签</a></li>
+            <li><a @click="createTab">新标签</a></li>
+            <li><a class="copy" v-bind:data-clipboard-text="content">复制代码</a></li>
             <li>
               <a @click="handleDelete">删除</a>
             </li>
@@ -81,7 +78,7 @@ import languages from '../../entities/Languages'
 var clipboard = new ClipboardJS('.copy')
 clipboard
   .on('success', function () {
-    console.log('已将源码复制到剪贴板')
+    console.log('🍋 💼 CodeEditor: 已将源码复制到剪贴板')
   })
   .on('error', function (error) {
     console.log('复制失败')
@@ -89,9 +86,6 @@ clipboard
   })
 
 const props = defineProps(nodeViewProps)
-
-// 复制按钮相关的属性
-let codeForCopy = ref('test code')
 
 let titlesDom = ref()
 let database = computed<Database>(() => new Database(props.node.attrs.database))
