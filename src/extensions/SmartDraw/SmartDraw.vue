@@ -26,30 +26,32 @@
 
     <!-- 正在开启画图 -->
     <div v-else contenteditable="false">
-        <label for="loading">
-          <img v-bind:src="node.attrs.src" alt="" @click="showIframe" ref="img" />
-        </label>
-        <input type="checkbox" id="loading" class="modal-toggle" />
-        <div class="modal" role="dialog">
-          <div class="modal-box flex flex-col justify-center items-center w-56 p-0">
-            <div class="font-bold text-lg m-0 mt-4">正在打开画图界面</div>
-            <div class="stats shadow-3xl bg-blue-100/50 w-full mt-4 rounded-none">
-              <div class="stat">
-                <div class="stat-title text-center">
-                  <span class="loading loading-ring loading-lg"></span>
-                </div>
+      <label for="loading">
+        <img v-bind:src="node.attrs.src" alt="" @click="showIframe" ref="img" />
+      </label>
+      <input type="checkbox" id="loading" class="modal-toggle" />
+      <div class="modal" role="dialog">
+        <div class="modal-box flex flex-col justify-center items-center w-56 p-0">
+          <div class="font-bold text-lg m-0 mt-4">正在打开画图界面</div>
+          <div class="stats shadow-3xl bg-blue-100/50 w-full mt-4 rounded-none">
+            <div class="stat">
+              <div class="stat-title text-center">
+                <span class="loading loading-ring loading-lg"></span>
               </div>
             </div>
           </div>
-          <label class="modal-backdrop" for="loading">Close</label>
         </div>
+        <label class="modal-backdrop" for="loading">Close</label>
       </div>
+    </div>
   </node-view-wrapper>
 </template>
 
 <script setup lang="ts">
 import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { makeDrawUrl } from './MakeDrawUrl';
+import Config from './Config';
 
 const img = ref(null)
 const props = defineProps(nodeViewProps)
@@ -115,7 +117,7 @@ function showIframe() {
   dialog.classList.add('modal')
 
   iframe.setAttribute('frameborder', '0')
-  iframe.setAttribute('src', props.extension.options.drawIoLink)
+  iframe.setAttribute('src', makeDrawUrl(props.extension.options.drawIoLink))
   iframe.setAttribute('width', '100%')
   iframe.setAttribute('height', '100%')
 
@@ -140,7 +142,7 @@ function destroyIframe(dialog: HTMLDialogElement) {
 
 // 负责接收iframe中的drawio发来的消息
 function receive(event: MessageEvent): void {
-  console.log('🍋 SmartDraw: 收到 drawio 发来的消息，开始解析', event)
+  console.log('🍋 SmartDraw: 收到 drawio 发来的消息，开始解析')
   const source = img.value as unknown as HTMLElement
   if (event.data.length == 0) {
     return
@@ -195,6 +197,17 @@ function receive(event: MessageEvent): void {
       console.log('🍋 SmartDraw: 收到 drawio 发来的消息 -> load，表示画图 Iframe 已加载')
       dialog.showModal()
       closeLoading()
+      break;
+    case 'configure':
+      console.log('🍋 SmartDraw: 收到 drawio 发来的消息 -> configure，向它发送配置')
+      sendToDrawio({
+        action: 'configure',
+        config: Config
+      })
+  
+      break;
+    default:
+      console.log(`🍋 SmartDraw: 收到 drawio 发来的消息 -> ${msg.event}，不知道怎么处理`)
   }
 }
 

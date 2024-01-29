@@ -19,12 +19,16 @@
   ```js
   '//test.draw.io/drawio/src/main' -> '/drawio/src/main'
   ```
-  
+
 - `/src/main/webapp/js/diagramly/App.js` 700 行左右删除一批代码来解决弹窗问题：
 
   ```js
   [Dev] Bootstrap script change requires update of CSP
   ```
+
+### 原理
+
+embed模式下可通过postMessage通信。
 
 ### 问题
 
