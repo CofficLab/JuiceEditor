@@ -6,29 +6,13 @@
 
 <https://github.com/jgraph/drawio>
 
-### 参数
+如果源码有更新，将源码中的`webapp`复制到`drawio`。
 
-通过 `/drawio/src/main/webapp/index.html?lang=zh&dev=1` 显示画板，也可以修改`src\main\webapp\js\PreConfig.js`，更多参数说明在这里：
-
-<https://www.drawio.com/doc/faq/supported-url-parameters>
-
-### 对draw.io的改动
-
-- index.html dev 模式下的域名
-
-  ```js
-  '//test.draw.io/drawio/src/main' -> '/drawio/src/main'
-  ```
-
-- `/src/main/webapp/js/diagramly/App.js` 700 行左右删除一批代码来解决弹窗问题：
-
-  ```js
-  [Dev] Bootstrap script change requires update of CSP
-  ```
+- etc
 
 ### 原理
 
-embed模式下可通过postMessage通信。
+无需修改drawio的源码，embed模式下可通过postMessage通信。具体看`SmartDraw`部分的源码。
 
 ### 问题
 

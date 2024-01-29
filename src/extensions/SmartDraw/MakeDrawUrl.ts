@@ -1,10 +1,8 @@
 import SmartTool from "../../entities/SmartTool";
 
-let isDebug = process.env.NODE_ENV === 'development'
-
 export function makeDrawUrl(baseUrl: string): string {
     return baseUrl + SmartTool.httpBuildQuery({
-        dev: isDebug ? 1 : 0,
+        // dev: isDebug ? 1 : 0,
         // 开启嵌入模式，能通过postMessage通信
         embed: 1,
         dark: 'auto',

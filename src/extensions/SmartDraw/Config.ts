@@ -6,13 +6,13 @@ const Config = {
     // autosaveDelay: 100,
     css: css,
     // defaultGridSize: Defines the default grid size for new diagrams(22.1.5 and later).Default is 10.
-    defaultGridSize: 40,
-    defaultGridEnabled: false,
+    defaultGridSize: 10,
+    defaultGridEnabled: true,
     defaultMacroParameters: {
         toolbarStyle: 'inline'
     },
     // Defines whether the page is initially visible(true/ false).
-    defaultPageVisible: false,
+    defaultPageVisible: true,
     // 顶点的样式
     defaultVertexStyle: {
         fontSize: '14',

@@ -9,10 +9,10 @@ let destinations = [
 emptyDir(drawDist, (err) => {
   if (err) return console.error(err)
 
-  copy('./drawio/src/main/webapp', drawDist, (err) => {
+  copy('./drawio/webapp', drawDist, (err) => {
     if (err) return console.error(err)
 
-    // 删除不需要的文件
+    // 删除不需要的文件，减小体积
     removeSync(drawDist + '/node_modules')
     removeSync(drawDist + '/META-INF')
     removeSync(drawDist + '/WEB-INF')
