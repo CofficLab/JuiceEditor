@@ -203,7 +203,7 @@ let handleRun = () => {
   setTimeout(() => {
     webkit.runCode(
       editorBox?.getContent() || '',
-      editorBox?.getLanguage().getTitle() || languages[0].getTitle(),
+      props.language.getTitle() || languages[0].getTitle(),
       (result) => {
         resultDom.value!.innerHTML = result == '' ? '「程序没有输出」' : result
         runResultVisible.value = true
