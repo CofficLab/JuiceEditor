@@ -148,7 +148,7 @@ class MonacoBox {
 
     public onLanguageChanged(callback: (arg0: any) => void) {
         this.editor.getModel()?.onDidChangeLanguage(() => {
-            console.log('🍋 💼 MonacoBox: monaco editor language changed, call the callback function', this.editor.getModel()?.getLanguageId());
+            console.log('🍋 💼 MonacoBox: monaco editor language changed, language id ->', this.editor.getModel()?.getLanguageId());
             callback(this)
         });
         return this
