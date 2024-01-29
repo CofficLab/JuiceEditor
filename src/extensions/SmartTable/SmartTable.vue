@@ -105,10 +105,10 @@ function checkToolbar(event: Event) {
   const start = props.getPos()
   const end = props.getPos() + props.node.nodeSize
 
-  // console.log('SmartTable: clicked')
-  // console.log('SmartTable: currentPos', currentPos)
-  // console.log('SmartTable: start', start)
-  // console.log('SmartTable: end', end)
+  console.log('SmartTable: clicked')
+  console.log('SmartTable: currentPos', currentPos)
+  console.log('SmartTable: start', start)
+  console.log('SmartTable: end', end)
 
   shouldShow.value = currentPos >= start && currentPos <= end
 }

@@ -1,47 +1,50 @@
 <template>
   <node-view-wrapper>
-    <!-- 无法开启画图，点击会显示提示框 -->
-    <div v-if="showWarning" contenteditable="false">
-      <label for="warning">
-        <img v-bind:src="node.attrs.src" ref="img" />
-      </label>
-      <input type="checkbox" id="warning" class="modal-toggle" />
-      <div class="modal" role="dialog">
-        <div class="modal-box flex flex-col justify-center items-center w-56 p-0">
-          <div class="font-bold text-lg m-0 mt-4">请将窗口调宽一点</div>
-          <p class="text-center text-xs">画图要求的最小宽度：1000</p>
-          <div class="stats shadow-3xl bg-blue-100/50 w-full mt-4 rounded-none">
-            <div class="stat">
-              <div class="stat-title text-center">当前宽度</div>
-              <div class="stat-value text-center">{{ width }}</div>
-            </div>
-          </div>
-        </div>
-        <label class="modal-backdrop" for="warning">Close</label>
-      </div>
+    <!-- 只读模式，仅显示图片 -->
+    <div v-if="!editor.isEditable">
+      <img v-bind:src="node.attrs.src" ref="img" />
     </div>
-
-    <!-- 正常开启画图，点击后先显示loading后显示画图 -->
-    <img v-else v-bind:src="node.attrs.src" alt="" @click="showIframe" ref="img" />
-
-    <!-- 正在开启画图 -->
-    <div v-else contenteditable="false">
-      <label for="loading">
-        <img v-bind:src="node.attrs.src" alt="" @click="showIframe" ref="img" />
-      </label>
-      <input type="checkbox" id="loading" class="modal-toggle" />
-      <div class="modal" role="dialog">
-        <div class="modal-box flex flex-col justify-center items-center w-56 p-0">
-          <div class="font-bold text-lg m-0 mt-4">正在打开画图界面</div>
-          <div class="stats shadow-3xl bg-blue-100/50 w-full mt-4 rounded-none">
-            <div class="stat">
-              <div class="stat-title text-center">
-                <span class="loading loading-ring loading-lg"></span>
+    <div v-else>
+      <!-- 无法开启画图，点击会显示提示框 -->
+      <div v-if="showWarning" contenteditable="false">
+        <label for="warning">
+          <img v-bind:src="node.attrs.src" ref="img" />
+        </label>
+        <input type="checkbox" id="warning" class="modal-toggle" />
+        <div class="modal" role="dialog">
+          <div class="modal-box flex flex-col justify-center items-center w-56 p-0">
+            <div class="font-bold text-lg m-0 mt-4">请将窗口调宽一点</div>
+            <p class="text-center text-xs">画图要求的最小宽度：1000</p>
+            <div class="stats shadow-3xl bg-blue-100/50 w-full mt-4 rounded-none">
+              <div class="stat">
+                <div class="stat-title text-center">当前宽度</div>
+                <div class="stat-value text-center">{{ width }}</div>
               </div>
             </div>
           </div>
+          <label class="modal-backdrop" for="warning">Close</label>
         </div>
-        <label class="modal-backdrop" for="loading">Close</label>
+      </div>
+
+      <!-- 正常开启画图，点击后先显示loading后显示画图 -->
+      <div v-else contenteditable="false">
+        <label for="loading">
+          <img v-bind:src="node.attrs.src" alt="" @click="showIframe" ref="img" />
+        </label>
+        <input type="checkbox" id="loading" class="modal-toggle" />
+        <div class="modal" role="dialog">
+          <div class="modal-box flex flex-col justify-center items-center w-56 p-0">
+            <div class="font-bold text-lg m-0 mt-4">正在打开画图界面</div>
+            <div class="stats shadow-3xl bg-blue-100/50 w-full mt-4 rounded-none">
+              <div class="stat">
+                <div class="stat-title text-center">
+                  <span class="loading loading-ring loading-lg"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <label class="modal-backdrop" for="loading">Close</label>
+        </div>
       </div>
     </div>
   </node-view-wrapper>
@@ -50,8 +53,8 @@
 <script setup lang="ts">
 import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
-import { makeDrawUrl } from './MakeDrawUrl';
-import Config from './Config';
+import { makeDrawUrl } from './MakeDrawUrl'
+import Config from './Config'
 
 const img = ref(null)
 const props = defineProps(nodeViewProps)
@@ -197,15 +200,15 @@ function receive(event: MessageEvent): void {
       console.log('🍋 SmartDraw: 收到 drawio 发来的消息 -> load，表示画图 Iframe 已加载')
       dialog.showModal()
       closeLoading()
-      break;
+      break
     case 'configure':
       console.log('🍋 SmartDraw: 收到 drawio 发来的消息 -> configure，向它发送配置')
       sendToDrawio({
         action: 'configure',
         config: Config
       })
-  
-      break;
+
+      break
     default:
       console.log(`🍋 SmartDraw: 收到 drawio 发来的消息 -> ${msg.event}，不知道怎么处理`)
   }
