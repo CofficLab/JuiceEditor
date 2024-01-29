@@ -1,25 +1,7 @@
-export class CodeBlock {
-    public title: string;
-    public content: string;
-    public language: string;
-    public runnable: boolean
+import { SmartLanguage, languages } from "../../entities/SmartLanguage";
+import { CodeBlock } from "./CodeBlock";
 
-    constructor({ title, content, language, runnable }: { title: string, content: string, language: string, runnable: boolean }) {
-        this.title = title;
-        this.content = content;
-        this.language = language;
-        this.runnable = runnable
-    }
 
-    static create() {
-        return new CodeBlock({
-            title: 'new',
-            content: "",
-            language: 'javascript',
-            runnable: false
-        });
-    }
-}
 
 export class Database {
     public json: string;
@@ -27,16 +9,29 @@ export class Database {
     public activatedIndex = 0;
 
     constructor(json: string = "{}") {
+        console.log("💼 Database: 将字符转换成 Database", json)
+
         this.json = json;
         this.activatedIndex = JSON.parse(this.json).activatedIndex || 0;
 
-        const items = JSON.parse(this.json).items || [CodeBlock.create()];
-        items.forEach((element: { title: string; content: string; language: string, runnable: boolean }) => {
-            this.items.push(new CodeBlock(element));
+        const items = JSON.parse(this.json).items || [];
+        items.forEach((element: { title: string; content: string; language: string, runVisible: boolean }) => {
+            this.items.push(new CodeBlock()
+                .setTitle(element.title)
+                .setContent(element.content)
+                .setLanguage(SmartLanguage.fromString(element.language))
+                .setRunVisible(element.runVisible)
+            );
         });
+
+        if (items.length === 0) {
+            this.items.push(new CodeBlock());
+            this.activatedIndex = 0
+        }
     }
 
     static createWithSingleCodeBlock(codeBlock: CodeBlock) {
+        console.log("💼 Database: 将 SingleCodeBlock 转换成 Database", codeBlock)
         return new Database(JSON.stringify({
             items: [codeBlock],
             activatedIndex: 0,
@@ -45,7 +40,7 @@ export class Database {
     }
 
     public appendNewCodeBlock(): Database {
-        this.items.push(CodeBlock.create());
+        this.items.push(new CodeBlock());
         this.activatedIndex = this.items.length - 1;
 
         return this;
@@ -57,7 +52,7 @@ export class Database {
             // console.log(this.items[this.activatedIndex]);
             return this.items[this.activatedIndex];
         } else {
-            return CodeBlock.create();
+            return new CodeBlock();
         }
     }
 
@@ -74,7 +69,7 @@ export class Database {
         return new Database(this.json);
     }
 
-    public updateLanguage(language: string): Database {
+    public updateLanguage(language: SmartLanguage): Database {
         // console.log('database: update language', language);
         let activatedItem = this.getActivatedItem()
         activatedItem.language = language
@@ -105,9 +100,9 @@ export class Database {
         return new Database(this.json);
     }
 
-    public updateRunnable(runnable: boolean): Database {
+    public updateRunVisible(runnable: boolean): Database {
         let activatedItem = this.getActivatedItem()
-        activatedItem.runnable = runnable
+        activatedItem.runVisible = runnable
 
         this.items[this.activatedIndex] = activatedItem
 

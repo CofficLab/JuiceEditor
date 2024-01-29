@@ -1,10 +1,11 @@
 import CodeBlock from '@tiptap/extension-code-block'
 import { VueNodeViewRenderer } from '@tiptap/vue-3'
 import CodeEditorVue from './CodeEditor.vue'
-import { Database, CodeBlock as DatabaseCodeBlock } from './Database'
+import { Database } from './Database'
+import { CodeBlock as DatabaseCodeBlock } from './CodeBlock'
 import MonacoBox from './MonacoBox'
-import { randomUUID } from 'crypto'
 import { v4 as uuidv4 } from 'uuid';
+import { languages } from '../../entities/SmartLanguage'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -67,13 +68,13 @@ export const CodeEditor = CodeBlock.extend({
             }
           }
 
+          console.log("💼 CodeEditor: 未存储 database 字段，生成")
           return Database.createWithSingleCodeBlock(
-            new DatabaseCodeBlock({
-              content: element.innerText,
-              title: '代码块',
-              language: 'javascript',
-              runnable: false
-            })
+            new DatabaseCodeBlock()
+              .setTitle('自动生成的代码块')
+              .setContent(element.innerText)
+              .setLanguage(languages[0])
+              .setRunVisible(true)
           ).toJSON()
         }
       }

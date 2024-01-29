@@ -5,6 +5,7 @@ import jsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker';
 import cssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker';
 import htmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker';
 import tsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker';
+import { SmartLanguage } from "../../entities/SmartLanguage";
 
 window.MonacoEnvironment = {
     getWorker(_, label) {
@@ -31,9 +32,8 @@ export interface CreateEditorOptions {
     uuid: string;
     target: HTMLDivElement;
     content: string;
-    language: string;
+    language: SmartLanguage;
     readOnly?: boolean;
-    runnable?: boolean;
     showLineNumbers?: boolean;
     onCreated?: (editor: MonacoBox) => void;
     onContentChanged?: (editor: MonacoBox) => void;
@@ -57,14 +57,12 @@ class MonacoBox {
 
     public editor: editor.IStandaloneCodeEditor;
     public index;
-    public runnable;
     public name;
     public runnableChangedCallback: Function;
 
-    public constructor(editor: any, index: any, runnable = false, name = "未命名Monaco编辑器") {
+    public constructor(editor: any, index: any, name = "未命名Monaco编辑器") {
         this.editor = editor;
         this.index = index;
-        this.runnable = runnable
         this.name = name
         this.runnableChangedCallback = () => { }
 
@@ -96,15 +94,12 @@ class MonacoBox {
         return monaco.editor.getModels()[this.index.toString()]
     }
 
-    public getRunnable(): boolean {
-        console.log("💼 MonacoBox: getRunnable", this.runnable);
-        return this.runnable
-    }
+    public getLanguage(): SmartLanguage {
+        console.log("💼 MonacoBox: 获取 monaco editor 的语言", this.editor.getModel()!.getLanguageId());
 
-    public getLanguage() {
-        // console.log("获取 monaco editor 的语言", this.editor.getModel()!.getLanguageId());
+        let id = this.editor.getModel()!.getLanguageId();
 
-        return this.editor.getModel()!.getLanguageId();
+        return SmartLanguage.fromString(id)
     }
 
     public getParentDomNode(): HTMLElement | null | undefined {
@@ -131,7 +126,7 @@ class MonacoBox {
         this.editor.getDomNode()!.style.height = height + "px";
     }
 
-    public setLanguage(language: string) {
+    public setLanguage(language: SmartLanguage) {
         if (this.editor == undefined) {
             return console.log("editor尚未实例化，不能设置language");
         }
@@ -142,15 +137,8 @@ class MonacoBox {
             return
         }
 
-        console.log("设置Monaco Editor的Language为", language);
-        monaco.editor.setModelLanguage(this.getModel(), language);
-    }
-
-    public toggleRunnable() {
-        this.runnable = !this.runnable
-        if (this.runnableChangedCallback) {
-            this.runnableChangedCallback(this.runnable)
-        }
+        console.log("🍋 💼 MonacoBox: 设置Monaco Editor的Language为", language.getTitle());
+        monaco.editor.setModelLanguage(this.getModel(), language.getTitle());
     }
 
     public onContentChanged(callback: (arg0: any) => void) {
@@ -178,7 +166,7 @@ class MonacoBox {
         // console.log('创建 Monaco，配置是', options)
         const editor = monaco.editor.create(options.target, {
             value: options.content,
-            language: options.language,
+            language: options.language.getTitle(),
             readOnly: options.readOnly,
             theme: "hc-black",
             fontSize: 14,
@@ -212,7 +200,7 @@ class MonacoBox {
 
         // editor.focus();
 
-        box = new MonacoBox(editor, monaco.editor.getModels().length - 1, options.runnable, options.name);
+        box = new MonacoBox(editor, monaco.editor.getModels().length - 1, options.name);
 
         box.setHeight()
         if (options?.onCreated != undefined) {

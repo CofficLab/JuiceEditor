@@ -5,7 +5,7 @@
       <button
         class="btn btn-square btn-ghost text-accent btn-xs absolute bottom-2 right-2 z-20"
         @click="handleRun"
-        v-show="runnable"
+        v-show="runVisible && language.runnable"
         contenteditable="false"
       >
         <template v-if="!runResultVisible">
@@ -25,7 +25,7 @@
     <div class="px-0">
       <pre
         ref="resultDom"
-        v-show="runResultVisible && runnable"
+        v-show="runResultVisible && runVisible"
         class="result-dom border border-transparent border-y-green-900 m-0 rounded-none"
       ></pre>
     </div>
@@ -38,6 +38,7 @@ import MonacoBox from './MonacoBox'
 import webkit from '../../entities/WebKit'
 import PlayIcon from './Icons/Play.vue'
 import CloseIcon from './Icons/Close.vue'
+import { SmartLanguage, languages } from '../../entities/SmartLanguage'
 
 const props = defineProps({
   content: {
@@ -53,12 +54,13 @@ const props = defineProps({
     type: Boolean,
     default: true
   },
-  runnable: {
+  // 用户配置的运行按钮是否可见
+  runVisible: {
     type: Boolean,
     default: false
   },
   language: {
-    type: String,
+    type: SmartLanguage,
     default: ''
   },
   readOnly: {
@@ -106,7 +108,7 @@ const props = defineProps({
 /**
  * 运行按钮相关的属性
  */
-let runnable = ref(false)
+// 编程语言是否可运行
 let running = ref(false)
 let runResultVisible = ref(false)
 
@@ -116,10 +118,10 @@ let runResultVisible = ref(false)
 let codeDom = ref<HTMLDivElement>()
 let resultDom = ref<HTMLDivElement>()
 var editorBox: MonacoBox | null = null
-let lan = ref()
+let lan = ref(languages[0])
 
 onMounted(() => {
-  console.log('🍋 💼 MonacoBox: mounted, uuid = ', props.uuid)
+  console.log('🍋 💼 MonacoBox: mounted, uuid = ', props)
   // console.log('🍋 💼 MonacoBox: mounted, content = ', props.content)
 
   // 编辑器
@@ -133,7 +135,6 @@ onMounted(() => {
     onCreated(monacoBox) {
       console.log("🍋 🗒️ MonacoBox: created")
       lan.value = monacoBox.getLanguage()
-      runnable.value = monacoBox.getRunnable() && lan.value != 'plaintext'
       editorBox = monacoBox
 
       // setTimeout(() => {
@@ -147,18 +148,8 @@ onMounted(() => {
     onContentChanged(monacoBox) {
       props.onContentChanged(monacoBox)
     },
-    onRunnableChanged(v: boolean) {
-      props.onRunnableChanged(v)
-      runnable.value = v
-    },
     onLanguageChanged(editorBox) {
       lan.value = editorBox.getLanguage()
-      if (lan.value == 'plaintext') {
-        runnable.value = false
-      } else {
-        runnable.value = editorBox.getRunnable()
-      }
-
       props.onLanguageChanged(editorBox)
     }
   })
@@ -188,7 +179,7 @@ watch(
 watch(
   () => props.language,
   () => {
-    console.log('MonacoBox: 检测到 props.language 发生变化')
+    console.log('🍋 💼 MonacoBox: 检测到 props.language 发生变化')
     editorBox!.setLanguage(props.language)
   }
 )
@@ -212,7 +203,7 @@ let handleRun = () => {
   setTimeout(() => {
     webkit.runCode(
       editorBox?.getContent() || '',
-      editorBox?.getLanguage() || 'go',
+      editorBox?.getLanguage().getTitle() || languages[0].getTitle(),
       (result) => {
         resultDom.value!.innerHTML = result == '' ? '「程序没有输出」' : result
         runResultVisible.value = true

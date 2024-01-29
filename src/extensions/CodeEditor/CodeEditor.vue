@@ -20,7 +20,7 @@
         :readOnly="!editor.isEditable"
         :content="content"
         :language="activatedItem.language"
-        :runnable="activatedItem.runnable"
+        :runVisible="activatedItem.runVisible"
         :showRunButton="node.attrs.run == 1"
         :onContentChanged="handleContentChanged"
         :onRunnableChanged="handleRunnableChanged"
@@ -37,11 +37,11 @@
         <!-- 语言按钮 -->
         <div class="dropdown dropdown-hover dropdown-bottom dropdown-end">
           <label tabindex="0">
-            {{ activatedItem.language }}
+            {{ activatedItem.language.getTitle() }}
           </label>
           <ul class="menu z-50">
             <li v-for="(item, index) in languages" :key="index">
-              <a @click="setLanguage(item)">{{ item }}</a>
+              <a @click="setLanguage(item)">{{ item.getTitle() }}</a>
             </li>
           </ul>
         </div>
@@ -52,7 +52,10 @@
           </label>
           <ul class="menu z-50">
             <li><a @click="createTab">新标签</a></li>
-            <li><a @click="createTab">新标签</a></li>
+            <li v-if="activatedItem.runVisible"><a @click="setNotRunnable">关运行</a></li>
+            <li v-if="activatedItem.language.runnable && !activatedItem.runVisible">
+              <a @click="setRunnable">开运行</a>
+            </li>
             <li><a class="copy" v-bind:data-clipboard-text="content">复制代码</a></li>
             <li>
               <a @click="handleDelete">删除</a>
@@ -68,13 +71,14 @@
 import { NodeViewContent, nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 import Monaco from './MonacoBox.vue'
 import CodeTabs from './CodeTabs.vue'
-import { Database, CodeBlock } from './Database'
+import { Database } from './Database'
 import { ref, computed, nextTick, onMounted, onBeforeUnmount, onUnmounted, onBeforeMount, onBeforeUpdate, onUpdated } from 'vue'
 import MonacoBox from './MonacoBox'
 import Setting from './Icons/Setting.vue'
 import ClipboardJS from 'clipboard'
-import languages from '../../entities/Languages'
-
+import { SmartLanguage,languages } from '../../entities/SmartLanguage'
+import { CodeBlock } from './CodeBlock'
+  
 var clipboard = new ClipboardJS('.copy')
 clipboard
   .on('success', function () {
@@ -118,6 +122,18 @@ function createTab(): void {
   // nextTick(focusToLastTitle)
 }
 
+function setRunnable() {
+  props.updateAttributes({
+    database: database.value.updateRunVisible(true).toJSON()
+  })
+}
+
+function setNotRunnable() {
+  props.updateAttributes({
+    database: database.value.updateRunVisible(false).toJSON()
+  })
+}
+
 function activate(index: number) {
   if (index == activatedIndex.value) return
   console.log('激活标签下标', index)
@@ -141,7 +157,7 @@ function handleContentChanged(editorBox: MonacoBox) {
 
 function handleRunnableChanged(runnable: boolean) {
   props.updateAttributes({
-    database: database.value.updateRunnable(runnable).toJSON()
+    database: database.value.updateRunVisible(runnable).toJSON()
   })
 }
 
@@ -170,7 +186,7 @@ function focusToLastTitle() {
   selection?.addRange(range) // 添加设置好的 Range 对象
 }
 
-function setLanguage(language: string) {
+function setLanguage(language: SmartLanguage) {
   props.updateAttributes({
     database: database.value.updateLanguage(language).toJSON()
   })
