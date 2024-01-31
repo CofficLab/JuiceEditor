@@ -243,7 +243,7 @@ ul.menu {
 }
 
 .operation-bar {
-  @apply bg-black/80 flex flex-row justify-end rounded-b-xl;
+  @apply bg-black/80 dark:bg-indigo-950/60 flex flex-row justify-end rounded-b-xl;
 
   .dropdown label {
     @apply btn hover:bg-gray-600 font-normal btn-sm p-0 px-2 m-0 btn-ghost text-white;
