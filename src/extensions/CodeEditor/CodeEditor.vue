@@ -51,14 +51,23 @@
             <Setting></Setting>
           </label>
           <ul class="menu z-50">
-            <li><a @click="createTab">新标签</a></li>
-            <li v-if="activatedItem.runVisible"><a @click="setNotRunnable">关运行</a></li>
+            <li>
+              <a @click="createTab">新标签</a>
+            </li>
+            <li v-if="activatedItem.runVisible">
+              <a @click="setNotRunnable">关运行</a>
+            </li>
             <li v-if="activatedItem.language.runnable && !activatedItem.runVisible">
               <a @click="setRunnable">开运行</a>
             </li>
-            <li><a class="copy" v-bind:data-clipboard-text="content">复制代码</a></li>
+            <li>
+              <a class="copy" v-bind:data-clipboard-text="content">复制代码</a>
+            </li>
             <li>
               <a @click="handleDelete">删除</a>
+            </li>
+            <li v-if="isTheLastNode">
+                <a @click="newLine">插入空行</a>
             </li>
           </ul>
         </div>
@@ -113,6 +122,17 @@ let codeDom = ref(activatedItem.value.content)
 let isTheLastNode = computed(
   () => props.node.nodeSize + props.getPos() == props.editor.state.doc.content.size
 )
+
+// 在整个文档的尾部插入一行
+function newLine() {
+  let tail = props.editor.state.doc.content.size
+  props.editor.commands.insertContentAt(tail, '<p></p>', {
+    updateSelection: false,
+    parseOptions: {
+      preserveWhitespace: 'full'
+    }
+  })
+}
 
 function createTab(): void {
   props.updateAttributes({
@@ -201,13 +221,7 @@ onMounted(() => {
 
   // 如果是最后一个节点，在本节点后插入一个空的p，防止光标无法移动到下一个节点
   if (isTheLastNode.value) {
-    let tail = props.editor.state.doc.content.size
-    props.editor.commands.insertContentAt(tail, '<p></p>', {
-      updateSelection: false,
-      parseOptions: {
-        preserveWhitespace: 'full'
-      }
-    })
+    newLine()
   }
 })
 
