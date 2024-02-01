@@ -59,7 +59,7 @@ jobs:
 
   copy-file-to-browser:
     runs-on: ubuntu-latest
-    needs: [build]
+    needs: [tag]
     steps:
       - name: 检查版本
         run: echo $version
@@ -90,7 +90,7 @@ jobs:
 
   copy-file-to-app:
     runs-on: ubuntu-latest
-    needs: [build]
+    needs: [tag]
     steps:
       - name: 检查版本
         run: echo $version
