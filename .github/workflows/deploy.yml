@@ -53,12 +53,12 @@ jobs:
       - uses: actions/checkout@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-      - name: 生成标签
-        run: |
-          git config --global user.name "GitHub Action"
-          git config --global user.email "action@github.com"
-          npm version patch
-          git push origin main --tags
+      # - name: 生成标签
+      #   run: |
+      #     git config --global user.name "GitHub Action"
+      #     git config --global user.email "action@github.com"
+      #     npm version patch
+      #     git push origin main --tags
 
   # sync:
   #   needs:
@@ -76,3 +76,30 @@ jobs:
   #         path: Kuaiyizhi_Browser/public/editor
   #     - name: 检查
   #       run: ls -alh Kuaiyizhi_Browser/public/editor
+
+  copy-file:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 当前目录
+        run: pwd
+      steps:
+        - uses: actions/checkout@v3
+          with:
+            name: YueyiNet/Kuaiyizhi_Browser
+
+      # - name: 下载构件
+      #   uses: actions/download-artifact@v3
+      #   with:
+      #     name: dist
+      #     path: dist
+      # - name: Pushes test file
+      #   uses: dmnemec/copy_file_to_another_repo_action@main
+      #   env:
+      #     API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+      #   with:
+      #     source_file: 'dist'
+      #     destination_repo: 'YueyiNet/Kuaiyizhi_Browser'
+      #     destination_folder: 'public/editor'
+      #     user_email: 'example@email.com'
+      #     user_name: 'dmnemec'
+      #     commit_message: 'A custom message for the commit'
