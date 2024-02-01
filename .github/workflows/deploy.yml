@@ -60,7 +60,7 @@ jobs:
           npm version patch
           git push origin main --tags
 
-  copy-file:
+  copy-file-to-browser:
     runs-on: ubuntu-latest
     needs: [build]
     steps:
@@ -71,18 +71,47 @@ jobs:
         with:
           repository: YueyiNet/Kuaiyizhi_Browser
           token: ${{ secrets.Token_Sync }}
+      - name: 当前目录
+        run: pwd
       - name: 下载构件
         uses: actions/download-artifact@v3
         with:
           name: dist
-          path: Kuaiyizhi_Browser/public/editor
+          path: public/editor
       - name: 检查
-        run: ls -alh Kuaiyizhi_Browser/public/editor
+        run: ls -alh public/editor
       - name: 推送
         run: |
-          cd Kuaiyizhi_Browser
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
           git add .
-          git commit -m "update"
+          git commit -m "update editor"
+          git push origin main
+
+  copy-file-to-app:
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - name: 当前目录
+        run: pwd
+      - name: 下载 Kuaiyizhi_SwiftUI
+        uses: actions/checkout@v4
+        with:
+          repository: YueyiNet/Kuaiyizhi_SwiftUI
+          token: ${{ secrets.Token_Sync }}
+      - name: 当前目录
+        run: pwd
+      - name: 下载构件
+        uses: actions/download-artifact@v3
+        with:
+          name: dist
+          path: Resources/dist
+      - name: 检查
+        run: ls -alh Resources/dist
+      - name: 推送
+        run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+          git add .
+          git commit -m "update editor"
           git push origin main
