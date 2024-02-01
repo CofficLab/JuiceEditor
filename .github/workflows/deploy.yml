@@ -46,7 +46,7 @@ jobs:
 
   tag:
     needs: [build]
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: 当前用户
         run: whoami
@@ -66,7 +66,7 @@ jobs:
 
   sync:
     needs:
-      - tag
+      - build
     runs-on: self_hosted
     steps:
       - name: 当前目录
