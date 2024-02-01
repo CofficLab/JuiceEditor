@@ -55,9 +55,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: 生成标签
         run: |
-          tag=p$(date +"%Y%m%d-%H%M")
-          echo "$tag" > version.txt
-
+          tag=$(npm version patch)
           echo "tag=$tag" >> $GITHUB_ENV
       - name: 打标签并推送到仓库
         uses: stefanzweifel/git-auto-commit-action@v4
