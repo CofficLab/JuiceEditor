@@ -66,7 +66,7 @@
             <li>
               <a @click="handleDelete">删除</a>
             </li>
-            <li v-if="isTheLastNode">
+            <li>
                 <a @click="newLine">插入空行</a>
             </li>
           </ul>
