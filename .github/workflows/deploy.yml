@@ -83,15 +83,15 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: package.json
-          path: package.json
+          path: temp
       - name: 检查
         run: ls -alh
       - name: 推送
         run: |
-          v=$(node -p "require('./package.json').version")
+          v=$(node -p "require('./temp/package.json').version")
           git config --global user.name "GitHub Action of Kuaiyizhi_Editor"
           git config --global user.email "action@github.com"
-          rm -rf ./package.json
+          rm -rf ./temp
           git add .
           git commit -m "update editor to ${v}")"
           git push origin dev
@@ -121,15 +121,15 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: package.json
-          path: package.json
+          path: temp
       - name: 检查
         run: ls -alh
       - name: 推送
         run: |
-          v=$(node -p "require('./package.json').version")
+          v=$(node -p "require('./temp/package.json').version")
           git config --global user.name "GitHub Action of Kuaiyizhi_Editor"
           git config --global user.email "action@github.com"
-          rm -rf ./package.json
+          rm -rf ./temp
           git add .
           git commit -m "update editor to ${v}")"
           git push origin dev
