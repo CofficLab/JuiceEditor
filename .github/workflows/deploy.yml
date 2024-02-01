@@ -32,8 +32,10 @@ jobs:
         uses: actions/checkout@v3
       - name: NPM 版本
         run: npm -v
+      - name: 安装PNPM
+        run: npm i -g pnpm
       - name: NPM 安装
-        run: npm i
+        run: pnpm i
       - name: NPM 构建
         run: npm run build && cp -r drawio dist/draw
       - name: 上传构件
