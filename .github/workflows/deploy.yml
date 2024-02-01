@@ -6,13 +6,6 @@
 
 name: Deploy
 
-# 这里定义的环境变量会影响 Laravel
-env:
-  RELEASE_DIR: /www/wwwroot/pre.kuaiyizhi.cn/${{ github.sha }}
-  DEPLOY_DIR: /www/wwwroot/pre.kuaiyizhi.cn/production
-  STORAGE_DIR: /www/storage/pre.kuaiyizhi.cn
-  DATABASE_FILE_PATH: /www/database/pre.kuaiyizhi.cn.db
-
 on:
   push:
     branches: [main]
@@ -66,6 +59,12 @@ jobs:
     steps:
       - name: 当前目录
         run: pwd
+      - name: 下载Editor的package.json
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            package.json
+          sparse-checkout-cone-mode: false
       - name: 下载 Kuaiyizhi_Browser
         uses: actions/checkout@v4
         with:
@@ -83,10 +82,12 @@ jobs:
         run: ls -alh public/editor
       - name: 推送
         run: |
+          v=$(node -p "require('./package.json').version")
           git config --global user.name "GitHub Action of Kuaiyizhi_Editor"
           git config --global user.email "action@github.com"
+          rm -rf ./package.json
           git add .
-          git commit -m "update editor"
+          git commit -m "update editor to ${v}")"
           git push origin dev
 
   copy-file-to-app:
@@ -95,6 +96,12 @@ jobs:
     steps:
       - name: 当前目录
         run: pwd
+      - name: 下载Editor的package.json
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            package.json
+          sparse-checkout-cone-mode: false
       - name: 下载 Kuaiyizhi_SwiftUI
         uses: actions/checkout@v4
         with:
@@ -112,8 +119,10 @@ jobs:
         run: ls -alh Resources/dist
       - name: 推送
         run: |
+          v=$(node -p "require('./package.json').version")
           git config --global user.name "GitHub Action of Kuaiyizhi_Editor"
           git config --global user.email "action@github.com"
+          rm -rf ./package.json
           git add .
-          git commit -m "update editor"
+          git commit -m "update editor to ${v}")"
           git push origin dev
