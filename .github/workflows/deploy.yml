@@ -55,6 +55,8 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: 生成标签
         run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
           tag=$(npm version patch)
           echo "tag=$tag" >> $GITHUB_ENV
       - name: 打标签并推送到仓库
