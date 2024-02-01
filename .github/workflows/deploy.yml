@@ -57,14 +57,8 @@ jobs:
         run: |
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
-          tag=$(npm version patch)
-          echo "tag=$tag" >> $GITHUB_ENV
-      - name: 打标签并推送到仓库
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: 'chore(workflow): Bump a new version'
-          commit_user_name: GitHub Action
-          tagging_message: ${{ env.tag }}
+          npm version patch
+          git push origin main
 
   # sync:
   #   needs:
