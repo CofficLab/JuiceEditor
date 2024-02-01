@@ -120,18 +120,27 @@ let codeDom = ref(activatedItem.value.content)
 
 // 是否是整个editor.state.doc.content的最后一个node
 let isTheLastNode = computed(
-  () => props.node.nodeSize + props.getPos() == props.editor.state.doc.content.size
+  () => getTailPos() == props.editor.state.doc.content.size
 )
 
-// 在整个文档的尾部插入一行
+// 在本节点的后面插入一行
 function newLine() {
-  let tail = props.editor.state.doc.content.size
+  let tail = getTailPos()
   props.editor.commands.insertContentAt(tail, '<p></p>', {
     updateSelection: false,
     parseOptions: {
       preserveWhitespace: 'full'
     }
   })
+  props.editor.commands.focus(tail)
+}
+
+// 获取尾部位置
+function getTailPos(): number {
+  const start = props.getPos()
+  const end = start + props.node.nodeSize
+
+  return end
 }
 
 function createTab(): void {
