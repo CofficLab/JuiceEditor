@@ -58,7 +58,7 @@ jobs:
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
           npm version patch
-          git push origin main
+          git push origin main --tags
 
   # sync:
   #   needs:
