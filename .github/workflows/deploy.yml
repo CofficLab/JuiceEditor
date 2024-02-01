@@ -1,0 +1,82 @@
+---
+#--------------------------------------------------
+#  构建并发布
+#--------------------------------------------------
+#
+
+name: Deploy
+
+# 这里定义的环境变量会影响 Laravel
+env:
+  RELEASE_DIR: /www/wwwroot/pre.kuaiyizhi.cn/${{ github.sha }}
+  DEPLOY_DIR: /www/wwwroot/pre.kuaiyizhi.cn/production
+  STORAGE_DIR: /www/storage/pre.kuaiyizhi.cn
+  DATABASE_FILE_PATH: /www/database/pre.kuaiyizhi.cn.db
+
+on:
+  push:
+    branches: [main]
+    tags:
+      - '*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 当前用户
+        run: whoami
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: NPM 版本
+        run: npm -v
+      - name: NPM 安装
+        run: npm i
+      - name: NPM 构建
+        run: npm run build && cp -r drawio dist/draw
+      - name: 上传构件
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: dist
+
+  tag:
+    needs: [build]
+    runs-on: self-hosted
+    steps:
+      - name: 当前用户
+        run: whoami
+      - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: 生成标签
+        run: |
+          tag=p$(date +"%Y%m%d-%H%M")
+          echo "$tag" > version.txt
+
+          echo "tag=$tag" >> $GITHUB_ENV
+      - name: 打标签并推送到仓库
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: 'chore(workflow): Bump a new version'
+          commit_user_name: GitHub Action
+          tagging_message: ${{ env.tag }}
+
+  sync:
+    needs:
+      - tag
+    runs-on: self_hosted
+    steps:
+      - name: 当前目录
+        run: pwd
+      - name: 下载Browser项目
+        run: git clone git@github.com:YueyiNet/Kuaiyizhi_Browser.git
+      - name: 下载构件
+        uses: actions/download-artifact@v3
+        with:
+          name: dist
+          path: Kuaiyizhi_Browser/public/editor
+      - name: 检查
+        run: ls -alh Kuaiyizhi_Browser/public/editor
