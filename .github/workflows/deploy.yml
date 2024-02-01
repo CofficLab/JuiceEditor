@@ -55,7 +55,7 @@ jobs:
       - name: 读取版本，写入环境变量
         run: |
           version=$(node -p "require('./package.json').version")
-          echo "version=$version" >> $GITHUB_ENV
+          echo version="${version}" >> $GITHUB_ENV
 
   copy-file-to-browser:
     runs-on: ubuntu-latest
