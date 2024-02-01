@@ -82,7 +82,7 @@ jobs:
         run: ls -alh public/editor
       - name: 推送
         run: |
-          git config --global user.name "GitHub Action"
+          git config --global user.name "GitHub Action of Kuaiyizhi_Editor"
           git config --global user.email "action@github.com"
           git add .
           git commit -m "update editor"
@@ -110,7 +110,7 @@ jobs:
         run: ls -alh Resources/dist
       - name: 推送
         run: |
-          git config --global user.name "GitHub Action"
+          git config --global user.name "GitHub Action of Kuaiyizhi_Editor"
           git config --global user.email "action@github.com"
           git add .
           git commit -m "update editor"
