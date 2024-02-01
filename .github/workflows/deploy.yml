@@ -82,10 +82,9 @@ jobs:
     steps:
       - name: 当前目录
         run: pwd
-      steps:
-        - uses: actions/checkout@v3
-          with:
-            name: YueyiNet/Kuaiyizhi_Browser
+      - uses: actions/checkout@v3
+        with:
+          repository: YueyiNet/Kuaiyizhi_Browser
 
       # - name: 下载构件
       #   uses: actions/download-artifact@v3
