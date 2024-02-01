@@ -82,9 +82,10 @@ jobs:
     steps:
       - name: 当前目录
         run: pwd
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           repository: YueyiNet/Kuaiyizhi_Browser
+          token: ${{ secrets.Token_Sync }}
 
       # - name: 下载构件
       #   uses: actions/download-artifact@v3
