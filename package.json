@@ -1,10 +1,11 @@
 {
-  "name": "kuaiyizhi-web",
-  "version": "0.0.0",
+  "name": "kuaiyizhi-editor",
+  "version": "0.2.22",
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node build.js",
+    "build": "vite build",
+    "deploy": "vite build && node deploy.js",
     "preview": "vite preview"
   },
   "dependencies": {
