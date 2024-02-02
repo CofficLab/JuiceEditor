@@ -67,7 +67,7 @@
               <a @click="handleDelete">删除</a>
             </li>
             <li v-if="isTheLastNode">
-                <a @click="newLine">插入空行</a>
+              <a @click="newLine">插入空行</a>
             </li>
           </ul>
         </div>
@@ -81,13 +81,23 @@ import { NodeViewContent, nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 import Monaco from './MonacoBox.vue'
 import CodeTabs from './CodeTabs.vue'
 import { Database } from './Database'
-import { ref, computed, nextTick, onMounted, onBeforeUnmount, onUnmounted, onBeforeMount, onBeforeUpdate, onUpdated } from 'vue'
+import {
+  ref,
+  computed,
+  nextTick,
+  onMounted,
+  onBeforeUnmount,
+  onUnmounted,
+  onBeforeMount,
+  onBeforeUpdate,
+  onUpdated
+} from 'vue'
 import MonacoBox from './MonacoBox'
 import Setting from './Icons/Setting.vue'
 import ClipboardJS from 'clipboard'
-import { SmartLanguage,languages } from '../../entities/SmartLanguage'
+import { SmartLanguage, languages } from '../../entities/SmartLanguage'
 import { CodeBlock } from './CodeBlock'
-  
+
 var clipboard = new ClipboardJS('.copy')
 clipboard
   .on('success', function () {
@@ -257,7 +267,7 @@ ul.menu {
 }
 
 .operation-bar {
-  @apply bg-black/80 dark:bg-indigo-950/60 flex flex-row justify-end rounded-b-xl;
+  @apply bg-black/80 dark:bg-gray-900/80 flex flex-row justify-end rounded-b-xl;
 
   .dropdown label {
     @apply btn hover:bg-gray-600 font-normal btn-sm p-0 px-2 m-0 btn-ghost text-white;

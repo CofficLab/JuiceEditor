@@ -3,7 +3,7 @@
     <div class="relative">
       <!-- 运行按钮 -->
       <button
-        class="btn btn-square dark:hover:bg-indigo-950 btn-ghost text-accent btn-sm absolute bottom-1 right-2 z-20"
+        class="btn btn-square dark:hover:bg-gray-900/80 btn-ghost text-accent btn-sm absolute bottom-1 right-2 z-20"
         @click="handleRun"
         v-show="runVisible && language.runnable"
         contenteditable="false"
