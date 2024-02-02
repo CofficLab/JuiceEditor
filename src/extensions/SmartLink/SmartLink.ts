@@ -16,7 +16,13 @@ const SmartLink = Node.create({
     group: "inline",
     content: "text*",
     parseHTML: () => [{ tag: "a" }],
-    renderHTML: ({ node }) => ["a", node.attrs.text],
+    renderHTML: ({ node }) => [
+        "a",
+        {
+            "href": node.attrs.href,
+        },
+        node.attrs.text
+    ],
     addAttributes() {
         return {
             href: {

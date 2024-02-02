@@ -6,6 +6,9 @@
     <button class="btn btn-primary btn-xs join-item" @click="app.setCurrentNode(Sample.sampleNode)">
       通用
     </button>
+    <button class="btn btn-primary btn-xs join-item" @click="app.setCurrentNode(Sample.linkNode)">
+        链接
+      </button>
     <button class="btn btn-primary btn-xs join-item" @click="app.setCurrentNode(Sample.codeNode)">
       代码
     </button>
