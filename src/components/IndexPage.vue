@@ -21,6 +21,7 @@
         :drawEnable="featureStore.drawEnabled"
         :bubbleMenusEnable="featureStore.bubbleMenuVisible"
         :floatingMenusEnable="featureStore.floatingMenuVisible"
+        :onCreate="onCreate"
         :onUpdate="appStore.updateNode"
         :onSelectionUpdate="appStore.updateSelectionType"
         :uuid="node.uuid"
@@ -64,20 +65,22 @@ const shouldShowBorder = computed(() => {
   return featureStore.editorVisible && node.value.children.length > 0
 })
 
+function onCreate() {
+  appStore.setReady()
+}
+
 watch(featureUpdatedAt, () => {
   if (!featureStore.editorVisible) {
     return
   }
 
-  console.log('IndexPage: feature变了，重新加载Tiptap，featureUpdatedAt ->' + featureUpdatedAt.value)
+  console.log(
+    'IndexPage: feature变了，重新加载Tiptap，featureUpdatedAt ->' + featureUpdatedAt.value
+  )
 
   featureStore.hideEditor()
   nextTick(() => {
     featureStore.showEditor()
   })
-})
-
-onMounted(() => {
-  appStore.setReady()
 })
 </script>

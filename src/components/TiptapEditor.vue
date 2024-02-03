@@ -71,6 +71,10 @@ const props = defineProps({
     default: true,
     required: true
   },
+  onCreate: {
+    type: Function,
+    default: () => {}
+  },
   onUpdate: {
     type: Function,
     default: () => {}
@@ -88,6 +92,9 @@ const editor = TiptapAgent.create({
   drawIoLink: DrawAgent.getLink(),
   drawEnable: props.drawEnable,
   tableEnable: props.tableEnable,
+  onCreate: (data: EditorData) => {
+    props.onCreate(data)
+  },
   onUpdate: (data: EditorData) => {
     props.onUpdate(data)
   },
@@ -98,14 +105,14 @@ const editor = TiptapAgent.create({
 })
 
 const contextMenuDidShow = ref(false)
-const message = ref("")
+const message = ref('')
 const eventManager = new EventManager()
 
 function onMouseDown(e: Event) {
   console.log('TiptapEditor: mousedown')
 
   let target = e.target as HTMLElement
-  const pos = editor.view.posAtDOM(target,1)
+  const pos = editor.view.posAtDOM(target, 1)
   editor.commands.focus(pos)
 }
 
@@ -135,7 +142,7 @@ watch(props, () => {
 })
 
 onMounted(() => {
-  console.log("🍋 🗒️ TiptapEditor: onMounted")
+  console.log('🍋 🗒️ TiptapEditor: onMounted')
 
   // 处理事件
   eventManager.setListener(editor, (msg) => {
@@ -149,7 +156,7 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
-  console.log("🍋 🗒️ TiptapEditor: onBeforeUnmount")
+  console.log('🍋 🗒️ TiptapEditor: onBeforeUnmount')
   editor.destroy()
   eventManager.removeListener()
   document.removeEventListener('mousedown', onMouseDown)
