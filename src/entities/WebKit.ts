@@ -36,17 +36,10 @@ const webkit = {
         }
 
         console.log('🍎 WebKit: 调用 WebKit 以更新 SelectionType')
-        setTimeout(() => {
-            try {
-                // 只能传字符、只能传普通object
-                (window as any).webkit.messageHandlers.sendMessage.postMessage({
-                    channel: "updateSelectionType",
-                    type: type
-                })
-            } catch (e) {
-                console.log('更新内容失败', e)
-            }
-        }, 0)
+        // 异步往 webkit 发送数据，防止界面卡顿
+        this.asyncUpdateSelectionType(type).then((result) => {
+            console.log(result)
+        })
     },
 
     runCode(code: string, lan: string, callback: (result: string) => void) {
@@ -87,6 +80,23 @@ const webkit = {
         })
     },
 
+    asyncUpdateSelectionType(type: string) {
+        return new Promise((resolve, reject) => {
+            try {
+                // 只能传字符、只能传普通object
+                (window as any).webkit.messageHandlers.sendMessage.postMessage({
+                    channel: "updateSelectionType",
+                    type: type
+                })
+            } catch (e) {
+                console.log('更新内容失败', e)
+                reject(e)
+            }
+
+            resolve('🍎 WebKit: 已发送SelectionType更新');
+        });
+    },
+
     asyncUpdateNodeTask(data: EditorData) {
         return new Promise((resolve, reject) => {
             try {
@@ -104,7 +114,7 @@ const webkit = {
                 reject(e)
             }
 
-            resolve('🍎 WebKit: 已发送更新');
+            resolve('🍎 WebKit: 已发送Content更新');
         });
     }
 }
