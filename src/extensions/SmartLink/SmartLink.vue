@@ -1,6 +1,9 @@
 <template>
   <node-view-wrapper class="inline">
-    <div class="dropdown dropdown-top dropdown-hover">
+    <div class="dropdown dropdown-hover" v-bind:class="{
+      'dropdown-bottom': dropdownBottom,
+      'dropdown-top': !dropdownBottom
+    }">
       <!-- 链接的内容 -->
       <label
         tabindex="0"
@@ -66,7 +69,7 @@
 <script setup lang="ts">
 import { nodeViewProps, NodeViewWrapper, NodeViewContent } from '@tiptap/vue-3'
 import IconDelete from './Icons/Delete.vue'
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 const props = defineProps(nodeViewProps)
 
@@ -75,6 +78,10 @@ const deleteNode = () => {
 }
 
 const goto = ref()
+
+const dropdownBottom = computed(
+  () => props.getPos() < 20
+)
 
 const notLink = () => {
   props.editor
