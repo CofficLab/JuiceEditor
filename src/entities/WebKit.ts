@@ -23,21 +23,11 @@ const webkit = {
         }
 
         console.log('🍎 WebKit: 调用 WebKit 以更新节点内容', data.uuid, data.title)
-        setTimeout(() => {
-            try {
-                // 只能传字符、只能传普通object
-                (window as any).webkit.messageHandlers.sendMessage.postMessage({
-                    channel: 'updateNode',
-                    content: data.content,
-                    title: data.title,
-                    uuid: data.uuid,
-                    characterCount: `${data.characterCount}`,
-                    wordCount: `${data.wordCount}`
-                })
-            } catch (e) {
-                console.log('更新内容失败', e)
-            }
-        }, 0)
+
+        // 异步往 webkit 发送数据，防止界面卡顿
+        this.asyncUpdateNodeTask(data).then((result) => {
+            console.log(result)
+        })
     },
 
     updateSelectionType(type: string) {
@@ -89,12 +79,33 @@ const webkit = {
             console.log("🍎 WebKit: 下载图片，无 WebKit，忽略")
             return
         }
-        
+
         (window as any).webkit.messageHandlers.sendMessage.postMessage({
             channel: "downloadFile",
             base64: base64,
             name: name
         })
+    },
+
+    asyncUpdateNodeTask(data: EditorData) {
+        return new Promise((resolve, reject) => {
+            try {
+                // 只能传字符、只能传普通object
+                (window as any).webkit.messageHandlers.sendMessage.postMessage({
+                    channel: 'updateNode',
+                    content: data.content,
+                    title: data.title,
+                    uuid: data.uuid,
+                    characterCount: `${data.characterCount}`,
+                    wordCount: `${data.wordCount}`
+                })
+            } catch (e) {
+                console.log('更新内容失败', e)
+                reject(e)
+            }
+
+            resolve('🍎 WebKit: 已发送更新');
+        });
     }
 }
 
