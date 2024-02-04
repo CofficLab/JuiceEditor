@@ -54,6 +54,8 @@ export const useAppStore = defineStore('app-store', {
         },
 
         updateSelectionType(type: string) {
+            if (type == this.selectionType) return
+
             this.selectionType = type
             webkit.updateSelectionType(type)
         }
