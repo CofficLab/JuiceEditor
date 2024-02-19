@@ -96,6 +96,10 @@ const editor = TiptapAgent.create({
     props.onCreate(data)
   },
   onUpdate: (data: EditorData) => {
+    if (!props.editable) {
+      return console.log('🍋 TiptapEditor: 只读模式，不回调更新')
+    }
+
     props.onUpdate(data)
   },
   onSelectionUpdate(type) {
