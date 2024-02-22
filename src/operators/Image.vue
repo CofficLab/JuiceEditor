@@ -2,7 +2,7 @@
   <button
     class="tooltip w-10"
     data-tip="添加图片"
-    @click="addImage"
+    @click="editor.commands.insertImage()"
     :class="{ 'is-active': editor.isActive('banner') }"
   >
     <img src="../assets/photo.svg" alt="" class="m-0" />
