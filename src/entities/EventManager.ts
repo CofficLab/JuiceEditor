@@ -5,6 +5,8 @@ const operators = {
     insertDraw: 'insertDraw',
     insertImage: 'insertImage',
     insertTable: 'insertTable',
+    insertCodeBlock: 'insertCodeBlock',
+    insertTodo: 'insertTodo',
     setHeading1: 'setHeading1',
     setHeading2: 'setHeading2',
     setHeading3: 'setHeading3',
@@ -75,6 +77,12 @@ export default class EventManager {
                 break;
             case operators.insertTable:
                 editor.chain().focus().insertSmartTable().run()
+                break;
+            case operators.insertCodeBlock:
+                editor.chain().focus().toggleCodeBlock().run()
+                break;
+            case operators.insertTodo:
+                editor.chain().focus().toggleTaskList().run()
                 break;
             case operators.toggleLink:
                 editor.chain().focus().toggleLink().run()
@@ -151,8 +159,16 @@ export default class EventManager {
         emit("insertTable")
     }
 
+    insertTodo() {
+        emit("insertTodo")
+    }
+
     insertImage() {
         emit("insertImage")
+    }
+
+    insertCodeBlock() {
+        emit("insertCodeBlock")
     }
 
     setParagraph() {
