@@ -75,6 +75,9 @@ export default class EventManager {
             case operators.insertDraw:
                 editor.chain().focus().insertDraw().run()
                 break;
+            case operators.insertImage:
+                editor.chain().focus().insertImage().run()
+                break;
             case operators.insertTable:
                 editor.chain().focus().insertSmartTable().run()
                 break;
