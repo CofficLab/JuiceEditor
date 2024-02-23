@@ -15,7 +15,9 @@
     <!-- 编辑器 -->
     <editor-content
       :editor="editor"
-      class="container mx-auto px-4 md:px-0 flex flex-col pb-48 prose prose-sm dark:prose-invert"
+      class="mx-auto flex flex-col pb-48 prose dark:prose-invert
+      px-4 container prose-sm
+      md:px-8 md:max-w-4xl md:prose-base"
     />
 
     <!-- 右键菜单 -->
