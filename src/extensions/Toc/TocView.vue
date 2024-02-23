@@ -36,7 +36,7 @@
 <script setup lang="ts">
 import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 import DynamicPadding from './DynamicPadding.vue'
-import { onMounted, nextTick, ref, onUnmounted, onBeforeUnmount } from 'vue'
+import { onMounted, nextTick, ref, onBeforeUnmount, computed } from 'vue'
 
 class Heading {
   level!: number
@@ -45,7 +45,7 @@ class Heading {
 }
 
 const props = defineProps(nodeViewProps)
-const uuid = props.editor.options.injectNonce
+const uuid = computed(() => props.editor.options.injectNonce)
 
 let headings = ref<Heading[]>([])
 
@@ -54,10 +54,10 @@ let getLink = function (heading: { id: any }) {
 }
 
 let handleUpdate = function () {
-  if (props.editor.options.injectNonce != uuid) {
-    console.log('🍋 📖 Toc: 查找 Headings，非当前UUID，忽略')
-    return
-  }
+  // if (props.editor.options.injectNonce != uuid) {
+  //   console.log('🍋 📖 Toc: 查找 Headings，非当前UUID，忽略')
+  //   return
+  // }
 
   console.log('🍋 📖 Toc: 查找 Headings for Tiptap UUID ->', uuid)
   headings.value = []
@@ -146,7 +146,7 @@ onBeforeUnmount(() => {
       @apply list-none text-xs rounded-none !important;
 
       a {
-        @apply no-underline rounded-none !important;
+        @apply no-underline rounded-none p-1 !important;
       }
     }
   }
