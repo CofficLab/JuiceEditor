@@ -5,7 +5,11 @@
         <!-- 内容 -->
         <div
           class="flex flex-row gap-2 rounded-xl p-3 ring-1 border border-dashed"
-          v-bind:class="[style, { 'border-yellow-500/50': selected }, { 'border-0': !selected }]"
+          v-bind:class="[
+            props.node.attrs.class ? props.node.attrs.class : backgroundStyles.cyan,
+            { 'border-yellow-500/50': selected },
+            { 'border-0': !selected }
+          ]"
           @click="onClick"
         >
           <div class="flex items-center justify-between">
@@ -29,6 +33,15 @@
           <button class="btn btn-sm join-item" @click="setStyleToBlue">
             <Info class="w-5 h-6 text-blue-500"></Info>
           </button>
+          <button class="btn btn-sm join-item" @click="setStyleToYellow">
+            <Info class="w-5 h-6 text-yellow-500"></Info>
+          </button>
+          <button class="btn btn-sm join-item" @click="setStyleToRed">
+            <Info class="w-5 h-6 text-red-500"></Info>
+          </button>
+          <button class="btn btn-sm join-item" @click="setStyleToGreen">
+            <Info class="w-5 h-6 text-green-500"></Info>
+          </button>
           <button class="btn btn-sm join-item" @click="deleteNode">
             <IconDelete class="w-5 h-6"></IconDelete>
           </button>
@@ -40,7 +53,7 @@
 
 <script setup lang="ts">
 import { NodeViewContent, nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
-import Info from './IconInfo.vue'
+import Info from './Icons/Info.vue'
 import IconDelete from './Icons/Delete.vue'
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 
@@ -49,21 +62,39 @@ const props = defineProps(nodeViewProps)
 const isEditable = computed(() => props.editor.isEditable)
 const backgroundStyles = {
   cyan: 'bg-gradient-to-r from-cyan-800/50',
-  blue: 'bg-gradient-to-r from-blue-800/50'
+  blue: 'bg-gradient-to-r from-blue-800/50',
+  yellow: 'bg-gradient-to-r from-yellow-800/50',
+  red: 'bg-gradient-to-r from-red-800/50',
+  green: 'bg-gradient-to-r from-green-800/50'
 }
-const style = ref(backgroundStyles.cyan)
 
 function setStyleToBlue() {
-  style.value = backgroundStyles.blue
   props.updateAttributes({
-    class: style.value
+    class: backgroundStyles.blue
   })
 }
 
 function setStyleToCyan() {
-  style.value = backgroundStyles.cyan
   props.updateAttributes({
-    class: style.value
+    class: backgroundStyles.cyan
+  })
+}
+
+function setStyleToYellow() {
+  props.updateAttributes({
+    class: backgroundStyles.yellow
+  })
+}
+
+function setStyleToRed() {
+  props.updateAttributes({
+    class: backgroundStyles.red
+  })
+}
+
+function setStyleToGreen() {
+  props.updateAttributes({
+    class: backgroundStyles.green
   })
 }
 
