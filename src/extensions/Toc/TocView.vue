@@ -83,7 +83,7 @@ let handleUpdate = function () {
   // console.log('🍋 Toc: 触发 Tiptap Editor 的 onUpdate')
   transaction.setMeta('preventUpdate', true)
 
-  // props.editor.view.dispatch(transaction)
+  props.editor.view.dispatch(transaction)
 }
 
 onMounted(() => {
