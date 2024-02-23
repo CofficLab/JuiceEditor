@@ -96,7 +96,7 @@ jobs:
           version=$(cat temp/version.txt)
           echo $version
           rm -rf temp
-          
+
           if [ -z "$(git status -s)" ]; then
             echo "Working tree is clean."
           else
@@ -150,3 +150,18 @@ jobs:
             git commit -m "update editor to ${version}"
             git push origin dev
           fi
+
+  clear:
+    needs:
+      - copy-file-to-browser
+      - copy-file-to-app
+    runs-on: self-hosted
+    steps:
+      - name: 当前用户
+        run: whoami
+      - name: 清理构件
+        uses: geekyeggo/delete-artifact@v4
+        with:
+          name: |
+            dist
+            version

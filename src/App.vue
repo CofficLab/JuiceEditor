@@ -13,12 +13,15 @@ import setApi from './entities/SetApi';
 
 const ready = ref(false)
 const feature = useFeatureStore()
+const app = useAppStore()
 
 onMounted(() => {
   ready.value = true
 
   // 将方法暴露到外部，swift 可以调用
   setApi(useAppStore(), feature)
+
+  app.setReady()
 
   // if (!feature.contextMenu) {
   //   document.addEventListener('contextmenu', event => event.preventDefault());

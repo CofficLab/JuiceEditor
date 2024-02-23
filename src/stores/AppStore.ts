@@ -37,6 +37,14 @@ export const useAppStore = defineStore('app-store', {
             this.loading = false
         },
 
+        setCurrentNodeContent: function (content: string) {
+            this.loading = true
+            console.log('🍋 AppStore: setCurrentNodeContent')
+
+            this.node.content = content
+            this.loading = false
+        },
+
         updateNode: function (data: EditorData) {
             if (data.content == this.node.content) {
                 console.log('🧮 AppStore: 更新节点，没变化，忽略')
@@ -54,6 +62,8 @@ export const useAppStore = defineStore('app-store', {
         },
 
         updateSelectionType(type: string) {
+            if (type == this.selectionType) return
+
             this.selectionType = type
             webkit.updateSelectionType(type)
         }

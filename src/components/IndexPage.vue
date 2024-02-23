@@ -69,15 +69,13 @@ watch(featureUpdatedAt, () => {
     return
   }
 
-  console.log('IndexPage: feature变了，重新加载Tiptap，featureUpdatedAt ->' + featureUpdatedAt.value)
+  console.log(
+    'IndexPage: feature变了，重新加载Tiptap，featureUpdatedAt ->' + featureUpdatedAt.value
+  )
 
   featureStore.hideEditor()
   nextTick(() => {
     featureStore.showEditor()
   })
-})
-
-onMounted(() => {
-  appStore.setReady()
 })
 </script>

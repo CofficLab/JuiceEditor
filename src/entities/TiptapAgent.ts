@@ -7,6 +7,7 @@ interface Props {
     uuid: string,
     content: string
     editable: boolean
+    onCreate: (data: EditorData) => void
     onUpdate: (data: EditorData) => void
     onSelectionUpdate?: (type: string) => void
     drawIoLink?: string
@@ -30,7 +31,8 @@ class TiptapAgent {
                 console.log('🍋 🗒️ TiptapAgent: onBeforeCreate')
             },
             onCreate: ({ editor }) => {
-                console.log('🍋 🗒️ TiptapAgent: onCreate')
+                console.log('🍋 🗒️ TiptapAgent: onCreate, callback with EditorData')
+                props.onCreate(EditorData.fromEditor(editor))
             },
             onFocus: ({ editor }) => {
                 console.log('🍋 🗒️ TiptapAgent: onFocus')
