@@ -261,8 +261,17 @@ const codeNode = new TreeNode({
   `
 })
 
+const bannerNode = new TreeNode({
+  uuid: 'bannerNode',
+  content: `
+    <h1>Hello World</h1>
+    <banner><code>console.log("JS")</code></banner>
+  `
+})
+
 const Sample = {
   sampleNode,
+  bannerNode,
   drawNode,
   liteNode,
   tableNode,

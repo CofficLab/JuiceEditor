@@ -16,7 +16,9 @@ export const SmartBanner = Node.create({
   isolating: false,
   allowGapCursor: false,
   parseHTML: () => [{ tag: "banner" }],
-  renderHTML: () => ["banner", 0],
+  renderHTML: ({ node }) => ["banner", {
+    class: node.attrs.class
+  }, 0],
   addNodeView: () => VueNodeViewRenderer(Banner),
   addCommands() {
     return {
@@ -26,5 +28,10 @@ export const SmartBanner = Node.create({
             return commands.toggleNode(this.name, "paragraph");
           },
     };
+  },
+  addAttributes() {
+    return {
+      class: "",
+    }
   },
 });

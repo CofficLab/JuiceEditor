@@ -9,7 +9,7 @@ const isDebug = process.env.NODE_ENV === 'development'
 export const useAppStore = defineStore('app-store', {
     state: () => {
         return {
-            node: isDebug ? Sample.sampleNode : new TreeNode({}),
+            node: isDebug ? Sample.bannerNode : new TreeNode({}),
             loading: false,
             ready: false,
             selectionType: '',
@@ -52,6 +52,7 @@ export const useAppStore = defineStore('app-store', {
             }
 
             console.log('🧮 AppStore: 更新节点')
+            // console.log('🧮 AppStore: 更新节点的数据', data)
 
             webkit.updateNode(data)
         },

@@ -7,8 +7,8 @@
       通用
     </button>
     <button class="btn btn-primary btn-xs join-item" @click="app.setCurrentNode(Sample.linkNode)">
-        链接
-      </button>
+      链接
+    </button>
     <button class="btn btn-primary btn-xs join-item" @click="app.setCurrentNode(Sample.codeNode)">
       代码
     </button>
@@ -23,6 +23,9 @@
     </button>
     <button class="btn btn-primary btn-xs join-item" @click="app.setCurrentNode(Sample.liteNode)">
       小型
+    </button>
+    <button class="btn btn-primary btn-xs join-item" @click="app.setCurrentNode(Sample.bannerNode)">
+      Banner
     </button>
     <button
       class="btn btn-primary btn-xs join-item"
