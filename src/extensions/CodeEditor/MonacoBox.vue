@@ -26,7 +26,7 @@
       <pre
         ref="resultDom"
         v-show="runResultVisible && runVisible"
-        class="result-dom border border-transparent border-y-green-900 m-0 rounded-none"
+        class="result-dom not-prose px-4 py-2 border border-green-900/40 text-sm m-0 rounded-none"
       ></pre>
     </div>
   </div>
@@ -202,15 +202,19 @@ let handleRun = () => {
   running.value = true
 
   setTimeout(() => {
-    webkit.runCode(
-      editorBox?.getContent() || '',
-      props.language.getTitle() || languages[0].getTitle(),
-      (result) => {
-        resultDom.value!.innerHTML = result == '' ? '「程序没有输出」' : result
-        runResultVisible.value = true
-        running.value = false
+    let content = editorBox?.getContent() || ''
+    let language = props.language.getTitle() || languages[0].getTitle()
+    webkit.runCode(content, language, (result) => {
+      var output = content.slice(0, 100) + '\n\n'
+      if (result.length == 0) {
+        output += '「程序没有输出」'
+      } else {
+        output += result
       }
-    )
+      resultDom.value!.innerHTML = output
+      runResultVisible.value = true
+      running.value = false
+    })
   }, 5)
 }
 </script>
