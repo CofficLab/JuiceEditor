@@ -8,6 +8,7 @@
       :database="database"
       :onCreateTab="createTab"
       :onClickTab="activate"
+      :onUpdateTitle="updateTitle"
       v-if="items.length > 1"
     >
     </CodeTabs>
@@ -228,6 +229,12 @@ function focusToLastTitle() {
 function setLanguage(language: SmartLanguage) {
   props.updateAttributes({
     database: database.value.updateLanguage(language).toJSON()
+  })
+}
+
+function updateTitle(title: string) {
+  props.updateAttributes({
+    database: database.value.updateTitle(title).toJSON()
   })
 }
 

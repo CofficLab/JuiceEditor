@@ -23,7 +23,8 @@
 </template>
 
 <script lang="ts" setup>
-import { Database, CodeBlock } from './Database'
+import { CodeBlock } from './CodeBlock';
+import { Database } from './Database'
 import { ref, computed } from 'vue'
 
 const props = defineProps({
@@ -42,6 +43,10 @@ const props = defineProps({
   onClickTab: {
     type: Function,
     required: true
+  },
+  onUpdateTitle: {
+    type: Function,
+    required: true
   }
 })
 
@@ -54,10 +59,9 @@ function clickTab(index: number) {
   props.onClickTab(index)
 }
 
-function handleUpdateTitle(e: { target: any } ) {
-  // props.updateAttributes({
-  //   database: database.value.updateTitle(e.target!.innerText).toJSON()
-  // })
+function handleUpdateTitle(e: { target: any }) {
+  let title = e.target!.innerText
+  props.onUpdateTitle(title)
 }
 </script>
 
