@@ -3,15 +3,19 @@
     <div class="dropdown dropdown-open dropdown-left">
       <div tabindex="0" role="button" class="">
         <!-- 内容 -->
-        <div class="flex flex-row gap-2 rounded-xl p-3" v-bind:class="[
-          { 'border-yellow-500/80 ring-1 ring-orange-600': selected },
-          { 'border-0 ring-1': !selected },
-          { 'bg-gradient-to-l from-cyan-800/50': props.node.attrs.color == 'cyan' },
-          { 'bg-gradient-to-l from-blue-800/50': props.node.attrs.color == 'blue' },
-          { 'bg-gradient-to-l from-yellow-800/50': props.node.attrs.color == 'yellow' },
-          { 'bg-gradient-to-l from-red-800/50': props.node.attrs.color == 'red' },
-          { 'bg-gradient-to-l from-green-800/50': props.node.attrs.color == 'green' }
-        ]" @click="onClick">
+        <div
+          class="flex flex-row gap-2 rounded-xl p-3"
+          v-bind:class="[
+            { 'border-yellow-500/80 ring-1 ring-orange-600': selected },
+            { 'border-0 ring-1': !selected },
+            { 'bg-gradient-to-l from-cyan-800/50': props.node.attrs.color == 'cyan' },
+            { 'bg-gradient-to-l from-blue-800/50': props.node.attrs.color == 'blue' },
+            { 'bg-gradient-to-l from-yellow-800/50': props.node.attrs.color == 'yellow' },
+            { 'bg-gradient-to-l from-red-800/50': props.node.attrs.color == 'red' },
+            { 'bg-gradient-to-l from-green-800/50': props.node.attrs.color == 'green' }
+          ]"
+          @click="onClick"
+        >
           <div class="flex items-center justify-between">
             <Info v-if="props.node.attrs.type == 'info'" class="w-5 h-6"></Info>
             <Question v-if="props.node.attrs.type == 'question'" class="w-5 h-6"></Question>
@@ -21,7 +25,12 @@
       </div>
 
       <!-- 操作栏 -->
-      <div tabindex="0" class="p-2 dropdown-content z-[1]" v-show="selected" contenteditable="false">
+      <div
+        tabindex="0"
+        class="p-2 dropdown-content z-[1]"
+        v-show="selected"
+        contenteditable="false"
+      >
         <div class="flex flex-col shadow-2xl ring-1 ring-orange-900/30 rounded-xl">
           <div class="flex flex-row">
             <div class="join join-vertical rounded-none rounded-tl-xl">
@@ -60,9 +69,12 @@
             </div>
           </div>
           <div class="w-full flex">
-            <button class="btn btn-sm join-item w-full rounded-t-none rounded-b-xl" @click="deleteNode">
-                <IconDelete class="w-5 h-6"></IconDelete>
-              </button>
+            <button
+              class="btn btn-sm join-item w-full rounded-t-none rounded-b-xl"
+              @click="deleteNode"
+            >
+              <IconDelete class="w-5 h-6"></IconDelete>
+            </button>
           </div>
         </div>
       </div>
@@ -84,70 +96,70 @@ const isEditable = computed(() => props.editor.isEditable)
 function setStyleToBlue() {
   props.updateAttributes({
     color: 'blue',
-    type: "info"
+    type: 'info'
   })
 }
 
 function setStyleToCyan() {
   props.updateAttributes({
     color: 'cyan',
-    type: "info"
+    type: 'info'
   })
 }
 
 function setStyleToYellow() {
   props.updateAttributes({
     color: 'yellow',
-    type: "info"
+    type: 'info'
   })
 }
 
 function setStyleToRed() {
   props.updateAttributes({
     color: 'red',
-    type: "info"
+    type: 'info'
   })
 }
 
 function setStyleToGreen() {
   props.updateAttributes({
     color: 'green',
-    type: "info"
+    type: 'info'
   })
 }
 
 function setStyleToBlueQuestion() {
   props.updateAttributes({
     color: 'blue',
-    type: "question"
+    type: 'question'
   })
 }
 
 function setStyleToCyanQuestion() {
   props.updateAttributes({
     color: 'cyan',
-    type: "question"
+    type: 'question'
   })
 }
 
 function setStyleToYellowQuestion() {
   props.updateAttributes({
     color: 'yellow',
-    type: "question"
+    type: 'question'
   })
 }
 
 function setStyleToRedQuestion() {
   props.updateAttributes({
     color: 'red',
-    type: "question"
+    type: 'question'
   })
 }
 
 function setStyleToGreenQuestion() {
   props.updateAttributes({
     color: 'green',
-    type: "question"
+    type: 'question'
   })
 }
 
@@ -177,10 +189,10 @@ function checkToolbar(event: Event) {
   const start = props.getPos()
   const end = props.getPos() + props.node.nodeSize
 
-  console.log('SmartBanner: clicked')
-  console.log('SmartBanner: currentPos', currentPos)
-  console.log('SmartBanner: start', start)
-  console.log('SmartBanner: end', end)
+  // console.log('SmartBanner: clicked')
+  // console.log('SmartBanner: currentPos', currentPos)
+  // console.log('SmartBanner: start', start)
+  // console.log('SmartBanner: end', end)
 
   selected.value = currentPos >= start && currentPos <= end
 }

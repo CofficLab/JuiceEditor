@@ -15,9 +15,7 @@
     <!-- 编辑器 -->
     <editor-content
       :editor="editor"
-      class="mx-auto flex flex-col pb-48 prose dark:prose-invert
-      px-4 container prose-sm
-      md:px-8 md:max-w-4xl md:prose-base"
+      class="mx-auto flex flex-col pb-48 prose dark:prose-invert px-4 container prose-sm md:px-8 md:max-w-4xl md:prose-base"
     />
 
     <!-- 右键菜单 -->
@@ -123,7 +121,7 @@ function onMouseDown(e: Event) {
 }
 
 function onClick(e: Event) {
-  console.log('🍋 TiptapEditor: click，关闭应用的右键菜单')
+  // console.log('🍋 TiptapEditor: click，关闭应用的右键菜单')
   contextMenuDidShow.value = false
 }
 
