@@ -12,11 +12,15 @@
       v-if="editable && floatingMenusEnable && !contextMenuDidShow"
     ></FloatMenus>
 
-    <!-- 编辑器 -->
-    <editor-content
-      :editor="editor"
-      class="mx-auto flex flex-col pb-48 prose dark:prose-invert px-4 container prose-sm md:px-8 md:max-w-4xl md:prose-base"
-    />
+    <div class="flex flex-row">
+      <!-- 编辑器 -->
+      <editor-content
+        :editor="editor"
+        class="mx-auto flex flex-col pb-48 prose dark:prose-invert px-4 container prose-sm md:px-8 md:max-w-4xl md:prose-base"
+      />
+      <!-- TOC -->
+      <div class="w-36" id="toc">xxx</div>
+    </div>
 
     <!-- 右键菜单 -->
     <ContextMenu :editor="editor"></ContextMenu>
