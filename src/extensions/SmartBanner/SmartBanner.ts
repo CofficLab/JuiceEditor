@@ -16,9 +16,7 @@ export const SmartBanner = Node.create({
   isolating: false,
   allowGapCursor: false,
   parseHTML: () => [{ tag: "banner" }],
-  renderHTML: ({ node }) => ["banner", {
-    class: node.attrs.class
-  }, 0],
+  renderHTML: ({ node }) => ["banner", node.attrs, 0],
   addNodeView: () => VueNodeViewRenderer(Banner),
   addCommands() {
     return {
@@ -31,7 +29,12 @@ export const SmartBanner = Node.create({
   },
   addAttributes() {
     return {
-      class: "",
+      color: {
+        default: "blue"
+      },
+      type: {
+        default: "info"
+      }
     }
   },
 });

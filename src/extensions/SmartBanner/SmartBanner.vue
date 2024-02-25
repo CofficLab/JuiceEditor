@@ -1,50 +1,69 @@
 <template>
   <node-view-wrapper>
-    <div class="dropdown dropdown-open dropdown-top">
+    <div class="dropdown dropdown-open dropdown-left">
       <div tabindex="0" role="button" class="">
         <!-- 内容 -->
-        <div
-          class="flex flex-row gap-2 rounded-xl p-3 ring-1 border border-dashed"
-          v-bind:class="[
-            props.node.attrs.class ? props.node.attrs.class : backgroundStyles.cyan,
-            { 'border-yellow-500/50': selected },
-            { 'border-0': !selected }
-          ]"
-          @click="onClick"
-        >
+        <div class="flex flex-row gap-2 rounded-xl p-3" v-bind:class="[
+          { 'border-yellow-500/80 ring-1 ring-orange-600': selected },
+          { 'border-0 ring-1': !selected },
+          { 'bg-gradient-to-l from-cyan-800/50': props.node.attrs.color == 'cyan' },
+          { 'bg-gradient-to-l from-blue-800/50': props.node.attrs.color == 'blue' },
+          { 'bg-gradient-to-l from-yellow-800/50': props.node.attrs.color == 'yellow' },
+          { 'bg-gradient-to-l from-red-800/50': props.node.attrs.color == 'red' },
+          { 'bg-gradient-to-l from-green-800/50': props.node.attrs.color == 'green' }
+        ]" @click="onClick">
           <div class="flex items-center justify-between">
-            <Info></Info>
+            <Info v-if="props.node.attrs.type == 'info'" class="w-5 h-6"></Info>
+            <Question v-if="props.node.attrs.type == 'question'" class="w-5 h-6"></Question>
           </div>
           <node-view-content class="border border-none px-4 dark:border-cyan-800" />
         </div>
       </div>
 
       <!-- 操作栏 -->
-      <div
-        tabindex="0"
-        class="p-2 shadow dropdown-content z-[1]"
-        v-show="selected"
-        contenteditable="false"
-      >
-        <div class="join">
-          <button class="btn btn-sm join-item" @click="setStyleToCyan">
-            <Info class="w-5 h-6 text-cyan-500"></Info>
-          </button>
-          <button class="btn btn-sm join-item" @click="setStyleToBlue">
-            <Info class="w-5 h-6 text-blue-500"></Info>
-          </button>
-          <button class="btn btn-sm join-item" @click="setStyleToYellow">
-            <Info class="w-5 h-6 text-yellow-500"></Info>
-          </button>
-          <button class="btn btn-sm join-item" @click="setStyleToRed">
-            <Info class="w-5 h-6 text-red-500"></Info>
-          </button>
-          <button class="btn btn-sm join-item" @click="setStyleToGreen">
-            <Info class="w-5 h-6 text-green-500"></Info>
-          </button>
-          <button class="btn btn-sm join-item" @click="deleteNode">
-            <IconDelete class="w-5 h-6"></IconDelete>
-          </button>
+      <div tabindex="0" class="p-2 dropdown-content z-[1]" v-show="selected" contenteditable="false">
+        <div class="flex flex-col shadow-2xl ring-1 ring-orange-900/30 rounded-xl">
+          <div class="flex flex-row">
+            <div class="join join-vertical rounded-none rounded-tl-xl">
+              <button class="btn btn-sm join-item" @click="setStyleToCyan">
+                <Info class="w-5 h-6 text-cyan-500"></Info>
+              </button>
+              <button class="btn btn-sm join-item" @click="setStyleToBlue">
+                <Info class="w-5 h-6 text-blue-500"></Info>
+              </button>
+              <button class="btn btn-sm join-item" @click="setStyleToYellow">
+                <Info class="w-5 h-6 text-yellow-500"></Info>
+              </button>
+              <button class="btn btn-sm join-item" @click="setStyleToRed">
+                <Info class="w-5 h-6 text-red-500"></Info>
+              </button>
+              <button class="btn btn-sm join-item" @click="setStyleToGreen">
+                <Info class="w-5 h-6 text-green-500"></Info>
+              </button>
+            </div>
+            <div class="join join-vertical rounded-none rounded-tr-xl">
+              <button class="btn btn-sm join-item" @click="setStyleToCyanQuestion">
+                <Question class="w-5 h-6 text-cyan-500"></Question>
+              </button>
+              <button class="btn btn-sm join-item" @click="setStyleToBlueQuestion">
+                <Question class="w-5 h-6 text-blue-500"></Question>
+              </button>
+              <button class="btn btn-sm join-item" @click="setStyleToYellowQuestion">
+                <Question class="w-5 h-6 text-yellow-500"></Question>
+              </button>
+              <button class="btn btn-sm join-item" @click="setStyleToRedQuestion">
+                <Question class="w-5 h-6 text-red-500"></Question>
+              </button>
+              <button class="btn btn-sm join-item" @click="setStyleToGreenQuestion">
+                <Question class="w-5 h-6 text-green-500"></Question>
+              </button>
+            </div>
+          </div>
+          <div class="w-full flex">
+            <button class="btn btn-sm join-item w-full rounded-t-none rounded-b-xl" @click="deleteNode">
+                <IconDelete class="w-5 h-6"></IconDelete>
+              </button>
+          </div>
         </div>
       </div>
     </div>
@@ -54,47 +73,81 @@
 <script setup lang="ts">
 import { NodeViewContent, nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 import Info from './Icons/Info.vue'
+import Question from './Icons/Question.vue'
 import IconDelete from './Icons/Delete.vue'
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 
 const selected = ref(false)
 const props = defineProps(nodeViewProps)
 const isEditable = computed(() => props.editor.isEditable)
-const backgroundStyles = {
-  cyan: 'bg-gradient-to-r from-cyan-800/50',
-  blue: 'bg-gradient-to-r from-blue-800/50',
-  yellow: 'bg-gradient-to-r from-yellow-800/50',
-  red: 'bg-gradient-to-r from-red-800/50',
-  green: 'bg-gradient-to-r from-green-800/50'
-}
 
 function setStyleToBlue() {
   props.updateAttributes({
-    class: backgroundStyles.blue
+    color: 'blue',
+    type: "info"
   })
 }
 
 function setStyleToCyan() {
   props.updateAttributes({
-    class: backgroundStyles.cyan
+    color: 'cyan',
+    type: "info"
   })
 }
 
 function setStyleToYellow() {
   props.updateAttributes({
-    class: backgroundStyles.yellow
+    color: 'yellow',
+    type: "info"
   })
 }
 
 function setStyleToRed() {
   props.updateAttributes({
-    class: backgroundStyles.red
+    color: 'red',
+    type: "info"
   })
 }
 
 function setStyleToGreen() {
   props.updateAttributes({
-    class: backgroundStyles.green
+    color: 'green',
+    type: "info"
+  })
+}
+
+function setStyleToBlueQuestion() {
+  props.updateAttributes({
+    color: 'blue',
+    type: "question"
+  })
+}
+
+function setStyleToCyanQuestion() {
+  props.updateAttributes({
+    color: 'cyan',
+    type: "question"
+  })
+}
+
+function setStyleToYellowQuestion() {
+  props.updateAttributes({
+    color: 'yellow',
+    type: "question"
+  })
+}
+
+function setStyleToRedQuestion() {
+  props.updateAttributes({
+    color: 'red',
+    type: "question"
+  })
+}
+
+function setStyleToGreenQuestion() {
+  props.updateAttributes({
+    color: 'green',
+    type: "question"
   })
 }
 

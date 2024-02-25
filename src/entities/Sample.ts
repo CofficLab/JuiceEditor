@@ -266,7 +266,8 @@ const bannerNode = new TreeNode({
   content: `
     <h1>Hello World</h1>
     <banner><code>console.log("JS")</code></banner>
-    <banner class="bg-gradient-to-r from-blue-800/50">hi</banner>
+    <banner color="blue">hi</banner>
+    <banner color="red" type="question">What is going on</banner>
   `
 })
 
