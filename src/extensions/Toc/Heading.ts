@@ -26,16 +26,19 @@ class Heading {
         return this
     }
 
-    getLastNodeOfLevel(level: number): Heading | null {
-        if (this.level == level) {
+    appendNode(node: Heading): Heading {
+        let parent = this.getLastNodeLessThanLevel(node.level)
+        parent.appendChild(node)
+
+        return this.appendNode(parent)
+    }
+
+    getLastNodeLessThanLevel(level: number): Heading {
+        if (this.level < level || this.children.length == 0) {
             return this
         }
 
-        if (this.children.length == 0) {
-            return null
-        }
-
-        return this.children[this.children.length - 1].getLastNodeOfLevel(level)
+        return this.children[this.children.length - 1].getLastNodeLessThanLevel(level)
     }
 
     static makeTree(headings: Heading[]): Heading {

@@ -5,7 +5,8 @@ import Heading from "./Heading";
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     tableOfContents: {
-      // getHeadings: () => ReturnType,
+      getHeadings: () => Heading[]
+      makeTree: () => ReturnType
       hasToc: () => ReturnType
       addToc: () => ReturnType
       removeToc: () => ReturnType
@@ -45,10 +46,11 @@ export const Toc = Node.create({
   },
   addCommands() {
     return {
-      getHeadings: function () {
-        return function (editor: Editor): Heading[] {
+      makeTree: () => ({ editor }) => {
+          return Heading.makeTree(Heading.getHeadings(editor))
+      },
+      getHeadings: () => ({ editor }): Heading[] => {
           return Heading.getHeadings(editor)
-        }
       },
       hasToc: () => ({ editor }) => {
         let result = false

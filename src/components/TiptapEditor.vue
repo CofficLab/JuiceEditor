@@ -129,6 +129,7 @@ const editor = TiptapAgent.create({
 })
 
 console.log(editor.commands.getHeadings())
+console.log(editor.commands.makeTree())
 
 const contextMenuDidShow = ref(false)
 const message = ref('')
