@@ -16,7 +16,7 @@
       <!-- 编辑器 -->
       <editor-content
         :editor="editor"
-        class="mx-auto flex flex-col pb-48 prose dark:prose-invert px-4 container prose-sm md:px-8 md:max-w-4xl md:prose-base"
+        class="mx-auto flex flex-col pb-48 prose dark:prose-invert px-4 container prose-sm md:px-16 md:max-w-4xl md:prose-base"
       />
       <!-- TOC -->
       <div class="w-36" id="toc">xxx</div>

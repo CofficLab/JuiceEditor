@@ -1,6 +1,6 @@
 <template>
   <node-view-wrapper>
-    <div class="dropdown dropdown-open dropdown-left">
+    <div class="dropdown dropdown-open dropdown-top md:dropdown-left">
       <div tabindex="0" role="button" @click="onClick" v-bind:class="[
         { 'outline-orange-600 outline-dashed outline-2 outline-offset-1': isSelected },
       ]">
@@ -10,14 +10,14 @@
 
       <!-- 操作栏 -->
       <div tabindex="0" class="p-2 dropdown-content z-[1]" v-show="isSelected" contenteditable="false">
-        <div class="flex flex-col shadow-2xl ring-1 ring-orange-900/30 rounded-xl">
-          <label :for="loadingId" class="btn btn-sm rounded-b-none rounded-t-xl" @click="open">
+        <div class="join md:join-vertical shadow-inner shadow-orange-700 ring-1 ring-orange-900/30 rounded-xl">
+          <label :for="loadingId" class="btn btn-sm join-item" @click="open">
             <IconEdit class="w-5 h-6"></IconEdit>
           </label>
-          <button class="btn btn-sm join-item w-full rounded-none" @click="Helper.newLine(props)">
+          <button class="btn btn-sm join-item" @click="Helper.newLine(props)">
             <IconNewLine class="w-5 h-6"></IconNewLine>
           </button>
-          <button class="btn btn-sm join-item w-full rounded-t-none rounded-b-xl" @click="deleteNode">
+          <button class="btn btn-sm join-item text-error" @click="deleteNode">
             <Delete class="w-5 h-6"></Delete>
           </button>
         </div>
