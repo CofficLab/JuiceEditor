@@ -12,7 +12,7 @@
       <!-- 操作栏 -->
       <div tabindex="0" class="p-2 dropdown-content z-[1]" v-show="isSelected" contenteditable="false">
         <div class="flex flex-col shadow-2xl ring-1 ring-orange-900/30 rounded-xl">
-          <label for="loading" class="btn btn-sm rounded-b-none rounded-t-xl" @click="showIframe">
+          <label :for="loadingId" class="btn btn-sm rounded-b-none rounded-t-xl" @click="open">
             <IconEdit class="w-5 h-6"></IconEdit>
           </label>
           <button class="btn btn-sm join-item w-full rounded-t-none rounded-b-xl" @click="deleteNode">
@@ -23,10 +23,10 @@
 
       <div>
         <!-- 正在打开的弹层 -->
-        <input type="checkbox" id="loading" class="modal-toggle" />
+        <input type="checkbox" :id="loadingId" class="modal-toggle" />
         <div class="modal" role="dialog">
           <div class="modal-box flex flex-col justify-center items-center w-56 p-0">
-            <template v-if="canNotShowDrawing">
+            <template v-if="!canShowDrawing">
               <div class="font-bold text-lg m-0 mt-4">请将窗口调宽一点</div>
                 <p class="text-center text-xs">画图要求的最小宽度：1000</p>
                 <div class="stats shadow-3xl bg-blue-100/50 w-full mt-4 rounded-none">
@@ -48,7 +48,7 @@
               </div>
             </template>
           </div>
-          <label class="modal-backdrop" for="loading" id="loading-close">Close</label>
+          <label class="modal-backdrop" :for="loadingId" :id="loadingCloseId">Close</label>
         </div>
       </div>
     </div>
@@ -57,35 +57,36 @@
 
 <script setup lang="ts">
 import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
-import { computed, onBeforeUnmount, onMounted, onUnmounted, ref, watch } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { makeDrawUrl } from './MakeDrawUrl'
 import Config from './Config'
 import Delete from './Icons/Delete.vue'
 import IconEdit from './Icons/IconEdit.vue'
+import { v4 as uuid } from 'uuid';
 
-var isDrawOpening = false
-
+// 要考虑一个页面中存在多个画图的情况
+const id = uuid()
+const loadingId = 'loading-' + id
+const loadingCloseId = 'loading-close-' + id
 const img = ref(null)
 const props = defineProps(nodeViewProps)
 const width = ref(window.innerWidth)
 const iframe = document.createElement('iframe')
 const dialog = document.createElement('dialog')
 
-// drawio有bug，当页面宽度小于1000px时，画图页面无法弹出 形状 菜单
-const canShowDrawing = computed(() => { return width.value >= 1000 })
-const canNotShowDrawing = computed(() => { return !canShowDrawing.value })
+const canShowDrawing = ref(isWidthEnough())
 
 const isSelected = ref(false)
 const isEditable = computed(() => props.editor.isEditable)
 
 // 是否是整个editor.state.doc.content的最后一个node
-const isTheLastNode = computed(
-  () => props.node.nodeSize + props.getPos() == props.editor.state.doc.content.size
-)
+function isTheLastNode() {
+  return props.node.nodeSize + props.getPos() == props.editor.state.doc.content.size
+}
 
 // loading 页面是否展示了
 function isLoadingVisible(): Boolean {
-  const checkbox = document.getElementById('loading')
+  const checkbox = document.getElementById(loadingId)
 
   if (checkbox instanceof HTMLInputElement && checkbox.type === 'checkbox') {
     return checkbox.checked
@@ -101,27 +102,31 @@ function onClick(e: Event) {
 
 // 关闭“正在打开画图”的弹层
 function closeLoading() {
-  console.log("关闭画图的loading")
-  let loadingDom = document.getElementById('loading-close') as HTMLElement
-  loadingDom.click();
+  (document.getElementById(loadingCloseId) as HTMLElement).click()
 }
 
-function afterDrawingOpened() {
-  console.log("画图已打开")
+// 画图页面已经准备完成，可以展示了
+function onDrawingPageReady() {
   closeLoading()
-  isDrawOpening = false
   dialog.showModal()
+  window.removeEventListener('resize', refreshWidth)
 }
 
-// 监听宽度
-function handleResize() {
-  width.value = window.innerWidth
-}
-
-function closeListener(_event: any) {
+function onClose(_event: any) {
   console.log('🍋 SmartDraw: 收到关闭画图的事件')
 
-  destroyIframe(dialog)
+  destroy(dialog)
+}
+
+function isWidthEnough() {
+  return width.value >= 1000
+}
+
+// 更新窗口宽度
+// drawio有bug，当页面宽度小于1000px时，画图页面无法弹出 形状 菜单
+function refreshWidth() {
+  width.value = window.innerWidth
+  canShowDrawing.value = isWidthEnough()
 }
 
 function sendToDrawio(message: object) {
@@ -129,21 +134,18 @@ function sendToDrawio(message: object) {
 }
 
 // 打开画图
-function showIframe() {
+function open() {
   if (!props.editor.isEditable) {
     return
   }
 
-  if (canNotShowDrawing.value) {
-    console.log("不能打开画图，因为 shouldShowWarning")
+  window.addEventListener('resize', refreshWidth)
+  refreshWidth()
+
+  if (!canShowDrawing.value) {
+    console.log("不能打开画图，因为宽度不足")
     return
   }
-
-  if (isDrawOpening) {
-    return console.log("正在打开，无需重复触发")
-  }
-
-  isDrawOpening = true
 
   console.log("打开画图")
 
@@ -160,15 +162,15 @@ function showIframe() {
   // 接收画图iframe传递的消息
   window.addEventListener('message', receive)
   // 接收关闭画图的事件
-  document.addEventListener('close-draw', closeListener);
+  document.addEventListener('close-draw', onClose);
 }
 
 // 销毁画图的Iframe
-function destroyIframe(dialog: HTMLDialogElement) {
+function destroy(dialog: HTMLDialogElement) {
   console.log('🍋 SmartDraw: 销毁画图的 Iframe，同时取消事件监听')
 
   window.removeEventListener('message', receive)
-  document.removeEventListener('close-draw', closeListener)
+  document.removeEventListener('close-draw', onClose)
   document.body.removeChild(dialog)
   dialog.close()
 }
@@ -202,7 +204,7 @@ function receive(event: MessageEvent): void {
         format: 'xmlpng',
         spinKey: 'saving'
       })
-      destroyIframe(dialog)
+      destroy(dialog)
       break
     case 'export':
       console.log('🍋 SmartDraw: 收到 drawio 发来的消息 -> export，存储数据')
@@ -228,7 +230,7 @@ function receive(event: MessageEvent): void {
       break
     case 'load':
       console.log('🍋 SmartDraw: 收到 drawio 发来的消息 -> load，表示画图 Iframe 已加载')
-      afterDrawingOpened()
+      onDrawingPageReady()
       break
     case 'configure':
       console.log('🍋 SmartDraw: 收到 drawio 发来的消息 -> configure，向它发送配置')
@@ -243,7 +245,7 @@ function receive(event: MessageEvent): void {
   }
 }
 
-function checkToolbar(event: Event) {
+function checkToolbar() {
   if (!isEditable) {
     isSelected.value = false
     console.log('SmartBanner: editor is not editable, hide banner toolbar')
@@ -266,7 +268,7 @@ function checkToolbar(event: Event) {
 
 onMounted(() => {
   // 如果是最后一个节点，在本节点后插入一个空的p，防止光标无法移动到下一个节点
-  if (isTheLastNode.value) {
+  if (isTheLastNode()) {
     let tail = props.editor.state.doc.content.size
     console.log('SmartBanner: 结尾插入p，防止光标无法移动')
     props.editor.commands.insertContentAt(tail, '<p></p>', {
@@ -277,19 +279,17 @@ onMounted(() => {
     })
   }
 
-  window.addEventListener('resize', handleResize)
   document.addEventListener('click', checkToolbar)
 })
 
 onUnmounted(() => {
   document.removeEventListener('click', checkToolbar)
-  window.removeEventListener('resize', handleResize)
+  window.removeEventListener('resize', refreshWidth)
 })
 
 watch(canShowDrawing, (newValue,oldValue) => {
-  console.log('SmartDraw: 监听宽度', oldValue, newValue)
   if (oldValue == false && newValue == true && isLoadingVisible()) {
-    showIframe()
+    open()
   }
 })
 </script>
