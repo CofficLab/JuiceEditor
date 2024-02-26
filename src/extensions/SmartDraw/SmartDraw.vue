@@ -1,49 +1,54 @@
 <template>
   <node-view-wrapper>
-    <!-- 只读模式，仅显示图片 -->
-    <div v-if="!editor.isEditable">
-      <img v-bind:src="node.attrs.src" ref="img" />
-    </div>
-    <div v-else>
-      <!-- 无法开启画图，点击会显示提示框 -->
-      <div v-if="showWarning" contenteditable="false">
-        <label for="warning">
+    <div class="dropdown dropdown-open dropdown-left">
+      <div tabindex="0" role="button" @click="onClick" v-bind:class="[
+        { 'border-yellow-500/80 ring-1 ring-orange-600': isSelected },
+        { 'border-0': !isSelected },
+      ]">
+        <!-- 内容 -->
           <img v-bind:src="node.attrs.src" ref="img" />
-        </label>
-        <input type="checkbox" id="warning" class="modal-toggle" />
-        <div class="modal" role="dialog">
-          <div class="modal-box flex flex-col justify-center items-center w-56 p-0">
-            <div class="font-bold text-lg m-0 mt-4">请将窗口调宽一点</div>
-            <p class="text-center text-xs">画图要求的最小宽度：1000</p>
-            <div class="stats shadow-3xl bg-blue-100/50 w-full mt-4 rounded-none">
-              <div class="stat">
-                <div class="stat-title text-center">当前宽度</div>
-                <div class="stat-value text-center">{{ width }}</div>
-              </div>
-            </div>
-          </div>
-          <label class="modal-backdrop" for="warning">Close</label>
+      </div>
+
+      <!-- 操作栏 -->
+      <div tabindex="0" class="p-2 dropdown-content z-[1]" v-show="isSelected" contenteditable="false">
+        <div class="flex flex-col shadow-2xl ring-1 ring-orange-900/30 rounded-xl">
+          <label for="loading" class="btn btn-sm rounded-b-none rounded-t-xl" @click="showIframe">
+            <IconEdit class="w-5 h-6"></IconEdit>
+          </label>
+          <button class="btn btn-sm join-item w-full rounded-t-none rounded-b-xl" @click="deleteNode">
+            <Delete class="w-5 h-6"></Delete>
+          </button>
         </div>
       </div>
 
-      <!-- 正常开启画图，点击后先显示loading后显示画图 -->
-      <div v-else contenteditable="false">
-        <label for="loading">
-          <img v-bind:src="node.attrs.src" alt="" @click="showIframe" ref="img" />
-        </label>
+      <div>
+        <!-- 正在打开的弹层 -->
         <input type="checkbox" id="loading" class="modal-toggle" />
         <div class="modal" role="dialog">
           <div class="modal-box flex flex-col justify-center items-center w-56 p-0">
-            <div class="font-bold text-lg m-0 mt-4">正在打开画图界面</div>
-            <div class="stats shadow-3xl bg-blue-100/50 w-full mt-4 rounded-none">
-              <div class="stat">
-                <div class="stat-title text-center">
-                  <span class="loading loading-ring loading-lg"></span>
+            <template v-if="canNotShowDrawing">
+              <div class="font-bold text-lg m-0 mt-4">请将窗口调宽一点</div>
+                <p class="text-center text-xs">画图要求的最小宽度：1000</p>
+                <div class="stats shadow-3xl bg-blue-100/50 w-full mt-4 rounded-none">
+                  <div class="stat">
+                    <div class="stat-title text-center">当前宽度</div>
+                    <div class="stat-value text-center">{{ width }}</div>
+                  </div>
+                </div>
+            </template>
+
+            <template v-else>
+              <div class="font-bold text-lg m-0 mt-4">正在打开画图界面</div>
+              <div class="stats shadow-3xl bg-blue-100/50 w-full mt-4 rounded-none">
+                <div class="stat">
+                  <div class="stat-title text-center">
+                    <span class="loading loading-ring loading-lg"></span>
+                  </div>
                 </div>
               </div>
-            </div>
+            </template>
           </div>
-          <label class="modal-backdrop" for="loading">Close</label>
+          <label class="modal-backdrop" for="loading" id="loading-close">Close</label>
         </div>
       </div>
     </div>
@@ -52,51 +57,65 @@
 
 <script setup lang="ts">
 import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
-import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, onMounted, onUnmounted, ref, watch } from 'vue'
 import { makeDrawUrl } from './MakeDrawUrl'
 import Config from './Config'
+import Delete from './Icons/Delete.vue'
+import IconEdit from './Icons/IconEdit.vue'
+
+var isDrawOpening = false
 
 const img = ref(null)
 const props = defineProps(nodeViewProps)
-const shouldShowAlert = ref(false)
-const warningVisible = ref(false)
-var width = ref(window.innerWidth)
-var iframe = document.createElement('iframe')
-var dialog = document.createElement('dialog')
+const width = ref(window.innerWidth)
+const iframe = document.createElement('iframe')
+const dialog = document.createElement('dialog')
+
 // drawio有bug，当页面宽度小于1000px时，画图页面无法弹出 形状 菜单
-var showWarning = computed(() => {
-  return width.value < 1000
-})
+const canShowDrawing = computed(() => { return width.value >= 1000 })
+const canNotShowDrawing = computed(() => { return !canShowDrawing.value })
 
-function openLoadingAndDraw() {
-  let loadingDom = document.querySelector("label[for='loading']") as HTMLElement
-  loadingDom.click()
-  showIframe()
-}
+const isSelected = ref(false)
+const isEditable = computed(() => props.editor.isEditable)
 
-function closeLoading() {
-  let loadingDom = document.querySelector("label[for='loading']") as HTMLElement
-  loadingDom.click()
-}
+// 是否是整个editor.state.doc.content的最后一个node
+const isTheLastNode = computed(
+  () => props.node.nodeSize + props.getPos() == props.editor.state.doc.content.size
+)
 
-function hideAlert() {
-  shouldShowAlert.value = false
-}
-
-function handleResize() {
-  width.value = window.innerWidth
-
-  const checkbox = document.getElementById('warning')
+// loading 页面是否展示了
+function isLoadingVisible(): Boolean {
+  const checkbox = document.getElementById('loading')
 
   if (checkbox instanceof HTMLInputElement && checkbox.type === 'checkbox') {
-    if (checkbox.checked) {
-      warningVisible.value = true
-    } else {
-      warningVisible.value = false
-    }
-  } else {
-    warningVisible.value = false
+    return checkbox.checked
   }
+
+  console.log('loading 不存在')
+  return false
+}
+
+function onClick(e: Event) {
+  isSelected.value = true
+}
+
+// 关闭“正在打开画图”的弹层
+function closeLoading() {
+  console.log("关闭画图的loading")
+  let loadingDom = document.getElementById('loading-close') as HTMLElement
+  loadingDom.click();
+}
+
+function afterDrawingOpened() {
+  console.log("画图已打开")
+  closeLoading()
+  isDrawOpening = false
+  dialog.showModal()
+}
+
+// 监听宽度
+function handleResize() {
+  width.value = window.innerWidth
 }
 
 function closeListener(_event: any) {
@@ -115,7 +134,18 @@ function showIframe() {
     return
   }
 
-  hideAlert()
+  if (canNotShowDrawing.value) {
+    console.log("不能打开画图，因为 shouldShowWarning")
+    return
+  }
+
+  if (isDrawOpening) {
+    return console.log("正在打开，无需重复触发")
+  }
+
+  isDrawOpening = true
+
+  console.log("打开画图")
 
   dialog.classList.add('modal')
 
@@ -130,7 +160,7 @@ function showIframe() {
   // 接收画图iframe传递的消息
   window.addEventListener('message', receive)
   // 接收关闭画图的事件
-  document.addEventListener('close-draw', closeListener)
+  document.addEventListener('close-draw', closeListener);
 }
 
 // 销毁画图的Iframe
@@ -198,8 +228,7 @@ function receive(event: MessageEvent): void {
       break
     case 'load':
       console.log('🍋 SmartDraw: 收到 drawio 发来的消息 -> load，表示画图 Iframe 已加载')
-      dialog.showModal()
-      closeLoading()
+      afterDrawingOpened()
       break
     case 'configure':
       console.log('🍋 SmartDraw: 收到 drawio 发来的消息 -> configure，向它发送配置')
@@ -214,18 +243,53 @@ function receive(event: MessageEvent): void {
   }
 }
 
+function checkToolbar(event: Event) {
+  if (!isEditable) {
+    isSelected.value = false
+    console.log('SmartBanner: editor is not editable, hide banner toolbar')
+    return
+  }
+
+  // 如果鼠标在 Banner 内，显示菜单
+
+  const currentPos = props.editor.state.selection.anchor
+  const start = props.getPos()
+  const end = props.getPos() + props.node.nodeSize
+
+  // console.log('SmartBanner: clicked')
+  // console.log('SmartBanner: currentPos', currentPos)
+  // console.log('SmartBanner: start', start)
+  // console.log('SmartBanner: end', end)
+
+  isSelected.value = currentPos >= start && currentPos <= end
+}
+
 onMounted(() => {
+  // 如果是最后一个节点，在本节点后插入一个空的p，防止光标无法移动到下一个节点
+  if (isTheLastNode.value) {
+    let tail = props.editor.state.doc.content.size
+    console.log('SmartBanner: 结尾插入p，防止光标无法移动')
+    props.editor.commands.insertContentAt(tail, '<p></p>', {
+      updateSelection: false,
+      parseOptions: {
+        preserveWhitespace: 'full'
+      }
+    })
+  }
+
   window.addEventListener('resize', handleResize)
+  document.addEventListener('click', checkToolbar)
 })
 
-onBeforeUnmount(() => {
+onUnmounted(() => {
+  document.removeEventListener('click', checkToolbar)
   window.removeEventListener('resize', handleResize)
 })
 
-watch(warningVisible, (newValue, oldValue) => {
-  // 当宽度不足的提示框消失时，打开画图
-  if (newValue == false && oldValue == true) {
-    openLoadingAndDraw()
+watch(canShowDrawing, (newValue,oldValue) => {
+  console.log('SmartDraw: 监听宽度', oldValue, newValue)
+  if (oldValue == false && newValue == true && isLoadingVisible()) {
+    showIframe()
   }
 })
 </script>
