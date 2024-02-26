@@ -2,11 +2,10 @@
   <node-view-wrapper>
     <div class="dropdown dropdown-open dropdown-left">
       <div tabindex="0" role="button" @click="onClick" v-bind:class="[
-        { 'border-yellow-500/80 ring-1 ring-orange-600': isSelected },
-        { 'border-0': !isSelected },
+        { 'outline-orange-600 outline-dashed outline-2 outline-offset-1': isSelected },
       ]">
         <!-- 内容 -->
-          <img v-bind:src="node.attrs.src" ref="img" />
+        <img v-bind:src="node.attrs.src" ref="img" class="m-0 p-0 not-prose" />
       </div>
 
       <!-- 操作栏 -->
@@ -15,6 +14,9 @@
           <label :for="loadingId" class="btn btn-sm rounded-b-none rounded-t-xl" @click="open">
             <IconEdit class="w-5 h-6"></IconEdit>
           </label>
+          <button class="btn btn-sm join-item w-full rounded-none" @click="Helper.newLine(props)">
+            <IconNewLine class="w-5 h-6"></IconNewLine>
+          </button>
           <button class="btn btn-sm join-item w-full rounded-t-none rounded-b-xl" @click="deleteNode">
             <Delete class="w-5 h-6"></Delete>
           </button>
@@ -28,13 +30,13 @@
           <div class="modal-box flex flex-col justify-center items-center w-56 p-0">
             <template v-if="!canShowDrawing">
               <div class="font-bold text-lg m-0 mt-4">请将窗口调宽一点</div>
-                <p class="text-center text-xs">画图要求的最小宽度：1000</p>
-                <div class="stats shadow-3xl bg-blue-100/50 w-full mt-4 rounded-none">
-                  <div class="stat">
-                    <div class="stat-title text-center">当前宽度</div>
-                    <div class="stat-value text-center">{{ width }}</div>
-                  </div>
+              <p class="text-center text-xs">画图要求的最小宽度：1000</p>
+              <div class="stats shadow-3xl bg-blue-100/50 w-full mt-4 rounded-none">
+                <div class="stat">
+                  <div class="stat-title text-center">当前宽度</div>
+                  <div class="stat-value text-center">{{ width }}</div>
                 </div>
+              </div>
             </template>
 
             <template v-else>
@@ -59,9 +61,11 @@
 import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { makeDrawUrl } from './MakeDrawUrl'
+import Helper from './Helper'
 import Config from './Config'
 import Delete from './Icons/Delete.vue'
 import IconEdit from './Icons/IconEdit.vue'
+import IconNewLine from './Icons/IconNewLine.vue'
 import { v4 as uuid } from 'uuid';
 
 // 要考虑一个页面中存在多个画图的情况
@@ -78,11 +82,6 @@ const canShowDrawing = ref(isWidthEnough())
 
 const isSelected = ref(false)
 const isEditable = computed(() => props.editor.isEditable)
-
-// 是否是整个editor.state.doc.content的最后一个node
-function isTheLastNode() {
-  return props.node.nodeSize + props.getPos() == props.editor.state.doc.content.size
-}
 
 // loading 页面是否展示了
 function isLoadingVisible(): Boolean {
@@ -258,27 +257,16 @@ function checkToolbar() {
   const start = props.getPos()
   const end = props.getPos() + props.node.nodeSize
 
-  // console.log('SmartBanner: clicked')
-  // console.log('SmartBanner: currentPos', currentPos)
-  // console.log('SmartBanner: start', start)
-  // console.log('SmartBanner: end', end)
+  console.log('SmartDraw: clicked')
+  console.log('SmartDraw: currentPos', currentPos, id)
+  console.log('SmartDraw: start', start, id)
+  console.log('SmartDraw: end', end, id)
 
-  isSelected.value = currentPos >= start && currentPos <= end
+  isSelected.value = currentPos >= start && currentPos < end
 }
 
 onMounted(() => {
-  // 如果是最后一个节点，在本节点后插入一个空的p，防止光标无法移动到下一个节点
-  if (isTheLastNode()) {
-    let tail = props.editor.state.doc.content.size
-    console.log('SmartBanner: 结尾插入p，防止光标无法移动')
-    props.editor.commands.insertContentAt(tail, '<p></p>', {
-      updateSelection: false,
-      parseOptions: {
-        preserveWhitespace: 'full'
-      }
-    })
-  }
-
+  Helper.insertNewLineIfIsTheLastNode(props)
   document.addEventListener('click', checkToolbar)
 })
 
@@ -287,7 +275,7 @@ onUnmounted(() => {
   window.removeEventListener('resize', refreshWidth)
 })
 
-watch(canShowDrawing, (newValue,oldValue) => {
+watch(canShowDrawing, (newValue, oldValue) => {
   if (oldValue == false && newValue == true && isLoadingVisible()) {
     open()
   }
