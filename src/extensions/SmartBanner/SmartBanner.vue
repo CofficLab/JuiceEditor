@@ -4,15 +4,15 @@
       <div tabindex="0" role="button" class="">
         <!-- 内容 -->
         <div
-          class="flex flex-row gap-2 rounded-xl p-3"
+          class="flex flex-row gap-2 rounded-xl px-3 py-2 shadow-sm backdrop-blur"
           v-bind:class="[
             { 'border-yellow-500/80 ring-1 ring-orange-600': selected },
             { 'border-0 ring-1': !selected },
-            { 'bg-gradient-to-l from-cyan-800/50': props.node.attrs.color == 'cyan' },
-            { 'bg-gradient-to-l from-blue-800/50': props.node.attrs.color == 'blue' },
-            { 'bg-gradient-to-l from-yellow-800/50': props.node.attrs.color == 'yellow' },
-            { 'bg-gradient-to-l from-red-800/50': props.node.attrs.color == 'red' },
-            { 'bg-gradient-to-l from-green-800/50': props.node.attrs.color == 'green' }
+            { 'bg-gradient-to-r from-cyan-800/50 to-cyan-800/30': props.node.attrs.color == 'cyan' },
+            { 'bg-gradient-to-r from-blue-800/50 to-blue-800/30': props.node.attrs.color == 'blue' },
+            { 'bg-gradient-to-r from-yellow-800/50 to-yellow-800/30': props.node.attrs.color == 'yellow' },
+            { 'bg-gradient-to-r from-red-800/50 to-red-800/30': props.node.attrs.color == 'red' },
+            { 'bg-gradient-to-r from-green-800/50 to-green-800/30': props.node.attrs.color == 'green' }
           ]"
           @click="onClick"
         >
