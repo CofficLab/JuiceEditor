@@ -12,24 +12,6 @@
         </template>
       </ul>
     </div>
-    <!-- <ul>
-      <li><a>Item 1</a></li>
-      <li>
-        <a>Parent</a>
-        <ul>
-          <li><a>Submenu 1</a></li>
-          <li><a>Submenu 2</a></li>
-          <li>
-            <a>Parent</a>
-            <ul>
-              <li><a>Submenu 1</a></li>
-              <li><a>Submenu 2</a></li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-      <li><a>Item 3</a></li>
-    </ul> -->
   </node-view-wrapper>
 </template>
 
@@ -37,12 +19,7 @@
 import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 import DynamicPadding from './DynamicPadding.vue'
 import { onMounted, nextTick, ref, onBeforeUnmount, computed } from 'vue'
-
-class Heading {
-  level!: number
-  text!: string
-  id!: string
-}
+import Heading from './Heading';
 
 const props = defineProps(nodeViewProps)
 const uuid = computed(() => props.editor.options.injectNonce)
@@ -59,31 +36,7 @@ let handleUpdate = function () {
   //   return
   // }
 
-  console.log('🍋 📖 Toc: 查找 Headings for Tiptap UUID ->', uuid)
-  headings.value = []
-  const transaction = props.editor.state.tr
-
-  props.editor.state.doc.descendants((node: any, pos: any) => {
-    if (node.type.name === 'heading') {
-      const id = `heading-${headings.value.length + 1}`
-
-      if (node.attrs.id !== id) {
-        transaction.setNodeMarkup(pos, undefined, { ...node.attrs, id })
-      }
-
-      headings.value.push({
-        level: node.attrs.level,
-        text: node.textContent,
-        id
-      })
-    }
-  })
-
-  transaction.setMeta('addToHistory', false)
-  // console.log('🍋 Toc: 触发 Tiptap Editor 的 onUpdate')
-  transaction.setMeta('preventUpdate', true)
-
-  props.editor.view.dispatch(transaction)
+  Heading.getHeadings(props.editor)
 }
 
 onMounted(() => {

@@ -1,25 +1,41 @@
 <template>
   <div v-if="editor" class="flex flex-col tiptap">
     <!-- 选中文字后弹出的菜单 -->
-    <BubbleMenus
-      :editor="editor"
-      v-if="editable && bubbleMenusEnable && !contextMenuDidShow"
-    ></BubbleMenus>
+    <BubbleMenus :editor="editor" v-if="editable && bubbleMenusEnable && !contextMenuDidShow"></BubbleMenus>
 
     <!-- 回车后弹出的菜单 -->
-    <FloatMenus
-      :editor="editor"
-      v-if="editable && floatingMenusEnable && !contextMenuDidShow"
-    ></FloatMenus>
+    <FloatMenus :editor="editor" v-if="editable && floatingMenusEnable && !contextMenuDidShow"></FloatMenus>
 
     <div class="flex flex-row">
       <!-- 编辑器 -->
-      <editor-content
-        :editor="editor"
-        class="mx-auto flex flex-col pb-48 prose dark:prose-invert px-4 container prose-sm md:px-16 md:max-w-4xl md:prose-base"
-      />
+      <editor-content :editor="editor"
+        class="mx-auto flex flex-col pb-48 prose dark:prose-invert px-4 container prose-sm md:px-16 md:max-w-4xl md:prose-base" />
       <!-- TOC -->
-      <div class="w-36" id="toc">xxx</div>
+      <div class="w-48 bg-red-700" id="toc">
+
+        <ul class="menu bg-base-200 w-56 rounded-box">
+    <li><a>Item 1</a></li>
+    <li>
+      <details open>
+        <summary>Parent</summary>
+        <ul>
+          <li><a>Submenu 1</a></li>
+          <li><a>Submenu 2</a></li>
+          <li>
+            <details open>
+              <summary>Parent</summary>
+              <ul>
+                <li><a>Submenu 1</a></li>
+                <li><a>Submenu 2</a></li>
+              </ul>
+            </details>
+          </li>
+        </ul>
+      </details>
+    </li>
+    <li><a>Item 3</a></li>
+  </ul>
+      </div>
     </div>
 
     <!-- 右键菜单 -->
@@ -77,15 +93,15 @@ const props = defineProps({
   },
   onCreate: {
     type: Function,
-    default: () => {}
+    default: () => { }
   },
   onUpdate: {
     type: Function,
-    default: () => {}
+    default: () => { }
   },
   onSelectionUpdate: {
     type: Function,
-    default: () => {}
+    default: () => { }
   }
 })
 
@@ -111,6 +127,8 @@ const editor = TiptapAgent.create({
     props.onSelectionUpdate(type)
   }
 })
+
+console.log(editor.commands.getHeadings())
 
 const contextMenuDidShow = ref(false)
 const message = ref('')
@@ -175,7 +193,7 @@ onBeforeUnmount(() => {
 
 <style lang="scss">
 .ProseMirror {
-  > * + * {
+  >*+* {
     margin-top: 0.75em;
   }
 
@@ -192,7 +210,7 @@ onBeforeUnmount(() => {
 
 /* Basic editor styles */
 .ProseMirror {
-  > * + * {
+  >*+* {
     margin-top: 0.75em;
   }
 }
@@ -226,13 +244,13 @@ ul[data-type='taskList'] {
   li {
     display: flex;
 
-    > label {
+    >label {
       flex: 0 0 auto;
       margin-right: 0.5rem;
       user-select: none;
     }
 
-    > div {
+    >div {
       flex: 1 1 auto;
     }
 
@@ -241,7 +259,7 @@ ul[data-type='taskList'] {
       display: list-item;
     }
 
-    ul[data-type='taskList'] > li {
+    ul[data-type='taskList']>li {
       display: flex;
     }
   }

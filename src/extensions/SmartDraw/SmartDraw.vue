@@ -257,10 +257,10 @@ function checkToolbar() {
   const start = props.getPos()
   const end = props.getPos() + props.node.nodeSize
 
-  console.log('SmartDraw: clicked')
-  console.log('SmartDraw: currentPos', currentPos, id)
-  console.log('SmartDraw: start', start, id)
-  console.log('SmartDraw: end', end, id)
+  // console.log('SmartDraw: clicked')
+  // console.log('SmartDraw: currentPos', currentPos, id)
+  // console.log('SmartDraw: start', start, id)
+  // console.log('SmartDraw: end', end, id)
 
   isSelected.value = currentPos >= start && currentPos < end
 }

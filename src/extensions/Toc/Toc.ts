@@ -1,9 +1,11 @@
 import { mergeAttributes, Node, Editor } from "@tiptap/core";
 import { VueNodeViewRenderer } from "@tiptap/vue-3";
 import TocView from "./TocView.vue";
+import Heading from "./Heading";
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     tableOfContents: {
+      // getHeadings: () => ReturnType,
       hasToc: () => ReturnType
       addToc: () => ReturnType
       removeToc: () => ReturnType
@@ -43,6 +45,11 @@ export const Toc = Node.create({
   },
   addCommands() {
     return {
+      getHeadings: function () {
+        return function (editor: Editor): Heading[] {
+          return Heading.getHeadings(editor)
+        }
+      },
       hasToc: () => ({ editor }) => {
         let result = false
         editor.state.doc.descendants((node) => {
