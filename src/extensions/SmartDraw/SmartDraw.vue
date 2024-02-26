@@ -10,7 +10,7 @@
 
       <!-- 操作栏 -->
       <div tabindex="0" class="p-2 dropdown-content z-[1]" v-show="isSelected" contenteditable="false">
-        <div class="join md:join-vertical shadow-inner shadow-orange-700 ring-1 ring-orange-900/30 rounded-xl">
+        <div class="join md:join-vertical shadow-2xl ring-1 ring-orange-900/30 rounded-xl">
           <label :for="loadingId" class="btn btn-sm join-item" @click="open">
             <IconEdit class="w-5 h-6"></IconEdit>
           </label>

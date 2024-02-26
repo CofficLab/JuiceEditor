@@ -1,6 +1,6 @@
 <template>
   <node-view-wrapper>
-    <div class="dropdown dropdown-open dropdown-left">
+    <div class="dropdown dropdown-open dropdown-right">
       <div tabindex="0" role="button" class="">
         <!-- 内容 -->
         <div
