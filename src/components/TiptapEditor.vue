@@ -9,9 +9,9 @@
     <div class="flex flex-row">
       <!-- 编辑器 -->
       <editor-content :editor="editor"
-        class="mx-auto bg-red-500/30 flex flex-col pb-48 prose dark:prose-invert px-4 container prose-sm md:px-4 md:max-w-4xl md:prose-base" />
+        class="mx-auto bg-red-500/0 flex flex-col pb-48 prose dark:prose-invert px-4 container prose-sm md:px-4 md:max-w-4xl md:prose-base" />
       <!-- TOC -->
-      <div class="w-72 hidden md:flex mr-1" id="toc" v-if="headingTree">
+      <div class="w-72 hidden md:flex mr-1" id="toc" v-if="shouldShowToc">
         <div class="fixed h-2/3 my-12 overflow-scroll w-64">
           <ul class="menu bg-base-200 w-64 shadow-inner " v-for="h in headingTree.children">
             <HeadingVue :heading="h"></HeadingVue>
@@ -30,7 +30,7 @@
 
 <script lang="ts" setup>
 import { EditorContent } from '@tiptap/vue-3'
-import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import BubbleMenus from './BubbleMenus.vue'
 import FloatMenus from './FloatMenus.vue'
 import TiptapAgent from '../entities/TiptapAgent'
@@ -117,6 +117,9 @@ const contextMenuDidShow = ref(false)
 const message = ref('')
 const eventManager = new EventManager()
 const headingTree = ref(null as unknown as Heading)
+const shouldShowToc = computed(() => {
+  return editor.commands.hasToc() && headingTree
+})
 
 function refreshToc(reason: string) {
   //console.log("刷新TOC，因为", reason)
