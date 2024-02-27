@@ -26,6 +26,7 @@ const sampleNode = new TreeNode({
       </tr>
     </table>
     </smart-table>
+    <h3>很长的标题很长的标题场机场很9长的标题场机场机场很9长的标题场机场123456</h3>
     <h2>图片</h2>
     <p>下面是一张图</p>
     <img src="${sampleImgSrc1}"></img>
@@ -279,6 +280,7 @@ const tocNode = new TreeNode({
     <banner color="blue">hi</banner>
     <banner color="red" type="question">What is going on</banner>
     <h2>二级标题</h2>
+    <h3>很长的标题很长的标题场机场很9长的标题场机场toctoc1234434234234234234234234234</h3>
     <h3>三级标题</h3>
     <h4>四级标题1</h4>
     <h5>五级标题1</h5>
@@ -287,6 +289,7 @@ const tocNode = new TreeNode({
     <h6>六级标题1</h6>
     <h6>六级标题2</h6>
     <h6>六级标题3</h6>
+    <toc></toc>
   `
 })
 

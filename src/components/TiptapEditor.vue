@@ -6,14 +6,14 @@
     <!-- 回车后弹出的菜单 -->
     <FloatMenus :editor="editor" v-if="editable && floatingMenusEnable && !contextMenuDidShow"></FloatMenus>
 
-    <div class="flex flex-row">
+    <div class="flex flex-row justify-center bg-red-200">
       <!-- 编辑器 -->
       <editor-content :editor="editor"
-        class="mx-auto bg-red-500/0 flex flex-col pb-48 prose dark:prose-invert px-4 container prose-sm md:px-4 md:max-w-4xl md:prose-base" />
+        class="mx-0 bg-red-500/90 flex flex-col pb-48 prose dark:prose-invert px-4 container prose-sm md:px-4" />
       <!-- TOC -->
-      <div class="w-72 hidden md:flex mr-1" id="toc" v-if="shouldShowToc">
-        <div class="fixed h-2/3 my-12 overflow-scroll w-64">
-          <ul class="menu bg-base-200 w-64 shadow-inner " v-for="h in headingTree.children">
+      <div class="w-72 hidden md:flex mr-1 xl:fixed right-0" id="toc" v-if="shouldShowToc">
+        <div class="fixed h-2/3 my-12 overflow-y-scroll w-72 overflow-x-clip bg-green-400">
+          <ul class="menu menu-xs bg-base-200/0 w-72 shadow-inner" v-for="h in headingTree.children">
             <HeadingVue :heading="h"></HeadingVue>
           </ul>
         </div>
@@ -116,7 +116,7 @@ const editor = TiptapAgent.create({
 const contextMenuDidShow = ref(false)
 const message = ref('')
 const eventManager = new EventManager()
-const headingTree = ref(null as unknown as Heading)
+const headingTree = ref(new Heading())
 const shouldShowToc = computed(() => {
   return editor.commands.hasToc() && headingTree
 })
