@@ -1,7 +1,7 @@
 <template>
   <node-view-wrapper>
-    <div class="dropdown dropdown-open dropdown-right">
-      <div tabindex="0" role="button"  @click="onClick" v-bind:class="[
+    <div class="dropdown dropdown-open dropdown-top">
+      <div tabindex="0" role="button" @click="onClick" v-bind:class="[
         { 'outline-orange-600 outline-dashed outline-2 outline-offset-1': isSelected },
       ]">
         <!-- 内容 -->
@@ -16,37 +16,54 @@
       </div>
 
       <!-- 操作栏 -->
-      <div tabindex="0" class="p-2 dropdown-content z-[1]" v-show="selected" contenteditable="false">
-        <!-- 菜单按钮 -->
-        <div class="absolute top-0 right-0 z-40 p-0 flex items-end" v-if="editor.isEditable">
-          <div class="dropdown dropdown-hover dropdown-bottom dropdown-end m-0">
-            <ul class="operators">
-              <input ref="fileInput" multiple="false" accept="image/*" type="file" style="display: none"
-                @change="onFileSelected" />
-              <li><a @click="changeImage">更换图片</a></li>
-              <li><a @click="downloadImage">下载图片</a></li>
-              <li><a @click="setSquircle">方圆形</a></li>
-              <!-- <li><a @click="setTriangle">三角形</a></li> -->
-              <!-- <li><a @click="setTriangle2">三角形2</a></li> -->
-              <!-- <li><a @click="setTriangle3">三角形3</a></li> -->
-              <!-- <li><a @click="setTriangle4">三角形4</a></li> -->
-              <li><a @click="setHeart">心形</a></li>
-              <li><a @click="setCircle">圆形</a></li>
-              <li><a @click="setSquare">正方形</a></li>
-              <li><a @click="setDiamond">菱形</a></li>
-              <li><a @click="setParallelogram">平行四边形</a></li>
-              <!-- <li><a @click="setParallelogram2">平行四边形2</a></li> -->
-              <!-- <li><a @click="setParallelogram3">平行四边形3</a></li> -->
-              <!-- <li><a @click="setParallelogram4">平行四边形4</a></li> -->
-              <li><a @click="setStar">星形</a></li>
-              <!-- <li><a @click="setStar2">星形2</a></li> -->
-              <li><a @click="setPentagon">五角形</a></li>
-              <li><a @click="setHexagon">六边形</a></li>
-              <!-- <li><a @click="setHexagon2">六边形2</a></li> -->
-              <li><a @click="setDecagon">十边形</a></li>
-              <li><a @click="reset">原始形状</a></li>
-            </ul>
-          </div>
+      <div tabindex="0" class="p-2 dropdown-content z-[1] gap-2 flex flex-col" v-show="selected" contenteditable="false">
+        <input ref="fileInput" multiple="false" accept="image/*" type="file" style="display: none"
+          @change="onFileSelected" />
+        <div class="join">
+          <button @click="changeImage" class="btn join-item btn-sm">更换图片</button>
+          <button @click="downloadImage" class="btn join-item btn-sm">下载图片</button>
+          <button @click="reset" class="btn join-item btn-sm">原始形状</button>
+          <!-- <li><a @click="setTriangle">三角形</a></li> -->
+          <!-- <li><a @click="setTriangle2">三角形2</a></li> -->
+          <!-- <li><a @click="setTriangle3">三角形3</a></li> -->
+          <!-- <li><a @click="setTriangle4">三角形4</a></li> -->
+          <!-- <li><a @click="setParallelogram2">平行四边形2</a></li> -->
+          <!-- <li><a @click="setParallelogram3">平行四边形3</a></li> -->
+          <!-- <li><a @click="setParallelogram4">平行四边形4</a></li> -->
+          <!-- <li><a @click="setStar2">星形2</a></li> -->
+          <!-- <li><a @click="setHexagon2">六边形2</a></li> -->
+        </div>
+        <div class="join">
+          <button @click="setSquircle" class="join-item btn btn-sm">
+            <div class="h-4 w-4 bg-red-400 mask mask-squircle"></div>
+          </button>
+          <button @click="setHeart" class="join-item btn btn-sm">
+            <div class="h-4 w-4 bg-red-400 mask mask-heart"></div>
+          </button>
+          <button @click="setDecagon" class="join-item btn btn-sm">
+            <div class="h-4 w-4 bg-red-400 mask mask-decagon"></div>
+          </button>
+          <button @click="setHexagon" class="join-item btn btn-sm">
+            <div class="h-4 w-4 bg-red-400 mask mask-hexagon"></div>
+          </button>
+          <button @click="setPentagon" class="join-item btn btn-sm">
+            <div class="h-4 w-4 bg-red-400 mask mask-pentagon"></div>
+          </button>
+          <button @click="setStar" class="join-item btn btn-sm">
+            <div class="h-4 w-4 bg-red-400 mask mask-star"></div>
+          </button>
+          <button @click="setParallelogram" class="join-item btn btn-sm">
+            <div class="h-4 w-4 bg-red-400 mask mask-parallelogram"></div>
+          </button>
+          <button @click="setDiamond" class="join-item btn btn-sm">
+            <div class="h-4 w-4 bg-red-400 mask mask-diamond"></div>
+          </button>
+          <button @click="setSquare" class="join-item btn btn-sm">
+            <div class="h-4 w-4 bg-red-400 mask mask-square"></div>
+          </button>
+          <button @click="setCircle" class="join-item btn btn-sm">
+            <div class="h-4 w-4 bg-red-400 mask mask-circle"></div>
+          </button>
         </div>
       </div>
     </div>
@@ -55,7 +72,6 @@
 
 <script setup lang="ts">
 import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
-import Setting from './Icons/Setting.vue'
 import { onMounted, onUnmounted, ref } from 'vue'
 import Base64Helper from './Base64Helper'
 import webkit from '../../entities/WebKit';
@@ -292,13 +308,3 @@ onUnmounted(() => {
   document.removeEventListener('click', checkToolbar)
 })
 </script>
-
-<style lang="postcss" scoped>
-.operators {
-  @apply menu p-2 shadow dropdown-content z-[1] bg-base-300 rounded w-32;
-
-  a {
-    @apply no-underline;
-  }
-}
-</style>
