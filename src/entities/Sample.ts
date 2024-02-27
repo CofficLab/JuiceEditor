@@ -43,6 +43,17 @@ const sampleNode = new TreeNode({
   `
 })
 
+const imageNode = new TreeNode({
+  uuid: 'imageNode',
+  content: `
+    <h1>图片测试</h1>
+    <h2>图片</h2>
+    <p>下面是一张图</p>
+    <img src="${sampleImgSrc1}"></img>
+    <toc></toc>
+  `
+})
+
 const linkNode = new TreeNode({
   uuid: 'linkNode',
   content: `
@@ -303,7 +314,8 @@ const Sample = {
   bigNode,
   codeNode,
   linkNode,
-  tocNode
+  tocNode,
+  imageNode
 }
 
 export default Sample

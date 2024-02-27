@@ -1,36 +1,28 @@
 <template>
   <node-view-wrapper>
-    <div class="bg-red-100/0 flex">
-      <div class="card rounded-none p-0 mx-auto">
-        <figure class="m-0 px-12">
-          <img
-            ref="imgDom"
-            crossOrigin="anonymous"
-            :src="props.node.attrs.src"
-            :class="props.node.attrs.class"
-            class="p-0 m-0"
-            id="my-image"
-          />
-        </figure>
+    <div class="dropdown dropdown-open dropdown-right">
+      <div tabindex="0" role="button"  @click="onClick" v-bind:class="[
+        { 'outline-orange-600 outline-dashed outline-2 outline-offset-1': isSelected },
+      ]">
+        <!-- 内容 -->
+        <div class="bg-red-100/0 flex">
+          <div class="card rounded-none p-0 mx-auto">
+            <figure class="m-0 px-12">
+              <img ref="imgDom" crossOrigin="anonymous" :src="props.node.attrs.src" :class="props.node.attrs.class"
+                class="p-0 m-0" id="my-image" />
+            </figure>
+          </div>
+        </div>
+      </div>
 
+      <!-- 操作栏 -->
+      <div tabindex="0" class="p-2 dropdown-content z-[1]" v-show="selected" contenteditable="false">
         <!-- 菜单按钮 -->
         <div class="absolute top-0 right-0 z-40 p-0 flex items-end" v-if="editor.isEditable">
           <div class="dropdown dropdown-hover dropdown-bottom dropdown-end m-0">
-            <label
-              tabindex="0"
-              class="btn text-accent hover:text-info btn-sm btn-ghost w-full rounded-none m-0 border-0 border-red-800 flex justify-end"
-            >
-              <Setting></Setting>
-            </label>
             <ul class="operators">
-              <input
-                ref="fileInput"
-                multiple="false"
-                accept="image/*"
-                type="file"
-                style="display: none"
-                @change="onFileSelected"
-              />
+              <input ref="fileInput" multiple="false" accept="image/*" type="file" style="display: none"
+                @change="onFileSelected" />
               <li><a @click="changeImage">更换图片</a></li>
               <li><a @click="downloadImage">下载图片</a></li>
               <li><a @click="setSquircle">方圆形</a></li>
@@ -64,14 +56,20 @@
 <script setup lang="ts">
 import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 import Setting from './Icons/Setting.vue'
-import { ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import Base64Helper from './Base64Helper'
 import webkit from '../../entities/WebKit';
+import Helper from './Helper';
 
+const isSelected = ref(false)
 const isWebKit = 'webkit' in window
 let imgDom = ref<HTMLImageElement | null>(null)
 let props = defineProps(nodeViewProps)
 let fileInput = ref<HTMLInputElement | null>(null)
+
+function onClick(e: Event) {
+  isSelected.value = true
+}
 
 function setHexagon() {
   props.updateAttributes({
@@ -263,6 +261,36 @@ function fileToBase64(file: File) {
     reader.onerror = (error) => reject(error)
   })
 }
+
+function checkToolbar(event: Event) {
+  if (!props.editor.isEditable) {
+    isSelected.value = false
+    console.log('SmartImage: editor is not editable, hide banner toolbar')
+    return
+  }
+
+  // 如果鼠标在 Banner 内，显示菜单
+
+  const currentPos = props.editor.state.selection.anchor
+  const start = props.getPos()
+  const end = props.getPos() + props.node.nodeSize
+
+  // console.log('SmartBanner: clicked')
+  // console.log('SmartBanner: currentPos', currentPos)
+  // console.log('SmartBanner: start', start)
+  // console.log('SmartBanner: end', end)
+
+  isSelected.value = currentPos >= start && currentPos <= end
+}
+
+onMounted(() => {
+  Helper.insertNewLineIfIsTheLastNode(props)
+  document.addEventListener('click', checkToolbar)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('click', checkToolbar)
+})
 </script>
 
 <style lang="postcss" scoped>
