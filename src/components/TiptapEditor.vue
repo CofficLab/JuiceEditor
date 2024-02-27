@@ -6,7 +6,7 @@
     <!-- 回车后弹出的菜单 -->
     <FloatMenus :editor="editor" v-if="editable && floatingMenusEnable && !contextMenuDidShow"></FloatMenus>
 
-    <div class="flex flex-row justify-center" :class="{
+    <div class="flex flex-row justify-center lg:justify-center" :class="{
       'md:justify-end': shouldShowToc
     }">
       <!-- 编辑器 -->
