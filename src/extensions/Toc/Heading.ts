@@ -2,7 +2,7 @@ import { Editor } from "@tiptap/core"
 
 class Heading {
     level: number = 0
-    text: string = ""
+    text: string = "ROOT"
     id: string = ""
     children: Heading[] = []
 
@@ -21,38 +21,57 @@ class Heading {
         return this
     }
 
+    firstChild(): Heading {
+        return this.children[0]
+    }
+
     appendChild(heading: Heading): Heading {
         this.children.push(heading)
         return this
     }
 
-    appendNode(node: Heading): Heading {
-        let parent = this.getLastNodeLessThanLevel(node.level)
-        parent.appendChild(node)
-
-        return this.appendNode(parent)
+    updateLastChild(heading: Heading): Heading {
+        this.children[this.children.length - 1] = heading
+        return this
     }
 
-    getLastNodeLessThanLevel(level: number): Heading {
-        if (this.level < level || this.children.length == 0) {
-            return this
+    getLastChild(): Heading {
+        return this.children[this.children.length - 1]
+    }
+
+    appendNode(node: Heading): Heading {
+        if (this.level >= node.level) {
+            throw new Error("不能将" + node.level + "级标题插入到" + this.level + "级标题中，append "+ node.text+" -> " + this.text)
         }
 
-        return this.children[this.children.length - 1].getLastNodeLessThanLevel(level)
+        if (this.level == node.level - 1) {
+            return this.appendChild(node)
+        }
+
+        if (this.children.length == 0) {
+            return this.appendChild(node)
+        }
+
+        if (this.getLastChild().level >= node.level) {
+            return this.appendChild(node)
+        }
+
+        // 让最后一个child接收
+        return this.updateLastChild(this.children[this.children.length - 1].appendNode(node))
     }
 
-    static makeTree(headings: Heading[]): Heading {
+    static makeTree(editor: Editor): Heading {
+        let headings = Heading.getHeadings(editor)
+
+        //console.log("makeTree with", headings)
         var root = new Heading()
-        var current = root
 
         headings.forEach((heading) => {
-            if (heading.level == 1) {
-                root = heading
-            } else {
-                current.appendChild(heading)
-            }
+            //console.log("appendNode", heading)
+            root = root.appendNode(heading)
         })
 
+        //console.log("makeTree result", root)
         return root
     }
 
@@ -81,7 +100,7 @@ class Heading {
         transaction.setMeta('addToHistory', false)
         transaction.setMeta('preventUpdate', true)
 
-        // editor.view.dispatch(transaction)
+        editor.view.dispatch(transaction)
 
         return headings
     }

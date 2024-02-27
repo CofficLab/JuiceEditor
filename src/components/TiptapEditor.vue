@@ -9,32 +9,14 @@
     <div class="flex flex-row">
       <!-- 编辑器 -->
       <editor-content :editor="editor"
-        class="mx-auto flex flex-col pb-48 prose dark:prose-invert px-4 container prose-sm md:px-16 md:max-w-4xl md:prose-base" />
+        class="mx-auto bg-red-500/30 flex flex-col pb-48 prose dark:prose-invert px-4 container prose-sm md:px-4 md:max-w-4xl md:prose-base" />
       <!-- TOC -->
-      <div class="w-48 bg-red-700" id="toc">
-
-        <ul class="menu bg-base-200 w-56 rounded-box">
-    <li><a>Item 1</a></li>
-    <li>
-      <details open>
-        <summary>Parent</summary>
-        <ul>
-          <li><a>Submenu 1</a></li>
-          <li><a>Submenu 2</a></li>
-          <li>
-            <details open>
-              <summary>Parent</summary>
-              <ul>
-                <li><a>Submenu 1</a></li>
-                <li><a>Submenu 2</a></li>
-              </ul>
-            </details>
-          </li>
-        </ul>
-      </details>
-    </li>
-    <li><a>Item 3</a></li>
-  </ul>
+      <div class="w-72 hidden md:flex mr-1" id="toc" v-if="headingTree">
+        <div class="fixed h-2/3 my-12 overflow-scroll w-64">
+          <ul class="menu bg-base-200 w-64 shadow-inner " v-for="h in headingTree.children">
+            <HeadingVue :heading="h"></HeadingVue>
+          </ul>
+        </div>
       </div>
     </div>
 
@@ -56,7 +38,9 @@ import DrawAgent from '../entities/DrawAgent'
 import EditorData from '../entities/EditorData'
 import ContextMenu from './ContextMenu.vue'
 import Message from './Message.vue'
+import HeadingVue from './Heading.vue'
 import EventManager from '../entities/EventManager'
+import Heading from '../extensions/Toc/Heading'
 
 const props = defineProps({
   uuid: {
@@ -116,6 +100,7 @@ const editor = TiptapAgent.create({
     props.onCreate(data)
   },
   onUpdate: (data: EditorData) => {
+    refreshToc("onUpdate")
     if (!props.editable) {
       return console.log('🍋 TiptapEditor: 只读模式，不回调更新')
     }
@@ -128,12 +113,15 @@ const editor = TiptapAgent.create({
   }
 })
 
-console.log(editor.commands.getHeadings())
-console.log(editor.commands.makeTree())
-
 const contextMenuDidShow = ref(false)
 const message = ref('')
 const eventManager = new EventManager()
+const headingTree = ref(null as unknown as Heading)
+
+function refreshToc(reason: string) {
+  //console.log("刷新TOC，因为", reason)
+  headingTree.value = Heading.makeTree(editor) as unknown as Heading
+}
 
 function onMouseDown(e: Event) {
   console.log('TiptapEditor: mousedown')
@@ -170,6 +158,8 @@ watch(props, () => {
 
 onMounted(() => {
   console.log('🍋 🗒️ TiptapEditor: onMounted')
+
+  refreshToc("onMounted")
 
   // 处理事件
   eventManager.setListener(editor, (msg) => {

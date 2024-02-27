@@ -91,7 +91,7 @@ onBeforeUnmount(() => {
 
 <style lang="postcss" scoped>
 .toc {
-  @apply fixed h-full top-0 w-36 md:w-40 xl:w-48 2xl:w-56 right-3 z-40 flex justify-end items-start pt-24;
+  @apply  h-full top-0 w-36 md:w-40 xl:w-48 2xl:w-56 right-3 z-40 flex justify-end items-start pt-24;
   ul {
     @apply menu w-full dark:border-gray-700/50 backdrop-blur-sm backdrop-filter border-l border-gray-400/50 !important;
 

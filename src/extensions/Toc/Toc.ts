@@ -5,8 +5,8 @@ import Heading from "./Heading";
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     tableOfContents: {
-      getHeadings: () => Heading[]
-      makeTree: () => ReturnType
+      makeTree: () => (options: { editor: Editor }) => Heading
+      makeLink: () => ReturnType
       hasToc: () => ReturnType
       addToc: () => ReturnType
       removeToc: () => ReturnType
@@ -29,9 +29,9 @@ export const Toc = Node.create({
   renderHTML({ HTMLAttributes }) {
     return ["toc", mergeAttributes(HTMLAttributes)];
   },
-  addNodeView() {
-    return VueNodeViewRenderer(TocView);
-  },
+  // addNodeView() {
+  //   return VueNodeViewRenderer(TocView);
+  // },
   addGlobalAttributes() {
     return [
       {
@@ -46,11 +46,8 @@ export const Toc = Node.create({
   },
   addCommands() {
     return {
-      makeTree: () => ({ editor }) => {
-          return Heading.makeTree(Heading.getHeadings(editor))
-      },
-      getHeadings: () => ({ editor }): Heading[] => {
-          return Heading.getHeadings(editor)
+      makeTree: () => ({ editor }): Heading => {
+        return Heading.makeTree(editor)
       },
       hasToc: () => ({ editor }) => {
         let result = false
