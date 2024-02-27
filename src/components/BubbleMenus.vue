@@ -3,7 +3,7 @@
   <bubble-menu
     class="bubble-menu"
     :should-show="shouldShow"
-    :tippy-options="{ duration: 100, maxWidth: 800 }"
+    :tippy-options="{ duration: 100, maxWidth: 800, placement: 'top' }"
     :editor="editor"
   >
     <Heading :editor="editor" :level="2" />

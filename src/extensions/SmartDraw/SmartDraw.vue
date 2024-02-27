@@ -1,11 +1,18 @@
 <template>
-  <node-view-wrapper>
+  <node-view-wrapper contenteditable="false">
     <div class="dropdown dropdown-open dropdown-top md:dropdown-left">
       <div tabindex="0" role="button" @click="onClick" v-bind:class="[
         { 'outline-orange-600 outline-dashed outline-2 outline-offset-1': isSelected },
       ]">
         <!-- 内容 -->
-        <img v-bind:src="node.attrs.src" ref="img" class="m-0 p-0 not-prose" />
+        <div class="bg-red-100/0 flex">
+            <div class="card rounded-none p-0 mx-auto">
+              <figure class="m-0 px-12">
+                <img crossOrigin="anonymous" :src="node.attrs.src" ref="img"
+                  class="p-0 m-0 " />
+              </figure>
+            </div>
+          </div>
       </div>
 
       <!-- 操作栏 -->
@@ -22,38 +29,39 @@
           </button>
         </div>
       </div>
+    </div>
 
-      <div>
-        <!-- 正在打开的弹层 -->
-        <input type="checkbox" :id="loadingId" class="modal-toggle" />
-        <div class="modal" role="dialog">
-          <div class="modal-box flex flex-col justify-center items-center w-56 p-0">
-            <template v-if="!canShowDrawing">
-              <div class="font-bold text-lg m-0 mt-4">请将窗口调宽一点</div>
-              <p class="text-center text-xs">画图要求的最小宽度：1000</p>
-              <div class="stats shadow-3xl bg-blue-100/50 w-full mt-4 rounded-none">
-                <div class="stat">
-                  <div class="stat-title text-center">当前宽度</div>
-                  <div class="stat-value text-center">{{ width }}</div>
-                </div>
-              </div>
-            </template>
 
-            <template v-else>
-              <div class="font-bold text-lg m-0 mt-4">正在打开画图界面</div>
-              <div class="stats shadow-3xl bg-blue-100/50 w-full mt-4 rounded-none">
-                <div class="stat">
-                  <div class="stat-title text-center">
-                    <span class="loading loading-ring loading-lg"></span>
+        <div contenteditable="false">
+          <!-- 正在打开的弹层 -->
+          <input type="checkbox" :id="loadingId" class="modal-toggle" />
+          <div class="modal" role="dialog">
+            <div class="modal-box flex flex-col justify-center items-center w-56 p-0">
+              <template v-if="!canShowDrawing">
+                <div class="font-bold text-lg m-0 mt-4">请将窗口调宽一点</div>
+                <p class="text-center text-xs">画图要求的最小宽度：1000</p>
+                <div class="stats shadow-3xl bg-blue-100/50 w-full mt-4 rounded-none">
+                  <div class="stat">
+                    <div class="stat-title text-center">当前宽度</div>
+                    <div class="stat-value text-center">{{ width }}</div>
                   </div>
                 </div>
-              </div>
-            </template>
+              </template>
+
+              <template v-else>
+                <div class="font-bold text-lg m-0 mt-4">正在打开画图界面</div>
+                <div class="stats shadow-3xl bg-blue-100/50 w-full mt-4 rounded-none">
+                  <div class="stat">
+                    <div class="stat-title text-center">
+                      <span class="loading loading-ring loading-lg"></span>
+                    </div>
+                  </div>
+                </div>
+              </template>
+            </div>
+            <label class="modal-backdrop" :for="loadingId" :id="loadingCloseId">Close</label>
           </div>
-          <label class="modal-backdrop" :for="loadingId" :id="loadingCloseId">Close</label>
         </div>
-      </div>
-    </div>
   </node-view-wrapper>
 </template>
 

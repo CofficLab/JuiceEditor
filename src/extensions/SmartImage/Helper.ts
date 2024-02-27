@@ -4,13 +4,17 @@ class Helper {
         const start = props.getPos()
         const end = start + props.node.nodeSize
 
+        // console.log('start is', start)
+        // console.log('size is', props.node.nodeSize)
+
         return end
     }
 
     // 在本节点的后面插入一行
     static newLine(props: { editor: any; getPos: () => any; node: { nodeSize: any } }) {
         let tail = Helper.getTailPos(props)
-        props.editor.commands.insertContentAt(tail, '<p></p>', {
+        console.log('tail is', tail)
+        props.editor.commands.insertContentAt(tail-1, '<p></p>', {
             updateSelection: false,
             parseOptions: {
                 preserveWhitespace: 'full'

@@ -1,6 +1,6 @@
 <template>
   <node-view-wrapper>
-    <div class="dropdown dropdown-open dropdown-top">
+    <div class="dropdown dropdown-open dropdown-bottom">
       <div tabindex="0" role="button" @click="onClick" v-bind:class="[
         { 'outline-orange-600 outline-dashed outline-2 outline-offset-1': isSelected },
       ]">
@@ -16,13 +16,16 @@
       </div>
 
       <!-- 操作栏 -->
-      <div tabindex="0" class="p-2 dropdown-content z-[1] gap-2 flex flex-col" v-show="selected" contenteditable="false">
+      <div tabindex="0" class="p-2 dropdown-content z-[1] gap-2 flex flex-col" v-show="isSelected" contenteditable="false">
         <input ref="fileInput" multiple="false" accept="image/*" type="file" style="display: none"
           @change="onFileSelected" />
         <div class="join">
           <button @click="changeImage" class="btn join-item btn-sm">更换图片</button>
           <button @click="downloadImage" class="btn join-item btn-sm">下载图片</button>
           <button @click="reset" class="btn join-item btn-sm">原始形状</button>
+          <button class="btn btn-sm join-item" @click="newLine">
+              <IconNewLine class="w-5 h-6"></IconNewLine>下方插入空行
+            </button>
           <!-- <li><a @click="setTriangle">三角形</a></li> -->
           <!-- <li><a @click="setTriangle2">三角形2</a></li> -->
           <!-- <li><a @click="setTriangle3">三角形3</a></li> -->
@@ -76,6 +79,7 @@ import { onMounted, onUnmounted, ref } from 'vue'
 import Base64Helper from './Base64Helper'
 import webkit from '../../entities/WebKit';
 import Helper from './Helper';
+import IconNewLine from './Icons/IconNewLine.vue';
 
 const isSelected = ref(false)
 const isWebKit = 'webkit' in window
@@ -85,6 +89,11 @@ let fileInput = ref<HTMLInputElement | null>(null)
 
 function onClick(e: Event) {
   isSelected.value = true
+}
+
+function newLine() {
+  Helper.newLine(props)
+  isSelected.value = false
 }
 
 function setHexagon() {
@@ -281,22 +290,22 @@ function fileToBase64(file: File) {
 function checkToolbar(event: Event) {
   if (!props.editor.isEditable) {
     isSelected.value = false
-    console.log('SmartImage: editor is not editable, hide banner toolbar')
+    console.log('SmartImage: editor is not editable, hide image toolbar')
     return
   }
 
-  // 如果鼠标在 Banner 内，显示菜单
+  // 如果鼠标在 Image 内，显示菜单
 
   const currentPos = props.editor.state.selection.anchor
   const start = props.getPos()
   const end = props.getPos() + props.node.nodeSize
 
-  // console.log('SmartBanner: clicked')
-  // console.log('SmartBanner: currentPos', currentPos)
-  // console.log('SmartBanner: start', start)
-  // console.log('SmartBanner: end', end)
+  // console.log('SmartImage: clicked')
+  // console.log('SmartImage: currentPos', currentPos)
+  // console.log('SmartImage: start', start)
+  // console.log('SmartImage: end', end)
 
-  isSelected.value = currentPos >= start && currentPos <= end
+  isSelected.value = currentPos >= start && currentPos < end
 }
 
 onMounted(() => {
