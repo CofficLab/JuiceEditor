@@ -179,7 +179,10 @@ watch(
   () => props.content,
   () => {
     console.log('🍋 💼 MonacoBox: 检测到 props.content 发生变化')
-    editor.setValue(props.content)
+
+    if (editor.getValue() != props.content) {
+      editor.setValue(props.content)
+    }
   }
 )
 
