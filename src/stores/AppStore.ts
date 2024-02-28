@@ -3,13 +3,14 @@ import TreeNode from '../entities/TreeNode'
 import EditorData from '../entities/EditorData'
 import webkit from '../entities/WebKit'
 import codeNode from '../samples/CodeNode'
+import LocalStore from './LocalStore'
 
 const isDebug = process.env.NODE_ENV === 'development'
 
 export const useAppStore = defineStore('app-store', {
     state: () => {
         return {
-            node: isDebug ? codeNode : new TreeNode({}),
+            node: isDebug ? new TreeNode(LocalStore.getData()) : new TreeNode({}),
             loading: false,
             ready: false,
             selectionType: '',
@@ -53,6 +54,10 @@ export const useAppStore = defineStore('app-store', {
 
             console.log('🧮 AppStore: 更新节点')
             console.log('🧮 AppStore: 更新节点的数据', data)
+
+            if (isDebug) {
+                return LocalStore.saveData(data)
+            }
 
             webkit.updateNode(data)
         },
