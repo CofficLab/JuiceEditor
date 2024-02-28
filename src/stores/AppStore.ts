@@ -1,15 +1,15 @@
 import { defineStore } from 'pinia'
-import Sample from '../entities/Sample'
 import TreeNode from '../entities/TreeNode'
 import EditorData from '../entities/EditorData'
 import webkit from '../entities/WebKit'
+import codeNode from '../samples/CodeNode'
 
 const isDebug = process.env.NODE_ENV === 'development'
 
 export const useAppStore = defineStore('app-store', {
     state: () => {
         return {
-            node: isDebug ? Sample.drawNode : new TreeNode({}),
+            node: isDebug ? codeNode : new TreeNode({}),
             loading: false,
             ready: false,
             selectionType: '',
@@ -52,7 +52,7 @@ export const useAppStore = defineStore('app-store', {
             }
 
             console.log('🧮 AppStore: 更新节点')
-            // console.log('🧮 AppStore: 更新节点的数据', data)
+            console.log('🧮 AppStore: 更新节点的数据', data)
 
             webkit.updateNode(data)
         },
