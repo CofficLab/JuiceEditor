@@ -5,7 +5,7 @@ import jsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker';
 import cssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker';
 import htmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker';
 import tsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker';
-import { SmartLanguage } from "../../entities/SmartLanguage";
+import { SmartLanguage } from "../../../entities/SmartLanguage";
 
 window.MonacoEnvironment = {
     getWorker(_, label) {
@@ -72,6 +72,7 @@ class MonacoBox {
     }
 
     public getContent() {
+        console.log("💼 MonacoBox: 获取monaco content，当前index", this.index);
         // 使用 this.editor.getValue() 会导致整个界面卡住
         // https://github.com/microsoft/monaco-editor/issues/2439
         return monaco.editor.getModels()[this.index.toString()].getValue()

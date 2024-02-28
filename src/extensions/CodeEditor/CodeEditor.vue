@@ -81,7 +81,7 @@
 import { NodeViewContent, nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 import Monaco from './MonacoBox.vue'
 import CodeTabs from './CodeTabs.vue'
-import { Database } from './Database'
+import { Database } from './Entities/Database'
 import {
   ref,
   computed,
@@ -93,11 +93,11 @@ import {
   onBeforeUpdate,
   onUpdated
 } from 'vue'
-import MonacoBox from './MonacoBox'
+import MonacoBox from './Entities/MonacoBox'
 import Setting from './Icons/Setting.vue'
 import ClipboardJS from 'clipboard'
 import { SmartLanguage, languages } from '../../entities/SmartLanguage'
-import { CodeBlock } from './CodeBlock'
+import { CodeBlock } from './Entities/CodeBlock'
 
 var clipboard = new ClipboardJS('.copy')
 clipboard

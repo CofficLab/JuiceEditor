@@ -23,8 +23,8 @@
 </template>
 
 <script lang="ts" setup>
-import { CodeBlock } from './CodeBlock';
-import { Database } from './Database'
+import { CodeBlock } from './Entities/CodeBlock';
+import { Database } from './Entities/Database'
 import { ref, computed } from 'vue'
 
 const props = defineProps({

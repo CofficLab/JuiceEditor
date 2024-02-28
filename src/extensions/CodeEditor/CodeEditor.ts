@@ -1,9 +1,9 @@
 import CodeBlock from '@tiptap/extension-code-block'
 import { VueNodeViewRenderer } from '@tiptap/vue-3'
 import CodeEditorVue from './CodeEditor.vue'
-import { Database } from './Database'
-import { CodeBlock as DatabaseCodeBlock } from './CodeBlock'
-import MonacoBox from './MonacoBox'
+import { Database } from './Entities/Database'
+import { CodeBlock as DatabaseCodeBlock } from './Entities/CodeBlock'
+import MonacoBox from './Entities/MonacoBox'
 import { v4 as uuidv4 } from 'uuid';
 import { languages } from '../../entities/SmartLanguage'
 
@@ -86,15 +86,14 @@ export const CodeEditor = CodeBlock.extend({
   },
 
   renderHTML({ node }) {
-    // console.log("转换成HTML", node.attrs);
+    // console.log("转换成HTML存储下来", node.attrs);
     return [
       'pre',
       {
         height: node.attrs.height,
         database: node.attrs.database,
         uuid: node.attrs.uuid,
-      },
-      ['code', node.attrs.code]
+      }
     ]
   },
 
