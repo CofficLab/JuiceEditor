@@ -183,14 +183,14 @@ function activate(index: number) {
   })
 }
 
-function handleContentChanged(editorBox: MonacoBox) {
+function handleContentChanged(content: string) {
   // console.log("code editor found monaco content changed");
 
   // 异步更新，避免影响Monaco的响应速度
   setTimeout(() => {
     props.updateAttributes({
-      code: editorBox.getContent(),
-      database: database.value.updateContent(editorBox.getContent()).toJSON()
+      code: content,
+      database: database.value.updateContent(content).toJSON()
     })
   }, 5)
 }

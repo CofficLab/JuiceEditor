@@ -28,143 +28,51 @@ window.MonacoEnvironment = {
 };
 
 export interface CreateEditorOptions {
-    name?: string;
-    uuid: string;
     target: HTMLDivElement;
     content: string;
     language: SmartLanguage;
     readOnly?: boolean;
     showLineNumbers?: boolean;
-    onCreated?: (editor: MonacoBox) => void;
-    onContentChanged?: (editor: MonacoBox) => void;
+    onCreated?: (editor: monaco.editor.IStandaloneCodeEditor) => void;
+    onContentChanged?: (editor: monaco.editor.IStandaloneCodeEditor) => void;
     onRunnableChanged?: (value: boolean) => void;
-    onLanguageChanged?: (editor: MonacoBox) => void;
+    onLanguageChanged?: (lan: SmartLanguage) => void;
 }
 
 class MonacoBox {
-    static disposeAll() {
-        console.log('🗑️ 💼 MonacoBox: disposeAll')
+    static getLanguage(editor: monaco.editor.IStandaloneCodeEditor): SmartLanguage {
+        console.log("💼 MonacoBox: 获取 monaco editor 的语言", editor.getModel()!.getLanguageId());
 
-        monaco.editor.getModels().forEach((model) => {
-            model.dispose()
-        })
-    }
-
-    static printCount() {
-        let count = monaco.editor.getModels().length
-        console.log('🍋 💼 MonacoBox: 现在有', count, '个 Monaco')
-    }
-
-    public editor: editor.IStandaloneCodeEditor;
-    public index;
-    public name;
-    public runnableChangedCallback: Function;
-
-    public constructor(editor: any, index: any, name = "未命名Monaco编辑器") {
-        this.editor = editor;
-        this.index = index;
-        this.name = name
-        this.runnableChangedCallback = () => { }
-
-        this.onContentChanged((editorBox: MonacoBox) => {
-            this.setHeight()
-        });
-    }
-
-    public getContent() {
-        console.log("💼 MonacoBox: 获取monaco content，当前index", this.index);
-        // 使用 this.editor.getValue() 会导致整个界面卡住
-        // https://github.com/microsoft/monaco-editor/issues/2439
-        return monaco.editor.getModels()[this.index.toString()].getValue()
-    }
-
-    public getHeight() {
-        return this.editor.getDomNode()!.style.height
-    }
-
-    // 所有的行合起来的高度
-    public getLinesHeight() {
-        let lineCount = this.editor.getModel()!.getLineCount();
-        let lineHeight = this.editor.getOption(monaco.editor.EditorOption.lineHeight);
-        let padding = this.editor.getOption(monaco.editor.EditorOption.padding);
-
-        return lineCount * lineHeight + padding.top + padding.bottom;
-    }
-
-    public getModel() {
-        return monaco.editor.getModels()[this.index.toString()]
-    }
-
-    public getLanguage(): SmartLanguage {
-        console.log("💼 MonacoBox: 获取 monaco editor 的语言", this.editor.getModel()!.getLanguageId());
-
-        let id = this.editor.getModel()!.getLanguageId();
+        let id = editor.getModel()!.getLanguageId();
 
         return SmartLanguage.fromString(id)
     }
 
-    public getParentDomNode(): HTMLElement | null | undefined {
-        let domNode = this.editor.getDomNode()
-
-        return domNode?.parentElement
+    static setLanguage(editor: monaco.editor.IStandaloneCodeEditor, language: SmartLanguage) {
+        monaco.editor.setModelLanguage(editor.getModel()!, language.getMonacoLanguage());
     }
 
-    public setContent(content: string) {
-        // console.log('设置monaco content', content)
+    // 所有的行合起来的高度
+    static getLinesHeight(editor: monaco.editor.IStandaloneCodeEditor) {
+        let lineCount = editor.getModel()!.getLineCount();
+        let lineHeight = editor.getOption(monaco.editor.EditorOption.lineHeight);
+        let padding = editor.getOption(monaco.editor.EditorOption.padding);
 
-        if (content == this.getContent()) return
-
-        // 使用 this.editor.setValue() 会导致整个界面卡住
-        // https://github.com/microsoft/monaco-editor/issues/2439
-        return monaco.editor.getModels()[this.index.toString()].setValue(content)
+        return lineCount * lineHeight + padding.top + padding.bottom;
     }
 
-    public setHeight() {
-        let height = this.getLinesHeight();
+    static setHeightOfEditor(editor: monaco.editor.IStandaloneCodeEditor) {
+        let height = MonacoBox.getLinesHeight(editor);
 
-        // console.log("MonacoBox: 设置 monaco editor 的高度", height);
+        console.log("MonacoBox: 设置 monaco editor 的高度", height);
 
-        this.editor.getDomNode()!.style.height = height + "px";
+        editor.getDomNode()!.style.height = height + "px";
     }
 
-    public setLanguage(language: SmartLanguage) {
-        if (this.editor == undefined) {
-            return console.log("editor尚未实例化，不能设置language");
-        }
-
-        if (language == this.getLanguage()) {
-            console.log('放弃设置monaco language，因为没有变化', language)
-
-            return
-        }
-
-        console.log("🍋 💼 MonacoBox: 设置Monaco Editor的Language为", language.getTitle());
-        monaco.editor.setModelLanguage(this.getModel(), language.getMonacoLanguage());
-    }
-
-    public onContentChanged(callback: (arg0: any) => void) {
-        this.editor.getModel()!.onDidChangeContent(() => { callback(this) });
-        return this;
-    }
-
-    public onLanguageChanged(callback: (arg0: any) => void) {
-        this.editor.getModel()?.onDidChangeLanguage(() => {
-            console.log('🍋 💼 MonacoBox: monaco editor language changed, language id ->', this.editor.getModel()?.getLanguageId());
-            callback(this)
-        });
-        return this
-    }
-
-    public onRunnableChanged(callback: (arg0: any) => void): MonacoBox {
-        this.runnableChangedCallback = callback
-
-        return this
-    }
-
-    static createEditor(box: MonacoBox, options: CreateEditorOptions) {
-        console.log('🍋 💼 MonacoBox: 创建 Monaco，名字及UUID', options.name, options.uuid)
-
+    static createEditor(options: CreateEditorOptions): monaco.editor.IStandaloneCodeEditor {
+        console.log('🍋 💼 MonacoBox: 创建 Monaco')
         // console.log('创建 Monaco，配置是', options)
+
         const editor = monaco.editor.create(options.target, {
             value: options.content,
             language: options.language.getMonacoLanguage(),
@@ -197,19 +105,19 @@ class MonacoBox {
             minimap: { enabled: false },
         });
 
-        MonacoBox.printCount()
+        editor.getModel()?.onDidChangeLanguage(() => {
+            console.log('🍋 💼 MonacoBox: monaco editor language changed, language id ->', editor.getModel()?.getLanguageId());
+            options.onLanguageChanged?.(MonacoBox.getLanguage(editor));
+        });
 
-        // editor.focus();
+        editor.getModel()!.onDidChangeContent(() => { 
+            console.log('🍋 💼 MonacoBox: monaco editor content changed');
+            options.onContentChanged?.(editor);
+         });
 
-        box = new MonacoBox(editor, monaco.editor.getModels().length - 1, options.name);
+        MonacoBox.setHeightOfEditor(editor)
 
-        box.setHeight()
-        if (options?.onCreated != undefined) {
-            options.onCreated(box)
-        }
-        if (options?.onContentChanged != undefined) box.onContentChanged(options.onContentChanged);
-        if (options?.onLanguageChanged != undefined) box.onLanguageChanged(options.onLanguageChanged);
-        if (options?.onRunnableChanged != undefined) box.onRunnableChanged(options.onRunnableChanged);
+        return editor
     }
 }
 

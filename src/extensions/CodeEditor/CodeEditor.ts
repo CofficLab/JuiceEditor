@@ -120,7 +120,6 @@ export const CodeEditor = CodeBlock.extend({
 
   onDestroy() {
     console.log('🍋  💼 CodeEditor: onTiptapDestroy')
-    MonacoBox.disposeAll()
   },
 
   // onBeforeCreate() {

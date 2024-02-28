@@ -18,13 +18,13 @@
       <!-- Monaco -->
       <!-- monaco有时候不能全部占满这个div，会在左侧或右侧留几个像素的padding -->
       <!-- 所以让这个div的背景色=monaco的背景色 -->
-      <div ref="codeDom" class="relative z-10 bg-black" contenteditable="true"></div>
+      <div :id="domId" class="relative z-10 bg-black" contenteditable="true"></div>
     </div>
 
     <!-- 展示运行结果 -->
     <div class="px-0">
       <pre
-        ref="resultDom"
+        :id="resultId"
         v-show="runResultVisible && runVisible"
         class="result-dom not-prose px-4 py-2 border border-green-900/40 text-sm m-0 rounded-none"
       ></pre>
@@ -38,6 +38,8 @@ import MonacoBox from './Entities/MonacoBox'
 import webkit from '../../entities/WebKit'
 import PlayIcon from './Icons/Play.vue'
 import CloseIcon from './Icons/Close.vue'
+import { v4 as uuidv4 } from 'uuid';
+import * as monaco from "monaco-editor"
 import { SmartLanguage, languages } from '../../entities/SmartLanguage'
 
 const props = defineProps({
@@ -73,8 +75,8 @@ const props = defineProps({
   },
   onContentChanged: {
     type: Function,
-    default: () => {
-      console.log('MonacoBox: monaco content changed')
+    default: (content:string) => {
+      console.log('MonacoBox: monaco content changed', content)
     }
   },
   onRunnableChanged: {
@@ -85,8 +87,8 @@ const props = defineProps({
   },
   onLanguageChanged: {
     type: Function,
-    default: () => {
-      console.log('🍋 💼 MonacoBox: monaco language changed')
+    default: (language: SmartLanguage) => {
+      console.log('🍋 💼 MonacoBox: monaco language changed', language)
     }
   },
   showLineNumbers: {
@@ -105,6 +107,10 @@ const props = defineProps({
   }
 })
 
+// 一个页面可能有多个monaco编辑器，每个monaco编辑器都有一个uuid
+const domId = uuidv4()
+const resultId = 'result-' + domId
+
 /**
  * 运行按钮相关的属性
  */
@@ -115,27 +121,28 @@ let runResultVisible = ref(false)
 /**
  * editor相关属性
  */
-let codeDom = ref<HTMLDivElement>()
-let resultDom = ref<HTMLDivElement>()
-var editorBox: MonacoBox | null = null
 let lan = ref(languages[0])
+var editor: monaco.editor.IStandaloneCodeEditor
+
+function getCodeElement(): HTMLDivElement {
+  return document.getElementById(domId)! as HTMLDivElement
+}
+
+function getResultElement(): HTMLElement {
+  return document.getElementById(resultId)!
+}
 
 onMounted(() => {
   console.log('🍋 💼 MonacoBox: mounted')
-  // console.log('🍋 💼 MonacoBox: mounted, content = ', props.content)
 
-  // 编辑器
-  MonacoBox.createEditor(editorBox!, {
-    name: '主编辑器',
-    uuid: props.uuid,
+  editor = MonacoBox.createEditor({
     content: props.content,
-    target: codeDom.value!,
+    target: getCodeElement(),
     language: props.language,
     readOnly: !props.editable,
-    onCreated(monacoBox) {
+    onCreated(editor) {
       console.log('🍋 🗒️ MonacoBox: created')
-      lan.value = monacoBox.getLanguage()
-      editorBox = monacoBox
+      lan.value = MonacoBox.getLanguage(editor)
 
       // setTimeout(() => {
       //   // 去掉setTimeout则不能获取焦点，原因暂时不明
@@ -145,13 +152,13 @@ onMounted(() => {
       //   }
       // }, 0)
     },
-    onContentChanged(monacoBox) {
-      props.onContentChanged(monacoBox)
+    onContentChanged(editor: monaco.editor.IStandaloneCodeEditor) {
+      props.onContentChanged(editor.getValue())
     },
-    onLanguageChanged(editorBox) {
-      console.log('🍋 💼 MonacoBox: onLanguageChanged ->', editorBox.getLanguage())
-      lan.value = editorBox.getLanguage()
-      props.onLanguageChanged(editorBox)
+    onLanguageChanged(language) {
+      console.log('🍋 💼 MonacoBox: onLanguageChanged ->', language)
+      lan.value = language
+      props.onLanguageChanged(language)
     }
   })
 })
@@ -164,16 +171,15 @@ onUnmounted(() => {
   console.log('🍋 💼 MonacoBox: unmounted，销毁 Monaco')
 
   setTimeout(() => {
-    editorBox!.editor.dispose()
+    editor.dispose()
   }, 1)
-  MonacoBox.printCount()
 })
 
 watch(
   () => props.content,
   () => {
     console.log('🍋 💼 MonacoBox: 检测到 props.content 发生变化')
-    editorBox!.setContent(props.content)
+    editor.setValue(props.content)
   }
 )
 
@@ -181,7 +187,7 @@ watch(
   () => props.language,
   () => {
     console.log('🍋 💼 MonacoBox: 检测到 props.language 发生变化')
-    editorBox!.setLanguage(props.language)
+    MonacoBox.setLanguage(editor, props.language)
   }
 )
 
@@ -195,14 +201,14 @@ let handleRun = () => {
   if (runResultVisible.value) {
     runResultVisible.value = false
     running.value = false
-    resultDom.value!.innerHTML = ''
+    getResultElement().innerHTML = ''
     return
   }
 
   running.value = true
 
   setTimeout(() => {
-    let content = editorBox?.getContent() || ''
+    let content = editor.getValue() || ''
     let language = props.language.getTitle() || languages[0].getTitle()
     webkit.runCode(content, language, (result) => {
       var output = content.slice(0, 100) + '\n\n'
@@ -211,7 +217,7 @@ let handleRun = () => {
       } else {
         output += result
       }
-      resultDom.value!.innerHTML = output
+      getResultElement().innerHTML = output
       runResultVisible.value = true
       running.value = false
     })
