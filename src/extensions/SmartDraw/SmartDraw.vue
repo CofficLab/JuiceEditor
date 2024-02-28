@@ -1,7 +1,7 @@
 <template>
   <node-view-wrapper>
-      <details class="dropdown dropdown-bottom md:dropdown-left">
-        <summary class="m-1" @click="onClick" v-bind:class="[
+      <details class="dropdown dropdown-bottom md:dropdown-left list-none">
+        <summary class="m-1 list-none" @click="onClick" v-bind:class="[
           { 'outline-orange-600 outline-dashed outline-2 outline-offset-1': isSelected },
         ]">
           <img crossOrigin="anonymous" :src="node.attrs.src" ref="img" class="p-0 m-0 "/>
@@ -11,6 +11,9 @@
             <button class="btn btn-sm join-item" @click="openLoading">
               <IconEdit class="w-5 h-6"></IconEdit>
             </button>
+            <button class="btn btn-sm join-item" @click="downloadImage">
+                <IconDownload class="w-5 h-6"></IconDownload>
+              </button>
             <button class="btn btn-sm join-item" @click="Helper.newLine(props)">
               <IconNewLine class="w-5 h-6"></IconNewLine>
             </button>
@@ -34,9 +37,12 @@ import Config from './Config'
 import Delete from './Icons/Delete.vue'
 import IconEdit from './Icons/IconEdit.vue'
 import IconNewLine from './Icons/IconNewLine.vue'
+import IconDownload from './Icons/IconDownload.vue'
 import Opening from './Opening.vue'
+import webkit from '../../entities/WebKit';
+import Base64Helper from './Base64Helper'
 
-const img = ref(null)
+const img = ref<HTMLImageElement | null>(null)
 const props = defineProps(nodeViewProps)
 const drawingPage = document.createElement('iframe')
 const drawingDialog = document.createElement('dialog')
@@ -44,6 +50,7 @@ const loadingDialog = document.createElement('dialog')
 
 const isOpening = ref(false)
 const isSelected = ref(false)
+const isWebKit = 'webkit' in window
 const isEditable = computed(() => props.editor.isEditable)
 
 function onClick(e: Event) {
@@ -57,10 +64,11 @@ function onDrawingPageReady() {
   isOpening.value = false
 }
 
+// 响应外部调用调用关闭画图事件
 function onClose(_event: any) {
   console.log('🍋 SmartDraw: 收到关闭画图的事件')
 
-  destroy(drawingDialog)
+  destroy()
 }
 
 function sendToDrawio(message: object) {
@@ -108,13 +116,62 @@ function open() {
 }
 
 // 销毁画图的Iframe
-function destroy(dialog: HTMLDialogElement) {
+function destroy() {
   console.log('🍋 SmartDraw: 销毁画图的 Iframe，同时取消事件监听')
 
   window.removeEventListener('message', receive)
   document.removeEventListener('close-draw', onClose)
-  document.body.removeChild(dialog)
-  dialog.close()
+  document.body.removeChild(drawingDialog)
+  drawingDialog.close()
+  isSelected.value = false
+}
+
+function exportBase64(base64ImageString: string) {
+  // 下载
+  if (isWebKit) {
+    webkit.downloadImage(
+      Base64Helper.getBase64FromBase64Image(base64ImageString),
+      'Image' + Base64Helper.getExtension(base64ImageString)
+    )
+  } else {
+    let a = Base64Helper.download(base64ImageString)
+
+    // Clean up
+    a.remove()
+    URL.revokeObjectURL(a.href)
+  }
+}
+
+function downloadImage() {
+  let base64ImageString: string = props.node.attrs.src
+
+  if (base64ImageString.startsWith('data:image/jpeg;base64,')) {
+    return exportBase64(base64ImageString)
+  }
+
+  // 不是一个base64图片编码，先获取base64图片编码
+  const imgDom = img.value as HTMLImageElement
+
+  // 创建canvas并设置大小
+  const canvas = document.createElement('canvas')
+  canvas.width = imgDom.width
+  canvas.height = imgDom.height
+
+  // 获取context并绘制图片
+  const ctx = canvas.getContext('2d')
+  ctx!.drawImage(imgDom, 0, 0)
+
+  // 转换为blob
+  canvas.toBlob(function (blob) {
+    // 转换为base64
+    const reader = new FileReader()
+    reader.readAsDataURL(blob!)
+    reader.onloadend = function () {
+      base64ImageString = reader.result as string
+
+      exportBase64(base64ImageString)
+    }
+  }, 'image/png')
 }
 
 // 负责接收iframe中的drawio发来的消息
@@ -146,7 +203,7 @@ function receive(event: MessageEvent): void {
         format: 'xmlpng',
         spinKey: 'saving'
       })
-      destroy(drawingDialog)
+      destroy()
       break
     case 'export':
       console.log('🍋 SmartDraw: 收到 drawio 发来的消息 -> export，存储数据')
