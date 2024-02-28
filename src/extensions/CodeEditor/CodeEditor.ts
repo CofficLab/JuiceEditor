@@ -5,7 +5,7 @@ import { Database } from './Entities/Database'
 import { CodeBlock as DatabaseCodeBlock } from './Entities/CodeBlock'
 import MonacoBox from './Entities/MonacoBox'
 import { v4 as uuidv4 } from 'uuid';
-import { languages } from '../../entities/SmartLanguage'
+import { languages } from './Entities/SmartLanguage'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

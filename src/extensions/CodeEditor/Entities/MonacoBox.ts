@@ -5,7 +5,7 @@ import jsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker';
 import cssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker';
 import htmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker';
 import tsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker';
-import { SmartLanguage } from "../../../entities/SmartLanguage";
+import { SmartLanguage } from "./SmartLanguage";
 
 window.MonacoEnvironment = {
     getWorker(_, label) {
@@ -113,6 +113,7 @@ class MonacoBox {
         editor.getModel()!.onDidChangeContent(() => { 
             console.log('🍋 💼 MonacoBox: monaco editor content changed');
             options.onContentChanged?.(editor);
+            MonacoBox.setHeightOfEditor(editor)
          });
 
         MonacoBox.setHeightOfEditor(editor)

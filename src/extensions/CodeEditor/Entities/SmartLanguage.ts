@@ -4,7 +4,7 @@ class SmartLanguage {
     runnable: boolean = true
 
     static fromString(s: string): SmartLanguage {
-        console.log("💼 SmartLanguage: 将字符转换成 SmartLanguage", s)
+        //console.log("💼 SmartLanguage: 将字符转换成 SmartLanguage", s)
 
         if (typeof s !== 'string') {
             console.log("💼 SmartLanguage: 将字符转换成 SmartLanguage，不是字符串", s)

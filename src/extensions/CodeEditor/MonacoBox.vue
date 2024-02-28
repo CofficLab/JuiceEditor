@@ -40,7 +40,7 @@ import PlayIcon from './Icons/Play.vue'
 import CloseIcon from './Icons/Close.vue'
 import { v4 as uuidv4 } from 'uuid';
 import * as monaco from "monaco-editor"
-import { SmartLanguage, languages } from '../../entities/SmartLanguage'
+import { SmartLanguage, languages } from './Entities/SmartLanguage'
 
 const props = defineProps({
   content: {
@@ -176,12 +176,13 @@ onUnmounted(() => {
 })
 
 watch(
-  () => props.content,
+  () => props.uuid,
   () => {
-    console.log('🍋 💼 MonacoBox: 检测到 props.content 发生变化')
-
     if (editor.getValue() != props.content) {
+      console.log('🍋 💼 MonacoBox: 检测到 props.uuid 发生变化，更新content')
       editor.setValue(props.content)
+    } else {
+      console.log('🍋 💼 MonacoBox: 检测到 props.uuid 发生变化，但与现有内容一致')
     }
   }
 )

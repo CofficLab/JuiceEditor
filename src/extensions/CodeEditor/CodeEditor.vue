@@ -26,7 +26,7 @@
         :onContentChanged="handleContentChanged"
         :onRunnableChanged="handleRunnableChanged"
         :showLineNumbers="true"
-        :uuid="node.attrs.uuid"
+        :uuid="monacoUuid"
       >
       </Monaco>
 
@@ -96,7 +96,7 @@ import {
 import MonacoBox from './Entities/MonacoBox'
 import Setting from './Icons/Setting.vue'
 import ClipboardJS from 'clipboard'
-import { SmartLanguage, languages } from '../../entities/SmartLanguage'
+import { SmartLanguage, languages } from './Entities/SmartLanguage'
 import { CodeBlock } from './Entities/CodeBlock'
 
 var clipboard = new ClipboardJS('.copy')
@@ -124,6 +124,9 @@ let activatedItem = computed(() => items.value[activatedIndex.value])
 // 传递给 Monaco 的代码内容
 let content = computed(() => {
   return activatedItem.value.content
+})
+let monacoUuid = computed(() => {
+  return props.node.attrs.uuid + activatedIndex.value
 })
 
 // 编辑器区域

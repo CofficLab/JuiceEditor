@@ -1,4 +1,4 @@
-import { SmartLanguage, languages } from "../../../entities/SmartLanguage";
+import { SmartLanguage, languages } from "./SmartLanguage";
 import { CodeBlock } from "./CodeBlock";
 
 

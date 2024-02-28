@@ -53,7 +53,7 @@ export const useAppStore = defineStore('app-store', {
             }
 
             console.log('🧮 AppStore: 更新节点')
-            console.log('🧮 AppStore: 更新节点的数据', data)
+            // console.log('🧮 AppStore: 更新节点的数据', data)
 
             if (isDebug) {
                 return LocalStore.saveData(data)

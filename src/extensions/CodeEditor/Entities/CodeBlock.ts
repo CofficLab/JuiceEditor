@@ -1,4 +1,4 @@
-import { SmartLanguage, languages } from "../../../entities/SmartLanguage";
+import { SmartLanguage, languages } from "./SmartLanguage";
 
 // 对应 CodeEditor 一个标签中存储的代码
 export class CodeBlock {
