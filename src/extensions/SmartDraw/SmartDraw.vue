@@ -6,7 +6,7 @@
         ]">
           <img crossOrigin="anonymous" :src="node.attrs.src" ref="img" class="p-0 m-0 "/>
         </summary>
-        <div class="dropdown-content z-[1]">
+        <div class="dropdown-content z-[1] p-2">
           <div class="join md:join-vertical shadow-2xl ring-1 ring-orange-900/30 rounded-xl">
             <button class="btn btn-sm join-item" @click="openLoading">
               <IconEdit class="w-5 h-6"></IconEdit>
