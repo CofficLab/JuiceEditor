@@ -58,6 +58,10 @@ class MonacoBox {
         let lineHeight = editor.getOption(monaco.editor.EditorOption.lineHeight);
         let padding = editor.getOption(monaco.editor.EditorOption.padding);
 
+        // console.log("MonacoBox: 设置 monaco editor 的高度, 行数", lineCount);
+        // console.log("MonacoBox: 设置 monaco editor 的高度, 行高", lineHeight);
+        // console.log("MonacoBox: 设置 monaco editor 的高度, 行间距", padding);
+
         return lineCount * lineHeight + padding.top + padding.bottom;
     }
 

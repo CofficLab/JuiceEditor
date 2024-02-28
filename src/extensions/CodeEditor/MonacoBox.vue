@@ -26,7 +26,7 @@
       <pre
         :id="resultId"
         v-show="runResultVisible && runVisible"
-        class="result-dom not-prose px-4 py-2 border border-green-900/40 text-sm m-0 rounded-none"
+        class="px-4 py-2 border border-green-900/40 text-sm m-0 rounded-none"
       ></pre>
     </div>
   </div>
@@ -215,7 +215,7 @@ let handleRun = () => {
     let content = editor.getValue() || ''
     let language = props.language.getTitle() || languages[0].getTitle()
     webkit.runCode(content, language, (result) => {
-      var output = content.slice(0, 100) + '\n\n'
+      var output = ''
       if (result.length == 0) {
         output += '「程序没有输出」'
       } else {

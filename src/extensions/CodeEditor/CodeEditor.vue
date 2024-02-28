@@ -31,7 +31,7 @@
       </Monaco>
 
       <!-- 代码框，存储从文件系统读出的代码，然后放到Monaco编辑器中 -->
-      <NodeViewContent ref="nodeViewContent" class="bg-green-50"/>
+      <NodeViewContent ref="nodeViewContent" class="bg-green-50 hidden"/>
 
       <!-- 代码块操作栏 -->
       <div class="operation-bar" v-if="editor.isEditable">
