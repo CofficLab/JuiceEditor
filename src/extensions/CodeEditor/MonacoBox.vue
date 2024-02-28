@@ -15,6 +15,16 @@
         <CloseIcon v-else="runResultVisible" />
       </button>
 
+      <!-- 停止按钮 -->
+        <button
+          class="btn btn-square dark:hover:bg-gray-900/80 btn-ghost text-error btn-sm absolute bottom-7 right-2 z-20"
+          @click="stop"
+          v-show="running"
+          contenteditable="false"
+        >
+          <StopIcon />
+        </button>
+
       <!-- Monaco -->
       <!-- monaco有时候不能全部占满这个div，会在左侧或右侧留几个像素的padding -->
       <!-- 所以让这个div的背景色=monaco的背景色 -->
@@ -38,6 +48,7 @@ import MonacoBox from './Entities/MonacoBox'
 import webkit from '../../entities/WebKit'
 import PlayIcon from './Icons/Play.vue'
 import CloseIcon from './Icons/Close.vue'
+import StopIcon from './Icons/Stop.vue'
 import { v4 as uuidv4 } from 'uuid';
 import * as monaco from "monaco-editor"
 import { SmartLanguage, languages } from './Entities/SmartLanguage'
@@ -130,6 +141,11 @@ function getCodeElement(): HTMLDivElement {
 
 function getResultElement(): HTMLElement {
   return document.getElementById(resultId)!
+}
+
+function stop() {
+  runResultVisible.value = false
+  running.value = false
 }
 
 onMounted(() => {
