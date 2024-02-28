@@ -4,7 +4,7 @@
       <!-- 运行按钮 -->
       <button
         class="btn btn-square dark:hover:bg-gray-900/80 btn-ghost text-accent btn-sm absolute bottom-1 right-2 z-20"
-        @click="handleRun"
+        @click="onClickIcon"
         v-show="runVisible && language.runnable"
         contenteditable="false"
       >
@@ -14,16 +14,6 @@
         </template>
         <CloseIcon v-else="runResultVisible" />
       </button>
-
-      <!-- 停止按钮 -->
-        <button
-          class="btn btn-square dark:hover:bg-gray-900/80 btn-ghost text-error btn-sm absolute bottom-7 right-2 z-20"
-          @click="stop"
-          v-show="running"
-          contenteditable="false"
-        >
-          <StopIcon />
-        </button>
 
       <!-- Monaco -->
       <!-- monaco有时候不能全部占满这个div，会在左侧或右侧留几个像素的padding -->
@@ -49,8 +39,8 @@ import webkit from '../../entities/WebKit'
 import PlayIcon from './Icons/Play.vue'
 import CloseIcon from './Icons/Close.vue'
 import StopIcon from './Icons/Stop.vue'
-import { v4 as uuidv4 } from 'uuid';
-import * as monaco from "monaco-editor"
+import { v4 as uuidv4 } from 'uuid'
+import * as monaco from 'monaco-editor'
 import { SmartLanguage, languages } from './Entities/SmartLanguage'
 
 const props = defineProps({
@@ -86,7 +76,7 @@ const props = defineProps({
   },
   onContentChanged: {
     type: Function,
-    default: (content:string) => {
+    default: (content: string) => {
       console.log('MonacoBox: monaco content changed', content)
     }
   },
@@ -144,6 +134,7 @@ function getResultElement(): HTMLElement {
 }
 
 function stop() {
+  console.log('🍋 💼 MonacoBox: stop')
   runResultVisible.value = false
   running.value = false
 }
@@ -214,8 +205,10 @@ watch(
 /**
  * 处理页面点击事件
  */
-let handleRun = () => {
-  if (running.value) return
+let onClickIcon = () => {
+  if (running.value) {
+    return stop()
+  }
 
   // 收起结果
   if (runResultVisible.value) {
