@@ -93,7 +93,9 @@ export const CodeEditor = CodeBlock.extend({
         height: node.attrs.height,
         database: node.attrs.database,
         uuid: node.attrs.uuid,
-      }
+      },
+      // 代码数据已存储到database属性中
+      // ['code', node.attrs.code]
     ]
   },
 
