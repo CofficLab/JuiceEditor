@@ -2,11 +2,16 @@
   <div>
     <div class="relative">
       <!-- 运行按钮 -->
-      <button class="btn btn-square dark:hover:bg-gray-900/80 btn-ghost text-accent absolute bottom-0 right-2 z-20" :class="{
-        'btn-xs': lineCount <= 2,
-        'btn-sm': lineCount > 2
-      }"
-        @click="onClickIcon" v-show="runVisible && language.runnable" contenteditable="false">
+      <button
+        class="btn btn-square dark:hover:bg-gray-900/80 btn-ghost text-accent absolute bottom-0 right-2 z-20"
+        :class="{
+          'btn-xs': lineCount <= 2,
+          'btn-sm': lineCount > 2
+        }"
+        @click="onClickIcon"
+        v-show="runVisible && language.runnable"
+        contenteditable="false"
+      >
         <template v-if="!runResultVisible">
           <span class="loading loading-spinner" v-if="running"></span>
           <PlayIcon v-else />
@@ -15,12 +20,20 @@
       </button>
 
       <!-- 语言 -->
-      <p class="btn btn-square dark:hover:bg-gray-900/80 btn-ghost text-info/50 btn-xs absolute z-20" :class="{
-        'right-14 bottom-0': lineCount <= 2,
-        'right-8 top-0': lineCount > 2
-      }" contenteditable="false">
-        {{ language.getTitle() }}
-      </p>
+      <div
+        contenteditable="false"
+        class="absolute z-50"
+        :class="{
+          'right-8 bottom-0': lineCount <= 2 && runVisible && language.runnable,
+          'right-0 top-0': lineCount > 2,
+          'right-0': !(runVisible && language.runnable)
+        }"
+      >
+        <LanguageSelect
+          :language="language"
+          :on-language-changed="onLanguageChanged"
+        ></LanguageSelect>
+      </div>
 
       <!-- Monaco -->
       <!-- monaco有时候不能全部占满这个div，会在左侧或右侧留几个像素的padding -->
@@ -30,8 +43,11 @@
 
     <!-- 展示运行结果 -->
     <div class="px-0">
-      <pre :id="resultId" v-show="runResultVisible && runVisible"
-        class="px-4 py-2 border border-green-900/40 text-sm m-0 rounded-none"></pre>
+      <pre
+        :id="resultId"
+        v-show="runResultVisible && runVisible"
+        class="px-4 py-2 border border-green-900/40 text-sm m-0 rounded-none"
+      ></pre>
     </div>
   </div>
 </template>
@@ -42,10 +58,10 @@ import MonacoBox from './Entities/MonacoBox'
 import webkit from '../../entities/WebKit'
 import PlayIcon from './Icons/Play.vue'
 import CloseIcon from './Icons/Close.vue'
-import StopIcon from './Icons/Stop.vue'
 import { v4 as uuidv4 } from 'uuid'
 import * as monaco from 'monaco-editor'
 import { SmartLanguage, languages } from './Entities/SmartLanguage'
+import LanguageSelect from './LanguageSelect.vue'
 
 const props = defineProps({
   content: {
@@ -156,7 +172,7 @@ onMounted(() => {
       console.log('🍋 🗒️ MonacoBox: created')
       lan.value = MonacoBox.getLanguage(editor)
       lineCount.value = editor.getModel()!.getLineCount()
-      console.log("lines", lineCount.value)
+      console.log('lines', lineCount.value)
 
       // setTimeout(() => {
       //   // 去掉setTimeout则不能获取焦点，原因暂时不明

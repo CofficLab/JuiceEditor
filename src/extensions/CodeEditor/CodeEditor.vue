@@ -1,42 +1,65 @@
 <template>
-  <NodeViewWrapper contenteditable="false"
-    class="code-editor my-4 overflow-visible rounded relative border-0 border-yellow-600" >
-    <details class="dropdown dropdown-bottom md:dropdown-left list-none w-full" :id="contentId">
+  <NodeViewWrapper
+    contenteditable="false"
+    class="code-editor my-4 overflow-visible relative rounded border-0 border-yellow-600"
+  >
+    <div class="dropdown dropdown-bottom md:dropdown-left list-none w-full" :id="contentId">
       <!-- 代码块内容区域 -->
-      <summary class="m-1 list-none" v-bind:class="[
-        { 'outline-orange-600 outline-dashed outline-2 outline-offset-1': isSelected },
-      ]">
-        <CodeTabs :items="items" :database="database" :onCreateTab="createTab" :onClickTab="activate"
-          :onUpdateTitle="updateTitle" v-if="items.length > 1">
+      <div
+        class="m-1"
+        v-bind:class="[
+          { 'outline-orange-600 outline-dashed outline-2 outline-offset-1': isSelected }
+        ]"
+      >
+        <!-- 标签区域 -->
+        <CodeTabs
+          :items="items"
+          :database="database"
+          :onCreateTab="createTab"
+          :onClickTab="activate"
+          :onUpdateTitle="updateTitle"
+          v-if="items.length > 1"
+        >
         </CodeTabs>
 
         <!-- 编辑区域 -->
         <div class="relative" ref="codeDom">
-          <Monaco contenteditable="true" :editable="editor.isEditable" :readOnly="!editor.isEditable" :content="content"
-            :language="activatedItem.language" :runVisible="activatedItem.runVisible" :showRunButton="node.attrs.run == 1"
-            :onContentChanged="handleContentChanged" :onRunnableChanged="handleRunnableChanged" :showLineNumbers="true"
-            :uuid="monacoUuid">
+          <Monaco
+            contenteditable="true"
+            :editable="editor.isEditable"
+            :readOnly="!editor.isEditable"
+            :content="content"
+            :language="activatedItem.language"
+            :runVisible="activatedItem.runVisible"
+            :showRunButton="node.attrs.run == 1"
+            :onContentChanged="handleContentChanged"
+            :onRunnableChanged="handleRunnableChanged"
+            :showLineNumbers="true"
+            :uuid="monacoUuid"
+            :on-language-changed="setLanguage"
+          >
           </Monaco>
 
           <!-- 代码框，存储从文件系统读出的代码，然后放到Monaco编辑器中 -->
           <NodeViewContent ref="nodeViewContent" class="bg-green-50 hidden" />
         </div>
-      </summary>
+      </div>
 
       <!-- 代码块操作栏 -->
       <div class="dropdown-content z-[1] p-2">
-        <Toolbar 
-        :language="activatedItem.language" 
-        :content="content" 
-        :onNewTab="createTab" 
-        :on-set-not-runnable="setNotRunnable"
-        :on-set-runnable="setRunnable"
-        :on-set-language="setLanguage"
-        :on-new-line="onNewLine"
-        :on-delete="deleteTab">
+        <Toolbar
+          :language="activatedItem.language"
+          :content="content"
+          :onNewTab="createTab"
+          :on-set-not-runnable="setNotRunnable"
+          :on-set-runnable="setRunnable"
+          :on-set-language="setLanguage"
+          :on-new-line="onNewLine"
+          :on-delete="deleteTab"
+        >
         </Toolbar>
       </div>
-    </details>
+    </div>
   </NodeViewWrapper>
 </template>
 
@@ -61,7 +84,7 @@ import { SmartLanguage } from './Entities/SmartLanguage'
 import { CodeBlock } from './Entities/CodeBlock'
 import Toolbar from './Toolbar.vue'
 import Helper from '../Helper'
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid'
 
 var clipboard = new ClipboardJS('.copy')
 clipboard
@@ -103,7 +126,7 @@ function getDom() {
 }
 
 function createTab(): void {
-  console.log("createTab")
+  console.log('createTab')
   props.updateAttributes({
     database: database.value.appendNewCodeBlock().toJSON()
   })
@@ -188,7 +211,7 @@ function updateTitle(title: string) {
 }
 
 function onToggle(event: Event) {
-    isSelected.value = getDom().open
+  isSelected.value = getDom().open
 }
 
 function onNewLine() {
@@ -204,7 +227,7 @@ onMounted(() => {
 
   // 如果是最后一个节点，在本节点后插入一个空的p，防止光标无法移动到下一个节点
   Helper.insertNewLineIfIsTheLastNode(props)
-  getDom().addEventListener("toggle", onToggle)
+  getDom().addEventListener('toggle', onToggle)
 })
 
 onBeforeUpdate(() => {
