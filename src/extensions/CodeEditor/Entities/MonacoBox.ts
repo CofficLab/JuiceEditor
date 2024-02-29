@@ -122,6 +122,8 @@ class MonacoBox {
 
         MonacoBox.setHeightOfEditor(editor)
 
+        options.onCreated?.(editor);
+
         return editor
     }
 }

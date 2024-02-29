@@ -1,79 +1,42 @@
 <template>
-  <NodeViewWrapper
-    contenteditable="false"
-    class="code-editor my-4 overflow-visible rounded relative border-0 border-yellow-600"
-  >
-    <CodeTabs
-      :items="items"
-      :database="database"
-      :onCreateTab="createTab"
-      :onClickTab="activate"
-      :onUpdateTitle="updateTitle"
-      v-if="items.length > 1"
-    >
-    </CodeTabs>
+  <NodeViewWrapper contenteditable="false"
+    class="code-editor my-4 overflow-visible rounded relative border-0 border-yellow-600" >
+    <details class="dropdown dropdown-bottom md:dropdown-left list-none w-full" :id="contentId">
+      <!-- 代码块内容区域 -->
+      <summary class="m-1 list-none" v-bind:class="[
+        { 'outline-orange-600 outline-dashed outline-2 outline-offset-1': isSelected },
+      ]">
+        <CodeTabs :items="items" :database="database" :onCreateTab="createTab" :onClickTab="activate"
+          :onUpdateTitle="updateTitle" v-if="items.length > 1">
+        </CodeTabs>
 
-    <!-- 编辑区域 -->
-    <div class="relative" ref="codeDom">
-      <Monaco
-        contenteditable="true"
-        :editable="editor.isEditable"
-        :readOnly="!editor.isEditable"
-        :content="content"
-        :language="activatedItem.language"
-        :runVisible="activatedItem.runVisible"
-        :showRunButton="node.attrs.run == 1"
-        :onContentChanged="handleContentChanged"
-        :onRunnableChanged="handleRunnableChanged"
-        :showLineNumbers="true"
-        :uuid="monacoUuid"
-      >
-      </Monaco>
+        <!-- 编辑区域 -->
+        <div class="relative" ref="codeDom">
+          <Monaco contenteditable="true" :editable="editor.isEditable" :readOnly="!editor.isEditable" :content="content"
+            :language="activatedItem.language" :runVisible="activatedItem.runVisible" :showRunButton="node.attrs.run == 1"
+            :onContentChanged="handleContentChanged" :onRunnableChanged="handleRunnableChanged" :showLineNumbers="true"
+            :uuid="monacoUuid">
+          </Monaco>
 
-      <!-- 代码框，存储从文件系统读出的代码，然后放到Monaco编辑器中 -->
-      <NodeViewContent ref="nodeViewContent" class="bg-green-50 hidden"/>
+          <!-- 代码框，存储从文件系统读出的代码，然后放到Monaco编辑器中 -->
+          <NodeViewContent ref="nodeViewContent" class="bg-green-50 hidden" />
+        </div>
+      </summary>
 
       <!-- 代码块操作栏 -->
-      <div class="operation-bar" v-if="editor.isEditable">
-        <!-- 语言按钮 -->
-        <div class="dropdown dropdown-hover dropdown-bottom dropdown-end">
-          <label tabindex="0">
-            {{ activatedItem.language.getTitle() }}
-          </label>
-          <ul class="menu z-50">
-            <li v-for="(item, index) in languages" :key="index">
-              <a @click="setLanguage(item)">{{ item.getTitle() }}</a>
-            </li>
-          </ul>
-        </div>
-        <!-- 菜单按钮 -->
-        <div class="dropdown dropdown-hover dropdown-bottom dropdown-end">
-          <label tabindex="0">
-            <Setting></Setting>
-          </label>
-          <ul class="menu z-50">
-            <li>
-              <a @click="createTab">新标签</a>
-            </li>
-            <li v-if="activatedItem.runVisible">
-              <a @click="setNotRunnable">关运行</a>
-            </li>
-            <li v-if="activatedItem.language.runnable && !activatedItem.runVisible">
-              <a @click="setRunnable">开运行</a>
-            </li>
-            <li>
-              <a class="copy" v-bind:data-clipboard-text="content">复制代码</a>
-            </li>
-            <li>
-              <a @click="handleDelete">删除</a>
-            </li>
-            <li>
-                <a @click="newLine">插入空行</a>
-            </li>
-          </ul>
-        </div>
+      <div class="dropdown-content z-[1] p-2">
+        <Toolbar 
+        :language="activatedItem.language" 
+        :content="content" 
+        :onNewTab="createTab" 
+        :on-set-not-runnable="setNotRunnable"
+        :on-set-runnable="setRunnable"
+        :on-set-language="setLanguage"
+        :on-new-line="onNewLine"
+        :on-delete="deleteTab">
+        </Toolbar>
       </div>
-    </div>
+    </details>
   </NodeViewWrapper>
 </template>
 
@@ -93,11 +56,12 @@ import {
   onBeforeUpdate,
   onUpdated
 } from 'vue'
-import MonacoBox from './Entities/MonacoBox'
-import Setting from './Icons/Setting.vue'
 import ClipboardJS from 'clipboard'
-import { SmartLanguage, languages } from './Entities/SmartLanguage'
+import { SmartLanguage } from './Entities/SmartLanguage'
 import { CodeBlock } from './Entities/CodeBlock'
+import Toolbar from './Toolbar.vue'
+import Helper from '../Helper'
+import { v4 as uuidv4 } from 'uuid';
 
 var clipboard = new ClipboardJS('.copy')
 clipboard
@@ -111,6 +75,8 @@ clipboard
 
 const props = defineProps(nodeViewProps)
 
+let contentId = 'code-editor-' + uuidv4()
+let isSelected = ref(false)
 let titlesDom = ref()
 let database = computed<Database>(() => new Database(props.node.attrs.database))
 let items = computed<CodeBlock[]>(() => database.value.items)
@@ -132,32 +98,12 @@ let monacoUuid = computed(() => {
 // 编辑器区域
 let codeDom = ref(activatedItem.value.content)
 
-// 是否是整个editor.state.doc.content的最后一个node
-let isTheLastNode = computed(
-  () => getTailPos() == props.editor.state.doc.content.size
-)
-
-// 在本节点的后面插入一行
-function newLine() {
-  let tail = getTailPos()
-  props.editor.commands.insertContentAt(tail, '<p></p>', {
-    updateSelection: false,
-    parseOptions: {
-      preserveWhitespace: 'full'
-    }
-  })
-  props.editor.commands.focus(tail)
-}
-
-// 获取尾部位置
-function getTailPos(): number {
-  const start = props.getPos()
-  const end = start + props.node.nodeSize
-
-  return end
+function getDom() {
+  return document.getElementById(contentId)! as HTMLDetailsElement
 }
 
 function createTab(): void {
+  console.log("createTab")
   props.updateAttributes({
     database: database.value.appendNewCodeBlock().toJSON()
   })
@@ -204,7 +150,7 @@ function handleRunnableChanged(runnable: boolean) {
   })
 }
 
-function handleDelete() {
+function deleteTab() {
   if (items.value.length == 1) return props.deleteNode()
 
   props.updateAttributes({
@@ -241,6 +187,14 @@ function updateTitle(title: string) {
   })
 }
 
+function onToggle(event: Event) {
+    isSelected.value = getDom().open
+}
+
+function onNewLine() {
+  Helper.newLine(props)
+}
+
 onBeforeMount(() => {
   console.log('🍋 💼 CodeEditor: before mounted')
 })
@@ -249,9 +203,8 @@ onMounted(() => {
   console.log('🍋 💼 CodeEditor: mounted, uuid = ', props.editor.options.injectNonce)
 
   // 如果是最后一个节点，在本节点后插入一个空的p，防止光标无法移动到下一个节点
-  if (isTheLastNode.value) {
-    newLine()
-  }
+  Helper.insertNewLineIfIsTheLastNode(props)
+  getDom().addEventListener("toggle", onToggle)
 })
 
 onBeforeUpdate(() => {
@@ -271,25 +224,3 @@ onUnmounted(() => {
   console.log('🍋 💼 CodeEditor: unmounted')
 })
 </script>
-
-<style lang="postcss" scoped>
-ul.menu {
-  @apply p-0 bg-base-200 w-24 mt-0 dropdown-content border-0 border-red-950 !important;
-
-  li {
-    @apply m-0 p-0 rounded-none !important;
-
-    a {
-      @apply no-underline rounded-none text-xs;
-    }
-  }
-}
-
-.operation-bar {
-  @apply bg-black/80 dark:bg-gray-900/80 flex flex-row justify-end rounded-b-xl;
-
-  .dropdown label {
-    @apply btn hover:bg-gray-600 font-normal btn-sm p-0 px-2 m-0 btn-ghost text-white;
-  }
-}
-</style>
