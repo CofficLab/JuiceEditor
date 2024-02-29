@@ -2,18 +2,25 @@
   <div>
     <div class="relative">
       <!-- 运行按钮 -->
-      <button
-        class="btn btn-square dark:hover:bg-gray-900/80 btn-ghost text-accent btn-sm absolute bottom-1 right-2 z-20"
-        @click="onClickIcon"
-        v-show="runVisible && language.runnable"
-        contenteditable="false"
-      >
+      <button class="btn btn-square dark:hover:bg-gray-900/80 btn-ghost text-accent absolute bottom-0 right-2 z-20" :class="{
+        'btn-xs': lineCount <= 2,
+        'btn-sm': lineCount > 2
+      }"
+        @click="onClickIcon" v-show="runVisible && language.runnable" contenteditable="false">
         <template v-if="!runResultVisible">
           <span class="loading loading-spinner" v-if="running"></span>
           <PlayIcon v-else />
         </template>
         <CloseIcon v-else="runResultVisible" />
       </button>
+
+      <!-- 语言 -->
+      <p class="btn btn-square dark:hover:bg-gray-900/80 btn-ghost text-info/50 btn-xs absolute z-20" :class="{
+        'right-14 bottom-0': lineCount <= 2,
+        'right-8 top-0': lineCount > 2
+      }" contenteditable="false">
+        {{ language.getTitle() }}
+      </p>
 
       <!-- Monaco -->
       <!-- monaco有时候不能全部占满这个div，会在左侧或右侧留几个像素的padding -->
@@ -23,17 +30,14 @@
 
     <!-- 展示运行结果 -->
     <div class="px-0">
-      <pre
-        :id="resultId"
-        v-show="runResultVisible && runVisible"
-        class="px-4 py-2 border border-green-900/40 text-sm m-0 rounded-none"
-      ></pre>
+      <pre :id="resultId" v-show="runResultVisible && runVisible"
+        class="px-4 py-2 border border-green-900/40 text-sm m-0 rounded-none"></pre>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onUnmounted, watch, ref, onBeforeUnmount } from 'vue'
+import { onMounted, onUnmounted, watch, ref, onBeforeUnmount, computed } from 'vue'
 import MonacoBox from './Entities/MonacoBox'
 import webkit from '../../entities/WebKit'
 import PlayIcon from './Icons/Play.vue'
@@ -124,6 +128,7 @@ let runResultVisible = ref(false)
  */
 let lan = ref(languages[0])
 var editor: monaco.editor.IStandaloneCodeEditor
+var lineCount = ref(0)
 
 function getCodeElement(): HTMLDivElement {
   return document.getElementById(domId)! as HTMLDivElement
@@ -150,6 +155,8 @@ onMounted(() => {
     onCreated(editor) {
       console.log('🍋 🗒️ MonacoBox: created')
       lan.value = MonacoBox.getLanguage(editor)
+      lineCount.value = editor.getModel()!.getLineCount()
+      console.log("lines", lineCount.value)
 
       // setTimeout(() => {
       //   // 去掉setTimeout则不能获取焦点，原因暂时不明
@@ -161,6 +168,7 @@ onMounted(() => {
     },
     onContentChanged(editor: monaco.editor.IStandaloneCodeEditor) {
       props.onContentChanged(editor.getValue())
+      lineCount.value = editor.getModel()!.getLineCount()
     },
     onLanguageChanged(language) {
       console.log('🍋 💼 MonacoBox: onLanguageChanged ->', language)

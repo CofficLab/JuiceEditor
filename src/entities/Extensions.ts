@@ -26,6 +26,7 @@ import SmartLink from "../extensions/SmartLink/SmartLink"
 import { Toc } from "../extensions/Toc/Toc"
 import { Document } from "@tiptap/extension-document"
 import SmartTable from "../extensions/SmartTable/SmartTable"
+import { Base } from "../extensions/Base/Base"
 
 interface makeExtensionsProps {
     drawIoLink?: string,
@@ -35,6 +36,7 @@ interface makeExtensionsProps {
 
 function makeExtensions(props: makeExtensionsProps) {
     var extensions = [
+        Base,
         Blockquote.configure({
             HTMLAttributes: {
                 class: 'my-custom-class',
