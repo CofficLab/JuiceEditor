@@ -1,27 +1,35 @@
 <template>
   <div v-if="editor" class="flex flex-col tiptap">
     <!-- 选中文字后弹出的菜单 -->
-    <BubbleMenus :editor="editor" v-if="editable && bubbleMenusEnable && !contextMenuDidShow"></BubbleMenus>
+    <BubbleMenus
+      :editor="editor"
+      v-if="editable && bubbleMenusEnable && !contextMenuDidShow"
+    ></BubbleMenus>
 
     <!-- 回车后弹出的菜单 -->
-    <FloatMenus :editor="editor" v-if="editable && floatingMenusEnable && !contextMenuDidShow"></FloatMenus>
+    <FloatMenus
+      :editor="editor"
+      v-if="editable && floatingMenusEnable && !contextMenuDidShow"
+    ></FloatMenus>
 
-    <div class="flex flex-row justify-center lg:justify-center" :class="{
-      'md:justify-end': shouldShowToc
-    }">
+    <div
+      class="flex flex-row justify-center 4md:justify-center"
+      :class="{
+        'md:justify-end': shouldShowToc
+      }"
+    >
       <!-- 编辑器 -->
-      <editor-content :editor="editor"
-        class="flex flex-col pb-48 prose dark:prose-invert px-4 container prose-sm bg-cyan-300/0" />
+      <editor-content
+        :editor="editor"
+        class="flex flex-col pb-48 prose dark:prose-invert px-4 container prose-sm bg-cyan-300/0"
+      />
 
       <!-- TOC -->
-      <div class="hidden w-48 flex-row justify-start h-screen right-0 overflow-y-scroll sticky top-0
-      md:flex md:w-56 md:bg-red-400/0
-      4md:fixed 4md:right-0 4md:w-48 4md:bg-yellow-400/0
-      lg:w-56
-      2lg:w-64
-      3lg:w-72
-      xl:w-88
-      2xl:w-96 2xl:bg-green-400/0" id="toc" v-if="shouldShowToc">
+      <div
+        class="hidden w-48 flex-row justify-start h-screen right-0 overflow-y-scroll sticky top-0 md:flex md:w-56 md:bg-red-400/0 4md:fixed 4md:right-0 4md:w-48 4md:bg-yellow-400/0 lg:w-56 2lg:w-64 3lg:w-72 xl:w-88 2xl:w-96 2xl:bg-green-400/0"
+        id="toc"
+        v-if="shouldShowToc"
+      >
         <div class="h-2/3 my-12 w-full bg-green-400/0">
           <ul class="menu menu-xs bg-base-200/0" v-for="h in headingTree.children">
             <HeadingVue :heading="h"></HeadingVue>
@@ -87,15 +95,15 @@ const props = defineProps({
   },
   onCreate: {
     type: Function,
-    default: () => { }
+    default: () => {}
   },
   onUpdate: {
     type: Function,
-    default: () => { }
+    default: () => {}
   },
   onSelectionUpdate: {
     type: Function,
-    default: () => { }
+    default: () => {}
   }
 })
 
@@ -110,7 +118,7 @@ const editor = TiptapAgent.create({
     props.onCreate(data)
   },
   onUpdate: (data: EditorData) => {
-    refreshToc("onUpdate")
+    refreshToc('onUpdate')
     if (!props.editable) {
       return console.log('🍋 TiptapEditor: 只读模式，不回调更新')
     }
@@ -172,7 +180,7 @@ watch(props, () => {
 onMounted(() => {
   console.log('🍋 🗒️ TiptapEditor: onMounted')
 
-  refreshToc("onMounted")
+  refreshToc('onMounted')
 
   // 处理事件
   eventManager.setListener(editor, (msg) => {
@@ -197,7 +205,7 @@ onBeforeUnmount(() => {
 
 <style lang="scss">
 .ProseMirror {
-  >*+* {
+  > * + * {
     margin-top: 0.75em;
   }
 
@@ -214,7 +222,7 @@ onBeforeUnmount(() => {
 
 /* Basic editor styles */
 .ProseMirror {
-  >*+* {
+  > * + * {
     margin-top: 0.75em;
   }
 }
@@ -248,13 +256,13 @@ ul[data-type='taskList'] {
   li {
     display: flex;
 
-    >label {
+    > label {
       flex: 0 0 auto;
       margin-right: 0.5rem;
       user-select: none;
     }
 
-    >div {
+    > div {
       flex: 1 1 auto;
     }
 
@@ -263,7 +271,7 @@ ul[data-type='taskList'] {
       display: list-item;
     }
 
-    ul[data-type='taskList']>li {
+    ul[data-type='taskList'] > li {
       display: flex;
     }
   }
