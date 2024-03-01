@@ -3,40 +3,73 @@
     <Panel :inline="true">
       <template v-slot:content>
         <!-- 链接的内容 -->
-        <label tabindex="0" contenteditable="false" class="m-0 link link-hover link-primary" @click="onClickLink">
+        <label
+          tabindex="0"
+          contenteditable="false"
+          class="m-0 link link-hover link-primary"
+          @click="onClickLink"
+        >
           <span v-html="props.node.attrs.text"></span>
           <node-view-content class="hidden" />
-          <a :href="props.node.attrs.href" ref="goto" target="_blank" class="no-underline hidden">访问</a>
+          <a :href="props.node.attrs.href" ref="goto" target="_blank" class="no-underline hidden"
+            >访问</a
+          >
         </label>
       </template>
 
       <template v-slot:operators>
         <!-- 链接的操作栏 -->
-        <div tabindex="0" v-if="editor.isEditable"
-          class="dropdown-content z-50 p-2 flex flex-row w-96 gap-2 bg-success/95 text-success-content rounded-md">
+        <div class="w-full flex flex-row p-1">
           <!-- 删除链接 -->
-          <div class="join rounded-none flex justify-end items-center tooltip" data-tip="删除链接和文字" contenteditable="false">
+          <div
+            class="join rounded-none flex justify-end items-center tooltip"
+            data-tip="删除链接和文字"
+            contenteditable="false"
+          >
             <button class="btn btn-sm join-item btn-ghost p-1 h-full" @click="deleteNode">
               <IconDelete class="w-5 h-6"></IconDelete>
             </button>
           </div>
 
           <!-- 输入链接和文字 -->
-          <div class="flex flex-col gap-1 flex-grow">
+          <div class="flex flex-col gap-1 flex-grow w-72">
             <div class="join">
-              <button class="btn join-item btn-sm" contenteditable="false">链接</button>
-              <input type="text" v-model="props.node.attrs.href" placeholder="在此输入链接"
-                class="input w-full focus:outline-none join-item input-sm" />
-              <button class="btn join-item btn-sm" contenteditable="false">
-                <a :href="props.node.attrs.href" target="_blank" class="no-underline">访问</a>
+              <button class="btn join-item btn-sm rounded-none" contenteditable="false">
+                链接
+              </button>
+              <input
+                type="text"
+                v-model="props.node.attrs.href"
+                placeholder="在此输入链接"
+                class="input w-full focus:outline-none join-item input-sm"
+              />
+              <button
+                class="btn join-item btn-sm rounded-none tooltip"
+                data-tip="在浏览器中打开"
+                contenteditable="false"
+              >
+                <a :href="props.node.attrs.href" target="_blank" class="no-underline"
+                  ><Open></Open
+                ></a>
               </button>
             </div>
             <div class="join">
-              <button class="btn join-item btn-sm" contenteditable="false">文字</button>
-              <input type="text" v-model="props.node.attrs.text" placeholder="在此输入文字"
-                class="input w-full focus:outline-none input-sm join-item" />
-              <button class="btn btn-sm join-item" @click="notLink" contenteditable="false">
-                取消
+              <button class="btn join-item btn-sm rounded-none" contenteditable="false">
+                文字
+              </button>
+              <input
+                type="text"
+                v-model="props.node.attrs.text"
+                placeholder="在此输入文字"
+                class="input w-full focus:outline-none input-sm join-item"
+              />
+              <button
+                class="btn btn-sm join-item rounded-none tooltip"
+                data-tip="删除链接，保留文字"
+                @click="notLink"
+                contenteditable="false"
+              >
+                <NoLink></NoLink>
               </button>
             </div>
           </div>
@@ -49,7 +82,9 @@
 import { nodeViewProps, NodeViewWrapper, NodeViewContent } from '@tiptap/vue-3'
 import IconDelete from './Icons/Delete.vue'
 import { ref, watch } from 'vue'
-import Panel from '../Panel.vue';
+import Panel from '../Panel.vue'
+import Open from './Icons/Open.vue'
+import NoLink from './Icons/NoLink.vue'
 
 const props = defineProps(nodeViewProps)
 

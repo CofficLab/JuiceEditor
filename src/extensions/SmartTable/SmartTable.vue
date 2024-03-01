@@ -7,45 +7,65 @@
 
       <template v-slot:operators>
         <div class="table-menus flex flex-wrap join" contenteditable="false">
-          <button @click="focusedNode.addColumnBefore().run()" class="tooltip" data-tip="在左边加一列">
-            <img src="../../assets/table.column.plus.before.svg" />
+          <button
+            @click="focusedNode.addColumnBefore().run()"
+            class="tooltip"
+            data-tip="在左边加一列"
+          >
+            <RowPlusBefore></RowPlusBefore>
           </button>
-          <button @click="focusedNode.addColumnAfter().run()" class="tooltip" data-tip="在右边加一列">
-            <img src="../../assets/table.column.plus.after.svg" />
+          <button
+            @click="focusedNode.addColumnAfter().run()"
+            class="tooltip"
+            data-tip="在右边加一列"
+          >
+            <RowPlusAfter></RowPlusAfter>
           </button>
           <button @click="focusedNode.deleteColumn().run()" class="tooltip" data-tip="删除当前列">
-            <img src="../../assets/table.column.remove.svg" />
+            <ColumnRemove></ColumnRemove>
           </button>
           <Divider></Divider>
           <button @click="focusedNode.addRowBefore().run()" class="tooltip" data-tip="在上面加一行">
-            <img src="../../assets/table.row.plus.before.svg" />
+            <RowPlusBefore></RowPlusBefore>
           </button>
           <button @click="focusedNode.addRowAfter().run()" class="tooltip" data-tip="在下面加一行">
-            <img src="../../assets/table.row.plus.after.svg" />
+            <RowPlusAfter></RowPlusAfter>
           </button>
           <button @click="focusedNode.deleteRow().run()" class="tooltip" data-tip="删除当前行">
-            <img src="../../assets/table.row.remove.svg" />
+            <RowRemove></RowRemove>
           </button>
           <Divider></Divider>
           <button @click="focusedNode.mergeCells().run()" class="tooltip" data-tip="合并">
-            <img src="../../assets/table.cell.merge.svg" />
+            <CellMerge></CellMerge>
           </button>
           <button @click="focusedNode.splitCell().run()" class="tooltip" data-tip="拆分">
-            <img src="../../assets/table.cell.split.svg" />
+            <CellSplit></CellSplit>
           </button>
           <Divider></Divider>
-          <button @click="focusedNode.toggleHeaderColumn().run()" class="tooltip" data-tip="切换表头列">
-            <img src="../../assets/table.leading.header.svg" alt="" />
+          <button
+            @click="focusedNode.toggleHeaderColumn().run()"
+            class="tooltip"
+            data-tip="切换表头列"
+          >
+            <LeadingHeader></LeadingHeader>
           </button>
-          <button @click="focusedNode.toggleHeaderRow().run()" class="tooltip" data-tip="切换表头行">
-            <img src="../../assets/table-top-header.svg" alt="" />
+          <button
+            @click="focusedNode.toggleHeaderRow().run()"
+            class="tooltip"
+            data-tip="切换表头行"
+          >
+            <TopHeader></TopHeader>
           </button>
-          <button @click="focusedNode.toggleHeaderCell().run()" class="tooltip" data-tip="切换普通和表头">
-            <img src="../../assets/table.toggle.header.svg" alt="" />
+          <button
+            @click="focusedNode.toggleHeaderCell().run()"
+            class="tooltip"
+            data-tip="切换普通和表头"
+          >
+            <TableToggleHeader></TableToggleHeader>
           </button>
           <Divider></Divider>
           <button @click="focusedNode.deleteTable().run()" class="tooltip" data-tip="删除整个表格">
-            <img src="../../assets/table.remove.svg" />
+            <Remove></Remove>
           </button>
           <!-- <button @click="focusedNode.setCellAttribute('colspan', 2).run()">占两格</button> -->
           <!-- <button @click="focusedNode.fixTables().run()">修复</button> -->
@@ -61,12 +81,21 @@
 import { nodeViewProps, NodeViewWrapper, NodeViewContent } from '@tiptap/vue-3'
 import { computed } from 'vue'
 import Divider from './Divider.vue'
-import Panel from '../Panel.vue';
+import Panel from '../Panel.vue'
+import TableToggleHeader from './Icons/ToggleHeader.vue'
+import RowRemove from './Icons/RowRemove.vue'
+import CellMerge from './Icons/CellMerge.vue'
+import Remove from './Icons/Remove.vue'
+import CellSplit from './Icons/CellSplit.vue'
+import RowPlusBefore from './Icons/RowPlusBefore.vue'
+import RowPlusAfter from './Icons/RowPlusAfter.vue'
+import ColumnRemove from './Icons/ColumnRemove.vue'
+import TopHeader from './Icons/TopHeader.vue'
+import LeadingHeader from './Icons/LeadingHeader.vue'
 
 const props = defineProps(nodeViewProps)
 const focusedNode = computed(() => props.editor.chain().focus())
 const isEditable = computed(() => props.editor.isEditable)
-
 </script>
 
 <style lang="postcss">
@@ -97,7 +126,7 @@ const isEditable = computed(() => props.editor.isEditable)
       box-sizing: border-box;
       position: relative;
 
-      >* {
+      > * {
         margin-bottom: 0;
       }
     }
