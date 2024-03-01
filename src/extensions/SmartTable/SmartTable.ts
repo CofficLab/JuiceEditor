@@ -14,10 +14,9 @@ const SmartTable = Node.create({
     group: "block",
     content: "block*",
     parseHTML: () => [
-        { tag: "smart-table" },
         { tag: "table" },
     ],
-    renderHTML: ({ node }) => ["table", 0],
+    renderHTML: ({ node }) => ["div", 0],
     addNodeView: () => VueNodeViewRenderer(SmartTableVue),
     addCommands() {
         return {
