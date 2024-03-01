@@ -8,6 +8,8 @@ on:
   schedule:
     # Every day at 9am ...
     - cron: '10 * * * *'
+permissions:
+  contents: write
 
 jobs:
   remove-old-artifacts:
