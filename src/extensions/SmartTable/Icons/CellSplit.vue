@@ -1,7 +1,7 @@
 <template>
   <svg
     t="1701763607671"
-    class="icon w-6 h-6 fill-current"
+    :class="class"
     viewBox="0 0 1024 1024"
     version="1.1"
     xmlns="http://www.w3.org/2000/svg"
@@ -14,3 +14,12 @@
     ></path>
   </svg>
 </template>
+
+<script lang="ts" setup>
+defineProps({
+  class: {
+    type: String,
+    default: 'w-6 h-6'
+  }
+})
+</script>

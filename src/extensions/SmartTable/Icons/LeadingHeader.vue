@@ -1,5 +1,5 @@
 <template>
-  <svg xmlns="http://www.w3.org/2000/svg" class="icon w-6 h-6" viewBox="0 0 24 24">
+  <svg xmlns="http://www.w3.org/2000/svg" :class="class" viewBox="0 0 24 24">
     <path
       fill="none"
       stroke="currentColor"
@@ -10,3 +10,12 @@
     />
   </svg>
 </template>
+
+<script lang="ts" setup>
+defineProps({
+  class: {
+    type: String,
+    default: 'w-6 h-6'
+  }
+})
+</script>

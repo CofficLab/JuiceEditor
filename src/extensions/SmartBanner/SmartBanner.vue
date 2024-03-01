@@ -3,14 +3,27 @@
     <Panel>
       <template v-slot:content>
         <!-- 内容 -->
-        <div class="flex flex-row gap-2 rounded-xl px-3 py-2 shadow-sm backdrop-blur" v-bind:class="[
-          { 'border-0 ring-1': !selected },
-          { 'bg-gradient-to-r from-cyan-800/50 to-cyan-800/30': props.node.attrs.color == 'cyan' },
-          { 'bg-gradient-to-r from-blue-800/50 to-blue-800/30': props.node.attrs.color == 'blue' },
-          { 'bg-gradient-to-r from-yellow-800/50 to-yellow-800/30': props.node.attrs.color == 'yellow' },
-          { 'bg-gradient-to-r from-red-800/50 to-red-800/30': props.node.attrs.color == 'red' },
-          { 'bg-gradient-to-r from-green-800/50 to-green-800/30': props.node.attrs.color == 'green' }
-        ]">
+        <div
+          class="flex flex-row gap-2 rounded-xl px-3 py-2 shadow-sm backdrop-blur"
+          v-bind:class="[
+            { 'border-0 ring-1': !selected },
+            {
+              'bg-gradient-to-r from-cyan-800/50 to-cyan-800/30': props.node.attrs.color == 'cyan'
+            },
+            {
+              'bg-gradient-to-r from-blue-800/50 to-blue-800/30': props.node.attrs.color == 'blue'
+            },
+            {
+              'bg-gradient-to-r from-yellow-800/50 to-yellow-800/30':
+                props.node.attrs.color == 'yellow'
+            },
+            { 'bg-gradient-to-r from-red-800/50 to-red-800/30': props.node.attrs.color == 'red' },
+            {
+              'bg-gradient-to-r from-green-800/50 to-green-800/30':
+                props.node.attrs.color == 'green'
+            }
+          ]"
+        >
           <div class="flex items-center justify-between">
             <Info v-if="props.node.attrs.type == 'info'" class="w-5 h-6"></Info>
             <Question v-if="props.node.attrs.type == 'question'" class="w-5 h-6"></Question>
@@ -20,49 +33,39 @@
       </template>
 
       <template v-slot:operators>
-        <div class="flex flex-col shadow-2xl ring-1 ring-orange-900/30 rounded-xl">
-          <div class="flex flex-row">
-            <div class="join join-vertical rounded-none rounded-tl-xl">
-              <button class="btn btn-sm join-item" @click="setStyleToCyan">
-                <Info class="w-5 h-6 text-cyan-500"></Info>
-              </button>
-              <button class="btn btn-sm join-item" @click="setStyleToBlue">
-                <Info class="w-5 h-6 text-blue-500"></Info>
-              </button>
-              <button class="btn btn-sm join-item" @click="setStyleToYellow">
-                <Info class="w-5 h-6 text-yellow-500"></Info>
-              </button>
-              <button class="btn btn-sm join-item" @click="setStyleToRed">
-                <Info class="w-5 h-6 text-red-500"></Info>
-              </button>
-              <button class="btn btn-sm join-item" @click="setStyleToGreen">
-                <Info class="w-5 h-6 text-green-500"></Info>
-              </button>
-            </div>
-            <div class="join join-vertical rounded-none rounded-tr-xl">
-              <button class="btn btn-sm join-item" @click="setStyleToCyanQuestion">
-                <Question class="w-5 h-6 text-cyan-500"></Question>
-              </button>
-              <button class="btn btn-sm join-item" @click="setStyleToBlueQuestion">
-                <Question class="w-5 h-6 text-blue-500"></Question>
-              </button>
-              <button class="btn btn-sm join-item" @click="setStyleToYellowQuestion">
-                <Question class="w-5 h-6 text-yellow-500"></Question>
-              </button>
-              <button class="btn btn-sm join-item" @click="setStyleToRedQuestion">
-                <Question class="w-5 h-6 text-red-500"></Question>
-              </button>
-              <button class="btn btn-sm join-item" @click="setStyleToGreenQuestion">
-                <Question class="w-5 h-6 text-green-500"></Question>
-              </button>
-            </div>
-          </div>
-          <div class="w-full flex">
-            <button class="btn btn-sm join-item w-full rounded-t-none rounded-b-xl" @click="deleteNode">
-              <IconDelete class="w-5 h-6"></IconDelete>
-            </button>
-          </div>
-        </div>
+        <button class="btn btn-sm join-item" @click="setStyleToCyan">
+          <Info class="w-5 h-6 text-cyan-500"></Info>
+        </button>
+        <button class="btn btn-sm join-item" @click="setStyleToBlue">
+          <Info class="w-5 h-6 text-blue-500"></Info>
+        </button>
+        <button class="btn btn-sm join-item" @click="setStyleToYellow">
+          <Info class="w-5 h-6 text-yellow-500"></Info>
+        </button>
+        <button class="btn btn-sm join-item" @click="setStyleToRed">
+          <Info class="w-5 h-6 text-red-500"></Info>
+        </button>
+        <button class="btn btn-sm join-item" @click="setStyleToGreen">
+          <Info class="w-5 h-6 text-green-500"></Info>
+        </button>
+        <button class="btn btn-sm join-item" @click="setStyleToCyanQuestion">
+          <Question class="w-5 h-6 text-cyan-500"></Question>
+        </button>
+        <button class="btn btn-sm join-item" @click="setStyleToBlueQuestion">
+          <Question class="w-5 h-6 text-blue-500"></Question>
+        </button>
+        <button class="btn btn-sm join-item" @click="setStyleToYellowQuestion">
+          <Question class="w-5 h-6 text-yellow-500"></Question>
+        </button>
+        <button class="btn btn-sm join-item" @click="setStyleToRedQuestion">
+          <Question class="w-5 h-6 text-red-500"></Question>
+        </button>
+        <button class="btn btn-sm join-item" @click="setStyleToGreenQuestion">
+          <Question class="w-5 h-6 text-green-500"></Question>
+        </button>
+        <button class="btn btn-sm join-item" @click="deleteNode">
+          <IconDelete class="w-5 h-6"></IconDelete>
+        </button>
       </template>
     </Panel>
   </node-view-wrapper>

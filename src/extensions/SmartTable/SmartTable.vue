@@ -6,72 +6,98 @@
       </template>
 
       <template v-slot:operators>
-        <div class="table-menus flex flex-wrap join" contenteditable="false">
-          <button
-            @click="focusedNode.addColumnBefore().run()"
-            class="tooltip"
-            data-tip="在左边加一列"
-          >
-            <RowPlusBefore></RowPlusBefore>
-          </button>
-          <button
-            @click="focusedNode.addColumnAfter().run()"
-            class="tooltip"
-            data-tip="在右边加一列"
-          >
-            <RowPlusAfter></RowPlusAfter>
-          </button>
-          <button @click="focusedNode.deleteColumn().run()" class="tooltip" data-tip="删除当前列">
-            <ColumnRemove></ColumnRemove>
-          </button>
-          <Divider></Divider>
-          <button @click="focusedNode.addRowBefore().run()" class="tooltip" data-tip="在上面加一行">
-            <RowPlusBefore></RowPlusBefore>
-          </button>
-          <button @click="focusedNode.addRowAfter().run()" class="tooltip" data-tip="在下面加一行">
-            <RowPlusAfter></RowPlusAfter>
-          </button>
-          <button @click="focusedNode.deleteRow().run()" class="tooltip" data-tip="删除当前行">
-            <RowRemove></RowRemove>
-          </button>
-          <Divider></Divider>
-          <button @click="focusedNode.mergeCells().run()" class="tooltip" data-tip="合并">
-            <CellMerge></CellMerge>
-          </button>
-          <button @click="focusedNode.splitCell().run()" class="tooltip" data-tip="拆分">
-            <CellSplit></CellSplit>
-          </button>
-          <Divider></Divider>
-          <button
-            @click="focusedNode.toggleHeaderColumn().run()"
-            class="tooltip"
-            data-tip="切换表头列"
-          >
-            <LeadingHeader></LeadingHeader>
-          </button>
-          <button
-            @click="focusedNode.toggleHeaderRow().run()"
-            class="tooltip"
-            data-tip="切换表头行"
-          >
-            <TopHeader></TopHeader>
-          </button>
-          <button
-            @click="focusedNode.toggleHeaderCell().run()"
-            class="tooltip"
-            data-tip="切换普通和表头"
-          >
-            <TableToggleHeader></TableToggleHeader>
-          </button>
-          <Divider></Divider>
-          <button @click="focusedNode.deleteTable().run()" class="tooltip" data-tip="删除整个表格">
-            <Remove></Remove>
-          </button>
-          <!-- <button @click="focusedNode.setCellAttribute('colspan', 2).run()">占两格</button> -->
-          <!-- <button @click="focusedNode.fixTables().run()">修复</button> -->
-          <!-- <button @click="focusedNode.goToNextCell().run()">下一格</button> -->
-          <!-- <button @click="focusedNode.goToPreviousCell().run()">上一格</button> -->
-        </div>
+        <button
+          @click="focusedNode.addColumnBefore().run()"
+          class="tooltip btn btn-sm join-item"
+          data-tip="在左边加一列"
+        >
+          <RowPlusBefore class="h-5 w-5"></RowPlusBefore>
+        </button>
+        <button
+          @click="focusedNode.addColumnAfter().run()"
+          class="tooltip btn btn-sm join-item"
+          data-tip="在右边加一列"
+        >
+          <RowPlusAfter class="h-5 w-5"></RowPlusAfter>
+        </button>
+        <button
+          @click="focusedNode.deleteColumn().run()"
+          class="tooltip btn btn-sm join-item"
+          data-tip="删除当前列"
+        >
+          <ColumnRemove class="h-5 w-5"></ColumnRemove>
+        </button>
+        <Divider></Divider>
+        <button
+          @click="focusedNode.addRowBefore().run()"
+          class="tooltip btn btn-sm join-item"
+          data-tip="在上面加一行"
+        >
+          <RowPlusBefore class="h-5 w-5"></RowPlusBefore>
+        </button>
+        <button
+          @click="focusedNode.addRowAfter().run()"
+          class="tooltip btn btn-sm join-item"
+          data-tip="在下面加一行"
+        >
+          <RowPlusAfter class="h-5 w-5"></RowPlusAfter>
+        </button>
+        <button
+          @click="focusedNode.deleteRow().run()"
+          class="tooltip btn btn-sm join-item"
+          data-tip="删除当前行"
+        >
+          <RowRemove class="h-5 w-5"></RowRemove>
+        </button>
+        <Divider></Divider>
+        <button
+          @click="focusedNode.mergeCells().run()"
+          class="tooltip btn btn-sm join-item"
+          data-tip="合并"
+        >
+          <CellMerge class="h-5 w-5"></CellMerge>
+        </button>
+        <button
+          @click="focusedNode.splitCell().run()"
+          class="tooltip btn btn-sm join-item"
+          data-tip="拆分"
+        >
+          <CellSplit class="h-5 w-5"></CellSplit>
+        </button>
+        <Divider></Divider>
+        <button
+          @click="focusedNode.toggleHeaderColumn().run()"
+          class="tooltip btn btn-sm join-item"
+          data-tip="切换表头列"
+        >
+          <LeadingHeader class="h-5 w-5"></LeadingHeader>
+        </button>
+        <button
+          @click="focusedNode.toggleHeaderRow().run()"
+          class="tooltip btn btn-sm join-item"
+          data-tip="切换表头行"
+        >
+          <TopHeader class="h-5 w-5"></TopHeader>
+        </button>
+        <button
+          @click="focusedNode.toggleHeaderCell().run()"
+          class="tooltip btn btn-sm join-item"
+          data-tip="切换普通和表头"
+        >
+          <TableToggleHeader class="h-5 w-5"></TableToggleHeader>
+        </button>
+        <Divider></Divider>
+        <button
+          @click="focusedNode.deleteTable().run()"
+          class="tooltip btn btn-sm join-item"
+          data-tip="删除整个表格"
+        >
+          <Remove class="h-5 w-5"></Remove>
+        </button>
+        <!-- <button @click="focusedNode.setCellAttribute('colspan', 2).run()">占两格</button> -->
+        <!-- <button @click="focusedNode.fixTables().run()">修复</button> -->
+        <!-- <button @click="focusedNode.goToNextCell().run()">下一格</button> -->
+        <!-- <button @click="focusedNode.goToPreviousCell().run()">上一格</button> -->
       </template>
     </Panel>
   </node-view-wrapper>

@@ -22,11 +22,13 @@
 
     <div
       tabindex="0"
-      class="my-2 dropdown-content gap-2 z-50 flex flex-row bg-base-200 ring"
+      class="my-2 dropdown-content z-50"
       v-show="isSelected"
       contenteditable="false"
     >
-      <slot name="operators"></slot>
+      <div class="join border border-accent/30 bg-opacity-70 shadow-2xl operators">
+        <slot name="operators"></slot>
+      </div>
     </div>
   </div>
 </template>
@@ -66,3 +68,11 @@ onUnmounted(() => {
   document.removeEventListener('click', onClick)
 })
 </script>
+
+<style lang="postcss">
+.operators {
+  button {
+    @apply btn btn-sm join-item px-2 py-0;
+  }
+}
+</style>

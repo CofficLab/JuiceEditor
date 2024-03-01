@@ -3,7 +3,7 @@
     version="1.1"
     xmlns="http://www.w3.org/2000/svg"
     xmlns:xlink="http://www.w3.org/1999/xlink"
-    class="icon w-6 h-6"
+    :class="class"
   >
     <g>
       <rect height="17.9785" opacity="0" width="23.3887" x="0" y="0" />
@@ -15,3 +15,12 @@
     </g>
   </svg>
 </template>
+
+<script lang="ts" setup>
+defineProps({
+  class: {
+    type: String,
+    default: 'w-6 h-6'
+  }
+})
+</script>

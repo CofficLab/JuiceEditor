@@ -5,7 +5,7 @@
     version="1.1"
     xmlns="http://www.w3.org/2000/svg"
     p-id="28851"
-    class="w-6 h-6 icon fill-current"
+    :class="class"
   >
     <path
       fill="currentColor"
@@ -14,3 +14,12 @@
     ></path>
   </svg>
 </template>
+
+<script lang="ts" setup>
+defineProps({
+  class: {
+    type: String,
+    default: 'w-6 h-6 fill-current'
+  }
+})
+</script>
