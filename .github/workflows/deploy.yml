@@ -36,6 +36,7 @@ jobs:
         with:
           name: dist
           path: dist
+          retention-days: 1
 
   tag:
     needs: [build]
@@ -62,6 +63,7 @@ jobs:
         with:
           name: version
           path: version.txt
+          retention-days: 1
 
   copy-file-to-browser:
     runs-on: ubuntu-latest
