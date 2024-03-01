@@ -1,36 +1,25 @@
 <template>
   <node-view-wrapper>
-    <div class="dropdown dropdown-open dropdown-right">
-      <div tabindex="0" role="button" class="">
+    <Panel>
+      <template v-slot:content>
         <!-- 内容 -->
-        <div
-          class="flex flex-row gap-2 rounded-xl px-3 py-2 shadow-sm backdrop-blur"
-          v-bind:class="[
-            { 'border-yellow-500/80 ring-1 ring-orange-600': selected },
-            { 'border-0 ring-1': !selected },
-            { 'bg-gradient-to-r from-cyan-800/50 to-cyan-800/30': props.node.attrs.color == 'cyan' },
-            { 'bg-gradient-to-r from-blue-800/50 to-blue-800/30': props.node.attrs.color == 'blue' },
-            { 'bg-gradient-to-r from-yellow-800/50 to-yellow-800/30': props.node.attrs.color == 'yellow' },
-            { 'bg-gradient-to-r from-red-800/50 to-red-800/30': props.node.attrs.color == 'red' },
-            { 'bg-gradient-to-r from-green-800/50 to-green-800/30': props.node.attrs.color == 'green' }
-          ]"
-          @click="onClick"
-        >
+        <div class="flex flex-row gap-2 rounded-xl px-3 py-2 shadow-sm backdrop-blur" v-bind:class="[
+          { 'border-0 ring-1': !selected },
+          { 'bg-gradient-to-r from-cyan-800/50 to-cyan-800/30': props.node.attrs.color == 'cyan' },
+          { 'bg-gradient-to-r from-blue-800/50 to-blue-800/30': props.node.attrs.color == 'blue' },
+          { 'bg-gradient-to-r from-yellow-800/50 to-yellow-800/30': props.node.attrs.color == 'yellow' },
+          { 'bg-gradient-to-r from-red-800/50 to-red-800/30': props.node.attrs.color == 'red' },
+          { 'bg-gradient-to-r from-green-800/50 to-green-800/30': props.node.attrs.color == 'green' }
+        ]">
           <div class="flex items-center justify-between">
             <Info v-if="props.node.attrs.type == 'info'" class="w-5 h-6"></Info>
             <Question v-if="props.node.attrs.type == 'question'" class="w-5 h-6"></Question>
           </div>
           <node-view-content class="border border-none px-4 dark:border-cyan-800" />
         </div>
-      </div>
+      </template>
 
-      <!-- 操作栏 -->
-      <div
-        tabindex="0"
-        class="p-2 dropdown-content z-[1]"
-        v-show="selected"
-        contenteditable="false"
-      >
+      <template v-slot:operators>
         <div class="flex flex-col shadow-2xl ring-1 ring-orange-900/30 rounded-xl">
           <div class="flex flex-row">
             <div class="join join-vertical rounded-none rounded-tl-xl">
@@ -69,16 +58,13 @@
             </div>
           </div>
           <div class="w-full flex">
-            <button
-              class="btn btn-sm join-item w-full rounded-t-none rounded-b-xl"
-              @click="deleteNode"
-            >
+            <button class="btn btn-sm join-item w-full rounded-t-none rounded-b-xl" @click="deleteNode">
               <IconDelete class="w-5 h-6"></IconDelete>
             </button>
           </div>
         </div>
-      </div>
-    </div>
+      </template>
+    </Panel>
   </node-view-wrapper>
 </template>
 
@@ -87,11 +73,10 @@ import { NodeViewContent, nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 import Info from './Icons/Info.vue'
 import Question from './Icons/Question.vue'
 import IconDelete from './Icons/Delete.vue'
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { computed, onMounted } from 'vue'
+import Panel from '../Panel.vue'
 
-const selected = ref(false)
 const props = defineProps(nodeViewProps)
-const isEditable = computed(() => props.editor.isEditable)
 
 function setStyleToBlue() {
   props.updateAttributes({
@@ -163,10 +148,6 @@ function setStyleToGreenQuestion() {
   })
 }
 
-function onClick(e: Event) {
-  selected.value = true
-}
-
 // 是否是整个editor.state.doc.content的最后一个node
 let isTheLastNode = computed(
   () => props.node.nodeSize + props.getPos() == props.editor.state.doc.content.size
@@ -174,27 +155,6 @@ let isTheLastNode = computed(
 
 function deleteNode() {
   props.deleteNode()
-}
-
-function checkToolbar(event: Event) {
-  if (!isEditable) {
-    selected.value = false
-    console.log('SmartBanner: editor is not editable, hide banner toolbar')
-    return
-  }
-
-  // 如果鼠标在 Banner 内，显示菜单
-
-  const currentPos = props.editor.state.selection.anchor
-  const start = props.getPos()
-  const end = props.getPos() + props.node.nodeSize
-
-  // console.log('SmartBanner: clicked')
-  // console.log('SmartBanner: currentPos', currentPos)
-  // console.log('SmartBanner: start', start)
-  // console.log('SmartBanner: end', end)
-
-  selected.value = currentPos >= start && currentPos <= end
 }
 
 onMounted(() => {
@@ -209,11 +169,5 @@ onMounted(() => {
       }
     })
   }
-
-  document.addEventListener('click', checkToolbar)
-})
-
-onUnmounted(() => {
-  document.removeEventListener('click', checkToolbar)
 })
 </script>

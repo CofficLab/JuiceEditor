@@ -6,7 +6,7 @@
             <slot name="content"></slot>
         </div>
 
-        <div tabindex="0" class="p-2 dropdown-content z-[1] gap-2 flex flex-col" v-show="isSelected"
+        <div tabindex="0" class="p-0 dropdown-content z-[1] gap-2 flex flex-row" v-show="isSelected"
             contenteditable="false">
             <slot name="operators"></slot>
         </div>
