@@ -72,7 +72,7 @@ const isEditable = computed(() => props.editor.isEditable)
 <style lang="postcss">
 .table-menus {
   button {
-    @apply btn join-item rounded-none px-2 py-1 flex justify-center items-center;
+    @apply btn btn-sm join-item rounded-none px-2 py-0 flex justify-center items-center;
 
     img {
       @apply w-6 h-6 m-0;
