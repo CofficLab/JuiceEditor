@@ -158,6 +158,8 @@ jobs:
       - copy-file-to-browser
       - copy-file-to-app
     runs-on: ubuntu-latest
+    permissions:
+      actions: write
     steps:
       - name: 当前用户
         run: whoami
