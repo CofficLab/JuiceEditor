@@ -68,11 +68,3 @@ onUnmounted(() => {
   document.removeEventListener('click', onClick)
 })
 </script>
-
-<style lang="postcss">
-.operators {
-  button {
-    @apply btn btn-sm join-item px-2 py-0;
-  }
-}
-</style>
