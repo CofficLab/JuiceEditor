@@ -157,7 +157,7 @@ jobs:
     needs:
       - copy-file-to-browser
       - copy-file-to-app
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: 当前用户
         run: whoami
