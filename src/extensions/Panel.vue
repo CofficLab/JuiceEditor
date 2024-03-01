@@ -38,7 +38,7 @@ function getTopOffset() {
 }
 
 function onClick(e: Event) {
-    dropdownBottom.value = getTopOffset() < 100
+    dropdownBottom.value = getTopOffset() < 300
 
     let target = e.target as HTMLElement
     isSelected.value = target.closest('#' + id) != null
