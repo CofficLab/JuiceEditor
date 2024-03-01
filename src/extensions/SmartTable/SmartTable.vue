@@ -6,7 +6,7 @@
       </template>
 
       <template v-slot:operators>
-        <div class="table-menus shadow-2xl w-full" contenteditable="false">
+        <div class="table-menus flex flex-wrap join" contenteditable="false">
           <button @click="focusedNode.addColumnBefore().run()" class="tooltip" data-tip="在左边加一列">
             <img src="../../assets/table.column.plus.before.svg" />
           </button>
@@ -71,10 +71,8 @@ const isEditable = computed(() => props.editor.isEditable)
 
 <style lang="postcss">
 .table-menus {
-  @apply bg-success/90 text-info-content rounded-md px-2 py-1 flex flex-row flex-wrap;
-
   button {
-    @apply btn btn-sm btn-ghost px-1;
+    @apply btn join-item rounded-none px-2 py-1 flex justify-center items-center;
 
     img {
       @apply w-6 h-6 m-0;
@@ -147,7 +145,7 @@ const isEditable = computed(() => props.editor.isEditable)
 }
 
 .tableWrapper {
-  padding: 1rem 0;
+  padding: 0rem 0;
   overflow-x: auto;
 }
 

@@ -10,8 +10,8 @@
             <slot name="content"></slot>
         </div>
 
-        <div tabindex="0" class="p-0 dropdown-content z-[1] gap-2 flex flex-row" v-show="isSelected"
-            contenteditable="false">
+        <div tabindex="0" class="my-2 dropdown-content z-[1] gap-2 flex flex-row bg-base-200 ring rounded"
+            v-show="isSelected" contenteditable="false">
             <slot name="operators"></slot>
         </div>
     </div>

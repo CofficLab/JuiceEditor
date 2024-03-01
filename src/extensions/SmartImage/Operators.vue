@@ -1,11 +1,11 @@
 <template>
     <input ref="fileInput" multiple="false" accept="image/*" type="file" style="display: none" @change="onFileSelected" />
-    <div class="join">
-        <button @click="changeImage" class="btn join-item btn-sm">更换图片</button>
-        <button @click="downloadImage" class="btn join-item btn-sm">下载图片</button>
-        <button @click="reset" class="btn join-item btn-sm">原始形状</button>
-        <button class="btn btn-sm join-item" @click="newLine">
-            <IconNewLine class="w-5 h-6"></IconNewLine>下方插入空行
+    <div class="join rounded-none">
+        <button @click="changeImage" class="btn join-item btn-sm tooltip" data-tip="更换图片">
+            <IconEdit></IconEdit>
+        </button>
+        <button @click="downloadImage" class="btn join-item btn-sm tooltip" data-tip="下载">
+            <IconDownload></IconDownload>
         </button>
         <!-- <li><a @click="setTriangle">三角形</a></li> -->
         <!-- <li><a @click="setTriangle2">三角形2</a></li> -->
@@ -16,8 +16,6 @@
         <!-- <li><a @click="setParallelogram4">平行四边形4</a></li> -->
         <!-- <li><a @click="setStar2">星形2</a></li> -->
         <!-- <li><a @click="setHexagon2">六边形2</a></li> -->
-    </div>
-    <div class="join">
         <button @click="setSquircle" class="join-item btn btn-sm">
             <div class="h-4 w-4 bg-red-400 mask mask-squircle"></div>
         </button>
@@ -48,6 +46,12 @@
         <button @click="setCircle" class="join-item btn btn-sm">
             <div class="h-4 w-4 bg-red-400 mask mask-circle"></div>
         </button>
+        <button @click="reset" class="btn join-item btn-sm tooltip" data-tip="恢复原始形状">
+            <Reset></Reset>
+        </button>
+        <button class="btn btn-sm join-item tooltip" @click="newLine" data-tip="在图片后插入空白行">
+            <IconNewLine class="w-5 h-6"></IconNewLine>
+        </button>
     </div>
 </template>
 
@@ -58,6 +62,9 @@ import { defineProps, ref } from 'vue'
 import Base64Helper from './Base64Helper'
 import webkit from '../../entities/WebKit';
 import IconNewLine from './Icons/IconNewLine.vue';
+import IconDownload from './Icons/IconDownload.vue';
+import IconEdit from './Icons/IconEdit.vue';
+import Reset from './Icons/Reset.vue';
 
 const isSelected = ref(false)
 const isWebKit = 'webkit' in window

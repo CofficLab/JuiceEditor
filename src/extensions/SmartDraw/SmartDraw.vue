@@ -6,7 +6,7 @@
       </template>
 
       <template v-slot:operators>
-        <div class="join md:join-vertical shadow-2xl ring-1 ring-orange-900/30 rounded-xl">
+        <div class="join">
           <button class="btn btn-sm join-item" @click="openLoading">
             <IconEdit class="w-5 h-6"></IconEdit>
           </button>
