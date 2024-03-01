@@ -1,36 +1,35 @@
 <template>
   <node-view-wrapper>
-      <details class="dropdown dropdown-bottom md:dropdown-left list-none">
-        <summary class="m-1 list-none" @click="onClick" v-bind:class="[
-          { 'outline-orange-600 outline-dashed outline-2 outline-offset-1': isSelected },
-        ]">
-          <img crossOrigin="anonymous" :src="node.attrs.src" ref="img" class="p-0 m-0 "/>
-        </summary>
-        <div class="dropdown-content z-[1] p-2">
-          <div class="join md:join-vertical shadow-2xl ring-1 ring-orange-900/30 rounded-xl">
-            <button class="btn btn-sm join-item" @click="openLoading">
-              <IconEdit class="w-5 h-6"></IconEdit>
-            </button>
-            <button class="btn btn-sm join-item" @click="downloadImage">
-                <IconDownload class="w-5 h-6"></IconDownload>
-              </button>
-            <button class="btn btn-sm join-item" @click="Helper.newLine(props)">
-              <IconNewLine class="w-5 h-6"></IconNewLine>
-            </button>
-            <button class="btn btn-sm join-item text-error" @click="deleteNode">
-              <Delete class="w-5 h-6"></Delete>
-            </button>
-          </div>
+    <Panel>
+      <template v-slot:content>
+        <img ref="img" :src="node.attrs.src" :class="node.attrs.class" class="p-0 m-0" />
+      </template>
 
-          <Opening :onReady="open" :visible="isOpening" class="opening hidden"></Opening>
+      <template v-slot:operators>
+        <div class="join">
+          <button class="btn btn-sm join-item" @click="openLoading">
+            <IconEdit class="w-5 h-6"></IconEdit>
+          </button>
+          <button class="btn btn-sm join-item" @click="downloadImage">
+            <IconDownload class="w-5 h-6"></IconDownload>
+          </button>
+          <button class="btn btn-sm join-item" @click="Helper.newLine(props)">
+            <IconNewLine class="w-5 h-6"></IconNewLine>
+          </button>
+          <button class="btn btn-sm join-item text-error" @click="deleteNode">
+            <Delete class="w-5 h-6"></Delete>
+          </button>
         </div>
-      </details>
-    </node-view-wrapper>
+
+        <Opening :onReady="open" :visible="isOpening" class="opening hidden"></Opening>
+      </template>
+    </Panel>
+  </node-view-wrapper>
 </template>
 
 <script setup lang="ts">
 import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
-import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
+import { computed, ref } from 'vue'
 import { makeDrawUrl } from './MakeDrawUrl'
 import Helper from './Helper'
 import Config from './Config'
@@ -41,6 +40,7 @@ import IconDownload from './Icons/IconDownload.vue'
 import Opening from './Opening.vue'
 import webkit from '../../entities/WebKit';
 import Base64Helper from './Base64Helper'
+import Panel from '../Panel.vue'
 
 const img = ref<HTMLImageElement | null>(null)
 const props = defineProps(nodeViewProps)
@@ -52,10 +52,6 @@ const isOpening = ref(false)
 const isSelected = ref(false)
 const isWebKit = 'webkit' in window
 const isEditable = computed(() => props.editor.isEditable)
-
-function onClick(e: Event) {
-  isSelected.value = true
-}
 
 // 画图页面已经准备完成，可以展示了
 function onDrawingPageReady() {
@@ -243,40 +239,6 @@ function receive(event: MessageEvent): void {
       console.log(`🍋 SmartDraw: 收到 drawio 发来的消息 -> ${msg.event}，不知道怎么处理`)
   }
 }
-
-function checkToolbar() {
-  if (!isEditable) {
-    isSelected.value = false
-    console.log('SmartBanner: editor is not editable, hide banner toolbar')
-    return
-  }
-
-  Array.from(document.getElementsByTagName('details')).forEach((element) => {
-    element.open = false
-  })
-
-  // 如果鼠标在 Banner 内，显示菜单
-
-  const currentPos = props.editor.state.selection.anchor
-  const start = props.getPos()
-  const end = props.getPos() + props.node.nodeSize
-
-  // console.log('SmartDraw: clicked')
-  // console.log('SmartDraw: currentPos', currentPos, id)
-  // console.log('SmartDraw: start', start, id)
-  // console.log('SmartDraw: end', end, id)
-
-  isSelected.value = currentPos >= start && currentPos < end
-}
-
-onMounted(() => {
-  Helper.insertNewLineIfIsTheLastNode(props)
-  document.addEventListener('click', checkToolbar)
-})
-
-onUnmounted(() => {
-  document.removeEventListener('click', checkToolbar)
-})
 </script>
 
 <style>

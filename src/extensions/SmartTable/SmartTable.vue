@@ -1,21 +1,16 @@
 <template>
   <node-view-wrapper contenteditable="true">
-    <!-- 表格的操作 -->
-    <template v-if="shouldShow">
-      <div class="dropdown dropdown-top dropdown-open flex">
-        <div class="table-menus shadow-2xl" contenteditable="false">
-          <button
-            @click="focusedNode.addColumnBefore().run()"
-            class="tooltip"
-            data-tip="在左边加一列"
-          >
+    <Panel>
+      <template v-slot:content>
+        <NodeViewContent as="div" v-bind:contenteditable="isEditable" />
+      </template>
+
+      <template v-slot:operators>
+        <div class="table-menus flex flex-wrap join" contenteditable="false">
+          <button @click="focusedNode.addColumnBefore().run()" class="tooltip" data-tip="在左边加一列">
             <img src="../../assets/table.column.plus.before.svg" />
           </button>
-          <button
-            @click="focusedNode.addColumnAfter().run()"
-            class="tooltip"
-            data-tip="在右边加一列"
-          >
+          <button @click="focusedNode.addColumnAfter().run()" class="tooltip" data-tip="在右边加一列">
             <img src="../../assets/table.column.plus.after.svg" />
           </button>
           <button @click="focusedNode.deleteColumn().run()" class="tooltip" data-tip="删除当前列">
@@ -39,25 +34,13 @@
             <img src="../../assets/table.cell.split.svg" />
           </button>
           <Divider></Divider>
-          <button
-            @click="focusedNode.toggleHeaderColumn().run()"
-            class="tooltip"
-            data-tip="切换表头列"
-          >
+          <button @click="focusedNode.toggleHeaderColumn().run()" class="tooltip" data-tip="切换表头列">
             <img src="../../assets/table.leading.header.svg" alt="" />
           </button>
-          <button
-            @click="focusedNode.toggleHeaderRow().run()"
-            class="tooltip"
-            data-tip="切换表头行"
-          >
+          <button @click="focusedNode.toggleHeaderRow().run()" class="tooltip" data-tip="切换表头行">
             <img src="../../assets/table-top-header.svg" alt="" />
           </button>
-          <button
-            @click="focusedNode.toggleHeaderCell().run()"
-            class="tooltip"
-            data-tip="切换普通和表头"
-          >
+          <button @click="focusedNode.toggleHeaderCell().run()" class="tooltip" data-tip="切换普通和表头">
             <img src="../../assets/table.toggle.header.svg" alt="" />
           </button>
           <Divider></Divider>
@@ -69,77 +52,27 @@
           <!-- <button @click="focusedNode.goToNextCell().run()">下一格</button> -->
           <!-- <button @click="focusedNode.goToPreviousCell().run()">上一格</button> -->
         </div>
-      </div>
-    </template>
-
-    <!-- 表格 -->
-    <NodeViewContent as="div" v-bind:contenteditable="isEditable" />
+      </template>
+    </Panel>
   </node-view-wrapper>
 </template>
 
 <script setup lang="ts">
 import { nodeViewProps, NodeViewWrapper, NodeViewContent } from '@tiptap/vue-3'
-import { computed, onMounted, ref, onBeforeUnmount, onUnmounted } from 'vue'
+import { computed } from 'vue'
 import Divider from './Divider.vue'
+import Panel from '../Panel.vue';
 
 const props = defineProps(nodeViewProps)
 const focusedNode = computed(() => props.editor.chain().focus())
-const shouldShow = ref(false)
 const isEditable = computed(() => props.editor.isEditable)
 
-// 是否是整个editor.state.doc.content的最后一个node
-let isTheLastNode = computed(
-  () => props.node.nodeSize + props.getPos() == props.editor.state.doc.content.size
-)
-
-function checkToolbar(event: Event) {
-  if (!props.editor.isEditable) {
-    shouldShow.value = false
-    console.log('SmartTable: editor is not editable, hide table toolbar')
-    return
-  }
-
-  // 如果鼠标在 Table 内，显示菜单
-
-  const currentPos = props.editor.state.selection.anchor
-  const start = props.getPos()
-  const end = props.getPos() + props.node.nodeSize
-
-  console.log('SmartTable: clicked')
-  console.log('SmartTable: currentPos', currentPos)
-  console.log('SmartTable: start', start)
-  console.log('SmartTable: end', end)
-
-  shouldShow.value = currentPos >= start && currentPos <= end
-}
-
-onMounted(() => {
-  // 如果是最后一个节点，在本节点后插入一个空的p，防止光标无法移动到下一个节点
-  if (isTheLastNode.value) {
-    let tail = props.editor.state.doc.content.size
-    console.log('SmartTable: 结尾插入p，防止光标无法移动')
-    props.editor.commands.insertContentAt(tail, '<p></p>', {
-      updateSelection: false,
-      parseOptions: {
-        preserveWhitespace: 'full'
-      }
-    })
-  }
-
-  document.addEventListener('click', checkToolbar)
-})
-
-onUnmounted(() => {
-  document.removeEventListener('click', checkToolbar)
-})
 </script>
 
 <style lang="postcss">
 .table-menus {
-  @apply bg-success/90 text-info-content rounded-md px-2 py-1 flex flex-row flex-wrap dropdown-content;
-
   button {
-    @apply btn btn-sm btn-ghost px-1;
+    @apply btn btn-sm join-item rounded-none px-2 py-0 flex justify-center items-center;
 
     img {
       @apply w-6 h-6 m-0;
@@ -164,7 +97,7 @@ onUnmounted(() => {
       box-sizing: border-box;
       position: relative;
 
-      > * {
+      >* {
         margin-bottom: 0;
       }
     }
@@ -212,7 +145,7 @@ onUnmounted(() => {
 }
 
 .tableWrapper {
-  padding: 1rem 0;
+  padding: 0rem 0;
   overflow-x: auto;
 }
 
