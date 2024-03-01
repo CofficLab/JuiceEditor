@@ -15,7 +15,7 @@
         <button class="btn btn-sm join-item" @click="Helper.newLine(props)">
           <IconNewLine class="w-5 h-5"></IconNewLine>
         </button>
-        <button class="btn btn-sm join-item text-error" @click="deleteNode">
+        <button class="btn btn-sm join-item" @click="deleteNode">
           <Delete class="w-5 h-5"></Delete>
         </button>
 
