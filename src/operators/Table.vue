@@ -5,7 +5,7 @@
     v-if="isTableEnable"
     @click="editor.chain().focus().insertSmartTable().run()"
   >
-    <img src="../assets/tablecells.svg" alt="" class="m-0" />
+    <IconTableCell></IconTableCell>
   </button>
 </template>
 
@@ -13,6 +13,7 @@
 import { Editor } from '@tiptap/vue-3'
 import TiptapAgent from '../entities/TiptapAgent'
 import { computed } from 'vue'
+import IconTableCell from '../icons/IconTableCell.vue'
 
 const props = defineProps({
   editor: {

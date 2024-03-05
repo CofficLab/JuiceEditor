@@ -1,19 +1,38 @@
 <template>
-  <div class="join join-vertical w-24">
-    <div class="menu menu-sm bg-base-200 p-1">
-      <li><a class="no-underline" @click="onNewTab">新标签</a></li>
-      <li><a class="no-underline" @click="setNotRunnable">关运行</a></li>
-      <li><a class="no-underline" @click="setRunnable">开运行</a></li>
-      <li><a class="copy no-underline" v-bind:data-clipboard-text="content">复制代码</a></li>
-      <li><a class="no-underline" @click="onDelete">删除</a></li>
-      <li><a class="no-underline" @click="onNewLine">插入空行</a></li>
-    </div>
-  </div>
+  <button class="btn btn-sm join-item tooltip z-50" data-tip="添加标签" @click="onNewTab">
+    <IconPlus></IconPlus>
+  </button>
+  <button class="btn btn-sm join-item tooltip" data-tip="关运行" @click="setNotRunnable">
+    <Stop></Stop>
+  </button>
+  <button class="btn btn-sm join-item tooltip" data-tip="开运行" @click="setRunnable">
+    <Play></Play>
+  </button>
+  <button
+    class="tooltip copy btn btn-sm join-item"
+    data-tip="复制代码"
+    v-bind:data-clipboard-text="content"
+    @click="onNewTab"
+  >
+    <Copy></Copy>
+  </button>
+  <button class="btn btn-sm join-item tooltip" data-tip="删除" @click="onDelete">
+    <Delete></Delete>
+  </button>
+  <button class="btn btn-sm join-item tooltip" data-tip="插入空行" @click="onNewLine">
+    <IconNewLine></IconNewLine>
+  </button>
 </template>
 
 <script lang="ts" setup>
 import ClipboardJS from 'clipboard'
 import { SmartLanguage } from './Entities/SmartLanguage'
+import IconPlus from './Icons/Plus.vue'
+import Delete from './Icons/Delete.vue'
+import Copy from './Icons/Copy.vue'
+import Play from './Icons/Play.vue'
+import Stop from './Icons/Stop.vue'
+import IconNewLine from './Icons/IconNewLine.vue'
 
 var clipboard = new ClipboardJS('.copy')
 clipboard

@@ -6,22 +6,20 @@
       </template>
 
       <template v-slot:operators>
-        <div class="join">
-          <button class="btn btn-sm join-item" @click="openLoading">
-            <IconEdit class="w-5 h-6"></IconEdit>
-          </button>
-          <button class="btn btn-sm join-item" @click="downloadImage">
-            <IconDownload class="w-5 h-6"></IconDownload>
-          </button>
-          <button class="btn btn-sm join-item" @click="Helper.newLine(props)">
-            <IconNewLine class="w-5 h-6"></IconNewLine>
-          </button>
-          <button class="btn btn-sm join-item text-error" @click="deleteNode">
-            <Delete class="w-5 h-6"></Delete>
-          </button>
-        </div>
+        <button class="btn btn-sm join-item" @click="openLoading">
+          <IconEdit class="w-5 h-5"></IconEdit>
+        </button>
+        <button class="btn btn-sm join-item" @click="downloadImage">
+          <IconDownload class="w-5 h-5"></IconDownload>
+        </button>
+        <button class="btn btn-sm join-item" @click="Helper.newLine(props)">
+          <IconNewLine class="w-5 h-5"></IconNewLine>
+        </button>
+        <button class="btn btn-sm join-item" @click="deleteNode">
+          <Delete class="w-5 h-5"></Delete>
+        </button>
 
-        <Opening :onReady="open" :visible="isOpening" class="opening hidden"></Opening>
+        <!-- <Opening :onReady="open" :visible="isOpening" class="opening hidden"></Opening> -->
       </template>
     </Panel>
   </node-view-wrapper>
@@ -38,7 +36,7 @@ import IconEdit from './Icons/IconEdit.vue'
 import IconNewLine from './Icons/IconNewLine.vue'
 import IconDownload from './Icons/IconDownload.vue'
 import Opening from './Opening.vue'
-import webkit from '../../entities/WebKit';
+import webkit from '../../entities/WebKit'
 import Base64Helper from './Base64Helper'
 import Panel from '../Panel.vue'
 
@@ -93,7 +91,7 @@ function open() {
     return
   }
 
-  console.log("打开画图")
+  console.log('打开画图')
 
   drawingDialog.classList.add('modal')
 
@@ -108,7 +106,7 @@ function open() {
   // 接收画图iframe传递的消息
   window.addEventListener('message', receive)
   // 接收关闭画图的事件
-  document.addEventListener('close-draw', onClose);
+  document.addEventListener('close-draw', onClose)
 }
 
 // 销毁画图的Iframe
