@@ -19,7 +19,7 @@
           <Delete class="w-5 h-5"></Delete>
         </button>
 
-        <!-- <Opening :onReady="open" :visible="isOpening" class="opening hidden"></Opening> -->
+        <Opening :onReady="open" :visible="isOpening" class="opening hidden"></Opening>
       </template>
     </Panel>
   </node-view-wrapper>
