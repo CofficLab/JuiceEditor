@@ -30,7 +30,7 @@ jobs:
       - name: NPM 安装
         run: pnpm i
       - name: NPM 构建
-        run: npm run build && cp -r drawio dist/draw
+        run: npm run build && cp -r drawio/webapp dist/draw
       - name: 上传构件
         uses: actions/upload-artifact@v3
         with:
