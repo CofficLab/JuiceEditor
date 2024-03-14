@@ -3,7 +3,8 @@ const { copy, emptyDir, removeSync } = require('fs-extra')
 let drawDist = './dist/draw'
 let destinations = [
   '../Kuaiyizhi_SwiftUI/Resources/dist/',
-  '../Kuaiyizhi_Browser/public/editor'
+  '../Kuaiyizhi_Browser/public/editor',
+  '../Kuaiyizhi_Flutter/assets/editor'
 ]
 
 emptyDir(drawDist, (err) => {

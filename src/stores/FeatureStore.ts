@@ -8,7 +8,7 @@ export const useFeatureStore = defineStore('feature-store', {
             nonce: Date.now().toString() + Math.random().toString(),
             editable: isDebug,
             editorVisible: true,
-            toolbarVisible: isDebug,
+            toolbarVisible: true,
             bubbleMenuVisible: true,
             floatingMenuVisible: true,
             drawEnabled: true,
@@ -143,7 +143,7 @@ export const useFeatureStore = defineStore('feature-store', {
             this.bubbleMenuVisible = true
             this.updateNonce()
         },
-        
+
         showFloatingMenu() {
             console.log('🔧 FeatureStore: showFloatingMenu')
             this.floatingMenuVisible = true
