@@ -26,7 +26,7 @@
 
       <!-- TOC -->
       <div
-        class="hidden w-48 flex-row justify-start h-screen right-0 overflow-y-scroll sticky top-0 md:flex md:w-56 md:bg-red-400/0 4md:fixed 4md:right-0 4md:w-48 4md:bg-yellow-400/0 lg:w-56 2lg:w-64 3lg:w-72 xl:w-88 2xl:w-96 2xl:bg-green-400/0"
+        class="hidden w-48 flex-row justify-start h-screen right-0 overflow-y-scroll sticky top-12 md:flex md:w-56 md:bg-red-400/0 4md:fixed 4md:right-0 4md:w-48 4md:bg-yellow-400/0 lg:w-56 2lg:w-64 3lg:w-72 xl:w-88 2xl:w-96 2xl:bg-green-400/0"
         id="toc"
         v-if="shouldShowToc"
       >
