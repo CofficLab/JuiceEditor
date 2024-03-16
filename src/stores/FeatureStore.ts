@@ -8,7 +8,7 @@ export const useFeatureStore = defineStore('feature-store', {
             nonce: Date.now().toString() + Math.random().toString(),
             editable: isDebug,
             editorVisible: true,
-            toolbarVisible: true,
+            toolbarVisible: isDebug,
             bubbleMenuVisible: true,
             floatingMenuVisible: true,
             drawEnabled: true,
