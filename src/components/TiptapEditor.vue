@@ -24,7 +24,7 @@
         class="flex flex-col pb-48 prose dark:prose-invert px-4 container prose-sm bg-cyan-300/0"
       />
 
-      <!-- TOC -->
+      <!-- TOC，和顶部留一些距离，因为WEB项目顶部有导航栏 -->
       <div
         class="hidden w-48 flex-row justify-start h-screen right-0 overflow-y-scroll sticky top-12 md:flex md:w-56 md:bg-red-400/0 4md:fixed 4md:right-0 4md:w-48 4md:bg-yellow-400/0 lg:w-56 2lg:w-64 3lg:w-72 xl:w-88 2xl:w-96 2xl:bg-green-400/0"
         id="toc"
