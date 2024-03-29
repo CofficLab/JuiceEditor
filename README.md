@@ -1,5 +1,11 @@
 # Kuaiyizhi_Editor
 
+一个专门针对`WebView`开发的富文本编辑器，可将它嵌入到网页、桌面端的APP中。
+
+基于它开发的 macOS 版本：
+
+<https://apps.apple.com/cn/app/%E5%BF%AB%E6%98%93%E7%9F%A5/id6457892799?mt=12>
+
 ## draw.io的说明书
 
 ### 源码
