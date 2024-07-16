@@ -38,8 +38,7 @@ npm run dev
 
 <https://github.com/settings/tokens?type=beta>
 
-- Administration: Read and write
-- Commit statuses: Read and write
+- Owner: 其他项目所在的组
 - Contents: Read and write
 
 ### 参考资料
