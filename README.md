@@ -36,6 +36,12 @@ npm run dev
 
 需要提供 Personal Access Token，在管理员的github设置中生成。
 
+<https://github.com/settings/tokens?type=beta>
+
+- Administration: Read and write
+- Commit statuses: Read and write
+- Contents: Read and write
+
 ### 参考资料
 
 - <https://www.drawio.com/blog/embedding-walkthrough>  
