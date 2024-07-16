@@ -6,6 +6,13 @@
 
 <https://apps.apple.com/cn/app/%E5%BF%AB%E6%98%93%E7%9F%A5/id6457892799?mt=12>
 
+## Dev
+
+```bash
+npm install
+npm run dev
+```
+
 ## draw.io的说明书
 
 ### 源码
@@ -27,5 +34,5 @@
 
 ### 参考资料
 
-<https://www.drawio.com/blog/embedding-walkthrough>  
-<https://www.drawio.com/doc/faq/embed-mode>  
+- <https://www.drawio.com/blog/embedding-walkthrough>  
+- <https://www.drawio.com/doc/faq/embed-mode>  

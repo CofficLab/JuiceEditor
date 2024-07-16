@@ -1,17 +1,17 @@
 <template>
-  <!-- <input
+  <input
     ref="fileInput"
     multiple="false"
     accept="image/*"
     type="file"
     style="display: none"
     @change="onFileSelected"
-  /> -->
+  />
   <button @click="changeImage" class="btn join-item btn-sm tooltip" data-tip="更换图片">
-    <IconEdit class="h-5 w-5"></IconEdit>
+    <IconEdit class="w-5 h-5"></IconEdit>
   </button>
   <button @click="downloadImage" class="btn join-item btn-sm tooltip" data-tip="下载">
-    <IconDownload class="h-5 w-5"></IconDownload>
+    <IconDownload class="w-5 h-5"></IconDownload>
   </button>
   <!-- <li><a @click="setTriangle">三角形</a></li> -->
   <!-- <li><a @click="setTriangle2">三角形2</a></li> -->
@@ -23,37 +23,37 @@
   <!-- <li><a @click="setStar2">星形2</a></li> -->
   <!-- <li><a @click="setHexagon2">六边形2</a></li> -->
   <button @click="setSquircle" class="join-item btn btn-sm">
-    <div class="h-5 w-5 bg-red-400 mask mask-squircle"></div>
+    <div class="w-5 h-5 bg-red-400 mask mask-squircle"></div>
   </button>
   <button @click="setHeart" class="join-item btn btn-sm">
-    <div class="h-5 w-5 bg-red-400 mask mask-heart"></div>
+    <div class="w-5 h-5 bg-red-400 mask mask-heart"></div>
   </button>
   <!-- <button @click="setDecagon" class="join-item btn btn-sm">
-    <div class="h-5 w-5 bg-red-400 mask mask-decagon"></div>
+    <div class="w-5 h-5 bg-red-400 mask mask-decagon"></div>
   </button> -->
   <button @click="setHexagon" class="join-item btn btn-sm">
-    <div class="h-5 w-5 bg-red-400 mask mask-hexagon"></div>
+    <div class="w-5 h-5 bg-red-400 mask mask-hexagon"></div>
   </button>
   <button @click="setPentagon" class="join-item btn btn-sm">
-    <div class="h-5 w-5 bg-red-400 mask mask-pentagon"></div>
+    <div class="w-5 h-5 bg-red-400 mask mask-pentagon"></div>
   </button>
   <button @click="setStar" class="join-item btn btn-sm">
-    <div class="h-5 w-5 bg-red-400 mask mask-star"></div>
+    <div class="w-5 h-5 bg-red-400 mask mask-star"></div>
   </button>
   <!-- <button @click="setParallelogram" class="join-item btn btn-sm">
-    <div class="h-5 w-5 bg-red-400 mask mask-parallelogram"></div>
+    <div class="w-5 h-5 bg-red-400 mask mask-parallelogram"></div>
   </button> -->
   <button @click="setDiamond" class="join-item btn btn-sm">
-    <div class="h-5 w-5 bg-red-400 mask mask-diamond"></div>
+    <div class="w-5 h-5 bg-red-400 mask mask-diamond"></div>
   </button>
   <!-- <button @click="setSquare" class="join-item btn btn-sm">
-    <div class="h-5 w-5 bg-red-400 mask mask-square"></div>
+    <div class="w-5 h-5 bg-red-400 mask mask-square"></div>
   </button> -->
   <button @click="setCircle" class="join-item btn btn-sm">
-    <div class="h-5 w-5 bg-red-400 mask mask-circle"></div>
+    <div class="w-5 h-5 bg-red-400 mask mask-circle"></div>
   </button>
   <button @click="reset" class="btn join-item btn-sm tooltip" data-tip="恢复原始形状">
-    <Reset class="h-5 w-5"></Reset>
+    <Reset class="w-5 h-5"></Reset>
   </button>
   <button class="btn btn-sm join-item tooltip" @click="newLine" data-tip="在图片后插入空白行">
     <IconNewLine class="w-5 h-5"></IconNewLine>
