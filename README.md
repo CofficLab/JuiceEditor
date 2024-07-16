@@ -32,6 +32,10 @@ npm run dev
 - 左侧出现了“便签”  
 清空浏览器本地存储就消失了
 
+## 将产物同步到其他项目
+
+需要提供 Personal Access Token，在管理员的github设置中生成。
+
 ### 参考资料
 
 - <https://www.drawio.com/blog/embedding-walkthrough>  
