@@ -8,14 +8,16 @@
 
 ## Dev
 
+### 运行
+
 ```bash
 npm install
 npm run dev
 ```
 
-## draw.io的说明书
+### 画图功能
 
-### 源码
+#### 源码
 
 <https://github.com/jgraph/drawio>
 
@@ -23,25 +25,28 @@ npm run dev
 
 - etc
 
-### 原理
+#### 原理
 
 无需修改drawio的源码，embed模式下可通过postMessage通信。具体看`SmartDraw`部分的源码。
 
-### 问题
+#### 问题
 
 - 左侧出现了“便签”  
 清空浏览器本地存储就消失了
 
-## 将产物同步到其他项目
+## CI/CD
 
-需要提供 Personal Access Token，在管理员的github设置中生成。
+### 将产物同步到其他项目
 
-<https://github.com/settings/tokens?type=beta>
+当发布新版本后，将本项目的构建产物同步到其他使用本项目的项目。
 
-- Owner: 其他项目所在的组
+假设需要同步到项目：Kuaiyizhi_APP，按照以下步骤：
+
+- 需要提供 Personal Access Token，在管理员的github设置中生成：<https://github.com/settings/tokens?type=beta>
+- Owner: Kuaiyizhi_APP 所在的组
 - Contents: Read and write
 
-### 参考资料
+## 参考资料
 
 - <https://www.drawio.com/blog/embedding-walkthrough>  
 - <https://www.drawio.com/doc/faq/embed-mode>  
