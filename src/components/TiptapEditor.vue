@@ -26,11 +26,11 @@
 
       <!-- TOC，和顶部留一些距离，因为WEB项目顶部有导航栏 -->
       <div
-        class="sticky right-0 flex-row justify-start hidden w-48 h-screen overflow-y-scroll top-12 md:flex md:w-56 md:bg-red-400/0 4md:fixed 4md:right-0 4md:w-48 4md:bg-yellow-400/0 lg:w-56 2lg:w-64 3lg:w-72 xl:w-88 2xl:w-96 2xl:bg-green-400/0"
+        class="sticky right-0 flex-row justify-start hidden w-48 h-screen top-12 md:flex md:w-56 md:bg-red-400/0 4md:fixed 4md:right-0 4md:w-48 4md:bg-yellow-400/0 lg:w-56 2lg:w-64 3lg:w-72 xl:w-88 2xl:w-96 2xl:bg-green-400/0"
         id="toc"
         v-if="shouldShowToc"
       >
-        <div class="w-full my-12 overflow-y-scroll h-2/3 bg-green-400/0">
+        <div class="w-full my-12 overflow-y-scroll bg-green-400/0">
           <ul class="menu menu-xs bg-base-200/0" v-for="h in headingTree.children">
             <HeadingVue :heading="h"></HeadingVue>
           </ul>

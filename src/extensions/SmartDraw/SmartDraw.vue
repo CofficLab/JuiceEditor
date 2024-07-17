@@ -2,7 +2,7 @@
   <node-view-wrapper>
     <Panel>
       <template v-slot:content>
-        <img ref="img" :src="node.attrs.src" :class="node.attrs.class" class="p-0 m-0" />
+        <img ref="img" :src="node.attrs.src" :class="node.attrs.class" class="z-10 p-0 m-0" />
       </template>
 
       <template v-slot:operators>
@@ -19,7 +19,7 @@
           <Delete class="w-5 h-5"></Delete>
         </button>
 
-        <Opening :onReady="open" :visible="isOpening" class="opening hidden"></Opening>
+        <Opening :onReady="open" :visible="isOpening" class="hidden opening"></Opening>
       </template>
     </Panel>
   </node-view-wrapper>
