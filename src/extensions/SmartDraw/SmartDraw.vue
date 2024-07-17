@@ -128,20 +128,20 @@ function exportBase64(base64ImageString: string) {
       'Image' + Base64Helper.getExtension(base64ImageString)
     )
   } else {
-    let a = Base64Helper.download(base64ImageString)
-
-    // Clean up
-    a.remove()
-    URL.revokeObjectURL(a.href)
+    Base64Helper.download2(base64ImageString)
   }
 }
 
 function downloadImage() {
+  console.log('下载图片')
+
   let base64ImageString: string = props.node.attrs.src
 
-  if (base64ImageString.startsWith('data:image/jpeg;base64,')) {
+  if (base64ImageString.startsWith('data:image/')) {
     return exportBase64(base64ImageString)
   }
+
+  console.log('下载图片，不是一个base64图片编码，先获取base64图片编码')
 
   // 不是一个base64图片编码，先获取base64图片编码
   const imgDom = img.value as HTMLImageElement

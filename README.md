@@ -33,6 +33,8 @@ npm run dev
 
 - 左侧出现了“便签”  
 清空浏览器本地存储就消失了
+- 画图打不开
+检查这个文件：`src/entities/DrawAgent.ts` 中的 URL
 
 ## CI/CD
 

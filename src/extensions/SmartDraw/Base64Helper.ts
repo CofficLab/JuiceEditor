@@ -52,7 +52,7 @@ export default class Base64Helper {
         return ".txt"
     }
 
-    static download(base64Image: string): HTMLAnchorElement {
+    static download(base64Image: string) {
         console.log("Base64Helper.download", base64Image.substring(0, 40))
 
         // 1. Decode base64 string to ArrayBuffer
@@ -76,6 +76,27 @@ export default class Base64Helper {
         document.body.appendChild(a);
         a.click();
 
-        return a
+        // Clean up
+        a.remove()
+        URL.revokeObjectURL(a.href)
+    }
+
+    static download2(base64Image: string) {
+        // 创建一个虚拟的URL
+        var url = base64Image.replace(/^data:image\/[^;]+/, 'data:application/octet-stream')
+
+        // 创建一个虚拟的链接
+        var link = document.createElement('a')
+        link.href = url
+        link.download = 'image' + this.getExtension(base64Image)
+
+        // 将链接添加到页面
+        document.body.appendChild(link)
+
+        // 模拟点击链接触发下载
+        link.click()
+
+        // 移除链接
+        document.body.removeChild(link)
     }
 }
