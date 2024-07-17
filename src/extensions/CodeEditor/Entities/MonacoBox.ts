@@ -102,9 +102,10 @@ class MonacoBox {
             stickyScroll: {
                 enabled: false,
             },
+            // 当只有1行代码时，右上角的语言标签和右下角的运行按钮离得很近
             padding: {
-                top: options.readOnly ? 10 : 10,
-                bottom: options.readOnly ? 10 : 10,
+                top: options.readOnly ? 15 : 15,
+                bottom: options.readOnly ? 15 : 15,
             },
             minimap: { enabled: false },
         });
@@ -114,11 +115,11 @@ class MonacoBox {
             options.onLanguageChanged?.(MonacoBox.getLanguage(editor));
         });
 
-        editor.getModel()!.onDidChangeContent(() => { 
+        editor.getModel()!.onDidChangeContent(() => {
             console.log('🍋 💼 MonacoBox: monaco editor content changed');
             options.onContentChanged?.(editor);
             MonacoBox.setHeightOfEditor(editor)
-         });
+        });
 
         MonacoBox.setHeightOfEditor(editor)
 

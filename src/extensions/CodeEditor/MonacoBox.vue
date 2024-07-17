@@ -3,7 +3,7 @@
     <div class="relative">
       <!-- 运行按钮 -->
       <button
-        class="btn btn-square dark:hover:bg-gray-900/80 btn-ghost text-accent absolute bottom-0 right-2 z-20"
+        class="absolute bottom-0 z-20 btn btn-square dark:hover:bg-gray-900/80 btn-ghost text-accent right-2"
         :class="{
           'btn-xs': lineCount <= 2,
           'btn-sm': lineCount > 2
@@ -20,15 +20,7 @@
       </button>
 
       <!-- 语言 -->
-      <div
-        contenteditable="false"
-        class="absolute z-50"
-        :class="{
-          'right-8 bottom-0': lineCount <= 2 && runVisible && language.runnable,
-          'right-0 top-0': lineCount > 2,
-          'right-0': !(runVisible && language.runnable)
-        }"
-      >
+      <div contenteditable="false" class="absolute top-0 right-0 z-50">
         <LanguageSelect
           :language="language"
           :on-language-changed="onLanguageChanged"
@@ -46,7 +38,7 @@
       <pre
         :id="resultId"
         v-show="runResultVisible && runVisible"
-        class="px-4 py-2 border border-green-900/40 text-sm m-0 rounded-none"
+        class="px-4 py-2 m-0 text-sm border rounded-none border-green-900/40"
       ></pre>
     </div>
   </div>
