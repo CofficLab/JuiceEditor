@@ -22,11 +22,11 @@
       <editor-content
         :editor="editor"
         :class="{
-          'bg-slate-300/10': true,
-          'md:bg-green-300/10': true,
-          'lg:bg-blue-300/10': true,
-          'xl:bg-purple-300/10': true,
-          '2xl:bg-red-300/10': true,
+          'bg-slate-300/10': false,
+          'md:bg-green-300/10': false,
+          'lg:bg-blue-300/10': false,
+          'xl:bg-purple-300/10': false,
+          '2xl:bg-red-300/10': false,
           'md:max-w-xl': true,
           'md:px-8': true,
           'md:py-6': true,
