@@ -22,16 +22,27 @@
       <editor-content
         :editor="editor"
         :class="{
-          'bg-slate-500/10': false,
-          'md:bg-green-500/10': false,
-          'lg:bg-blue-500/10': false,
-          'xl:bg-purple-500/10': false,
-          '2xl:bg-red-500/10': false,
+          'bg-slate-300/10': false,
+          'md:bg-green-300/10': false,
+          'lg:bg-blue-300/10': false,
+          'xl:bg-purple-300/10': false,
+          '2xl:bg-red-300/10': false,
+          'md:max-w-xl': true,
+          'md:px-8': true,
+          'md:py-6': true,
+          'lg:max-w-2xl': true,
+          'lg:px-8': true,
+          'lg:py-6': true,
           'xl:max-w-3xl': true,
-          '2xl:max-w-3xl': true,
+          'xl:px-8': true,
+          'xl:py-6': true,
+          '2xl:max-w-4xl': true,
+          '2xl:px-12': true,
+          '2xl:py-8': true,
           'bg-base-300/20': true,
-          rounded: true,
-          shadow: false
+          'shadow-inner': true,
+          'shadow-3xl': true,
+          rounded: true
         }"
         class="flex flex-col pb-48 prose dark:prose-invert px-4 container prose-sm min-h-screen"
       />

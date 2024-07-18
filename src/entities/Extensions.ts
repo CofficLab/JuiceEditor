@@ -12,6 +12,7 @@ import Paragraph from "@tiptap/extension-paragraph"
 import Placeholder from "@tiptap/extension-placeholder"
 import Strike from "@tiptap/extension-strike"
 import Table from "@tiptap/extension-table"
+import Highlight from "@tiptap/extension-highlight"
 import TableCell from "@tiptap/extension-table-cell"
 import TableHeader from "@tiptap/extension-table-header"
 import TableRow from "@tiptap/extension-table-row"
@@ -76,6 +77,12 @@ function makeExtensions(props: makeExtensionsProps) {
         Heading,
         History.configure({
             depth: 100,
+        }),
+        Highlight.configure({
+            multicolor: true,
+            HTMLAttributes: {
+                class: 'my-custom-class',
+            },
         }),
         Italic.configure({
             HTMLAttributes: {

@@ -64,7 +64,7 @@ const languages = [
     new SmartLanguage().setNames(['Go', 'Golang', 'golang', 'go']).setKey('go'),
     new SmartLanguage().setNames(['PHP', 'php']).setKey('php'),
     new SmartLanguage().setNames(['Python', 'python', 'py']).setKey('python'),
-    new SmartLanguage().setNames(['Shell', 'shell']).setKey('shell'),
+    new SmartLanguage().setNames(['Bash', 'bash']).setKey('bash'),
     new SmartLanguage().setNames(['Swift', 'swift']).setKey('swift'),
     new SmartLanguage().setRunnable(false).setNames(['Json', 'json']).setKey('json'),
     new SmartLanguage().setRunnable(false).setNames(['Text', 'text', 'plaintext', 'Plaintext']).setKey('plaintext'),
