@@ -22,11 +22,11 @@
 
     <div
       tabindex="0"
-      class="my-2 dropdown-content z-50"
+      class="z-50 my-2 dropdown-content"
       v-show="isSelected"
       contenteditable="false"
     >
-      <div class="join border border-accent/30 bg-opacity-70 shadow-2xl operators">
+      <div class="border shadow-2xl join border-accent/30 bg-opacity-70 operators">
         <slot name="operators"></slot>
       </div>
     </div>

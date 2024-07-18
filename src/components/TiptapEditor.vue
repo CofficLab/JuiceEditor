@@ -49,7 +49,7 @@
           '2xl:w-88': true
         }"
       >
-        <div class="h-2/3 my-12 w-full bg-green-400/0">
+        <div class="w-full my-12 overflow-y-scroll bg-green-400/0">
           <ul class="menu menu-xs bg-base-200/0" v-for="h in headingTree.children">
             <HeadingVue :heading="h"></HeadingVue>
           </ul>

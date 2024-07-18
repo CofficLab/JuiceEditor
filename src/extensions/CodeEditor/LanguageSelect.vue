@@ -13,7 +13,7 @@
     </div>
     <div
       v-show="shouldShowLanguageSelect"
-      class="absolute top-6 right-0 menu menu-xs p-0 shadow bg-base-100/95 w-full"
+      class="absolute top-0 w-full p-0 shadow -right-20 menu menu-xs bg-base-100/95"
     >
       <li v-for="(item, index) in languages" :key="index">
         <a @click="onLanguageChanged(item)" class="no-underline">{{ item.getTitle() }}</a>

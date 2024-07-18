@@ -65,7 +65,7 @@
 <script setup lang="ts">
 import { nodeViewProps, NodeViewWrapper, NodeViewContent } from '@tiptap/vue-3'
 import IconDelete from './Icons/Delete.vue'
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import Panel from '../Panel.vue'
 import Open from './Icons/Open.vue'
 import NoLink from './Icons/NoLink.vue'
@@ -92,22 +92,4 @@ function onClickLink() {
     goto.value.click()
   }
 }
-
-watch(
-  () => props.node.attrs.href,
-  () => {
-    props.updateAttributes({
-      href: props.node.attrs.href
-    })
-  }
-)
-
-watch(
-  () => props.node.attrs.text,
-  () => {
-    props.updateAttributes({
-      text: props.node.attrs.text
-    })
-  }
-)
 </script>
