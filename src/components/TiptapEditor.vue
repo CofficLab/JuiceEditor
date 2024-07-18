@@ -30,8 +30,9 @@
           'xl:max-w-3xl': true,
           '2xl:max-w-3xl': true,
           'bg-base-300/20': true,
-          rounded: true,
-          shadow: false
+          'shadow-inner': true,
+          'shadow-3xl': true,
+          rounded: true
         }"
         class="flex flex-col pb-48 prose dark:prose-invert px-4 container prose-sm min-h-screen"
       />
