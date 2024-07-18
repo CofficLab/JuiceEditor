@@ -13,7 +13,7 @@
     ></FloatMenus>
 
     <div
-      class="flex flex-row justify-center 4md:justify-center pb-36"
+      class="flex flex-row justify-center 4md:justify-center py-4"
       :class="{
         'md:justify-end': shouldShowToc
       }"
@@ -33,7 +33,7 @@
           rounded: true,
           shadow: false
         }"
-        class="flex flex-col pb-48 prose dark:prose-invert px-4 container prose-sm"
+        class="flex flex-col pb-48 prose dark:prose-invert px-4 container prose-sm min-h-screen"
       />
 
       <!-- TOC，和顶部留一些距离，因为WEB项目顶部有导航栏 -->

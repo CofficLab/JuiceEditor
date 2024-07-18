@@ -28,7 +28,7 @@
 
       <!-- 子节点 -->
       <div
-        class="container mx-auto px-4 pt-4 pb-24 flex mt-24 justify-center dark:border-gray-700/30"
+        class="container mx-auto px-4 pt-4 pb-24 flex mt-0 justify-center dark:border-gray-700/30"
         :class="{ 'border-t': shouldShowBorder }"
         v-if="node.children.length > 0"
       >
