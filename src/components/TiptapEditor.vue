@@ -13,7 +13,7 @@
     ></FloatMenus>
 
     <div
-      class="flex flex-row justify-center 4md:justify-center"
+      class="flex flex-row justify-center 4md:justify-center pb-36"
       :class="{
         'md:justify-end': shouldShowToc
       }"
@@ -21,14 +21,33 @@
       <!-- 编辑器 -->
       <editor-content
         :editor="editor"
-        class="flex flex-col pb-48 prose dark:prose-invert px-4 container prose-sm bg-cyan-300/0"
+        :class="{
+          'bg-slate-500/10': false,
+          'md:bg-green-500/10': false,
+          'lg:bg-blue-500/10': false,
+          'xl:bg-purple-500/10': false,
+          '2xl:bg-red-500/10': false,
+          'xl:max-w-3xl': true,
+          '2xl:max-w-3xl': true,
+          'bg-base-300/20': true,
+          rounded: true,
+          shadow: false
+        }"
+        class="flex flex-col pb-48 prose dark:prose-invert px-4 container prose-sm"
       />
 
       <!-- TOC，和顶部留一些距离，因为WEB项目顶部有导航栏 -->
       <div
-        class="hidden w-48 flex-row justify-start h-screen right-0 overflow-y-scroll sticky top-12 md:flex md:w-56 md:bg-red-400/0 4md:fixed 4md:right-0 4md:w-48 4md:bg-yellow-400/0 lg:w-56 2lg:w-64 3lg:w-72 xl:w-88 2xl:w-96 2xl:bg-green-400/0"
+        class="hidden flex-row justify-start h-screen right-0 overflow-y-scroll sticky top-12 md:flex 4md:fixed 4md:right-0"
         id="toc"
         v-if="shouldShowToc"
+        :class="{
+          'w-48': true,
+          'md:w-56': true,
+          '4md:w-48': true,
+          'xl:w-64': true,
+          '2xl:w-88': true
+        }"
       >
         <div class="h-2/3 my-12 w-full bg-green-400/0">
           <ul class="menu menu-xs bg-base-200/0" v-for="h in headingTree.children">
