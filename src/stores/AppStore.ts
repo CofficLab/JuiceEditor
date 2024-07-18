@@ -3,6 +3,7 @@ import TreeNode from '../entities/TreeNode'
 import EditorData from '../entities/EditorData'
 import webkit from '../entities/WebKit'
 import codeNode from '../samples/CodeNode'
+import TurndownService from 'turndown'
 import LocalStore from './LocalStore'
 
 const isDebug = process.env.NODE_ENV === 'development'
@@ -25,6 +26,15 @@ export const useAppStore = defineStore('app-store', {
 
         getContent() {
             return this.node.content
+        },
+
+        getMarkdown() {
+            let html = this.node.content
+
+            var turndownService = new TurndownService()
+            var markdown = turndownService.turndown(html)
+
+            return markdown
         },
 
         setCurrentNode: function (data: object) {
