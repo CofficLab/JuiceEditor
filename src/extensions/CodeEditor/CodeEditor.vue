@@ -1,18 +1,34 @@
 <template>
   <NodeViewWrapper contenteditable="false" class="code-editor overflow-visible relative">
-    <Panel>
+    <Panel :show-border="editor.isEditable">
       <template v-slot:content>
         <!-- 标签区域 -->
-        <CodeTabs :items="items" :database="database" :onCreateTab="createTab" :onClickTab="activate"
-          :onUpdateTitle="updateTitle" v-if="items.length > 1">
+        <CodeTabs
+          :items="items"
+          :database="database"
+          :onCreateTab="createTab"
+          :onClickTab="activate"
+          :onUpdateTitle="updateTitle"
+          v-if="items.length > 1"
+        >
         </CodeTabs>
 
         <!-- 编辑区域 -->
         <div class="relative" ref="codeDom">
-          <Monaco contenteditable="true" :editable="editor.isEditable" :readOnly="!editor.isEditable" :content="content"
-            :language="activatedItem.language" :runVisible="activatedItem.runVisible" :showRunButton="node.attrs.run == 1"
-            :onContentChanged="handleContentChanged" :onRunnableChanged="handleRunnableChanged" :showLineNumbers="true"
-            :uuid="monacoUuid" :on-language-changed="setLanguage">
+          <Monaco
+            contenteditable="true"
+            :editable="editor.isEditable"
+            :readOnly="!editor.isEditable"
+            :content="content"
+            :language="activatedItem.language"
+            :runVisible="activatedItem.runVisible"
+            :showRunButton="node.attrs.run == 1"
+            :onContentChanged="handleContentChanged"
+            :onRunnableChanged="handleRunnableChanged"
+            :showLineNumbers="true"
+            :uuid="monacoUuid"
+            :on-language-changed="setLanguage"
+          >
           </Monaco>
 
           <!-- 代码框，存储从文件系统读出的代码，然后放到Monaco编辑器中 -->
@@ -22,9 +38,17 @@
 
       <template v-slot:operators>
         <!-- 代码块操作栏 -->
-        <Toolbar :language="activatedItem.language" :content="content" :onNewTab="createTab"
-          :on-set-not-runnable="setNotRunnable" :on-set-runnable="setRunnable" :on-set-language="setLanguage"
-          :on-new-line="onNewLine" :on-delete="deleteTab">
+        <Toolbar
+          v-if="editor.isEditable"
+          :language="activatedItem.language"
+          :content="content"
+          :onNewTab="createTab"
+          :on-set-not-runnable="setNotRunnable"
+          :on-set-runnable="setRunnable"
+          :on-set-language="setLanguage"
+          :on-new-line="onNewLine"
+          :on-delete="deleteTab"
+        >
         </Toolbar>
       </template>
     </Panel>

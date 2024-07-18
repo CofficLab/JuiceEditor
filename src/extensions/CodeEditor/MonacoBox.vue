@@ -30,6 +30,7 @@
         }"
       >
         <LanguageSelect
+          :editable="editable"
           :language="language"
           :on-language-changed="onLanguageChanged"
         ></LanguageSelect>
