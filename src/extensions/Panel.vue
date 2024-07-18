@@ -1,7 +1,7 @@
 <template>
   <div
     ref="panel"
-    class="dropdown dropdown-open w-full z-50"
+    class="dropdown dropdown-open w-full z-10"
     :id="id"
     :class="{
       inline: inline,
