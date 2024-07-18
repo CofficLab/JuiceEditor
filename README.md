@@ -52,3 +52,10 @@ npm run dev
 
 - <https://www.drawio.com/blog/embedding-walkthrough>  
 - <https://www.drawio.com/doc/faq/embed-mode>  
+
+## On Top of
+
+- [Draw.io]<https://github.com/jgraph/drawio>  
+- [TailwindCSS]<https://tailwindcss.com/>  
+- [Vue3]<https://v3.vuejs.org/>
+- [Tiptap]<https://tiptap.dev/>
