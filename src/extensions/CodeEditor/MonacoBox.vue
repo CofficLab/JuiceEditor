@@ -22,6 +22,7 @@
       <!-- 语言 -->
       <div contenteditable="false" class="absolute top-0 right-0 z-50">
         <LanguageSelect
+          :editable="editable"
           :language="language"
           :on-language-changed="onLanguageChanged"
         ></LanguageSelect>

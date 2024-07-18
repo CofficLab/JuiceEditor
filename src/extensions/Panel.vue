@@ -1,7 +1,7 @@
 <template>
   <div
     ref="panel"
-    class="z-10 w-full dropdown dropdown-open"
+    class="dropdown dropdown-open w-full z-10"
     :id="id"
     :class="{
       inline: inline,
@@ -14,7 +14,7 @@
       role="button"
       :class="{ inline: inline }"
       v-bind:class="[
-        { 'outline-orange-600 outline-dashed outline-2 outline-offset-1': isSelected }
+        { 'outline-orange-600 outline-dashed outline-2 outline-offset-1': isSelected && showBorder }
       ]"
     >
       <slot name="content"></slot>
@@ -41,6 +41,10 @@ const props = defineProps({
   inline: {
     type: Boolean,
     default: false
+  },
+  showBorder: {
+    type: Boolean,
+    default: true
   }
 })
 const id = 'panel' + uuidv4()

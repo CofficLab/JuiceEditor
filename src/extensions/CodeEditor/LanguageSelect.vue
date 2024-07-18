@@ -7,7 +7,7 @@
   >
     <div
       tabindex="1"
-      class="w-full p-1 text-xs cursor-pointer text-end text-info/40 hover:bg-green-800/30"
+      class="w-full p-1 text-xs cursor-pointer text-end text-white/70 hover:bg-green-800/80"
     >
       {{ language.getTitle() }}
     </div>
@@ -36,6 +36,10 @@ const props = defineProps({
     default: (language: SmartLanguage) => {
       console.log('🍋 💼 MonacoBox: monaco language changed', language)
     }
+  },
+  editable: {
+    type: Boolean,
+    default: true
   }
 })
 
@@ -43,7 +47,7 @@ const shouldShowLanguageSelect = ref(false)
 
 function showLanguageSelect() {
   console.log('showLan')
-  shouldShowLanguageSelect.value = true
+  shouldShowLanguageSelect.value = true && props.editable
 }
 
 function hideLanguageSelect() {

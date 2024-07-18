@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-row container mx-auto justify-center mt-4 sticky top-4 join z-50"
+    class="flex flex-row container mx-auto justify-center my-4 sticky top-4 join z-50"
     v-if="feature.toolbarVisible"
   >
     <button class="btn btn-primary btn-xs join-item" @click="app.setCurrentNode(baseNode)">
@@ -27,10 +27,7 @@
     <button class="btn btn-primary btn-xs join-item" @click="app.setCurrentNode(bannerNode)">
       Banner
     </button>
-    <button
-      class="btn btn-primary btn-xs join-item"
-      @click="app.setCurrentNode(childrenNode)"
-    >
+    <button class="btn btn-primary btn-xs join-item" @click="app.setCurrentNode(childrenNode)">
       带子节点
     </button>
     <button
