@@ -15,6 +15,7 @@ declare module '@tiptap/core' {
   }
 }
 
+// 保存成HTML的时候要考虑HTML转Markdown
 export const CodeEditor = CodeBlock.extend({
   name: 'codeEditor',
 
