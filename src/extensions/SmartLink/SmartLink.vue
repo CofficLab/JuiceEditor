@@ -18,46 +18,48 @@
       </template>
 
       <template v-slot:operators>
-        <button
-          class="btn join-item btn-sm tooltip"
-          data-tip="在浏览器中打开"
-          contenteditable="false"
-        >
-          <a :href="props.node.attrs.href" target="_blank" class="no-underline">
-            <Open></Open>
-          </a>
-        </button>
+        <template v-if="props.editor.isEditable">
+          <button
+            class="btn join-item btn-sm tooltip"
+            data-tip="在浏览器中打开"
+            contenteditable="false"
+          >
+            <a :href="props.node.attrs.href" target="_blank" class="no-underline">
+              <Open></Open>
+            </a>
+          </button>
 
-        <button class="btn btn-sm join-item w-48 p-0 m-0 tooltip" data-tip="在此输入链接">
-          <input
-            type="text"
-            v-model="props.node.attrs.href"
-            placeholder="在此输入链接"
-            class="input w-full rounded-none h-full focus:outline-none input-xs"
-          />
-        </button>
+          <button class="btn btn-sm join-item w-48 p-0 m-0 tooltip" data-tip="在此输入链接">
+            <input
+              type="text"
+              v-model="props.node.attrs.href"
+              placeholder="在此输入链接"
+              class="input w-full rounded-none h-full focus:outline-none input-xs"
+            />
+          </button>
 
-        <button class="btn btn-sm join-item w-32 p-0 tooltip" data-tip="在此输入文字">
-          <input
-            type="text"
-            v-model="props.node.attrs.text"
-            placeholder="在此输入文字"
-            class="w-full focus:outline-none h-full rounded-none input-xs input"
-          />
-        </button>
+          <button class="btn btn-sm join-item w-32 p-0 tooltip" data-tip="在此输入文字">
+            <input
+              type="text"
+              v-model="props.node.attrs.text"
+              placeholder="在此输入文字"
+              class="w-full focus:outline-none h-full rounded-none input-xs input"
+            />
+          </button>
 
-        <button
-          class="btn btn-sm join-item rounded-none tooltip"
-          data-tip="删除链接，保留文字"
-          @click="notLink"
-          contenteditable="false"
-        >
-          <NoLink></NoLink>
-        </button>
+          <button
+            class="btn btn-sm join-item rounded-none tooltip"
+            data-tip="删除链接，保留文字"
+            @click="notLink"
+            contenteditable="false"
+          >
+            <NoLink></NoLink>
+          </button>
 
-        <button class="btn btn-sm join-item tooltip" data-tip="删除" @click="deleteNode">
-          <IconDelete class="w-5 h-6"></IconDelete>
-        </button>
+          <button class="btn btn-sm join-item tooltip" data-tip="删除" @click="deleteNode">
+            <IconDelete class="w-5 h-6"></IconDelete>
+          </button>
+        </template>
       </template>
     </Panel>
   </node-view-wrapper>
