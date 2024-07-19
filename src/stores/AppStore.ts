@@ -24,14 +24,16 @@ export const useAppStore = defineStore('app-store', {
             document.dispatchEvent(new CustomEvent('close-draw'))
         },
 
-        getContent() {
+        getContent(): string {
             return this.node.content
         },
 
-        getMarkdown() {
+        getMarkdown(): string {
             let html = this.node.content
 
-            var turndownService = new TurndownService()
+            var turndownService = new TurndownService({
+                headingStyle: 'atx',
+            })
             var markdown = turndownService.turndown(html)
 
             return markdown
