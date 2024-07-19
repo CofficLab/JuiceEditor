@@ -60,6 +60,7 @@ class SmartLanguage {
 
 const languages = [
     new SmartLanguage().setNames(['JavaScript', 'javascript', 'js']).setKey('javascript'),
+    new SmartLanguage().setNames(['Yaml', 'yaml']).setKey('yaml'),
     new SmartLanguage().setNames(['Java', 'java']).setKey('java'),
     new SmartLanguage().setNames(['Go', 'Golang', 'golang', 'go']).setKey('go'),
     new SmartLanguage().setNames(['PHP', 'php']).setKey('php'),
