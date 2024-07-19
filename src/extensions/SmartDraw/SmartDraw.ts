@@ -21,19 +21,18 @@ declare module '@tiptap/core' {
     }
 }
 
+// 保存成HTML的时候要用img标签，因为要考虑HTML转Markdown
 export default Image.extend<ImageOptions>({
     name: 'draw',
     parseHTML() {
         return [
             {
-                tag: this.options.allowBase64
-                    ? 'draw[src]'
-                    : 'draw[src]:not([src^="data:"])',
+                tag: 'img[draw]',
             },
         ]
     },
     renderHTML({ HTMLAttributes }) {
-        return ['draw', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)]
+        return ['img', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)]
     },
     addOptions() {
         return {
