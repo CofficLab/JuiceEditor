@@ -29,6 +29,12 @@ export default Image.extend<ImageOptions>({
             {
                 tag: 'img[draw]',
             },
+            // 以前的版本中用过这个标签，所以要兼容
+            {
+                tag: this.options.allowBase64
+                    ? 'draw[src]'
+                    : 'draw[src]:not([src^="data:"])',
+            }
         ]
     },
     renderHTML({ HTMLAttributes }) {

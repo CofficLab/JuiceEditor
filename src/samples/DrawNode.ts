@@ -12,7 +12,7 @@ const drawNode = new TreeNode({
     <a href="https://www.baidu.com">百度</a>与谷歌的竞争
     <h2>待办列表</h2>
     <h2>画图2</h2>
-    <img draw src="${sampleImgSrc2}"></img>
+    <draw src="${sampleImgSrc2}"></draw>
     <ul data-type="taskList">
       <li data-type="taskItem" data-checked="true">A list item</li>
       <li data-type="taskItem" data-checked="false">And another one</li>
