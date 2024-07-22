@@ -58,6 +58,30 @@ export const useAppStore = defineStore('app-store', {
             this.loading = false
         },
 
+        /* 
+            设置当前节点的子节点，传递一个通过base64编码的JSON数组
+            所以要先base64解码再解析成JSON
+            为什么不直接传递JSON
+            因为Swift中的JSON
+            [{ {
+                "content": "c=\"my-custom",
+                "title": "二"
+            }]
+            传递到这里，变成了
+            [{ {
+                "content": "class="my-custom",
+                "title": "二"
+            }]
+        */
+        setCurrentNodeChildren: function (children: string) {
+            this.loading = true
+            console.log('🍋 AppStore: setCurrentNodeChildren')
+
+            let data = JSON.parse(decodeURIComponent(escape(atob(children))))
+            this.node.children = data.map((element: object) => new TreeNode(element))
+            this.loading = false
+        },
+
         updateNode: function (data: EditorData) {
             if (data.content == this.node.content) {
                 console.log('🧮 AppStore: 更新节点，没变化，忽略')
