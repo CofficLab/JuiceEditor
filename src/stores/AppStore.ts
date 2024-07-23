@@ -58,11 +58,17 @@ export const useAppStore = defineStore('app-store', {
             this.loading = false
         },
 
-        setUUID: function (uuid: string) {
+        setUUIDAndContent: function (uuid: string, content: string) {
             this.loading = true
-            console.log('🍋 AppStore: setUUID')
+            console.log('🍋 AppStore: setUUIDAndContent')
 
-            this.node.uuid = uuid
+            let newNode = this.node
+            newNode.uuid = uuid
+            newNode.content = content
+
+            // 会触发编辑器的更新
+            this.node = newNode
+
             this.loading = false
         },
 
@@ -100,7 +106,7 @@ export const useAppStore = defineStore('app-store', {
             // console.log('🧮 AppStore: 更新节点的数据', data)
 
             if (isDebug) {
-                return LocalStore.saveData(data)
+                LocalStore.saveData(data)
             }
 
             webkit.updateNode(data)
