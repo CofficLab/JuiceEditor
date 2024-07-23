@@ -58,6 +58,14 @@ export const useAppStore = defineStore('app-store', {
             this.loading = false
         },
 
+        setUUID: function (uuid: string) {
+            this.loading = true
+            console.log('🍋 AppStore: setUUID')
+
+            this.node.uuid = uuid
+            this.loading = false
+        },
+
         /* 
             设置当前节点的子节点，传递一个通过base64编码的JSON数组
             所以要先base64解码再解析成JSON
