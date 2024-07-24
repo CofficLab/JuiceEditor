@@ -58,13 +58,14 @@ export const useAppStore = defineStore('app-store', {
             this.loading = false
         },
 
+        // 设置当前节点的子uuid和content，其中content传递一个通过base64编码的字符
         setUUIDAndContent: function (uuid: string, content: string) {
             this.loading = true
             console.log('🍋 AppStore: setUUIDAndContent')
 
             let newNode = this.node
             newNode.uuid = uuid
-            newNode.content = content
+            newNode.content = decodeURIComponent(escape(atob(content)))
 
             // 会触发编辑器的更新
             this.node = newNode
