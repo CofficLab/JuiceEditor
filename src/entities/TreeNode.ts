@@ -6,6 +6,7 @@ interface TreeNodeParams {
     isBook?: boolean;
     priority?: number;
     content?: string;
+    json?: string;
     jsonContent?: JSONContent;
     characterCount?: number;
     wordCount?: number;
@@ -19,6 +20,7 @@ export default class TreeNode {
     public priority: number = 0
     public isBook: boolean = false
     public content: string = ""
+    public json: string = ""
     public characterCount: number = 0
     public wordCount: number = 0
     public lastSyncedAt: string = ""

@@ -104,6 +104,7 @@ const webkit = {
                 (window as any).webkit.messageHandlers.sendMessage.postMessage({
                     channel: 'updateNode',
                     content: data.content,
+                    json: JSON.stringify(data.json),
                     title: data.title,
                     uuid: data.uuid,
                     characterCount: `${data.characterCount}`,

@@ -1,9 +1,10 @@
-import { Editor } from '@tiptap/core'
+import { Editor, JSONContent } from '@tiptap/core'
 
 export default class EditorData {
     public uuid: string = ""
     public title: string = ""
     public content: string = ""
+    public json: JSONContent = {}
     public characterCount: number = 0
     public wordCount: number = 0
 
@@ -20,6 +21,7 @@ export default class EditorData {
             .setUuid(editor.options.injectNonce ?? "")
             .setTitle(title)
             .setContent(editor.getHTML())
+            .setJson(editor.getJSON())
             .setCharacterCount(editor.storage.characterCount.characters())
             .setWordCount(editor.storage.characterCount.words())
     }
@@ -36,6 +38,11 @@ export default class EditorData {
 
     setContent(content: string): this {
         this.content = content
+        return this
+    }
+
+    setJson(json: JSONContent): this {
+        this.json = json
         return this
     }
 
