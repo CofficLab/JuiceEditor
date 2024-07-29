@@ -13,7 +13,7 @@
     ></FloatMenus>
 
     <div
-      class="flex flex-row justify-center 4md:justify-center py-4"
+      class="flex flex-row justify-center py-4 4md:justify-center"
       :class="{
         'md:justify-end': shouldShowToc
       }"
@@ -44,12 +44,12 @@
           'shadow-3xl': true,
           rounded: true
         }"
-        class="flex flex-col pb-48 prose dark:prose-invert px-4 container prose-sm min-h-screen"
+        class="container flex flex-col min-h-screen px-4 pb-48 prose-sm prose dark:prose-invert"
       />
 
       <!-- TOC，和顶部留一些距离，因为WEB项目顶部有导航栏 -->
       <div
-        class="hidden flex-row justify-start h-screen right-0 overflow-y-scroll sticky top-12 md:flex 4md:fixed 4md:right-0"
+        class="sticky right-0 flex-row justify-start hidden h-screen overflow-y-scroll top-12 md:flex 4md:fixed 4md:right-0"
         id="toc"
         v-if="shouldShowToc"
         :class="{
@@ -82,7 +82,7 @@ import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import BubbleMenus from './BubbleMenus.vue'
 import FloatMenus from './FloatMenus.vue'
 import TiptapAgent from '../entities/TiptapAgent'
-import DrawAgent from '../entities/DrawAgent'
+import Config from '../config'
 import EditorData from '../entities/EditorData'
 import ContextMenu from './ContextMenu.vue'
 import Message from './Message.vue'
@@ -141,7 +141,7 @@ const editor = TiptapAgent.create({
   uuid: props.uuid,
   content: props.content,
   editable: props.editable,
-  drawIoLink: DrawAgent.getLink(),
+  drawIoLink: Config.getLink(),
   drawEnable: props.drawEnable,
   tableEnable: props.tableEnable,
   onCreate: (data: EditorData) => {

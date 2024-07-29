@@ -2,7 +2,6 @@ import { defineStore } from 'pinia'
 import TreeNode from '../entities/TreeNode'
 import EditorData from '../entities/EditorData'
 import webkit from '../entities/WebKit'
-import codeNode from '../samples/CodeNode'
 import TurndownService from 'turndown'
 import LocalStore from './LocalStore'
 
