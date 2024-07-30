@@ -48,7 +48,7 @@
 <script lang="ts" setup>
 import { onMounted, onUnmounted, watch, ref, onBeforeUnmount, computed } from 'vue'
 import MonacoBox from './Entities/MonacoBox'
-import webkit from '../../entities/WebKit'
+import webkit from '../../api/WebKit'
 import PlayIcon from './Icons/Play.vue'
 import CloseIcon from './Icons/Close.vue'
 import { v4 as uuidv4 } from 'uuid'
@@ -165,7 +165,7 @@ onMounted(() => {
       console.log('🍋 🗒️ MonacoBox: created')
       lan.value = MonacoBox.getLanguage(editor)
       lineCount.value = editor.getModel()!.getLineCount()
-      console.log('lines', lineCount.value)
+      // console.log('lines', lineCount.value)
 
       // setTimeout(() => {
       //   // 去掉setTimeout则不能获取焦点，原因暂时不明

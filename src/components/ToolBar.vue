@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-row container mx-auto justify-center my-4 sticky top-4 join z-50"
+    class="container sticky z-50 flex flex-row justify-center mx-auto my-4 top-4 join"
     v-if="feature.toolbarVisible"
   >
     <button class="btn btn-primary btn-xs join-item" @click="app.setCurrentNode(baseNode)">
@@ -90,8 +90,8 @@
 </template>
 
 <script lang="ts" setup>
-import { useAppStore } from '../stores/AppStore'
-import { useFeatureStore } from '../stores/FeatureStore'
+import { useAppStore } from '../provider/AppStore'
+import { useFeatureStore } from '../provider/FeatureStore'
 import baseNode from '../samples/BaseNode'
 import linkNode from '../samples/LinkNode'
 import codeNode from '../samples/CodeNode'

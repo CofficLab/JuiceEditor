@@ -36,7 +36,7 @@ import IconEdit from './Icons/IconEdit.vue'
 import IconNewLine from './Icons/IconNewLine.vue'
 import IconDownload from './Icons/IconDownload.vue'
 import Opening from './Opening.vue'
-import webkit from '../../entities/WebKit'
+import webkit from '../../api/WebKit'
 import Base64Helper from './Base64Helper'
 import Panel from '../Panel.vue'
 

@@ -1,8 +1,8 @@
-import TreeNode from "../entities/TreeNode"
+import TreeNode from "../model/TreeNode"
 
 const tableNode = new TreeNode({
-    uuid: 'tableNode',
-    content: `
+  uuid: 'tableNode',
+  content: `
     <h1>测试内容</h1>
     <h2>表格 SmartTable</h2>
     <p>记得开启表格功能</p>

@@ -61,6 +61,8 @@ export const CodeEditor = CodeBlock.extend({
         parseHTML: (element) => {
           let getFromAttribute = element.getAttribute('database')
 
+          console.log("💼 CodeEditor: 获取 database 字段", getFromAttribute)
+
           if (getFromAttribute && getFromAttribute.length > 0) {
             try {
               return new Database(getFromAttribute).toJSON()
@@ -87,7 +89,7 @@ export const CodeEditor = CodeBlock.extend({
   },
 
   renderHTML({ node }) {
-    // console.log("转换成HTML存储下来", node.attrs);
+    console.log("转换成HTML存储下来", node.attrs);
     return [
       'pre',
       {
@@ -96,7 +98,8 @@ export const CodeEditor = CodeBlock.extend({
         uuid: node.attrs.uuid,
       },
       // 代码数据已存储到database属性中
-      // ['code', node.attrs.code]
+      // 保存成HTML的时候要考虑HTML转Markdown
+      ['code', node.attrs.code]
     ]
   },
 

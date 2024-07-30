@@ -1,25 +1,22 @@
 <template>
-  <div v-show="ready" class="w-full">
+  <div class="w-full">
     <IndexPage></IndexPage>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue'
+import { onMounted } from 'vue'
 import IndexPage from './components/IndexPage.vue'
-import { useAppStore } from './stores/AppStore'
-import { useFeatureStore } from './stores/FeatureStore'
-import setApi from './entities/SetApi';
+import { useAppStore } from './provider/AppStore'
+import { useFeatureStore } from './provider/FeatureStore'
+import setApi from './api/ApiSet'
 
-const ready = ref(false)
 const feature = useFeatureStore()
 const app = useAppStore()
 
 onMounted(() => {
-  ready.value = true
-
   // 将方法暴露到外部，swift 可以调用
-  setApi(useAppStore(), feature)
+  setApi(app, feature)
 
   app.setReady()
 
@@ -28,3 +25,4 @@ onMounted(() => {
   // }
 })
 </script>
+./api/api

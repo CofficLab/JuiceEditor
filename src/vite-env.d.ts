@@ -11,3 +11,5 @@ declare interface Window {
     runner: Function
     runnerCallback: Function
 }
+
+declare module 'turndown';

@@ -1,4 +1,4 @@
-import TreeNode from "../entities/TreeNode"
+import TreeNode from "../model/TreeNode"
 
 const codeNode = new TreeNode({
     uuid: 'codeNode',
