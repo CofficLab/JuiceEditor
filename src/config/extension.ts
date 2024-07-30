@@ -19,7 +19,6 @@ import TableRow from "@tiptap/extension-table-row"
 import TaskItem from "@tiptap/extension-task-item"
 import TaskList from "@tiptap/extension-task-list"
 import Text from "@tiptap/extension-text"
-import { CodeEditor } from "../extensions/CodeEditor/CodeEditor"
 import { SmartBanner } from "../extensions/SmartBanner/SmartBanner"
 import SmartDraw from "../extensions/SmartDraw/SmartDraw"
 import SmartImage from "../extensions/SmartImage/SmartImage"
@@ -58,7 +57,6 @@ export default function makeExtensions(props: makeExtensionsProps) {
                 class: 'my-custom-class',
             },
         }),
-
         Code.configure({
             HTMLAttributes: {
                 class: '',

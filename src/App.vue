@@ -9,7 +9,7 @@ import { onMounted } from 'vue'
 import IndexPage from './components/IndexPage.vue'
 import { useAppStore } from './provider/AppStore'
 import { useFeatureStore } from './provider/FeatureStore'
-import setApi from './config/api'
+import setApi from './api/ApiSet'
 
 const feature = useFeatureStore()
 const app = useAppStore()
@@ -25,3 +25,4 @@ onMounted(() => {
   // }
 })
 </script>
+./api/api

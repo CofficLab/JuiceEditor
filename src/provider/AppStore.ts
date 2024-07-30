@@ -4,13 +4,16 @@ import EditorData from '../model/EditorData'
 import webkit from '../api/WebKit'
 import TurndownService from 'turndown'
 import LocalStore from './LocalStore'
+import Config from '../config/config'
 
-const isDebug = process.env.NODE_ENV === 'development'
+const config = Config
+const isDebug = config.isDebug
 
 export const useAppStore = defineStore('app-store', {
     state: () => {
         return {
             node: isDebug ? new TreeNode(LocalStore.getData()) : new TreeNode({}),
+            drawLink: config.drawLink,
             loading: false,
             ready: false,
             selectionType: '',
@@ -40,6 +43,10 @@ export const useAppStore = defineStore('app-store', {
             var markdown = turndownService.turndown(html)
 
             return markdown
+        },
+
+        setDrawLink: function (link: string) {
+            this.drawLink = link
         },
 
         setCurrentNode: function (data: object) {

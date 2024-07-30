@@ -82,66 +82,21 @@ import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import BubbleMenus from './BubbleMenus.vue'
 import FloatMenus from './FloatMenus.vue'
 import TiptapAgent from './TiptapAgent'
-import Config from '../../config/config'
 import EditorData from '../../model/EditorData'
 import ContextMenu from './ContextMenu.vue'
 import Message from '../Message.vue'
 import HeadingVue from '../Heading.vue'
 import EventManager from '../../event/EventManager'
 import Heading from '../../extensions/Toc/Heading'
+import SmartEditorProps from './SmartEditorProps'
 
-const props = defineProps({
-  uuid: {
-    type: String,
-    required: true
-  },
-  content: {
-    type: String,
-    default: ''
-  },
-  editable: {
-    type: Boolean,
-    default: false
-  },
-  drawEnable: {
-    required: true,
-    type: Boolean,
-    default: false
-  },
-  tableEnable: {
-    type: Boolean,
-    default: false,
-    required: true
-  },
-  bubbleMenusEnable: {
-    type: Boolean,
-    default: true,
-    required: true
-  },
-  floatingMenusEnable: {
-    type: Boolean,
-    default: true,
-    required: true
-  },
-  onCreate: {
-    type: Function,
-    default: () => {}
-  },
-  onUpdate: {
-    type: Function,
-    default: () => {}
-  },
-  onSelectionUpdate: {
-    type: Function,
-    default: () => {}
-  }
-})
+const props = defineProps(SmartEditorProps)
 
 const editor = TiptapAgent.create({
   uuid: props.uuid,
   content: props.content,
   editable: props.editable,
-  drawIoLink: Config.getDrawLink(),
+  drawIoLink: props.drawLink,
   drawEnable: props.drawEnable,
   tableEnable: props.tableEnable,
   onCreate: (data: EditorData) => {

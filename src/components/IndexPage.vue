@@ -1,10 +1,10 @@
 <template>
-  <div class="flex flex-col h-full w-full relative overflow-scroll" id="index">
+  <div class="relative flex flex-col w-full h-full overflow-scroll" id="index">
     <!-- 操作栏 -->
     <ToolBar></ToolBar>
 
     <!-- loading -->
-    <div v-if="appStore.loading" class="flex justify-center items-center h-full">
+    <div v-if="appStore.loading" class="flex items-center justify-center h-full">
       <Loading></Loading>
     </div>
 
@@ -19,6 +19,7 @@
         :editable="featureStore.editable"
         :tableEnable="featureStore.tableEnabled"
         :drawEnable="featureStore.drawEnabled"
+        :drawLink="appStore.drawLink"
         :bubbleMenusEnable="featureStore.bubbleMenuVisible"
         :floatingMenusEnable="featureStore.floatingMenuVisible"
         :onUpdate="appStore.updateNode"
@@ -28,7 +29,7 @@
 
       <!-- 子节点 -->
       <div
-        class="container mx-auto px-4 pt-4 pb-24 flex mt-0 justify-center dark:border-gray-700/30"
+        class="container flex justify-center px-4 pt-4 pb-24 mx-auto mt-0 dark:border-gray-700/30"
         :class="{ 'border-t': shouldShowBorder }"
         v-if="node.children.length > 0"
       >
@@ -41,7 +42,7 @@
 <script lang="ts" setup>
 import TiptapEditor from './editor/TiptapEditor.vue'
 import NodeCardList from './NodeCardList.vue'
-import { computed, nextTick, onMounted, watch } from 'vue'
+import { computed, nextTick, watch } from 'vue'
 import Loading from '../components/Loading.vue'
 import { useAppStore } from '../provider/AppStore'
 import BookIntro from './BookIntro.vue'
@@ -59,9 +60,26 @@ const featureUpdatedAt = computed(() => {
   return featureStore.nonce
 })
 
+const drawLink = computed(() => {
+  return appStore.drawLink
+})
+
 // 是否显示编辑器和子节点之间的横线
 const shouldShowBorder = computed(() => {
   return featureStore.editorVisible && node.value.children.length > 0
+})
+
+watch(drawLink, () => {
+  if (!featureStore.editorVisible) {
+    return
+  }
+
+  console.log('IndexPage: drawLink 变了，重新加载Tiptap，drawLink ->' + drawLink.value)
+
+  featureStore.hideEditor()
+  nextTick(() => {
+    featureStore.showEditor()
+  })
 })
 
 watch(featureUpdatedAt, () => {
