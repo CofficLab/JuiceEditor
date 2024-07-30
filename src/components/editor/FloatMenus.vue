@@ -3,7 +3,12 @@
   <div>
     <floating-menu
       class="floating-menu"
-      :tippy-options="{ duration: 100, maxWidth: 800, placement: 'top' }"
+      :tippy-options="{
+        duration: 100,
+        maxWidth: 800,
+        placement: 'top',
+        appendTo: 'parent'
+      }"
       :editor="editor"
       :should-show="shouldShowFloatingMenu"
     >

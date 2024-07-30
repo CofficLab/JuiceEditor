@@ -1,24 +1,31 @@
 <template>
   <!-- 选中后弹出的菜单 -->
-  <bubble-menu
-    class="bubble-menu"
-    :should-show="shouldShow"
-    :tippy-options="{ duration: 100, maxWidth: 800, placement: 'top' }"
-    :editor="editor"
-  >
-    <Heading :editor="editor" :level="2" />
-    <Heading :editor="editor" :level="3" />
-    <Heading :editor="editor" :level="4" />
-    <Heading :editor="editor" :level="5" />
-    <Heading :editor="editor" :level="6" />
-    <Paragraph :editor="editor"></Paragraph>
-    <Bold :editor="editor"></Bold>
-    <Italic :editor="editor"></Italic>
-    <StrikeVue :editor="editor"></StrikeVue>
-    <BulletList :editor="editor"></BulletList>
-    <Code :editor="editor"></Code>
-    <Link :editor="editor"></Link>
-  </bubble-menu>
+  <div>
+    <bubble-menu
+      class="bubble-menu"
+      :should-show="shouldShow"
+      :tippy-options="{
+        duration: 100,
+        maxWidth: 800,
+        placement: 'top',
+        appendTo: 'parent'
+      }"
+      :editor="editor"
+    >
+      <Heading :editor="editor" :level="2" />
+      <Heading :editor="editor" :level="3" />
+      <Heading :editor="editor" :level="4" />
+      <Heading :editor="editor" :level="5" />
+      <Heading :editor="editor" :level="6" />
+      <Paragraph :editor="editor"></Paragraph>
+      <Bold :editor="editor"></Bold>
+      <Italic :editor="editor"></Italic>
+      <StrikeVue :editor="editor"></StrikeVue>
+      <BulletList :editor="editor"></BulletList>
+      <Code :editor="editor"></Code>
+      <Link :editor="editor"></Link>
+    </bubble-menu>
+  </div>
 </template>
 
 <script lang="ts" setup>
