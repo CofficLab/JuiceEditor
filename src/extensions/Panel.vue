@@ -1,7 +1,7 @@
 <template>
   <div
     ref="panel"
-    class="dropdown dropdown-open w-full z-10"
+    class="z-10 w-full dropdown dropdown-open"
     :id="id"
     :class="{
       inline: inline,
@@ -34,10 +34,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, onUnmounted, computed } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { v4 as uuidv4 } from 'uuid'
 
-const props = defineProps({
+defineProps({
   inline: {
     type: Boolean,
     default: false

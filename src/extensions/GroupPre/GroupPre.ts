@@ -19,6 +19,18 @@ export const GroupPre = Node.create({
   content: 'pre*',
   group: 'block',
 
+  addAttributes() {
+    return {
+      current: {
+        default: 1,
+        parseHTML: (element) => {
+          let getFromAttribute = element.getAttribute('uuid')
+          return getFromAttribute
+        }
+      }
+    }
+  },
+
   // 将什么样的HTML解析成本节点
   parseHTML() {
     return [
