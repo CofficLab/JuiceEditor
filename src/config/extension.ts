@@ -28,6 +28,8 @@ import { Toc } from "../extensions/Toc/Toc"
 import { Document } from "@tiptap/extension-document"
 import SmartTable from "../extensions/SmartTable/SmartTable"
 import { Base } from "../extensions/Base/Base"
+import { SmartPre } from "../extensions/SmartPre/SmartPre"
+import { GroupPre } from "../extensions/GroupPre/GroupPre"
 
 interface makeExtensionsProps {
     drawIoLink?: string,
@@ -56,12 +58,14 @@ export default function makeExtensions(props: makeExtensionsProps) {
                 class: 'my-custom-class',
             },
         }),
+
         Code.configure({
             HTMLAttributes: {
-                class: 'my-custom-class',
+                class: 'text-red-500',
             },
         }),
-        CodeEditor,
+        // CodeEditor,
+        SmartPre,
         Color.configure({
             types: ['textStyle'],
         }),
@@ -142,6 +146,7 @@ export default function makeExtensions(props: makeExtensionsProps) {
                 class: 'my-table',
             },
         }),
+        GroupPre,
         TableRow,
         TableCell,
         TableHeader,

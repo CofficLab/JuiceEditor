@@ -5,7 +5,7 @@
     :class="{ 'is-active': editor.isActive('code'), tooltip: iconOnly }"
   >
     <img :src="icon" v-if="iconOnly" />
-    <span v-if="!iconOnly">代码</span>
+    <span v-if="!iconOnly">行内代码</span>
   </button>
 </template>
 

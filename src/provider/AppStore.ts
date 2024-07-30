@@ -27,6 +27,10 @@ export const useAppStore = defineStore('app-store', {
             return this.node.content
         },
 
+        getJSON(): string {
+            return this.node.json
+        },
+
         getMarkdown(): string {
             let html = this.node.content
 
@@ -103,7 +107,8 @@ export const useAppStore = defineStore('app-store', {
             }
 
             console.log('🧮 AppStore: 更新节点')
-            // console.log('🧮 AppStore: 更新节点的数据', data)
+            console.log(data.content)
+            console.log(data.json)
 
             if (isDebug) {
                 LocalStore.saveData(data)

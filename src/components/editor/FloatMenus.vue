@@ -23,6 +23,8 @@
       <Draw :editor="editor" />
       <TaskList :editor="editor" />
       <Table :editor="editor"></Table>
+      <SmartPre :editor="editor"></SmartPre>
+      <GroupPre :editor="editor"></GroupPre>
     </floating-menu>
   </div>
 </template>
@@ -37,6 +39,8 @@ import Image from '../operators/Image.vue'
 import Draw from '../operators/Draw.vue'
 import Table from '../operators/Table.vue'
 import TaskList from '../operators/TaskList.vue'
+import SmartPre from '../operators/SmartPre.vue'
+import GroupPre from '../operators/GroupPre.vue'
 
 defineProps({
   editor: {
