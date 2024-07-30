@@ -38,7 +38,15 @@ interface makeExtensionsProps {
 
 export default function makeExtensions(props: makeExtensionsProps) {
     var extensions = [
+        // 顺序不能乱
         Base,
+        // SmartImage 和 SmartDraw 都关注 img 标签
+        SmartImage.configure({
+            allowBase64: true,
+            HTMLAttributes: {
+                class: ''
+            }
+        }),
         Blockquote.configure({
             HTMLAttributes: {
                 class: 'my-custom-class',
@@ -107,12 +115,6 @@ export default function makeExtensions(props: makeExtensionsProps) {
             }
         }),
         SmartBanner,
-        SmartImage.configure({
-            allowBase64: true,
-            HTMLAttributes: {
-                class: ''
-            }
-        }),
         SmartLink.configure({
             protocols: ['ftp', 'mailto'],
             autolink: true,
