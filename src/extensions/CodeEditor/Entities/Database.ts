@@ -12,26 +12,33 @@ export class Database {
         // console.log("💼 Database: 将字符转换成 Database", json)
 
         this.json = json;
-        this.activatedIndex = JSON.parse(this.json).activatedIndex || 0;
 
-        const items = JSON.parse(this.json).items || [];
-        items.forEach((element: { title: string; content: string; language: string, runVisible: boolean }) => {
-            this.items.push(new CodeBlock()
-                .setTitle(element.title)
-                .setContent(element.content)
-                .setLanguage(SmartLanguage.fromString(element.language))
-                .setRunVisible(element.runVisible)
-            );
-        });
+        try {
+            let parsedObject = JSON.parse(this.json);
+            this.activatedIndex = parsedObject.activatedIndex || 0;
+            const items = parsedObject.items || [];
 
-        if (items.length === 0) {
-            this.items.push(new CodeBlock());
-            this.activatedIndex = 0
+            items.forEach((element: { title: string; content: string; language: string, runVisible: boolean }) => {
+                this.items.push(new CodeBlock()
+                    .setTitle(element.title)
+                    .setContent(element.content)
+                    .setLanguage(SmartLanguage.fromString(element.language))
+                    .setRunVisible(element.runVisible)
+                );
+            });
+
+            if (items.length === 0) {
+                this.items.push(new CodeBlock());
+                this.activatedIndex = 0
+            }
+        } catch {
+            console.error("💼 Database: 解析 JSON 出错")
+            console.error(this.json);
         }
     }
 
     static createWithSingleCodeBlock(codeBlock: CodeBlock) {
-        // console.log("💼 Database: 将 SingleCodeBlock 转换成 Database", codeBlock)
+        console.log("💼 Database: 将 SingleCodeBlock 转换成 Database", codeBlock)
         return new Database(JSON.stringify({
             items: [codeBlock],
             activatedIndex: 0,
