@@ -1,15 +1,13 @@
 import { SmartLanguage, languages } from "./SmartLanguage";
 import { CodeBlock } from "./CodeBlock";
 
-
-
 export class Database {
     public json: string;
     public items: CodeBlock[] = [];
     public activatedIndex = 0;
 
     constructor(json: string = "{}") {
-        // console.log("💼 Database: 将字符转换成 Database", json)
+        console.log("💼 Database: 将字符转换成 Database", json)
 
         this.json = json;
 
