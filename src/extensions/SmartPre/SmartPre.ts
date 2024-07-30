@@ -68,7 +68,7 @@ export const SmartPre = CodeBlock.extend({
     return {
       insertSmartPre:
         attributes => ({ commands }) => {
-          return commands.insertContent("<pre><code>type here smart pre</code></pre>");
+          return commands.insertContent("<pre><code class='language-javascript'>console.log('hello world')</code></pre>");
         },
       setCodeBlock:
         attributes => ({ commands }) => {

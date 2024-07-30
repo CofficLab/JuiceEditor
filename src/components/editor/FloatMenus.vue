@@ -17,7 +17,6 @@
       <Heading :editor="editor" :level="4" />
       <Heading :editor="editor" :level="5" />
       <Heading :editor="editor" :level="6" />
-      <CodeBlock :editor="editor" />
       <Banner :editor="editor" />
       <Image :editor="editor" />
       <Draw :editor="editor" />

@@ -61,7 +61,7 @@ export default function makeExtensions(props: makeExtensionsProps) {
 
         Code.configure({
             HTMLAttributes: {
-                class: 'text-red-500',
+                class: '',
             },
         }),
         // CodeEditor,
