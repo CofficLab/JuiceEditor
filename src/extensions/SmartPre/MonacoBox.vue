@@ -31,7 +31,7 @@
       <!-- Monaco -->
       <!-- monaco有时候不能全部占满这个div，会在左侧或右侧留几个像素的padding -->
       <!-- 所以让这个div的背景色=monaco的背景色 -->
-      <div :id="domId" class="relative z-10 bg-black" contenteditable="true"></div>
+      <div :id="domId" ref="codeDom" class="relative z-10 bg-black" contenteditable="true"></div>
     </div>
 
     <!-- 展示运行结果 -->
@@ -62,6 +62,7 @@ const props = defineProps(MonacoProps)
 // 一个页面可能有多个monaco编辑器，每个monaco编辑器都有一个uuid
 const domId = uuidv4()
 const resultId = 'result-' + domId
+const codeDom = ref<HTMLDivElement>()
 
 /**
  * 运行按钮相关的属性
@@ -76,10 +77,6 @@ let runResultVisible = ref(false)
 let lan = ref(languages[0])
 var editor: monaco.editor.IStandaloneCodeEditor
 var lineCount = ref(0)
-
-function getCodeElement(): HTMLDivElement {
-  return document.getElementById(domId)! as HTMLDivElement
-}
 
 function getResultElement(): HTMLElement {
   return document.getElementById(resultId)!
@@ -96,7 +93,7 @@ onMounted(() => {
 
   editor = MonacoBox.createEditor({
     content: props.content,
-    target: getCodeElement(),
+    target: codeDom.value!,
     language: props.language,
     readOnly: !props.editable,
     onCreated(editor) {
