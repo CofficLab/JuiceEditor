@@ -165,7 +165,7 @@ onMounted(() => {
       console.log('🍋 🗒️ MonacoBox: created')
       lan.value = MonacoBox.getLanguage(editor)
       lineCount.value = editor.getModel()!.getLineCount()
-      console.log('lines', lineCount.value)
+      // console.log('lines', lineCount.value)
 
       // setTimeout(() => {
       //   // 去掉setTimeout则不能获取焦点，原因暂时不明

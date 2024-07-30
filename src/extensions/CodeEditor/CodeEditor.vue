@@ -45,7 +45,6 @@
           :onNewTab="createTab"
           :on-set-not-runnable="setNotRunnable"
           :on-set-runnable="setRunnable"
-          :on-set-language="setLanguage"
           :on-new-line="onNewLine"
           :on-delete="deleteTab"
         >
@@ -76,7 +75,6 @@ import { SmartLanguage } from './Entities/SmartLanguage'
 import { CodeBlock } from './Entities/CodeBlock'
 import Toolbar from './Toolbar.vue'
 import Helper from '../Helper'
-import { v4 as uuidv4 } from 'uuid'
 import Panel from '../Panel.vue'
 
 var clipboard = new ClipboardJS('.copy')
