@@ -1,4 +1,4 @@
-import EditorData from "./EditorData"
+import EditorData from "../model/EditorData"
 
 const webkit = {
     pageLoaded() {

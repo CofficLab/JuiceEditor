@@ -39,13 +39,13 @@
 </template>
 
 <script lang="ts" setup>
-import TiptapEditor from './TiptapEditor.vue'
+import TiptapEditor from './editor/TiptapEditor.vue'
 import NodeCardList from './NodeCardList.vue'
 import { computed, nextTick, onMounted, watch } from 'vue'
 import Loading from '../components/Loading.vue'
-import { useAppStore } from '../stores/AppStore'
+import { useAppStore } from '../provider/AppStore'
 import BookIntro from './BookIntro.vue'
-import { useFeatureStore } from '../stores/FeatureStore'
+import { useFeatureStore } from '../provider/FeatureStore'
 import ToolBar from './ToolBar.vue'
 
 const appStore = useAppStore()

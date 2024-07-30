@@ -5,13 +5,14 @@
     data-tip="链接"
     :class="{ 'btn-disabled': editor.isActive('link'), tooltip: iconOnly }"
   >
-    <img src="../assets/link.svg" v-if="iconOnly" />
+    <img :src="icon" v-if="iconOnly" />
     <span v-if="!iconOnly">链接</span>
   </button>
 </template>
 
 <script lang="ts" setup>
 import { Editor } from '@tiptap/vue-3'
+import icon from '../../assets/link.svg'
 
 const props = defineProps({
   editor: {

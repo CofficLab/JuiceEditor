@@ -5,7 +5,7 @@
     data-tip="待办事项"
     :class="{ 'is-active': editor.isActive('taskList') }"
   >
-    <img src="../assets/checklist.svg" />
+    <img :src="icon" />
   </button>
 
   <!-- <button @click="focusedNode.splitListItem('taskItem').run()"
@@ -29,6 +29,7 @@
 <script lang="ts" setup>
 import { Editor } from '@tiptap/vue-3'
 import { computed } from 'vue'
+import icon from '../../assets/checklist.svg'
 
 const props = defineProps({
   editor: {

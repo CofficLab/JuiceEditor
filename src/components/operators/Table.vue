@@ -2,7 +2,7 @@
   <button
     class="w-10 tooltip"
     data-tip="添加表格"
-    v-if="isTableEnable"
+    v-if="enable"
     @click="editor.chain().focus().insertSmartTable().run()"
   >
     <IconTableCell></IconTableCell>
@@ -11,16 +11,16 @@
 
 <script lang="ts" setup>
 import { Editor } from '@tiptap/vue-3'
-import TiptapAgent from '../entities/TiptapAgent'
-import { computed } from 'vue'
 import IconTableCell from '../icons/IconTableCell.vue'
 
-const props = defineProps({
+defineProps({
   editor: {
     type: Editor,
     required: true
+  },
+  enable: {
+    type: Boolean,
+    default: true
   }
 })
-
-const isTableEnable = TiptapAgent.isTableEnable(props.editor)
 </script>

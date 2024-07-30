@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts" setup>
-import TreeNode from '../entities/TreeNode'
+import TreeNode from '../model/TreeNode'
 
 defineProps({
   node: {

@@ -1,7 +1,7 @@
 import { Editor } from '@tiptap/vue-3'
 import { Editor as TiptapEditor } from '@tiptap/core'
-import makeExtensions from './Extensions'
-import EditorData from './EditorData'
+import EditorData from '../../model/EditorData'
+import makeExtensions from '../../config/extension'
 
 interface Props {
     uuid: string,

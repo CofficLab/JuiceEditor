@@ -1,4 +1,4 @@
-import SmartTool from "../../entities/SmartTool";
+import SmartTool from "../../helper/SmartTool";
 
 export function makeDrawUrl(baseUrl: string): string {
     return baseUrl + SmartTool.httpBuildQuery({

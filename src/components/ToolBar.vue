@@ -90,8 +90,8 @@
 </template>
 
 <script lang="ts" setup>
-import { useAppStore } from '../stores/AppStore'
-import { useFeatureStore } from '../stores/FeatureStore'
+import { useAppStore } from '../provider/AppStore'
+import { useFeatureStore } from '../provider/FeatureStore'
 import baseNode from '../samples/BaseNode'
 import linkNode from '../samples/LinkNode'
 import codeNode from '../samples/CodeNode'

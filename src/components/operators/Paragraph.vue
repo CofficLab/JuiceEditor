@@ -1,17 +1,18 @@
 <template>
   <button
-    @click="focusedNode.toggleItalic().run()"
-    data-tip="斜体"
-    :class="{ 'is-active': editor.isActive('italic'), tooltip: iconOnly }"
+    @click="focusedNode.setParagraph().run()"
+    data-tip="正文"
+    :class="{ 'is-active': editor.isActive('paragraph', { level: 3 }), tooltip: iconOnly }"
   >
-    <img src="../assets/italic.svg" v-if="iconOnly" />
-    <span v-if="!iconOnly">斜体</span>
+    <img :src="icon" v-if="iconOnly" />
+    <span v-if="!iconOnly">正文</span>
   </button>
 </template>
 
 <script lang="ts" setup>
 import { Editor } from '@tiptap/vue-3'
 import { computed } from 'vue'
+import icon from '../../assets/character.svg'
 
 const props = defineProps({
   editor: {

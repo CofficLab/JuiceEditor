@@ -5,13 +5,14 @@
     data-tip="引用"
     :class="{ 'is-active': editor.isActive('blockquote') }"
   >
-    <img src="../assets/quote.opening.svg" />
+    <img :src="icon" />
   </button>
 </template>
 
 <script lang="ts" setup>
 import { Editor } from '@tiptap/vue-3'
 import { computed } from 'vue'
+import icon from '../../assets/quote.opening.svg'
 
 const props = defineProps({
   editor: {

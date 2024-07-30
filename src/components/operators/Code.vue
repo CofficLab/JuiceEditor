@@ -1,18 +1,18 @@
 <template>
   <button
-    v-if="!editor.isActive('heading')"
-    @click="focusedNode.toggleBold().run()"
-    class="tooltip"
-    data-tip="加粗"
+    @click="focusedNode.toggleCode().run()"
+    data-tip="代码"
+    :class="{ 'is-active': editor.isActive('code'), tooltip: iconOnly }"
   >
-    <img src="../assets/bold.svg" v-if="iconOnly" />
-    <span v-if="!iconOnly">加粗</span>
+    <img :src="icon" v-if="iconOnly" />
+    <span v-if="!iconOnly">代码</span>
   </button>
 </template>
 
 <script lang="ts" setup>
 import { Editor } from '@tiptap/vue-3'
 import { computed } from 'vue'
+import icon from '../../assets/code.bracket.svg'
 
 const props = defineProps({
   editor: {

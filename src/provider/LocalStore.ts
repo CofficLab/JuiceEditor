@@ -1,5 +1,5 @@
-import EditorData from "../entities/EditorData";
-import TreeNode from "../entities/TreeNode";
+import EditorData from "../model/EditorData";
+import TreeNode from "../model/TreeNode";
 
 export default class LocalStore {
     static saveData(data: EditorData) {

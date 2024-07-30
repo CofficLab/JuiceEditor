@@ -35,7 +35,7 @@ interface makeExtensionsProps {
     tableEnable?: boolean
 }
 
-function makeExtensions(props: makeExtensionsProps) {
+export default function makeExtensions(props: makeExtensionsProps) {
     var extensions = [
         Base,
         Blockquote.configure({
@@ -150,5 +150,3 @@ function makeExtensions(props: makeExtensionsProps) {
 
     return extensions
 }
-
-export default makeExtensions

@@ -81,14 +81,14 @@ import { EditorContent } from '@tiptap/vue-3'
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import BubbleMenus from './BubbleMenus.vue'
 import FloatMenus from './FloatMenus.vue'
-import TiptapAgent from '../entities/TiptapAgent'
-import Config from '../config'
-import EditorData from '../entities/EditorData'
+import TiptapAgent from './TiptapAgent'
+import Config from '../../config/config'
+import EditorData from '../../model/EditorData'
 import ContextMenu from './ContextMenu.vue'
-import Message from './Message.vue'
-import HeadingVue from './Heading.vue'
-import EventManager from '../entities/EventManager'
-import Heading from '../extensions/Toc/Heading'
+import Message from '../Message.vue'
+import HeadingVue from '../Heading.vue'
+import EventManager from '../../event/EventManager'
+import Heading from '../../extensions/Toc/Heading'
 
 const props = defineProps({
   uuid: {
@@ -141,7 +141,7 @@ const editor = TiptapAgent.create({
   uuid: props.uuid,
   content: props.content,
   editable: props.editable,
-  drawIoLink: Config.getLink(),
+  drawIoLink: Config.getDrawLink(),
   drawEnable: props.drawEnable,
   tableEnable: props.tableEnable,
   onCreate: (data: EditorData) => {

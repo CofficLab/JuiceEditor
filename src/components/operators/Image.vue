@@ -5,7 +5,7 @@
     @click="editor.commands.insertImage()"
     :class="{ 'is-active': editor.isActive('banner') }"
   >
-    <img src="../assets/photo.svg" alt="" class="m-0" />
+    <img :src="icon" alt="" class="m-0" />
     <input
       class="fixed"
       ref="fileInput"
@@ -21,6 +21,7 @@
 <script lang="ts" setup>
 import { Editor } from '@tiptap/vue-3'
 import { ref } from 'vue'
+import icon from '../../assets/photo.svg'
 
 const props = defineProps({
   editor: {

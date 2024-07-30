@@ -1,17 +1,18 @@
 <template>
   <button
-    @click="focusedNode.setParagraph().run()"
-    data-tip="正文"
-    :class="{ 'is-active': editor.isActive('paragraph', { level: 3 }), tooltip: iconOnly }"
+    @click="focusedNode.toggleBulletList().run()"
+    data-tip="无序列表"
+    :class="{ 'is-active': editor.isActive('bulletList'), tooltip: iconOnly }"
   >
-    <img src="../assets/character.svg" v-if="iconOnly" />
-    <span v-if="!iconOnly">正文</span>
+    <img :src="bulletListIcon" v-if="iconOnly" />
+    <span v-if="!iconOnly">无序列表</span>
   </button>
 </template>
 
 <script lang="ts" setup>
 import { Editor } from '@tiptap/vue-3'
 import { computed } from 'vue'
+import bulletListIcon from '../../assets/list.bullet.svg'
 
 const props = defineProps({
   editor: {

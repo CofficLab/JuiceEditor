@@ -24,7 +24,7 @@
 
 <script lang="ts" setup>
 import { Editor, FloatingMenu } from '@tiptap/vue-3'
-import TiptapAgent from '../entities/TiptapAgent'
+import TiptapAgent from './TiptapAgent'
 import Heading from '../operators/Heading.vue'
 import CodeBlock from '../operators/CodeBlock.vue'
 import Banner from '../operators/Banner.vue'
