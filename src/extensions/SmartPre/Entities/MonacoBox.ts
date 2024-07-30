@@ -70,7 +70,7 @@ class MonacoBox {
     static setHeightOfEditor(editor: monaco.editor.IStandaloneCodeEditor) {
         let height = MonacoBox.getLinesHeight(editor);
 
-        console.log("MonacoBox: 设置 monaco editor 的高度", height);
+        console.log("💼 MonacoBox: 设置 monaco editor 的高度", height);
 
         editor.getDomNode()!.style.height = height + "px";
     }
