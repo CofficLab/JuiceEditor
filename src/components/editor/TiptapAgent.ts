@@ -65,12 +65,6 @@ class TiptapAgent {
         })
     }
 
-    static isDrawEnable(editor: Editor): Boolean {
-        return editor.extensionManager.extensions.some(extension => {
-            return extension.name === 'draw'
-        })
-    }
-
     static isTableEnable(editor: Editor): Boolean {
         return editor.extensionManager.extensions.some(extension => {
             return extension.name === 'smart-table'

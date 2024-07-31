@@ -97,6 +97,7 @@ const SmartImage = ImageTipTap.extend<ImageOptions>({
                     attrs: {
                         src: this.options.baseImage,
                         alt: '',
+                        draw: true,
                         title: ''
                     },
                 })
