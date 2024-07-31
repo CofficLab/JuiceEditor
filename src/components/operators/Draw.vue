@@ -11,18 +11,17 @@
 
 <script lang="ts" setup>
 import { Editor } from '@tiptap/vue-3'
-import TiptapAgent from '../editor/TiptapAgent'
 import { useFeatureStore } from '../../provider/FeatureStore'
 import icon from '../../assets/compass.drawing.svg'
 
 const feature = useFeatureStore()
 
-const props = defineProps({
+defineProps({
   editor: {
     type: Editor,
     required: true
   }
 })
 
-const isDrawEnable = TiptapAgent.isDrawEnable(props.editor) && feature.drawEnabled
+const isDrawEnable = feature.drawEnabled
 </script>

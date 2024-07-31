@@ -1,7 +1,7 @@
-import css from "./Css"
+import css from "./DrawCss"
 
 // drawio的配置，按字母排序
-const Config = {
+const DrawConfig = {
     // autosaveDelay: Defines the delay(in ms) between the last change and the autosave of the file(10.4.7 and later).
     // autosaveDelay: 100,
     css: css,
@@ -54,5 +54,5 @@ const Config = {
     // 每次都替换掉
     version: Date.now().toString(),
 }
-      
-export default Config
+
+export default DrawConfig

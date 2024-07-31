@@ -13,7 +13,7 @@
       代码
     </button>
     <button class="btn btn-primary btn-xs join-item" @click="app.setCurrentNode(drawNode)">
-      画图
+      图片
     </button>
     <button class="btn btn-primary btn-xs join-item" @click="app.setCurrentNode(tableNode)">
       表格
