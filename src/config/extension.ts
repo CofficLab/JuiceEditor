@@ -20,7 +20,6 @@ import TaskItem from "@tiptap/extension-task-item"
 import TaskList from "@tiptap/extension-task-list"
 import Text from "@tiptap/extension-text"
 import { SmartBanner } from "../extensions/SmartBanner/SmartBanner"
-import SmartDraw from "../extensions/SmartDraw/SmartDraw"
 import SmartImage from "../extensions/SmartImage/SmartImage"
 import SmartLink from "../extensions/SmartLink/SmartLink"
 import { Toc } from "../extensions/Toc/Toc"
@@ -38,15 +37,7 @@ interface makeExtensionsProps {
 
 export default function makeExtensions(props: makeExtensionsProps) {
     var extensions = [
-        // 顺序不能乱
         Base,
-        // SmartImage 和 SmartDraw 都关注 img 标签
-        SmartImage.configure({
-            allowBase64: true,
-            HTMLAttributes: {
-                class: ''
-            }
-        }),
         Blockquote.configure({
             HTMLAttributes: {
                 class: 'my-custom-class',
@@ -76,10 +67,11 @@ export default function makeExtensions(props: makeExtensionsProps) {
             types: ['textStyle'],
         }),
         CharacterCount,
-        // 始终加载 Draw 扩展，保证已经画好的能渲染出来
-        SmartDraw.configure({
-            drawIoLink: props.drawIoLink,
-            openDialog: 'click'
+        SmartImage.configure({
+            allowBase64: true,
+            HTMLAttributes: {
+                class: ''
+            }
         }),
         Document.extend({
             content: 'heading block*'

@@ -28,16 +28,16 @@
 <script setup lang="ts">
 import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 import { computed, ref } from 'vue'
-import { makeDrawUrl } from './MakeDrawUrl'
+import { makeDrawUrl } from './DrawUrl'
 import Helper from './Helper'
-import Config from './Config'
+import DrawConfig from './DrawConfig'
 import Delete from './Icons/Delete.vue'
 import IconEdit from './Icons/IconEdit.vue'
 import IconNewLine from './Icons/IconNewLine.vue'
 import IconDownload from './Icons/IconDownload.vue'
 import Opening from './Opening.vue'
 import webkit from '../../api/WebKit'
-import Base64Helper from './Base64Helper'
+import Base64Helper from './Helper'
 import Panel from '../Panel.vue'
 
 const img = ref<HTMLImageElement | null>(null)
@@ -229,7 +229,7 @@ function receive(event: MessageEvent): void {
       console.log('🍋 SmartDraw: 收到 drawio 发来的消息 -> configure，向它发送配置')
       sendToDrawio({
         action: 'configure',
-        config: Config
+        config: DrawConfig
       })
 
       break

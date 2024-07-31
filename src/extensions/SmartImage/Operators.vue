@@ -67,7 +67,7 @@
 import { nodeViewProps } from '@tiptap/vue-3'
 import Helper from '../Helper'
 import { defineProps, ref } from 'vue'
-import Base64Helper from './Base64Helper'
+import Base64Helper from './Helper'
 import webkit from '../../api/WebKit'
 import IconNewLine from './Icons/IconNewLine.vue'
 import IconDownload from './Icons/IconDownload.vue'
