@@ -1,6 +1,6 @@
 <template>
   <node-view-wrapper contenteditable="true">
-    <Panel>
+    <Panel :deleteNode="props.deleteNode">
       <template v-slot:content>
         <NodeViewContent as="div" v-bind:contenteditable="isEditable" />
       </template>
@@ -87,13 +87,13 @@
           <TableToggleHeader class="h-5 w-5"></TableToggleHeader>
         </button>
         <Divider></Divider>
-        <button
+        <!-- <button
           @click="focusedNode.deleteTable().run()"
           class="tooltip btn btn-sm join-item"
           data-tip="删除整个表格"
         >
           <Remove class="h-5 w-5"></Remove>
-        </button>
+        </button> -->
         <!-- <button @click="focusedNode.setCellAttribute('colspan', 2).run()">占两格</button> -->
         <!-- <button @click="focusedNode.fixTables().run()">修复</button> -->
         <!-- <button @click="focusedNode.goToNextCell().run()">下一格</button> -->

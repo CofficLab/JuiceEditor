@@ -1,6 +1,6 @@
 <template>
   <NodeViewWrapper>
-    <Panel>
+    <Panel :deleteNode="props.deleteNode">
       <template v-slot:content>
         <div>
           <!-- 编辑区域 -->

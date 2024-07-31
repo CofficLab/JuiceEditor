@@ -1,6 +1,6 @@
 <template>
   <node-view-wrapper>
-    <Panel>
+    <Panel :deleteNode="props.deleteNode">
       <template v-slot:content>
         <img
           ref="imgDom"

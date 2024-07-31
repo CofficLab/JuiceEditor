@@ -1,6 +1,6 @@
 <template>
   <node-view-wrapper class="inline">
-    <Panel :inline="true">
+    <Panel :inline="true" :deleteNode="props.deleteNode">
       <template v-slot:content>
         <!-- 链接的内容 -->
         <label
@@ -55,10 +55,6 @@
           >
             <NoLink></NoLink>
           </button>
-
-          <button class="btn btn-sm join-item tooltip" data-tip="删除" @click="deleteNode">
-            <IconDelete class="w-5 h-6"></IconDelete>
-          </button>
         </template>
       </template>
     </Panel>
@@ -66,18 +62,12 @@
 </template>
 <script setup lang="ts">
 import { nodeViewProps, NodeViewWrapper, NodeViewContent } from '@tiptap/vue-3'
-import IconDelete from './Icons/Delete.vue'
 import { ref } from 'vue'
 import Panel from '../Panel.vue'
 import Open from './Icons/Open.vue'
 import NoLink from './Icons/NoLink.vue'
 
 const props = defineProps(nodeViewProps)
-
-const deleteNode = () => {
-  props.deleteNode()
-}
-
 const goto = ref()
 
 const notLink = () => {

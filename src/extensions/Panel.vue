@@ -26,8 +26,11 @@
       v-show="isSelected"
       contenteditable="false"
     >
-      <div class="border shadow-2xl join border-accent/30 bg-opacity-70 operators">
+      <div class="border shadow-2xl join border-accent/60 bg-opacity-90 operators">
         <slot name="operators"></slot>
+        <button class="btn btn-sm join-item tooltip" data-tip="删除" @click="deleteNode">
+          <IconDelete class="w-5 h-6"></IconDelete>
+        </button>
       </div>
     </div>
   </div>
@@ -36,8 +39,9 @@
 <script lang="ts" setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import { v4 as uuidv4 } from 'uuid'
+import IconDelete from './BaseIcons/Delete.vue'
 
-defineProps({
+const props = defineProps({
   inline: {
     type: Boolean,
     default: false
@@ -45,6 +49,10 @@ defineProps({
   showBorder: {
     type: Boolean,
     default: true
+  },
+  deleteNode: {
+    type: Function,
+    required: true
   }
 })
 const id = 'panel' + uuidv4()
@@ -62,6 +70,10 @@ function onClick(e: Event) {
 
   let target = e.target as HTMLElement
   isSelected.value = target.closest('#' + id) != null
+}
+
+function deleteNode() {
+  props.deleteNode()
 }
 
 onMounted(() => {

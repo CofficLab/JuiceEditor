@@ -1,6 +1,6 @@
 <template>
   <node-view-wrapper>
-    <Panel>
+    <Panel :deleteNode="props.deleteNode">
       <template v-slot:content>
         <!-- 内容 -->
         <div
@@ -62,9 +62,6 @@
         </button>
         <button class="btn btn-sm join-item" @click="setStyleToGreenQuestion">
           <Question class="w-5 h-6 text-green-500"></Question>
-        </button>
-        <button class="btn btn-sm join-item" @click="deleteNode">
-          <IconDelete class="w-5 h-6"></IconDelete>
         </button>
       </template>
     </Panel>
@@ -155,10 +152,6 @@ function setStyleToGreenQuestion() {
 let isTheLastNode = computed(
   () => props.node.nodeSize + props.getPos() == props.editor.state.doc.content.size
 )
-
-function deleteNode() {
-  props.deleteNode()
-}
 
 onMounted(() => {
   // 如果是最后一个节点，在本节点后插入一个空的p，防止光标无法移动到下一个节点

@@ -1,12 +1,4 @@
 <template>
-  <input
-    ref="fileInput"
-    multiple="false"
-    accept="image/*"
-    type="file"
-    style="display: none"
-    @change="onFileSelected"
-  />
   <button @click="changeImage" class="btn join-item btn-sm tooltip" data-tip="更换图片">
     <IconEdit class="w-5 h-5"></IconEdit>
   </button>
@@ -28,9 +20,9 @@
   <button @click="setHeart" class="join-item btn btn-sm">
     <div class="w-5 h-5 bg-red-400 mask mask-heart"></div>
   </button>
-  <!-- <button @click="setDecagon" class="join-item btn btn-sm">
+  <button @click="setDecagon" class="join-item btn btn-sm">
     <div class="w-5 h-5 bg-red-400 mask mask-decagon"></div>
-  </button> -->
+  </button>
   <button @click="setHexagon" class="join-item btn btn-sm">
     <div class="w-5 h-5 bg-red-400 mask mask-hexagon"></div>
   </button>
@@ -40,15 +32,15 @@
   <button @click="setStar" class="join-item btn btn-sm">
     <div class="w-5 h-5 bg-red-400 mask mask-star"></div>
   </button>
-  <!-- <button @click="setParallelogram" class="join-item btn btn-sm">
+  <button @click="setParallelogram" class="join-item btn btn-sm">
     <div class="w-5 h-5 bg-red-400 mask mask-parallelogram"></div>
-  </button> -->
+  </button>
   <button @click="setDiamond" class="join-item btn btn-sm">
     <div class="w-5 h-5 bg-red-400 mask mask-diamond"></div>
   </button>
-  <!-- <button @click="setSquare" class="join-item btn btn-sm">
+  <button @click="setSquare" class="join-item btn btn-sm">
     <div class="w-5 h-5 bg-red-400 mask mask-square"></div>
-  </button> -->
+  </button>
   <button @click="setCircle" class="join-item btn btn-sm">
     <div class="w-5 h-5 bg-red-400 mask mask-circle"></div>
   </button>
@@ -58,9 +50,14 @@
   <button class="btn btn-sm join-item tooltip" @click="newLine" data-tip="在图片后插入空白行">
     <IconNewLine class="w-5 h-5"></IconNewLine>
   </button>
-  <button class="btn btn-sm join-item tooltip" @click="deleteNode" data-tip="删除">
-    <Delete class="w-5 h-5"></Delete>
-  </button>
+  <input
+    ref="fileInput"
+    multiple="false"
+    accept="image/*"
+    type="file"
+    style="display: none"
+    @change="onFileSelected"
+  />
 </template>
 
 <script lang="ts" setup>
@@ -73,7 +70,6 @@ import IconNewLine from './Icons/IconNewLine.vue'
 import IconDownload from './Icons/IconDownload.vue'
 import IconEdit from './Icons/IconEdit.vue'
 import Reset from './Icons/Reset.vue'
-import Delete from './Icons/Delete.vue'
 
 const isSelected = ref(false)
 const isWebKit = 'webkit' in window
