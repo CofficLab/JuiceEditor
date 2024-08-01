@@ -3,6 +3,7 @@ import { defineConfig } from 'vitepress'
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "Juice Editor",
+  base: "/JuiceEditor/",
   description: "A Smart Editor",
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
