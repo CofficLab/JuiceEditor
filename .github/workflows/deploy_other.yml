@@ -4,7 +4,7 @@
 #--------------------------------------------------
 #
 
-name: Deploy
+name: Deploy to Other Projects
 
 on:
   push:
