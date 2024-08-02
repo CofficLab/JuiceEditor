@@ -1,6 +1,8 @@
 <template>
   <div class="w-full">
     <IndexPage></IndexPage>
+
+    <!-- <dart-element></dart-element> -->
   </div>
 </template>
 
@@ -10,6 +12,15 @@ import IndexPage from './components/IndexPage.vue'
 import { useAppStore } from './provider/AppStore'
 import { useFeatureStore } from './provider/FeatureStore'
 import setApi from './api/ApiSet'
+// register('dart-element')
+
+// import { defineCustomElement } from 'vue'
+// import VueDarkModeSwitch from './components/DarkElement.ce.vue'
+
+// // Register the custom element so that it can be used as <dark-mode-switch>.
+// function register(tagName = 'dark-mode-switch') {
+//   customElements.define(tagName, defineCustomElement(VueDarkModeSwitch))
+// }
 
 const feature = useFeatureStore()
 const app = useAppStore()
