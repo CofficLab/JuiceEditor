@@ -1,7 +1,7 @@
 <template>
   <!-- 回车后显示的菜单 -->
   <div>
-    <floating-menu
+    <FloatingMenu
       class="floating-menu"
       :tippy-options="{
         duration: 100,
@@ -24,7 +24,7 @@
       <Table :editor="editor"></Table>
       <SmartPre :editor="editor"></SmartPre>
       <GroupPre :editor="editor"></GroupPre>
-    </floating-menu>
+    </FloatingMenu>
   </div>
 </template>
 

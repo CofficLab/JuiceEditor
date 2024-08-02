@@ -19,7 +19,7 @@
       }"
     >
       <!-- 编辑器 -->
-      <editor-content
+      <EditorContent
         :editor="editor"
         :class="{
           'bg-slate-300/10': false,
@@ -89,6 +89,7 @@ import HeadingVue from '../Heading.vue'
 import EventManager from '../../event/EventManager'
 import Heading from '../../extensions/Toc/Heading'
 import SmartEditorProps from './SmartEditorProps'
+import { Editor } from '@tiptap/core'
 
 const props = defineProps(SmartEditorProps)
 

@@ -1,5 +1,5 @@
 <template>
-  <node-view-wrapper contenteditable="true">
+  <NodeViewWrapper contenteditable="true">
     <Panel :deleteNode="props.deleteNode">
       <template v-slot:content>
         <NodeViewContent as="div" v-bind:contenteditable="isEditable" />
@@ -100,7 +100,7 @@
         <!-- <button @click="focusedNode.goToPreviousCell().run()">上一格</button> -->
       </template>
     </Panel>
-  </node-view-wrapper>
+  </NodeViewWrapper>
 </template>
 
 <script setup lang="ts">

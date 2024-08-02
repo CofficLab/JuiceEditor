@@ -1,5 +1,5 @@
 <template>
-  <node-view-wrapper>
+  <NodeViewWrapper>
     <Panel :deleteNode="props.deleteNode">
       <template v-slot:content>
         <img
@@ -14,7 +14,7 @@
         <Operators v-bind="props"></Operators>
       </template>
     </Panel>
-  </node-view-wrapper>
+  </NodeViewWrapper>
 </template>
 
 <script setup lang="ts">

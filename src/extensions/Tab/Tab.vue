@@ -1,68 +1,84 @@
 <template>
-  <node-view-wrapper>
+  <NodeViewWrapper>
     <div class="flex flex-row overflow-auto pb-4" :class="{ ring: editable }">
       <!-- 拖动的把手 -->
-      <div class="drag-handle bg-primary-600/40 mr-1 h-10 w-4" v-bind:class="{ hidden: !editable }" contenteditable="false" draggable="true" data-drag-handle></div>
+      <div
+        class="drag-handle bg-primary-600/40 mr-1 h-10 w-4"
+        v-bind:class="{ hidden: !editable }"
+        contenteditable="false"
+        draggable="true"
+        data-drag-handle
+      ></div>
 
       <div class="flex w-full flex-col overflow-clip shadow-sm">
         <!-- 标题按钮 -->
         <div class="tabs tabs-boxed rounded-none bg-yellow-500/50" contenteditable="false">
           <div v-for="(title, index) in titles">
-            <a class="tab no-underline" contenteditable="true" v-bind:data-index="index" v-bind:class="{ 'tab-active': current == index }" @click="activate(index)" @keyup="(event) => save(event)">{{
-              title
-            }}</a>
+            <a
+              class="tab no-underline"
+              contenteditable="true"
+              v-bind:data-index="index"
+              v-bind:class="{ 'tab-active': current == index }"
+              @click="activate(index)"
+              @keyup="(event) => save(event)"
+              >{{ title }}</a
+            >
           </div>
         </div>
 
-        <node-view-content ref="contents" v-bind:data-current="current" class="bg-sky-400/40 p-4"></node-view-content>
+        <NodeViewContent
+          ref="contents"
+          v-bind:data-current="current"
+          class="bg-sky-400/40 p-4"
+        ></NodeViewContent>
       </div>
     </div>
-  </node-view-wrapper>
+  </NodeViewWrapper>
 </template>
 
 <script>
-import { nodeViewProps, NodeViewWrapper, NodeViewContent } from "@tiptap/vue-3";
-import NodeController from "../controllers/NodeController";
+import { nodeViewProps, NodeViewWrapper, NodeViewContent } from '@tiptap/vue-3'
+import NodeController from '../controllers/NodeController'
 
 export default {
   components: {
     NodeViewWrapper,
-    NodeViewContent,
+    NodeViewContent
   },
   props: nodeViewProps,
   data() {
     return {
       current: this.node.attrs.current,
-      titles: this.node.attrs.titles.split(","),
-    };
+      titles: this.node.attrs.titles.split(',')
+    }
   },
   computed: {
-    editable: () => useRoute().query.editable,
+    editable: () => useRoute().query.editable
   },
   methods: {
     activate: function (index) {
-      this.editor.storage.tab.current = index;
-      this.current = index;
+      this.editor.storage.tab.current = index
+      this.current = index
       this.updateAttributes({
-        current: this.current,
-      });
+        current: this.current
+      })
     },
     save(event) {
-      let target = event.target;
-      console.log("保存title名称", target);
+      let target = event.target
+      console.log('保存title名称', target)
 
-      let titles = this.node.attrs.titles.split(",");
-      titles[this.current] = target.innerHTML;
+      let titles = this.node.attrs.titles.split(',')
+      titles[this.current] = target.innerHTML
       this.updateAttributes({
-        titles: titles.join(","),
-      });
-    },
+        titles: titles.join(',')
+      })
+    }
   },
   mounted() {
     // console.log("tab加载");
-    this.activate(this.current);
-  },
-};
+    this.activate(this.current)
+  }
+}
 </script>
 
 <style>

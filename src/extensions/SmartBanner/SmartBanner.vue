@@ -1,5 +1,5 @@
 <template>
-  <node-view-wrapper>
+  <NodeViewWrapper>
     <Panel :deleteNode="props.deleteNode">
       <template v-slot:content>
         <!-- 内容 -->
@@ -28,7 +28,7 @@
             <Info v-if="props.node.attrs.type == 'info'" class="w-5 h-6"></Info>
             <Question v-if="props.node.attrs.type == 'question'" class="w-5 h-6"></Question>
           </div>
-          <node-view-content class="border border-none px-4 dark:border-cyan-800" />
+          <NodeViewContent class="border border-none px-4 dark:border-cyan-800" />
         </div>
       </template>
 
@@ -65,7 +65,7 @@
         </button>
       </template>
     </Panel>
-  </node-view-wrapper>
+  </NodeViewWrapper>
 </template>
 
 <script setup lang="ts">

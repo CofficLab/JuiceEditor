@@ -1,7 +1,7 @@
 <template>
   <!-- 选中后弹出的菜单 -->
   <div>
-    <bubble-menu
+    <BubbleMenu
       class="bubble-menu"
       :should-show="shouldShow"
       :tippy-options="{
@@ -24,7 +24,7 @@
       <BulletList :editor="editor"></BulletList>
       <Code :editor="editor"></Code>
       <Link :editor="editor"></Link>
-    </bubble-menu>
+    </BubbleMenu>
   </div>
 </template>
 

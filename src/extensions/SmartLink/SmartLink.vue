@@ -1,5 +1,5 @@
 <template>
-  <node-view-wrapper class="inline">
+  <NodeViewWrapper class="inline">
     <Panel :inline="true" :deleteNode="props.deleteNode">
       <template v-slot:content>
         <!-- 链接的内容 -->
@@ -10,7 +10,7 @@
           @click="onClickLink"
         >
           <span v-html="props.node.attrs.text"></span>
-          <node-view-content class="hidden" />
+          <NodeViewContent class="hidden" />
           <a :href="props.node.attrs.href" ref="goto" target="_blank" class="no-underline hidden"
             >访问</a
           >
@@ -58,7 +58,7 @@
         </template>
       </template>
     </Panel>
-  </node-view-wrapper>
+  </NodeViewWrapper>
 </template>
 <script setup lang="ts">
 import { nodeViewProps, NodeViewWrapper, NodeViewContent } from '@tiptap/vue-3'

@@ -1,5 +1,5 @@
 <template>
-  <node-view-wrapper class="toc">
+  <NodeViewWrapper class="toc">
     <div class="overflow-y-scroll w-full h-2/3">
       <ul style="padding-left: 0">
         <template v-for="(heading, index) in headings" :key="index">
@@ -12,14 +12,14 @@
         </template>
       </ul>
     </div>
-  </node-view-wrapper>
+  </NodeViewWrapper>
 </template>
 
 <script setup lang="ts">
 import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 import DynamicPadding from './DynamicPadding.vue'
 import { onMounted, nextTick, ref, onBeforeUnmount, computed } from 'vue'
-import Heading from './Heading';
+import Heading from './Heading'
 
 const props = defineProps(nodeViewProps)
 const uuid = computed(() => props.editor.options.injectNonce)
@@ -91,7 +91,7 @@ onBeforeUnmount(() => {
 
 <style lang="postcss" scoped>
 .toc {
-  @apply  h-full top-0 w-36 md:w-40 xl:w-48 2xl:w-56 right-3 z-40 flex justify-end items-start pt-24;
+  @apply h-full top-0 w-36 md:w-40 xl:w-48 2xl:w-56 right-3 z-40 flex justify-end items-start pt-24;
   ul {
     @apply menu w-full dark:border-gray-700/50 backdrop-blur-sm backdrop-filter border-l border-gray-400/50 !important;
 

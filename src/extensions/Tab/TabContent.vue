@@ -1,42 +1,42 @@
 <template>
-  <node-view-wrapper
+  <NodeViewWrapper
     contenteditable="false"
     ref="content"
     class="border border-red-900 outline-none"
     v-show="this.current == this.node.attrs.index"
   >
-    <node-view-content
+    <NodeViewContent
       contenteditable="true"
       data-type="tab-content-content"
       class="overflow-hidden border-yellow-900 bg-green-300/40"
-    ></node-view-content>
-  </node-view-wrapper>
+    ></NodeViewContent>
+  </NodeViewWrapper>
 </template>
 
 <script>
-import { nodeViewProps, NodeViewWrapper, NodeViewContent } from "@tiptap/vue-3";
+import { nodeViewProps, NodeViewWrapper, NodeViewContent } from '@tiptap/vue-3'
 
 export default {
   components: {
     NodeViewWrapper,
-    NodeViewContent,
+    NodeViewContent
   },
   props: nodeViewProps,
   data() {
     return {
-      current: 0,
-    };
+      current: 0
+    }
   },
   methods: {
     setCurrent: function () {
       this.$nextTick(function () {
-        this.current = this.$refs.content.$el.parentElement.getAttribute("data-current");
-      });
-    },
+        this.current = this.$refs.content.$el.parentElement.getAttribute('data-current')
+      })
+    }
   },
   mounted: function () {
-    this.setCurrent();
-    this.editor.on("update", this.setCurrent);
-  },
-};
+    this.setCurrent()
+    this.editor.on('update', this.setCurrent)
+  }
+}
 </script>

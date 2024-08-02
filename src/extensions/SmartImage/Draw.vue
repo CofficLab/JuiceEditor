@@ -1,5 +1,5 @@
 <template>
-  <node-view-wrapper>
+  <NodeViewWrapper>
     <Panel :deleteNode="props.deleteNode">
       <template v-slot:content>
         <img ref="img" :src="node.attrs.src" :class="node.attrs.class" class="z-10 p-0 m-0" />
@@ -19,7 +19,7 @@
         <Opening :onReady="open" :visible="isOpening" class="hidden opening"></Opening>
       </template>
     </Panel>
-  </node-view-wrapper>
+  </NodeViewWrapper>
 </template>
 
 <script setup lang="ts">
