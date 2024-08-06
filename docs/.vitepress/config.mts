@@ -9,15 +9,16 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Examples', link: '/markdown-examples' }
+      { text: '文档', link: '/drawio' }
     ],
 
     sidebar: [
       {
-        text: 'Examples',
+        text: '文档',
         items: [
-          { text: 'Markdown Examples', link: '/markdown-examples' },
-          { text: 'Runtime API Examples', link: '/api-examples' }
+          { text: '代码编辑器', link: '/code-editor' },
+          { text: 'Drawio 画图', link: '/drawio' },
+          { text: 'CI/CD', link: '/ci' }
         ]
       }
     ],
