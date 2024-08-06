@@ -225,12 +225,3 @@ function receive(event: MessageEvent): void {
   }
 }
 </script>
-
-<style>
-dialog:modal {
-  max-width: 100vw;
-  max-height: 100vw;
-  height: 100%;
-  width: 100%;
-}
-</style>

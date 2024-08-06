@@ -15,6 +15,6 @@ export default defineConfig({
     }
   },
   build: {
-    outDir: 'dist/juice-editor' // 自定义输出目录
+    outDir: 'dist' // 自定义输出目录
   }
 })

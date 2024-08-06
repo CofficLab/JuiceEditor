@@ -29,7 +29,6 @@ import { useFeatureStore } from './provider/FeatureStore'
 import setApi from './api/ApiSet'
 import Loading from './ui/Loading.vue'
 import { computed, onMounted } from 'vue'
-import './app.css'
 
 const props = defineProps({
   monaco: {

@@ -39,7 +39,8 @@
           '2xl:max-w-4xl': true,
           '2xl:px-12': true,
           '2xl:py-8': true,
-          'bg-base-300/20': true,
+          'bg-slate-300': true,
+          'dark:bg-gray-800': true,
           'shadow-inner': true,
           'shadow-3xl': true,
           rounded: true
