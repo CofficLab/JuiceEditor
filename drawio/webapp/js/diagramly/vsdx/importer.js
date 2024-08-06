@@ -999,7 +999,15 @@ var com;
 							
                             return v1;
                         }
-                        else {
+                        else 
+                        {
+                            // When an edge is a group, we need to process the children (and keep the edge, so no fill (color) for the group)
+                            // TODO Not the best results (e.g, an extra edge is added in some cases), but covers most cases
+                            if (shape.isGroup()) 
+                            {
+                                this.addGroup(graph, shape, parent, pageId, parentHeight, true);
+                            }
+
                             shape.setShapeIndex(graph.getModel().getChildCount(parent));
                             /* put */ (function (m, k, v) { if (m.entries == null)
                                 m.entries = []; for (var i = 0; i < m.entries.length; i++)
@@ -1027,16 +1035,16 @@ var com;
                  * @param {com.mxgraph.io.vsdx.VsdxShape} shape
                  * @param {number} pageId
                  */
-                mxVsdxCodec.prototype.addGroup = function (graph, shape, parent, pageId, parentHeight) {
+                mxVsdxCodec.prototype.addGroup = function (graph, shape, parent, pageId, parentHeight, forceNoFill) {
                     var d = shape.getDimensions();
                     var master = shape.getMaster();
                     var styleMap = shape.getStyleFromShape();
                     var geomList = shape.getGeomList();
-                    if (geomList.isNoFill()) {
+                    if (geomList.isNoFill() || forceNoFill) {
                         /* put */ (styleMap[mxConstants.STYLE_FILLCOLOR] = "none");
                         /* put */ (styleMap[mxConstants.STYLE_GRADIENTCOLOR] = "none");
                     }
-                    if (geomList.isNoLine()) {
+                    if (geomList.isNoLine() || forceNoFill) {
                         /* put */ (styleMap[mxConstants.STYLE_STROKECOLOR] = "none");
                     }
                     /* put */ (styleMap["html"] = "1");
@@ -3756,7 +3764,7 @@ var com;
                                             var connectElem = connectNode;
                                             var connect = new com.mxgraph.io.vsdx.mxVsdxConnect(connectElem);
                                             var fromSheet = connect.getFromSheet();
-                                            this.connectsMap[fromSheet] = true;
+                                            this.connectsMap[fromSheet] = (this.connectsMap[fromSheet] || 0) + 1;
                                             var previousConnect = (fromSheet != null && fromSheet > -1) ? (function (m, k) { if (m.entries == null)
                                                 m.entries = []; for (var i = 0; i < m.entries.length; i++)
                                                 if (m.entries[i].key.equals != null && m.entries[i].key.equals(k) || m.entries[i].key === k) {
@@ -10111,7 +10119,7 @@ var com;
 
                         // TODO It's hard to detect edges that should be treated like vertexes whhen they are groups and have child shapes.
                         // TODO Check this again if more complains are received or if we can have an edge group
-                        _this.vertex = vertex || (!page.connectsMap[_this.Id] && (_this.childShapes != null && !(function (m) { if (m.entries == null)
+                        _this.vertex = vertex || (page.connectsMap[_this.Id] != 2 && (_this.childShapes != null && !(function (m) { if (m.entries == null)
                             m.entries = []; return m.entries.length == 0; })(_this.childShapes)) || (_this.geomList != null && (!_this.geomList.isNoFill()  || _this.geomList.getGeoCount() > 1)));
                         _this.layerMember = _this.getValue(_this.getCellElement$java_lang_String("LayerMember"));
                         
@@ -11034,7 +11042,7 @@ var com;
 	                    	for (var i = 0; i < rows.length; i++)
 	                    	{
 			                    var row = rows[i];
-                            	var n = row.getAttribute("N");
+                            	var n = row.getAttribute("N"), v = null;
                             	
 								var cells = com.mxgraph.io.vsdx.mxVsdxUtils.getDirectChildElements(row);
 
@@ -11045,10 +11053,18 @@ var com;
                         			 
                         			if (cn == 'Value')
                         			{
-                            			props.push({key: n, val: cell.getAttribute("V")});
-                            			break;
+                            			v = cell.getAttribute("V");
                         			}
+                                    else if (cn == 'Label')
+                                    {
+                                        n = cell.getAttribute("V");
+                                    }
                         		}
+
+                                if (v != null)
+                                {
+                                    props.push({key: n, val: v});
+                                }
 		                    }
                     	}
 

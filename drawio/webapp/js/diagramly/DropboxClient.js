@@ -1,6 +1,6 @@
 /**
- * Copyright (c) 2006-2017, JGraph Ltd
- * Copyright (c) 2006-2017, Gaudenz Alder
+ * Copyright (c) 2006-2024, JGraph Ltd
+ * Copyright (c) 2006-2024, draw.io AG
  */
 //Add a closure to hide the class private variables without changing the code a lot
 (function()
@@ -41,7 +41,7 @@ DropboxClient.prototype.maxRetries = 4;
 
 DropboxClient.prototype.clientId = window.DRAWIO_DROPBOX_ID;
 
-DropboxClient.prototype.redirectUri = window.location.protocol + '//' + window.location.host + '/dropbox';
+DropboxClient.prototype.redirectUri = window.DRAWIO_SERVER_URL + 'dropbox';
 
 /**
  * Authorizes the client, gets the userId and calls <open>.
@@ -149,10 +149,17 @@ DropboxClient.prototype.authenticateStep2 = function(state, success, error)
 				{
 					if (req.getStatus() >= 200 && req.getStatus() <= 299)
 					{
-						_token = JSON.parse(req.getText()).access_token;
-						this.client.setAccessToken(_token);
-						this.setUser(null);
-						success();
+						try
+						{
+							_token = JSON.parse(req.getText()).access_token;
+							this.client.setAccessToken(_token);
+							this.setUser(null);
+							success();
+						}
+						catch (e)
+						{
+							error({message: mxResources.get('authFailed'), retry: auth});
+						}
 					}
 					else 
 					{
@@ -784,7 +791,7 @@ DropboxClient.prototype.pickLibrary = function(fn)
 					this.ui.handleError(e);
 				});
 				
-				var tmp = files[0].link.indexOf(this.appPath);
+				var tmp = (files[0].link != null) ? files[0].link.indexOf(this.appPath) : -1;
 	
 				if (tmp > 0)
 				{
@@ -911,7 +918,7 @@ DropboxClient.prototype.pickFile = function(fn, readOnly)
 						}
 						else
 						{
-							var tmp = files[0].link.indexOf(this.appPath);
+							var tmp = (files[0].link != null) ? files[0].link.indexOf(this.appPath) : -1;
 
 							if (tmp > 0)
 							{

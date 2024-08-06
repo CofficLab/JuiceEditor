@@ -101,7 +101,7 @@ App = function(editor, container, lightbox)
 			
 			if (wnd == null || wnd === undefined)
 			{
-				this.showDialog(new PopupDialog(this, url, pre, fallback).container, 320, 140, true, true);
+				this.showDialog(new PopupDialog(this, url, pre, fallback).container, 320, 160, true, true);
 			}
 			else if (pre != null)
 			{
@@ -398,27 +398,34 @@ App.getStoredMode = function()
 	
 	if (mode == null && typeof(Storage) != 'undefined')
 	{
-		var cookies = document.cookie.split(";");
-		
-		for (var i = 0; i < cookies.length; i++)
+		try
 		{
-			// Removes spaces around cookie
-			var cookie = mxUtils.trim(cookies[i]);
+			var cookies = document.cookie.split(";");
 			
-			if (cookie.substring(0, 5) == 'MODE=')
+			for (var i = 0; i < cookies.length; i++)
 			{
-				mode = cookie.substring(5);
-				break;
+				// Removes spaces around cookie
+				var cookie = mxUtils.trim(cookies[i]);
+				
+				if (cookie.substring(0, 5) == 'MODE=')
+				{
+					mode = cookie.substring(5);
+					break;
+				}
+			}
+			
+			if (mode != null && isLocalStorage)
+			{
+				// Moves to local storage
+				var expiry = new Date();
+				expiry.setYear(expiry.getFullYear() - 1);
+				document.cookie = 'MODE=; expires=' + expiry.toUTCString();
+				localStorage.setItem('.mode', mode);
 			}
 		}
-		
-		if (mode != null && isLocalStorage)
+		catch (e)
 		{
-			// Moves to local storage
-			var expiry = new Date();
-			expiry.setYear(expiry.getFullYear() - 1);
-			document.cookie = 'MODE=; expires=' + expiry.toUTCString();
-			localStorage.setItem('.mode', mode);
+			// ignore
 		}
 	}
 	
@@ -442,8 +449,8 @@ App.getStoredMode = function()
 			
 			App.mode = urlParams['mode'];
 		}
-			
-		if (App.mode == null)
+		
+		if (App.mode == null && urlParams['embed'] != '1')
 		{
 			// Stored mode overrides preferred mode
 			App.mode = App.getStoredMode();
@@ -640,6 +647,17 @@ App.main = function(callback, createUi)
 		{
 			return;
 		}
+
+		// Checks if electron is defined in Electron app
+		if (mxIsElectron && typeof electron === 'undefined')
+		{
+			alert('Runtime Environment not found.');
+			document.body.innerHTML = '<div style="margin-top:10%;text-align:center;">' +
+				'<img src="mxgraph/images/warning.png" align="top" style="padding-right:6px;"/>' +
+				'Runtime Environment not found.</div>';
+			
+			return;
+		}
 		
 		App.isMainCalled = true;
 		// Handles uncaught errors before the app is loaded
@@ -709,7 +727,7 @@ App.main = function(callback, createUi)
 				{
 					var content = mxUtils.getTextContent(bootstrap);
 					
-					if (CryptoJS.MD5(content).toString() != '97d48990b1ef6de28697d2cc7083ca53')
+					if (CryptoJS.MD5(content).toString() != 'ff68e9badc5b6bcb8f482e0c64b103a7')
 					{
 						console.log('Change bootstrap script MD5 in the previous line:', CryptoJS.MD5(content).toString());
 						alert('[Dev] Bootstrap script change requires update of CSP');
@@ -754,15 +772,7 @@ App.main = function(callback, createUi)
 			}
 			catch (e)
 			{
-				if (window.console != null && !EditorUi.isElectronApp)
-				{
-					console.error(e);
-				}
-				else
-				{
-					mxLog.show();
-					mxLog.debug(e.stack);
-				}
+				// ignore
 			}
 			
 			// Loads Pusher API
@@ -1080,6 +1090,8 @@ App.main = function(callback, createUi)
 				}
 				else
 				{
+					// Note: Lazy loading stencils.min.js in viewer.diagrams.net
+					// has no impact as stencils.min.js is pre-cached in PWA
 					mxStencilRegistry.allowEval = false;
 					App.loadScripts(['js/shapes-14-6-5.min.js', 'js/stencils.min.js',
 						'js/extensions.min.js'], realMain, function(e)
@@ -1103,7 +1115,7 @@ App.main = function(callback, createUi)
 					{
 						mxLanguage = 'en';
 						doLoad(mxResources.getDefaultBundle(RESOURCE_BASE, mxLanguage) ||
-								mxResources.getSpecialBundle(RESOURCE_BASE, mxLanguage));
+							mxResources.getSpecialBundle(RESOURCE_BASE, mxLanguage));
 					};
 				}
 			});
@@ -1507,23 +1519,6 @@ App.prototype.init = function()
 	 */	
 	this.descriptorChangedListener = mxUtils.bind(this, this.descriptorChanged);
 
-	/**
-	 * Creates github client.
-	 */
-	this.gitHub = (!mxClient.IS_IE || document.documentMode == 10 ||
-			mxClient.IS_IE11 || mxClient.IS_EDGE) &&
-			(urlParams['gh'] != '0' && (urlParams['embed'] != '1' ||
-			urlParams['gh'] == '1')) ? new GitHubClient(this) : null;
-	
-	if (this.gitHub != null)
-	{
-		this.gitHub.addListener('userChanged', mxUtils.bind(this, function()
-		{
-			this.updateUserElement();
-			this.restoreLibraries();
-		}));
-	}
-
 	this.addListener('currentThemeChanged', mxUtils.bind(this, function()
 	{
 		if (this.compactMode && this.isDefaultTheme(Editor.currentTheme))
@@ -1533,20 +1528,57 @@ App.prototype.init = function()
 	}));
 
 	/**
+	 * Creates github client.
+	 */
+	try
+	{
+		this.gitHub = (!mxClient.IS_IE || document.documentMode == 10 ||
+				mxClient.IS_IE11 || mxClient.IS_EDGE) &&
+				(urlParams['gh'] != '0' && (urlParams['embed'] != '1' ||
+				urlParams['gh'] == '1')) ? new GitHubClient(this) : null;
+		
+		if (this.gitHub != null)
+		{
+			this.gitHub.addListener('userChanged', mxUtils.bind(this, function()
+			{
+				this.updateUserElement();
+				this.restoreLibraries();
+			}));
+		}
+	}
+	catch (e)
+	{
+		if (window.console != null)
+		{
+			console.log('GitHubClient disabled: ' + e.message);
+		}
+	}
+
+	/**
 	 * Creates gitlab client.
 	 */
-	this.gitLab = (!mxClient.IS_IE || document.documentMode == 10 ||
-		mxClient.IS_IE11 || mxClient.IS_EDGE) &&
-		(urlParams['gl'] != '0' && (urlParams['embed'] != '1' ||
-		urlParams['gl'] == '1')) ? new GitLabClient(this) : null;
-
-	if (this.gitLab != null)
+	try
 	{
-		this.gitLab.addListener('userChanged', mxUtils.bind(this, function()
+		this.gitLab = (!mxClient.IS_IE || document.documentMode == 10 ||
+			mxClient.IS_IE11 || mxClient.IS_EDGE) &&
+			(urlParams['gl'] != '0' && (urlParams['embed'] != '1' ||
+			urlParams['gl'] == '1')) ? new GitLabClient(this) : null;
+
+		if (this.gitLab != null)
 		{
-			this.updateUserElement();
-			this.restoreLibraries();
-		}));
+			this.gitLab.addListener('userChanged', mxUtils.bind(this, function()
+			{
+				this.updateUserElement();
+				this.restoreLibraries();
+			}));
+		}
+	}
+	catch (e)
+	{
+		if (window.console != null)
+		{
+			console.log('GitLabClient disabled: ' + e.message);
+		}
 	}
 
 	/**
@@ -1561,19 +1593,26 @@ App.prototype.init = function()
 		{
 			if (typeof OneDrive !== 'undefined')
 			{
-				/**
-				 * Holds the x-coordinate of the point.
-				 */
-				this.oneDrive = new OneDriveClient(this);
-				
-				this.oneDrive.addListener('userChanged', mxUtils.bind(this, function()
+				try
 				{
-					this.updateUserElement();
-					this.restoreLibraries();
-				}));
-				
-				// Notifies listeners of new client
-				this.fireEvent(new mxEventObject('clientLoaded', 'client', this.oneDrive));
+					this.oneDrive = new OneDriveClient(this);
+					
+					this.oneDrive.addListener('userChanged', mxUtils.bind(this, function()
+					{
+						this.updateUserElement();
+						this.restoreLibraries();
+					}));
+					
+					// Notifies listeners of new client
+					this.fireEvent(new mxEventObject('clientLoaded', 'client', this.oneDrive));
+				}
+				catch (e)
+				{
+					if (window.console != null)
+					{
+						console.log('OneDriveClient disabled: ' + e.message);
+					}
+				}	
 			}
 			else if (window.DrawOneDriveClientCallback == null)
 			{
@@ -1614,7 +1653,7 @@ App.prototype.init = function()
 				{
 					if (window.console != null)
 					{
-						console.error(e);
+						console.log('TrelloClient disabled: ' + e.message);
 					}
 				}
 			}
@@ -1641,17 +1680,27 @@ App.prototype.init = function()
 			{
 				var doInit = mxUtils.bind(this, function()
 				{
-					this.drive = new DriveClient(this);
-					
-					this.drive.addListener('userChanged', mxUtils.bind(this, function()
+					try
 					{
-						this.updateUserElement();
-						this.restoreLibraries();
-						// this.checkLicense();
-					}))
-					
-					// Notifies listeners of new client
-					this.fireEvent(new mxEventObject('clientLoaded', 'client', this.drive));
+						this.drive = new DriveClient(this);
+						
+						this.drive.addListener('userChanged', mxUtils.bind(this, function()
+						{
+							this.updateUserElement();
+							this.restoreLibraries();
+							// this.checkLicense();
+						}))
+						
+						// Notifies listeners of new client
+						this.fireEvent(new mxEventObject('clientLoaded', 'client', this.drive));
+					}
+					catch (e)
+					{
+						if (window.console != null)
+						{
+							console.log('DriveClient disabled: ' + e.message);
+						}
+					}
 				});
 				
 				if (window.DrawGapiClientCallback != null)
@@ -1711,7 +1760,7 @@ App.prototype.init = function()
 				{
 					if (window.console != null)
 					{
-						console.error(e);
+						console.log('DropboxClient disabled: ' + e.message);
 					}
 				}
 			}
@@ -1868,12 +1917,12 @@ App.blockedAncestorFrames = function()
 				}
 			}
 
-			if (hostname.endsWith('embed.diagrams.net') && window.location.ancestorOrigins.length > 0)
-			{
-				var img = new Image();
-				img.src = 'https://log.diagrams.net/images/1x1.png?src=EditorEmbedAncestorFrames' +
-					'&v=' + encodeURIComponent(EditorUi.VERSION) + '&data=' + encodeURIComponent(message);
-			}
+			// if (hostname.endsWith('embed.diagrams.net') && window.location.ancestorOrigins.length > 0)
+			// {
+			// 	var img = new Image();
+			// 	img.src = 'https://log.diagrams.net/images/1x1.png?src=EditorEmbedAncestorFrames' +
+			// 		'&v=' + encodeURIComponent(EditorUi.VERSION) + '&data=' + encodeURIComponent(message);
+			// }
 		}
 	}
 	catch (e)
@@ -2414,8 +2463,9 @@ App.prototype.updateDocumentTitle = function()
 /**
  * Returns a thumbnail of the current file.
  */
-App.prototype.getThumbnail = function(width, fn)
+App.prototype.getThumbnail = function(width, fn, border)
 {
+	border = (border != null) ? border : 0;
 	var result = false;
 	
 	try
@@ -2510,7 +2560,7 @@ App.prototype.getThumbnail = function(width, fn)
 		   	{
 		   		// Continues with null in error case
 		   		success();
-		   	}, null, null, null, null, null, null, graph, null, null, null,
+		   	}, null, null, null, null, null, null, graph, border, null, null,
 			   null, 'diagram', null);
 		   	
 		   	result = true;
@@ -2900,53 +2950,60 @@ App.prototype.load = function()
 		// Checks if we're running in embedded mode
 		if (urlParams['embed'] != '1')
 		{
-			if (this.spinner.spin(document.body, mxResources.get('starting')))
+			try
 			{
-				try
+				if (this.spinner.spin(document.body, mxResources.get('starting')))
 				{
-					this.stateArg = (urlParams['state'] != null && this.drive != null) ?
-						JSON.parse(decodeURIComponent(urlParams['state'])) : null;
-				}
-				catch (e)
-				{
-					// ignores invalid state args
-				}
-				
-				this.editor.graph.setEnabled(this.getCurrentFile() != null);
-				
-				// Passes the userId from the state parameter to the client
-				if ((window.location.hash == null || window.location.hash.length == 0) &&
-					this.drive != null && this.stateArg != null && this.stateArg.userId != null)
-				{
-					this.drive.setUserId(this.stateArg.userId);
-				}
-
-				// Legacy support for fileId parameter which is moved to the hash tag
-				if (urlParams['fileId'] != null)
-				{
-					window.location.hash = 'G' + urlParams['fileId'];
-					window.location.search = this.getSearch(['fileId']);
-				}
-				else
-				{
-					// Asynchronous or disabled loading of client
-					if (this.drive == null)
+					try
 					{
-						if (this.mode == App.MODE_GOOGLE)
-						{
-							this.mode = null;
-						}
-						
-						this.start();
+						this.stateArg = (urlParams['state'] != null && this.drive != null) ?
+							JSON.parse(decodeURIComponent(urlParams['state'])) : null;
+					}
+					catch (e)
+					{
+						// ignores invalid state args
+					}
+					
+					this.editor.graph.setEnabled(this.getCurrentFile() != null);
+					
+					// Passes the userId from the state parameter to the client
+					if ((window.location.hash == null || window.location.hash.length == 0) &&
+						this.drive != null && this.stateArg != null && this.stateArg.userId != null)
+					{
+						this.drive.setUserId(this.stateArg.userId);
+					}
+
+					// Legacy support for fileId parameter which is moved to the hash tag
+					if (urlParams['fileId'] != null)
+					{
+						window.location.hash = 'G' + urlParams['fileId'];
+						window.location.search = this.getSearch(['fileId']);
 					}
 					else
 					{
-						this.loadGapi(mxUtils.bind(this, function()
+						// Asynchronous or disabled loading of client
+						if (this.drive == null)
 						{
+							if (this.mode == App.MODE_GOOGLE)
+							{
+								this.mode = null;
+							}
+							
 							this.start();
-						}));
+						}
+						else
+						{
+							this.loadGapi(mxUtils.bind(this, function()
+							{
+								this.start();
+							}));
+						}
 					}
 				}
+			}
+			catch (e)
+			{
+				this.handleError(e);
 			}
 		}
 		else
@@ -3249,7 +3306,17 @@ App.prototype.start = function()
 						}
 						
 						this.fileLoaded(file);
-						this.getCurrentFile().setModified(!this.editor.chromeless);
+
+						if (!this.editor.chromeless)
+						{
+							// Handles possible copy of modified file
+							file.fileChanged();
+
+							window.setTimeout(mxUtils.bind(this, function()
+							{
+								this.actions.get('resetView').funct();
+							}), 0);
+						}
 					});
 
 					var parent = window.opener || window.parent;
@@ -3352,11 +3419,11 @@ App.prototype.start = function()
 									}
 								}));
 							}
-							else if (urlParams['splash'] != '0' || urlParams['mode'] != null)
+							else if (urlParams['splash'] != '0' || (urlParams['mode'] != null && !EditorUi.isElectronApp))
 							{
 								this.loadFile();
 							}
-							else if (!EditorUi.isElectronApp)
+							else
 							{
 								this.createFile(this.defaultFilename, this.getFileData(),
 									null, null, null, null, null, true);
@@ -3657,17 +3724,12 @@ App.prototype.checkDrafts = function()
 					}), mxUtils.bind(this, function(index, success)
 					{
 						index = (index != '') ? index : 0;
+						this.removeDatabaseItem(drafts[index].key);
 						
-						// Discard draft
-						this.confirm(mxResources.get('areYouSure'), null, mxUtils.bind(this, function()
+						if (success != null)
 						{
-							this.removeDatabaseItem(drafts[index].key);
-							
-							if (success != null)
-							{
-								success();
-							}
-						}), mxResources.get('no'), mxResources.get('yes'));
+							success();
+						}
 					}), null, null, null, (drafts.length > 1) ? drafts : null);
 					this.showDialog(dlg.container, 640, 480, true, false, mxUtils.bind(this, function(cancel)
 					{
@@ -3858,27 +3920,48 @@ App.prototype.loadFileSystemEntry = function(fileHandle, success, error)
 					
 			reader.onload = mxUtils.bind(this, function(e)
 			{
-				try
+				var doSuccess = mxUtils.bind(this, function(editable)
 				{
-					if (success != null)
+					try
 					{
-						var data = e.target.result;
-						
-						if (file.type == 'image/png')
+						if (success != null)
 						{
-							data = this.extractGraphModelFromPng(data);
+							var data = e.target.result;
+							
+							if (file.type == 'image/png')
+							{
+								data = this.extractGraphModelFromPng(data);
+							}
+							
+							success(new LocalFile(this, data, file.name, null, fileHandle, file, editable));
 						}
-	
-						success(new LocalFile(this, data, file.name, null, fileHandle, file));
+						else
+						{
+							this.openFileHandle(e.target.result, file.name, file, false, fileHandle, editable);
+						}
 					}
-					else
+					catch(e)
 					{
-						this.openFileHandle(e.target.result, file.name, file, false, fileHandle);
+						error(e);
 					}
-				}
-				catch(e)
+				});
+				
+				if (fileHandle.queryPermission)
 				{
-					error(e);
+					fileHandle.queryPermission({mode: 'readwrite'}).then(mxUtils.bind(this, function(permission)
+					{
+						doSuccess(permission !== 'denied');
+					}));
+				}
+				else
+				{
+					fileHandle.createWritable().then(mxUtils.bind(this, function()
+					{
+						doSuccess(true);
+					}), mxUtils.bind(this, function(e)
+					{
+						doSuccess(false);
+					}));
 				}
 			});
 			
@@ -3944,8 +4027,7 @@ App.prototype.createFileSystemOptions = function(name)
 		}
 	}
 	
-	// TODO: Specify default filename
-	return {types: ext, fileName: name};
+	return {types: ext, suggestedName: name};
 };
 
 /**
@@ -4379,26 +4461,12 @@ App.prototype.saveLibrary = function(name, images, file, mode, noSpin, noReload,
 				}
 				else if (mode == App.MODE_BROWSER)
 				{
-					var fn = mxUtils.bind(this, function()
-					{
-						var file = new StorageLibrary(this, xml, name);
-						
-						// Inserts data into local storage
-						file.saveFile(name, false, mxUtils.bind(this, function()
+					StorageFile.doInsertFile(new StorageLibrary(this, xml, name),
+						mxUtils.bind(this, function(file)
 						{
 							this.hideDialog(true);
 							this.libraryLoaded(file, images);
-						}), error);
-					});
-					
-					if (localStorage.getItem(name) == null)
-					{
-						fn();
-					}
-					else
-					{
-						this.confirm(mxResources.get('replaceIt', [name]), fn);
-					}
+						}), error)
 				}
 				else
 				{
@@ -4468,6 +4536,7 @@ App.prototype.saveLibrary = function(name, images, file, mode, noSpin, noReload,
 App.prototype.saveFile = function(forceDialog, success)
 {
 	var file = this.getCurrentFile();
+	var prev = this.mode;
 	
 	if (file != null)
 	{
@@ -4511,6 +4580,7 @@ App.prototype.saveFile = function(forceDialog, success)
 				file.fileHandle = fileHandle;
 				file.title = desc.name;
 				file.desc = desc;
+				file.editable = null;
 				this.save(desc.name, done);
 			}), null, this.createFileSystemOptions(file.getTitle()));
 		}
@@ -4626,43 +4696,20 @@ App.prototype.saveFile = function(forceDialog, success)
 					}
 				}
 			});
-
+			
 			var allowTab = !mxClient.IS_IOS || !navigator.standalone;
 
-			if (urlParams['save-dialog'] != '0')
+			var dlg = new SaveDialog(this, filename, mxUtils.bind(this, function(input, mode, folderId)
 			{
-				var dlg = new SaveDialog(this, filename, mxUtils.bind(this, function(input, mode, folderId)
-				{
-					saveFunction(input.value, mode, input, folderId);
-					this.hideDialog();
-				}), (allowTab) ? null : ['_blank']);
+				saveFunction(input.value, mode, input, folderId);
+				this.hideDialog();
+			}), (allowTab) ? null : ['_blank']);
 
-				this.showDialog(dlg.container, 420, 150, true, false, mxUtils.bind(this, function()
-				{
-					this.hideDialog();
-				}));
-				dlg.init();
-			}
-			else
+			this.showDialog(dlg.container, 420, 150, true, false, mxUtils.bind(this, function()
 			{
-				var prev = this.mode;
-				var serviceCount = this.getServiceCount(true);
-				
-				if (isLocalStorage)
-				{
-					serviceCount++;
-				}
-				
-				var rowLimit = (serviceCount <= 4) ? 2 : (serviceCount > 6 ? 4 : 3);
-				
-				var dlg = new CreateDialog(this, filename, saveFunction, mxUtils.bind(this, function()
-				{
-					this.hideDialog();
-				}), mxResources.get('saveAs'), mxResources.get('download'), null, null, allowTab,
-					null, true, rowLimit, null, null, null, this.editor.fileExtensions, false);
-				this.showDialog(dlg.container, 420, (serviceCount > rowLimit) ? 390 : 280, true, true);
-				dlg.init();
-			}
+				this.hideDialog();
+			}));
+			dlg.init();
 		}
 	}
 };
@@ -5494,8 +5541,24 @@ App.prototype.loadFile = function(id, sameWindow, file, success, force)
 								{
 									return peerChar + id;
 								};
-								
-								window.location.hash = '#' + currentFile.getHash();
+
+								var hash = '#' + currentFile.getHash();
+
+								try
+								{
+									var obj = this.getHashObject();
+
+									if (obj != null && !mxUtils.isEmptyObject(obj))
+									{
+										hash = hash + '#' + encodeURIComponent(JSON.stringify(obj));
+									}
+								}
+								catch (e)
+								{
+									// ignore
+								}
+
+								window.location.replace(hash);
 							}
 							else if (file == currentFile && file.getMode() == null)
 							{
@@ -5578,7 +5641,7 @@ App.prototype.loadFile = function(id, sameWindow, file, success, force)
 	else if (currentFile != null && !sameWindow)
 	{
 		this.showDialog(new PopupDialog(this, this.getUrl() + '#' + id,
-			null, fn).container, 320, 140, true, true);
+			null, fn).container, 320, 160, true, true);
 	}
 	else
 	{
@@ -6770,7 +6833,7 @@ App.prototype.descriptorChanged = function()
 		}
 		
 		var graph = this.editor.graph;
-		var editable = file.isEditable() && !file.invalidChecksum;
+		var editable = file.isEditable();
 		
 		if (graph.isEnabled() && !editable)
 		{
@@ -6787,7 +6850,11 @@ App.prototype.descriptorChanged = function()
 			
 			if (newHash.length > 0)
 			{
-				window.location.hash = newHash;
+				if (newHash != this.getDiagramId())
+				{
+					window.location.hash = newHash;
+				}
+
 				this.updateHashObject();
 			}
 			else if (window.location.hash.length > 0)

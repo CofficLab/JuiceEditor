@@ -3,6 +3,9 @@
 	--border-color: #dadce0;
 	--text-color: #707070;
 }
+* {
+	forced-color-adjust: none;
+}
 .geDarkMode {
 	filter: invert(93%) hue-rotate(180deg);
 	background:#151515;
@@ -23,12 +26,19 @@
 .geDarkMode .geColorBtn > div {
 	border-color: #ffffff !important;
 }
+.geDarkMode .geToolbarButton {
+	border-color:#303030 !important;
+	color:#000000;
+}
 .geEditor {
 	position:absolute;
 	width:100%;
 	height:100%;
 }
-.geEditor *, div.mxWindow, .mxWindowTitle,
+.mxCellEditor {
+	font-family:initial;
+}
+.geEditor *:not(svg *, .mxCellEditor *), div.mxWindow, .mxWindowTitle,
 .geEditor .geToolbarContainer .geColorButton {
 	border-color:var(--border-color);
 }
@@ -293,6 +303,9 @@ a.geStatus .geStatusMessage {
 	min-width: 72px;
 	outline: 0;
 	padding: 0 8px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
 }
 .geBtn:hover:not([disabled]), .geBtn:focus {
 	-webkit-box-shadow: 0px 1px 1px rgba(0,0,0,0.1);
@@ -423,7 +436,7 @@ html .geToolbarButton:active:not([disabled]) {
 	opacity: 0.2 !important;
 }
 .mxDisabled:hover {
-	background:inherit !important;
+	background-color:inherit !important;
 }
 .geMenubar a.geStatus {
 	color:#888888;
@@ -481,7 +494,7 @@ div.mxWindow .geButton {
 	border:1px solid transparent;
 }
 .geToolbarContainer .mxDisabled:hover {
-	border:1px solid transparent !important;
+	border-color:transparent !important;
 	opacity:0.2 !important;
 }
 .geDiagramBackdrop {
@@ -535,8 +548,11 @@ div.mxWindow .geButton {
 html body div.geActivePage, .geRuler {
 	background:#fff;
 }
-.geInactivePage:hover, .geControlTab:hover {
+.geInactivePage:hover *, .geControlTab:hover * {
 	opacity:0.5;
+}
+.geControlTab:hover .geAdaptiveAsset {
+	opacity:0.3;
 }
 .geTabMenuButton {
 	width:14px;
@@ -555,15 +571,22 @@ html body div.geActivePage, .geRuler {
 .geTabMenuButton:hover {
 	opacity:0.7;
 }
-.geTabContainer > :first-child {
+.geTabContainer > :first-child,
+.geTabScroller > :first-child {
 	border-left-style:none;
 }
-.geTabContainer > :first-child > :first-child {
-	border-left-style:none;
+.geTabContainer > .geControlTab:first-child {
+	border-right-style:solid;
+}
+.geTab .geAdaptiveAsset {
+	opacity: 0.5;
+}
+.geTab.geDisabledControlTab .geAdaptiveAsset {
+	opacity: 0.1;
 }
 .geTab {
 	height: 100%;
-	border-left-width:1px;
+	border-width:1px;
 	border-left-style:solid;
 	text-overflow:ellipsis;
 	border-color:#dadce0;
@@ -585,7 +608,7 @@ html body div.geActivePage, .geRuler {
 	overflow:hidden;
 }
 .geSidebarContainer .geTitle {
-	display:block;
+	display:flex;
 	font-size:13px;
 	border-color: #e5e5e5;
 	border-bottom:1px solid #e5e5e5;
@@ -597,6 +620,23 @@ html body div.geActivePage, .geRuler {
 	overflow:hidden;
 	text-overflow:ellipsis;
 	line-height:1.4em;
+	justify-content:start;
+	align-items:center;
+}
+.geSidebarContainer .geTitle > span {
+	flex-grow: 1;
+    flex-shrink: 1;
+    width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.geSidebarContainer .geTitle > div {
+    background-color: inherit;
+    flex-grow: 0;
+    padding-right: 2px;
+}
+.geSidebarContainer .geTitle > img {
+	margin-right:8px;
 }
 .geSidebarContainer .geTitle:hover {
 	background: #eee;

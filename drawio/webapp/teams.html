@@ -254,19 +254,15 @@
 		if (urlParams['dev'] == '1')
 		{
 			// Used to request grapheditor/mxgraph sources in dev mode
-			var mxDevUrl = document.location.protocol + '//test.draw.io/drawio/src/main';
+			var mxDevUrl = '';
 			
 			// Used to request draw.io sources in dev mode
-			var drawDevUrl = document.location.protocol + '//test.draw.io/drawio/src/main/webapp/';
-			var geBasePath = drawDevUrl + '/js/grapheditor';
-			var mxBasePath = mxDevUrl + '/mxgraph';
+			var drawDevUrl = '';
+			var geBasePath = 'js/grapheditor';
+			var mxBasePath = 'mxgraph/src';
 			
 			if (document.location.protocol == 'file:')
 			{
-				geBasePath = './js/grapheditor';
-				mxBasePath = './mxgraph';
-				drawDevUrl = './';
-				
 				// Forces includes for dev environment in node.js
 				mxForceIncludes = true;
 			}
@@ -329,14 +325,14 @@
 								});
 							});
 						}
-						else if (!supportedDomain)
+						else if (!supportedDomain || navigator.onLine)
 						{
 							mxscript('js/PostConfig.js');
 						}
 					});
 				};
 				
-				if (!supportedDomain || mxIsElectron)
+				if (!supportedDomain || mxIsElectron || navigator.onLine)
 				{
 					mxscript('js/PreConfig.js', loadAppJS);
 				}
@@ -358,12 +354,10 @@
 			}
 		};
 	</script>
-    <link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/plgmlhohecdddhbmmkncjdmlhcmaachm">
-	<link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
-	<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
-	<link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
-	<link rel="mask-icon" href="images/safari-pinned-tab.svg" color="#d89000">
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
     <link rel="stylesheet" type="text/css" href="styles/grapheditor.css">
+	<link rel="stylesheet" media="(forced-colors: active)" href="styles/high-contrast.css" id="high-contrast-stylesheet">
     <link rel="canonical" href="https://app.diagrams.net">
 	<link rel="manifest" href="images/manifest.json">
 	<link rel="shortcut icon" href="favicon.ico">

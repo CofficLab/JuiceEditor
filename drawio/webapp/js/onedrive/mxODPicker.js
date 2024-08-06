@@ -314,7 +314,12 @@ function mxODPicker(container, previewFn, getODFilesList, getODFileInfo, getRece
 							cnt = 'data:image/png;base64,' + Editor.base64Encode(cnt);
 							cnt = Editor.extractGraphModelFromPng(cnt);
 						}
-						
+						else if (/\.pdf$/.test(file.name))
+						{
+							cnt = 'data:application/pdf;base64,' + Editor.base64Encode(cnt);
+							cnt = Editor.extractGraphModelFromPdf(cnt);
+						}
+
 						var doc = mxUtils.parseXml(cnt);
 
 						var node = (doc.documentElement.nodeName == 'mxlibrary') ?
@@ -334,7 +339,7 @@ function mxODPicker(container, previewFn, getODFilesList, getODFileInfo, getRece
 			}
 		};
 		
-		if (isPng && req.overrideMimeType)
+		if ((isPng || /\.pdf$/.test(file.name)) && req.overrideMimeType)
 		{
 			req.overrideMimeType('text/plain; charset=x-user-defined');
 		}
@@ -728,11 +733,42 @@ function mxODPicker(container, previewFn, getODFilesList, getODFileInfo, getRece
 						
 						if (file.folder || mimeType == 'text/html' || mimeType == 'text/xml' || mimeType == 'application/xml' || mimeType == 'image/png' 
 							|| /\.svg$/.test(file.name) || /\.html$/.test(file.name) || /\.xml$/.test(file.name) || /\.png$/.test(file.name)
-							|| /\.drawio$/.test(file.name) || /\.drawiolib$/.test(file.name))
+							|| /\.drawio$/.test(file.name) || /\.drawiolib$/.test(file.name) || /\.pdf$/.test(file.name))
 						{
 							potentialDrawioFiles.push(file);
 						}
 					}
+
+					// Sorts entries by type and name
+					potentialDrawioFiles.sort(function(a, b)
+					{
+						var nameA = a.name.toLowerCase();
+						var nameB = b.name.toLowerCase();
+
+						if (a.folder && !b.folder)
+						{
+							return -1;
+						}
+						else if (!a.folder && b.folder)
+						{
+							return 1;
+						}
+						else
+						{
+							if (nameA < nameB)
+							{
+								return -1;
+							}
+							else if (nameA > nameB)
+							{
+								return 1;
+							}
+							else
+							{
+								return 0;
+							}
+						}
+					});
 				}
 
 				if (resp['@odata.nextLink'] && potentialDrawioFiles.length < 1000) // TODO Support dynamic paging instead of 1000 limit
@@ -872,7 +908,10 @@ function mxODPicker(container, previewFn, getODFilesList, getODFileInfo, getRece
 		if (lastFolderArgs != null)
 		{
 			previewFn(null);
+			
+			var temp = breadcrumb.slice();
 			fillFolderFiles.apply(this, lastFolderArgs);
+			breadcrumb = temp;
 		}
 	};
 	
