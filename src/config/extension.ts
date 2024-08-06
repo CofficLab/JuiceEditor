@@ -71,6 +71,7 @@ export default function makeExtensions(props: makeExtensionsProps) {
         }),
         CharacterCount,
         SmartImage.configure({
+            drawIoLink: props.drawIoLink,
             allowBase64: true,
             HTMLAttributes: {
                 class: ''

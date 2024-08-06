@@ -36,6 +36,10 @@ export const useAppStore = defineStore('app-store', {
             return this.node.json
         },
 
+        getDrawLink(): string {
+            return this.drawLink
+        },
+
         getMarkdown(): string {
             let html = this.node.content
 
