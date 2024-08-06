@@ -18,7 +18,8 @@ export default defineConfig({
         items: [
           { text: '代码编辑器', link: '/code-editor' },
           { text: 'Drawio 画图', link: '/drawio' },
-          { text: 'CI/CD', link: '/ci' }
+          { text: 'CI/CD', link: '/ci' },
+          { text: 'Web Component', link: '/web-component' }
         ]
       }
     ],
