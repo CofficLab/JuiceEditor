@@ -100,6 +100,7 @@ export const SmartPre = CodeBlock.extend<CodeBlockOptions>({
     return {
       insertSmartPre:
         attributes => ({ commands }) => {
+
           return commands.insertContent("<pre><code class='language-javascript'>console.log('hello world')</code></pre>");
         },
       setCodeBlock:

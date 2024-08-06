@@ -83,13 +83,11 @@ import BubbleMenus from './BubbleMenus.vue'
 import FloatMenus from './FloatMenus.vue'
 import TiptapAgent from './TiptapAgent'
 import EditorData from '../../model/EditorData'
-import ContextMenu from './ContextMenu.vue'
 import Message from '../Message.vue'
 import HeadingVue from '../Heading.vue'
 import EventManager from '../../event/EventManager'
 import Heading from '../../extensions/Toc/Heading'
 import SmartEditorProps from './SmartEditorProps'
-import { Editor } from '@tiptap/core'
 
 const props = defineProps(SmartEditorProps)
 

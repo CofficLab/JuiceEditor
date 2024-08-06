@@ -64,8 +64,6 @@ const props = defineProps({
   }
 })
 
-console.log(props)
-
 const drawLink = computed(() => {
   return props.drawLink
 })

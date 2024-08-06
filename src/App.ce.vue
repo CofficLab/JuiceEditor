@@ -16,7 +16,7 @@
       :content="node.content"
       :drawLink="app.drawLink"
       :monacoLink="props.monaco"
-      :onUpdated="app.updateNode"
+      :onUpdate="app.updateNode"
     ></IndexPage>
   </div>
 </template>
