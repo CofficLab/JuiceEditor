@@ -6,6 +6,8 @@ hero:
   name: "Juice Editor"
   text: "A Smart Editor"
   tagline: My great project tagline
+  image: 
+    src: /images/hero.png
   actions:
     - theme: brand
       text: Markdown Examples
