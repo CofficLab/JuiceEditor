@@ -26,7 +26,7 @@
 
 ## 文档
 
-<https://cofficlab.github.io/JuiceEditor/drawio.html>
+<https://cofficlab.github.io/JuiceEditor>
 
 ## 开发
 
