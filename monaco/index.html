@@ -60,17 +60,27 @@
             });
 
             setHeightOfEditor(editor);
-            window.parent.postMessage({ sender: window.name, event: 'ready' }, '*');
+            onReady();
 
             editor.getModel().onDidChangeContent(() => {
                 console.log('🍋 💼 MonacoBox: monaco editor content changed');
                 setHeightOfEditor(editor)
+
+                onUpdate(editor.getValue());
             })
         });
 
         window.setCode = function (code) {
             editor.setValue(code);
         };
+
+        function onUpdate(content) {
+            window.parent.postMessage({ sender: window.name, event: 'update', content }, '*');
+        }
+
+        function onReady() {
+            window.parent.postMessage({ sender: window.name, event: 'ready' }, '*');
+        }
 
         function getLinesHeight(editor) {
             let lineCount = editor.getModel().getLineCount();

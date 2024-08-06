@@ -8,6 +8,7 @@
             <MonacoCard
               :code="content"
               :monacoLink="props.extension.options.monacoLink"
+              :onUpdated="onUpdated"
             ></MonacoCard>
           </div>
 
@@ -42,4 +43,21 @@ const show = computed(() => {
 onMounted(() => {
   console.log('🐰 SmartPre: mounted')
 })
+
+function onUpdated(content: string) {
+  let firstChild = props.node.firstChild!
+  let firstChildPos = props.getPos() + 1
+  let firstChildPosEnd = firstChildPos + firstChild.nodeSize
+
+  props.editor
+    .chain()
+    .insertContentAt(
+      {
+        from: firstChildPos,
+        to: firstChildPosEnd
+      },
+      content
+    )
+    .run()
+}
 </script>
