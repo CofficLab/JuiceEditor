@@ -77,7 +77,7 @@ jobs:
       - name: 下载 Kuaiyizhi_Browser
         uses: actions/checkout@v4
         with:
-          repository: CofficLab/Kuaiyizhi_Browser
+          repository: CofficLab/Kuaiyizhi
           token: ${{ secrets.Token_Sync }}
           ref: dev
       - name: 检查文件
@@ -120,10 +120,10 @@ jobs:
     steps:
       - name: 当前目录
         run: pwd
-      - name: 下载 Kuaiyizhi_SwiftUI
+      - name: 下载 JuiceNote
         uses: actions/checkout@v4
         with:
-          repository: CofficLab/Kuaiyizhi_SwiftUI
+          repository: CofficLab/JuiceNote
           token: ${{ secrets.Token_Sync }}
           ref: dev
       - name: 检查文件
