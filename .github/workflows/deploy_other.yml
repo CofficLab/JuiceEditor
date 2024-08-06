@@ -74,7 +74,7 @@ jobs:
     steps:
       - name: 当前目录
         run: pwd
-      - name: 下载 Kuaiyizhi_Browser
+      - name: 下载 Kuaiyizhi
         uses: actions/checkout@v4
         with:
           repository: CofficLab/Kuaiyizhi
