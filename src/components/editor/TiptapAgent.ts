@@ -11,17 +11,20 @@ interface Props {
     onUpdate: (data: EditorData) => void
     onSelectionUpdate?: (type: string) => void
     drawIoLink?: string
+    monacoLink: string
     drawEnable: boolean
     tableEnable: boolean
 }
 
 class TiptapAgent {
     static create(props: Props): Editor {
+        console.log(props)
         return new Editor({
             extensions: makeExtensions({
                 drawIoLink: props.drawIoLink,
                 drawEnable: props.drawEnable,
                 tableEnable: props.tableEnable,
+                monacoLink: props.monacoLink
             }),
             injectNonce: props.uuid,
             autofocus: false,

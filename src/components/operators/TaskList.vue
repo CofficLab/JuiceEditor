@@ -1,12 +1,12 @@
 <template>
-  <button
+  <Button
     @click="focusedNode.toggleTaskList().run()"
     class="tooltip"
     data-tip="待办事项"
     :class="{ 'is-active': editor.isActive('taskList') }"
   >
     <img :src="icon" />
-  </button>
+  </Button>
 
   <!-- <button @click="focusedNode.splitListItem('taskItem').run()"
       :disabled="!editor.can().splitListItem('taskItem')">
@@ -30,6 +30,7 @@
 import { Editor } from '@tiptap/vue-3'
 import { computed } from 'vue'
 import icon from '../../assets/checklist.svg'
+import Button from '../../ui/Button.vue'
 
 const props = defineProps({
   editor: {

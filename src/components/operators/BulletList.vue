@@ -1,17 +1,18 @@
 <template>
-  <button
+  <Button
     @click="focusedNode.toggleBulletList().run()"
     data-tip="无序列表"
     :class="{ 'is-active': editor.isActive('bulletList'), tooltip: iconOnly }"
   >
     <img :src="bulletListIcon" v-if="iconOnly" />
     <span v-if="!iconOnly">无序列表</span>
-  </button>
+  </Button>
 </template>
 
 <script lang="ts" setup>
 import { Editor } from '@tiptap/vue-3'
 import { computed } from 'vue'
+import Button from '../../ui/Button.vue'
 import bulletListIcon from '../../assets/list.bullet.svg'
 
 const props = defineProps({

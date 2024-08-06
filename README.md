@@ -6,6 +6,26 @@
 
 <https://apps.apple.com/cn/app/%E5%BF%AB%E6%98%93%E7%9F%A5/id6457892799?mt=12>
 
+## 快速开始
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script type="module" crossorigin src="./juice-editor/assets/index-23e26c6d.js"></script>
+</head>
+
+<body>
+  <juice-editor>
+    <h1>11111</h1>
+    <pre><code>console.log("ABC")</code></pre>
+  </juice-editor>
+</body>
+
+</html>
+```
+
 ## Dev
 
 ### 运行

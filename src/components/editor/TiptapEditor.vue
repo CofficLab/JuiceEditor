@@ -69,7 +69,7 @@
     </div>
 
     <!-- 右键菜单 -->
-    <ContextMenu :editor="editor"></ContextMenu>
+    <!-- <ContextMenu :editor="editor"></ContextMenu> -->
 
     <!-- 提示信息 -->
     <Message :message="message"></Message>
@@ -93,10 +93,13 @@ import { Editor } from '@tiptap/core'
 
 const props = defineProps(SmartEditorProps)
 
+console.log('tiptap editor', props)
+
 const editor = TiptapAgent.create({
   uuid: props.uuid,
   content: props.content,
   editable: props.editable,
+  monacoLink: props.monacoLink,
   drawIoLink: props.drawLink,
   drawEnable: props.drawEnable,
   tableEnable: props.tableEnable,
@@ -189,77 +192,4 @@ onBeforeUnmount(() => {
 })
 </script>
 
-<style lang="scss">
-.ProseMirror {
-  > * + * {
-    margin-top: 0.75em;
-  }
-
-  ul,
-  ol {
-    padding: 0 1rem;
-  }
-
-  blockquote {
-    padding-left: 1rem;
-    border-left: 2px solid rgba(#0d0d0d, 0.1);
-  }
-}
-
-/* Basic editor styles */
-.ProseMirror {
-  > * + * {
-    margin-top: 0.75em;
-  }
-}
-
-/* Placeholder (at the top) */
-.ProseMirror p.is-editor-empty:first-child::before {
-  content: attr(data-placeholder);
-  float: left;
-  color: #ced4da;
-  pointer-events: none;
-  height: 0;
-}
-
-/* Placeholder (on every new line) */
-.ProseMirror .is-empty::before {
-  content: attr(data-placeholder);
-  float: left;
-  color: #ced4da;
-  pointer-events: none;
-  height: 0;
-}
-
-ul[data-type='taskList'] {
-  list-style: none;
-  padding: 0;
-
-  p {
-    margin: 0;
-  }
-
-  li {
-    display: flex;
-
-    > label {
-      flex: 0 0 auto;
-      margin-right: 0.5rem;
-      user-select: none;
-    }
-
-    > div {
-      flex: 1 1 auto;
-    }
-
-    ul li,
-    ol li {
-      display: list-item;
-    }
-
-    ul[data-type='taskList'] > li {
-      display: flex;
-    }
-  }
-}
-</style>
+<style lang="scss"></style>

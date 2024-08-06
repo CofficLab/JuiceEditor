@@ -1,39 +1,28 @@
 <template>
   <div class="relative flex flex-col w-full h-full overflow-scroll" id="index">
-    <!-- 操作栏 -->
-    <ToolBar></ToolBar>
-
-    <!-- loading -->
-    <div v-if="appStore.loading" class="flex items-center justify-center h-full">
-      <Loading></Loading>
-    </div>
-
-    <div v-else class="flex flex-col">
-      <!-- 图书简介 -->
-      <BookIntro :node="node" />
-
+    <div class="flex flex-col">
       <!-- 编辑器 -->
       <TiptapEditor
         v-if="featureStore.editorVisible"
-        :content="node.content"
+        :content="content"
         :editable="featureStore.editable"
         :tableEnable="featureStore.tableEnabled"
         :drawEnable="featureStore.drawEnabled"
-        :drawLink="appStore.drawLink"
+        :drawLink="drawLink"
+        :monacoLink="monacoLink"
         :bubbleMenusEnable="featureStore.bubbleMenuVisible"
         :floatingMenusEnable="featureStore.floatingMenuVisible"
-        :onUpdate="appStore.updateNode"
-        :onSelectionUpdate="appStore.updateSelectionType"
-        :uuid="node.uuid"
+        :onUpdate="onUpdate"
+        :uuid="uuid"
       />
 
       <!-- 子节点 -->
       <div
         class="container flex justify-center px-4 pt-4 pb-24 mx-auto mt-0 dark:border-gray-700/30"
         :class="{ 'border-t': shouldShowBorder }"
-        v-if="node.children.length > 0"
+        v-if="children.length > 0"
       >
-        <NodeCardList :nodes="node.children"></NodeCardList>
+        <NodeCardList :nodes="children"></NodeCardList>
       </div>
     </div>
   </div>
@@ -43,30 +32,51 @@
 import TiptapEditor from './editor/TiptapEditor.vue'
 import NodeCardList from './NodeCardList.vue'
 import { computed, nextTick, watch } from 'vue'
-import Loading from '../components/Loading.vue'
-import { useAppStore } from '../provider/AppStore'
-import BookIntro from './BookIntro.vue'
 import { useFeatureStore } from '../provider/FeatureStore'
-import ToolBar from './ToolBar.vue'
+import TreeNode from '../model/TreeNode'
 
-const appStore = useAppStore()
 const featureStore = useFeatureStore()
 
-const node = computed(() => {
-  return appStore.node
+const props = defineProps({
+  uuid: {
+    type: String,
+    default: ''
+  },
+  content: {
+    type: String,
+    default: ''
+  },
+  drawLink: {
+    type: String,
+    default: ''
+  },
+  monacoLink: {
+    type: String,
+    default: ''
+  },
+  onUpdate: {
+    type: Function,
+    default: () => {}
+  },
+  children: {
+    type: Array as () => TreeNode[],
+    default: []
+  }
+})
+
+console.log(props)
+
+const drawLink = computed(() => {
+  return props.drawLink
 })
 
 const featureUpdatedAt = computed(() => {
   return featureStore.nonce
 })
 
-const drawLink = computed(() => {
-  return appStore.drawLink
-})
-
 // 是否显示编辑器和子节点之间的横线
 const shouldShowBorder = computed(() => {
-  return featureStore.editorVisible && node.value.children.length > 0
+  return featureStore.editorVisible
 })
 
 watch(drawLink, () => {

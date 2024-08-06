@@ -1,26 +1,15 @@
-const { copy, emptyDir, removeSync } = require('fs-extra')
+const { copy, emptyDir } = require('fs-extra')
 
-let drawDist = './dist/draw'
 let destinations = [
   '../Kuaiyizhi_SwiftUI/Resources/dist/',
-  '../Kuaiyizhi_Browser/public/editor',
+  '../Kuaiyizhi/public/editor',
   '../Kuaiyizhi_Flutter/assets/editor'
 ]
 
-emptyDir(drawDist, (err) => {
-  if (err) return console.error(err)
+deploy()
 
-  copy('./drawio/webapp', drawDist, (err) => {
-    if (err) return console.error(err)
-
-    // 删除不需要的文件，减小体积
-    removeSync(drawDist + '/node_modules')
-    removeSync(drawDist + '/META-INF')
-    removeSync(drawDist + '/WEB-INF')
-    removeSync(drawDist + '/CITATION.cff')
-    removeSync(drawDist + '/js/diagramly/App.js')
-    console.log('Draw 构建产物已复制到 Dist')
-
+async function deploy() {
+  try {
     destinations.forEach((destination) => {
       emptyDir(destination, (err) => {
         if (err) return console.error(err)
@@ -31,5 +20,7 @@ emptyDir(drawDist, (err) => {
         })
       })
     })
-  })
-})
+  } catch (err) {
+    console.error(err)
+  }
+}

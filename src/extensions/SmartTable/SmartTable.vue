@@ -111,7 +111,6 @@ import Panel from '../Panel.vue'
 import TableToggleHeader from './Icons/ToggleHeader.vue'
 import RowRemove from './Icons/RowRemove.vue'
 import CellMerge from './Icons/CellMerge.vue'
-import Remove from './Icons/Remove.vue'
 import CellSplit from './Icons/CellSplit.vue'
 import RowPlusBefore from './Icons/RowPlusBefore.vue'
 import RowPlusAfter from './Icons/RowPlusAfter.vue'
@@ -123,89 +122,3 @@ const props = defineProps(nodeViewProps)
 const focusedNode = computed(() => props.editor.chain().focus())
 const isEditable = computed(() => props.editor.isEditable)
 </script>
-
-<style lang="postcss">
-.table-menus {
-  button {
-    @apply btn btn-sm join-item rounded-none px-2 py-0 flex justify-center items-center;
-
-    img {
-      @apply w-6 h-6 m-0;
-    }
-  }
-}
-
-.tiptap {
-  table {
-    border-collapse: collapse;
-    table-layout: fixed;
-    width: 100%;
-    margin: 0;
-    overflow: hidden;
-
-    td,
-    th {
-      min-width: 1em;
-      border: 2px solid #ced4da;
-      padding: 3px 5px;
-      vertical-align: top;
-      box-sizing: border-box;
-      position: relative;
-
-      > * {
-        margin-bottom: 0;
-      }
-    }
-
-    th {
-      font-weight: bold;
-      text-align: left;
-      background-color: #f1f3f5;
-    }
-
-    th {
-      @apply dark:bg-green-800/20 dark:border-blue-800;
-    }
-
-    td {
-      @apply dark:border-blue-900;
-    }
-
-    .selectedCell:after {
-      z-index: 2;
-      position: absolute;
-      content: '';
-      left: 0;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      background: rgba(200, 200, 255, 0.4);
-      pointer-events: none;
-    }
-
-    .column-resize-handle {
-      position: absolute;
-      right: -2px;
-      top: 0;
-      bottom: -2px;
-      width: 4px;
-      background-color: #adf;
-      pointer-events: none;
-    }
-
-    p {
-      margin: 0;
-    }
-  }
-}
-
-.tableWrapper {
-  padding: 0rem 0;
-  overflow-x: auto;
-}
-
-.resize-cursor {
-  cursor: ew-resize;
-  cursor: col-resize;
-}
-</style>

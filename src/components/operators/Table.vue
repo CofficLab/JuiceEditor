@@ -1,17 +1,18 @@
 <template>
-  <button
+  <Button
     class="w-10 tooltip"
     data-tip="添加表格"
     v-if="enable"
     @click="editor.chain().focus().insertSmartTable().run()"
   >
     <IconTableCell></IconTableCell>
-  </button>
+  </Button>
 </template>
 
 <script lang="ts" setup>
 import { Editor } from '@tiptap/vue-3'
 import IconTableCell from '../icons/IconTableCell.vue'
+import Button from '../../ui/Button.vue'
 
 defineProps({
   editor: {

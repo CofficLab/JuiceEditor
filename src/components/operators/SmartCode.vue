@@ -1,17 +1,18 @@
 <template>
-  <button
-    class="tooltip w-10"
+  <Button
+    class="w-10 tooltip"
     data-tip="代码"
     @click="editor.chain().focus().insertCodeBlock().run()"
     :class="{ 'is-active': editor.isActive('SmartCode') }"
   >
     <img :src="icon" class="m-0" />
-  </button>
+  </Button>
 </template>
 
 <script lang="ts" setup>
 import { Editor } from '@tiptap/vue-3'
 import icon from '../../assets/code.bracket.svg'
+import Button from '../../ui/Button.vue'
 
 defineProps({
   editor: {

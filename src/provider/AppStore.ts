@@ -12,9 +12,11 @@ const isDebug = config.isDebug
 export const useAppStore = defineStore('app-store', {
     state: () => {
         return {
+            isDebug: isDebug,
             node: isDebug ? new TreeNode(LocalStore.getData()) : new TreeNode({}),
             drawLink: config.drawLink,
-            loading: false,
+            monacoLink: config.monacoLink,
+            loading: true,
             ready: false,
             selectionType: '',
         }

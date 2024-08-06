@@ -1,8 +1,8 @@
 <template>
   <!-- 选中后弹出的菜单 -->
   <div>
-    <BubbleMenu
-      class="bubble-menu"
+    <bubble-menu
+      class="flex flex-wrap items-center gap-1 px-2 py-1 rounded-md bubble-menu bg-gray-400/95 text-accent-content"
       :should-show="shouldShow"
       :tippy-options="{
         duration: 100,
@@ -24,7 +24,7 @@
       <BulletList :editor="editor"></BulletList>
       <Code :editor="editor"></Code>
       <Link :editor="editor"></Link>
-    </BubbleMenu>
+    </bubble-menu>
   </div>
 </template>
 
@@ -78,21 +78,3 @@ const shouldShow = function (props: {
   return !empty
 }
 </script>
-
-<style scoped lang="postcss">
-.bubble-menu {
-  @apply bg-gray-400/95 text-accent-content rounded-md px-2 py-1 gap-1 flex items-center flex-wrap;
-
-  button {
-    @apply btn btn-sm btn-ghost px-1 w-10;
-
-    svg {
-      @apply m-0;
-    }
-  }
-
-  button:disabled {
-    @apply bg-gray-700/40;
-  }
-}
-</style>

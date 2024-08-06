@@ -1,17 +1,18 @@
 <template>
-  <button
+  <Button
     @click="focusedNode.toggleStrike().run()"
     data-tip="中横线"
     :class="{ 'is-active': editor.isActive('strike'), tooltip: iconOnly }"
   >
     <img :src="icon" v-if="iconOnly" />
     <span v-if="!iconOnly">中横线</span>
-  </button>
+  </Button>
 </template>
 
 <script lang="ts" setup>
 import { Editor } from '@tiptap/vue-3'
 import { computed } from 'vue'
+import Button from '../../ui/Button.vue'
 import icon from '../../assets/strikethrough.svg'
 
 const props = defineProps({

@@ -6,7 +6,7 @@ export const useFeatureStore = defineStore('feature-store', {
     state: () => {
         return {
             nonce: Date.now().toString() + Math.random().toString(),
-            editable: isDebug,
+            editable: true,
             editorVisible: true,
             toolbarVisible: isDebug,
             bubbleMenuVisible: true,

@@ -3,6 +3,8 @@
     <Panel :deleteNode="props.deleteNode">
       <template v-slot:content>
         <img ref="img" :src="node.attrs.src" :class="node.attrs.class" class="z-10 p-0 m-0" />
+
+        <Opening :onReady="open" :visible="isOpening" class="opening" ref="opening"></Opening>
       </template>
 
       <template v-slot:operators>
@@ -15,8 +17,6 @@
         <button class="btn btn-sm join-item" @click="Helper.newLine(props)">
           <IconNewLine class="w-5 h-5"></IconNewLine>
         </button>
-
-        <Opening :onReady="open" :visible="isOpening" class="hidden opening"></Opening>
       </template>
     </Panel>
   </NodeViewWrapper>
@@ -24,11 +24,10 @@
 
 <script setup lang="ts">
 import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import { makeDrawUrl } from './DrawUrl'
 import Helper from './Helper'
 import DrawConfig from './DrawConfig'
-import Delete from './Icons/Delete.vue'
 import IconEdit from './Icons/IconEdit.vue'
 import IconNewLine from './Icons/IconNewLine.vue'
 import IconDownload from './Icons/IconDownload.vue'
@@ -38,20 +37,18 @@ import Base64Helper from './Helper'
 import Panel from '../Panel.vue'
 
 const img = ref<HTMLImageElement | null>(null)
+const opening = ref<HTMLImageElement | null>(null)
 const props = defineProps(nodeViewProps)
 const drawingPage = document.createElement('iframe')
 const drawingDialog = document.createElement('dialog')
-const loadingDialog = document.createElement('dialog')
 
 const isOpening = ref(false)
 const isSelected = ref(false)
 const isWebKit = 'webkit' in window
-const isEditable = computed(() => props.editor.isEditable)
 
 // 画图页面已经准备完成，可以展示了
 function onDrawingPageReady() {
   drawingDialog.showModal()
-  loadingDialog.close()
   isOpening.value = false
 }
 
@@ -66,18 +63,11 @@ function sendToDrawio(message: object) {
   drawingPage.contentWindow!.postMessage(JSON.stringify(message), '*')
 }
 
-// 显示loading页面
+// 显示打开画图前的loading页面
 function openLoading() {
   if (!props.editor.isEditable) {
     return
   }
-
-  loadingDialog.classList.add('modal')
-  let openingDom = document.getElementsByClassName('opening')[0]
-  openingDom.classList.remove('hidden')
-  loadingDialog.appendChild(openingDom)
-  document.body.appendChild(loadingDialog)
-  loadingDialog.showModal()
 
   isOpening.value = true
 }

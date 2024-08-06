@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>browser-amd-editor</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container"></div>
+
+    <!-- OR ANY OTHER AMD LOADER HERE INSTEAD OF loader.js -->
+    <script src="./dist/min/vs/loader.js"></script>
+    <script>
+        var editor;
+        var paddingTop = 15;
+        var paddingBottom = 15;
+
+        require.config({ paths: { vs: './dist/min/vs' } });
+
+        require(['vs/editor/editor.main'], function () {
+            editor = monaco.editor.create(document.getElementById('container'), {
+                value: '',
+                language: 'javascript',
+                theme: "hc-black",
+                lineNumbers: "off",
+                fontSize: 14,
+                minimap: { enabled: false },
+                readOnly: false,
+                automaticLayout: true,
+                scrollBeyondLastLine: false,
+                contextmenu: false,
+                tabSize: 4,
+                roundedSelection: false,
+                renderLineHighlight: "none",
+                formatOnPaste: true,
+                scrollbar: {
+                    vertical: "hidden",
+                    horizontal: "hidden",
+                    alwaysConsumeMouseWheel: false,
+                },
+                overviewRulerBorder: false,
+                overviewRulerLanes: 0,
+                domReadOnly: false,
+                stickyScroll: {
+                    enabled: false,
+                },
+                // 当只有1行代码时，右上角的语言标签和右下角的运行按钮离得很近
+                padding: {
+                    top: paddingTop,
+                    bottom: paddingBottom,
+                },
+                minimap: { enabled: false },
+            });
+
+            setHeightOfEditor(editor);
+            window.parent.postMessage({ sender: window.name, event: 'ready' }, '*');
+
+            editor.getModel().onDidChangeContent(() => {
+                console.log('🍋 💼 MonacoBox: monaco editor content changed');
+                setHeightOfEditor(editor)
+            })
+        });
+
+        window.setCode = function (code) {
+            editor.setValue(code);
+        };
+
+        function getLinesHeight(editor) {
+            let lineCount = editor.getModel().getLineCount();
+            let lineHeight = editor.getOption(monaco.editor.EditorOption.lineHeight);
+            let padding = editor.getOption(monaco.editor.EditorOption.padding);
+
+            console.log("设置 monaco editor 的高度, 行数", lineCount);
+            console.log("设置 monaco editor 的高度, 行高", lineHeight);
+            console.log("设置 monaco editor 的高度, 行间距", padding);
+
+            return lineCount * lineHeight + padding.top + padding.bottom;
+        }
+
+        function setHeightOfEditor(editor) {
+            let height = getLinesHeight(editor);
+
+            console.log("💼 MonacoBox: 设置 monaco editor 的高度", height);
+
+            editor.getDomNode().style.height = height + "px";
+
+            window.parent.postMessage({ sender: window.name, event: 'resize', height }, '*');
+        }
+    </script>
+</body>
+
+</html>

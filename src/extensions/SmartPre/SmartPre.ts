@@ -1,11 +1,33 @@
 import CodeBlock from '@tiptap/extension-code-block'
 import { VueNodeViewRenderer } from '@tiptap/vue-3'
 import SmartPreVue from './SmartPre.vue'
-import { Database } from './Entities/Database'
-import { CodeBlock as DatabaseCodeBlock } from './Entities/CodeBlock'
-import MonacoBox from './Entities/MonacoBox'
 import { v4 as uuidv4 } from 'uuid';
-import { languages } from './Entities/SmartLanguage'
+
+export interface CodeBlockOptions {
+  /**
+   * Adds a prefix to language classes that are applied to code tags.
+   * @default 'language-'
+   */
+  languageClassPrefix: string
+  /**
+   * Define whether the node should be exited on triple enter.
+   * @default true
+   */
+  exitOnTripleEnter: boolean
+  /**
+   * Define whether the node should be exited on arrow down if there is no node after it.
+   * @default true
+   */
+  exitOnArrowDown: boolean
+  /**
+   * Custom HTML attributes that should be added to the rendered HTML tag.
+   * @default {}
+   * @example { class: 'foo' }
+   */
+  HTMLAttributes: Record<string, any>
+
+  monacoLink: string
+}
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -18,8 +40,18 @@ declare module '@tiptap/core' {
 }
 
 // 保存成HTML的时候要考虑HTML转Markdown
-export const SmartPre = CodeBlock.extend({
+export const SmartPre = CodeBlock.extend<CodeBlockOptions>({
   name: 'pre',
+
+  addOptions() {
+    return {
+      languageClassPrefix: 'language-',
+      exitOnTripleEnter: true,
+      exitOnArrowDown: true,
+      HTMLAttributes: {},
+      monacoLink: ''
+    }
+  },
 
   addAttributes() {
     return {

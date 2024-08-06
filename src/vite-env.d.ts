@@ -12,4 +12,9 @@ declare interface Window {
     runnerCallback: Function
 }
 
+interface Window {
+    setCode: (code: string) => void; // 根据实际参数类型调整
+}
+
+
 declare module 'turndown';

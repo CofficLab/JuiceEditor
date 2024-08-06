@@ -1,5 +1,5 @@
 <template>
-  <button
+  <Button
     @click="focusedNode.toggleHeading({ level: props.level as Level }).run()"
     :data-tip="props.level + '号标题'"
     :class="{
@@ -8,11 +8,12 @@
     }"
     class="flex"
     v-text="text"
-  ></button>
+  ></Button>
 </template>
 
 <script lang="ts" setup>
 import { Editor } from '@tiptap/vue-3'
+import Button from '../../ui/Button.vue'
 import { computed } from 'vue'
 
 export declare type Level = 1 | 2 | 3 | 4 | 5 | 6

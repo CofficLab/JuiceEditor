@@ -1,0 +1,10 @@
+{
+  "name": "monaco-editor",
+  "private": true,
+  "scripts": {
+    "build": "rm -rf dist && copyfiles -u 2 --all 'node_modules/monaco-editor/min*/**/*' dist"
+  },
+  "dependencies": {
+    "monaco-editor": "^0.50.0"
+  }
+}

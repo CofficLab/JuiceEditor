@@ -1,8 +1,8 @@
 <template>
   <!-- 回车后显示的菜单 -->
   <div>
-    <FloatingMenu
-      class="floating-menu"
+    <floating-menu
+      class="flex flex-row flex-wrap px-2 py-1 ml-2 rounded-md floating-menu bg-info/95 text-info-content"
       :tippy-options="{
         duration: 100,
         maxWidth: 800,
@@ -24,7 +24,7 @@
       <Table :editor="editor"></Table>
       <SmartPre :editor="editor"></SmartPre>
       <GroupPre :editor="editor"></GroupPre>
-    </FloatingMenu>
+    </floating-menu>
   </div>
 </template>
 
@@ -32,7 +32,6 @@
 import { Editor, FloatingMenu } from '@tiptap/vue-3'
 import TiptapAgent from './TiptapAgent'
 import Heading from '../operators/Heading.vue'
-import CodeBlock from '../operators/CodeBlock.vue'
 import Banner from '../operators/Banner.vue'
 import Image from '../operators/Image.vue'
 import Draw from '../operators/Draw.vue'
@@ -50,13 +49,3 @@ defineProps({
 
 const shouldShowFloatingMenu = TiptapAgent.shouldShowFloatingMenu
 </script>
-
-<style scoped lang="postcss">
-.floating-menu {
-  @apply bg-info/95 text-info-content rounded-md px-2 py-1 flex flex-row flex-wrap ml-2;
-
-  button {
-    @apply btn btn-sm btn-ghost px-1;
-  }
-}
-</style>

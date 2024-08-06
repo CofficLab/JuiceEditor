@@ -222,9 +222,19 @@ function downloadImage() {
     return exportBase64(base64ImageString)
   }
 
+  if (base64ImageString.startsWith('data: image/jpeg;base64,')) {
+    return exportBase64(base64ImageString)
+  }
+
   if (base64ImageString.startsWith('data:image/png;base64,')) {
     return exportBase64(base64ImageString)
   }
+
+  if (base64ImageString.startsWith('data: image/png;base64,')) {
+    return exportBase64(base64ImageString)
+  }
+
+  console.log('base64ImageString', base64ImageString)
 
   // 不是一个base64图片编码，先获取base64图片编码
   const img = imgDom.value as HTMLImageElement

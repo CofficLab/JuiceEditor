@@ -1,6 +1,6 @@
 <template>
-  <button
-    class="tooltip w-10"
+  <Button
+    class="w-10 tooltip"
     data-tip="添加图片"
     @click="editor.commands.insertImage()"
     :class="{ 'is-active': editor.isActive('banner') }"
@@ -15,13 +15,14 @@
       style="display: none"
       @change="onFileSelected"
     />
-  </button>
+  </Button>
 </template>
 
 <script lang="ts" setup>
 import { Editor } from '@tiptap/vue-3'
 import { ref } from 'vue'
 import icon from '../../assets/photo.svg'
+import Button from '../../ui/Button.vue'
 
 const props = defineProps({
   editor: {

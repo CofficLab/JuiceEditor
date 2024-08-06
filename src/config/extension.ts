@@ -31,6 +31,7 @@ import { GroupPre } from "../extensions/GroupPre/GroupPre"
 
 interface makeExtensionsProps {
     drawIoLink?: string,
+    monacoLink: string,
     drawEnable?: boolean,
     tableEnable?: boolean
 }
@@ -62,7 +63,9 @@ export default function makeExtensions(props: makeExtensionsProps) {
             },
         }),
         // CodeEditor,
-        SmartPre,
+        SmartPre.configure({
+            monacoLink: props.monacoLink,
+        }),
         Color.configure({
             types: ['textStyle'],
         }),

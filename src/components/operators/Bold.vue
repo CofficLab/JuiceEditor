@@ -1,5 +1,5 @@
 <template>
-  <button
+  <Button
     v-if="!editor.isActive('heading')"
     @click="focusedNode.toggleBold().run()"
     class="tooltip"
@@ -7,12 +7,13 @@
   >
     <img :src="icon" v-if="iconOnly" />
     <span v-if="!iconOnly">加粗</span>
-  </button>
+  </Button>
 </template>
 
 <script lang="ts" setup>
 import { Editor } from '@tiptap/vue-3'
 import { computed } from 'vue'
+import Button from '../../ui/Button.vue'
 import icon from '../../assets/bold.svg'
 
 const props = defineProps({

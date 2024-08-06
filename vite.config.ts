@@ -7,13 +7,7 @@ import vue from '@vitejs/plugin-vue'
 export default defineConfig({
   base: './',
   plugins: [
-    vue({
-      template: {
-        compilerOptions: {
-          isCustomElement: (tag) => tag.includes('-')
-        }
-      }
-    }),
+    vue(),
   ],
   resolve: {
     alias: {
@@ -21,12 +15,6 @@ export default defineConfig({
     }
   },
   build: {
-    target: 'esnext',
-    minify: 'terser',
-    lib: {
-      entry: 'src/CustomElement',
-      formats: ['es', 'cjs', 'iife'],
-      name: 'CustomElement'
-    }
+    outDir: 'dist/juice-editor' // 自定义输出目录
   }
 })

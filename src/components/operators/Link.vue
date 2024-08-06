@@ -1,5 +1,5 @@
 <template>
-  <button
+  <Button
     v-if="!editor.isActive('link')"
     @click="setLink"
     data-tip="链接"
@@ -7,11 +7,12 @@
   >
     <img :src="icon" v-if="iconOnly" />
     <span v-if="!iconOnly">链接</span>
-  </button>
+  </Button>
 </template>
 
 <script lang="ts" setup>
 import { Editor } from '@tiptap/vue-3'
+import Button from '../../ui/Button.vue'
 import icon from '../../assets/link.svg'
 
 const props = defineProps({
