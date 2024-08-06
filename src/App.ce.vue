@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col">
+  <div class="flex flex-col bg-white dark:bg-slate-900">
     <!-- 操作栏 -->
     <ToolBar v-if="app.isDebug"></ToolBar>
 

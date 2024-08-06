@@ -23,17 +23,12 @@
       <slot name="content"></slot>
     </div>
 
-    <div
-      tabindex="0"
-      class="z-50 my-2 dropdown-content"
-      v-show="isSelected"
-      contenteditable="false"
-    >
-      <div class="border shadow-2xl join border-accent/60 bg-opacity-90 operators">
+    <div class="z-50 my-2 dropdown-content" v-show="isSelected" contenteditable="false">
+      <div class="z-50 border shadow-2xl bg-slate-500 join border-accent/60 operators">
         <slot name="operators"></slot>
-        <button class="btn btn-sm join-item tooltip" data-tip="删除" @click="deleteNode">
-          <IconDelete class="w-5 h-6"></IconDelete>
-        </button>
+        <Button data-tip="删除" @click="deleteNode">
+          <IconDelete></IconDelete>
+        </Button>
       </div>
     </div>
   </div>
@@ -44,6 +39,7 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import { v4 as uuidv4 } from 'uuid'
 import IconDelete from './BaseIcons/Delete.vue'
 import { useAppStore } from '../provider/AppStore'
+import Button from '../ui/Button.vue'
 
 const app = useAppStore()
 

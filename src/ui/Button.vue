@@ -1,5 +1,5 @@
 <template>
-  <button class="btn btn-info btn-xs join-item hover:bg-blue-500">
+  <button class="h-12 px-2 prose bg-gray-50 dark:bg-slate-800 dark:hover:bg-slate-500">
     <slot></slot>
   </button>
 </template>

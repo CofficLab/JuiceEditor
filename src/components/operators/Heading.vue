@@ -6,7 +6,6 @@
       'is-active': editor.isActive('heading', { level: props.level }),
       tooltip: iconOnly
     }"
-    class="flex"
     v-text="text"
   ></Button>
 </template>
