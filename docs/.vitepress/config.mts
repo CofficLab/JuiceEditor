@@ -5,8 +5,12 @@ export default defineConfig({
   title: "Juice Editor",
   base: "/JuiceEditor/",
   description: "A Smart Editor",
+  head: [
+    ['link', { rel: 'icon', href: '/JuiceEditor/images/favicon.png' }]
+  ],
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
+    logo: '/images/logo.png',
     nav: [
       { text: '首页', link: '/' },
       { text: '文档', link: '/guide/drawio', activeMatch: '/guide/' }
