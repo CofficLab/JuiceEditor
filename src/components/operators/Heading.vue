@@ -6,8 +6,9 @@
       'is-active': editor.isActive('heading', { level: props.level }),
       tooltip: iconOnly
     }"
-    v-text="text"
-  ></Button>
+  >
+    <span v-text="text"></span>
+  </Button>
 </template>
 
 <script lang="ts" setup>

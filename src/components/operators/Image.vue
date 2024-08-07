@@ -1,6 +1,6 @@
 <template>
   <Button
-    class="w-10 tooltip"
+    class="tooltip"
     data-tip="添加图片"
     @click="editor.commands.insertImage()"
     :class="{ 'is-active': editor.isActive('banner') }"
