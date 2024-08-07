@@ -1,6 +1,6 @@
 {
   "name": "kuaiyizhi-editor",
-  "version": "0.4.55",
+  "version": "0.4.56",
   "private": true,
   "scripts": {
     "dev": "vite",
