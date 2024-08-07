@@ -1,11 +1,11 @@
 <template>
   <Button
-    class="w-10 tooltip"
-    data-tip="添加图片"
+    tip="添加图片"
+    size="md"
     @click="editor.commands.insertImage()"
     :class="{ 'is-active': editor.isActive('banner') }"
   >
-    <img :src="icon" alt="" class="m-0" />
+    <img :src="icon" alt="" class="m-auto" />
     <input
       class="fixed"
       ref="fileInput"

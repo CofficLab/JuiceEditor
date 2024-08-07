@@ -1,7 +1,7 @@
 <template>
   <Button
-    class="w-10 tooltip"
-    data-tip="添加表格"
+    tip="添加表格"
+    size="md"
     v-if="enable"
     @click="editor.chain().focus().insertSmartTable().run()"
   >

@@ -9,7 +9,7 @@
           class="m-0 link link-hover link-primary"
           @click="onClickLink"
         >
-          <span v-html="props.node.attrs.text"></span>
+          <span v-html="props.node.attrs.text" class="text-blue-500"></span>
           <NodeViewContent class="hidden" />
           <a :href="props.node.attrs.href" ref="goto" target="_blank" class="no-underline hidden"
             >访问</a
@@ -18,44 +18,33 @@
       </template>
 
       <template v-slot:operators>
-        <template v-if="props.editor.isEditable">
-          <button
-            class="btn join-item btn-sm tooltip"
-            data-tip="在浏览器中打开"
-            contenteditable="false"
-          >
-            <a :href="props.node.attrs.href" target="_blank" class="no-underline">
-              <Open></Open>
-            </a>
-          </button>
+        <Button tip="在浏览器中打开" contenteditable="false">
+          <a :href="props.node.attrs.href" target="_blank" class="no-underline">
+            <Open></Open>
+          </a>
+        </Button>
 
-          <button class="btn btn-sm join-item w-48 p-0 m-0 tooltip" data-tip="在此输入链接">
-            <input
-              type="text"
-              v-model="props.node.attrs.href"
-              placeholder="在此输入链接"
-              class="input w-full rounded-none h-full focus:outline-none input-xs"
-            />
-          </button>
+        <Button tip="在此输入链接">
+          <input
+            type="text"
+            v-model="props.node.attrs.href"
+            placeholder="在此输入链接"
+            class="input w-48 rounded-none h-full focus:outline-none input-xs text-blue-500"
+          />
+        </Button>
 
-          <button class="btn btn-sm join-item w-32 p-0 tooltip" data-tip="在此输入文字">
-            <input
-              type="text"
-              v-model="props.node.attrs.text"
-              placeholder="在此输入文字"
-              class="w-full focus:outline-none h-full rounded-none input-xs input"
-            />
-          </button>
+        <Button tip="在此输入文字">
+          <input
+            type="text"
+            v-model="props.node.attrs.text"
+            placeholder="在此输入文字"
+            class="w-48 focus:outline-none h-full rounded-none input-xs input"
+          />
+        </Button>
 
-          <button
-            class="btn btn-sm join-item rounded-none tooltip"
-            data-tip="删除链接，保留文字"
-            @click="notLink"
-            contenteditable="false"
-          >
-            <NoLink></NoLink>
-          </button>
-        </template>
+        <Button tip="删除链接，保留文字" @click="notLink" contenteditable="false">
+          <NoLink></NoLink>
+        </Button>
       </template>
     </Panel>
   </NodeViewWrapper>
@@ -66,6 +55,7 @@ import { ref } from 'vue'
 import Panel from '../Panel.vue'
 import Open from './Icons/Open.vue'
 import NoLink from './Icons/NoLink.vue'
+import Button from '../../ui/Button.vue'
 
 const props = defineProps(nodeViewProps)
 const goto = ref()

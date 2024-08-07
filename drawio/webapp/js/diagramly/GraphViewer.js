@@ -1820,7 +1820,7 @@ GraphViewer.prototype.createToolbarButton = function(fn, imgSrc, tip, enabled)
 	return a;
 };
 
-GraphViewer.prototype.disableButton = function(token)
+GraphViewer.prototype.disableButton = function(token, tooltip)
 {
 	var def = this.graphConfig['toolbar-buttons']? this.graphConfig['toolbar-buttons'][token] : null;
 			
@@ -1833,6 +1833,11 @@ GraphViewer.prototype.disableButton = function(token)
 		{
 			def.elem.style.backgroundColor = '#eee';
 		});
+
+		if (tooltip)
+		{
+			def.elem.setAttribute('title', tooltip);
+		}
 	}
 };
 
@@ -2386,13 +2391,13 @@ GraphViewer.blockedAncestorFrames = function()
 			{
 				// do not log *.draw.io domains embedded directly into atlassian.net
 			}
-			else if (window.location.ancestorOrigins.length > 0)
-			{
-				var img = new Image();
-				img.src = 'https://log.diagrams.net/images/1x1.png?src=ViewerAncestorFrames' +
-					((typeof window.EditorUi !== 'undefined') ? '&v=' + encodeURIComponent(EditorUi.VERSION) : '') +
-					'&data=' + encodeURIComponent(message);
-			}
+			// else if (window.location.ancestorOrigins.length > 0)
+			// {
+			// 	var img = new Image();
+			// 	img.src = 'https://log.diagrams.net/images/1x1.png?src=ViewerAncestorFrames' +
+			// 		((typeof window.EditorUi !== 'undefined') ? '&v=' + encodeURIComponent(EditorUi.VERSION) : '') +
+			// 		'&data=' + encodeURIComponent(message);
+			// }
 		}
 	}
 	catch (e)

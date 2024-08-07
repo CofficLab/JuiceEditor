@@ -2,6 +2,7 @@
   <Button
     class="w-10 tooltip"
     data-tip="代码"
+    size="md"
     @click="editor.chain().focus().insertCodeBlock().run()"
     :class="{ 'is-active': editor.isActive('SmartCode') }"
   >

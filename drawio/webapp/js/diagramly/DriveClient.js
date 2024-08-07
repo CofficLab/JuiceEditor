@@ -1,6 +1,6 @@
 /**
- * Copyright (c) 2006-2020, JGraph Ltd
- * Copyright (c) 2006-2020, draw.io AG
+ * Copyright (c) 2006-2024, JGraph Ltd
+ * Copyright (c) 2006-2024, draw.io AG
  */
 
 //Add a closure to hide the class private variables without changing the code a lot
@@ -38,17 +38,10 @@ window.DriveClient = function(editorUi, isExtAuth)
 		// Uses separate name for the viewer auth tokens
 		this.cookieName = 'gDriveViewerAuthInfo';
 		this.token = this.getPersistentToken();
-		
-		this.appId = window.DRAWIO_GOOGLE_VIEWER_APP_ID || '850530949725';
-		this.clientId = window.DRAWIO_GOOGLE_VIEWER_CLIENT_ID || '850530949725.apps.googleusercontent.com';
-		this.scopes = ['https://www.googleapis.com/auth/drive.readonly',
-			'https://www.googleapis.com/auth/userinfo.profile'];
 	}
-	else
-	{
-		this.appId = window.DRAWIO_GOOGLE_APP_ID || '671128082532';
-		this.clientId = window.DRAWIO_GOOGLE_CLIENT_ID || '671128082532-jhphbq6d0e1gnsus9mn7vf8a6fjn10mp.apps.googleusercontent.com';
-	}
+
+	this.appId = window.DRAWIO_GOOGLE_APP_ID || '671128082532';
+	this.clientId = window.DRAWIO_GOOGLE_CLIENT_ID || '671128082532-jhphbq6d0e1gnsus9mn7vf8a6fjn10mp.apps.googleusercontent.com';
 	
 	this.mimeTypes = this.xmlMimeType + ',application/mxe,application/mxr,' +
 		'application/vnd.jgraph.mxfile.realtime,application/vnd.jgraph.mxfile.rtlegacy';
@@ -68,7 +61,7 @@ mxUtils.extend(DriveClient, mxEventSource);
 // Extends DrawioClient
 mxUtils.extend(DriveClient, DrawioClient);
 
-DriveClient.prototype.redirectUri = window.location.protocol + '//' + window.location.host + '/google';
+DriveClient.prototype.redirectUri = window.DRAWIO_SERVER_URL + 'google';
 DriveClient.prototype.GDriveBaseUrl = 'https://www.googleapis.com/drive/v2';
 
 /**
@@ -153,7 +146,7 @@ DriveClient.prototype.maxRetries = 5;
 /**
  * Executes the first step for connecting to Google Drive.
  */
-DriveClient.prototype.staleEtagMaxRetries = 3;
+DriveClient.prototype.staleEtagMaxRetries = 4;
 
 /**
  * Executes the first step for connecting to Google Drive.
@@ -1330,34 +1323,34 @@ DriveClient.prototype.saveFile = function(file, revision, success, errFn, noChec
 			}
 			
 			// Logs failed save
-			try
-			{
-				if (!file.isConflict(e))
-				{
-					var err = 'sl_' + file.saveLevel + '-error_' +
-						(file.getErrorMessage(e) || 'unknown');
+			// try
+			// {
+			// 	if (!file.isConflict(e))
+			// 	{
+			// 		var err = 'sl_' + file.saveLevel + '-error_' +
+			// 			(file.getErrorMessage(e) || 'unknown');
 	
-					if (e != null && e.error != null && e.error.code != null)
-					{
-						err += '-code_' + e.error.code;
-					}
+			// 		if (e != null && e.error != null && e.error.code != null)
+			// 		{
+			// 			err += '-code_' + e.error.code;
+			// 		}
 					
-					EditorUi.logEvent({category: 'ERROR-SAVE-FILE-' + file.getHash() + '-rev_' +
-						file.desc.headRevisionId + '-mod_' + file.desc.modifiedDate +
-							'-size_' + file.getSize() + '-mime_' + file.desc.mimeType +
-						((this.ui.editor.autosave) ? '' : '-nosave') +
-						((file.isAutosave()) ? '' : '-noauto') +
-						((file.changeListenerEnabled) ? '' : '-nolisten') +
-						((file.inConflictState) ? '-conflict' : '') +
-						((file.invalidChecksum) ? '-invalid' : ''),
-						action: err, label: ((this.user != null) ? ('user_' + this.user.id) : 'nouser') +
-						((file.sync != null) ? ('-client_' + file.sync.clientId) : '-nosync')});
-				}
-			}
-			catch (ex)
-			{
-				// ignore
-			}
+			// 		EditorUi.logEvent({category: 'ERROR-SAVE-FILE-' + file.getHash() + '-rev_' +
+			// 			file.desc.headRevisionId + '-mod_' + file.desc.modifiedDate +
+			// 				'-size_' + file.getSize() + '-mime_' + file.desc.mimeType +
+			// 			((this.ui.editor.autosave) ? '' : '-nosave') +
+			// 			((file.isAutosave()) ? '' : '-noauto') +
+			// 			((file.changeListenerEnabled) ? '' : '-nolisten') +
+			// 			((file.inConflictState) ? '-conflict' : '') +
+			// 			((file.invalidChecksum) ? '-invalid' : ''),
+			// 			action: err, label: ((this.user != null) ? ('user_' + this.user.id) : 'nouser') +
+			// 			((file.sync != null) ? ('-client_' + file.sync.clientId) : '-nosync')});
+			// 	}
+			// }
+			// catch (ex)
+			// {
+			// 	// ignore
+			// }
 		});
 		
 		var criticalError = mxUtils.bind(this, function(e)
@@ -1649,13 +1642,18 @@ DriveClient.prototype.saveFile = function(file, revision, success, errFn, noChec
 													etag = resp.etag;
 												}
 
+												if (reasons.length == 0)
+												{
+													reasons.push(mxResources.get('unknownError'));
+												}
+
 												var temp = reasons.join(', ');
 
 												if (retryCount < this.staleEtagMaxRetries)
 												{
 													retryCount++;
 													var jitter = 1 + 0.1 * (Math.random() - 0.5);
-													var delay = Math.round(retryCount * 2 * this.coolOff * jitter);
+													var delay = Math.round(Math.pow(2, retryCount) * this.coolOff * jitter);
 													window.setTimeout(doExecuteSave, delay);
 
 													if (urlParams['test'] == '1')
@@ -1674,8 +1672,9 @@ DriveClient.prototype.saveFile = function(file, revision, success, errFn, noChec
 													// Logs failed save
 													try
 													{
-														EditorUi.logError('Critical: Saving to Google Drive failed ' + file.desc.id,
-															null, 'from-' + head0 + '.' + mod0 + '-' + this.ui.hashValue(etag0) +
+														EditorUi.logError('Saving to Google Drive failed',
+															null, 'id-' + file.desc.id +
+															'-from-' + head0 + '.' + mod0 + '-' + this.ui.hashValue(etag0) +
 															'-to-' + resp.headRevisionId + '.' + resp.modifiedDate + '-' +
 															this.ui.hashValue(resp.etag) + ((temp.length > 0) ? '-errors-' + temp : ''),
 															'user-' + ((this.user != null) ? this.user.id : 'nouser') +
@@ -2002,7 +2001,7 @@ DriveClient.prototype.saveFile = function(file, revision, success, errFn, noChec
 						{
 							criticalError(e);
 						}
-					})))
+					}), 20))
 				{
 					// If-branch
 					doSave(null, null, file.constructor != DriveLibrary);

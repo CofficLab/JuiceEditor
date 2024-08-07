@@ -1,14 +1,14 @@
 <template>
   <Button
     @click="focusedNode.toggleHeading({ level: props.level as Level }).run()"
-    :data-tip="props.level + '号标题'"
+    size="md"
+    :tip="props.level + '号标题'"
     :class="{
-      'is-active': editor.isActive('heading', { level: props.level }),
-      tooltip: iconOnly
+      'is-active': editor.isActive('heading', { level: props.level })
     }"
-    class="flex"
-    v-text="text"
-  ></Button>
+  >
+    <span v-text="text"></span>
+  </Button>
 </template>
 
 <script lang="ts" setup>

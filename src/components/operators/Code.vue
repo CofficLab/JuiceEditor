@@ -2,6 +2,7 @@
   <button
     @click="focusedNode.toggleCode().run()"
     data-tip="代码"
+    size="md"
     :class="{ 'is-active': editor.isActive('code'), tooltip: iconOnly }"
   >
     <img :src="icon" v-if="iconOnly" />

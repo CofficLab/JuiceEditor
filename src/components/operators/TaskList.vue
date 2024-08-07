@@ -1,8 +1,8 @@
 <template>
   <Button
     @click="focusedNode.toggleTaskList().run()"
-    class="tooltip"
-    data-tip="待办事项"
+    tip="待办事项"
+    size="md"
     :class="{ 'is-active': editor.isActive('taskList') }"
   >
     <img :src="icon" />

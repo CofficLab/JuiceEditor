@@ -1,7 +1,7 @@
 <template>
   <button
-    class="tooltip w-10"
     data-tip="代码"
+    size="md"
     @click="editor.chain().focus().toggleCodeBlock().run()"
     :class="{ 'is-active': editor.isActive('codeBlock') }"
   >

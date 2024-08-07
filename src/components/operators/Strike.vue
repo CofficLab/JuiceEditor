@@ -1,8 +1,9 @@
 <template>
   <Button
     @click="focusedNode.toggleStrike().run()"
-    data-tip="中横线"
-    :class="{ 'is-active': editor.isActive('strike'), tooltip: iconOnly }"
+    tip="中横线"
+    size="md"
+    :class="{ 'is-active': editor.isActive('strike') }"
   >
     <img :src="icon" v-if="iconOnly" />
     <span v-if="!iconOnly">中横线</span>

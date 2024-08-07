@@ -56,6 +56,8 @@
 
 	Sidebar.prototype.cisco_safe = ['Architecture', 'Business Icons', 'Capability', 'Design', 'IoT Things Icons', 'People Places Things Icons', 'Security Icons', 'Technology Icons', 'Threat'];
 	
+	Sidebar.prototype.sap = ['Annotations', 'Colored Connectors', 'Foundations', 'Integration Suite', 'App Dev Automation', 'Data Analytics', 'AI', 'Generic Icons', 'Component Groups', 'Components', 'Default Connectors', 'Default Shapes', 'Numbers', 'Products', 'Build Workzone', 'Semantic Accent', 'Texts'];
+	
 	Sidebar.prototype.sysml = ['Model Elements', 'Blocks', 'Ports and Flows', 'Constraint Blocks', 'Activities', 'Interactions', 'State Machines', 
 	                           'Use Cases', 'Allocations', 'Requirements', 'Profiles', 'Stereotypes'];
 
@@ -119,7 +121,7 @@
 	 */
 	Sidebar.prototype.configuration = [{id: 'general', libs: ['general', 'misc', 'advanced']},
 									   {id: 'uml'}, {id: 'uml25'}, {id: 'search'}, {id: 'er'},
-									   {id: 'azure2', prefix: 'azure2', libs: ['AI Machine Learning', 'Analytics', 'App Services', 'Azure Ecosystem', 'Azure Stack', 'Azure VMware Solution', 'Blockchain', 'Compute', 'Containers', 'CXP', 'Databases', 'DevOps', 'General', 'Identity', 'Integration', 'Internet of Things', 'Intune', 'IoT', 'Management Governance', 'Menu', 'Migrate', 'Mixed Reality', 'Monitor', 'Networking', 'Other', 'Preview', 'Security', 'Storage', 'Web']},
+									   {id: 'azure2', prefix: 'azure2', libs: ['AI Machine Learning', 'Analytics', 'App Services', 'Azure Ecosystem', 'Azure Stack', 'Azure VMware Solution', 'Blockchain', 'Compute', 'Containers', 'CXP', 'Databases', 'DevOps', 'General', 'Identity', 'Integration', 'Internet of Things', 'Intune', 'IoT', 'Management Governance', 'Menu', 'Migrate', 'Mixed Reality', 'Mobile', 'Monitor', 'Networking', 'Other', 'Preview', 'Security', 'Storage', 'Web']},
 	                                   {id: 'ios', prefix: 'ios', libs: [''/*prefix is library*/, '7icons', '7ui']}, 
 	                                   {id: 'android', prefix: 'android', libs: [''/*prefix is library*/]}, {id: 'aws3d'},
 	                                   {id: 'flowchart'}, {id: 'basic'}, {id: 'infographic'}, {id: 'arrows'}, {id: 'arrows2'}, {id: 'lean_mapping'}, {id: 'citrix'}, {id: 'azure'}, {id: 'network'}, {id: 'vvd'}, 
@@ -136,7 +138,6 @@
 	                                   {id: 'pid2', prefix: 'pid2', libs: ['Agitators', 'Apparatus Elements', 'Centrifuges', 'Compressors', 'Compressors ISO', 'Crushers Grinding', 
 	                                          	                          'Driers', 'Engines', 'Feeders', 'Filters', 'Fittings', 'Flow Sensors', 'Heat Exchangers', 'Instruments', 'Misc',
 	                                        	                          'Mixers', 'Piping', 'Pumps', 'Pumps DIN', 'Pumps ISO', 'Separators', 'Shaping Machines', 'Valves', 'Vessels']},
-//           	                           {id: 'salesforce'},
            	                           {id: 'salesforce', prefix: 'salesforce', libs: ['Components', 'Product', 'Platform', 'Industry']},
            	                           {id: 'signs', prefix: 'signs', libs: Sidebar.prototype.signs},
            	                           {id: 'gcp', prefix: 'gcp', libs: Sidebar.prototype.gcp},
@@ -147,6 +148,7 @@
            	                           {id: 'aws2', prefix: 'aws2', libs: Sidebar.prototype.aws2},
            	                           {id: 'aws3', prefix: 'aws3', libs: Sidebar.prototype.aws3},
            	                           {id: 'aws4b', prefix: 'aws4b', libs: Sidebar.prototype.aws4b},
+           	                           {id: 'sap', prefix: 'sap', libs: Sidebar.prototype.sap},
            	                           {id: 'aws4', prefix: 'aws4', libs: Sidebar.prototype.aws4},
            	                           {id: 'pid', prefix: 'pid', libs: Sidebar.prototype.pids},
            	                           {id: 'cisco', prefix: 'cisco', libs: Sidebar.prototype.cisco},
@@ -464,13 +466,17 @@
 			{title: mxResources.get('clipart'), id: 'clipart', image: IMAGE_PATH + '/sidebar-clipart.png'},
 			{title: mxResources.get('flowchart'), id: 'flowchart', image: IMAGE_PATH + '/sidebar-flowchart.png'}];
 		
-		if (Editor.currentTheme == 'sketch' ||
+		if (Editor.currentTheme == 'simple' ||
+			Editor.currentTheme == 'sketch' ||
 			Editor.currentTheme == 'min')
 		{
 			stdEntries = [{title: mxResources.get('searchShapes'), id: 'search'},
 				{title: mxResources.get('scratchpad'), id: '.scratchpad'}].
 				concat(stdEntries);
 		}
+
+		// Get current year as yyyy
+		var year = new Date().getFullYear();
 
 		this.entries = [{title: mxResources.get('standard'), entries: stdEntries},
             			{title: mxResources.get('software'),
@@ -491,7 +497,7 @@
             			entries: [{title: 'Allied Telesis', id: 'allied_telesis', image: IMAGE_PATH + '/sidebar-allied_telesis.png'},
 								{title: 'AWS17', id: 'aws3', image: IMAGE_PATH + '/sidebar-aws3.png'},
 								{title: 'AWS18', id: 'aws4b', image: IMAGE_PATH + '/sidebar-aws4b.png'},
-								{title: 'AWS19', id: 'aws4', image: IMAGE_PATH + '/sidebar-aws4.png'},
+								{title: 'AWS ' + year, id: 'aws4', image: IMAGE_PATH + '/sidebar-aws4.png'},
 								// TODO: Add isometric containers  		                          
 								{title: mxResources.get('aws3d'), id: 'aws3d', image: IMAGE_PATH + '/sidebar-aws3d.png'},
 								{title: mxResources.get('azure'), id: 'azure2', image: IMAGE_PATH + '/sidebar-azure.png'},
@@ -508,6 +514,7 @@
 								{title: 'Network', id: 'network', image: IMAGE_PATH + '/sidebar-network.png'},
 								{title: 'Office', id: 'office', image: IMAGE_PATH + '/sidebar-office.png'},
 								{title: mxResources.get('rack'), id: 'rack', image: IMAGE_PATH + '/sidebar-rack.png'},
+								{title: 'SAP', id: 'sap', image: IMAGE_PATH + '/sidebar-sap.png'},
 								{title: 'Veeam', id: 'veeam2', image: IMAGE_PATH + '/sidebar-veeam.png'},
 								{title: 'VMware', id: 'vvd', image: IMAGE_PATH + '/sidebar-vvd.png'}]},
             			{title: mxResources.get('business'),
@@ -559,8 +566,8 @@
 				if (mxEvent.getSource(evt).nodeName == 'BUTTON')
 				{
 					var svgs = content.getElementsByTagName('svg');
-					var w = 456;
-					var h = (Math.ceil(svgs.length / 6) + 1) * this.thumbHeight;
+					var w = 6 * 68 + 2 * 12;
+					var h = Math.ceil(svgs.length / 6) * 68 + 24 + 12;
 					var root = Graph.createSvgNode(0, 0, w, h, '#ffffff');
 					
 					// Adds title
@@ -571,16 +578,11 @@
 					canvas.setFontSize(14);
 
 					// Extracts title text
-					var children = title.childNodes;
+					var spans = title.getElementsByTagName('span');
 
-					for (var i = 0; i < children.length; i++)
+					if (spans.length > 0)
 					{
-						if (children[i].nodeType == mxConstants.NODETYPE_TEXT)
-						{
-							canvas.plainText(6, 0, 0, 0, mxUtils.getTextContent(children[i]));
-
-							break;
-						}
+						canvas.text(6, 0, 0, 0, mxUtils.getTextContent(spans[0]));
 					}
 
 					for (var i = 0; i < svgs.length; i++)
@@ -748,7 +750,80 @@
 			}
 		}
 	};
+
+	/**
+	 * 
+	 */
+	Sidebar.prototype.getUniqueLibraries = function(libs)
+	{
+		var lookup = {};
+		var result = [];
+
+		for (var i = 0; i < libs.length; i++)
+		{
+			var key = JSON.stringify(libs[i]);
+
+			if (lookup[key] == null)
+			{
+				lookup[key] = true;
+				result.push(libs[i]);
+			}
+		}
 		
+		return result;
+	};
+
+	/**
+	 * 
+	 */
+	Sidebar.prototype.openLibraries = function(libs)
+	{
+		libs = this.getUniqueLibraries(libs);
+		var elts = null;
+
+		for (var i = 0; i < libs.length; i++)
+		{
+			var config = this.getConfigurationById(libs[i].id);
+
+			if (config != null)
+			{
+				var temp = this.openLibrary(config,
+					libs[i].lib || libs[i].id);
+
+				if (temp != null && elts == null)
+				{
+					elts = temp;
+				}
+			}
+		}
+
+		if (elts != null)
+		{
+			window.setTimeout(function()
+			{
+				elts[0].scrollIntoView({behavior: 'smooth'});
+			}, 0);
+		}
+	};
+
+	/**
+	 * Opens the given library.
+	 */
+	Sidebar.prototype.openLibrary = function(config, lib)
+	{
+		this.showPalettes(config.prefix || '', config.libs || [config.id], true);
+		var elts = this.showPalette(lib, true);
+		
+		if (elts != null && elts.length > 1 && elts[1].firstChild != null &&
+			(elts[1].firstChild.firstChild == null ||
+			elts[1].firstChild.style.display == 'none'))
+		{
+			elts[0].click();
+		}
+
+		return elts;
+	};
+
 	/**
 	 * Adds shape search UI.
 	 */
@@ -762,35 +837,11 @@
 			{
 				menu.addItem(mxResources.get('openLibrary'), null, mxUtils.bind(this, function()
 				{
-					for (var i = 0; i < libs.length; i++)
-					{
-						(mxUtils.bind(this, function(lib)
-						{
-							var config = this.getConfigurationById(lib.id);
-							
-							if (config != null)
-							{
-								this.showPalettes(config.prefix || '', config.libs || [config.id], true);
-								var elts = this.showPalette(libs[i].lib || libs[i].id, true);
-								
-								if (elts != null && elts.length > 1 && elts[1].firstChild != null &&
-									(elts[1].firstChild.firstChild == null ||
-									elts[1].firstChild.style.display == 'none'))
-								{
-									elts[0].click();
-								}
-								
-								window.setTimeout(function()
-								{
-									elts[1].scrollIntoView({behavior: 'smooth'});
-								}, 0);
-								
-								mxEvent.consume(evt);
-							}
-						}))(libs[i]);
-					}
+					this.openLibraries(libs);
 				}));
 			}), offset.x, offset.y + elt.offsetHeight, evt);
+
+			mxEvent.consume(evt);
 		}
 	};
 
@@ -829,6 +880,13 @@
 								this.createVertexTemplateEntry(style, parseInt(shapes[i].w),
 										parseInt(shapes[i].h), '', stc.replace(/_/g, ' '),
 										null, null, this.filterTags(tags.join(' ')));
+
+								if (this.currentSearchEntryLibrary != null)
+								{
+									this.addLibForStyle(this.getKeyStyle(style),
+										this.currentSearchEntryLibrary);
+								}
+
 								this.setCurrentSearchEntryLibrary();
 							}
 						}
@@ -1006,6 +1064,7 @@
 		this.addGCPIconsPalette();
 		this.addIBMPalette();
 		this.addNetworkPalette();
+		this.addSAPPalette();
 		this.addOfficePalette();
 		this.addRackPalette(rack, dir);
 		this.addVeeamPalette();
@@ -1228,9 +1287,6 @@
 		}
 		
 	};
-
-
-
 	
 	/**
 	 * Overridden to manually create search index for stencil files which are not pre-loaded
@@ -1305,22 +1361,36 @@
 	};
 	
 	/**
-	 * Adds server icon results to local search results
+	 * Returns true if the search index was loaded.
 	 */
-	var sidebarSearchEntries = Sidebar.prototype.searchEntries;
-	
-	Sidebar.prototype.searchEntries = function(searchTerms, count, page, success, error)
+	Sidebar.prototype.isSearchIndexLoaded = function()
 	{
-		var succ = success;
-		
-		// Lazy-load indices
+		return this.searchIndexData == null;
+	}
+
+	/**
+	 * Lazy-loading for search index.
+	 */
+	Sidebar.prototype.updateSearchIndex = function()
+	{
 		if (this.searchIndexData != null)
 		{
 			this.addSearchIndex(JSON.parse(Graph.decompress(this.searchIndexData)));
 			this.searchIndexData = null;
 		}
+	};
+
+	/**
+	 * Adds server icon results to local search results
+	 */
+	var sidebarSearchEntries = Sidebar.prototype.searchEntries;
+	
+	Sidebar.prototype.searchEntries = function(searchTerms, count, page, success, error, searchClosedLibraries)
+	{
+		var succ = success;
+		this.updateSearchIndex();
 		
-		if (ICONSEARCH_PATH != null)
+		if (ICONSEARCH_PATH != null && searchClosedLibraries)
 		{
 			success = mxUtils.bind(this, function(results, len, more, terms)
 			{

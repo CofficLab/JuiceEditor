@@ -43,6 +43,12 @@ DiagramPage.prototype.root = null;
 DiagramPage.prototype.viewState = null;
 
 /**
+ * Specifies if the diagram in the page was been modified
+ * and the cached XML data needs to be updated.
+ */
+DiagramPage.prototype.diagramModified = false;
+
+/**
  * 
  */
 DiagramPage.prototype.getId = function()
@@ -71,6 +77,22 @@ DiagramPage.prototype.setName = function(value)
 	{
 		this.node.setAttribute('name', value);
 	}
+};
+
+/**
+ * Sets the diagram modified flag.
+ */
+DiagramPage.prototype.setDiagramModified = function(value)
+{
+	this.diagramModified = value;
+};
+
+/**
+ * Returns the diagram modified flag.
+ */
+DiagramPage.prototype.isDiagramModified = function()
+{
+	return this.diagramModified;
 };
 
 /**
@@ -163,9 +185,15 @@ SelectPage.prototype.execute = function()
 		var editor = this.ui.editor;
 		var graph = editor.graph;
 		
-		// Stores current diagram state in the page
-		var data = Graph.compressNode(editor.getGraphXml(true));
-		mxUtils.setTextContent(page.node, data);
+		if (page.isDiagramModified())
+		{
+			page.setDiagramModified(false);
+
+			// Updates cached diagram data
+			EditorUi.removeChildNodes(page.node);
+			page.node.appendChild(editor.getGraphXml(true));
+		}
+
 		page.viewState = graph.getViewState();
 		page.root = graph.model.root;
 		
@@ -379,7 +407,7 @@ EditorUi.prototype.getPageById = function(id, pages)
 /**
  * Returns the background image for the given page link.
  */
-EditorUi.prototype.createImageForPageLink = function(src, sourcePage, sourceGraph)
+EditorUi.prototype.createImageForPageLink = function(src, sourcePage, sourceGraph, addFonts)
 {
 	var comma = src.indexOf(',');
 	var result = null;
@@ -390,7 +418,7 @@ EditorUi.prototype.createImageForPageLink = function(src, sourcePage, sourceGrap
 
 		if (page != null && page != sourcePage)
 		{
-			result = this.getImageForPage(page, sourcePage, sourceGraph);
+			result = this.getImageForPage(page, sourcePage, sourceGraph, addFonts);
 			result.originalSrc = src;
 		}
 	}
@@ -450,7 +478,7 @@ EditorUi.prototype.pageSelected = function()
 /**
  * Returns true if the given string contains an mxfile.
  */
-EditorUi.prototype.getImageForPage = function(page, sourcePage, sourceGraph)
+EditorUi.prototype.getImageForPage = function(page, sourcePage, sourceGraph, addFonts)
 {
 	sourceGraph = (sourceGraph != null) ? sourceGraph : this.editor.graph;
 	var graphGetGlobalVariable = sourceGraph.getGlobalVariable;
@@ -486,8 +514,8 @@ EditorUi.prototype.getImageForPage = function(page, sourcePage, sourceGraph)
 	Graph.foreignObjectWarningText = '';
 	var theme = (Editor.cssDarkMode || Editor.isDarkMode()) ?
 		'dark' : 'light';
-	var svgRoot = graph.getSvg(null, null, null, null, null, null,
-		null, null, null, null, null, theme, null, null, true);
+	var svgRoot = graph.getSvg(null, null, null, null, null, null, null,
+		null, null, null, addFonts, theme, null, null, true, true);
 	
 	var bounds = graph.getGraphBounds();
 	document.body.removeChild(graph.container);
@@ -547,9 +575,15 @@ EditorUi.prototype.initPages = function()
 			}
 			
 			graphViewValidateBackground.apply(graph.view, arguments);
+			
+			// Uses SVG subtree to support custom fonts and images
+			if (graph.view.backgroundImage != null)
+			{
+				EditorUi.embedSvgImages(graph.view.backgroundImage.node);
+			}
 		});
 
-		// Adds a graph model listener to update the view
+		// Adds a graph model listener to update the view and diagram modified flag
 		this.editor.graph.model.addListener(mxEvent.CHANGE, mxUtils.bind(this, function(sender, evt)
 		{
 			var edit = evt.getProperty('edit');
@@ -564,6 +598,12 @@ EditorUi.prototype.initPages = function()
 					this.updateTabContainer();
 					break;	
 				}
+			}
+
+			if (this.currentPage != null && !(changes.length == 1 &&
+				changes[0] instanceof SelectPage))
+			{
+				this.currentPage.setDiagramModified(true);
 			}
 		}));
 		
@@ -589,12 +629,7 @@ EditorUi.prototype.initPages = function()
 		// Selects new default parent if root changes
 		graph.addListener(mxEvent.ROOT, mxUtils.bind(this, function()
 		{
-			if (graph.defaultParent != null &&
-				!graph.model.contains(graph.defaultParent))
-			{
-				graph.setDefaultParent(null);
-				graph.selectUnlockedLayer();
-			}
+			graph.checkDefaultParent();
 		}));
 		
 		var pagesChanged = mxUtils.bind(this, function()
@@ -1053,6 +1088,13 @@ EditorUi.prototype.updatePageRoot = function(page, checked)
 		{
 			// Initializes page object with new empty root
 			page.root = this.editor.graph.model.createRoot();
+
+			// Sets default cell IDs
+			page.root.setId('0');
+			page.root.children[0].setId('1');
+
+			// Marks the page as needing an update
+			page.needsUpdate = true;
 		}
 	}
 	else if (page.viewState == null)
@@ -1060,7 +1102,6 @@ EditorUi.prototype.updatePageRoot = function(page, checked)
 		if (page.graphModelNode == null)
 		{
 			var node = this.editor.extractGraphModel(page.node);
-			
 			var cause = Editor.extractParserError(node);
 			
 			if (cause)
@@ -1077,6 +1118,17 @@ EditorUi.prototype.updatePageRoot = function(page, checked)
 		{
 			page.viewState = this.editor.graph.createViewState(page.graphModelNode);	
 		}
+	}
+
+	// Ensures the root has a default layer
+	if (page.root.children == null || page.root.children.length == 0)
+	{
+		var layer = new mxCell();
+		layer.setId('1');
+		page.root.insert(layer);
+
+		// Marks the page as needing an update
+		page.needsUpdate = true;
 	}
 	
 	return page;
@@ -1410,7 +1462,8 @@ EditorUi.prototype.initDiagramNode = function(page, node)
 	}
 
 	this.editor.graph.saveViewState(page.viewState, node);
-	mxUtils.setTextContent(page.node, Graph.compressNode(node));
+	EditorUi.removeChildNodes(page.node);
+	page.node.appendChild(node);
 };
 
 /**
@@ -1457,7 +1510,8 @@ EditorUi.prototype.clonePage = function(page)
 		EditorUi.transientViewStateProperties)
 	result.root = this.editor.graph.model.cloneCell(
 		page.root, null, true);
-
+	result.diagramModified = page.diagramModified;
+	
 	return result;
 };
 
@@ -1635,11 +1689,36 @@ EditorUi.prototype.checkTabScrollerOverflow = function()
 		this.tabContainer.children.length > 2)
 	{
 		var overflow = this.tabScroller.scrollWidth > this.tabScroller.offsetWidth;
-		this.leftScrollTab.style.opacity = (!overflow) ? 0 :
-			((this.tabScroller.scrollLeft == 0) ? 0.2 : 1);
-		this.rightScrollTab.style.opacity = (!overflow) ? 0 :
-			((Math.ceil(this.tabScroller.scrollLeft) + this.tabScroller.offsetWidth >=
-				this.tabScroller.scrollWidth) ? 0.2 : 1);
+
+		if (!overflow)
+		{
+			this.leftScrollTab.style.display = 'none';
+			this.rightScrollTab.style.display = 'none';
+		}
+		else
+		{
+			this.leftScrollTab.style.display = '';
+			this.rightScrollTab.style.display = '';
+
+			if (this.tabScroller.scrollLeft == 0)
+			{
+				this.leftScrollTab.classList.add('geDisabledControlTab');
+			}
+			else
+			{
+				this.leftScrollTab.classList.remove('geDisabledControlTab');
+			}
+
+			if (Math.ceil(this.tabScroller.scrollLeft) + this.tabScroller.offsetWidth >=
+				this.tabScroller.scrollWidth)
+			{
+				this.rightScrollTab.classList.add('geDisabledControlTab');
+			}
+			else
+			{
+				this.rightScrollTab.classList.remove('geDisabledControlTab');
+			}
+		}
 	}
 };
 
@@ -1704,7 +1783,6 @@ EditorUi.prototype.createControlTab = function(title, image, fn)
 	inner.style.backgroundPosition = 'center';
 	inner.style.backgroundSize = '24px';
 	inner.style.position = 'relative';
-	inner.style.opacity = '0.5';
 	inner.style.width = '100%';
 	inner.style.height = '100%';
 
@@ -1723,7 +1801,15 @@ EditorUi.prototype.createPageInsertTab = function()
 	return this.createControlTab(mxResources.get('insertPage'),
 		Editor.plusImage, mxUtils.bind(this, function(evt)
 		{
-			this.insertPage();
+			try
+			{
+				this.insertPage();
+			}
+			catch (e)
+			{
+				this.handleError(e);
+			}
+
 			mxEvent.consume(evt);
 		}));
 };
@@ -1916,38 +2002,6 @@ EditorUi.prototype.addTabListeners = function(page, tab)
 };
 
 /**
- * Returns an absolute URL to the given page or null of absolute links
- * to pages are not supported in this file.
- */
-EditorUi.prototype.getLinkForPage = function(page, params, lightbox)
-{
-	if (page != null && !mxClient.IS_CHROMEAPP && !EditorUi.isElectronApp)
-	{
-		var file = this.getCurrentFile();
-		
-		if (file != null && file.constructor != LocalFile && this.getServiceName() == 'draw.io')
-		{
-			var search = this.getSearch(['create', 'title', 'mode', 'url', 'drive', 'splash',
-				'state', 'clibs', 'ui', 'viewbox', 'hide-pages', 'sketch']);
-			search += ((search.length == 0) ? '?' : '&') + 'page-id=' + page.getId();
-			
-			if (params != null)
-			{
-				search += '&' + params.join('&');
-			}
-			
-			return ((lightbox && urlParams['dev'] != '1') ? EditorUi.lightboxHost :
-				(((mxClient.IS_CHROMEAPP || EditorUi.isElectronApp ||
-				!(/.*\.draw\.io$/.test(window.location.hostname))) ?
-				EditorUi.drawHost : 'https://' + window.location.host))) +
-				'/' + search + '#' + file.getHash();
-		}
-	}
-	
-	return null;
-};
-
-/**
  * Returns true if the given string contains an mxfile.
  */
 EditorUi.prototype.createPageMenu = function(page, label)
@@ -1956,16 +2010,6 @@ EditorUi.prototype.createPageMenu = function(page, label)
 	{
 		if (urlParams['embed'] != 1)
 		{
-			var url = this.getLinkForPage(page);
-
-			if (url != null)
-			{
-				menu.addItem(mxResources.get('link') + '...', null, mxUtils.bind(this, function()
-				{
-					this.showPageLinkDialog(page);
-				}));
-			}
-			
 			if (!mxClient.IS_CHROMEAPP && !EditorUi.isElectronApp && this.getServiceName() == 'draw.io')
 			{
 				menu.addItem(mxResources.get('openInNewWindow'), null, mxUtils.bind(this, function()
@@ -1973,8 +2017,6 @@ EditorUi.prototype.createPageMenu = function(page, label)
 					this.editor.editAsNew(this.getFileData(true, null, null, null, true, true));
 				}), parent);
 			}
-
-			menu.addSeparator(parent);
 		}
 
 		menu.addItem(mxResources.get('duplicate'), null, mxUtils.bind(this, function()
@@ -1999,44 +2041,6 @@ EditorUi.prototype.createPageMenu = function(page, label)
 			this.renamePage(page, label);
 		}), parent);
 	});
-};
-
-/**
- * Returns true if the given string contains an mxfile.
- */
-EditorUi.prototype.showPageLinkDialog = function(page)
-{
-	var graph = this.editor.graph;
-
-	this.showPublishLinkDialog(mxResources.get('url'), true, null, null,
-		mxUtils.bind(this, function(linkTarget, linkColor, allPages, lightbox, editLink, layers)
-	{
-		var params = this.createUrlParameters(linkTarget, linkColor, allPages, lightbox, editLink, layers);
-		
-		if (!allPages)
-		{
-			params.push('hide-pages=1');
-		}
-		
-		if (!graph.isSelectionEmpty())
-		{
-			var bounds = graph.getBoundingBox(graph.getSelectionCells());
-					
-			var t = graph.view.translate;
-			var s = graph.view.scale;
-			bounds.width /= s;
-			bounds.height /= s;
-			bounds.x = bounds.x / s - t.x;
-			bounds.y = bounds.y / s - t.y;
-		
-			params.push('viewbox=' + encodeURIComponent(JSON.stringify({x: Math.round(bounds.x), y: Math.round(bounds.y),
-				width: Math.round(bounds.width), height: Math.round(bounds.height), border: 100})));
-		}
-		
-		var dlg = new EmbedDialog(this, this.getLinkForPage(page, params, lightbox));
-		this.showDialog(dlg.container, 450, 240, true, true);
-		dlg.init();
-	}));
 };
 
 //Overrides ChangePageSetup codec to exclude page

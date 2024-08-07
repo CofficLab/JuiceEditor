@@ -1,19 +1,15 @@
 <template>
-  <Button
-    class="w-10 tooltip"
-    data-tip="画图"
-    v-if="isDrawEnable"
-    @click="editor.commands.insertDraw()"
-  >
-    <img :src="icon" alt="" class="m-0" />
+  <Button tip="画图" size="md" v-if="isDrawEnable" @click="editor.commands.insertDraw()">
+    <img :src="icon" alt="" class="mx-auto" />
   </Button>
 </template>
 
 <script lang="ts" setup>
 import { Editor } from '@tiptap/vue-3'
 import { useFeatureStore } from '../../provider/FeatureStore'
-import icon from '../../assets/compass.drawing.svg'
+import IconDraw from '../icons/IconDraw.vue'
 import Button from '../../ui/Button.vue'
+import icon from '../../assets/compass.drawing.svg'
 
 const feature = useFeatureStore()
 

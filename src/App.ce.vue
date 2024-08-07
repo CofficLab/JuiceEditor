@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col">
+  <div class="flex flex-col bg-white dark:bg-slate-900 items-center">
     <!-- 操作栏 -->
     <ToolBar v-if="app.isDebug"></ToolBar>
 
@@ -29,7 +29,6 @@ import { useFeatureStore } from './provider/FeatureStore'
 import setApi from './api/ApiSet'
 import Loading from './ui/Loading.vue'
 import { computed, onMounted } from 'vue'
-import './app.css'
 
 const props = defineProps({
   monaco: {

@@ -1,6 +1,6 @@
 /**
- * Copyright (c) 2006-2020, JGraph Ltd
- * Copyright (c) 2006-2020, draw.io AG
+ * Copyright (c) 2006-2024, JGraph Ltd
+ * Copyright (c) 2006-2024, draw.io AG
  */
 
 //Add a closure to hide the class private variables without changing the code a lot
@@ -63,8 +63,8 @@ OneDriveClient.prototype.scopes = 'user.read files.readwrite.all sites.read.all'
 /**
  * OAuth 2.0 scopes for installing Drive Apps.
  */
-OneDriveClient.prototype.redirectUri = window.location.protocol + '//' + window.location.host + '/microsoft';
-OneDriveClient.prototype.pickerRedirectUri = window.location.protocol + '//' + window.location.host + '/onedrive3.html';
+OneDriveClient.prototype.redirectUri = window.DRAWIO_SERVER_URL + 'microsoft';
+OneDriveClient.prototype.pickerRedirectUri = window.DRAWIO_SERVER_URL + 'onedrive3.html';
 
 /**
  * This is the default endpoint for personal accounts
@@ -311,7 +311,14 @@ OneDriveClient.prototype.authenticateStep2 = function(state, success, error, fai
 				{
 					if (req.getStatus() >= 200 && req.getStatus() <= 299)
 					{
-						this.updateAuthInfo(JSON.parse(req.getText()), authInfo.remember, false, success, error);
+						try
+						{
+							this.updateAuthInfo(JSON.parse(req.getText()), authInfo.remember, false, success, error);
+						}
+						catch (e)
+						{
+							error({message: mxResources.get('authFailed'), retry: auth});
+						}
 					}
 					else 
 					{
@@ -763,7 +770,20 @@ OneDriveClient.prototype.getFile = function(id, success, error, denyConvert, asL
 				error(this.parseRequestText(req));				
 			}
 		}
-	}), error);
+	}), function(err)
+	{
+		if (error != null)
+		{
+			// Replaces ObjectHandle is Invalid error message
+			if (err != null && err.error != null &&
+				err.error.message === 'ObjectHandle is Invalid')
+			{
+				err.error.message = mxResources.get('fileNotFoundOrDenied');
+			}
+			
+			error(err);
+		}
+	});
 };
 
 /**

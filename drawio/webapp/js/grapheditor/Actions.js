@@ -58,16 +58,13 @@ Actions.prototype.init = function()
 	}, null, null, 'Enter'));
 	this.addAction('keyPressEnter', function()
 	{
-		if (graph.isEnabled())
+		if (graph.isSelectionEmpty())
 		{
-			if (graph.isSelectionEmpty())
-			{
-				ui.actions.get('smartFit').funct();
-			}
-			else
-			{
-				graph.startEditingAtCell();
-			}
+			ui.actions.get('smartFit').funct();
+		}
+		else if (graph.isEnabled())
+		{
+			graph.startEditingAtCell();
 		}
 	});
 	this.addAction('import...', function()
@@ -101,7 +98,7 @@ Actions.prototype.init = function()
 		});
 	}).isEnabled = isGraphEnabled;
 	this.addAction('save', function() { ui.saveFile(false); }, null, null, Editor.ctrlKey + '+S').isEnabled = isGraphEnabled;
-	this.addAction('saveAs...', function() { ui.saveFile(true); }, null, null, Editor.ctrlKey + '+Shift+S').isEnabled = isGraphEnabled;
+	this.addAction('saveAs...', function() { ui.saveFile(true); }, null, null, Editor.ctrlKey + '+Shift+S');
 	this.addAction('export...', function() { ui.showDialog(new ExportDialog(ui).container, 300, 340, true, true); });
 	this.addAction('editDiagram...', function()
 	{
@@ -110,9 +107,9 @@ Actions.prototype.init = function()
 		dlg.init();
 	}).isEnabled = isGraphEnabled;
 	this.addAction('pageSetup...', function() { ui.showDialog(new PageSetupDialog(ui).container, 320, 240, true, true); }).isEnabled = isGraphEnabled;
-	this.addAction('print...', function() { ui.showDialog(new PrintDialog(ui).container, 300, 180, true, true); }, null, 'sprite-print', Editor.ctrlKey + '+P');
+	this.addAction('print...', function() { ui.showPrintDialog(); }, null, 'sprite-print', Editor.ctrlKey + '+P');
 	this.addAction('preview', function() { mxUtils.show(graph, null, 10, 10); });
-
+	
 	// Edit actions
 	this.addAction('undo', function() { ui.undo(); }, null, 'sprite-undo', Editor.ctrlKey + '+Z');
 	this.addAction('redo', function() { ui.redo(); }, null, 'sprite-redo', (!mxClient.IS_WIN) ? Editor.ctrlKey + '+Shift+Z' : Editor.ctrlKey + '+Y');
@@ -613,6 +610,14 @@ Actions.prototype.init = function()
 			}
 		}
 	}, null, null, Editor.ctrlKey + '+L');
+	
+	this.addAction('explore', function()
+	{
+		if (graph.model.isVertex(graph.getSelectionCell()))
+		{
+			Graph.exploreFromCell(ui.editor.graph, ui.editor.graph.getSelectionCell());
+		}
+	});
 
 	// Navigation actions
 	this.addAction('home', function() { graph.home(); }, null, null, 'Shift+Home');
@@ -633,11 +638,11 @@ Actions.prototype.init = function()
 	this.addAction('bringForward', function(evt)
 	{
 		graph.orderCells(false, null, true);
-	});
+	}, null, null, Editor.ctrlKey + '+Alt+Shift+F');
 	this.addAction('sendBackward', function(evt)
 	{
 		graph.orderCells(true, null, true);
-	});
+	}, null, null, Editor.ctrlKey + '+Alt+Shift+B');
 	this.addAction('group', function()
 	{
 		if (graph.isEnabled())
@@ -1071,7 +1076,7 @@ Actions.prototype.init = function()
 		{
 			graph.zoomIn();
 		}
-	}, null, null, Editor.ctrlKey + ' + (Numpad) / Alt+Mousewheel');
+	}, null, null, Editor.ctrlKey + ' + / Alt+Mousewheel');
 	this.addAction('zoomOut', function(evt)
 	{
 		if (graph.isFastZoomEnabled())
@@ -1082,7 +1087,7 @@ Actions.prototype.init = function()
 		{
 			graph.zoomOut();
 		}
-	}, null, null, Editor.ctrlKey + ' - (Numpad) / Alt+Mousewheel');
+	}, null, null, Editor.ctrlKey + ' - / Alt+Mousewheel');
 	this.addAction('fitWindow', function()
 	{
 		if (graph.pageVisible && graph.isSelectionEmpty())
@@ -1182,6 +1187,14 @@ Actions.prototype.init = function()
 	action.setToggleAction(true);
 	action.setSelectedCallback(function() { return graph.graphHandler.guidesEnabled; });
 	action.setEnabled(false);
+	
+	action = this.addAction('animations', function()
+	{
+		Editor.enableAnimations = !Editor.enableAnimations;
+		ui.fireEvent(new mxEventObject('enableAnimationsChanged'));
+	});
+	action.setToggleAction(true);
+	action.setSelectedCallback(function() { return Editor.enableAnimations; });
 	
 	action = this.addAction('tooltips', function()
 	{
@@ -1940,7 +1953,8 @@ Actions.prototype.init = function()
 	{
 		var cell = graph.getSelectionCell();
 
-		if (graph.isEnabled() && !graph.isCellLocked(graph.getDefaultParent()) && cell != null)
+		if (graph.isEnabled() && !graph.isCellLocked(graph.getDefaultParent()) &&
+			cell != null && cell.geometry != null)
 		{
 			var dlg = new ConnectionPointsDialog(ui, cell);
 	    	ui.showDialog(dlg.container, 350, 450, true, false, function() 

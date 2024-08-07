@@ -1,5 +1,5 @@
 <template>
-  <TopBar>
+  <ButtonBar>
     <Button @click="app.setCurrentNode(baseNode)">通用</Button>
     <Button @click="app.setCurrentNode(linkNode)"> 链接 </Button>
     <Button @click="app.setCurrentNode(codeNode)">代码</Button>
@@ -17,7 +17,7 @@
     <Button @click="feature.disableDraw" v-if="feature.drawEnabled">关闭 Draw</Button>
     <Button @click="feature.showEditor" v-if="!feature.editorVisible">显示 Editor</Button>
     <Button @click="feature.hideEditor" v-if="feature.editorVisible">隐藏 Editor</Button>
-  </TopBar>
+  </ButtonBar>
 </template>
 
 <script lang="ts" setup>
@@ -34,6 +34,7 @@ import bannerNode from '../samples/BannerNode'
 import childrenNode from '../samples/ChildrenNode'
 import Button from '../ui/Button.vue'
 import TopBar from '../ui/TopBar.vue'
+import ButtonBar from '../ui/ButtonBar.vue'
 
 const feature = useFeatureStore()
 const app = useAppStore()

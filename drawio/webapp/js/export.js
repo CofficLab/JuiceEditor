@@ -2,7 +2,7 @@ var mxIsElectron = navigator.userAgent != null &&
 	navigator.userAgent.toLowerCase().indexOf(' electron/') > -1 && 
 	navigator.userAgent.indexOf(' draw.io/') > -1;
 var GOOGLE_APPS_MAX_AREA = 25000000;
-var GOOGLE_SHEET_MAX_AREA = 1048576; //1024x1024
+var GOOGLE_SHEET_MAX_AREA = 1000000; // The maximum number of pixels is 1 million.
 
 /**
  * Adds meta tag to the page.
@@ -74,8 +74,13 @@ if (mxIsElectron)
 	// Disables eval for JS (uses shapes-14-6-5.min.js)
 	mxStencilRegistry.allowEval = false;
 }
-//TODO Add support for loading math from a local folder
+
+// TODO Add support for loading math from a local folder
 Editor.initMath((remoteMath? 'https://app.diagrams.net/' : '') + 'math/es5/startup.js');
+
+// Marks individual font and CSS URLs as preloaded
+var fontPreload = {};
+var cssPreload = {};
 
 function render(data)
 {
@@ -144,6 +149,8 @@ function render(data)
 	document.body.appendChild(container);
 	
 	var graph = new Graph(container);
+	graph.enableFlowAnimation = true;
+	
 	data.border = parseInt(data.border) || 0;
 	data.w = parseFloat(data.w) || 0;
 	data.h = parseFloat(data.h) || 0;
@@ -168,7 +175,7 @@ function render(data)
 	}
 
 	var gridColor = null;
-	
+
 	if (extras != null && extras.grid != null)
 	{
 		graph.gridSize = extras.grid.size;
@@ -180,6 +187,11 @@ function render(data)
 	{
 		Graph.diagramLanguage = extras.diagramLanguage;
 		Graph.translateDiagram = true;
+	}
+
+	if (extras != null && extras.globalVars != null && extras.globalVars.filename != null)
+	{
+		document.title = extras.globalVars.filename + '.pdf';
 	}
 	
 	// Overrides graph bounds to include background images
@@ -341,7 +353,7 @@ function render(data)
 		if (--waitCounter < 1)
 		{
 			//Note: This code targets Chrome as it is the browser used by export server
-			//Ensure that all fonts has been loaded, this promise is never rejected
+			//Ensure that all fonts have been loaded, this promise is never rejected
 			document.fonts.ready.then(function() 
 			{
 				// Rewrite page links
@@ -481,107 +493,145 @@ function render(data)
 	// Adds MathJax rendering task
 	function renderMath(elt)
 	{
-		if (math && Editor.MathJaxRender != null)
+		if (Editor.MathJaxRender != null)
 		{
 			waitCounter++;
 			Editor.MathJaxRender(elt);
 		}
 	};
 
-	function loadExtFonts(extFonts)
+	// Waits for the given font
+	function waitForFont(url)
 	{
 		try
 		{
-			extFonts = extFonts.split('|').map(function(ef)
+			if (url != null && fontPreload[url] == null)
 			{
-				var parts = ef.split('^');
-				return {name: parts[0], url: parts[1]};
-			});
-		}
-		catch(e)
-		{
-			//ignore and return!
-			return;
-		}
-		
-		waitCounter += extFonts.length;
-
-		//Note: This code targets Chrome as it is the browser used by export server
-		for (var i = 0; i < extFonts.length; i++)
-		{
-			if (extFonts[i].url.indexOf(Editor.GOOGLE_FONTS) == 0 ||
-				extFonts[i].url.indexOf(Editor.GOOGLE_FONTS_CSS2) == 0)
-			{
-				var link = document.createElement('link');
-				
-				link.setAttribute('rel', 'stylesheet');
-				link.setAttribute('charset', 'UTF-8');
-				link.setAttribute('type', 'text/css');
-				
-				link.onload = decrementWaitCounter;
-				link.onerror = decrementWaitCounter;
-			
-				link.setAttribute('href', extFonts[i].url);
-				var head = document.getElementsByTagName('head')[0];
-				head.appendChild(link);
+				waitCounter++;
+				fontPreload[url] = true;
+				mxUtils.get(url, decrementWaitCounter,
+					decrementWaitCounter, false, 10000,
+					decrementWaitCounter);
 			}
-			else
-			{
-				//Relative urls doesn't work
-				if (extFonts[i].url.indexOf(PROXY_URL) == 0 && PROXY_URL.indexOf('http') == -1)
-				{
-					var href = window.location.href;
-					href = href.substring(0, href.lastIndexOf('/') + 1);
-					extFonts[i].url = href + extFonts[i].url;
-				}
-				
-				var font = new FontFace(extFonts[i].name, 'url(' + extFonts[i].url + ')');
-				
-				font.load().then(function(loadedFont)
-				{
-					document.fonts.add(loadedFont);
-					decrementWaitCounter();
-				}).catch(decrementWaitCounter);
-			}
+		}
+		catch (e)
+		{
+			// ignore font
 		}
 	};
 
-	function renderGrid()
+	// Waits for the fonts in the given CSS
+	function waitForFonts(fontCss)
 	{
-		if (gridColor == null) return;
-			
-		var view = graph.view;
-		var gridImage = btoa(unescape(encodeURIComponent(view.createSvgGrid(gridColor))));
-		gridImage = 'url(' + 'data:image/svg+xml;base64,' + gridImage + ')';
-		var phase = graph.gridSize * view.gridSteps * view.scale;
+		var parts = fontCss.split('url(');
 		
-		var x0 = 0;
-		var y0 = 0;
-		
-		if (view.backgroundPageShape != null)
+		for (var i = 1; i < parts.length; i++)
 		{
-			var bds = view.getBackgroundPageBounds();
-			
-			x0 = 1 + bds.x;
-			y0 = 1 + bds.y;
-		}
-		
-		// Computes the offset to maintain origin for grid
-		var position = -Math.round(phase - mxUtils.mod(view.translate.x * view.scale - x0, phase)) + 'px ' +
-			-Math.round(phase - mxUtils.mod(view.translate.y * view.scale - y0, phase)) + 'px';
-		
-		var pages = document.querySelectorAll('[id^=mxPage]');
-		
-		var cssTxt = 'margin: 0;padding: 0;background-image: ' + gridImage + ';background-position: ' + position
-						+ ';background-color: ' + document.body.style.backgroundColor;
-		document.body.style.cssText = cssTxt;
-
-		for (var i = 0; i < pages.length; i++)
-		{
-			pages[i].style.cssText = cssTxt;
+			try
+			{
+				var idx = parts[i].indexOf(')');
+				var url = Editor.trimCssUrl(parts[i].substring(0, idx));
+				waitForFont(url);
+			}
+			catch (e)
+			{
+				// ignore font css
+			}
 		}
 	};
-	
+
+	// Loads and processes the fonts in the given Google Font URL
+	function processGoogleFontCss(url)
+	{
+		try
+		{
+			if (Graph.isGoogleFontUrl(url) && cssPreload[url] == null)
+			{			
+				cssPreload[url] = true;
+
+				var link = document.createElement('link');
+				link.setAttribute('rel', 'preload');
+				link.setAttribute('as', 'style');
+				link.setAttribute('href', url);
+				document.getElementsByTagName('head')[0].appendChild(link);
+
+				// Loads the stylesheet to wait for fonts
+				waitCounter++;
+
+				mxUtils.get(url, mxUtils.bind(this, function(req)
+				{
+					try
+					{
+						if (req.getStatus() >= 200 && req.getStatus() <= 299)
+						{
+							waitForFonts(req.getText());
+						}
+
+						decrementWaitCounter();
+					}
+					catch(e)
+					{
+						decrementWaitCounter();
+					}
+				}), decrementWaitCounter, false, 10000, decrementWaitCounter);
+			}
+		}
+		catch (e)
+		{
+			// ignore stylesheet
+		}
+	};
+
+	// Waits for Google Font CSS imports in the given element
+	function waitForGoogleFontImports(elt)
+	{
+		var style = elt.getElementsByTagName('style');
+
+		for (var i = 0; i < style.length; i++)
+		{
+			var parts = style[i].innerHTML.split('@import url(');
+
+			for (var i = 1; i < parts.length; i++)
+			{
+				try
+				{
+					var idx = parts[i].indexOf(')');
+					var url = Editor.trimCssUrl(parts[i].substring(0, idx));
+					processGoogleFontCss(url);
+				}
+				catch (e)
+				{
+					// ignore import
+				}
+			}
+		}
+	};
+
+	// Intercepts loading of Google Fonts CSS
+	var origCreateFontElement = Graph.createFontElement;
+
+	Graph.createFontElement = function(name, url)
+	{
+		var elt = origCreateFontElement.apply(this, arguments);
+
+		try
+		{
+			if (elt != null && elt.nodeName.toLowerCase() == 'link' &&
+				elt.getAttribute('type') == 'text/css' &&
+				elt.getAttribute('rel') == 'stylesheet')
+			{
+				processGoogleFontCss(elt.getAttribute('href'));
+			}
+		}
+		catch (e)
+		{
+			// ignore stylesheet
+		}
+
+		return elt;
+	};
+
+	// Adds wait counter for loading fonts
 	var origAddFont = Graph.addFont;
 	
 	Graph.addFont = function(name, url)
@@ -589,20 +639,27 @@ function render(data)
 		waitCounter++;
 		return origAddFont.call(this, name, url, decrementWaitCounter);	
 	};
-		
+	
+	/**
+	 * Renders the given page or all pages.
+	 */
 	function renderPage(currentPageId)
 	{
-		// Enables math typesetting
-		math |= xmlDoc.documentElement.getAttribute('math') == '1';
-		
-		//Load external fonts
-		var extFonts = xmlDoc.documentElement.getAttribute('extFonts');
-		
-		if (extFonts)
+		// Configures math typesetting
+		graph.mathEnabled = xmlDoc.documentElement.getAttribute('math') == '1';
+
+		// Sets grid size
+		var gs = xmlDoc.documentElement.getAttribute('gridSize');
+
+		if (gs != null)
 		{
-			loadExtFonts(extFonts);
+			graph.gridSize = parseInt(gs);
 		}
-		
+		else
+		{
+			graph.gridSize = mxGraph.prototype.gridSize;
+		}
+
 		// Configure graph
 		graph.foldingEnabled = false;
 		graph.setEnabled(false);
@@ -616,6 +673,10 @@ function render(data)
 			graph.setBackgroundImage(new mxImage(bgImg.src, bgImg.width,
 				bgImg.height, bgImg.x, bgImg.y));
 		}
+		else
+		{
+			graph.setBackgroundImage(null);
+		}
 		
 		// Parses XML into graph
 		var codec = new mxCodec(xmlDoc);
@@ -626,9 +687,9 @@ function render(data)
 		
 		if (data.format == 'pdf')
 		{
-			if (data.bg == 'none')
+			if (data.bg == 'none' || bg == '')
 			{
-				bg = null;	
+				bg = null;
 			}
 			else
 			{
@@ -643,8 +704,7 @@ function render(data)
 		else
 		{
 			// Loads background color
-			bg = (data.bg != null && data.bg.length > 0) ?
-				data.bg : xmlDoc.documentElement.getAttribute('background');
+			bg = xmlDoc.documentElement.getAttribute('background');
 
 			// Normalizes values for transparent backgrounds
 			if (bg == 'none' || bg == '')
@@ -656,18 +716,18 @@ function render(data)
 			if (bg == null && data.format != 'gif' && data.format != 'png' && data.format != 'svg')
 			{
 				bg = '#ffffff';
-			}	
-		}
-		
-		// Sets background color on page
-		if (bg != null)
-		{
-			document.body.style.backgroundColor = bg;
+			}
+			
+			// Sets background color on page
+			if (bg != null)
+			{
+				document.body.style.backgroundColor = bg;
+			}
 		}
 		
 		//handle layers
 		if (extras != null && ((extras.layers != null && extras.layers.length > 0) || 
-							   (extras.layerIds != null && extras.layerIds.length > 0)))
+			(extras.layerIds != null && extras.layerIds.length > 0)))
 		{
 			var childCount = model.getChildCount(model.root);
 			
@@ -699,44 +759,13 @@ function render(data)
 		}
 		
 		// Sets initial value for PDF page background
+		var gb = graph.getGraphBounds();
 		graph.pdfPageVisible = false;
 		
 		// Handles PDF output where the output should match the page format if the page is visible
-		if (data.print || (data.format == 'pdf' && xmlDoc.documentElement.getAttribute('page') == '1' && data.w == 0 && data.h == 0 && data.scale == 1))
+		if (data.print || data.format == 'pdf')
 		{
-			//Electron printing
 			var printScale = 1;
-			
-			if (data.print)
-			{
-				document.title = data.fileTitle;
-				
-				var gb = graph.getGraphBounds();
-				printScale = data.pageScale;
-		
-				if (isNaN(printScale))
-				{
-					printScale = 1;
-				}
-				
-				if (data.fit)
-				{
-					var h = parseInt(data.sheetsAcross);
-					var v = parseInt(data.sheetsDown);
-					
-					data.scale = Math.min((data.pageHeight * v) / (gb.height / graph.view.scale),
-							(data.pageWidth * h) / (gb.width / graph.view.scale));
-				}
-				else
-				{
-					data.scale = data.scale / graph.pageScale;
-					
-					if (isNaN(data.scale))
-					{
-						printScale = 1 / graph.pageScale;
-					}
-				}
-			}
 			
 			var pw = data.pageWidth || xmlDoc.documentElement.getAttribute('pageWidth');
 			var ph = data.pageHeight || xmlDoc.documentElement.getAttribute('pageHeight');
@@ -753,7 +782,40 @@ function render(data)
 			{
 				graph.pageScale = ps;
 			}
+
+			if (data.fileTitle != null)
+			{
+				document.title = data.fileTitle;
+			}
 			
+			var pf = graph.pageFormat;
+			var temp = data.scale;
+			pf.width = Math.ceil(pf.width * graph.pageScale);
+			pf.height = Math.ceil(pf.height * graph.pageScale);
+			var scale = 1;
+
+			if (data.fit == '1' && data.sheetsAcross != null && data.sheetsDown != null)
+			{
+				var h = data.sheetsAcross;
+				var v = data.sheetsDown;
+
+				if (!isNaN(temp))
+				{
+					pf.width = Math.ceil(pf.width * temp);
+					pf.height = Math.ceil(pf.height * temp);
+				}
+				
+				scale = Math.min((pf.height * v) / (gb.height / graph.view.scale),
+					(pf.width * h) / (gb.width / graph.view.scale));
+			}
+			else
+			{
+				scale = !isNaN(temp) ? temp : 1;
+			}
+
+			// Applies print scale
+			data.scale = scale * printScale;
+
 			graph.getPageSize = function()
 			{
 				return new mxRectangle(0, 0, this.pageFormat.width * this.pageScale,
@@ -792,7 +854,8 @@ function render(data)
 				var layout = this.graph.getPageLayout();
 				var page = this.graph.getPageSize();
 				
-				return new mxRectangle(this.scale * (this.translate.x + layout.x * page.width),
+				return new mxRectangle(
+					this.scale * (this.translate.x + layout.x * page.width),
 					this.scale * (this.translate.y + layout.y * page.height),
 					this.scale * layout.width * page.width,
 					this.scale * layout.height * page.height);
@@ -886,7 +949,7 @@ function render(data)
 		bounds.width = Math.ceil(bounds.width + data.border) + 1; //The 1 extra pixels to prevent cutting the cells on the edges when crop is enabled
 		bounds.height = Math.ceil(bounds.height + data.border) + 1; //The 1 extra pixels to prevent starting a new page. TODO Not working in every case
 		
-		//Print to pdf fails for 1x1 pages
+		// Print to pdf fails for 1x1 pages
 		if (bounds.width <= 1 && bounds.height <= 1)
 		{
 			bounds.width = 2;
@@ -899,21 +962,21 @@ function render(data)
 		if (graph.pdfPageVisible)
 		{
 			var pf = graph.pageFormat || mxConstants.PAGE_FORMAT_A4_PORTRAIT;
-			var scale = data.print? data.scale : 1 / graph.pageScale;
-			var autoOrigin = (data.print && data.fit != null) ? data.fit : false;
+			var scale = (data.print || data.format == 'pdf') ? data.scale : 1 / graph.pageScale;
+			var autoOrigin = ((data.print || data.format == 'pdf') && data.fit == '1') ||
+				data.crop == '1' || xmlDoc.documentElement.getAttribute('page') != '1';
 			var border = 0;
 
 			// Negative coordinates are cropped or shifted if page visible
-			var gb = graph.getGraphBounds();
 			var x0 = 0;
 			var y0 = 0;
 	
-			// Applies print scale
-			pf = mxRectangle.fromRectangle(pf);
-			pf.width = Math.ceil(pf.width * printScale) + 1; //The 1 extra pixels to prevent cutting the cells on the right edge of the page
-			pf.height = Math.ceil(pf.height * printScale) + 1; //The 1 extra pixels to prevent starting a new page. TODO Not working in every case
-			scale *= printScale;	
-			
+			if (data.crop == '1')
+			{
+				pf.width = (gb.width + 1.5) * scale;
+				pf.height = (gb.height + 1.5) * scale;
+			}
+
 			// Starts at first visible page
 			if (!autoOrigin)
 			{
@@ -929,16 +992,59 @@ function render(data)
 				preview = new mxPrintPreview(graph, scale, pf, border, x0, y0);
 				preview.printBackgroundImage = true;
 				preview.autoOrigin = autoOrigin;
-				preview.backgroundColor = gridColor? 'transparent' : bg;
+				preview.backgroundColor = bg;
+				preview.pageMargin = (data.pageMargin != null) ?
+					parseInt(data.pageMargin) : ((data.crop == '1') ?
+						0 : preview.pageMargin);
+				
+				// Replaces background images with SVG subtrees
+				var previewDrawBackgroundImage = preview.drawBackgroundImage;
+				
+				preview.drawBackgroundImage = function(img)
+				{
+					previewDrawBackgroundImage.apply(this, arguments);
+
+					if (img.node != null)
+					{
+						EditorUi.embedSvgImages(img.node);
+
+						graph.disableSvgLinks(img.node, function(link)
+						{
+							link.setAttribute('href', 'javascript:void(0)');		
+						});
+					}
+				};
+
+				// Renders the grid and configures math
+				var previewAddGraphFragment = preview.addGraphFragment;
+
+				preview.addGraphFragment = function(dx, dy, scale, pageNumber, div, clip)
+				{
+					previewAddGraphFragment.apply(this, arguments);
+
+					// Disables math rendering in graph
+					if (!graph.mathEnabled)
+					{
+						div.classList.add('geDisableMathJax')
+					}
+
+					waitForGoogleFontImports(div);
+				};
+
 				// Renders print output into this document and removes the graph container
-				preview.open(null, window, null, null, anchorId);
-				graph.container.parentNode.removeChild(graph.container);
+				preview.gridColor = gridColor;
+				preview.gridSize = graph.gridSize;
+				preview.gridSteps = graph.view.gridSteps;
+				preview.open(null, window, null, null, anchorId, pf);
 			}
 			else
 			{
+				preview.gridColor = gridColor;
+				preview.gridSize = graph.gridSize;
+				preview.gridSteps = graph.view.gridSteps;
 				preview.backgroundColor = bg;
 				preview.autoOrigin = autoOrigin; 
-				preview.appendGraph(graph, scale, x0, y0, null, null, anchorId);
+				preview.appendGraph(graph, scale, x0, y0, null, null, anchorId, pf);
 			}
 
 			// Adds shadow
@@ -1004,8 +1110,8 @@ function render(data)
 	{
 		var to = diagrams.length - 1;
 		
-		//Parameters to and all pages should not be sent with formats other than PDF with page view enabled
-		if (!data.allPages)
+		// Parameters to and all pages should not be sent with formats other than PDF with page view enabled
+		if (data.allPages != '1')
 		{
 			if (data.pageId != null)
 			{
@@ -1047,7 +1153,9 @@ function render(data)
 			
 			return graphGetGlobalVariable.apply(this, arguments);
 		};
-			
+
+		waitCounter += to - from + 1;
+		
 		for (var i = from; i <= to; i++) 
 		{
 			if (diagrams[i] != null)
@@ -1068,13 +1176,21 @@ function render(data)
 				from = i;
 				renderPage(diagrams[i].getAttribute('id'));
 			}
+
+			decrementWaitCounter();
 		}
 	}
 	else
 	{
 		renderPage();
 	}
-	
+
+	if (preview != null)
+	{
+		preview.addPendingCss(document);
+		Graph.rewritePageLinks(document, true);
+	}
+
 	if (fallbackFont)
 	{
 		// Add a fallbackFont font to all labels in case the selected font doesn't support the character
@@ -1082,13 +1198,18 @@ function render(data)
 		// Use this with a custom font-face in export-fonts.css file
 		document.querySelectorAll('foreignObject div').forEach(d => d.style.fontFamily = (d.style.fontFamily || '') + ', ' + fallbackFont);
 	}
-	
-	renderGrid();
+
+	if (data.format == 'pdf')
+	{
+		graph.container.parentNode.removeChild(graph.container);
+	}
+
 	// Includes images in SVG and HTML labels
 	waitForImages('image', 'xlink:href');
 	waitForImages('img', 'src');
 	renderMath(document.body);
-	// Immediate return if not waiting for any content
+	
+	// Invokes callback
 	decrementWaitCounter();
 	
 	return graph;

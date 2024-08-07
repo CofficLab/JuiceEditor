@@ -3,6 +3,7 @@
     @click="focusedNode.toggleBlockquote().run()"
     class="tooltip"
     data-tip="引用"
+    size="md"
     :class="{ 'is-active': editor.isActive('blockquote') }"
   >
     <img :src="icon" />

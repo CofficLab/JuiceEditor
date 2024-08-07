@@ -8,7 +8,7 @@
  * @param {number} x X-coordinate of the point.
  * @param {number} y Y-coordinate of the point.
  */
-LocalFile = function(ui, data, title, temp, fileHandle, desc)
+LocalFile = function(ui, data, title, temp, fileHandle, desc, editable)
 {
 	DrawioFile.call(this, ui, data);
 	
@@ -16,6 +16,7 @@ LocalFile = function(ui, data, title, temp, fileHandle, desc)
 	this.mode = (temp) ? null : App.MODE_DEVICE;
 	this.fileHandle = fileHandle;
 	this.desc = desc;
+	this.editable = editable;
 };
 
 //Extends mxEventSource
@@ -80,9 +81,10 @@ LocalFile.prototype.isRenamable = function()
  * @param {number} dx X-coordinate of the translation.
  * @param {number} dy Y-coordinate of the translation.
  */
-LocalFile.prototype.save = function(revision, success, error)
+LocalFile.prototype.isEditable = function()
 {
-	this.saveAs(this.title, success, error);
+	return DrawioFile.prototype.isEditable.apply(this, arguments) &&
+		(this.editable == null || this.editable);
 };
 
 /**
@@ -91,9 +93,10 @@ LocalFile.prototype.save = function(revision, success, error)
  * @param {number} dx X-coordinate of the translation.
  * @param {number} dy Y-coordinate of the translation.
  */
-LocalFile.prototype.saveAs = function(title, success, error)
+LocalFile.prototype.setEditable = function(editable)
 {
-	this.saveFile(title, false, success, error);
+	this.editable = editable;
+	this.descriptorChanged();
 };
 
 /**
@@ -102,9 +105,20 @@ LocalFile.prototype.saveAs = function(title, success, error)
  * @param {number} dx X-coordinate of the translation.
  * @param {number} dy Y-coordinate of the translation.
  */
-LocalFile.prototype.saveAs = function(title, success, error)
+LocalFile.prototype.save = function(revision, success, error, unloading, overwrite)
 {
-	this.saveFile(title, false, success, error);
+	this.saveAs(this.title, success, error, unloading, overwrite);
+};
+
+/**
+ * Translates this point by the given vector.
+ * 
+ * @param {number} dx X-coordinate of the translation.
+ * @param {number} dy Y-coordinate of the translation.
+ */
+LocalFile.prototype.saveAs = function(title, success, error, unloading, overwrite)
+{
+	this.saveFile(title, false, success, error, null, unloading, overwrite);
 };
 
 /**
@@ -150,12 +164,13 @@ LocalFile.prototype.getLatestVersion = function(success, error)
  * @param {number} dx X-coordinate of the translation.
  * @param {number} dy Y-coordinate of the translation.
  */
-LocalFile.prototype.saveFile = function(title, revision, success, error, useCurrentData)
+LocalFile.prototype.saveFile = function(title, revision, success, error, useCurrentData, unloading, overwrite)
 {
 	if (title != this.title)
 	{
 		this.fileHandle = null;
 		this.desc = null;
+		this.editable = null;
 	}
 	
 	this.title = title;
@@ -174,7 +189,7 @@ LocalFile.prototype.saveFile = function(title, revision, success, error, useCurr
 	{
 		this.setModified(this.getShadowModified());
 		this.contentChanged();
-		
+
 		if (success != null)
 		{
 			success();
@@ -203,7 +218,7 @@ LocalFile.prototype.saveFile = function(title, revision, success, error, useCurr
 				});
 				
 				// Saves a copy as a draft while saving
-				this.saveDraft();
+				this.saveDraft(savedData);
 				
 				this.fileHandle.createWritable().then(mxUtils.bind(this, function(writable)
 				{
@@ -216,7 +231,7 @@ LocalFile.prototype.saveFile = function(title, revision, success, error, useCurr
 							'conflict', this.desc.lastModified !=
 								newDesc.lastModified);
 						
-						if (this.desc.lastModified == newDesc.lastModified)
+						if (overwrite || this.desc.lastModified == newDesc.lastModified)
 						{
 							writable.write((binary) ? this.ui.base64ToBlob(data, 'image/png') : data).then(mxUtils.bind(this, function()
 							{
