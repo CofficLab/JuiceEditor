@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- Monaco -->
     <iframe
       :name="name"
       ref="iframe"
@@ -67,7 +68,7 @@ function handleMessage(event: {
     iframe.value.style.height = `${event.data.height}px` // 设置 iframe 高度
   }
 
-  if (event.data.event === 'update' && event.data.content) {
+  if (event.data.event === 'update') {
     props.onUpdated(event.data.content)
   }
 }

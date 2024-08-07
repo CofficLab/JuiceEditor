@@ -13,7 +13,7 @@
     ></FloatMenus>
 
     <div
-      class="flex flex-row justify-center py-4 4md:justify-center"
+      class="flex flex-row justify-center pt-4 pb-24 4md:justify-center"
       :class="{
         'md:justify-end': shouldShowToc
       }"
@@ -39,7 +39,7 @@
           '2xl:max-w-4xl': true,
           '2xl:px-12': true,
           '2xl:py-8': true,
-          'dark:bg-gray-800': true,
+          'dark:bg-zinc-900/30': true,
           'shadow-inner': true,
           'shadow-3xl': true,
           rounded: true

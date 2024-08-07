@@ -48,10 +48,24 @@ onMounted(() => {
 })
 
 function onUpdated(content: string) {
-  let firstChild = props.node.firstChild!
+  console.log('on update with content: ', content)
+  console.log('current node', props.node)
+
+  let firstChild = props.node.firstChild
+
+  if (firstChild == null) {
+    console.log('first child is null')
+    props.editor
+      .chain()
+      .insertContentAt(props.getPos() + 1, content)
+      .run()
+    return
+  }
+
   let firstChildPos = props.getPos() + 1
   let firstChildPosEnd = firstChildPos + firstChild.nodeSize
 
+  console.log('insertAt: ', firstChildPos, firstChildPosEnd, content)
   props.editor
     .chain()
     .insertContentAt(
