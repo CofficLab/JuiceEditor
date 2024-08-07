@@ -1,7 +1,6 @@
 <template>
   <Button
-    class="tooltip"
-    data-tip="提示框"
+    tip="提示框"
     @click="editor.chain().focus().toggleBanner().run()"
     :class="{ 'is-active': editor.isActive('banner') }"
   >

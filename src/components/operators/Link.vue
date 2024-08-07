@@ -2,7 +2,7 @@
   <Button
     v-if="!editor.isActive('link')"
     @click="setLink"
-    data-tip="链接"
+    tip="链接"
     :class="{ 'btn-disabled': editor.isActive('link'), tooltip: iconOnly }"
   >
     <img :src="icon" v-if="iconOnly" />

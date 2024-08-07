@@ -1,10 +1,5 @@
 <template>
-  <Button
-    class="w-10 tooltip"
-    data-tip="添加表格"
-    v-if="enable"
-    @click="editor.chain().focus().insertSmartTable().run()"
-  >
+  <Button tip="添加表格" v-if="enable" @click="editor.chain().focus().insertSmartTable().run()">
     <IconTableCell></IconTableCell>
   </Button>
 </template>

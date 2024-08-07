@@ -1,10 +1,5 @@
 <template>
-  <Button
-    v-if="!editor.isActive('heading')"
-    @click="focusedNode.toggleBold().run()"
-    class="tooltip"
-    data-tip="加粗"
-  >
+  <Button v-if="!editor.isActive('heading')" @click="focusedNode.toggleBold().run()" tip="加粗">
     <img :src="icon" v-if="iconOnly" />
     <span v-if="!iconOnly">加粗</span>
   </Button>

@@ -1,5 +1,5 @@
 <template>
-  <Button data-tip="画图" v-if="isDrawEnable" @click="editor.commands.insertDraw()">
+  <Button tip="画图" v-if="isDrawEnable" @click="editor.commands.insertDraw()">
     <img :src="icon" alt="" class="mx-auto" />
   </Button>
 </template>

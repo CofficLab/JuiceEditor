@@ -1,10 +1,10 @@
 <template>
   <Button
     @click="focusedNode.toggleHeading({ level: props.level as Level }).run()"
-    :data-tip="props.level + '号标题'"
+    size="md"
+    :tip="props.level + '号标题'"
     :class="{
-      'is-active': editor.isActive('heading', { level: props.level }),
-      tooltip: iconOnly
+      'is-active': editor.isActive('heading', { level: props.level })
     }"
   >
     <span v-text="text"></span>

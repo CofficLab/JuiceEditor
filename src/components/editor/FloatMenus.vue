@@ -2,7 +2,6 @@
   <!-- 回车后显示的菜单 -->
   <div>
     <floating-menu
-      class="flex flex-row flex-wrap px-2 py-1 ml-2 rounded-md floating-menu bg-info/95 text-info-content"
       :tippy-options="{
         duration: 100,
         maxWidth: 800,
@@ -12,18 +11,20 @@
       :editor="editor"
       :should-show="shouldShowFloatingMenu"
     >
-      <Heading :editor="editor" :level="2" />
-      <Heading :editor="editor" :level="3" />
-      <Heading :editor="editor" :level="4" />
-      <Heading :editor="editor" :level="5" />
-      <Heading :editor="editor" :level="6" />
-      <Banner :editor="editor" />
-      <Image :editor="editor" />
-      <Draw :editor="editor" />
-      <TaskList :editor="editor" />
-      <Table :editor="editor"></Table>
-      <SmartPre :editor="editor"></SmartPre>
-      <GroupPre :editor="editor"></GroupPre>
+      <ButtonBar>
+        <Heading :editor="editor" :level="2" />
+        <Heading :editor="editor" :level="3" />
+        <Heading :editor="editor" :level="4" />
+        <Heading :editor="editor" :level="5" />
+        <Heading :editor="editor" :level="6" />
+        <Banner :editor="editor" />
+        <Image :editor="editor" />
+        <Draw :editor="editor" />
+        <TaskList :editor="editor" />
+        <Table :editor="editor"></Table>
+        <SmartPre :editor="editor"></SmartPre>
+        <GroupPre :editor="editor"></GroupPre>
+      </ButtonBar>
     </floating-menu>
   </div>
 </template>
@@ -39,6 +40,7 @@ import Table from '../operators/Table.vue'
 import TaskList from '../operators/TaskList.vue'
 import SmartPre from '../operators/SmartPre.vue'
 import GroupPre from '../operators/GroupPre.vue'
+import ButtonBar from '../../ui/ButtonBar.vue'
 
 defineProps({
   editor: {

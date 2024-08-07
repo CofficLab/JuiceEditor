@@ -2,7 +2,6 @@
   <!-- 选中后弹出的菜单 -->
   <div>
     <bubble-menu
-      class="flex flex-wrap items-center gap-1 px-2 py-1 rounded-md bubble-menu bg-gray-400/95 text-accent-content"
       :should-show="shouldShow"
       :tippy-options="{
         duration: 100,
@@ -12,18 +11,20 @@
       }"
       :editor="editor"
     >
-      <Heading :editor="editor" :level="2" />
-      <Heading :editor="editor" :level="3" />
-      <Heading :editor="editor" :level="4" />
-      <Heading :editor="editor" :level="5" />
-      <Heading :editor="editor" :level="6" />
-      <Paragraph :editor="editor"></Paragraph>
-      <Bold :editor="editor"></Bold>
-      <Italic :editor="editor"></Italic>
-      <StrikeVue :editor="editor"></StrikeVue>
-      <BulletList :editor="editor"></BulletList>
-      <Code :editor="editor"></Code>
-      <Link :editor="editor"></Link>
+      <ButtonBar>
+        <Heading :editor="editor" :level="2" />
+        <Heading :editor="editor" :level="3" />
+        <Heading :editor="editor" :level="4" />
+        <Heading :editor="editor" :level="5" />
+        <Heading :editor="editor" :level="6" />
+        <Paragraph :editor="editor"></Paragraph>
+        <Bold :editor="editor"></Bold>
+        <Italic :editor="editor"></Italic>
+        <StrikeVue :editor="editor"></StrikeVue>
+        <BulletList :editor="editor"></BulletList>
+        <Code :editor="editor"></Code>
+        <Link :editor="editor"></Link>
+      </ButtonBar>
     </bubble-menu>
   </div>
 </template>
@@ -41,6 +42,7 @@ import StrikeVue from '../operators/Strike.vue'
 import BulletList from '../operators/BulletList.vue'
 import Code from '../operators/Code.vue'
 import Link from '../operators/Link.vue'
+import ButtonBar from '../../ui/ButtonBar.vue'
 
 defineProps({
   editor: {

@@ -1,6 +1,6 @@
 <template>
   <Button
-    data-tip="代码块组"
+    tip="代码块组"
     @click="editor.chain().focus().insertGroupPre().run()"
     :class="{ 'is-active': editor.isActive('SmartPre') }"
   >
