@@ -176,6 +176,9 @@ onMounted(() => {
   document.addEventListener('contextmenu', onContextMenu)
   // document.addEventListener('mousedown', onMouseDown)
   document.addEventListener('click', onClick)
+
+  // 监听 URL 变化
+  window.onpopstate = onURLChanged
 })
 
 onBeforeUnmount(() => {
@@ -186,6 +189,41 @@ onBeforeUnmount(() => {
   document.removeEventListener('click', onClick)
   document.removeEventListener('contextmenu', onContextMenu)
 })
+
+function onURLChanged() {
+  let hash = window.location.hash
+  if (hash) {
+    goto(hash.substring(1), 'juice-editor')
+  }
+}
+
+function goto(id: string, shadowHostSelector: string) {
+  console.log('🍋 TiptapEditor: goto', id)
+
+  // 获取 Shadow DOM 的宿主元素
+  const shadowHost = document.querySelector(shadowHostSelector)
+  if (!shadowHost) {
+    console.error('Shadow host not found')
+    return
+  }
+
+  // 访问 Shadow DOM
+  const shadowRoot = shadowHost.shadowRoot
+  if (!shadowRoot) {
+    console.error('Shadow root not found')
+    return
+  }
+
+  // 获取目标 div
+  const targetDiv = shadowRoot.getElementById(id)
+
+  // 如果找到目标 div，则滚动到该 div
+  if (targetDiv) {
+    targetDiv.scrollIntoView({ behavior: 'smooth' })
+  } else {
+    console.error('Target div not found in Shadow DOM')
+  }
+}
 </script>
 
 <style lang="scss"></style>

@@ -11,6 +11,7 @@
     <Button @click="app.setCurrentNode(childrenNode)">带子节点</Button>
     <Button @click="feature.enableEdit" v-if="!feature.editable">编辑模式</Button>
     <Button @click="feature.disableEdit" v-if="feature.editable">只读模式</Button>
+    <Button @click="w.api.event.toggleToc()">TOC</Button>
     <Button @click="feature.enableTable" v-if="!feature.tableEnabled">开启 Table</Button>
     <Button @click="feature.disableTable" v-if="feature.tableEnabled">关闭 Table</Button>
     <Button @click="feature.enableDraw" v-if="!feature.drawEnabled">开启 Draw</Button>
@@ -33,9 +34,9 @@ import liteNode from '../samples/LiteNode'
 import bannerNode from '../samples/BannerNode'
 import childrenNode from '../samples/ChildrenNode'
 import Button from '../ui/Button.vue'
-import TopBar from '../ui/TopBar.vue'
 import ButtonBar from '../ui/ButtonBar.vue'
 
 const feature = useFeatureStore()
 const app = useAppStore()
+const w = window
 </script>

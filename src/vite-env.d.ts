@@ -1,5 +1,8 @@
 /// <reference types="vite/client" />
 
+import { Store } from 'pinia'
+import EventManager from './event/EventManager'
+
 declare module '*.vue' {
     import type { DefineComponent } from 'vue'
     const component: DefineComponent<{}, {}, any>
@@ -7,13 +10,10 @@ declare module '*.vue' {
 }
 
 declare interface Window {
-    api: Object
+    api: object
     runner: Function
     runnerCallback: Function
-}
-
-interface Window {
-    setCode: (code: string) => void; // 根据实际参数类型调整
+    setCode: (code: string) => void
 }
 
 
