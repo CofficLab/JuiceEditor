@@ -1,7 +1,7 @@
 <template>
   <div
     ref="panel"
-    class="z-10 w-full dropdown dropdown-open"
+    class="z-10 w-full relative"
     :id="id"
     :class="{
       inline: inline,
@@ -9,6 +9,15 @@
       'dropdown-top': !dropdownBottom
     }"
   >
+    <div class="z-50 absolute -top-10" v-show="isSelected" contenteditable="false">
+      <ButtonBar>
+        <slot name="operators"></slot>
+        <Button tip="删除" @click="deleteNode">
+          <IconDelete></IconDelete>
+        </Button>
+      </ButtonBar>
+    </div>
+
     <div
       tabindex="0"
       role="button"
@@ -22,15 +31,6 @@
     >
       <slot name="content"></slot>
     </div>
-
-    <div class="z-50 my-2 dropdown-content" v-show="isSelected" contenteditable="false">
-      <div class="z-50 border shadow-2xl bg-slate-500 join border-accent/60 operators">
-        <slot name="operators"></slot>
-        <Button data-tip="删除" @click="deleteNode">
-          <IconDelete></IconDelete>
-        </Button>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -40,6 +40,7 @@ import { v4 as uuidv4 } from 'uuid'
 import IconDelete from './BaseIcons/Delete.vue'
 import { useAppStore } from '../provider/AppStore'
 import Button from '../ui/Button.vue'
+import ButtonBar from '../ui/ButtonBar.vue'
 
 const app = useAppStore()
 

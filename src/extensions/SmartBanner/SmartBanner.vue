@@ -33,36 +33,36 @@
       </template>
 
       <template v-slot:operators>
-        <button class="btn btn-sm join-item" @click="setStyleToCyan">
+        <Button @click="setStyleToCyan">
           <Info class="w-5 h-6 text-cyan-500"></Info>
-        </button>
-        <button class="btn btn-sm join-item" @click="setStyleToBlue">
+        </Button>
+        <Button @click="setStyleToBlue">
           <Info class="w-5 h-6 text-blue-500"></Info>
-        </button>
-        <button class="btn btn-sm join-item" @click="setStyleToYellow">
+        </Button>
+        <Button @click="setStyleToYellow">
           <Info class="w-5 h-6 text-yellow-500"></Info>
-        </button>
-        <button class="btn btn-sm join-item" @click="setStyleToRed">
+        </Button>
+        <Button @click="setStyleToRed">
           <Info class="w-5 h-6 text-red-500"></Info>
-        </button>
-        <button class="btn btn-sm join-item" @click="setStyleToGreen">
+        </Button>
+        <Button @click="setStyleToGreen">
           <Info class="w-5 h-6 text-green-500"></Info>
-        </button>
-        <button class="btn btn-sm join-item" @click="setStyleToCyanQuestion">
+        </Button>
+        <Button @click="setStyleToCyanQuestion">
           <Question class="w-5 h-6 text-cyan-500"></Question>
-        </button>
-        <button class="btn btn-sm join-item" @click="setStyleToBlueQuestion">
+        </Button>
+        <Button @click="setStyleToBlueQuestion">
           <Question class="w-5 h-6 text-blue-500"></Question>
-        </button>
-        <button class="btn btn-sm join-item" @click="setStyleToYellowQuestion">
+        </Button>
+        <Button @click="setStyleToYellowQuestion">
           <Question class="w-5 h-6 text-yellow-500"></Question>
-        </button>
-        <button class="btn btn-sm join-item" @click="setStyleToRedQuestion">
+        </Button>
+        <Button @click="setStyleToRedQuestion">
           <Question class="w-5 h-6 text-red-500"></Question>
-        </button>
-        <button class="btn btn-sm join-item" @click="setStyleToGreenQuestion">
+        </Button>
+        <Button @click="setStyleToGreenQuestion">
           <Question class="w-5 h-6 text-green-500"></Question>
-        </button>
+        </Button>
       </template>
     </Panel>
   </NodeViewWrapper>
@@ -75,6 +75,7 @@ import Question from './Icons/Question.vue'
 import IconDelete from './Icons/Delete.vue'
 import { computed, onMounted } from 'vue'
 import Panel from '../Panel.vue'
+import Button from '../../ui/Button.vue'
 
 const props = defineProps(nodeViewProps)
 

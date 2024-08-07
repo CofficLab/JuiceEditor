@@ -1,5 +1,10 @@
 <template>
-  <Button tip="添加表格" v-if="enable" @click="editor.chain().focus().insertSmartTable().run()">
+  <Button
+    tip="添加表格"
+    size="md"
+    v-if="enable"
+    @click="editor.chain().focus().insertSmartTable().run()"
+  >
     <IconTableCell></IconTableCell>
   </Button>
 </template>

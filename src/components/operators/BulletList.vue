@@ -2,6 +2,7 @@
   <Button
     @click="focusedNode.toggleBulletList().run()"
     tip="无序列表"
+    size="md"
     :class="{ 'is-active': editor.isActive('bulletList') }"
   >
     <img :src="bulletListIcon" v-if="iconOnly" />

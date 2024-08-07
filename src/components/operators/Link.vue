@@ -3,6 +3,7 @@
     v-if="!editor.isActive('link')"
     @click="setLink"
     tip="链接"
+    size="md"
     :class="{ 'btn-disabled': editor.isActive('link'), tooltip: iconOnly }"
   >
     <img :src="icon" v-if="iconOnly" />

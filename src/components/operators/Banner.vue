@@ -1,6 +1,7 @@
 <template>
   <Button
     tip="提示框"
+    size="md"
     @click="editor.chain().focus().toggleBanner().run()"
     :class="{ 'is-active': editor.isActive('banner') }"
   >

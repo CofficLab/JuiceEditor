@@ -8,15 +8,15 @@
       </template>
 
       <template v-slot:operators>
-        <button class="btn btn-sm join-item" @click="openLoading">
-          <IconEdit class="w-5 h-5"></IconEdit>
-        </button>
-        <button class="btn btn-sm join-item" @click="downloadImage">
-          <IconDownload class="w-5 h-5"></IconDownload>
-        </button>
-        <button class="btn btn-sm join-item" @click="Helper.newLine(props)">
-          <IconNewLine class="w-5 h-5"></IconNewLine>
-        </button>
+        <Button @click="openLoading">
+          <IconEdit></IconEdit>
+        </Button>
+        <Button @click="downloadImage">
+          <IconDownload></IconDownload>
+        </Button>
+        <Button @click="Helper.newLine(props)">
+          <IconNewLine></IconNewLine>
+        </Button>
       </template>
     </Panel>
   </NodeViewWrapper>
@@ -35,6 +35,7 @@ import Opening from './Opening.vue'
 import webkit from '../../api/WebKit'
 import Base64Helper from './Helper'
 import Panel from '../Panel.vue'
+import Button from '../../ui/Button.vue'
 
 const img = ref<HTMLImageElement | null>(null)
 const opening = ref<HTMLImageElement | null>(null)

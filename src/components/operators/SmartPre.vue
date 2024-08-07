@@ -1,6 +1,7 @@
 <template>
   <Button
     tip="代码块"
+    size="md"
     @click="editor.chain().focus().insertSmartPre().run()"
     :class="{ 'is-active': editor.isActive('SmartPre') }"
   >

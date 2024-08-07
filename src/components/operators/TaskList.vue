@@ -2,6 +2,7 @@
   <Button
     @click="focusedNode.toggleTaskList().run()"
     tip="待办事项"
+    size="md"
     :class="{ 'is-active': editor.isActive('taskList') }"
   >
     <img :src="icon" />

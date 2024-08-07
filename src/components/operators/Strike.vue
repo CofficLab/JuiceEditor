@@ -2,6 +2,7 @@
   <Button
     @click="focusedNode.toggleStrike().run()"
     tip="中横线"
+    size="md"
     :class="{ 'is-active': editor.isActive('strike') }"
   >
     <img :src="icon" v-if="iconOnly" />

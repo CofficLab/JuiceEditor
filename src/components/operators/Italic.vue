@@ -2,6 +2,7 @@
   <Button
     @click="focusedNode.toggleItalic().run()"
     tip="斜体"
+    size="md"
     :class="{ 'is-active': editor.isActive('italic') }"
   >
     <img :src="icon" v-if="iconOnly" />
