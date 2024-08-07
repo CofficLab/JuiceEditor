@@ -68,7 +68,16 @@
 
                 onUpdate(editor.getValue());
             })
+
+            editor.getModel().onDidChangeLanguage(() => {
+                console.log('🍋 💼 Monaco: monaco language changed', editor.getModel().getLanguageId());
+            })
         });
+
+        window.setLanguage = function (language) {
+            console.log("💼 Monaco: 设置 monaco editor 的语言", language);
+            monaco.editor.setModelLanguage(editor.getModel(), language);
+        };
 
         window.setCode = function (code) {
             editor.setValue(code);
