@@ -79,6 +79,8 @@ function onIframeClick(event: {
   if (event.data.event == 'click') {
     let id = event.data.sender
 
+    isSelected.value = false
+
     if (panel.value?.querySelector('[name="' + id + '"]')) {
       isSelected.value = true
     }
@@ -86,7 +88,7 @@ function onIframeClick(event: {
 }
 
 function onClick(e: Event) {
-  console.log('🍉 Panel: 事件监听')
+  // console.log('🍉 Panel: 事件监听')
 
   // 获取事件路径
   const path = e.composedPath()
@@ -100,8 +102,6 @@ function onClick(e: Event) {
 
     let target = clickedElement as HTMLElement
     isSelected.value = target.closest('#' + id) != null
-  } else {
-    console.log('Clicked element:', e.target)
   }
 }
 

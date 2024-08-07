@@ -37,6 +37,20 @@ const props = defineProps({
   }
 })
 
+// 选择要观察的目标节点
+const targetNode = document.querySelector('juice-editor')!
+
+// 创建观察者选项
+const config = { childList: true, subtree: true, characterData: true }
+
+// 创建一个 MutationObserver 实例，并传入回调函数
+const observer = new MutationObserver((mutationsList) => {
+  setEditorContent()
+})
+
+// 开始观察目标节点
+observer.observe(targetNode, config)
+
 const feature = useFeatureStore()
 const app = useAppStore()
 const node = computed(() => {
@@ -49,15 +63,22 @@ onMounted(() => {
   // 将方法暴露到外部，swift 可以调用
   setApi(app, feature)
 
-  let content = document.querySelector('juice-editor')!.innerHTML
-  app.setCurrentNodeContent(content)
-  app.setReady()
-  document.querySelector('juice-editor')!.innerHTML = ''
+  setEditorContent()
 
   // if (!feature.contextMenu) {
   //   document.addEventListener('contextmenu', event => event.preventDefault());
   // }
 })
+
+function setEditorContent() {
+  let content = document.querySelector('juice-editor')!.innerHTML
+  app.setCurrentNodeContent(content)
+  app.setReady()
+
+  observer.disconnect()
+  targetNode.innerHTML = ''
+  observer.observe(targetNode, config)
+}
 </script>
 
 <style>
