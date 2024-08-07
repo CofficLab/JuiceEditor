@@ -1,37 +1,27 @@
 <template>
-  <div
-    class="modal-box flex flex-col justify-center items-center w-56 p-0"
-    v-show="visible"
-    ref="dom"
-  >
+  <div v-show="visible" ref="dom">
     <template v-if="!canShowDrawing">
-      <div class="font-bold text-lg m-0 mt-4">请将窗口调宽一点</div>
-      <p class="text-center text-xs">画图要求的最小宽度：1000</p>
-      <div class="stats shadow-3xl bg-blue-100/50 w-full mt-4 rounded-none">
-        <div class="stat">
-          <div class="stat-title text-center">当前宽度</div>
-          <div class="stat-value text-center">{{ width }}</div>
-        </div>
-      </div>
+      <Card
+        title="请将窗口调宽一点"
+        subTitle="画图要求的最小宽度：1000"
+        line1="当前宽度"
+        :line2="width.toString()"
+      ></Card>
     </template>
 
     <template v-else>
-      <div class="font-bold text-lg m-0 mt-4">正在打开画图界面</div>
-      <div class="stats shadow-3xl bg-blue-100/50 w-full mt-4 rounded-none">
-        <div class="stat">
-          <div class="stat-title text-center">
-            <span class="loading loading-ring loading-lg"></span>
-          </div>
-        </div>
-      </div>
+      <Card title="正在打开画图界面" :showLoading="true"></Card>
     </template>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onUnmounted, ref, watch } from 'vue'
+import { onMounted, onUnmounted, ref, watch, computed } from 'vue'
+import Card from '../../ui/Card.vue'
 
 const loadingDialog = document.createElement('dialog')
+loadingDialog.style.border = 'none'
+
 const dom = ref<HTMLElement>(null as unknown as HTMLElement)
 
 const props = defineProps({
@@ -49,6 +39,7 @@ const props = defineProps({
 
 const width = ref(window.innerWidth)
 const canShowDrawing = ref(isWidthEnough())
+const visible = computed(() => props.visible)
 
 function isWidthEnough() {
   return width.value >= 1000
@@ -65,6 +56,16 @@ function refreshWidth() {
   }
 }
 
+function showModal() {
+  loadingDialog.classList.add('modal')
+  loadingDialog.appendChild(dom.value)
+
+  let shadowRoot = document.querySelector('juice-editor').shadowRoot
+
+  shadowRoot.appendChild(loadingDialog)
+  loadingDialog.showModal()
+}
+
 onMounted(() => {
   console.log('Opening mounted')
   window.addEventListener('resize', refreshWidth)
@@ -77,19 +78,15 @@ onUnmounted(() => {
   window.removeEventListener('resize', refreshWidth)
 })
 
-watch(
-  () => props.visible,
-  () => {
-    if (!props.visible) {
-      loadingDialog.close()
-    } else if (canShowDrawing.value) {
-      props.onReady()
-
-      loadingDialog.classList.add('modal')
-      loadingDialog.appendChild(dom.value)
-      document.body.appendChild(loadingDialog)
-      loadingDialog.showModal()
-    }
+watch(visible, () => {
+  if (!props.visible) {
+    return loadingDialog.close()
   }
-)
+
+  showModal()
+
+  if (canShowDrawing.value) {
+    props.onReady()
+  }
+})
 </script>

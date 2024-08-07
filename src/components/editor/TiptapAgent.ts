@@ -18,7 +18,6 @@ interface Props {
 
 class TiptapAgent {
     static create(props: Props): Editor {
-        console.log(props)
         return new Editor({
             extensions: makeExtensions({
                 drawIoLink: props.drawIoLink,

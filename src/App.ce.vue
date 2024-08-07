@@ -44,10 +44,6 @@ const node = computed(() => {
 })
 
 onMounted(() => {
-  console.log('Mounted')
-
-  console.log(props)
-
   app.monacoLink = props.monaco
 
   // 将方法暴露到外部，swift 可以调用

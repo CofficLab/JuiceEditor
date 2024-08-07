@@ -74,12 +74,20 @@
             editor.setValue(code);
         };
 
+        window.addEventListener('click', function () {
+            onClick();
+        });
+
         function onUpdate(content) {
             window.parent.postMessage({ sender: window.name, event: 'update', content }, '*');
         }
 
         function onReady() {
             window.parent.postMessage({ sender: window.name, event: 'ready' }, '*');
+        }
+
+        function onClick() {
+            window.parent.postMessage({ sender: window.name, event: 'click' }, '*');
         }
 
         function getLinesHeight(editor) {

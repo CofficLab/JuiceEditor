@@ -1,6 +1,6 @@
 <template>
   <NodeViewWrapper>
-    <Panel :deleteNode="props.deleteNode">
+    <Panel :deleteNode="props.deleteNode" :show-border="true" :forceDisplay="forceDisplay">
       <template v-slot:content>
         <div>
           <!-- 编辑区域 -->
@@ -15,6 +15,8 @@
           <NodeViewContent class="hidden"></NodeViewContent>
         </div>
       </template>
+
+      <template v-slot:operators> </template>
     </Panel>
   </NodeViewWrapper>
 </template>
@@ -30,6 +32,7 @@ const content = ref(props.node.textContent)
 const pos = props.getPos() // 获取当前节点的位置
 const resolvedPos = props.editor.state.doc.resolve(pos) // 解析位置
 const currentNodeIndex = resolvedPos.index() // 获取当前节点在父节点中的索引
+const forceDisplay = ref(false)
 
 const show = computed(() => {
   let parent = props.editor.state.doc.resolve(props.getPos()).parent

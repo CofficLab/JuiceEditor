@@ -40,8 +40,16 @@ import Button from '../../ui/Button.vue'
 const img = ref<HTMLImageElement | null>(null)
 const opening = ref<HTMLImageElement | null>(null)
 const props = defineProps(nodeViewProps)
+
 const drawingPage = document.createElement('iframe')
+drawingPage.setAttribute('frameborder', '0')
+drawingPage.setAttribute('src', makeDrawUrl(props.extension.options.drawIoLink))
+drawingPage.setAttribute('width', '100%')
+drawingPage.setAttribute('height', '100%')
+
 const drawingDialog = document.createElement('dialog')
+drawingDialog.classList.add('modal')
+drawingDialog.style.border = 'none'
 
 const isOpening = ref(false)
 const isSelected = ref(false)
@@ -80,13 +88,6 @@ function open() {
   }
 
   console.log('打开画图')
-
-  drawingDialog.classList.add('modal')
-
-  drawingPage.setAttribute('frameborder', '0')
-  drawingPage.setAttribute('src', makeDrawUrl(props.extension.options.drawIoLink))
-  drawingPage.setAttribute('width', '100%')
-  drawingPage.setAttribute('height', '100%')
 
   drawingDialog.appendChild(drawingPage)
   document.body.appendChild(drawingDialog)

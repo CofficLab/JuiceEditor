@@ -1,7 +1,7 @@
 <template>
   <div
     ref="panel"
-    class="z-10 w-full relative"
+    class="z-10 w-full relative panel"
     :id="id"
     :class="{
       inline: inline,
@@ -35,14 +35,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, computed, watch } from 'vue'
 import { v4 as uuidv4 } from 'uuid'
 import IconDelete from './BaseIcons/Delete.vue'
-import { useAppStore } from '../provider/AppStore'
 import Button from '../ui/Button.vue'
 import ButtonBar from '../ui/ButtonBar.vue'
-
-const app = useAppStore()
 
 const props = defineProps({
   inline: {
@@ -65,14 +62,31 @@ const dropdownBottom = ref(true)
 
 onMounted(() => {
   document.addEventListener('click', onClick)
+
+  // 监听来自 iframe 的消息
+  window.addEventListener('message', onIframeClick)
 })
 
 onUnmounted(() => {
   document.removeEventListener('click', onClick)
+  window.removeEventListener('message', onIframeClick)
 })
 
+function onIframeClick(event: {
+  origin: string
+  data: { sender: string; event: string; height?: number; content?: string }
+}) {
+  if (event.data.event == 'click') {
+    let id = event.data.sender
+
+    if (panel.value?.querySelector('[name="' + id + '"]')) {
+      isSelected.value = true
+    }
+  }
+}
+
 function onClick(e: Event) {
-  // console.log('🍉 Panel: 事件监听')
+  console.log('🍉 Panel: 事件监听')
 
   // 获取事件路径
   const path = e.composedPath()

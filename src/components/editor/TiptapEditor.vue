@@ -22,7 +22,7 @@
       <EditorContent
         :editor="editor"
         :class="{
-          'bg-slate-300/10': false,
+          'bg-slate-300/10': true,
           'md:bg-green-300/10': false,
           'lg:bg-blue-300/10': false,
           'xl:bg-purple-300/10': false,
@@ -39,7 +39,6 @@
           '2xl:max-w-4xl': true,
           '2xl:px-12': true,
           '2xl:py-8': true,
-          'bg-slate-300/10': true,
           'dark:bg-gray-800': true,
           'shadow-inner': true,
           'shadow-3xl': true,
@@ -91,8 +90,6 @@ import Heading from '../../extensions/Toc/Heading'
 import SmartEditorProps from './SmartEditorProps'
 
 const props = defineProps(SmartEditorProps)
-
-console.log('tiptap editor', props)
 
 const editor = TiptapAgent.create({
   uuid: props.uuid,
