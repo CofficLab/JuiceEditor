@@ -17,8 +17,6 @@
       :drawLink="app.drawLink"
       :onUpdate="app.updateNode"
     ></IndexPage>
-
-    <div ref="monacoDom" class="hidden"></div>
   </div>
 </template>
 
@@ -30,11 +28,7 @@ import { useFeatureStore } from './provider/FeatureStore'
 import setApi from './api/ApiSet'
 import Loading from './ui/Loading.vue'
 import { computed } from 'vue'
-import MonacoBox from './extensions/SmartPre/Entities/MonacoBox'
 import { onMounted, ref } from 'vue'
-import { SmartLanguage } from './extensions/SmartPre/Entities/SmartLanguage'
-
-const monacoDom = ref(null as unknown as HTMLDivElement)
 
 const props = defineProps({
   drawio: {
@@ -74,12 +68,6 @@ onMounted(() => {
   // if (!feature.contextMenu) {
   //   document.addEventListener('contextmenu', event => event.preventDefault());
   // }
-
-  MonacoBox.createEditor({
-    content: 'console.log("EEEE")',
-    target: monacoDom.value,
-    language: SmartLanguage.fromString('javascript')
-  })
 })
 
 function setEditorContent() {
@@ -95,5 +83,5 @@ function setEditorContent() {
 
 <style>
 @import './app.css';
-@import '../node_modules/monaco-editor/min/vs/editor/editor.main.css';
+@import 'monaco-editor/min/vs/editor/editor.main.css';
 </style>

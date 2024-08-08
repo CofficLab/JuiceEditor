@@ -28,11 +28,9 @@ import SmartTable from "../extensions/SmartTable/SmartTable"
 import { Base } from "../extensions/Base/Base"
 import { SmartPre } from "../extensions/SmartPre/SmartPre"
 import { GroupPre } from "../extensions/GroupPre/GroupPre"
-import { CodeEditor } from "../extensions/SmartPre2/CodeEditor"
 
 interface makeExtensionsProps {
     drawIoLink?: string,
-    monacoLink: string,
     drawEnable?: boolean,
     tableEnable?: boolean
 }
@@ -63,9 +61,7 @@ export default function makeExtensions(props: makeExtensionsProps) {
                 class: '',
             },
         }),
-        SmartPre.configure({
-            monacoLink: props.monacoLink,
-        }),
+        SmartPre,
         Color.configure({
             types: ['textStyle'],
         }),

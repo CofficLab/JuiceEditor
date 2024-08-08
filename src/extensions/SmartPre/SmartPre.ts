@@ -2,6 +2,7 @@ import CodeBlock from '@tiptap/extension-code-block'
 import { VueNodeViewRenderer } from '@tiptap/vue-3'
 import SmartPreVue from './SmartPre.vue'
 import { v4 as uuidv4 } from 'uuid';
+import MonacoBox from './Entities/MonacoBox';
 
 const verbose = false;
 
@@ -93,6 +94,15 @@ export const SmartPre = CodeBlock.extend({
   onBeforeCreate() {
     log('onBeforeCreate, 存储 UUID ->', this.editor.options.injectNonce)
     this.storage.editorUUID = this.editor.options.injectNonce
+
+    let juiceEditor = document.querySelector('juice-editor')
+    let shadowRoot = juiceEditor!.shadowRoot!
+    let monacoDom = document.createElement('div')
+    monacoDom.id = 'MonacoStyleBox'
+    shadowRoot.appendChild(monacoDom)
+
+    // 仅用于让Monaco将样式写入dom中
+    MonacoBox.createEmptyEditor(monacoDom)
   },
 
   // onUpdate() {

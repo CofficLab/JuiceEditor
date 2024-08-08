@@ -9,11 +9,6 @@ const SmartEditorProps = {
         default: '',
         required: true
     },
-    monacoLink: {
-        type: String,
-        default: '',
-        required: true
-    },
     content: {
         type: String,
         default: ''

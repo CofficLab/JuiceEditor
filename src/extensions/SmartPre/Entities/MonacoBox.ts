@@ -128,6 +128,13 @@ class MonacoBox {
 
         return editor
     }
+
+    static createEmptyEditor(target: HTMLDivElement) {
+        let editor = monaco.editor.create(target, {
+            theme: "hc-black",
+        });
+        editor.dispose()
+    }
 }
 
 export default MonacoBox

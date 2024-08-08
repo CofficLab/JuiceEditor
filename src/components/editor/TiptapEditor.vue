@@ -95,7 +95,6 @@ const editor = TiptapAgent.create({
   uuid: props.uuid,
   content: props.content,
   editable: props.editable,
-  monacoLink: props.monacoLink,
   drawIoLink: props.drawLink,
   drawEnable: props.drawEnable,
   tableEnable: props.tableEnable,
@@ -230,5 +229,3 @@ function log(...message: any[]) {
   if (verbose) console.log('🍋 TiptapEditor:', ...message)
 }
 </script>
-
-<style lang="scss"></style>
