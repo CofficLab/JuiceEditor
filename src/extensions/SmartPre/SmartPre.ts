@@ -3,6 +3,8 @@ import { VueNodeViewRenderer } from '@tiptap/vue-3'
 import SmartPreVue from './SmartPre.vue'
 import { v4 as uuidv4 } from 'uuid';
 
+const verbose = false;
+
 export interface CodeBlockOptions {
   /**
    * Adds a prefix to language classes that are applied to code tags.
@@ -121,11 +123,11 @@ export const SmartPre = CodeBlock.extend<CodeBlockOptions>({
   },
 
   onDestroy() {
-    console.log('🍋  💼 CodeEditor: onTiptapDestroy')
+    log('onTiptapDestroy')
   },
 
   onBeforeCreate() {
-    console.log('🍋 💼 CodeEditor: onBeforeCreate, 存储 UUID ->', this.editor.options.injectNonce)
+    log('onBeforeCreate, 存储 UUID ->', this.editor.options.injectNonce)
     this.storage.editorUUID = this.editor.options.injectNonce
   },
 
@@ -134,3 +136,11 @@ export const SmartPre = CodeBlock.extend<CodeBlockOptions>({
   //   this.storage.editorUUID = this.editor.options.injectNonce
   // },
 })
+
+function log(...messages: any[]) {
+  if (!verbose) {
+    return;
+  }
+
+  console.log('💼 SmartPre:', ...messages)
+}

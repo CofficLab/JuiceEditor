@@ -1,28 +1,39 @@
 <template>
-  <div>
+  <div class="relative">
     <!-- Monaco -->
     <iframe
       :name="name"
       ref="iframe"
-      :src="monacoLink"
+      :src="monacoLink + '?language=' + language.key"
       width="100%"
       height="0"
       frameborder="0"
       allowfullscreen
     ></iframe>
+
+    <div class="absolute top-0 right-0">
+      <LanguageSelect :on-language-changed="onLanguageChanged" :language="props.language" />
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, onBeforeUnmount, onUpdated } from 'vue'
+import { onMounted, ref, onBeforeUnmount } from 'vue'
 import { v4 as uuidv4 } from 'uuid'
+import LanguageSelect from './LanguageSelect.vue'
+import { SmartLanguage } from './Entities/SmartLanguage'
 
+const verbose = false
 const name = uuidv4()
 const iframe = ref<HTMLIFrameElement>(null as unknown as HTMLIFrameElement)
 
 const props = defineProps({
   code: {
     type: String,
+    required: true
+  },
+  language: {
+    type: SmartLanguage,
     required: true
   },
   monacoLink: {
@@ -33,18 +44,27 @@ const props = defineProps({
     type: Function,
     required: true,
     default: () => {}
+  },
+  onLanguageChanged: {
+    type: Function,
+    required: true,
+    default: () => {}
   }
 })
 
 onMounted(() => {
-  console.log('🍋 💼 MonacoCard: mounted')
-
   window.addEventListener('message', handleMessage)
 })
 
 onBeforeUnmount(() => {
   window.removeEventListener('message', handleMessage)
 })
+
+function onLanguageChanged(lan: SmartLanguage) {
+  log('onLanguageChanged ->', lan)
+  iframe.value.contentWindow!.setLanguage(lan.key)
+  props.onLanguageChanged(lan)
+}
 
 function handleMessage(event: {
   origin: string
@@ -70,6 +90,12 @@ function handleMessage(event: {
 
   if (event.data.event === 'update') {
     props.onUpdated(event.data.content)
+  }
+}
+
+function log(...message: any[]) {
+  if (verbose) {
+    console.log('💼 MonacoCard: ', ...message)
   }
 }
 </script>

@@ -34,6 +34,10 @@ const props = defineProps({
   monaco: {
     type: String,
     required: true
+  },
+  drawio: {
+    type: String,
+    required: true
   }
 })
 
@@ -59,6 +63,7 @@ const node = computed(() => {
 
 onMounted(() => {
   app.monacoLink = props.monaco
+  app.drawLink = props.drawio
 
   // 将方法暴露到外部，swift 可以调用
   setApi(app, feature)

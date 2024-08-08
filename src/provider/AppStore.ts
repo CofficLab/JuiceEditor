@@ -6,6 +6,7 @@ import TurndownService from 'turndown'
 import LocalStore from './LocalStore'
 import Config from '../config/config'
 
+const verbose = false
 const config = Config
 const isDebug = config.isDebug
 
@@ -24,7 +25,7 @@ export const useAppStore = defineStore('app-store', {
 
     actions: {
         closeDraw: function () {
-            console.log('🍋 AppStore: close draw')
+            log('close draw')
             document.dispatchEvent(new CustomEvent('close-draw'))
         },
 
@@ -57,7 +58,7 @@ export const useAppStore = defineStore('app-store', {
 
         setCurrentNode: function (data: object) {
             this.loading = true
-            console.log('🍋 AppStore: setCurrentNode && close draw')
+            log('setCurrentNode && close draw')
 
             this.node = new TreeNode(data)
 
@@ -68,7 +69,7 @@ export const useAppStore = defineStore('app-store', {
 
         setCurrentNodeContent: function (content: string) {
             this.loading = true
-            console.log('🍋 AppStore: setCurrentNodeContent')
+            log('setCurrentNodeContent')
 
             this.node.content = content
             this.loading = false
@@ -77,7 +78,7 @@ export const useAppStore = defineStore('app-store', {
         // 设置当前节点的子uuid和content，其中content传递一个通过base64编码的字符
         setUUIDAndContent: function (uuid: string, content: string) {
             this.loading = true
-            console.log('🍋 AppStore: setUUIDAndContent')
+            log('setUUIDAndContent')
 
             let newNode = this.node
             newNode.uuid = uuid
@@ -106,7 +107,7 @@ export const useAppStore = defineStore('app-store', {
         */
         setCurrentNodeChildren: function (children: string) {
             this.loading = true
-            console.log('🍋 AppStore: setCurrentNodeChildren')
+            log('setCurrentNodeChildren')
 
             let data = JSON.parse(decodeURIComponent(escape(atob(children))))
             this.node.children = data.map((element: object) => new TreeNode(element))
@@ -115,11 +116,11 @@ export const useAppStore = defineStore('app-store', {
 
         updateNode: function (data: EditorData) {
             if (data.content == this.node.content) {
-                console.log('🧮 AppStore: 更新节点，没变化，忽略')
+                log('更新节点，没变化，忽略')
                 return
             }
 
-            console.log('🧮 AppStore: 更新节点')
+            log('更新节点')
             // console.log(data.content)
             // console.log(data.json)
 
@@ -143,3 +144,7 @@ export const useAppStore = defineStore('app-store', {
         }
     },
 })
+
+function log(...message: any[]) {
+    if (verbose) console.log("🍋 AppStore:", ...message)
+}

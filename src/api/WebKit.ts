@@ -6,7 +6,7 @@ const webkit = {
             return
         }
 
-        console.log('🍎 WebKit: 调用 WebKit 以通知 Swift 页面加载完成')
+        log('调用 WebKit 以通知 Swift 页面加载完成')
         try {
             ; (window as any).webkit.messageHandlers.sendMessage.postMessage({
                 channel: "pageLoaded"
@@ -18,11 +18,11 @@ const webkit = {
 
     updateNode(data: EditorData) {
         if (!('webkit' in window)) {
-            console.log("🍎 WebKit: 无 WebKit，忽略更新")
+            log("无 WebKit，忽略更新")
             return
         }
 
-        console.log('🍎 WebKit: 调用 WebKit 以更新节点内容', data.uuid, data.title)
+        log('调用 WebKit 以更新节点内容', data.uuid, data.title)
 
         // 异步往 webkit 发送数据，防止界面卡顿
         this.asyncUpdateNodeTask(data).then((result) => {
@@ -35,7 +35,7 @@ const webkit = {
             return
         }
 
-        console.log('🍎 WebKit: 调用 WebKit 以更新 SelectionType')
+        log('调用 WebKit 以更新 SelectionType')
         // 异步往 webkit 发送数据，防止界面卡顿
         this.asyncUpdateSelectionType(type).then((result) => {
             console.log(result)
@@ -69,7 +69,7 @@ const webkit = {
 
     downloadImage(base64: String, name: String) {
         if (!('webkit' in window)) {
-            console.log("🍎 WebKit: 下载图片，无 WebKit，忽略")
+            log("下载图片，无 WebKit，忽略")
             return
         }
 
@@ -121,3 +121,9 @@ const webkit = {
 }
 
 export default webkit
+
+const verbose = false;
+
+function log(...message: any[]) {
+    if (verbose) console.log("🍎 WebKit:", ...message)
+}

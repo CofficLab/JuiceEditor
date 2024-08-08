@@ -16,5 +16,16 @@ declare interface Window {
     setCode: (code: string) => void
 }
 
+declare global {
+    interface Window {
+        api?: {
+            app?: any;
+            event?: EventManager;
+            feature?: any;
+        };
+        setCode: (code: string) => void
+        setLanguage: (lan: string) => void
+    }
+}
 
 declare module 'turndown';

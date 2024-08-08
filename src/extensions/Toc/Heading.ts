@@ -41,7 +41,7 @@ class Heading {
 
     appendNode(node: Heading): Heading {
         if (this.level >= node.level) {
-            throw new Error("不能将" + node.level + "级标题插入到" + this.level + "级标题中，append "+ node.text+" -> " + this.text)
+            throw new Error("不能将" + node.level + "级标题插入到" + this.level + "级标题中，append " + node.text + " -> " + this.text)
         }
 
         if (this.level == node.level - 1) {
@@ -76,7 +76,7 @@ class Heading {
     }
 
     static getHeadings(editor: Editor): Heading[] {
-        console.log('🍋 📖 Toc-Heading: 查找 Headings')
+        log('查找 Headings')
         var headings: Heading[] = []
 
         const transaction = editor.state.tr
@@ -88,7 +88,7 @@ class Heading {
                 if (node.attrs.id !== id) {
                     transaction.setNodeMarkup(pos, undefined, { ...node.attrs, id })
                 }
-                
+
                 headings.push(new Heading()
                     .setId(id)
                     .setText(node.textContent)
@@ -107,3 +107,9 @@ class Heading {
 }
 
 export default Heading
+
+const verbose = false;
+
+function log(...message: any[]) {
+    if (verbose) console.log("🍋 TOC-Heading:", ...message)
+}
