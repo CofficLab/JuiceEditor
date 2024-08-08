@@ -8,7 +8,7 @@
             <MonacoCard
               :code="content"
               :monacoLink="props.extension.options.monacoLink"
-              :onUpdated="onUpdated"
+              :onUpdated="onContentUpdated"
               :language="language"
               :on-language-changed="onLanguageChanged"
             ></MonacoCard>
@@ -27,7 +27,7 @@
 import { NodeViewContent, nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 import Panel from '../Panel.vue'
 import MonacoCard from './MonacoCard.vue'
-import { computed, ref, onMounted } from 'vue'
+import { computed, onUpdated, ref } from 'vue'
 import { SmartLanguage } from './Entities/SmartLanguage'
 
 const props = defineProps(nodeViewProps)
@@ -47,13 +47,18 @@ const show = computed(() => {
   return currentNodeIndex == parent.attrs.current
 })
 
+onUpdated(() => {
+  // 当 Tiptap 更新内容后，该组件不一定会被销毁，可能被 Vue 复用
+  log('updated')
+})
+
 function onLanguageChanged(lan: SmartLanguage) {
   props.updateAttributes({
     language: lan.key
   })
 }
 
-function onUpdated(content: string) {
+function onContentUpdated(content: string) {
   let firstChild = props.node.firstChild
 
   if (firstChild == null) {
@@ -79,5 +84,9 @@ function onUpdated(content: string) {
       content
     )
     .run()
+}
+
+function log(...message: any[]) {
+  console.log('🐰 SmartPre:', message)
 }
 </script>
