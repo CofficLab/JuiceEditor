@@ -18,6 +18,7 @@
     <!-- OR ANY OTHER AMD LOADER HERE INSTEAD OF loader.js -->
     <script src="./dist/min/vs/loader.js"></script>
     <script>
+        const verbose = true;
         var editor;
         var paddingTop = 15;
         var paddingBottom = 15;
@@ -68,6 +69,13 @@
 
                 onUpdate(editor.getValue());
             })
+
+            editor.getModel().onDidChangeLanguage(() => {
+                log('language changed ' + editor.getModel().getLanguageId());
+            })
+
+            log("设置 monaco editor 的语言 " + language);
+            log("查询语言", editor.getModel().getLanguageId());
         });
 
         window.setCode = function (code) {
