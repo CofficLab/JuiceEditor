@@ -3,12 +3,21 @@ import TreeNode from "../model/TreeNode"
 const codeNode = new TreeNode({
     uuid: 'codeNode',
     content: `
-    <h1 id="heading-1">代码块</h1><p>现在，我们需要往<code class="my-custom-class">numbers.txt</code>文件中写入数字 1 到 10，用程序来做：</p><pre height="0" uuid="4c284b1a-cefd-410a-9944-77714d2256ad"><code class="language-text">x = 1
+    <h1 id="heading-1">代码块</h1><p>现在，我们需要往<code>numbers.txt</code>文件中写入数字 1 到 10，用程序来做：</p>
+    
+<pre>
+<code class="language-text">x = 1
 如果 x &lt;= 10,循环执行
     x的值写入 numbers.txt
     x = x + 1
 结束
-</code></pre><blockquote class="my-custom-class"><p>上面这段一般称为：伪代码</p></blockquote>
+</code></pre>
+
+<blockquote class="my-custom-class"><p>上面这段一般称为：伪代码</p></blockquote>
+
+<h3>Shell</h3>
+
+<pre><code class="language-shell">brew install php</code></pre>
 
 <p>计算机的三个重要组成部分分工是怎么样的呢？</p><ul class="my-custom-class"><li class="my-custom-class"><p>CPU：做计算，在这里主要是：<code class="my-custom-class">x = x + 1</code></p></li><li class="my-custom-class"><p>内存：存储临时数据，在这里主要是存储&nbsp;<code class="my-custom-class">x</code>&nbsp;的值</p></li><li class="my-custom-class"><p>硬盘：长期存储数据，<code class="my-custom-class">numbers.txt</code>&nbsp;就存储在硬盘中</p></li></ul><h2 id="heading-2">认识编程语言</h2><p>上面的那段程序，计算机是看不懂的，所以我们需要编程语言的帮助。</p><p>编程语言是一个中间语言，连接了人类语言和计算机语言。</p><p>用各种编程语言翻译一下上面的程序（<em class="my-custom-class">为了方便演示，写入硬盘改为输出</em>）：</p>
 
