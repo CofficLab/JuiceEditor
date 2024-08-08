@@ -5,8 +5,7 @@
   "scripts": {
     "dev": "vite",
     "install:monaco": "cd monaco && pnpm install",
-    "build": "rm -rf dist && vite build && npm run build:monaco && npm run build:drawio",
-    "build:monaco": "cd monaco && pnpm i && npm run build && copyfiles -u 1 --all 'dist/**/*' ../dist/monaco/dist && copyfiles index.html ../dist/monaco",
+    "build": "rm -rf dist && vite build && npm run build:drawio",
     "build:drawio": "copyfiles -u 2 --all 'drawio/webapp/**/*' dist/drawio",
     "deploy": "node deploy.js",
     "preview": "vite preview",
