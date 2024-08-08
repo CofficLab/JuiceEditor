@@ -1,4 +1,3 @@
-import { editor } from "monaco-editor";
 import * as monaco from "monaco-editor"
 import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker';
 import jsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker';
@@ -83,7 +82,7 @@ class MonacoBox {
             value: options.content,
             language: options.language.getMonacoLanguage(),
             readOnly: options.readOnly,
-            // theme: "hc-black",
+            theme: "hc-black",
             fontSize: 14,
             lineNumbers: options.showLineNumbers ? "on" : "off",
             automaticLayout: true,

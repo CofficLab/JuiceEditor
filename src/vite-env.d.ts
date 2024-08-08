@@ -29,3 +29,4 @@ declare global {
 }
 
 declare module 'turndown';
+declare module 'monaco-editor';

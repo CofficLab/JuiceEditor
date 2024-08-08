@@ -9,7 +9,6 @@
         :tableEnable="featureStore.tableEnabled"
         :drawEnable="featureStore.drawEnabled"
         :drawLink="drawLink"
-        :monacoLink="monacoLink"
         :bubbleMenusEnable="featureStore.bubbleMenuVisible"
         :floatingMenusEnable="featureStore.floatingMenuVisible"
         :onUpdate="onUpdate"
@@ -47,10 +46,6 @@ const props = defineProps({
     default: ''
   },
   drawLink: {
-    type: String,
-    default: ''
-  },
-  monacoLink: {
     type: String,
     default: ''
   },

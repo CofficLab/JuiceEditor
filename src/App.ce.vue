@@ -15,9 +15,10 @@
       :uuid="node.uuid"
       :content="node.content"
       :drawLink="app.drawLink"
-      :monacoLink="props.monaco"
       :onUpdate="app.updateNode"
     ></IndexPage>
+
+    <div ref="monacoDom" class="hidden"></div>
   </div>
 </template>
 
@@ -28,13 +29,14 @@ import { useAppStore } from './provider/AppStore'
 import { useFeatureStore } from './provider/FeatureStore'
 import setApi from './api/ApiSet'
 import Loading from './ui/Loading.vue'
-import { computed, onMounted } from 'vue'
+import { computed } from 'vue'
+import MonacoBox from './extensions/SmartPre/Entities/MonacoBox'
+import { onMounted, ref } from 'vue'
+import { SmartLanguage } from './extensions/SmartPre/Entities/SmartLanguage'
+
+const monacoDom = ref(null as unknown as HTMLDivElement)
 
 const props = defineProps({
-  monaco: {
-    type: String,
-    required: true
-  },
   drawio: {
     type: String,
     required: true
@@ -62,7 +64,6 @@ const node = computed(() => {
 })
 
 onMounted(() => {
-  app.monacoLink = props.monaco
   app.drawLink = props.drawio
 
   // 将方法暴露到外部，swift 可以调用
@@ -73,6 +74,12 @@ onMounted(() => {
   // if (!feature.contextMenu) {
   //   document.addEventListener('contextmenu', event => event.preventDefault());
   // }
+
+  MonacoBox.createEditor({
+    content: 'console.log("EEEE")',
+    target: monacoDom.value,
+    language: SmartLanguage.fromString('javascript')
+  })
 })
 
 function setEditorContent() {
@@ -88,4 +95,5 @@ function setEditorContent() {
 
 <style>
 @import './app.css';
+@import '../node_modules/monaco-editor/min/vs/editor/editor.main.css';
 </style>

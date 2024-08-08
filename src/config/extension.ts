@@ -63,10 +63,9 @@ export default function makeExtensions(props: makeExtensionsProps) {
                 class: '',
             },
         }),
-        CodeEditor,
-        // SmartPre.configure({
-        //     monacoLink: props.monacoLink,
-        // }),
+        SmartPre.configure({
+            monacoLink: props.monacoLink,
+        }),
         Color.configure({
             types: ['textStyle'],
         }),

@@ -5,32 +5,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 const verbose = false;
 
-export interface CodeBlockOptions {
-  /**
-   * Adds a prefix to language classes that are applied to code tags.
-   * @default 'language-'
-   */
-  languageClassPrefix: string
-  /**
-   * Define whether the node should be exited on triple enter.
-   * @default true
-   */
-  exitOnTripleEnter: boolean
-  /**
-   * Define whether the node should be exited on arrow down if there is no node after it.
-   * @default true
-   */
-  exitOnArrowDown: boolean
-  /**
-   * Custom HTML attributes that should be added to the rendered HTML tag.
-   * @default {}
-   * @example { class: 'foo' }
-   */
-  HTMLAttributes: Record<string, any>
-
-  monacoLink: string
-}
-
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     SmartPre: {
@@ -42,18 +16,8 @@ declare module '@tiptap/core' {
 }
 
 // 保存成HTML的时候要考虑HTML转Markdown
-export const SmartPre = CodeBlock.extend<CodeBlockOptions>({
+export const SmartPre = CodeBlock.extend({
   name: 'pre',
-
-  addOptions() {
-    return {
-      languageClassPrefix: 'language-',
-      exitOnTripleEnter: true,
-      exitOnArrowDown: true,
-      HTMLAttributes: {},
-      monacoLink: ''
-    }
-  },
 
   addAttributes() {
     return {

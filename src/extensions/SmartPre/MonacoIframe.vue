@@ -4,7 +4,7 @@
     <iframe
       :name="name"
       ref="iframe"
-      :src="monacoLink + '?language=' + language.key"
+      :src="'index?language=' + language.key"
       width="100%"
       height="0"
       frameborder="0"
@@ -34,10 +34,6 @@ const props = defineProps({
   },
   language: {
     type: SmartLanguage,
-    required: true
-  },
-  monacoLink: {
-    type: String,
     required: true
   },
   onUpdated: {

@@ -5,13 +5,15 @@
         <div>
           <!-- 编辑区域 -->
           <div class="relative" ref="codeDom" v-if="show">
-            <MonacoCard
+            <MonacoIframe
+              v-if="false"
               :code="content"
-              :monacoLink="props.extension.options.monacoLink"
               :onUpdated="onContentUpdated"
               :language="language"
               :on-language-changed="onLanguageChanged"
-            ></MonacoCard>
+            ></MonacoIframe>
+
+            <MonacoBox v-else :language="language" :content="content"></MonacoBox>
           </div>
 
           <NodeViewContent class="hidden"></NodeViewContent>
@@ -26,9 +28,10 @@
 <script lang="ts" setup>
 import { NodeViewContent, nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 import Panel from '../Panel.vue'
-import MonacoCard from './MonacoCard.vue'
+import MonacoIframe from './MonacoIframe.vue'
 import { computed, onUpdated, ref } from 'vue'
 import { SmartLanguage } from './Entities/SmartLanguage'
+import MonacoBox from './MonacoBox.vue'
 
 const props = defineProps(nodeViewProps)
 const content = ref(props.node.textContent)
