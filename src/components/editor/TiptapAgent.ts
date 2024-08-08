@@ -3,6 +3,8 @@ import { Editor as TiptapEditor } from '@tiptap/core'
 import EditorData from '../../model/EditorData'
 import makeExtensions from '../../config/extension'
 
+const verbose = false;
+
 interface Props {
     uuid: string,
     content: string
@@ -30,38 +32,38 @@ class TiptapAgent {
             content: props.content,
             editable: props.editable,
             onBeforeCreate: ({ editor }) => {
-                console.log('🍋 🗒️ TiptapAgent: onBeforeCreate')
+                log('onBeforeCreate')
             },
             onCreate: ({ editor }) => {
-                console.log('🍋 🗒️ TiptapAgent: onCreate, callback with EditorData')
+                log('onCreate, callback with EditorData')
                 props.onCreate(EditorData.fromEditor(editor))
             },
             onFocus: ({ editor }) => {
-                console.log('🍋 🗒️ TiptapAgent: onFocus')
+                log('onFocus')
             },
             onBlur: ({ editor }) => {
-                console.log('🍋 🗒️ TiptapAgent: onBlur')
+                log('onBlur')
             },
             onDestroy(props) {
-                console.log('🍋 🗒️ TiptapAgent: onDestroy')
+                log('onDestroy')
             },
             onSelectionUpdate: ({ editor }) => {
                 let type = TiptapAgent.getSelectionNodeType(editor)
 
                 if (props.onSelectionUpdate) {
-                    // console.log('TiptapAgent: onSelectionUpdate, callback with Editor', type)
+                    // log('TiptapAgent: onSelectionUpdate, callback with Editor', type)
                     props.onSelectionUpdate(type)
                 } else {
-                    console.log('TiptapAgent: onSelectionUpdate, no callback')
+                    log('TiptapAgent: onSelectionUpdate, no callback')
                 }
             },
             onUpdate: ({ editor }) => {
                 let editorData = EditorData.fromEditor(editor)
                 if (props.onUpdate) {
-                    console.log('🍋 🗒️ TiptapAgent: onUpdate, callback with EditorData')
+                    log('onUpdate, callback with EditorData')
                     props.onUpdate(editorData)
                 } else {
-                    console.log('🍋 🗒️ TiptapAgent: onUpdate, no callback')
+                    log('onUpdate, no callback')
                 }
             }
         })
@@ -155,7 +157,7 @@ class TiptapAgent {
             $anchor.parent.isTextblock && !$anchor.parent.type.spec.code && !$anchor.parent.textContent
         const type = $anchor.parent.type.name
 
-        // console.log('shouldShowFloatingMenu: type', type)
+        // log('shouldShowFloatingMenu: type', type)
 
         // 如果在 H1 中，不展示
         if (type == 'heading' && selection.$head.parent.attrs.level == 1) {
@@ -183,3 +185,7 @@ class TiptapAgent {
 }
 
 export default TiptapAgent
+
+function log(...message: any[]) {
+    if (verbose) console.log("🍋 TiptapAgent:", ...message)
+}

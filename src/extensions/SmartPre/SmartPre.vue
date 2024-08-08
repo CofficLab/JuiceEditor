@@ -47,10 +47,6 @@ const show = computed(() => {
   return currentNodeIndex == parent.attrs.current
 })
 
-onMounted(() => {
-  console.log('🐰 SmartPre: mounted')
-})
-
 function onLanguageChanged(lan: SmartLanguage) {
   props.updateAttributes({
     language: lan.key
@@ -72,7 +68,7 @@ function onUpdated(content: string) {
   let firstChildPos = props.getPos() + 1
   let firstChildPosEnd = firstChildPos + firstChild.nodeSize
 
-  console.log('insertAt: ', firstChildPos, firstChildPosEnd, content)
+  // console.log('insertAt: ', firstChildPos, firstChildPosEnd, content)
   props.editor
     .chain()
     .insertContentAt(

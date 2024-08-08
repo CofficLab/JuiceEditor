@@ -105,17 +105,18 @@ const editor = TiptapAgent.create({
   onUpdate: (data: EditorData) => {
     refreshToc('onUpdate')
     if (!props.editable) {
-      return console.log('🍋 TiptapEditor: 只读模式，不回调更新')
+      return log('只读模式，不回调更新')
     }
 
     props.onUpdate(data)
   },
   onSelectionUpdate(type) {
-    console.log('🍋 TiptapEditor: onSelectionUpdate', type)
+    log('onSelectionUpdate', type)
     props.onSelectionUpdate(type)
   }
 })
 
+const verbose = false
 const contextMenuDidShow = ref(false)
 const message = ref('')
 const eventManager = new EventManager()
@@ -138,12 +139,12 @@ function onMouseDown(e: Event) {
 }
 
 function onClick(e: Event) {
-  // console.log('🍋 TiptapEditor: click，关闭应用的右键菜单')
+  // log('click，关闭应用的右键菜单')
   contextMenuDidShow.value = false
 }
 
 function onContextMenu(e: Event) {
-  console.log('🍋 TiptapEditor: contextmenu')
+  log('contextmenu')
   contextMenuDidShow.value = true
 
   let target = e.target as HTMLElement
@@ -151,7 +152,7 @@ function onContextMenu(e: Event) {
 }
 
 watch(props, () => {
-  console.log('🍋 🗒️ TiptapEditor: props changed', props.uuid)
+  log('props changed', props.uuid)
 
   // 更新，但不触发onUpdate
   editor.setOptions({
@@ -163,7 +164,7 @@ watch(props, () => {
 })
 
 onMounted(() => {
-  console.log('🍋 🗒️ TiptapEditor: onMounted')
+  log('onMounted')
 
   refreshToc('onMounted')
 
@@ -182,7 +183,7 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
-  console.log('🍋 🗒️ TiptapEditor: onBeforeUnmount')
+  log('onBeforeUnmount')
   editor.destroy()
   eventManager.removeListener()
   document.removeEventListener('mousedown', onMouseDown)
@@ -198,7 +199,7 @@ function onURLChanged() {
 }
 
 function goto(id: string, shadowHostSelector: string) {
-  console.log('🍋 TiptapEditor: goto', id)
+  log('goto', id)
 
   // 获取 Shadow DOM 的宿主元素
   const shadowHost = document.querySelector(shadowHostSelector)
@@ -223,6 +224,10 @@ function goto(id: string, shadowHostSelector: string) {
   } else {
     console.error('Target div not found in Shadow DOM')
   }
+}
+
+function log(...message: any[]) {
+  if (verbose) console.log('🍋 TiptapEditor:', ...message)
 }
 </script>
 

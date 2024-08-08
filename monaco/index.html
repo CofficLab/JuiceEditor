@@ -18,16 +18,19 @@
     <!-- OR ANY OTHER AMD LOADER HERE INSTEAD OF loader.js -->
     <script src="./dist/min/vs/loader.js"></script>
     <script>
+        const verbose = false;
         var editor;
         var paddingTop = 15;
         var paddingBottom = 15;
+        const urlParams = new URLSearchParams(window.location.search);
+        const language = urlParams.get('language') || 'javascript';
 
         require.config({ paths: { vs: './dist/min/vs' } });
 
         require(['vs/editor/editor.main'], function () {
             editor = monaco.editor.create(document.getElementById('container'), {
                 value: '',
-                language: 'javascript',
+                language: language,
                 theme: "hc-black",
                 lineNumbers: "off",
                 fontSize: 14,
@@ -63,19 +66,19 @@
             onReady();
 
             editor.getModel().onDidChangeContent(() => {
-                console.log('🍋 💼 MonacoBox: monaco editor content changed');
+                log('monaco editor content changed');
                 setHeightOfEditor(editor)
 
                 onUpdate(editor.getValue());
             })
 
             editor.getModel().onDidChangeLanguage(() => {
-                console.log('🍋 💼 Monaco: monaco language changed', editor.getModel().getLanguageId());
+                log('language changed ' + editor.getModel().getLanguageId());
             })
         });
 
         window.setLanguage = function (language) {
-            console.log("💼 Monaco: 设置 monaco editor 的语言", language);
+            log("设置 monaco editor 的语言 " + language);
             monaco.editor.setModelLanguage(editor.getModel(), language);
         };
 
@@ -104,9 +107,9 @@
             let lineHeight = editor.getOption(monaco.editor.EditorOption.lineHeight);
             let padding = editor.getOption(monaco.editor.EditorOption.padding);
 
-            console.log("设置 monaco editor 的高度, 行数", lineCount);
-            console.log("设置 monaco editor 的高度, 行高", lineHeight);
-            console.log("设置 monaco editor 的高度, 行间距", padding);
+            log("设置 monaco editor 的高度, 行数 " + lineCount);
+            log("设置 monaco editor 的高度, 行高 " + lineHeight);
+            log("设置 monaco editor 的高度, 行间距 ", padding);
 
             return lineCount * lineHeight + padding.top + padding.bottom;
         }
@@ -114,11 +117,19 @@
         function setHeightOfEditor(editor) {
             let height = getLinesHeight(editor);
 
-            console.log("💼 MonacoBox: 设置 monaco editor 的高度", height);
+            log("设置 monaco editor 的高度 " + height);
 
             editor.getDomNode().style.height = height + "px";
 
             window.parent.postMessage({ sender: window.name, event: 'resize', height }, '*');
+        }
+
+        function log(...messages) {
+            if (!verbose) {
+                return;
+            }
+
+            console.log('💼 Monaco IFrame:', ...messages);
         }
     </script>
 </body>

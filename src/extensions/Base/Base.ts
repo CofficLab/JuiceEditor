@@ -4,10 +4,10 @@ export const Base = Node.create({
   name: 'base',
 
   onDestroy() {
-    console.log('🍋 Base: onTiptapDestroy')
+    //console.log('🍋 Base: onTiptapDestroy')
   },
 
   onCreate() {
-    console.log('🍋 Base: onTiptapCreate')
+    //console.log('🍋 Base: onTiptapCreate')
   },
 })
