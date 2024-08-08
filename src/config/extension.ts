@@ -28,6 +28,7 @@ import SmartTable from "../extensions/SmartTable/SmartTable"
 import { Base } from "../extensions/Base/Base"
 import { SmartPre } from "../extensions/SmartPre/SmartPre"
 import { GroupPre } from "../extensions/GroupPre/GroupPre"
+import { CodeEditor } from "../extensions/SmartPre2/CodeEditor"
 
 interface makeExtensionsProps {
     drawIoLink?: string,
@@ -62,10 +63,10 @@ export default function makeExtensions(props: makeExtensionsProps) {
                 class: '',
             },
         }),
-        // CodeEditor,
-        SmartPre.configure({
-            monacoLink: props.monacoLink,
-        }),
+        CodeEditor,
+        // SmartPre.configure({
+        //     monacoLink: props.monacoLink,
+        // }),
         Color.configure({
             types: ['textStyle'],
         }),
@@ -80,6 +81,7 @@ export default function makeExtensions(props: makeExtensionsProps) {
         Document.extend({
             content: 'heading block*'
         }),
+        // GroupPre,
         Heading,
         History.configure({
             depth: 100,
@@ -142,7 +144,6 @@ export default function makeExtensions(props: makeExtensionsProps) {
                 class: 'my-table',
             },
         }),
-        GroupPre,
         TableRow,
         TableCell,
         TableHeader,

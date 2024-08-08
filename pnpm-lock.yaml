@@ -149,6 +149,9 @@ importers:
       fs-extra:
         specifier: ^11.2.0
         version: 11.2.0
+      monaco-editor:
+        specifier: ^0.50.0
+        version: 0.50.0
       pinia:
         specifier: ^2.2.0
         version: 2.2.0(typescript@5.1.6)(vue@3.4.35(typescript@5.1.6))
@@ -1997,6 +2000,9 @@ packages:
     resolution: {integrity: sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==}
     engines: {node: '>=10'}
     hasBin: true
+
+  monaco-editor@0.50.0:
+    resolution: {integrity: sha512-8CclLCmrRRh+sul7C08BmPBP3P8wVWfBHomsTcndxg5NRCEPfu/mc2AGU8k37ajjDVXcXFc12ORAMUkmk+lkFA==}
 
   ms@2.0.0:
     resolution: {integrity: sha512-Tpp60P6IUJDTuOq/5Z8cdskzJujfwqfOTkrwIwj7IRISpnkJnT6SyJ4PCPnGMoFjC9ddhal5KVIYtAt97ix05A==}
@@ -4623,6 +4629,8 @@ snapshots:
   mitt@3.0.1: {}
 
   mkdirp@1.0.4: {}
+
+  monaco-editor@0.50.0: {}
 
   ms@2.0.0: {}
 
