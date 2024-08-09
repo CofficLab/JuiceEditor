@@ -1,7 +1,7 @@
 <template>
   <Button
     v-if="!editor.isActive('heading')"
-    @click="focusedNode.toggleBold().run()"
+    @click="focusedNode.toggleToc().run()"
     tip="显示/隐藏TOC"
     size="md"
   >

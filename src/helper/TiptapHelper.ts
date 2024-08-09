@@ -1,7 +1,7 @@
 import { Editor } from '@tiptap/vue-3'
 import { Editor as TiptapEditor } from '@tiptap/core'
-import EditorData from '../../model/EditorData'
-import makeExtensions from '../../config/extension'
+import EditorData from '../model/EditorData'
+import makeExtensions from '../config/extension'
 
 const verbose = false;
 
@@ -17,7 +17,7 @@ interface Props {
     tableEnable: boolean
 }
 
-class TiptapAgent {
+class TiptapHelper {
     static create(props: Props): Editor {
         return new Editor({
             extensions: makeExtensions({
@@ -46,13 +46,13 @@ class TiptapAgent {
                 log('onDestroy')
             },
             onSelectionUpdate: ({ editor }) => {
-                let type = TiptapAgent.getSelectionNodeType(editor)
+                let type = TiptapHelper.getSelectionNodeType(editor)
 
                 if (props.onSelectionUpdate) {
-                    // log('TiptapAgent: onSelectionUpdate, callback with Editor', type)
+                    // log('TiptapHelper: onSelectionUpdate, callback with Editor', type)
                     props.onSelectionUpdate(type)
                 } else {
-                    log('TiptapAgent: onSelectionUpdate, no callback')
+                    log('TiptapHelper: onSelectionUpdate, no callback')
                 }
             },
             onUpdate: ({ editor }) => {
@@ -182,8 +182,8 @@ class TiptapAgent {
     }
 }
 
-export default TiptapAgent
+export default TiptapHelper
 
 function log(...message: any[]) {
-    if (verbose) console.log("🍋 TiptapAgent:", ...message)
+    if (verbose) console.log("🍋 TiptapHelper:", ...message)
 }

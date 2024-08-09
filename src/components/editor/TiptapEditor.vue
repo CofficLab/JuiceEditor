@@ -60,19 +60,11 @@
           '2xl:w-88': true
         }"
       >
-        <div class="w-full my-12 overflow-y-scroll bg-green-400/0">
-          <ul class="menu menu-xs bg-base-200" v-for="h in headingTree.children">
-            <HeadingVue :heading="h"></HeadingVue>
-          </ul>
+        <div class="w-full my-12 overflow-y-scroll menu menu-xs">
+          <HeadingVue :heading="h" v-for="h in headingTree.children"></HeadingVue>
         </div>
       </div>
     </div>
-
-    <!-- 右键菜单 -->
-    <!-- <ContextMenu :editor="editor"></ContextMenu> -->
-
-    <!-- 提示信息 -->
-    <Message :message="message"></Message>
   </div>
 </template>
 
@@ -81,9 +73,8 @@ import { EditorContent } from '@tiptap/vue-3'
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import BubbleMenus from './BubbleMenus.vue'
 import FloatMenus from './FloatMenus.vue'
-import TiptapAgent from './TiptapAgent'
+import TiptapAgent from '../../helper/TiptapHelper'
 import EditorData from '../../model/EditorData'
-import Message from '../../ui/Message.vue'
 import HeadingVue from '../Heading.vue'
 import EventManager from '../../event/EventManager'
 import Heading from '../../extensions/Toc/Heading'
@@ -117,7 +108,6 @@ const editor = TiptapAgent.create({
 
 const verbose = false
 const contextMenuDidShow = ref(false)
-const message = ref('')
 const eventManager = new EventManager()
 const headingTree = ref(new Heading())
 const shouldShowToc = computed(() => {
@@ -125,7 +115,7 @@ const shouldShowToc = computed(() => {
 })
 
 function refreshToc(reason: string) {
-  //console.log("刷新TOC，因为", reason)
+  console.log('刷新TOC，因为', reason)
   headingTree.value = Heading.makeTree(editor) as unknown as Heading
 }
 
@@ -169,16 +159,12 @@ onMounted(() => {
 
   // 处理事件
   eventManager.setListener(editor, (msg) => {
-    message.value = msg
-    document.getElementById('messageTrigger')?.click()
+    props.onMessage(msg)
   })
 
   document.addEventListener('contextmenu', onContextMenu)
   // document.addEventListener('mousedown', onMouseDown)
   document.addEventListener('click', onClick)
-
-  // 监听 URL 变化
-  window.onpopstate = onURLChanged
 })
 
 onBeforeUnmount(() => {
@@ -190,42 +176,8 @@ onBeforeUnmount(() => {
   document.removeEventListener('contextmenu', onContextMenu)
 })
 
-function onURLChanged() {
-  let hash = window.location.hash
-  if (hash) {
-    goto(hash.substring(1), 'juice-editor')
-  }
-}
-
-function goto(id: string, shadowHostSelector: string) {
-  log('goto', id)
-
-  // 获取 Shadow DOM 的宿主元素
-  const shadowHost = document.querySelector(shadowHostSelector)
-  if (!shadowHost) {
-    console.error('Shadow host not found')
-    return
-  }
-
-  // 访问 Shadow DOM
-  const shadowRoot = shadowHost.shadowRoot
-  if (!shadowRoot) {
-    console.error('Shadow root not found')
-    return
-  }
-
-  // 获取目标 div
-  const targetDiv = shadowRoot.getElementById(id)
-
-  // 如果找到目标 div，则滚动到该 div
-  if (targetDiv) {
-    targetDiv.scrollIntoView({ behavior: 'smooth' })
-  } else {
-    log('Target div not found in Shadow DOM')
-  }
-}
-
 function log(...message: any[]) {
   if (verbose) console.log('🍋 TiptapEditor:', ...message)
 }
 </script>
+src/helper/Helper ../../helper/TiptapAgent

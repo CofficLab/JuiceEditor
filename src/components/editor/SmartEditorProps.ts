@@ -48,6 +48,10 @@ const SmartEditorProps = {
     onSelectionUpdate: {
         type: Function,
         default: () => { }
+    },
+    onMessage: {
+        type: Function,
+        default: () => { }
     }
 }
 

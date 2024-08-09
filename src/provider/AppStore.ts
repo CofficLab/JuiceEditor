@@ -2,9 +2,9 @@ import { defineStore } from 'pinia'
 import TreeNode from '../model/TreeNode'
 import EditorData from '../model/EditorData'
 import webkit from '../api/WebKit'
-import TurndownService from 'turndown'
 import LocalStore from './LocalStore'
 import Config from '../config/config'
+import MarkdownHelper from '../helper/MarkdownHelper'
 
 const verbose = true
 const config = Config
@@ -42,14 +42,7 @@ export const useAppStore = defineStore('app-store', {
         },
 
         getMarkdown(): string {
-            let html = this.node.content
-
-            var turndownService = new TurndownService({
-                headingStyle: 'atx',
-            })
-            var markdown = turndownService.turndown(html)
-
-            return markdown
+            return MarkdownHelper.html2markdown(this.node.content)
         },
 
         setDrawLink: function (link: string) {

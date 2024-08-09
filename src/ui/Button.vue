@@ -1,7 +1,7 @@
 <template>
-  <div class="inline my-auto bg-red-900 h-8">
+  <div class="inline h-8 my-auto prose bg-red-900 dark:prose-invert">
     <div
-      class="absolute group-hover:block bg-gray-700 text-white text-xs rounded px-2 bottom-full mb-1"
+      class="absolute px-2 mb-1 text-xs text-white bg-gray-700 rounded group-hover:block bottom-full"
       v-text="props.tip"
       v-if="showTip && props.tip"
     ></div>

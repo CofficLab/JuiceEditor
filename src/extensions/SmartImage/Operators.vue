@@ -62,9 +62,8 @@
 
 <script lang="ts" setup>
 import { nodeViewProps } from '@tiptap/vue-3'
-import Helper from '../Helper'
+import Helper from '../../helper/ImageHelper'
 import { defineProps, ref } from 'vue'
-import Base64Helper from './Helper'
 import webkit from '../../api/WebKit'
 import IconNewLine from './Icons/IconNewLine.vue'
 import IconDownload from './Icons/IconDownload.vue'
@@ -266,11 +265,11 @@ function exportBase64(base64ImageString: string) {
   // 下载
   if (isWebKit) {
     webkit.downloadImage(
-      Base64Helper.getBase64FromBase64Image(base64ImageString),
-      'Image' + Base64Helper.getExtension(base64ImageString)
+      Helper.getBase64FromBase64Image(base64ImageString),
+      'Image' + Helper.getExtension(base64ImageString)
     )
   } else {
-    let a = Base64Helper.download(base64ImageString)
+    let a = Helper.download(base64ImageString)
 
     // Clean up
     a.remove()
@@ -288,3 +287,4 @@ async function onFileSelected() {
   })
 }
 </script>
+../../helper/Helper ./ImageHelper

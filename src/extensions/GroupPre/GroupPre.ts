@@ -1,7 +1,5 @@
-import CodeBlock from '@tiptap/extension-code-block'
 import { Node, VueNodeViewRenderer } from '@tiptap/vue-3'
 import GroupPreVue from './GroupPre.vue'
-import { v4 as uuidv4 } from 'uuid';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

@@ -26,7 +26,7 @@ const MimeToExtension: MimeTypeMapping = {
     "audio/x-caf": ".caf",
 }
 
-class Helper {
+class ImageHelper {
     // 获取尾部位置
     static getTailPos(props: { getPos: () => any; node: { nodeSize: any } }): number {
         const start = props.getPos()
@@ -40,7 +40,7 @@ class Helper {
 
     // 在本节点的后面插入一行
     static newLine(props: { editor: any; getPos: () => any; node: { nodeSize: any } }) {
-        let tail = Helper.getTailPos(props)
+        let tail = ImageHelper.getTailPos(props)
         console.log('tail is', tail)
         props.editor.commands.insertContentAt(tail - 1, '<p></p>', {
             updateSelection: false,
@@ -58,8 +58,8 @@ class Helper {
 
     // 如果是最后一个节点，在本节点后插入一个空的p，防止光标无法移动到下一个节点
     static insertNewLineIfIsTheLastNode(props: { editor: any; getPos: () => any; node: { nodeSize: any } }) {
-        if (Helper.isTheLastNode(props)) {
-            Helper.newLine(props)
+        if (ImageHelper.isTheLastNode(props)) {
+            ImageHelper.newLine(props)
         }
     }
 
@@ -135,4 +135,4 @@ class Helper {
     }
 }
 
-export default Helper
+export default ImageHelper

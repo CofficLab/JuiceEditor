@@ -12,6 +12,7 @@
         :bubbleMenusEnable="featureStore.bubbleMenuVisible"
         :floatingMenusEnable="featureStore.floatingMenuVisible"
         :onUpdate="onUpdate"
+        :onMessage="onMessage"
         :uuid="uuid"
       />
 
@@ -56,6 +57,10 @@ const props = defineProps({
   children: {
     type: Array as () => TreeNode[],
     default: []
+  },
+  onMessage: {
+    type: Function,
+    default: () => {}
   }
 })
 

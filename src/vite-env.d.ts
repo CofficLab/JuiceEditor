@@ -18,13 +18,14 @@ declare interface Window {
 
 declare global {
     interface Window {
-        api?: {
-            app?: any;
-            event?: EventManager;
+        api: {
+            app: any;
+            event: EventManager;
             feature?: any;
         };
         setCode: (code: string) => void
         setLanguage: (lan: string) => void
+        runnerCallback: (result: string) => void
     }
 }
 

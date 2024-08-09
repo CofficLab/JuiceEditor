@@ -58,7 +58,7 @@ export default class EventManager {
 
         switch ((event as CustomEvent).detail.operator) {
             case operators.toggleTOC:
-                editor.chain().focus().toggleToc().run()
+                editor.commands.toggleToc()
                 break;
             case operators.toggleBanner:
                 editor.chain().focus().toggleBanner().run()
@@ -123,6 +123,7 @@ export default class EventManager {
     }
 
     toggleToc() {
+        console.log("emit toggle toc")
         emit("toggleTOC")
     }
 

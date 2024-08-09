@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col items-center">
     <!-- 操作栏 -->
-    <ToolBar v-if="app.isDebug"></ToolBar>
+    <ToolBar v-if="app.isDebug" class="mt-4"></ToolBar>
 
     <!-- 初始化时的内容来源 -->
     <slot></slot>
@@ -16,7 +16,11 @@
       :content="node.content"
       :drawLink="app.drawLink"
       :onUpdate="app.updateNode"
+      :onMessage="onMessage"
     ></IndexPage>
+
+    <!-- 提示信息 -->
+    <Message :message="message"></Message>
   </div>
 </template>
 
@@ -27,8 +31,10 @@ import { useAppStore } from './provider/AppStore'
 import { useFeatureStore } from './provider/FeatureStore'
 import setApi from './api/ApiSet'
 import Loading from './ui/Loading.vue'
-import { computed } from 'vue'
-import { onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
+import Helper from './helper/Helper'
+import Message from './ui/Message.vue'
+import URLHelper from './helper/URLHelper'
 
 const props = defineProps({
   drawio: {
@@ -46,6 +52,7 @@ const config = { childList: true, subtree: true, characterData: true }
 const observer = new MutationObserver(setEditorContent)
 const feature = useFeatureStore()
 const app = useAppStore()
+const message = ref('')
 const node = computed(() => {
   return app.node
 })
@@ -61,10 +68,14 @@ onMounted(() => {
 
   setEditorContent()
 
-  // if (!feature.contextMenu) {
-  //   document.addEventListener('contextmenu', event => event.preventDefault());
-  // }
+  // 监听 URL 变化
+  window.onpopstate = URLHelper.onURLChanged
 })
+
+function onMessage(m: string) {
+  message.value = m
+  Helper.findElement('messageTrigger')?.click()
+}
 
 function setEditorContent() {
   let content = document.querySelector('juice-editor')!.innerHTML

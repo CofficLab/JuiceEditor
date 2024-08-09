@@ -26,14 +26,13 @@
 import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 import { ref } from 'vue'
 import { makeDrawUrl } from './DrawUrl'
-import Helper from './Helper'
+import Helper from '../../helper/ImageHelper'
 import DrawConfig from './DrawConfig'
 import IconEdit from './Icons/IconEdit.vue'
 import IconNewLine from './Icons/IconNewLine.vue'
 import IconDownload from './Icons/IconDownload.vue'
 import Opening from './Opening.vue'
 import webkit from '../../api/WebKit'
-import Base64Helper from './Helper'
 import Panel from '../Panel.vue'
 import Button from '../../ui/Button.vue'
 
@@ -113,11 +112,11 @@ function exportBase64(base64ImageString: string) {
   // 下载
   if (isWebKit) {
     webkit.downloadImage(
-      Base64Helper.getBase64FromBase64Image(base64ImageString),
-      'Image' + Base64Helper.getExtension(base64ImageString)
+      Helper.getBase64FromBase64Image(base64ImageString),
+      'Image' + Helper.getExtension(base64ImageString)
     )
   } else {
-    Base64Helper.download2(base64ImageString)
+    Helper.download2(base64ImageString)
   }
 }
 
@@ -227,3 +226,4 @@ function receive(event: MessageEvent): void {
   }
 }
 </script>
+./ImageHelper./ImageHelper

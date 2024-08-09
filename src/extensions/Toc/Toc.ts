@@ -1,7 +1,6 @@
 import { mergeAttributes, Node, Editor } from "@tiptap/core";
-import { VueNodeViewRenderer } from "@tiptap/vue-3";
-import TocView from "./TocView.vue";
 import Heading from "./Heading";
+
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     tableOfContents: {
@@ -89,6 +88,7 @@ export const Toc = Node.create({
         return true;
       },
       toggleToc: () => ({ commands }) => {
+        console.log("toggleToc")
         if (commands.hasToc()) {
           return commands.removeToc()
         }
