@@ -6,7 +6,7 @@ import TurndownService from 'turndown'
 import LocalStore from './LocalStore'
 import Config from '../config/config'
 
-const verbose = false
+const verbose = true
 const config = Config
 const isDebug = config.isDebug
 
@@ -121,7 +121,7 @@ export const useAppStore = defineStore('app-store', {
             }
 
             log('更新节点')
-            // console.log(data.content)
+            console.log(data.content)
             // console.log(data.json)
 
             if (isDebug) {

@@ -1,6 +1,6 @@
 <template>
   <NodeViewWrapper contenteditable="true">
-    <Panel :deleteNode="props.deleteNode">
+    <Panel :deleteNode="props.deleteNode" :readOnly="!isEditable">
       <template v-slot:content>
         <NodeViewContent as="div" v-bind:contenteditable="isEditable" />
       </template>

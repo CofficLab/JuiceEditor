@@ -1,6 +1,6 @@
 <template>
   <NodeViewWrapper class="inline">
-    <Panel :inline="true" :deleteNode="props.deleteNode">
+    <Panel :inline="true" :deleteNode="props.deleteNode" :readOnly="!props.editor.isEditable">
       <template v-slot:content>
         <!-- 链接的内容 -->
         <label

@@ -9,7 +9,7 @@
       'dropdown-top': !dropdownBottom
     }"
   >
-    <div class="z-50 absolute -top-10" v-show="isSelected" contenteditable="false">
+    <div class="z-50 absolute -top-10" v-show="operatorsVisible" contenteditable="false">
       <ButtonBar>
         <slot name="operators"></slot>
         <Button tip="删除" @click="deleteNode">
@@ -25,7 +25,7 @@
       v-bind:class="[
         {
           'bg-base-200': isSelected,
-          'outline-orange-600 outline-dashed outline-2 outline-offset-1': isSelected && showBorder
+          'outline-orange-600 outline-dashed outline-2 outline-offset-1': borderVisible
         }
       ]"
     >
@@ -53,12 +53,19 @@ const props = defineProps({
   deleteNode: {
     type: Function,
     required: true
+  },
+  readOnly: {
+    type: Boolean,
+    default: false
   }
 })
+
 const id = 'panel-' + uuidv4()
 const isSelected = ref(false)
 const panel = ref<HTMLElement | null>(null)
 const dropdownBottom = ref(true)
+const borderVisible = computed(() => props.showBorder && isSelected.value && !props.readOnly)
+const operatorsVisible = computed(() => !props.readOnly && isSelected.value)
 
 onMounted(() => {
   document.addEventListener('click', onClick)

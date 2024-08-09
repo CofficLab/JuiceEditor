@@ -1,23 +1,18 @@
 <template>
   <NodeViewWrapper>
-    <Panel :deleteNode="props.deleteNode" :show-border="true">
+    <Panel :deleteNode="props.deleteNode" :show-border="true" :readOnly="!props.editor.isEditable">
       <template v-slot:content>
-        <div>
-          <!-- 编辑区域 -->
-          <div class="relative" ref="codeDom" v-if="show">
-            <MonacoIframe
-              v-if="false"
-              :code="content"
-              :onUpdated="onContentUpdated"
-              :language="language"
-              :on-language-changed="onLanguageChanged"
-            ></MonacoIframe>
-
-            <MonacoBox v-else :language="language" :content="content"></MonacoBox>
-          </div>
-
-          <NodeViewContent class="hidden"></NodeViewContent>
+        <div class="relative" ref="codeDom" v-if="show">
+          <MonacoBox
+            :language="language"
+            :content="content"
+            :readOnly="!props.editor.isEditable"
+            :onContentChanged="onContentUpdated"
+            :onLanguageChanged="onLanguageChanged"
+          ></MonacoBox>
         </div>
+
+        <NodeViewContent class="hidden"></NodeViewContent>
       </template>
 
       <template v-slot:operators> </template>
@@ -28,8 +23,7 @@
 <script lang="ts" setup>
 import { NodeViewContent, nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 import Panel from '../Panel.vue'
-import MonacoIframe from './MonacoIframe.vue'
-import { computed, onUpdated, ref } from 'vue'
+import { computed, onUpdated, readonly, ref } from 'vue'
 import { SmartLanguage } from './Entities/SmartLanguage'
 import MonacoBox from './MonacoBox.vue'
 
@@ -39,7 +33,6 @@ const language = SmartLanguage.fromString(props.node.attrs.language)
 const pos = props.getPos() // 获取当前节点的位置
 const resolvedPos = props.editor.state.doc.resolve(pos) // 解析位置
 const currentNodeIndex = resolvedPos.index() // 获取当前节点在父节点中的索引
-const forceDisplay = ref(false)
 
 const show = computed(() => {
   let parent = props.editor.state.doc.resolve(props.getPos()).parent
@@ -65,7 +58,7 @@ function onContentUpdated(content: string) {
   let firstChild = props.node.firstChild
 
   if (firstChild == null) {
-    console.log('first child is null')
+    log('first child is null')
     props.editor
       .chain()
       .insertContentAt(props.getPos() + 1, content)
@@ -76,7 +69,7 @@ function onContentUpdated(content: string) {
   let firstChildPos = props.getPos() + 1
   let firstChildPosEnd = firstChildPos + firstChild.nodeSize
 
-  // console.log('insertAt: ', firstChildPos, firstChildPosEnd, content)
+  log('insertAt: ', firstChildPos, firstChildPosEnd, content)
   props.editor
     .chain()
     .insertContentAt(
@@ -89,7 +82,9 @@ function onContentUpdated(content: string) {
     .run()
 }
 
+const verbose = false
 function log(...message: any[]) {
-  console.log('🐰 SmartPre:', message)
+  if (!verbose) return
+  console.log('🐰 SmartPre:', ...message)
 }
 </script>

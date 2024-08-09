@@ -22,7 +22,7 @@
       <!-- 语言 -->
       <div contenteditable="false" class="absolute top-0 right-0 z-50">
         <LanguageSelect
-          :editable="editable"
+          :editable="!props.readOnly"
           :current="language"
           :on-changed="onLanguageChanged"
         ></LanguageSelect>
@@ -36,11 +36,7 @@
 
     <!-- 展示运行结果 -->
     <div class="px-0">
-      <pre
-        :id="resultId"
-        v-show="runResultVisible && runVisible"
-        class="px-4 py-2 m-0 text-sm border rounded-none border-green-900/40"
-      ></pre>
+      <Pre :id="resultId" v-show="runResultVisible && runVisible"></Pre>
     </div>
   </div>
 </template>
@@ -51,6 +47,7 @@ import MonacoBox from './Entities/MonacoBox'
 import webkit from '../../api/WebKit'
 import PlayIcon from './Icons/Play.vue'
 import CloseIcon from './Icons/Close.vue'
+import Pre from '../../ui/Pre.vue'
 import { v4 as uuidv4 } from 'uuid'
 import * as monaco from 'monaco-editor'
 import { SmartLanguage, languages } from './Entities/SmartLanguage'
@@ -65,10 +62,6 @@ const props = defineProps({
   height: {
     type: Number,
     default: 0
-  },
-  editable: {
-    type: Boolean,
-    default: true
   },
   // 用户配置的运行按钮是否可见
   runVisible: {

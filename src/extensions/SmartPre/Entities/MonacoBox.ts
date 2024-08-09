@@ -119,7 +119,7 @@ class MonacoBox {
         });
 
         editor.getModel()!.onDidChangeContent(() => {
-            console.log('🍋 💼 MonacoBox: monaco editor content changed');
+            console.log('💼 MonacoBox: monaco content changed');
             options.onContentChanged?.(editor);
             MonacoBox.setHeightOfEditor(editor)
         });

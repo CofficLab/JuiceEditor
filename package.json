@@ -1,6 +1,6 @@
 {
-  "name": "kuaiyizhi-editor",
-  "version": "0.4.62",
+  "name": "juice-editor",
+  "version": "0.5.0",
   "private": true,
   "scripts": {
     "dev": "vite",
