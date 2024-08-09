@@ -1,10 +1,15 @@
 <template>
-  <NodeViewWrapper class="toc">
+  <NodeViewWrapper
+    class="h-full top-0 w-36 md:w-40 xl:w-48 2xl:w-56 right-3 z-40 flex justify-end items-start pt-24"
+  >
     <div class="overflow-y-scroll w-full h-2/3">
-      <ul style="padding-left: 0">
+      <ul
+        style="padding-left: 0"
+        class="menu w-full dark:border-gray-700/50 backdrop-blur-sm backdrop-filter border-l border-gray-400/50"
+      >
         <template v-for="(heading, index) in headings" :key="index">
-          <li style="margin: 0">
-            <a :href="getLink(heading)">
+          <li style="margin: 0" class="list-none text-xs rounded-none">
+            <a :href="getLink(heading)" class="no-underline rounded-none p-1">
               <DynamicPadding :count="heading.level - 1"></DynamicPadding>
               {{ heading.text }}
             </a>
@@ -88,20 +93,3 @@ onBeforeUnmount(() => {
   props.editor.off('update', handleUpdate)
 })
 </script>
-
-<style lang="postcss" scoped>
-.toc {
-  @apply h-full top-0 w-36 md:w-40 xl:w-48 2xl:w-56 right-3 z-40 flex justify-end items-start pt-24;
-  ul {
-    @apply menu w-full dark:border-gray-700/50 backdrop-blur-sm backdrop-filter border-l border-gray-400/50 !important;
-
-    li {
-      @apply list-none text-xs rounded-none !important;
-
-      a {
-        @apply no-underline rounded-none p-1 !important;
-      }
-    }
-  }
-}
-</style>

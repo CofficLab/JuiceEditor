@@ -61,7 +61,7 @@
         }"
       >
         <div class="w-full my-12 overflow-y-scroll bg-green-400/0">
-          <ul class="menu menu-xs bg-base-200/0" v-for="h in headingTree.children">
+          <ul class="menu menu-xs bg-base-200" v-for="h in headingTree.children">
             <HeadingVue :heading="h"></HeadingVue>
           </ul>
         </div>
