@@ -23,8 +23,8 @@
       <div contenteditable="false" class="absolute top-0 right-0 z-50">
         <LanguageSelect
           :editable="editable"
-          :language="language"
-          :on-language-changed="onLanguageChanged"
+          :current="language"
+          :on-changed="onLanguageChanged"
         ></LanguageSelect>
       </div>
 
@@ -52,7 +52,7 @@ import webkit from '../../api/WebKit'
 import PlayIcon from './Icons/Play.vue'
 import CloseIcon from './Icons/Close.vue'
 import { v4 as uuidv4 } from 'uuid'
-// import * as monaco from 'monaco-editor'
+import * as monaco from 'monaco-editor'
 import { SmartLanguage, languages } from './Entities/SmartLanguage'
 import LanguageSelect from './LanguageSelect.vue'
 
@@ -89,21 +89,15 @@ const props = defineProps({
   },
   onContentChanged: {
     type: Function,
-    default: (content: string) => {
-      console.log('MonacoBox: monaco content changed', content)
-    }
+    default: (content: string) => {}
   },
   onRunnableChanged: {
     type: Function,
-    default: () => {
-      console.log('monaco runnable changed')
-    }
+    default: () => {}
   },
   onLanguageChanged: {
     type: Function,
-    default: (language: SmartLanguage) => {
-      console.log('🍋 💼 MonacoBox: monaco language changed', language)
-    }
+    default: (language: SmartLanguage) => {}
   },
   showLineNumbers: {
     type: Boolean,
@@ -111,9 +105,7 @@ const props = defineProps({
   },
   runner: {
     type: Function,
-    default: () => {
-      console.log('monaco runner')
-    }
+    default: () => {}
   },
   uuid: {
     type: String,
@@ -145,21 +137,18 @@ function getResultElement(): HTMLElement {
 }
 
 function stop() {
-  console.log('🍋 💼 MonacoBox: stop')
+  log('stop')
   runResultVisible.value = false
   running.value = false
 }
 
 onMounted(() => {
-  console.log('🍋 💼 MonacoBox: mounted')
-
   editor = MonacoBox.createEditor({
     content: props.content,
     target: monacoDom.value,
     language: props.language,
     readOnly: !props.editable,
     onCreated(editor) {
-      console.log('🍋 🗒️ MonacoBox: created')
       lan.value = MonacoBox.getLanguage(editor)
       lineCount.value = editor.getModel()!.getLineCount()
       // console.log('lines', lineCount.value)
@@ -177,7 +166,7 @@ onMounted(() => {
       lineCount.value = editor.getModel()!.getLineCount()
     },
     onLanguageChanged(language) {
-      console.log('🍋 💼 MonacoBox: onLanguageChanged ->', language)
+      log('onLanguageChanged ->', language)
       lan.value = language
       props.onLanguageChanged(language)
     }
@@ -185,11 +174,11 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
-  console.log('🍋 💼 MonacoBox: before unmounted')
+  log('before unmounted')
 })
 
 onUnmounted(() => {
-  console.log('🍋 💼 MonacoBox: unmounted，销毁 Monaco')
+  log('unmounted，销毁 Monaco')
 
   setTimeout(() => {
     editor.dispose()
@@ -200,10 +189,10 @@ watch(
   () => props.uuid,
   () => {
     if (editor.getValue() != props.content) {
-      console.log('🍋 💼 MonacoBox: 检测到 props.uuid 发生变化，更新content')
+      log('检测到 props.uuid 发生变化，更新content')
       editor.setValue(props.content)
     } else {
-      console.log('🍋 💼 MonacoBox: 检测到 props.uuid 发生变化，但与现有内容一致')
+      log('检测到 props.uuid 发生变化，但与现有内容一致')
     }
   }
 )
@@ -211,7 +200,7 @@ watch(
 watch(
   () => props.language,
   () => {
-    console.log('🍋 💼 MonacoBox: 检测到 props.language 发生变化')
+    log('检测到 props.language 发生变化')
     MonacoBox.setLanguage(editor, props.language)
   }
 )
@@ -249,5 +238,11 @@ let onClickIcon = () => {
       running.value = false
     })
   }, 5)
+}
+
+const verbose = true
+function log(...message: any) {
+  if (!verbose) return
+  console.log('🐰 MonacoBox:', ...message)
 }
 </script>

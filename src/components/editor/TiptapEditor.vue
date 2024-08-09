@@ -83,7 +83,7 @@ import BubbleMenus from './BubbleMenus.vue'
 import FloatMenus from './FloatMenus.vue'
 import TiptapAgent from './TiptapAgent'
 import EditorData from '../../model/EditorData'
-import Message from '../Message.vue'
+import Message from '../../ui/Message.vue'
 import HeadingVue from '../Heading.vue'
 import EventManager from '../../event/EventManager'
 import Heading from '../../extensions/Toc/Heading'
@@ -221,7 +221,7 @@ function goto(id: string, shadowHostSelector: string) {
   if (targetDiv) {
     targetDiv.scrollIntoView({ behavior: 'smooth' })
   } else {
-    console.error('Target div not found in Shadow DOM')
+    log('Target div not found in Shadow DOM')
   }
 }
 

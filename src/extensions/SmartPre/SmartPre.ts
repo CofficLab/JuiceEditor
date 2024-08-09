@@ -4,7 +4,7 @@ import SmartPreVue from './SmartPre.vue'
 import { v4 as uuidv4 } from 'uuid';
 import MonacoBox from './Entities/MonacoBox';
 
-const verbose = false;
+const verbose = true;
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -94,6 +94,9 @@ export const SmartPre = CodeBlock.extend({
   onBeforeCreate() {
     log('onBeforeCreate, 存储 UUID ->', this.editor.options.injectNonce)
     this.storage.editorUUID = this.editor.options.injectNonce
+
+    log("Boot Monaco")
+    MonacoBox.boot()
 
     let juiceEditor = document.querySelector('juice-editor')
     let shadowRoot = juiceEditor!.shadowRoot!

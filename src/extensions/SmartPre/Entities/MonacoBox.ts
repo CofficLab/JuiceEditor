@@ -6,26 +6,6 @@ import htmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker';
 import tsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker';
 import { SmartLanguage } from "./SmartLanguage";
 
-window.MonacoEnvironment = {
-    getWorker(_, label) {
-        switch (label) {
-            case 'json':
-                return new jsonWorker();
-            case 'css':
-            case 'scss':
-            case 'less':
-                return new cssWorker();
-            case 'html':
-                return new htmlWorker();
-            case 'typescript':
-            case 'javascript':
-                return new tsWorker();
-            default:
-                return new editorWorker();
-        }
-    },
-};
-
 export interface CreateEditorOptions {
     target: HTMLDivElement;
     content: string;
@@ -39,6 +19,28 @@ export interface CreateEditorOptions {
 }
 
 class MonacoBox {
+    static boot() {
+        window.MonacoEnvironment = {
+            getWorker(_, label) {
+                switch (label) {
+                    case 'json':
+                        return new jsonWorker();
+                    case 'css':
+                    case 'scss':
+                    case 'less':
+                        return new cssWorker();
+                    case 'html':
+                        return new htmlWorker();
+                    case 'typescript':
+                    case 'javascript':
+                        return new tsWorker();
+                    default:
+                        return new editorWorker();
+                }
+            },
+        };
+    }
+
     static getLanguage(editor: monaco.editor.IStandaloneCodeEditor): SmartLanguage {
         console.log("💼 MonacoBox: 获取 monaco editor 的语言", editor.getModel()!.getLanguageId());
 
@@ -69,13 +71,13 @@ class MonacoBox {
     static setHeightOfEditor(editor: monaco.editor.IStandaloneCodeEditor) {
         let height = MonacoBox.getLinesHeight(editor);
 
-        console.log("💼 MonacoBox: 设置 monaco editor 的高度", height);
+        console.log("💼 MonacoBox: 设置高度", height);
 
         editor.getDomNode()!.style.height = height + "px";
     }
 
     static createEditor(options: CreateEditorOptions): monaco.editor.IStandaloneCodeEditor {
-        console.log('🍋 💼 MonacoBox: 创建 Monaco')
+        console.log('💼 MonacoBox: 创建')
         // console.log('创建 Monaco，配置是', options)
 
         const editor = monaco.editor.create(options.target, {

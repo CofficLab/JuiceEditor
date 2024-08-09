@@ -2,41 +2,29 @@
   <div
     class="relative w-20"
     contenteditable="false"
-    @mouseover="showLanguageSelect"
-    @mouseleave="hideLanguageSelect"
+    @mouseover="showSelect"
+    @mouseleave="hideSelect"
   >
-    <div
-      tabindex="1"
-      class="w-full p-1 text-xs cursor-pointer text-end text-white/70 hover:bg-green-800/80"
-    >
-      {{ currentLanguage.getTitle() }}
-    </div>
-    <div
-      v-show="shouldShowLanguageSelect"
-      class="absolute top-0 w-full p-0 shadow -right-20 menu menu-xs bg-base-100/95"
-    >
-      <li v-for="(item, index) in languages" :key="index">
-        <a @click="changedLanguage(item)" class="no-underline">{{ item.getTitle() }}</a>
-      </li>
-    </div>
+    <Label>{{ current.getTitle() }}</Label>
+    <List :items="languages" :onclick="changed" v-if="shouldShowSelect"></List>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import List from '../../ui/List.vue'
+import Label from '../../ui/Label.vue'
 import { SmartLanguage, languages } from './Entities/SmartLanguage'
 
 const props = defineProps({
-  language: {
+  current: {
     type: SmartLanguage,
     required: false,
-    default: () => languages[0]
+    default: languages[0]
   },
-  onLanguageChanged: {
+  onChanged: {
     type: Function,
-    default: (language: SmartLanguage) => {
-      console.log('🍋 💼 MonacoBox: monaco language changed', language)
-    }
+    required: true
   },
   editable: {
     type: Boolean,
@@ -44,31 +32,21 @@ const props = defineProps({
   }
 })
 
-const currentLanguage = ref(props.language)
-const shouldShowLanguageSelect = ref(false)
+const current = ref(props.current)
+const shouldShowSelect = ref(false)
 
-function changedLanguage(language: SmartLanguage) {
-  currentLanguage.value = language
-  props.onLanguageChanged(language)
+function changed(language: SmartLanguage) {
+  current.value = language
+  props.onChanged(language)
 }
 
-function showLanguageSelect() {
-  console.log('showLan')
-  shouldShowLanguageSelect.value = true && props.editable
+function showSelect() {
+  shouldShowSelect.value = true && props.editable
 }
 
-function hideLanguageSelect() {
+function hideSelect() {
   setTimeout(() => {
-    shouldShowLanguageSelect.value = false
+    shouldShowSelect.value = false
   }, 300)
 }
 </script>
-
-<style scoped lang="postcss">
-li {
-  @apply rounded-none p-0 m-0 !important;
-  a {
-    @apply rounded-none !important;
-  }
-}
-</style>

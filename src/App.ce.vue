@@ -28,7 +28,7 @@ import { useFeatureStore } from './provider/FeatureStore'
 import setApi from './api/ApiSet'
 import Loading from './ui/Loading.vue'
 import { computed } from 'vue'
-import { onMounted, ref } from 'vue'
+import { onMounted } from 'vue'
 
 const props = defineProps({
   drawio: {
@@ -37,25 +37,16 @@ const props = defineProps({
   }
 })
 
-// 选择要观察的目标节点
 const targetNode = document.querySelector('juice-editor')!
-
-// 创建观察者选项
 const config = { childList: true, subtree: true, characterData: true }
-
-// 创建一个 MutationObserver 实例，并传入回调函数
-const observer = new MutationObserver((mutationsList) => {
-  setEditorContent()
-})
-
-// 开始观察目标节点
-observer.observe(targetNode, config)
-
+const observer = new MutationObserver(setEditorContent)
 const feature = useFeatureStore()
 const app = useAppStore()
 const node = computed(() => {
   return app.node
 })
+
+observer.observe(targetNode, config)
 
 onMounted(() => {
   app.drawLink = props.drawio
