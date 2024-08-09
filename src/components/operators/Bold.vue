@@ -5,7 +5,8 @@
     tip="加粗"
     size="md"
   >
-    <img :src="icon" v-if="iconOnly" />
+    <IconBold v-if="iconOnly"></IconBold>
+
     <span v-if="!iconOnly">加粗</span>
   </Button>
 </template>
@@ -14,7 +15,7 @@
 import { Editor } from '@tiptap/vue-3'
 import { computed } from 'vue'
 import Button from '../../ui/Button.vue'
-import icon from '../../assets/bold.svg'
+import IconBold from '../icons/IconBold.vue'
 
 const props = defineProps({
   editor: {
