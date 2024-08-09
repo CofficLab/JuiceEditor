@@ -140,7 +140,7 @@ onMounted(() => {
     content: props.content,
     target: monacoDom.value,
     language: props.language,
-    readOnly: !props.editable,
+    readOnly: props.readOnly,
     onCreated(editor) {
       lan.value = MonacoBox.getLanguage(editor)
       lineCount.value = editor.getModel()!.getLineCount()
