@@ -34,6 +34,10 @@ const props = defineProps({
   drawio: {
     type: String,
     required: true
+  },
+  readonly: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -50,6 +54,7 @@ observer.observe(targetNode, config)
 
 onMounted(() => {
   app.drawLink = props.drawio
+  feature.editable = !props.readonly
 
   // 将方法暴露到外部，swift 可以调用
   setApi(app, feature)
