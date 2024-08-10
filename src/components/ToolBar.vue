@@ -1,7 +1,8 @@
 <template>
   <ButtonBar>
     <Button @click="app.setCurrentNode(baseNode)">通用</Button>
-    <Button @click="app.setCurrentNode(linkNode)"> 链接 </Button>
+    <Button @click="app.setCurrentNode(taskNode)">待办</Button>
+    <Button @click="app.setCurrentNode(linkNode)">链接</Button>
     <Button @click="app.setCurrentNode(codeNode)">代码</Button>
     <Button @click="app.setCurrentNode(drawNode)">图片</Button>
     <Button @click="app.setCurrentNode(tableNode)">表格</Button>
@@ -31,6 +32,7 @@ import drawNode from '../samples/DrawNode'
 import tableNode from '../samples/TableNode'
 import bigNode from '../samples/BigNode'
 import liteNode from '../samples/LiteNode'
+import taskNode from '../samples/TaskNode'
 import bannerNode from '../samples/BannerNode'
 import childrenNode from '../samples/ChildrenNode'
 import Button from '../ui/Button.vue'

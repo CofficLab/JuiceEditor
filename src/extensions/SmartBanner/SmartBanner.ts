@@ -9,7 +9,7 @@ declare module '@tiptap/core' {
   }
 }
 
-export const SmartBanner = Node.create({
+export default Node.create({
   name: "banner",
   group: "block",
   content: "inline*",

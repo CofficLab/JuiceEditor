@@ -1,10 +1,12 @@
 <template>
   <div
     ref="panel"
-    class="relative z-10 w-full panel"
+    class="relative z-10 w-full"
     :id="id"
     :class="{
       inline: inline,
+      'bg-green-400/20 shadow-inner': operatorsVisible,
+      'px-8': !inline,
       'dropdown-bottom': dropdownBottom,
       'dropdown-top': !dropdownBottom
     }"
@@ -19,8 +21,6 @@
     </div>
 
     <div
-      tabindex="0"
-      role="button"
       :class="{ inline: inline }"
       v-bind:class="[
         {

@@ -4,7 +4,6 @@ import BulletList from "@tiptap/extension-bullet-list"
 import CharacterCount from "@tiptap/extension-character-count"
 import Code from "@tiptap/extension-code"
 import Color from "@tiptap/extension-color"
-import Heading from "@tiptap/extension-heading"
 import History from "@tiptap/extension-history"
 import Italic from "@tiptap/extension-italic"
 import ListItem from "@tiptap/extension-list-item"
@@ -17,17 +16,18 @@ import TableCell from "@tiptap/extension-table-cell"
 import TableHeader from "@tiptap/extension-table-header"
 import TableRow from "@tiptap/extension-table-row"
 import TaskItem from "@tiptap/extension-task-item"
-import TaskList from "@tiptap/extension-task-list"
 import Text from "@tiptap/extension-text"
-import { SmartBanner } from "../extensions/SmartBanner/SmartBanner"
-import SmartImage from "../extensions/SmartImage/SmartImage"
-import SmartLink from "../extensions/SmartLink/SmartLink"
 import { Toc } from "../extensions/Toc/Toc"
 import { Document } from "@tiptap/extension-document"
+import Base from "../extensions/Base/Base"
+import SmartHeading from "../extensions/SmartHeading/SmartHeading"
+import SmartTaskList from "../extensions/SmartTaskList/SmartTaskList"
 import SmartTable from "../extensions/SmartTable/SmartTable"
-import { Base } from "../extensions/Base/Base"
-import { SmartPre } from "../extensions/SmartPre/SmartPre"
-import { GroupPre } from "../extensions/GroupPre/GroupPre"
+import SmartPre from "../extensions/SmartPre/SmartPre"
+import SmartImage from "../extensions/SmartImage/SmartImage"
+import SmartLink from "../extensions/SmartLink/SmartLink"
+import SmartBanner from "../extensions/SmartBanner/SmartBanner"
+import SmartParagraph from "../extensions/SmartParagraph/SmartParagraph"
 
 interface makeExtensionsProps {
     drawIoLink?: string,
@@ -77,7 +77,7 @@ export default function makeExtensions(props: makeExtensionsProps) {
             content: 'heading block*'
         }),
         // GroupPre,
-        Heading,
+        SmartHeading,
         History.configure({
             depth: 100,
         }),
@@ -97,7 +97,7 @@ export default function makeExtensions(props: makeExtensionsProps) {
                 class: 'my-custom-class',
             },
         }),
-        Paragraph,
+        SmartParagraph,
         Placeholder.configure({
             placeholder: ({ node }) => {
                 if (node.type.name === 'heading' && node.attrs.level == 1) {
@@ -125,11 +125,7 @@ export default function makeExtensions(props: makeExtensionsProps) {
         TaskItem.configure({
             nested: true,
         }),
-        TaskList.configure({
-            HTMLAttributes: {
-                class: 'my-task-class',
-            },
-        }),
+        SmartTaskList,
         Text,
         SmartTable,
         // 默认启用table，保证table能够正常渲染

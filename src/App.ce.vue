@@ -78,8 +78,12 @@ function onMessage(m: string) {
 }
 
 function setEditorContent() {
-  let content = document.querySelector('juice-editor')!.innerHTML
-  app.setCurrentNodeContent(content)
+  if (app.isDebug == false) {
+    let content = document.querySelector('juice-editor')!.innerHTML
+    app.setCurrentNodeContent(content)
+  }
+
+  app.loading = false
   app.setReady()
 
   observer.disconnect()
