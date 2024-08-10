@@ -23,7 +23,7 @@
         <NodeViewContent class="hidden"></NodeViewContent>
       </template>
 
-      <template v-slot:operators> </template>
+      <template v-slot:operators></template>
     </Panel>
   </NodeViewWrapper>
 </template>

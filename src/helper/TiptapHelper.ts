@@ -196,8 +196,11 @@ class TiptapHelper {
     // 在本节点的后面插入一行
     static newLineOf(editor: TiptapEditor, node: ProseMirrorNode, pos: number) {
         let tail = TiptapHelper.getTailPosOf(editor, node, pos)
-        console.log('tail is', tail)
-        editor.commands.insertContentAt(tail - 1, '<p>type here...</p>', {
+        // console.log('new line, node is', node)
+        // console.log('new line, pos is', pos)
+        // console.log('node size is', node.nodeSize)
+        // console.log('tail is', tail)
+        editor.commands.insertContentAt(tail, '<p>type here...</p>', {
             updateSelection: false,
             parseOptions: {
                 preserveWhitespace: 'full'

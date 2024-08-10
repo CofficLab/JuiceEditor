@@ -6,7 +6,7 @@
       :withPadding="false"
       :editor="props.editor"
       :node="props.node"
-      :pos="props.getPos()"
+      :getPos="props.getPos"
     >
       <template v-slot:content>
         <!-- 内容 -->

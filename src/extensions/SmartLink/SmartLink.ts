@@ -1,6 +1,7 @@
 import { Node } from "@tiptap/core";
 import { VueNodeViewRenderer } from "@tiptap/vue-3";
-import SmartLinVue from "./SmartLink.vue";
+import SmartLinkVue from "./SmartLink.vue";
+
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
         SmartLink: {
@@ -9,9 +10,8 @@ declare module '@tiptap/core' {
     }
 }
 
-// 只有 Node 可以自定义 NodeView，Mark 不行
 const SmartLink = Node.create({
-    name: "link",
+    name: "a",
     inline: true,
     group: "inline",
     content: "text*",
@@ -44,7 +44,7 @@ const SmartLink = Node.create({
                     },
         };
     },
-    addNodeView: () => VueNodeViewRenderer(SmartLinVue),
+    addNodeView: () => VueNodeViewRenderer(SmartLinkVue),
 });
 
 export default SmartLink;
