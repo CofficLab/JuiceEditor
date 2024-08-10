@@ -2,6 +2,7 @@
   <ButtonBar>
     <Button @click="app.setCurrentNode(baseNode)">通用</Button>
     <Button @click="app.setCurrentNode(taskNode)">待办</Button>
+    <Button @click="app.setCurrentNode(paragraphNode)">段落</Button>
     <Button @click="app.setCurrentNode(bulletNode)">无序列表</Button>
     <Button @click="app.setCurrentNode(linkNode)">链接</Button>
     <Button @click="app.setCurrentNode(codeNode)">代码</Button>
@@ -31,6 +32,7 @@ import bulletNode from '../samples/BulletNode'
 import linkNode from '../samples/LinkNode'
 import codeNode from '../samples/CodeNode'
 import drawNode from '../samples/DrawNode'
+import paragraphNode from '../samples/ParagraphNode'
 import tableNode from '../samples/TableNode'
 import bigNode from '../samples/BigNode'
 import liteNode from '../samples/LiteNode'
