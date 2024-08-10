@@ -91,10 +91,8 @@ export default CodeBlock.extend({
     log('onTiptapDestroy')
   },
 
-  onBeforeCreate() {
-    log('onBeforeCreate, 存储 UUID ->', this.editor.options.injectNonce)
-    this.storage.editorUUID = this.editor.options.injectNonce
-
+  onCreate() {
+    // The editor is ready.
     log("Boot Monaco")
     MonacoBox.boot()
 
@@ -106,6 +104,11 @@ export default CodeBlock.extend({
 
     // 仅用于让Monaco将样式写入dom中
     MonacoBox.createEmptyEditor(monacoDom)
+  },
+
+  onBeforeCreate() {
+    log('onBeforeCreate, 存储 UUID ->', this.editor.options.injectNonce)
+    this.storage.editorUUID = this.editor.options.injectNonce
   },
 
   // onUpdate() {
