@@ -1,3 +1,5 @@
+import { Editor, Node } from "@tiptap/core";
+
 interface MimeTypeMapping {
     [key: string]: string
 }

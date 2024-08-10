@@ -17,7 +17,7 @@ declare module '@tiptap/core' {
 }
 
 // 保存成HTML的时候要考虑HTML转Markdown
-export const SmartPre = CodeBlock.extend({
+export default CodeBlock.extend({
   name: 'pre',
 
   addAttributes() {

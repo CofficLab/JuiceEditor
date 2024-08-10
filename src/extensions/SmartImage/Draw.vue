@@ -1,6 +1,12 @@
 <template>
   <NodeViewWrapper>
-    <Panel :deleteNode="props.deleteNode" :readOnly="!props.editor.isEditable">
+    <Panel
+      :deleteNode="props.deleteNode"
+      :readOnly="!props.editor.isEditable"
+      :editor="props.editor"
+      :node="props.node"
+      :getPos="props.getPos"
+    >
       <template v-slot:content>
         <img ref="img" :src="node.attrs.src" :class="node.attrs.class" class="z-10 p-0 m-0" />
 
@@ -14,9 +20,6 @@
         <Button @click="downloadImage">
           <IconDownload></IconDownload>
         </Button>
-        <Button @click="Helper.newLine(props)">
-          <IconNewLine></IconNewLine>
-        </Button>
       </template>
     </Panel>
   </NodeViewWrapper>
@@ -26,15 +29,14 @@
 import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 import { ref } from 'vue'
 import { makeDrawUrl } from './DrawUrl'
-import Helper from '../../helper/ImageHelper'
 import DrawConfig from './DrawConfig'
 import IconEdit from './Icons/IconEdit.vue'
-import IconNewLine from './Icons/IconNewLine.vue'
 import IconDownload from './Icons/IconDownload.vue'
 import Opening from './Opening.vue'
 import webkit from '../../api/WebKit'
 import Panel from '../Panel.vue'
 import Button from '../../ui/Button.vue'
+import ImageHelper from '../../helper/ImageHelper'
 
 const img = ref<HTMLImageElement | null>(null)
 const opening = ref<HTMLImageElement | null>(null)
@@ -112,11 +114,11 @@ function exportBase64(base64ImageString: string) {
   // 下载
   if (isWebKit) {
     webkit.downloadImage(
-      Helper.getBase64FromBase64Image(base64ImageString),
-      'Image' + Helper.getExtension(base64ImageString)
+      ImageHelper.getBase64FromBase64Image(base64ImageString),
+      'Image' + ImageHelper.getExtension(base64ImageString)
     )
   } else {
-    Helper.download2(base64ImageString)
+    ImageHelper.download2(base64ImageString)
   }
 }
 
@@ -226,4 +228,3 @@ function receive(event: MessageEvent): void {
   }
 }
 </script>
-./ImageHelper./ImageHelper

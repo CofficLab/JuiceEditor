@@ -5,13 +5,11 @@ const codeNode = new TreeNode({
     content: `
     <h1 id="heading-1">代码块</h1><p>现在，我们需要往<code>numbers.txt</code>文件中写入数字 1 到 10，用程序来做：</p>
     
-<pre>
-<code class="language-text">x = 1
+    <pre><code class="language-text">x = 1
 如果 x &lt;= 10,循环执行
     x的值写入 numbers.txt
     x = x + 1
-结束
-</code></pre>
+结束</code></pre>
 
 <blockquote class="my-custom-class"><p>上面这段一般称为：伪代码</p></blockquote>
 

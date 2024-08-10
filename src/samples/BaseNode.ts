@@ -5,7 +5,7 @@ const baseNode = new TreeNode({
   uuid: 'baseNode',
   content: `
     <h1>测试内容</h1>
-    <pre><code>console.log("ABC 通用文章中的代码")</code></pre>
+    <pre><code class="language-js">console.log("ABC 通用文章中的代码")</code></pre>
     <h2>表格</h2>
     <p>记得开启表格功能</p>
     <smart-table>

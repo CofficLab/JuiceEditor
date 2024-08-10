@@ -1,5 +1,6 @@
 import { Editor } from '@tiptap/vue-3'
 import { Editor as TiptapEditor } from '@tiptap/core'
+import { Mark as ProseMirrorMark, Node as ProseMirrorNode, NodeType, ParseOptions } from '@tiptap/pm/model';
 import EditorData from '../model/EditorData'
 import makeExtensions from '../config/extension'
 
@@ -179,6 +180,30 @@ class TiptapHelper {
         }
 
         return true
+    }
+
+    // 获取尾部位置
+    static getTailPosOf(editor: TiptapEditor, node: ProseMirrorNode, pos: number): number {
+        const start = pos
+        const end = start + node.nodeSize
+
+        // console.log('start is', start)
+        // console.log('size is', props.node.nodeSize)
+
+        return end
+    }
+
+    // 在本节点的后面插入一行
+    static newLineOf(editor: TiptapEditor, node: ProseMirrorNode, pos: number) {
+        let tail = TiptapHelper.getTailPosOf(editor, node, pos)
+        console.log('tail is', tail)
+        editor.commands.insertContentAt(tail - 1, '<p>type here...</p>', {
+            updateSelection: false,
+            parseOptions: {
+                preserveWhitespace: 'full'
+            }
+        })
+        editor.commands.focus(tail)
     }
 }
 

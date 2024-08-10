@@ -1,6 +1,13 @@
 <template>
   <NodeViewWrapper class="inline">
-    <Panel :inline="true" :deleteNode="props.deleteNode" :readOnly="!props.editor.isEditable">
+    <Panel
+      :inline="true"
+      :deleteNode="props.deleteNode"
+      :readOnly="!props.editor.isEditable"
+      :editor="props.editor"
+      :node="props.node"
+      :pos="props.getPos()"
+    >
       <template v-slot:content>
         <!-- 链接的内容 -->
         <label
@@ -11,7 +18,7 @@
         >
           <span v-html="props.node.attrs.text" class="text-blue-500"></span>
           <NodeViewContent class="hidden" />
-          <a :href="props.node.attrs.href" ref="goto" target="_blank" class="no-underline hidden"
+          <a :href="props.node.attrs.href" ref="goto" target="_blank" class="hidden no-underline"
             >访问</a
           >
         </label>
@@ -29,7 +36,7 @@
             type="text"
             v-model="props.node.attrs.href"
             placeholder="在此输入链接"
-            class="input w-48 rounded-none h-full focus:outline-none input-xs text-blue-500"
+            class="w-48 h-full text-blue-500 rounded-none input focus:outline-none input-xs"
           />
         </Button>
 
@@ -38,7 +45,7 @@
             type="text"
             v-model="props.node.attrs.text"
             placeholder="在此输入文字"
-            class="w-48 focus:outline-none h-full rounded-none input-xs input"
+            class="w-48 h-full rounded-none focus:outline-none input-xs input"
           />
         </Button>
 

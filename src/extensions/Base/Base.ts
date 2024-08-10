@@ -1,6 +1,6 @@
 import { Node } from '@tiptap/vue-3'
 
-export const Base = Node.create({
+export default Node.create({
   name: 'base',
 
   onDestroy() {

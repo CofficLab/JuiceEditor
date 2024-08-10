@@ -1,6 +1,12 @@
 <template>
   <NodeViewWrapper>
-    <Panel :deleteNode="props.deleteNode" :readOnly="!props.editor.isEditable">
+    <Panel
+      :deleteNode="props.deleteNode"
+      :readOnly="!props.editor.isEditable"
+      :editor="props.editor"
+      :node="props.node"
+      :getPos="props.getPos"
+    >
       <template v-slot:content>
         <img
           ref="imgDom"

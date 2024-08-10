@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-center h-full">
+  <div class="flex items-center justify-center w-56 h-full mt-12">
     <div class="w-full max-w-sm p-4 mx-auto border rounded-md shadow border-blue-300/50">
       <div class="animate-pulse">
         <div class="flex-1 py-1 space-y-6">
