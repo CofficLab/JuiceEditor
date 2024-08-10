@@ -6,10 +6,10 @@
       :readOnly="!props.editor.isEditable"
       :editor="props.editor"
       :node="props.node"
-      :pos="props.getPos()"
+      :getPos="props.getPos"
     >
       <template v-slot:content>
-        <hx>{{ props.node.textContent }}</hx>
+        <hx contenteditable="true">{{ props.node.textContent }}</hx>
       </template>
     </Panel>
   </NodeViewWrapper>

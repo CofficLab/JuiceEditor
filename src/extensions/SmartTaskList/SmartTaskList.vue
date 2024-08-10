@@ -5,7 +5,7 @@
       :readOnly="!props.editor.isEditable"
       :editor="props.editor"
       :node="props.node"
-      :pos="props.getPos()"
+      :getPos="props.getPos"
     >
       <template v-slot:content>
         <ul data-type="taskList">

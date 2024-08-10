@@ -5,7 +5,7 @@
       :readOnly="!props.editor.isEditable"
       :editor="props.editor"
       :node="props.node"
-      :pos="props.getPos()"
+      :getPos="props.getPos"
     >
       <template v-slot:content>
         <img ref="img" :src="node.attrs.src" :class="node.attrs.class" class="z-10 p-0 m-0" />

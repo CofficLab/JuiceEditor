@@ -197,7 +197,7 @@ class TiptapHelper {
     static newLineOf(editor: TiptapEditor, node: ProseMirrorNode, pos: number) {
         let tail = TiptapHelper.getTailPosOf(editor, node, pos)
         console.log('tail is', tail)
-        editor.commands.insertContentAt(tail - 1, '<p></p>', {
+        editor.commands.insertContentAt(tail - 1, '<p>type here...</p>', {
             updateSelection: false,
             parseOptions: {
                 preserveWhitespace: 'full'

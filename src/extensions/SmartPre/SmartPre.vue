@@ -7,7 +7,7 @@
       :with-padding="false"
       :editor="props.editor"
       :node="props.node"
-      :pos="props.getPos()"
+      :getPos="props.getPos"
     >
       <template v-slot:content>
         <div class="relative" ref="codeDom" v-if="show">

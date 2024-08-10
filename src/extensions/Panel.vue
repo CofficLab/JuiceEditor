@@ -24,7 +24,7 @@
           <IconDelete></IconDelete>
         </Button>
 
-        <Button @click="TiptapHelper.newLineOf(props.editor, props.node, props.pos)">
+        <Button @click="TiptapHelper.newLineOf(props.editor, props.node, props.getPos())">
           <IconNewLine></IconNewLine>
         </Button>
       </ButtonBar>
@@ -90,8 +90,8 @@ const props = defineProps({
     type: ProseMirrorNode,
     required: true
   },
-  pos: {
-    type: Number,
+  getPos: {
+    type: Function,
     required: true
   }
 })
