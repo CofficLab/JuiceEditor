@@ -11,13 +11,14 @@
       'dropdown-top': !dropdownBottom
     }"
   >
+    <!-- 左侧操作栏 -->
     <div
       :class="{
         'absolute z-50': true,
         '-left-20 -ml-1': !borderVisible,
         '-left-20 -ml-2': borderVisible
       }"
-      v-show="operatorsVisible"
+      v-show="operatorsVisible && leftOperatorsVisible"
     >
       <ButtonBar>
         <Button tip="删除" @click="deleteNode">
@@ -30,8 +31,9 @@
       </ButtonBar>
     </div>
 
+    <!-- 上部操作栏 -->
     <div class="absolute z-50 -top-10" v-show="operatorsVisible" contenteditable="false">
-      <ButtonBar>
+      <ButtonBar v-if="$slots.operators">
         <slot name="operators"></slot>
       </ButtonBar>
     </div>
@@ -101,6 +103,9 @@ const isSelected = ref(false)
 const panel = ref<HTMLElement | null>(null)
 const dropdownBottom = ref(true)
 const borderVisible = computed(() => props.showBorder && isSelected.value && !props.readOnly)
+const leftOperatorsVisible = computed(
+  () => !props.readOnly && isSelected.value && !['a'].includes(props.node.type.name)
+)
 const operatorsVisible = computed(() => !props.readOnly && isSelected.value)
 
 onMounted(() => {

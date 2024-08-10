@@ -6,14 +6,14 @@
       :readOnly="!props.editor.isEditable"
       :editor="props.editor"
       :node="props.node"
-      :pos="props.getPos()"
+      :getPos="props.getPos"
     >
       <template v-slot:content>
         <!-- 链接的内容 -->
         <label
           tabindex="0"
           contenteditable="false"
-          class="m-0 link link-hover link-primary"
+          class="m-0 hover:cursor-pointer"
           @click="onClickLink"
         >
           <span v-html="props.node.attrs.text" class="text-blue-500"></span>
@@ -36,7 +36,7 @@
             type="text"
             v-model="props.node.attrs.href"
             placeholder="在此输入链接"
-            class="w-48 h-full text-blue-500 rounded-none input focus:outline-none input-xs"
+            class="w-48 h-full rounded-none input focus:outline-none input-xs"
           />
         </Button>
 
