@@ -28,6 +28,7 @@ import SmartImage from "../extensions/SmartImage/SmartImage"
 import SmartLink from "../extensions/SmartLink/SmartLink"
 import SmartBanner from "../extensions/SmartBanner/SmartBanner"
 import SmartParagraph from "../extensions/SmartParagraph/SmartParagraph"
+import SmartBulletList from "../extensions/SmartBulletList/SmartBulletList"
 
 interface makeExtensionsProps {
     drawIoLink?: string,
@@ -43,7 +44,7 @@ export default function makeExtensions(props: makeExtensionsProps) {
                 class: 'my-custom-class',
             },
         }),
-        BulletList.configure({
+        SmartBulletList.configure({
             HTMLAttributes: {
                 class: 'my-custom-class',
             },

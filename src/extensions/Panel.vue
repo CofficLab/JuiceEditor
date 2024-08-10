@@ -5,18 +5,34 @@
     :id="id"
     :class="{
       inline: inline,
-      'bg-green-400/20 shadow-inner': operatorsVisible,
-      'px-8': !inline,
+      'bg-cyan-100/10 shadow-inner': operatorsVisible,
+      'px-8': !inline && withPadding,
       'dropdown-bottom': dropdownBottom,
       'dropdown-top': !dropdownBottom
     }"
   >
-    <div class="absolute z-50 -top-10" v-show="operatorsVisible" contenteditable="false">
+    <div
+      :class="{
+        'absolute z-50': true,
+        '-left-20 -ml-1': !borderVisible,
+        '-left-20 -ml-2': borderVisible
+      }"
+      v-show="operatorsVisible"
+    >
       <ButtonBar>
-        <slot name="operators"></slot>
         <Button tip="删除" @click="deleteNode">
           <IconDelete></IconDelete>
         </Button>
+
+        <Button @click="TiptapHelper.newLineOf(props.editor, props.node, props.pos)">
+          <IconNewLine></IconNewLine>
+        </Button>
+      </ButtonBar>
+    </div>
+
+    <div class="absolute z-50 -top-10" v-show="operatorsVisible" contenteditable="false">
+      <ButtonBar>
+        <slot name="operators"></slot>
       </ButtonBar>
     </div>
 
@@ -40,6 +56,10 @@ import { v4 as uuidv4 } from 'uuid'
 import IconDelete from './BaseIcons/Delete.vue'
 import Button from '../ui/Button.vue'
 import ButtonBar from '../ui/ButtonBar.vue'
+import TiptapHelper from '../helper/TiptapHelper'
+import { Editor } from '@tiptap/core'
+import { Node as ProseMirrorNode } from '@tiptap/pm/model'
+import IconNewLine from '../components/icons/IconNewLine.vue'
 
 const props = defineProps({
   inline: {
@@ -57,6 +77,22 @@ const props = defineProps({
   readOnly: {
     type: Boolean,
     default: false
+  },
+  withPadding: {
+    type: Boolean,
+    default: true
+  },
+  editor: {
+    type: Editor,
+    required: true
+  },
+  node: {
+    type: ProseMirrorNode,
+    required: true
+  },
+  pos: {
+    type: Number,
+    required: true
   }
 })
 

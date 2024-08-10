@@ -1,6 +1,14 @@
 <template>
   <NodeViewWrapper>
-    <Panel :deleteNode="props.deleteNode" :show-border="true" :readOnly="!props.editor.isEditable">
+    <Panel
+      :deleteNode="props.deleteNode"
+      :show-border="false"
+      :readOnly="!props.editor.isEditable"
+      :with-padding="false"
+      :editor="props.editor"
+      :node="props.node"
+      :pos="props.getPos()"
+    >
       <template v-slot:content>
         <div class="relative" ref="codeDom" v-if="show">
           <MonacoBox
@@ -23,7 +31,7 @@
 <script lang="ts" setup>
 import { NodeViewContent, nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 import Panel from '../Panel.vue'
-import { computed, onUpdated, readonly, ref } from 'vue'
+import { computed, onUpdated, ref } from 'vue'
 import { SmartLanguage } from './Entities/SmartLanguage'
 import MonacoBox from './MonacoBox.vue'
 

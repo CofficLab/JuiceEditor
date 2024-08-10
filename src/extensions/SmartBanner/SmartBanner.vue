@@ -1,12 +1,19 @@
 <template>
   <NodeViewWrapper>
-    <Panel :deleteNode="props.deleteNode" :readOnly="!props.editor.isEditable">
+    <Panel
+      :deleteNode="props.deleteNode"
+      :readOnly="!props.editor.isEditable"
+      :withPadding="false"
+      :editor="props.editor"
+      :node="props.node"
+      :pos="props.getPos()"
+    >
       <template v-slot:content>
         <!-- 内容 -->
         <div
-          class="flex flex-row gap-2 rounded-xl px-3 py-2 shadow-sm backdrop-blur"
+          class="flex flex-row gap-2 px-3 py-2 shadow-sm backdrop-blur"
           v-bind:class="[
-            { 'border-0 ring-1': !selected },
+            { 'border-0': !selected },
             {
               'bg-gradient-to-r from-cyan-800/50 to-cyan-800/30': props.node.attrs.color == 'cyan'
             },
@@ -28,7 +35,7 @@
             <Info v-if="props.node.attrs.type == 'info'" class="w-5 h-6"></Info>
             <Question v-if="props.node.attrs.type == 'question'" class="w-5 h-6"></Question>
           </div>
-          <NodeViewContent class="border border-none px-4 dark:border-cyan-800" />
+          <NodeViewContent class="px-4 border border-none dark:border-cyan-800" />
         </div>
       </template>
 

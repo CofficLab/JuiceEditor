@@ -47,9 +47,6 @@
   <Button @click="reset" data-tip="恢复原始形状">
     <Reset></Reset>
   </Button>
-  <Button @click="newLine" data-tip="在图片后插入空白行">
-    <IconNewLine></IconNewLine>
-  </Button>
   <input
     ref="fileInput"
     multiple="false"
@@ -65,7 +62,6 @@ import { nodeViewProps } from '@tiptap/vue-3'
 import Helper from '../../helper/ImageHelper'
 import { defineProps, ref } from 'vue'
 import webkit from '../../api/WebKit'
-import IconNewLine from './Icons/IconNewLine.vue'
 import IconDownload from './Icons/IconDownload.vue'
 import IconEdit from './Icons/IconEdit.vue'
 import Reset from './Icons/Reset.vue'
@@ -287,4 +283,3 @@ async function onFileSelected() {
   })
 }
 </script>
-../../helper/Helper ./ImageHelper
