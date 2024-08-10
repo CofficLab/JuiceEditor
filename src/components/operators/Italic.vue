@@ -5,7 +5,7 @@
     size="md"
     :class="{ 'is-active': editor.isActive('italic') }"
   >
-    <img :src="icon" v-if="iconOnly" />
+    <IconItalic v-if="iconOnly"></IconItalic>
     <span v-if="!iconOnly">斜体</span>
   </Button>
 </template>
@@ -15,6 +15,7 @@ import { Editor } from '@tiptap/vue-3'
 import { computed } from 'vue'
 import Button from '../../ui/Button.vue'
 import icon from '../../assets/italic.svg'
+import IconItalic from '../icons/IconItalic.vue'
 
 const props = defineProps({
   editor: {

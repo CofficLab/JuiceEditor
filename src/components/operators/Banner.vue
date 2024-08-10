@@ -5,13 +5,14 @@
     @click="editor.chain().focus().toggleBanner().run()"
     :class="{ 'is-active': editor.isActive('banner') }"
   >
-    <img :src="icon" alt="" class="m-0" />
+    <IconBanner />
   </Button>
 </template>
 
 <script lang="ts" setup>
 import { Editor } from '@tiptap/vue-3'
 import icon from '../../assets/123.rectangle.fill.svg'
+import IconBanner from '../icons/IconBanner.vue'
 import Button from '../../ui/Button.vue'
 
 defineProps({

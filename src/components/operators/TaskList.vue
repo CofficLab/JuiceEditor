@@ -5,7 +5,7 @@
     size="md"
     :class="{ 'is-active': editor.isActive('taskList') }"
   >
-    <img :src="icon" />
+    <IconTask></IconTask>
   </Button>
 
   <!-- <button @click="focusedNode.splitListItem('taskItem').run()"
@@ -31,6 +31,7 @@ import { Editor } from '@tiptap/vue-3'
 import { computed } from 'vue'
 import icon from '../../assets/checklist.svg'
 import Button from '../../ui/Button.vue'
+import IconTask from '../icons/IconTask.vue'
 
 const props = defineProps({
   editor: {

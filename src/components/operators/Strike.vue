@@ -5,7 +5,7 @@
     size="md"
     :class="{ 'is-active': editor.isActive('strike') }"
   >
-    <img :src="icon" v-if="iconOnly" />
+    <IconStrike v-if="iconOnly"></IconStrike>
     <span v-if="!iconOnly">中横线</span>
   </Button>
 </template>
@@ -15,6 +15,7 @@ import { Editor } from '@tiptap/vue-3'
 import { computed } from 'vue'
 import Button from '../../ui/Button.vue'
 import icon from '../../assets/strikethrough.svg'
+import IconStrike from '../icons/IconStrike.vue'
 
 const props = defineProps({
   editor: {

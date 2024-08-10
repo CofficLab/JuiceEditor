@@ -1,6 +1,6 @@
 <template>
   <Button tip="画图" size="md" v-if="isDrawEnable" @click="editor.commands.insertDraw()">
-    <img :src="icon" alt="" class="mx-auto" />
+    <IconDraw class="mx-auto" />
   </Button>
 </template>
 

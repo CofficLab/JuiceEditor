@@ -5,7 +5,7 @@
     size="md"
     :class="{ 'is-active': editor.isActive('paragraph', { level: 3 }) }"
   >
-    <img :src="icon" v-if="iconOnly" />
+    <IconChapter v-if="iconOnly"></IconChapter>
     <span v-if="!iconOnly">正文</span>
   </Button>
 </template>
@@ -15,6 +15,7 @@ import { Editor } from '@tiptap/vue-3'
 import { computed } from 'vue'
 import icon from '../../assets/character.svg'
 import Button from '../../ui/Button.vue'
+import IconChapter from '../icons/IconChapter.vue'
 
 const props = defineProps({
   editor: {
