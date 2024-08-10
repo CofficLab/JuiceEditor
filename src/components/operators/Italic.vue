@@ -14,7 +14,6 @@
 import { Editor } from '@tiptap/vue-3'
 import { computed } from 'vue'
 import Button from '../../ui/Button.vue'
-import icon from '../../assets/italic.svg'
 import IconItalic from '../icons/IconItalic.vue'
 
 const props = defineProps({

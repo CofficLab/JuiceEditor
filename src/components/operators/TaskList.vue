@@ -29,7 +29,6 @@
 <script lang="ts" setup>
 import { Editor } from '@tiptap/vue-3'
 import { computed } from 'vue'
-import icon from '../../assets/checklist.svg'
 import Button from '../../ui/Button.vue'
 import IconTask from '../icons/IconTask.vue'
 

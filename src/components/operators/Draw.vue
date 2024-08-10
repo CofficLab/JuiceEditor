@@ -9,7 +9,6 @@ import { Editor } from '@tiptap/vue-3'
 import { useFeatureStore } from '../../provider/FeatureStore'
 import IconDraw from '../icons/IconDraw.vue'
 import Button from '../../ui/Button.vue'
-import icon from '../../assets/compass.drawing.svg'
 
 const feature = useFeatureStore()
 

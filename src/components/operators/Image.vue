@@ -21,7 +21,6 @@
 <script lang="ts" setup>
 import { Editor } from '@tiptap/vue-3'
 import { ref } from 'vue'
-import icon from '../../assets/photo.svg'
 import IconPhoto from '../icons/IconPhoto.vue'
 import Button from '../../ui/Button.vue'
 

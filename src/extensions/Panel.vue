@@ -1,7 +1,7 @@
 <template>
   <div
     ref="panel"
-    class="z-10 w-full relative panel"
+    class="relative z-10 w-full panel"
     :id="id"
     :class="{
       inline: inline,
@@ -9,7 +9,7 @@
       'dropdown-top': !dropdownBottom
     }"
   >
-    <div class="z-50 absolute -top-10" v-show="operatorsVisible" contenteditable="false">
+    <div class="absolute z-50 -top-10" v-show="operatorsVisible" contenteditable="false">
       <ButtonBar>
         <slot name="operators"></slot>
         <Button tip="删除" @click="deleteNode">
@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, onUnmounted, computed, watch } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { v4 as uuidv4 } from 'uuid'
 import IconDelete from './BaseIcons/Delete.vue'
 import Button from '../ui/Button.vue'

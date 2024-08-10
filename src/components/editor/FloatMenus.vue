@@ -23,7 +23,6 @@
         <TaskList :editor="editor" />
         <Table :editor="editor"></Table>
         <SmartPre :editor="editor"></SmartPre>
-        <GroupPre :editor="editor"></GroupPre>
       </ButtonBar>
     </floating-menu>
   </div>
@@ -39,7 +38,6 @@ import Draw from '../operators/Draw.vue'
 import Table from '../operators/Table.vue'
 import TaskList from '../operators/TaskList.vue'
 import SmartPre from '../operators/SmartPre.vue'
-import GroupPre from '../operators/GroupPre.vue'
 import ButtonBar from '../../ui/ButtonBar.vue'
 
 defineProps({
