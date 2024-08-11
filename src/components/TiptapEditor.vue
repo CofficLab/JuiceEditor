@@ -13,9 +13,15 @@
     ></FloatMenus>
 
     <div
-      class="flex flex-row justify-center pt-4 pb-24 4md:justify-center"
       :class="{
-        'md:justify-end': shouldShowToc
+        'bg-slate-300/10': isDebug,
+        'md:bg-green-300/10': isDebug,
+        'lg:bg-blue-300/10': isDebug,
+        'xl:bg-purple-300/10': isDebug,
+        '2xl:bg-red-300/10': isDebug,
+        'px-4': true,
+        'flex flex-row pt-4 pb-24': true,
+        'justify-center': true
       }"
     >
       <!-- 编辑器 -->
@@ -23,10 +29,10 @@
         :editor="editor"
         :class="{
           'bg-slate-300/10': true,
-          'md:bg-green-300/10': false,
-          'lg:bg-blue-300/10': false,
-          'xl:bg-purple-300/10': false,
-          '2xl:bg-red-300/10': false,
+          'md:bg-green-300/10': isDebug,
+          'lg:bg-blue-300/10': isDebug,
+          'xl:bg-purple-300/10': isDebug,
+          '2xl:bg-red-300/10': isDebug,
           'md:max-w-xl': true,
           'md:px-0': true,
           'md:py-6': true,
@@ -41,23 +47,37 @@
           '2xl:py-8': true,
           'dark:bg-zinc-900/30': true,
           'shadow-inner': true,
-          'shadow-3xl': true,
           rounded: true
         }"
         class="container flex flex-col min-h-screen px-4 pb-48 prose-sm prose dark:prose-invert"
       />
 
+      <!-- TOC占位，宽度=TOC的宽度 -->
+      <div
+        :class="{
+          'md:w-56': shouldShowToc,
+          '4md:w-48': shouldShowToc,
+          'xl:w-64': shouldShowToc,
+          '2xl:w-88': shouldShowToc
+        }"
+      ></div>
+
       <!-- TOC，和顶部留一些距离，因为WEB项目顶部有导航栏 -->
       <div
-        class="sticky right-0 flex-row justify-start hidden h-screen overflow-y-scroll top-12 md:flex 4md:fixed 4md:right-0"
         id="toc"
         v-if="shouldShowToc"
         :class="{
+          'md:bg-slate-300/10': true,
+          'lg:bg-blue-300/50': isDebug,
+          'xl:bg-purple-300/50': isDebug,
+          '2xl:bg-red-300/50': isDebug,
+          'fixed right-0 top-12 shadow-inner': true,
+          'flex-row justify-start hidden h-screen overflow-y-scroll': true,
           'w-48': true,
-          'md:w-56': true,
-          '4md:w-48': true,
-          'xl:w-64': true,
-          '2xl:w-88': true
+          'md:w-56 md:flex md:right-1': true,
+          '4md:w-48 4md:right-2': true,
+          'xl:w-64 4md:right-2': true,
+          '2xl:w-88 2xl:right-24': true
         }"
       >
         <div class="w-full my-12 overflow-y-scroll menu menu-xs">
@@ -106,6 +126,7 @@ const editor = TiptapAgent.create({
   }
 })
 
+const isDebug = false
 const verbose = false
 const contextMenuDidShow = ref(false)
 const eventManager = new EventManager()
