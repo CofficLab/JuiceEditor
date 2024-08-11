@@ -9,7 +9,7 @@
       :getPos="props.getPos"
     >
       <template v-slot:content>
-        <hx contenteditable="true">{{ props.node.textContent }}</hx>
+        <hx contenteditable="true" :id="id">{{ props.node.textContent }}</hx>
       </template>
     </Panel>
   </NodeViewWrapper>
@@ -23,4 +23,5 @@ const props = defineProps(nodeViewProps)
 const hx = computed(() => {
   return `h${props.node.attrs.level}`
 })
+const id = computed(() => props.node.attrs.id)
 </script>
