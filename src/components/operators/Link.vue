@@ -14,7 +14,7 @@
 <script lang="ts" setup>
 import { Editor } from '@tiptap/vue-3'
 import Button from '../../ui/Button.vue'
-import IconLink from '../icons/IconLink.vue'
+import IconLink from '../../ui/Icons/IconLink.vue'
 
 const props = defineProps({
   editor: {

@@ -12,7 +12,7 @@
 <script lang="ts" setup>
 import { Editor } from '@tiptap/vue-3'
 import Button from '../../ui/Button.vue'
-import IconCode from '../icons/IconCode.vue'
+import IconCode from '../../ui/Icons/IconCode.vue'
 
 defineProps({
   editor: {

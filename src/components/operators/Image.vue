@@ -21,7 +21,7 @@
 <script lang="ts" setup>
 import { Editor } from '@tiptap/vue-3'
 import { ref } from 'vue'
-import IconPhoto from '../icons/IconPhoto.vue'
+import IconPhoto from '../../ui/Icons/IconPhoto.vue'
 import Button from '../../ui/Button.vue'
 
 const props = defineProps({

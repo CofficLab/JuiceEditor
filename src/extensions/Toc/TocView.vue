@@ -22,7 +22,7 @@
 
 <script setup lang="ts">
 import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
-import DynamicPadding from './DynamicPadding.vue'
+import DynamicPadding from '../../ui/DynamicPadding.vue'
 import { onMounted, nextTick, ref, onBeforeUnmount, computed } from 'vue'
 import Heading from './Heading'
 

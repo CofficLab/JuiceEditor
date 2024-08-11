@@ -18,8 +18,8 @@
 
 <script>
 import { NodeViewContent, nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
-import LinkIcon from '../icons/IconGoto.vue'
-import InfoIcon from '../icons/IconInfo.vue'
+import LinkIcon from '../../ui/Icons/IconGoto.vue'
+import InfoIcon from '../../ui/Icons/IconInfo.vue'
 import { useRoute } from 'vue-router'
 
 export default {

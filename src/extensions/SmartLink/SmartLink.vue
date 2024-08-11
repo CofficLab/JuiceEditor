@@ -60,8 +60,8 @@
 import { nodeViewProps, NodeViewWrapper, NodeViewContent } from '@tiptap/vue-3'
 import { ref } from 'vue'
 import Panel from '../Panel.vue'
-import Open from './Icons/Open.vue'
-import NoLink from './Icons/NoLink.vue'
+import Open from '../../ui/icons/Open.vue'
+import NoLink from '../../ui/icons/NoLink.vue'
 import Button from '../../ui/Button.vue'
 
 const props = defineProps(nodeViewProps)

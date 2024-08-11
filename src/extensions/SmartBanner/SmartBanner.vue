@@ -77,9 +77,9 @@
 
 <script setup lang="ts">
 import { NodeViewContent, nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
-import Info from './Icons/Info.vue'
-import Question from './Icons/Question.vue'
-import IconDelete from './Icons/Delete.vue'
+import Info from '../../ui/icons/Info.vue'
+import Question from '../../ui/icons/Question.vue'
+import IconDelete from '../../ui/icons/Delete.vue'
 import { computed, onMounted } from 'vue'
 import Panel from '../Panel.vue'
 import Button from '../../ui/Button.vue'

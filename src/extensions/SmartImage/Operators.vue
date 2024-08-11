@@ -62,9 +62,9 @@ import { nodeViewProps } from '@tiptap/vue-3'
 import Helper from '../../helper/ImageHelper'
 import { defineProps, ref } from 'vue'
 import webkit from '../../api/WebKit'
-import IconDownload from './Icons/IconDownload.vue'
-import IconEdit from './Icons/IconEdit.vue'
-import Reset from './Icons/Reset.vue'
+import IconDownload from '../../ui/icons/IconDownload.vue'
+import IconEdit from '../../ui/icons/IconEdit.vue'
+import Reset from '../../ui/icons/Reset.vue'
 import Button from '../../ui/Button.vue'
 
 const isSelected = ref(false)
