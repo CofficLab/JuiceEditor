@@ -9,13 +9,15 @@
       :getPos="props.getPos"
     >
       <template v-slot:content>
-        <hx contenteditable="true">{{ props.node.textContent }}</hx>
+        <hx contenteditable="true" :id="id">
+          <NodeViewContent></NodeViewContent>
+        </hx>
       </template>
     </Panel>
   </NodeViewWrapper>
 </template>
 <script setup lang="ts">
-import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
+import { nodeViewProps, NodeViewWrapper, NodeViewContent } from '@tiptap/vue-3'
 import { computed } from 'vue'
 import Panel from '../Panel.vue'
 
@@ -23,4 +25,5 @@ const props = defineProps(nodeViewProps)
 const hx = computed(() => {
   return `h${props.node.attrs.level}`
 })
+const id = computed(() => props.node.attrs.id)
 </script>

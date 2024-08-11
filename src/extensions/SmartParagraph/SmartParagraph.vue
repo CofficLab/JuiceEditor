@@ -16,7 +16,9 @@
       </template>
     </Panel>
 
-    <p v-else>{{ props.node.textContent }}</p>
+    <p v-else>
+      <NodeViewContent></NodeViewContent>
+    </p>
   </NodeViewWrapper>
 </template>
 <script setup lang="ts">
