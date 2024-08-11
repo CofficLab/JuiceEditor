@@ -12,7 +12,7 @@
 
 <script>
 import { NodeViewContent, nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
-import Info from '../../ui/Icons/IconInfo.vue'
+import Info from '../../ui/icons/IconInfo.vue'
 
 export default {
   components: {

@@ -61,7 +61,7 @@ import ButtonBar from '../ui/ButtonBar.vue'
 import TiptapHelper from '../helper/TiptapHelper'
 import { Editor } from '@tiptap/core'
 import { Node as ProseMirrorNode } from '@tiptap/pm/model'
-import IconNewLine from '../components/../ui/Icons/IconNewLine.vue'
+import IconNewLine from '../components/../ui/icons/IconNewLine.vue'
 
 const props = defineProps({
   inline: {

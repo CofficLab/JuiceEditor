@@ -14,7 +14,7 @@
 import { Editor } from '@tiptap/vue-3'
 import { computed } from 'vue'
 import Button from '../../ui/Button.vue'
-import IconChapter from '../../ui/Icons/IconChapter.vue'
+import IconChapter from '../../ui/icons/IconChapter.vue'
 
 const props = defineProps({
   editor: {

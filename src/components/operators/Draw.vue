@@ -7,7 +7,7 @@
 <script lang="ts" setup>
 import { Editor } from '@tiptap/vue-3'
 import { useFeatureStore } from '../../provider/FeatureStore'
-import IconDraw from '../../ui/Icons/IconDraw.vue'
+import IconDraw from '../../ui/icons/IconDraw.vue'
 import Button from '../../ui/Button.vue'
 
 const feature = useFeatureStore()

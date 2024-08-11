@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts" setup>
-import IconBook from './../ui/Icons/IconBook.vue'
+import IconBook from './../ui/icons/IconBook.vue'
 
 defineProps({
   node: {
