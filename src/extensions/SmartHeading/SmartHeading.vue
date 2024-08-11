@@ -9,7 +9,7 @@
       :getPos="props.getPos"
     >
       <template v-slot:content>
-        <hx contenteditable="true" :id="id">
+        <hx :contenteditable="props.editor.isEditable" :id="id">
           <NodeViewContent></NodeViewContent>
         </hx>
       </template>

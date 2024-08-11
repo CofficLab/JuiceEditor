@@ -10,13 +10,13 @@
       :getPos="props.getPos"
     >
       <template v-slot:content>
-        <p contenteditable="true">
+        <p :contenteditable="props.editor.isEditable">
           <NodeViewContent></NodeViewContent>
         </p>
       </template>
     </Panel>
 
-    <p v-else>
+    <p v-else :contenteditable="props.editor.isEditable">
       <NodeViewContent></NodeViewContent>
     </p>
   </NodeViewWrapper>
