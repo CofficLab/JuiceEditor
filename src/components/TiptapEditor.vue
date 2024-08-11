@@ -68,7 +68,7 @@
         id="toc"
         v-if="shouldShowToc"
         :class="{
-          'md:bg-slate-300/10': true,
+          'md:bg-slate-300/10': false,
           'lg:bg-blue-300/50': isDebug,
           'xl:bg-purple-300/50': isDebug,
           '2xl:bg-red-300/50': isDebug,
@@ -127,7 +127,7 @@ const editor = TiptapAgent.create({
   }
 })
 
-const isDebug = true
+const isDebug = false
 const verbose = false
 const contextMenuDidShow = ref(false)
 const eventManager = new EventManager()

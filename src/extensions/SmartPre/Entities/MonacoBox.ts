@@ -77,7 +77,7 @@ class MonacoBox {
     }
 
     static createEditor(options: CreateEditorOptions): monaco.editor.IStandaloneCodeEditor {
-        console.log('💼 MonacoBox: 创建')
+        // console.log('💼 MonacoBox: 创建')
         // console.log('创建 Monaco，配置是', options)
 
         const editor = monaco.editor.create(options.target, {
