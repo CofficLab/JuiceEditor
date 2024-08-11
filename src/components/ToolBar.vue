@@ -3,6 +3,7 @@
     <Button @click="app.setCurrentNode(baseNode)">通用</Button>
     <Button @click="app.setCurrentNode(taskNode)">待办</Button>
     <Button @click="app.setCurrentNode(paragraphNode)">段落</Button>
+    <Button @click="app.setCurrentNode(quoteNode)">引用</Button>
     <Button @click="app.setCurrentNode(bulletNode)">无序列表</Button>
     <Button @click="app.setCurrentNode(linkNode)">链接</Button>
     <Button @click="app.setCurrentNode(codeNode)">代码</Button>
@@ -41,6 +42,7 @@ import bannerNode from '../samples/BannerNode'
 import childrenNode from '../samples/ChildrenNode'
 import Button from '../ui/Button.vue'
 import ButtonBar from '../ui/ButtonBar.vue'
+import quoteNode from '../samples/QuoteNode'
 
 const feature = useFeatureStore()
 const app = useAppStore()

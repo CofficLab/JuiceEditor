@@ -1,7 +1,6 @@
 <template>
   <NodeViewWrapper class="inline">
     <Panel
-      v-if="showPanel"
       :inline="false"
       :deleteNode="props.deleteNode"
       :readOnly="!props.editor.isEditable"
@@ -10,30 +9,17 @@
       :getPos="props.getPos"
     >
       <template v-slot:content>
-        <p :contenteditable="props.editor.isEditable">
+        <blockquote :contenteditable="props.editor.isEditable">
           <NodeViewContent></NodeViewContent>
-        </p>
+        </blockquote>
       </template>
     </Panel>
-
-    <p v-else :contenteditable="props.editor.isEditable">
-      <NodeViewContent></NodeViewContent>
-    </p>
   </NodeViewWrapper>
 </template>
 <script setup lang="ts">
 import { nodeViewProps, NodeViewWrapper, NodeViewContent } from '@tiptap/vue-3'
+import { computed } from 'vue'
 import Panel from '../Panel.vue'
 
 const props = defineProps(nodeViewProps)
-const showPanel = shouldShowPanel()
-
-function shouldShowPanel() {
-  let doc = props.editor.state.doc
-  let parent = doc.resolve(props.getPos()).parent
-
-  return !['tableHeader', 'tableCell', 'taskItem', 'listItem', 'blockquote'].includes(
-    parent.type.name
-  )
-}
 </script>

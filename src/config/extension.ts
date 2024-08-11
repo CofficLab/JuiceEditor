@@ -1,13 +1,11 @@
 import Blockquote from "@tiptap/extension-blockquote"
 import Bold from "@tiptap/extension-bold"
-import BulletList from "@tiptap/extension-bullet-list"
 import CharacterCount from "@tiptap/extension-character-count"
 import Code from "@tiptap/extension-code"
 import Color from "@tiptap/extension-color"
 import History from "@tiptap/extension-history"
 import Italic from "@tiptap/extension-italic"
 import ListItem from "@tiptap/extension-list-item"
-import Paragraph from "@tiptap/extension-paragraph"
 import Placeholder from "@tiptap/extension-placeholder"
 import Strike from "@tiptap/extension-strike"
 import Table from "@tiptap/extension-table"
@@ -29,6 +27,7 @@ import SmartLink from "../extensions/SmartLink/SmartLink"
 import SmartBanner from "../extensions/SmartBanner/SmartBanner"
 import SmartParagraph from "../extensions/SmartParagraph/SmartParagraph"
 import SmartBulletList from "../extensions/SmartBulletList/SmartBulletList"
+import SmartQuote from "../extensions/SmartQuote/SmartQuote"
 
 interface makeExtensionsProps {
     drawIoLink?: string,
@@ -39,7 +38,7 @@ interface makeExtensionsProps {
 export default function makeExtensions(props: makeExtensionsProps) {
     var extensions = [
         Base,
-        Blockquote.configure({
+        SmartQuote.configure({
             HTMLAttributes: {
                 class: 'my-custom-class',
             },
