@@ -77,7 +77,11 @@ export default function makeExtensions(props: makeExtensionsProps) {
             content: 'heading block*'
         }),
         // GroupPre,
-        SmartHeading,
+        SmartHeading.configure({
+            HTMLAttributes: {
+                class: 'px-8',
+            },
+        }),
         History.configure({
             depth: 100,
         }),

@@ -12,7 +12,7 @@ declare module '@tiptap/core' {
 
 // 只有 Node 可以自定义 NodeView，Mark 不行
 const SmartLink = Heading.extend({
-    addNodeView: () => VueNodeViewRenderer(SmartHeadingVue),
+    // addNodeView: () => VueNodeViewRenderer(SmartHeadingVue),
 });
 
 export default SmartLink;

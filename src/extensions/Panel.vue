@@ -5,7 +5,7 @@
     :id="id"
     :class="{
       inline: inline,
-      'dark:bg-cyan-100/10 bg-cyan-300/20 shadow-inner': operatorsVisible,
+      'dark:bg-cyan-900/30 bg-cyan-300/20 shadow-inner': operatorsVisible,
       'px-8': !inline && withPadding,
       'dropdown-bottom': dropdownBottom,
       'dropdown-top': !dropdownBottom
