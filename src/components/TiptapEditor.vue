@@ -33,10 +33,11 @@
           'lg:bg-blue-300/10': isDebug,
           'xl:bg-purple-300/10': isDebug,
           '2xl:bg-red-300/10': isDebug,
-          'md:max-w-xl': true,
+          'md:max-w-xl': shouldShowToc,
+          'md:max-w-2xl': !shouldShowToc,
           'md:px-0': true,
           'md:py-6': true,
-          'lg:max-w-2xl': true,
+          'lg:max-w-3xl': true,
           'lg:px-0': true,
           'lg:py-6': true,
           'xl:max-w-3xl': true,
@@ -126,7 +127,7 @@ const editor = TiptapAgent.create({
   }
 })
 
-const isDebug = false
+const isDebug = true
 const verbose = false
 const contextMenuDidShow = ref(false)
 const eventManager = new EventManager()
