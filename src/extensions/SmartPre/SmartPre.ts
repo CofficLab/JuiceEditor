@@ -107,8 +107,8 @@ export default CodeBlock.extend({
   },
 
   onBeforeCreate() {
-    log('onBeforeCreate, 存储 UUID ->', this.editor.options.injectNonce)
-    this.storage.editorUUID = this.editor.options.injectNonce
+    // log('onBeforeCreate, 存储 UUID ->', this.editor.options.injectNonce)
+    // this.storage.editorUUID = this.editor.options.injectNonce
   },
 
   // onUpdate() {

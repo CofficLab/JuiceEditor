@@ -34,10 +34,10 @@ export const Toc = Node.create({
   addGlobalAttributes() {
     return [
       {
-        types: ["heading"],
+        types: ["h1", "h2", "h3", "h4", "h5", "h6"],
         attributes: {
           id: {
-            default: null,
+            default: "0",
           },
         },
       },

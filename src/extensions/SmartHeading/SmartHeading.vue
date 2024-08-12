@@ -14,16 +14,16 @@
         </hx>
       </template>
     </Panel>
+
+    <NodeViewContent></NodeViewContent>
   </NodeViewWrapper>
 </template>
 <script setup lang="ts">
 import { nodeViewProps, NodeViewWrapper, NodeViewContent } from '@tiptap/vue-3'
-import { computed } from 'vue'
 import Panel from '../Panel.vue'
+import { computed } from 'vue'
 
 const props = defineProps(nodeViewProps)
-const hx = computed(() => {
-  return `h${props.node.attrs.level}`
-})
+var hx = props.node.type.name
 const id = computed(() => props.node.attrs.id)
 </script>

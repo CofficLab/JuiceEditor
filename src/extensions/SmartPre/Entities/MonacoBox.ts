@@ -42,7 +42,7 @@ class MonacoBox {
     }
 
     static getLanguage(editor: monaco.editor.IStandaloneCodeEditor): SmartLanguage {
-        console.log("💼 MonacoBox: 获取 monaco editor 的语言", editor.getModel()!.getLanguageId());
+        // console.log("💼 MonacoBox: 获取 monaco editor 的语言", editor.getModel()!.getLanguageId());
 
         let id = editor.getModel()!.getLanguageId();
 
@@ -50,7 +50,7 @@ class MonacoBox {
     }
 
     static setLanguage(editor: monaco.editor.IStandaloneCodeEditor, language: SmartLanguage) {
-        console.log("💼 MonacoBox: 设置 monaco editor 的语言", language.getMonacoLanguage());
+        // console.log("💼 MonacoBox: 设置 monaco editor 的语言", language.getMonacoLanguage());
 
         monaco.editor.setModelLanguage(editor.getModel()!, language.getMonacoLanguage());
     }
@@ -71,13 +71,13 @@ class MonacoBox {
     static setHeightOfEditor(editor: monaco.editor.IStandaloneCodeEditor) {
         let height = MonacoBox.getLinesHeight(editor);
 
-        console.log("💼 MonacoBox: 设置高度", height);
+        // console.log("💼 MonacoBox: 设置高度", height);
 
         editor.getDomNode()!.style.height = height + "px";
     }
 
     static createEditor(options: CreateEditorOptions): monaco.editor.IStandaloneCodeEditor {
-        console.log('💼 MonacoBox: 创建')
+        // console.log('💼 MonacoBox: 创建')
         // console.log('创建 Monaco，配置是', options)
 
         const editor = monaco.editor.create(options.target, {
