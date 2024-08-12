@@ -200,8 +200,8 @@ class TiptapHelper {
         // console.log('new line, pos is', pos)
         // console.log('node size is', node.nodeSize)
         // console.log('tail is', tail)
-        editor.commands.insertContentAt(tail, '<p>type here...</p>', {
-            updateSelection: false,
+        editor.commands.insertContentAt(Math.min(tail, editor.state.doc.content.size), '<p></p>', {
+            updateSelection: true,
             parseOptions: {
                 preserveWhitespace: 'full'
             }

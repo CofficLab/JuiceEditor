@@ -13,11 +13,8 @@ const drawNode = new TreeNode({
     <img src="${sampleImgSrc2}"></img>
     <h2>画图2</h2>
     <draw src="${sampleImgSrc1}"></draw>
-    <h2>待办列表</h2>
-    <ul data-type="taskList">
-      <li data-type="taskItem" data-checked="true">A list item</li>
-      <li data-type="taskItem" data-checked="false">And another one</li>
-    </ul>
+    <p>下面是一张图</p>
+    <img src="${sampleImgSrc2}"></img>
     <toc></toc>
   `
 })
