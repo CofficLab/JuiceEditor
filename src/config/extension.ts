@@ -16,8 +16,7 @@ import TaskItem from "@tiptap/extension-task-item"
 import Text from "@tiptap/extension-text"
 import { Toc } from "../extensions/Toc/Toc"
 import { Document } from "@tiptap/extension-document"
-import Base from "../extensions/Base/Base"
-import { SmartHeading1, SmartHeading2, SmartHeading3, SmartHeading4, SmartHeading5, SmartHeading6 } from "../extensions/SmartHeading/SmartHeading"
+import SmartHeading from "../extensions/SmartHeading/SmartHeading"
 import SmartTaskList from "../extensions/SmartTaskList/SmartTaskList"
 import SmartTable from "../extensions/SmartTable/SmartTable"
 import SmartPre from "../extensions/SmartPre/SmartPre"
@@ -27,7 +26,6 @@ import SmartBanner from "../extensions/SmartBanner/SmartBanner"
 import SmartParagraph from "../extensions/SmartParagraph/SmartParagraph"
 import SmartBulletList from "../extensions/SmartBulletList/SmartBulletList"
 import SmartQuote from "../extensions/SmartQuote/SmartQuote"
-import Heading from "@tiptap/extension-heading"
 
 interface makeExtensionsProps {
     drawIoLink?: string,
@@ -73,16 +71,11 @@ export default function makeExtensions(props: makeExtensionsProps) {
             }
         }),
         Document.extend({
-            content: 'h1 block*'
+            content: 'heading block*'
         }),
         // GroupPre,
         // Heading,
-        SmartHeading1,
-        SmartHeading2,
-        SmartHeading3,
-        SmartHeading4,
-        SmartHeading5,
-        SmartHeading6,
+        SmartHeading,
         History.configure({
             depth: 100,
         }),

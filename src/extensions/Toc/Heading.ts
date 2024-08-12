@@ -82,7 +82,7 @@ class Heading {
         const transaction = editor.state.tr
 
         editor.state.doc.descendants((node: any, pos: any) => {
-            if (['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(node.type.name)) {
+            if (['heading'].includes(node.type.name)) {
                 const id = `heading-${headings.length + 1}`
 
                 // console.log("take", node.type.name, node.textContent, id)

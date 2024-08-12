@@ -1,6 +1,6 @@
 <template>
   <Button
-    @click="focusedNode.toggleHeading({ level: props.level as Level }).run()"
+    @click="focusedNode.setHeading({ level: props.level as Level }).run()"
     size="md"
     :tip="props.level + '号标题'"
     :class="{
