@@ -72,7 +72,7 @@
           'lg:bg-blue-300/50': isDebug,
           'xl:bg-purple-300/50': isDebug,
           '2xl:bg-red-300/50': isDebug,
-          'fixed right-0 top-12 shadow-inner': true,
+          'fixed right-0 top-12': true,
           'flex-row justify-start hidden h-screen overflow-y-scroll': true,
           'w-48': true,
           'md:w-56 md:flex md:right-1': true,
@@ -137,7 +137,7 @@ const shouldShowToc = computed(() => {
 })
 
 function refreshToc(reason: string) {
-  console.log('刷新TOC，因为', reason)
+  // console.log('刷新TOC，因为', reason)
   headingTree.value = Heading.makeTree(editor) as unknown as Heading
 }
 
@@ -202,4 +202,3 @@ function log(...message: any[]) {
   if (verbose) console.log('🍋 TiptapEditor:', ...message)
 }
 </script>
-src/helper/Helper ../../helper/TiptapAgent

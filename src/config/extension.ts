@@ -1,4 +1,3 @@
-import Blockquote from "@tiptap/extension-blockquote"
 import Bold from "@tiptap/extension-bold"
 import CharacterCount from "@tiptap/extension-character-count"
 import Code from "@tiptap/extension-code"
@@ -18,7 +17,7 @@ import Text from "@tiptap/extension-text"
 import { Toc } from "../extensions/Toc/Toc"
 import { Document } from "@tiptap/extension-document"
 import Base from "../extensions/Base/Base"
-import SmartHeading from "../extensions/SmartHeading/SmartHeading"
+import { SmartHeading1, SmartHeading2, SmartHeading3, SmartHeading4, SmartHeading5, SmartHeading6 } from "../extensions/SmartHeading/SmartHeading"
 import SmartTaskList from "../extensions/SmartTaskList/SmartTaskList"
 import SmartTable from "../extensions/SmartTable/SmartTable"
 import SmartPre from "../extensions/SmartPre/SmartPre"
@@ -28,6 +27,7 @@ import SmartBanner from "../extensions/SmartBanner/SmartBanner"
 import SmartParagraph from "../extensions/SmartParagraph/SmartParagraph"
 import SmartBulletList from "../extensions/SmartBulletList/SmartBulletList"
 import SmartQuote from "../extensions/SmartQuote/SmartQuote"
+import Heading from "@tiptap/extension-heading"
 
 interface makeExtensionsProps {
     drawIoLink?: string,
@@ -37,7 +37,6 @@ interface makeExtensionsProps {
 
 export default function makeExtensions(props: makeExtensionsProps) {
     var extensions = [
-        Base,
         SmartQuote.configure({
             HTMLAttributes: {
                 class: 'my-custom-class',
@@ -74,14 +73,16 @@ export default function makeExtensions(props: makeExtensionsProps) {
             }
         }),
         Document.extend({
-            content: 'heading block*'
+            content: 'h1 block*'
         }),
         // GroupPre,
-        SmartHeading.configure({
-            HTMLAttributes: {
-                class: 'px-8',
-            },
-        }),
+        // Heading,
+        SmartHeading1,
+        SmartHeading2,
+        SmartHeading3,
+        SmartHeading4,
+        SmartHeading5,
+        SmartHeading6,
         History.configure({
             depth: 100,
         }),
