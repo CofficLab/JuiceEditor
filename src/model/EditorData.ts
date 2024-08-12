@@ -12,7 +12,7 @@ export default class EditorData {
         let nodes = editor.state.doc.content
         let title = ''
         nodes.forEach((node) => {
-            if (['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(node.type.name) && title == '') {
+            if (['heading'].includes(node.type.name) && title == '') {
                 title = node.textContent!
             }
         })
