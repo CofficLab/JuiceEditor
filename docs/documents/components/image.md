@@ -1,6 +1,8 @@
-# Drawio 画图
+# Image
 
-## 源码
+## Drawio 画图
+
+### 源码
 
 <https://github.com/jgraph/drawio>
 
@@ -8,18 +10,18 @@
 
 - etc
 
-## 原理
+### 原理
 
 无需修改drawio的源码，embed模式下可通过postMessage通信。具体看`SmartDraw`部分的源码。
 
-## 问题
+### 问题
 
 - 左侧出现了“便签”  
 清空浏览器本地存储就消失了
 - 画图打不开
 检查这个文件：`src/entities/DrawAgent.ts` 中的 URL
 
-## 参考资料
+### 参考资料
 
 - <https://www.drawio.com/blog/embedding-walkthrough>  
 - <https://www.drawio.com/doc/faq/embed-mode>  

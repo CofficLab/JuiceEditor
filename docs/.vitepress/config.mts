@@ -13,19 +13,44 @@ export default defineConfig({
     logo: '/images/logo.png',
     nav: [
       { text: '首页', link: '/' },
-      { text: '文档', link: '/guide/drawio', activeMatch: '/guide/' }
+      { text: '文档', link: '/documents/guide/start', activeMatch: '/documents/guide/' }
     ],
 
     sidebar: [
       {
-        text: '文档',
+        text: '使用',
         items: [
-          { text: '代码编辑器', link: '/guide/code-editor' },
-          { text: 'Drawio 画图', link: '/guide/drawio' },
-          { text: 'CI/CD', link: '/guide/ci' },
-          { text: 'Web Component', link: '/guide/web-component' }
+          { text: '开始', link: '/documents/guide/start' },
         ]
-      }
+      },
+      {
+        text: '富文本组件',
+        items: [
+          { text: 'Banner', link: '/documents/components/banner' },
+          { text: 'BlockQuote', link: '/documents/components/blockquote' },
+          { text: 'Heading', link: '/documents/components/heading' },
+          { text: 'Image', link: '/documents/components/image' },
+          { text: 'Table', link: '/documents/components/table' },
+          { text: 'Link', link: '/documents/components/link' },
+          { text: 'Paragraph', link: '/documents/components/paragraph' },
+          { text: 'BulletList', link: '/documents/components/bulletList' },
+          { text: 'TaskList', link: '/documents/components/tasklist' },
+        ]
+      },
+      {
+        text: '原理',
+        items: [
+          { text: 'CI/CD', link: '/documents/principle/ci' },
+          { text: 'Web Component', link: '/documents/principle/web-component' }
+        ]
+      },
+      {
+        text: '案例',
+        items: [
+          { text: '快易知网站', link: '/documents/projects/kuaiyizhi_web' },
+          { text: '快易知APP', link: '/documents/projects/kuaiyizhi_app' }
+        ]
+      },
     ],
 
     socialLinks: [
