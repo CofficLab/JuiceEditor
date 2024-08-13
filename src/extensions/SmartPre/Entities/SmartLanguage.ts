@@ -60,13 +60,14 @@ class SmartLanguage {
 
 const languages = [
     new SmartLanguage().setNames(['CSS', 'css', 'Css']).setKey('css'),
-    new SmartLanguage().setNames(['Shell', 'shellscript', 'shell']).setKey('shell'),
     new SmartLanguage().setNames(['Go', 'Golang', 'golang', 'go']).setKey('go'),
+    new SmartLanguage().setNames(['HTML', 'Html', 'html']).setKey('html'),
     new SmartLanguage().setNames(['Json', 'json']).setKey('json').setRunnable(false),
     new SmartLanguage().setNames(['Java', 'java']).setKey('java'),
     new SmartLanguage().setNames(['JavaScript', 'javascript', 'js']).setKey('javascript'),
     new SmartLanguage().setNames(['PHP', 'php']).setKey('php'),
     new SmartLanguage().setNames(['Python', 'python', 'py']).setKey('python'),
+    new SmartLanguage().setNames(['Shell', 'shellscript', 'shell']).setKey('shell'),
     new SmartLanguage().setNames(['Swift', 'swift']).setKey('swift'),
     new SmartLanguage().setNames(['Text', 'text', 'plaintext', 'Plaintext']).setKey('plaintext').setRunnable(false),
     new SmartLanguage().setNames(['Yaml', 'yaml']).setKey('yaml'),
