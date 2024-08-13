@@ -1,6 +1,6 @@
 class SmartLanguage {
-    key: string = 'unknown'
-    names: string[] = ['Unknown']
+    key: string = 'text'
+    names: string[] = ['Text']
     runnable: boolean = true
 
     static fromString(s: string): SmartLanguage {
