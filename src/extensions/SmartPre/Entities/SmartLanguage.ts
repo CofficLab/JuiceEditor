@@ -59,6 +59,7 @@ class SmartLanguage {
 }
 
 const languages = [
+    new SmartLanguage().setNames(['CSS', 'css', 'Css']).setKey('css'),
     new SmartLanguage().setNames(['Shell', 'shellscript', 'shell']).setKey('shell'),
     new SmartLanguage().setNames(['Go', 'Golang', 'golang', 'go']).setKey('go'),
     new SmartLanguage().setNames(['Json', 'json']).setKey('json').setRunnable(false),
