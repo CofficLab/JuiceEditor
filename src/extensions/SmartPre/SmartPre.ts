@@ -68,7 +68,7 @@ export default CodeBlock.extend({
       insertSmartPre:
         attributes => ({ commands }) => {
 
-          return commands.insertContent("<pre><code class='language-javascript'>console.log('hello world')</code></pre>");
+          return commands.insertContent("<pre><code class='language-text'></code></pre>");
         },
       setCodeBlock:
         attributes => ({ commands }) => {
