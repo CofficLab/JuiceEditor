@@ -72,7 +72,7 @@
           'lg:bg-blue-300/50': isDebug,
           'xl:bg-purple-300/50': isDebug,
           '2xl:bg-red-300/50': isDebug,
-          'fixed right-0 top-12': true,
+          'fixed right-0 top-12 z-30': true,
           'flex-row justify-start hidden h-screen overflow-y-scroll': true,
           'w-48': true,
           'md:w-56 md:flex md:right-1': true,
