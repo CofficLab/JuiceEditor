@@ -5,6 +5,7 @@ import webkit from '../api/WebKit'
 import LocalStore from './LocalStore'
 import Config from '../config/config'
 import MarkdownHelper from '../helper/MarkdownHelper'
+import Helper from '../helper/Helper'
 
 const verbose = true
 const config = Config
@@ -51,13 +52,15 @@ export const useAppStore = defineStore('app-store', {
 
         setCurrentNode: function (data: object) {
             this.loading = true
-            log('setCurrentNode && close draw')
+            console.log('setCurrentNode && close draw')
 
             this.node = new TreeNode(data)
 
             document.dispatchEvent(new CustomEvent('close-draw'))
 
             this.loading = false
+
+            Helper.toTop()
         },
 
         setCurrentNodeContent: function (content: string) {
@@ -66,6 +69,8 @@ export const useAppStore = defineStore('app-store', {
 
             this.node.content = content
             this.loading = false
+
+            Helper.toTop()
         },
 
         // 设置当前节点的子uuid和content，其中content传递一个通过base64编码的字符
@@ -81,6 +86,8 @@ export const useAppStore = defineStore('app-store', {
             this.node = newNode
 
             this.loading = false
+
+            Helper.toTop()
         },
 
         /* 
@@ -105,6 +112,8 @@ export const useAppStore = defineStore('app-store', {
             let data = JSON.parse(decodeURIComponent(escape(atob(children))))
             this.node.children = data.map((element: object) => new TreeNode(element))
             this.loading = false
+
+            Helper.toTop()
         },
 
         updateNode: function (data: EditorData) {

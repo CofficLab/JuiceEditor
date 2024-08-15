@@ -1,5 +1,5 @@
 <template>
-  <div class="relative flex flex-col w-full h-full overflow-scroll" id="index">
+  <div class="relative flex flex-col w-full h-full" id="index">
     <div class="flex flex-col">
       <!-- 编辑器 -->
       <TiptapEditor

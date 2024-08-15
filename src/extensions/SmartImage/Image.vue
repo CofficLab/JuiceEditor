@@ -6,6 +6,7 @@
       :editor="props.editor"
       :node="props.node"
       :getPos="props.getPos"
+      :withPadding="false"
     >
       <template v-slot:content>
         <img
