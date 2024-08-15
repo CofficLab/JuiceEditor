@@ -85,6 +85,11 @@ class Helper {
 
         return shadowRoot.getElementById(id)
     }
+
+    static toTop() {
+        console.log('滚动到顶部')
+        window.scrollTo(0, 0)
+    }
 }
 
 export default Helper
