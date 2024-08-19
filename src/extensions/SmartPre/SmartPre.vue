@@ -13,7 +13,7 @@
         <div class="relative" ref="codeDom" v-if="show">
           <MonacoBox
             :language="language"
-            :content="content"
+            :content="code"
             :readOnly="!props.editor.isEditable"
             :onContentChanged="onContentUpdated"
             :onLanguageChanged="onLanguageChanged"
@@ -21,6 +21,12 @@
         </div>
 
         <NodeViewContent class="hidden"></NodeViewContent>
+      </template>
+
+      <template v-slot:operators>
+        <Button @click="copyToClipboard">
+          <IconCopy />
+        </Button>
       </template>
     </Panel>
   </NodeViewWrapper>
@@ -32,9 +38,11 @@ import Panel from '../Panel.vue'
 import { computed, onUpdated, ref } from 'vue'
 import { SmartLanguage } from './Entities/SmartLanguage'
 import MonacoBox from './MonacoBox.vue'
+import Button from '../../ui/Button.vue'
+import IconCopy from '../../ui/icons/IconCopy.vue'
 
 const props = defineProps(nodeViewProps)
-const content = ref(props.node.textContent)
+const code = ref(props.node.textContent)
 const language = SmartLanguage.fromString(props.node.attrs.language)
 const pos = props.getPos() // 获取当前节点的位置
 const resolvedPos = props.editor.state.doc.resolve(pos) // 解析位置
@@ -86,6 +94,19 @@ function onContentUpdated(content: string) {
       content
     )
     .run()
+
+  code.value = content
+}
+
+function copyToClipboard() {
+  navigator.clipboard
+    .writeText(code.value)
+    .then(() => {
+      log('Content copied to clipboard')
+    })
+    .catch((err) => {
+      log('Failed to copy content: ', err)
+    })
 }
 
 const verbose = false
