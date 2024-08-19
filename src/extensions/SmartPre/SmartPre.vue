@@ -40,6 +40,7 @@ import { SmartLanguage } from './Entities/SmartLanguage'
 import MonacoBox from './MonacoBox.vue'
 import Button from '../../ui/Button.vue'
 import IconCopy from '../../ui/icons/IconCopy.vue'
+import EventHelper from '../../helper/EventHelper'
 
 const props = defineProps(nodeViewProps)
 const code = ref(props.node.textContent)
@@ -103,6 +104,8 @@ function copyToClipboard() {
     .writeText(code.value)
     .then(() => {
       log('Content copied to clipboard')
+
+      EventHelper.emitTips('已复制到剪贴板')
     })
     .catch((err) => {
       log('Failed to copy content: ', err)

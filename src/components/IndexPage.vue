@@ -31,7 +31,7 @@
 <script lang="ts" setup>
 import TiptapEditor from './TiptapEditor.vue'
 import NodeCardList from '../ui/NodeCardList.vue'
-import { computed, nextTick, watch } from 'vue'
+import { computed, nextTick, onMounted, onUnmounted, watch } from 'vue'
 import { useFeatureStore } from '../provider/FeatureStore'
 import TreeNode from '../model/TreeNode'
 
@@ -77,6 +77,14 @@ const shouldShowBorder = computed(() => {
   return featureStore.editorVisible
 })
 
+onMounted(() => {
+  window.addEventListener('tips', handleTipsEvent)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('tips', handleTipsEvent)
+})
+
 watch(drawLink, () => {
   if (!featureStore.editorVisible) {
     return
@@ -104,4 +112,11 @@ watch(featureUpdatedAt, () => {
     featureStore.showEditor()
   })
 })
+
+function handleTipsEvent(event: any) {
+  if (event.type && event.type === 'tips') {
+    console.log('Received message:', event)
+    props.onMessage(event.detail)
+  }
+}
 </script>

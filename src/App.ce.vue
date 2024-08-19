@@ -16,11 +16,11 @@
       :content="node.content"
       :drawLink="app.drawLink"
       :onUpdate="app.updateNode"
-      :onMessage="onMessage"
+      :onMessage="onTips"
     ></IndexPage>
 
     <!-- 提示信息 -->
-    <Message :message="message"></Message>
+    <Message :message="message" :tips="tips" :uuid="uuid"></Message>
   </div>
 </template>
 
@@ -32,9 +32,9 @@ import { useFeatureStore } from './provider/FeatureStore'
 import setApi from './api/ApiSet'
 import Loading from './ui/Loading.vue'
 import { computed, onMounted, ref } from 'vue'
-import Helper from './helper/Helper'
 import Message from './ui/Message.vue'
 import URLHelper from './helper/URLHelper'
+import { v4 as generateUUID } from 'uuid'
 
 const props = defineProps({
   drawio: {
@@ -53,6 +53,8 @@ const observer = new MutationObserver(setEditorContent)
 const feature = useFeatureStore()
 const app = useAppStore()
 const message = ref('')
+const tips = ref('')
+const uuid = ref('')
 const node = computed(() => {
   return app.node
 })
@@ -72,9 +74,14 @@ onMounted(() => {
   window.onpopstate = URLHelper.onURLChanged
 })
 
+function onTips(t: string) {
+  tips.value = t
+  uuid.value = generateUUID()
+}
+
 function onMessage(m: string) {
   message.value = m
-  Helper.findElement('messageTrigger')?.click()
+  uuid.value = generateUUID()
 }
 
 function setEditorContent() {
