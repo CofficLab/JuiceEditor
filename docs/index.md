@@ -36,6 +36,7 @@ features:
     title: 简洁易用
     details: 使用简单，无需复杂的配置
 ---
+
 <style>
 :root {
   --vp-home-hero-name-color: transparent;
