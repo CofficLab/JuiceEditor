@@ -7,7 +7,7 @@
       <div class="m-0 mt-4 text-lg font-bold">提示</div>
       <div class="w-full mt-4 bg-blue-100 rounded-none stats shadow-3xl">
         <div class="stat">
-          <div class="text-center stat-title">{{ displayMessage }}</div>
+          <div class="text-center stat-title">{{ props.message }}</div>
         </div>
       </div>
     </div>
@@ -24,9 +24,10 @@ const props = defineProps({
     type: String,
     required: false
   },
-  tips: {
+  type: {
     type: String,
-    required: false
+    required: true,
+    validator: (value: string) => ['message', 'tips'].includes(value)
   },
   uuid: {
     type: String,
@@ -34,45 +35,20 @@ const props = defineProps({
   }
 })
 
-const displayMessage = ref('')
-let lastUuid = ''
-
 watch(
   () => props.uuid,
   (newVal) => {
-    displayMessage.value = props.tips ?? props.message
-      toggleModal()
-      setTimeout(() => {
-        toggleModal()
-        displayMessage.value = ''
-      }, 3000)
-  }
-)
-
-onMounted(() => {
-  if (props.tips && props.uuid !== lastUuid) {
-    displayMessage.value = props.tips
     toggleModal()
     setTimeout(() => {
       toggleModal()
-      displayMessage.value = ''
     }, 3000)
-    lastUuid = props.uuid
-  } else if (props.message && props.uuid !== lastUuid) {
-    displayMessage.value = props.message
-    toggleModal()
-    lastUuid = props.uuid
   }
-})
-
-onUnmounted(() => {
-  showModal.value = false
-  displayMessage.value = ''
-})
+)
 
 function toggleModal() {
   const trigger = Helper.findElement('messageTrigger')
-  console.log('trigger', trigger)
+
+  if (!trigger) return
   trigger.click()
 }
 </script>

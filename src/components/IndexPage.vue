@@ -115,7 +115,6 @@ watch(featureUpdatedAt, () => {
 
 function handleTipsEvent(event: any) {
   if (event.type && event.type === 'tips') {
-    console.log('Received message:', event)
     props.onMessage(event.detail)
   }
 }
