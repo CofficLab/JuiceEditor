@@ -13,13 +13,14 @@ export default defineConfig({
     logo: '/images/logo.png',
     nav: [
       { text: '首页', link: '/' },
-      { text: '文档', link: '/documents/guide/start', activeMatch: '/documents/guide/' }
+      { text: '文档', link: '/documents/guide/introduce', activeMatch: '/documents/guide/' }
     ],
 
     sidebar: [
       {
         text: '使用',
         items: [
+          { text: '介绍', link: '/documents/guide/introduce' },
           { text: '开始', link: '/documents/guide/start' },
         ]
       },
@@ -35,6 +36,7 @@ export default defineConfig({
           { text: 'Paragraph', link: '/documents/components/paragraph' },
           { text: 'BulletList', link: '/documents/components/bulletList' },
           { text: 'TaskList', link: '/documents/components/tasklist' },
+          { text: 'Kbd', link: '/documents/components/keyboard' },
         ]
       },
       {

@@ -16,12 +16,12 @@ hero:
   #     text: API Examples
   #     link: /api-examples
 
-# features:
-#   - title: Feature A
-#     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-#   - title: Feature B
-#     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-#   - title: Feature C
-#     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+features:
+  - title: 可扩展
+    details: 自带灵活的插件系统，可扩展
+  - title: 可嵌入APP
+    details: API全部开放，可嵌入APP
+  - title: Web Component
+    details: 基于 Web Component 构建，任何框架都可用
 ---
 
