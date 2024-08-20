@@ -24,6 +24,7 @@
         <BulletList :editor="editor"></BulletList>
         <Code :editor="editor"></Code>
         <Link :editor="editor"></Link>
+        <Kbd :editor="editor"></Kbd>
       </ButtonBar>
     </bubble-menu>
   </div>
@@ -43,6 +44,7 @@ import BulletList from './operators/BulletList.vue'
 import Code from './operators/Code.vue'
 import Link from './operators/Link.vue'
 import ButtonBar from './../ui/ButtonBar.vue'
+import Kbd from './operators/Kbd.vue'
 
 defineProps({
   editor: {

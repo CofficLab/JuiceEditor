@@ -23,6 +23,7 @@
         <TaskList :editor="editor" />
         <Table :editor="editor"></Table>
         <SmartPre :editor="editor"></SmartPre>
+        <Kbd :editor="editor"></Kbd>
       </ButtonBar>
     </floating-menu>
   </div>
@@ -39,6 +40,7 @@ import Table from './operators/Table.vue'
 import TaskList from './operators/TaskList.vue'
 import SmartPre from './operators/SmartPre.vue'
 import ButtonBar from '../ui/ButtonBar.vue'
+import Kbd from './operators/Kbd.vue'
 
 defineProps({
   editor: {

@@ -9,6 +9,7 @@
     <Button @click="app.setCurrentNode(codeNode)">代码</Button>
     <Button @click="app.setCurrentNode(drawNode)">图片</Button>
     <Button @click="app.setCurrentNode(tableNode)">表格</Button>
+    <Button @click="app.setCurrentNode(kbdNode)">Kbd</Button>
     <Button @click="app.setCurrentNode(bigNode)">超长</Button>
     <Button @click="app.setCurrentNode(liteNode)">小型</Button>
     <Button @click="app.setCurrentNode(bannerNode)">Banner</Button>
@@ -43,6 +44,7 @@ import childrenNode from '../samples/ChildrenNode'
 import Button from '../ui/Button.vue'
 import ButtonBar from '../ui/ButtonBar.vue'
 import quoteNode from '../samples/QuoteNode'
+import kbdNode from '../samples/KbdNode'
 
 const feature = useFeatureStore()
 const app = useAppStore()

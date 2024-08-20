@@ -26,6 +26,7 @@ import SmartBanner from "../extensions/SmartBanner/SmartBanner"
 import SmartParagraph from "../extensions/SmartParagraph/SmartParagraph"
 import SmartBulletList from "../extensions/SmartBulletList/SmartBulletList"
 import SmartQuote from "../extensions/SmartQuote/SmartQuote"
+import SmartKbd from "../extensions/SmartKbd/SmartKbd"
 
 interface makeExtensionsProps {
     drawIoLink?: string,
@@ -106,6 +107,7 @@ export default function makeExtensions(props: makeExtensionsProps) {
             }
         }),
         SmartBanner,
+        SmartKbd,
         SmartLink.configure({
             protocols: ['ftp', 'mailto'],
             autolink: true,
