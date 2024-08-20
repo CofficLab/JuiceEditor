@@ -13,6 +13,7 @@ export default defineConfig({
     logo: '/images/logo.png',
     nav: [
       { text: '首页', link: '/' },
+      { text: 'Coffic工作室', link: 'https://cofficlab.github.io' },
       { text: '文档', link: '/documents/guide/introduce', activeMatch: '/documents/guide/' }
     ],
 
@@ -61,7 +62,7 @@ export default defineConfig({
 
     footer: {
       message: 'All rights reserved.',
-      copyright: 'Copyright © 2024-present Cofficlab'
+      copyright: 'Copyright © 2024-present CofficLab'
     }
   }
 })
