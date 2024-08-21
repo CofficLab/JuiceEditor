@@ -59,6 +59,8 @@
         </Button>
       </template>
     </Panel>
+
+    <NodeViewContent v-else />
   </NodeViewWrapper>
 </template>
 <script setup lang="ts">
