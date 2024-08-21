@@ -22,7 +22,6 @@ import SmartTable from "../extensions/SmartTable/SmartTable"
 import SmartPre from "../extensions/SmartPre/SmartPre"
 import SmartImage from "../extensions/SmartImage/SmartImage"
 import SmartLink from "../extensions/SmartLink/SmartLink"
-import SmartBanner from "../extensions/SmartBanner/SmartBanner"
 import SmartParagraph from "../extensions/SmartParagraph/SmartParagraph"
 import SmartBulletList from "../extensions/SmartBulletList/SmartBulletList"
 import SmartQuote from "../extensions/SmartQuote/SmartQuote"
@@ -106,7 +105,6 @@ export default function makeExtensions(props: makeExtensionsProps) {
                 return ''
             }
         }),
-        SmartBanner,
         SmartKbd,
         SmartLink.configure({
             protocols: ['ftp', 'mailto'],
