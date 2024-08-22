@@ -12,8 +12,11 @@
     >
       <template v-slot:content>
         <div
-          class="flex flex-row py-2 shadow-sm backdrop-blur"
-          :class="props.node.attrs.class"
+          class="flex flex-row py-2"
+          :class="{
+            [props.node.attrs.class]: true,
+            'shadow-sm backdrop-blur': props.node.attrs.type == 'info' || props.node.attrs.type == 'question',
+          }"
         >
           <div class="flex items-center justify-between">
             <Info v-if="props.node.attrs.type == 'info'" class="w-5 h-6 ml-2 mr-1"></Info>
