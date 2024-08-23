@@ -71,7 +71,8 @@ class ImageHelper {
 
     static getMimeType(content: string): string {
         // "data:image/jpeg;base64,/9j/4AAQSkZJRgAB..."
-        const draft = content.match(/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*/)
+        // "data: image/png..."
+        const draft = content.match(/data:\s*([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*/)
 
         if (draft) {
             return draft[1]

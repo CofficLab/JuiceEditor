@@ -214,19 +214,19 @@ function changeImage() {
 function downloadImage() {
   let base64ImageString: string = props.node.attrs.src
 
-  if (base64ImageString.startsWith('data:image/jpeg;base64,')) {
+  if (base64ImageString.startsWith('data:image/jpeg')) {
     return exportBase64(base64ImageString)
   }
 
-  if (base64ImageString.startsWith('data: image/jpeg;base64,')) {
+  if (base64ImageString.startsWith('data: image/jpeg')) {
     return exportBase64(base64ImageString)
   }
 
-  if (base64ImageString.startsWith('data:image/png;base64,')) {
+  if (base64ImageString.startsWith('data:image/png')) {
     return exportBase64(base64ImageString)
   }
 
-  if (base64ImageString.startsWith('data: image/png;base64,')) {
+  if (base64ImageString.startsWith('data: image/png')) {
     return exportBase64(base64ImageString)
   }
 

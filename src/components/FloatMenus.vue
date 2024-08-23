@@ -17,7 +17,6 @@
         <Heading :editor="editor" :level="4" />
         <Heading :editor="editor" :level="5" />
         <Heading :editor="editor" :level="6" />
-        <Banner :editor="editor" />
         <Image :editor="editor" />
         <Draw :editor="editor" />
         <TaskList :editor="editor" />
@@ -33,7 +32,6 @@
 import { Editor, FloatingMenu } from '@tiptap/vue-3'
 import TiptapAgent from '../helper/TiptapHelper'
 import Heading from './operators/Heading.vue'
-import Banner from './operators/Banner.vue'
 import Image from './operators/Image.vue'
 import Draw from './operators/Draw.vue'
 import Table from './operators/Table.vue'

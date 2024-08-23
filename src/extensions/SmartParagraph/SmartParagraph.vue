@@ -1,5 +1,5 @@
 <template>
-  <NodeViewWrapper>
+  <NodeViewWrapper contenteditable="true">
     <Panel
       v-if="showPanel"
       :inline="false"
@@ -15,12 +15,16 @@
           class="flex flex-row py-2"
           :class="{
             [props.node.attrs.class]: true,
-            'shadow-sm backdrop-blur': props.node.attrs.type == 'info' || props.node.attrs.type == 'question',
+            'shadow-sm backdrop-blur':
+              props.node.attrs.type == 'info' || props.node.attrs.type == 'question'
           }"
         >
           <div class="flex items-center justify-between">
             <Info v-if="props.node.attrs.type == 'info'" class="w-5 h-6 ml-2 mr-1"></Info>
-            <Question v-if="props.node.attrs.type == 'question'" class="w-5 h-6 ml-2 mr-1"></Question>
+            <Question
+              v-if="props.node.attrs.type == 'question'"
+              class="w-5 h-6 ml-2 mr-1"
+            ></Question>
           </div>
           <NodeViewContent class="border border-none dark:border-cyan-800" />
         </div>
@@ -93,35 +97,35 @@ function setStyleToParagraph() {
   })
 }
 
-function setStyleToBlue(type: string = "info") {
+function setStyleToBlue(type: string = 'info') {
   props.updateAttributes({
     class: 'bg-gradient-to-r from-blue-800/50 to-blue-800/30',
     type: type
   })
 }
 
-function setStyleToCyan(type: string = "info") {
+function setStyleToCyan(type: string = 'info') {
   props.updateAttributes({
     class: 'bg-gradient-to-r from-cyan-800/50 to-cyan-800/30',
     type: type
   })
 }
 
-function setStyleToYellow(type: string = "info") {
+function setStyleToYellow(type: string = 'info') {
   props.updateAttributes({
     class: 'bg-gradient-to-r from-yellow-800/50 to-yellow-800/30',
     type: type
   })
 }
 
-function setStyleToRed(type: string = "info") {
+function setStyleToRed(type: string = 'info') {
   props.updateAttributes({
     class: 'bg-gradient-to-r from-red-800/50 to-red-800/30',
     type: type
   })
 }
 
-function setStyleToGreen(type: string = "info") {
+function setStyleToGreen(type: string = 'info') {
   props.updateAttributes({
     class: 'bg-gradient-to-r from-green-800/50 to-green-800/30',
     type: type
