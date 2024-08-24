@@ -123,7 +123,7 @@ export const useAppStore = defineStore('app-store', {
             }
 
             log('更新节点')
-            // console.log(data.content)
+            console.log(data.content)
             // console.log(data.json)
 
             if (isDebug) {

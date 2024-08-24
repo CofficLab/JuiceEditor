@@ -27,6 +27,7 @@ import SmartParagraph from "../extensions/SmartParagraph/SmartParagraph"
 import SmartBulletList from "../extensions/SmartBulletList/SmartBulletList"
 import SmartQuote from "../extensions/SmartQuote/SmartQuote"
 import SmartKbd from "../extensions/SmartKbd/SmartKbd"
+import UUID from "../extensions/UUID/UUID"
 
 interface makeExtensionsProps {
     drawIoLink?: string,
@@ -141,6 +142,7 @@ export default function makeExtensions(props: makeExtensionsProps) {
         TextAlign.configure({
             types: ['heading', 'paragraph'],
         }),
+        UUID
     ]
 
     return extensions
