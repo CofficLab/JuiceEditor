@@ -116,6 +116,9 @@ importers:
       '@tiptap/extension-text':
         specifier: ^2.6.4
         version: 2.6.4(@tiptap/core@2.6.4(@tiptap/pm@2.6.4))
+      '@tiptap/extension-text-align':
+        specifier: ^2.6.6
+        version: 2.6.6(@tiptap/core@2.6.4(@tiptap/pm@2.6.4))
       '@tiptap/extension-text-style':
         specifier: ^2.6.4
         version: 2.6.4(@tiptap/core@2.6.4(@tiptap/pm@2.6.4))
@@ -700,6 +703,11 @@ packages:
     resolution: {integrity: sha512-ennPydfDoO9mKlitoBaybX7okNxzWwQ/2es7EtCC+jS14akBsEuWM8TA/a6P6EJAXNqx6IN+ADZJVYIdUqdabw==}
     peerDependencies:
       '@tiptap/core': ^2.6.4
+
+  '@tiptap/extension-text-align@2.6.6':
+    resolution: {integrity: sha512-WdyxULEEHfI3hRDHAFOUoeP84h9myabadfjtZrub7/zO2PKKPAZLBN2vWat5PowH8E8GYX8vqKr9vaX+slfh5g==}
+    peerDependencies:
+      '@tiptap/core': ^2.6.6
 
   '@tiptap/extension-text-style@2.6.4':
     resolution: {integrity: sha512-cVxU3PE+jIBfqFp4xBlm0hq9seZl3lQRk+H58YAcY2BXkEZukyAd0OhmkQZHxadM1cQuducrSUkcJJ0Z4jP0PQ==}
@@ -2737,6 +2745,10 @@ snapshots:
       '@tiptap/pm': 2.6.4
 
   '@tiptap/extension-task-list@2.6.4(@tiptap/core@2.6.4(@tiptap/pm@2.6.4))':
+    dependencies:
+      '@tiptap/core': 2.6.4(@tiptap/pm@2.6.4)
+
+  '@tiptap/extension-text-align@2.6.6(@tiptap/core@2.6.4(@tiptap/pm@2.6.4))':
     dependencies:
       '@tiptap/core': 2.6.4(@tiptap/pm@2.6.4)
 

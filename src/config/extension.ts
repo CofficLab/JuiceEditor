@@ -14,6 +14,7 @@ import TableHeader from "@tiptap/extension-table-header"
 import TableRow from "@tiptap/extension-table-row"
 import TaskItem from "@tiptap/extension-task-item"
 import Text from "@tiptap/extension-text"
+import TextAlign from '@tiptap/extension-text-align'
 import { Toc } from "../extensions/Toc/Toc"
 import { Document } from "@tiptap/extension-document"
 import SmartHeading from "../extensions/SmartHeading/SmartHeading"
@@ -136,7 +137,10 @@ export default function makeExtensions(props: makeExtensionsProps) {
         TableRow,
         TableCell,
         TableHeader,
-        Toc
+        Toc,
+        TextAlign.configure({
+            types: ['heading', 'paragraph'],
+        }),
     ]
 
     return extensions
