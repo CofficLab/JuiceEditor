@@ -1,5 +1,5 @@
 <template>
-  <NodeViewWrapper contenteditable="true">
+  <NodeViewWrapper>
     <Panel
       v-if="showPanel"
       :inline="false"
@@ -12,6 +12,7 @@
     >
       <template v-slot:content>
         <div
+          contenteditable="false"
           :class="{
             [props.node.attrs.class]: true,
             'py-2': true,
@@ -19,9 +20,12 @@
             'shadow-sm backdrop-blur': isBanner
           }"
         >
-          <Info v-if="isInfo" class="w-5 h-6 ml-2 mr-1"></Info>
+          <Info v-if="isInfo" class="w-5 h-6 ml-2 mr-1 inline" contenteditable="false"></Info>
           <Question v-if="isQuestion" class="w-5 h-6 ml-2 mr-1"></Question>
-          <NodeViewContent class="border border-none dark:border-cyan-800" />
+          <NodeViewContent
+            contenteditable="true"
+            class="border border-none dark:border-cyan-800 inline"
+          />
         </div>
       </template>
 
