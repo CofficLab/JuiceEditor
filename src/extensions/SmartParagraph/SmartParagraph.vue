@@ -1,5 +1,5 @@
 <template>
-  <NodeViewWrapper contenteditable="true">
+  <NodeViewWrapper>
     <Panel
       v-if="showPanel"
       :inline="false"
@@ -8,25 +8,24 @@
       :editor="props.editor"
       :node="props.node"
       :getPos="props.getPos"
-      :withPadding="props.node.attrs.type == 'paragraph'"
+      :withPadding="isParagraph"
     >
       <template v-slot:content>
         <div
-          class="flex flex-row py-2"
+          contenteditable="false"
           :class="{
             [props.node.attrs.class]: true,
-            'shadow-sm backdrop-blur':
-              props.node.attrs.type == 'info' || props.node.attrs.type == 'question'
+            'py-2': true,
+            'flex flex-row': isBanner,
+            'shadow-sm backdrop-blur': isBanner
           }"
         >
-          <div class="flex items-center justify-between">
-            <Info v-if="props.node.attrs.type == 'info'" class="w-5 h-6 ml-2 mr-1"></Info>
-            <Question
-              v-if="props.node.attrs.type == 'question'"
-              class="w-5 h-6 ml-2 mr-1"
-            ></Question>
-          </div>
-          <NodeViewContent class="border border-none dark:border-cyan-800" />
+          <Info v-if="isInfo" class="w-5 h-6 ml-2 mr-1 inline" contenteditable="false"></Info>
+          <Question v-if="isQuestion" class="w-5 h-6 ml-2 mr-1"></Question>
+          <NodeViewContent
+            contenteditable="true"
+            class="border border-none dark:border-cyan-800 inline"
+          />
         </div>
       </template>
 
@@ -77,9 +76,14 @@ import Button from '../../ui/Button.vue'
 import Info from '../../ui/icons/Info.vue'
 import Question from '../../ui/icons/Question.vue'
 import IconStop from '../../ui/icons/IconStop.vue'
+import { computed } from 'vue'
 
 const props = defineProps(nodeViewProps)
 const showPanel = shouldShowPanel()
+const isParagraph = computed(() => props.node.attrs.type == 'paragraph')
+const isInfo = computed(() => props.node.attrs.type == 'info')
+const isQuestion = computed(() => props.node.attrs.type == 'question')
+const isBanner = computed(() => isInfo.value || isQuestion.value)
 
 function shouldShowPanel() {
   let doc = props.editor.state.doc
