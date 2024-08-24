@@ -27,7 +27,7 @@ import SmartParagraph from "../extensions/SmartParagraph/SmartParagraph"
 import SmartBulletList from "../extensions/SmartBulletList/SmartBulletList"
 import SmartQuote from "../extensions/SmartQuote/SmartQuote"
 import SmartKbd from "../extensions/SmartKbd/SmartKbd"
-import UUID from "../extensions/UUID/UUID"
+import UUID from "../extensions/UniqueID/UniqueID"
 
 interface makeExtensionsProps {
     drawIoLink?: string,
