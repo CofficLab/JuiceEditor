@@ -10,12 +10,13 @@ import Helper from '../helper/Helper'
 const verbose = true
 const config = Config
 const isDebug = config.isDebug
+const title = "🍋 AppStore"
 
 export const useAppStore = defineStore('app-store', {
     state: () => {
         return {
             isDebug: isDebug,
-            node: isDebug ? new TreeNode(LocalStore.getData()) : new TreeNode({}),
+            node: new TreeNode({}),
             drawLink: config.drawLink,
             monacoLink: config.monacoLink,
             loading: true,
@@ -26,7 +27,10 @@ export const useAppStore = defineStore('app-store', {
 
     actions: {
         closeDraw: function () {
-            log('close draw')
+            let verbose = false;
+            if (verbose) {
+                console.log(title, 'close draw')
+            }
             document.dispatchEvent(new CustomEvent('close-draw'))
         },
 
@@ -51,8 +55,11 @@ export const useAppStore = defineStore('app-store', {
         },
 
         setCurrentNode: function (data: object) {
+            let verbose = false;
             this.loading = true
-            console.log('setCurrentNode && close draw')
+            if (verbose) {
+                console.log(title, 'setCurrentNode && close draw')
+            }
 
             this.node = new TreeNode(data)
 
@@ -65,7 +72,10 @@ export const useAppStore = defineStore('app-store', {
 
         setCurrentNodeContent: function (content: string) {
             this.loading = true
-            log('setCurrentNodeContent')
+            let verbose = false;
+            if (verbose) {
+                console.log(title, 'setCurrentNodeContent')
+            }
 
             this.node.content = content
             this.loading = false
@@ -75,12 +85,19 @@ export const useAppStore = defineStore('app-store', {
 
         // 设置当前节点的子uuid和content，其中content传递一个通过base64编码的字符
         setUUIDAndContent: function (uuid: string, content: string) {
+            let verbose = false;
             this.loading = true
-            log('setUUIDAndContent')
+            if (verbose) {
+                console.log(title, 'setUUIDAndContent')
+            }
 
             let newNode = this.node
             newNode.uuid = uuid
-            newNode.content = decodeURIComponent(escape(atob(content)))
+            newNode.content = JSON.stringify(JSON.parse(atob(content)))
+
+            if (verbose) {
+                console.log(title, 'setUUIDAndContent', newNode.content)
+            }
 
             // 会触发编辑器的更新
             this.node = newNode
@@ -107,7 +124,10 @@ export const useAppStore = defineStore('app-store', {
         */
         setCurrentNodeChildren: function (children: string) {
             this.loading = true
-            log('setCurrentNodeChildren')
+            let verbose = false;
+            if (verbose) {
+                console.log(title, 'setCurrentNodeChildren')
+            }
 
             let data = JSON.parse(decodeURIComponent(escape(atob(children))))
             this.node.children = data.map((element: object) => new TreeNode(element))
@@ -118,13 +138,11 @@ export const useAppStore = defineStore('app-store', {
 
         updateNode: function (data: EditorData) {
             if (data.content == this.node.content) {
-                log('更新节点，没变化，忽略')
+                console.log(title, '更新节点，没变化，忽略')
                 return
             }
 
-            log('更新节点')
-            console.log(data.content)
-            // console.log(data.json)
+            console.log(title, '更新节点')
 
             if (isDebug) {
                 LocalStore.saveData(data)
@@ -146,7 +164,3 @@ export const useAppStore = defineStore('app-store', {
         }
     },
 })
-
-function log(...message: any[]) {
-    if (verbose) console.log("🍋 AppStore:", ...message)
-}

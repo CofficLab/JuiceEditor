@@ -1,28 +1,39 @@
 import EditorData from "../model/EditorData"
 
+const title = "🍎 WebKit"
+
 const webkit = {
     pageLoaded() {
+        let verbose = false;
+
         if (!('webkit' in window)) {
             return
         }
 
-        log('调用 WebKit 以通知 Swift 页面加载完成')
+        if (verbose) {
+            console.log(title, '调用 WebKit 以通知 Swift 页面加载完成')
+        }
         try {
             ; (window as any).webkit.messageHandlers.sendMessage.postMessage({
                 channel: "pageLoaded"
             })
         } catch (e) {
-            console.log('WebKit: 调用 WebKit 以通知 Swift 页面加载完成，失败', e)
+            console.log(title, '调用 WebKit 以通知 Swift 页面加载完成，失败', e)
         }
     },
 
     updateNode(data: EditorData) {
+        let verbose = false;
         if (!('webkit' in window)) {
-            log("无 WebKit，忽略更新")
+            if (verbose) {
+                console.log(title, '无 WebKit，忽略更新')
+            }
             return
         }
 
-        log('调用 WebKit 以更新节点内容', data.uuid, data.title)
+        if (verbose) {
+            console.log(title, '调用 WebKit 以更新节点内容', data.uuid, data.title)
+        }
 
         // 异步往 webkit 发送数据，防止界面卡顿
         this.asyncUpdateNodeTask(data).then((result) => {
@@ -35,7 +46,7 @@ const webkit = {
             return
         }
 
-        log('调用 WebKit 以更新 SelectionType')
+        console.log(title, '调用 WebKit 以更新 SelectionType')
         // 异步往 webkit 发送数据，防止界面卡顿
         this.asyncUpdateSelectionType(type).then((result) => {
             console.log(result)
@@ -47,7 +58,7 @@ const webkit = {
             return setTimeout(() => callback('在 macOS 的 App Store 中搜索「快易知」运行代码'), 1000)
         }
 
-        console.log('WebKit: 调用 WebKit 以运行代码', code)
+        console.log(title, '调用 WebKit 以运行代码', code)
 
         window.runnerCallback = function (result: string) {
             callback(decodeURIComponent(result))
@@ -62,14 +73,14 @@ const webkit = {
                     lan: lan
                 })
             } catch (e) {
-                console.log('运行代码失败', e)
+                console.log(title, '运行代码失败', e)
             }
         }, 500)
     },
 
     downloadImage(base64: String, name: String) {
         if (!('webkit' in window)) {
-            log("下载图片，无 WebKit，忽略")
+            console.log(title, '下载图片，无 WebKit，忽略')
             return
         }
 
@@ -89,7 +100,7 @@ const webkit = {
                     type: type
                 })
             } catch (e) {
-                console.log('更新内容失败', e)
+                console.log(title, '更新内容失败', e)
                 reject(e)
             }
 
@@ -98,6 +109,7 @@ const webkit = {
     },
 
     asyncUpdateNodeTask(data: EditorData) {
+        let verbose = false;
         return new Promise((resolve, reject) => {
             try {
                 // 只能传字符、只能传普通object
@@ -111,19 +123,15 @@ const webkit = {
                     wordCount: `${data.wordCount}`
                 })
             } catch (e) {
-                console.log('更新内容失败', e)
+                console.log(title, '更新内容失败', e)
                 reject(e)
             }
 
-            resolve('🍎 WebKit: 已发送Content更新');
+            if (verbose) {
+                resolve(title + ' 已发送Content更新');
+            }
         });
     }
 }
 
 export default webkit
-
-const verbose = false;
-
-function log(...message: any[]) {
-    if (verbose) console.log("🍎 WebKit:", ...message)
-}

@@ -100,7 +100,9 @@ import HeadingVue from './Heading.vue'
 import EventManager from '../event/EventManager'
 import Heading from '../extensions/Toc/Heading'
 import SmartEditorProps from './SmartEditorProps'
+import TiptapHelper from '../helper/TiptapHelper'
 
+const title = '📒 TiptapEditor'
 const props = defineProps(SmartEditorProps)
 
 const editor = TiptapAgent.create({
@@ -163,13 +165,16 @@ function onContextMenu(e: Event) {
 }
 
 watch(props, () => {
-  log('props changed', props.uuid)
+  let verbose = false
+  if (verbose) {
+    console.log(title, 'props changed', props.content)
+  }
 
   // 更新，但不触发onUpdate
   editor.setOptions({
     injectNonce: props.uuid
   })
-  editor.commands.setContent(props.content, false)
+  editor.commands.setContent(TiptapHelper.getValidContent(props.content), false)
   // 最后一步，触发onUpdate
   editor.setEditable(props.editable, true)
 })

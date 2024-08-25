@@ -88,12 +88,19 @@ export default CodeBlock.extend({
   },
 
   onDestroy() {
-    log('onTiptapDestroy')
+    let verbose = false;
+    if (verbose) {
+      console.log('onTiptapDestroy')
+    }
   },
 
   onCreate() {
     // The editor is ready.
-    log("Boot Monaco")
+
+    let verbose = false;
+    if (verbose) {
+      console.log("Boot Monaco")
+    }
     MonacoBox.boot()
 
     let juiceEditor = document.querySelector('juice-editor')

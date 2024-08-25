@@ -142,7 +142,7 @@ export default function makeExtensions(props: makeExtensionsProps) {
         TextAlign.configure({
             types: ['heading', 'paragraph'],
         }),
-        UUID
+        // UUID
     ]
 
     return extensions

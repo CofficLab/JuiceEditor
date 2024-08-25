@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 
 const isDebug = process.env.NODE_ENV === 'development'
+const verbose = false
 
 export const useFeatureStore = defineStore('feature-store', {
     state: () => {
@@ -21,137 +22,183 @@ export const useFeatureStore = defineStore('feature-store', {
 
     actions: {
         disableEdit() {
-            console.log('🔧 FeatureStore: disableEdit')
+            if (verbose) {
+                console.log('🔧 FeatureStore: disableEdit')
+            }
             this.editable = false
             this.updateNonce()
         },
 
         disableTable() {
-            console.log('🔧 FeatureStore: disableTable')
+            if (verbose) {
+                console.log('🔧 FeatureStore: disableTable')
+            }
             this.tableEnabled = false
             this.updateNonce()
         },
 
         disableDraw() {
-            console.log('🔧 FeatureStore: disableDraw')
+            if (verbose) {
+                console.log('🔧 FeatureStore: disableDraw')
+            }
             this.drawEnabled = false
             this.updateNonce()
         },
 
         disableFloatingMenu() {
-            console.log('🔧 FeatureStore: disableFloatingMenu')
+            if (verbose) {
+                console.log('🔧 FeatureStore: disableFloatingMenu')
+            }
             this.floatingMenuVisible = false
             this.updateNonce()
         },
 
         disableBubbleMenu() {
-            console.log('🔧 FeatureStore: disableBubbleMenu')
+            if (verbose) {
+                console.log('🔧 FeatureStore: disableBubbleMenu')
+            }
             this.bubbleMenuVisible = false
             this.updateNonce()
         },
 
         disableFloatingMenuAndBubbleMenu() {
-            console.log('🔧 FeatureStore: disableFloatingMenuAndBubbleMenu')
+            if (verbose) {
+                console.log('🔧 FeatureStore: disableFloatingMenuAndBubbleMenu')
+            }
             this.floatingMenuVisible = false
             this.bubbleMenuVisible = false
             this.updateNonce()
         },
 
         disableContextMenu() {
-            console.log('🔧 FeatureStore: disableContextMenu')
+            if (verbose) {
+                console.log('🔧 FeatureStore: disableContextMenu')
+            }
             this.contextMenu = false
             this.updateNonce()
         },
 
         enableDraw() {
-            console.log('🔧 FeatureStore: enableDraw')
+            if (verbose) {
+                console.log('🔧 FeatureStore: enableDraw')
+            }
             this.drawEnabled = true
             this.updateNonce()
         },
 
         enableTable() {
-            console.log('🔧 FeatureStore: enableTable')
+            if (verbose) {
+                console.log('🔧 FeatureStore: enableTable')
+            }
             this.tableEnabled = true
             this.updateNonce()
         },
 
         enableContextMenu() {
-            console.log('🔧 FeatureStore: enableContextMenu')
+            if (verbose) {
+                console.log('🔧 FeatureStore: enableContextMenu')
+            }
             this.contextMenu = true
             this.updateNonce()
         },
 
         enableEdit() {
-            console.log('🔧 FeatureStore: enableEdit')
+            if (verbose) {
+                console.log('🔧 FeatureStore: enableEdit')
+            }
             this.editable = true
         },
 
         enableBubbleMenu() {
-            console.log('🔧 FeatureStore: enableBubbleMenu')
+            if (verbose) {
+                console.log('🔧 FeatureStore: enableBubbleMenu')
+            }
             this.bubbleMenuVisible = true
             this.updateNonce()
         },
 
         enableFloatingMenu() {
-            console.log('🔧 FeatureStore: enableFloatingMenu')
+            if (verbose) {
+                console.log('🔧 FeatureStore: enableFloatingMenu')
+            }
             this.floatingMenuVisible = true
             this.updateNonce()
         },
 
         hideFloatingMenu() {
-            console.log('🔧 FeatureStore: hideFloatingMenu')
+            if (verbose) {
+                console.log('🔧 FeatureStore: hideFloatingMenu')
+            }
             this.floatingMenuVisible = false
             this.updateNonce()
         },
 
         hideToolbar() {
-            console.log('🔧 FeatureStore: hideToolbar')
+            if (verbose) {
+                console.log('🔧 FeatureStore: hideToolbar')
+            }
             this.toolbarVisible = false
             this.updateNonce()
         },
 
         hideBubbleMenu() {
-            console.log('🔧 FeatureStore: hideBubbleMenu')
+            if (verbose) {
+                console.log('🔧 FeatureStore: hideBubbleMenu')
+            }
             this.bubbleMenuVisible = false
             this.updateNonce()
         },
 
         hideEditor() {
-            console.log('🔧 FeatureStore: hideEditor')
+            if (verbose) {
+                console.log('🔧 FeatureStore: hideEditor')
+            }
             this.editorVisible = false
         },
 
         showToolbar() {
-            console.log('🔧 FeatureStore: showToolbar')
+            if (verbose) {
+                console.log('🔧 FeatureStore: showToolbar')
+            }
             this.toolbarVisible = true
             this.updateNonce()
         },
 
         showEditor() {
-            console.log('🔧 FeatureStore: showEditor')
+            if (verbose) {
+                console.log('🔧 FeatureStore: showEditor')
+            }
             this.editorVisible = true
         },
 
         showEditorAndEnableEdit() {
-            console.log('🔧 FeatureStore: showEditorAndEnableEdit')
+            if (verbose) {
+                console.log('🔧 FeatureStore: showEditorAndEnableEdit')
+            }
             this.showEditor()
             this.enableEdit()
         },
 
         showBubbleMenu() {
-            console.log('🔧 FeatureStore: showBubbleMenu')
+            if (verbose) {
+                console.log('🔧 FeatureStore: showBubbleMenu')
+            }
             this.bubbleMenuVisible = true
             this.updateNonce()
         },
 
         showFloatingMenu() {
-            console.log('🔧 FeatureStore: showFloatingMenu')
+            if (verbose) {
+                console.log('🔧 FeatureStore: showFloatingMenu')
+            }
             this.floatingMenuVisible = true
             this.updateNonce()
         },
 
         toggleFloatingMenu() {
-            console.log('🔧 FeatureStore: toggleFloatingMenu')
+            if (verbose) {
+                console.log('🔧 FeatureStore: toggleFloatingMenu')
+            }
             this.floatingMenuVisible = !this.floatingMenuVisible
             this.updateNonce()
         },
