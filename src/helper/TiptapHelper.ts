@@ -244,7 +244,7 @@ class TiptapHelper {
                 console.log(title, 'IS EMPTY')
             }
 
-            return {}
+            return ''
         }
 
         // 尝试解析成json
