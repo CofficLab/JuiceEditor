@@ -1,3 +1,5 @@
+const title = "🔧 Helper"
+
 class Helper {
     // 获取尾部位置
     static getTailPos(props: { getPos: () => any; node: { nodeSize: any } }): number {
@@ -87,7 +89,10 @@ class Helper {
     }
 
     static toTop() {
-        console.log('滚动到顶部')
+        let verbose = false;
+        if (verbose) {
+            console.log(title, '滚动到顶部')
+        }
         window.scrollTo(0, 0)
     }
 }

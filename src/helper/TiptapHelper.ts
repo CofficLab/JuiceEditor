@@ -4,7 +4,7 @@ import { Mark as ProseMirrorMark, Node as ProseMirrorNode, NodeType, ParseOption
 import EditorData from '../model/EditorData'
 import makeExtensions from '../config/extension'
 
-const verbose = false;
+const title = '📒 TiptapHelper'
 
 interface Props {
     uuid: string,
@@ -20,6 +20,11 @@ interface Props {
 
 class TiptapHelper {
     static create(props: Props): Editor {
+        let verbose = false;
+        if (verbose) {
+            console.log(title, 'create with content', props.content)
+        }
+
         return new Editor({
             extensions: makeExtensions({
                 drawIoLink: props.drawIoLink,
@@ -28,23 +33,38 @@ class TiptapHelper {
             }),
             injectNonce: props.uuid,
             autofocus: false,
-            content: props.content,
+            content: TiptapHelper.getValidContent(props.content),
             editable: props.editable,
             onBeforeCreate: ({ editor }) => {
-                log('onBeforeCreate')
+                let verbose = false;
+                if (verbose) {
+                    console.log(title, 'onBeforeCreate')
+                }
             },
             onCreate: ({ editor }) => {
-                log('onCreate, callback with EditorData')
+                let verbose = false;
+                if (verbose) {
+                    console.log(title, 'onCreate, callback with EditorData')
+                }
                 props.onCreate(EditorData.fromEditor(editor))
             },
             onFocus: ({ editor }) => {
-                log('onFocus')
+                let verbose = false;
+                if (verbose) {
+                    console.log(title, 'onFocus')
+                }
             },
             onBlur: ({ editor }) => {
-                log('onBlur')
+                let verbose = false;
+                if (verbose) {
+                    console.log(title, 'onBlur')
+                }
             },
             onDestroy(props) {
-                log('onDestroy')
+                let verbose = false;
+                if (verbose) {
+                    console.log(title, 'onDestroy')
+                }
             },
             onSelectionUpdate: ({ editor }) => {
                 let type = TiptapHelper.getSelectionNodeType(editor)
@@ -53,16 +73,19 @@ class TiptapHelper {
                     // log('TiptapHelper: onSelectionUpdate, callback with Editor', type)
                     props.onSelectionUpdate(type)
                 } else {
-                    log('TiptapHelper: onSelectionUpdate, no callback')
+                    console.log(title, 'TiptapHelper: onSelectionUpdate, no callback')
                 }
             },
             onUpdate: ({ editor }) => {
+                let verbose = false;
                 let editorData = EditorData.fromEditor(editor)
                 if (props.onUpdate) {
-                    log('onUpdate, callback with EditorData')
+                    if (verbose) {
+                        console.log(title, 'onUpdate, callback with EditorData')
+                    }
                     props.onUpdate(editorData)
                 } else {
-                    log('onUpdate, no callback')
+                    console.log(title, 'onUpdate, no callback')
                 }
             }
         })
@@ -208,10 +231,39 @@ class TiptapHelper {
         })
         editor.commands.focus(tail)
     }
+
+    // 别处传递给editor的content可能是html字符串，也可能是json字符串，这里确保是正确的
+    static getValidContent(content: string): object | string {
+        let verbose = false;
+        if (verbose) {
+            console.log(title, 'getValidContent')
+        }
+
+        if (content == '') {
+            if (verbose) {
+                console.log(title, 'IS EMPTY')
+            }
+
+            return ''
+        }
+
+        // 尝试解析成json
+        try {
+            let jsonObject = JSON.parse(content)
+
+            if (verbose) {
+                console.log(title, 'IS JSON')
+            }
+
+            return jsonObject
+        } catch (e) {
+            if (verbose) {
+                console.log(title, 'Not JSON, As HTML')
+            }
+
+            return content
+        }
+    }
 }
 
 export default TiptapHelper
-
-function log(...message: any[]) {
-    if (verbose) console.log("🍋 TiptapHelper:", ...message)
-}

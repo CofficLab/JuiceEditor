@@ -2,6 +2,7 @@
   <div
     ref="panel"
     class="relative z-10 w-full"
+    :data-uuid="node.attrs.uuid"
     :id="id"
     :class="{
       inline: inline,

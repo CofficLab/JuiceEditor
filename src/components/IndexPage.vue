@@ -86,11 +86,15 @@ onUnmounted(() => {
 })
 
 watch(drawLink, () => {
+  let verbose = false
+
   if (!featureStore.editorVisible) {
     return
   }
 
-  console.log('IndexPage: drawLink 变了，重新加载Tiptap，drawLink ->' + drawLink.value)
+  if (verbose) {
+    console.log('IndexPage: drawLink 变了，重新加载Tiptap，drawLink ->' + drawLink.value)
+  }
 
   featureStore.hideEditor()
   nextTick(() => {
@@ -99,13 +103,17 @@ watch(drawLink, () => {
 })
 
 watch(featureUpdatedAt, () => {
+  let verbose = false
+
   if (!featureStore.editorVisible) {
     return
   }
 
-  console.log(
-    'IndexPage: feature变了，重新加载Tiptap，featureUpdatedAt ->' + featureUpdatedAt.value
-  )
+  if (verbose) {
+    console.log(
+      'IndexPage: feature变了，重新加载Tiptap，featureUpdatedAt ->' + featureUpdatedAt.value
+    )
+  }
 
   featureStore.hideEditor()
   nextTick(() => {

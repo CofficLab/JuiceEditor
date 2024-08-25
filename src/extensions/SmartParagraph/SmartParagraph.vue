@@ -1,5 +1,5 @@
 <template>
-  <NodeViewWrapper>
+  <NodeViewWrapper :data-uuid="'p-' + props.node.attrs.uuid">
     <Panel
       v-if="showPanel"
       :inline="false"
