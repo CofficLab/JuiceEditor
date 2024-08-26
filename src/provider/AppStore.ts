@@ -143,6 +143,8 @@ export const useAppStore = defineStore('app-store', {
             }
 
             console.log(title, '更新节点')
+            console.log(data.content)
+            console.log(data.json)
 
             if (isDebug) {
                 LocalStore.saveData(data)
