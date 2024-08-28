@@ -22,6 +22,10 @@ declare global {
             app: any;
             event: EventManager;
             feature?: any;
+
+            setUUIDAndContent: (uuid: string, content: string) => void
+
+            setTreeNode: (node: any) => void
         };
         setCode: (code: string) => void
         setLanguage: (lan: string) => void

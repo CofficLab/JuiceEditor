@@ -1,4 +1,6 @@
 import { JSONContent } from "@tiptap/core";
+import EditorDoc from './EditorDoc';
+import { v4 as uuidv4 } from 'uuid';
 
 interface TreeNodeParams {
     uuid?: string;
@@ -12,6 +14,7 @@ interface TreeNodeParams {
     wordCount?: number;
     lastSyncedAt?: string;
     children?: Object[]
+    docs?: EditorDoc[]
 }
 
 export default class TreeNode {
@@ -25,10 +28,26 @@ export default class TreeNode {
     public wordCount: number = 0
     public lastSyncedAt: string = ""
     public children: TreeNode[] = []
-    jsonContent: JSONContent = {};
+    public jsonContent: JSONContent = {};
+    public docs: EditorDoc[] = []
+    public currentDocUUID: string = ""
+
+    static makeDefaultNode(): TreeNode {
+        let treeNode = new TreeNode({
+            uuid: uuidv4(),
+            title: '',
+            content: '',
+            characterCount: 0,
+            wordCount: 0,
+        }).setDocs([EditorDoc.makeDefaultDoc()])
+
+        console.log(treeNode)
+
+        return treeNode
+    }
 
     constructor(public params: TreeNodeParams) {
-        this.uuid = params.uuid || ""
+        this.uuid = params.uuid || uuidv4()
         this.title = params.title || ""
         this.priority = params.priority || 0
         this.content = params.content || ""
@@ -38,10 +57,11 @@ export default class TreeNode {
         this.lastSyncedAt = params.lastSyncedAt || ""
         this.isBook = params.isBook || false
         this.children = []
+        this.docs = params.docs?.map(doc => EditorDoc.fromObject(doc)) || []
 
         if (params.children) {
-            params.children.forEach((element: Object) => {
-                this.children.push(new TreeNode(element))
+            params.children.forEach((element: TreeNodeParams) => {
+                return this.children.push(new TreeNode(element));
             });
         }
     }
@@ -63,6 +83,14 @@ export default class TreeNode {
         }
 
         return this
+    }
+
+    getCurrentDoc(): EditorDoc {
+        if (!this.currentDocUUID) {
+            this.currentDocUUID = this.docs[0].uuid
+        }
+
+        return this.docs.find(doc => doc.uuid === this.currentDocUUID)
     }
 
     setId(id: string): this {
@@ -115,6 +143,12 @@ export default class TreeNode {
         return this
     }
 
+    setDocs(docs: EditorDoc[]): this {
+        this.docs = docs
+        this.currentDocUUID = docs[0].uuid
+        return this
+    }
+
     toJSON(): Object {
         return {
             uuid: this.uuid,
@@ -126,11 +160,29 @@ export default class TreeNode {
             characterCount: this.characterCount,
             wordCount: this.wordCount,
             lastSyncedAt: this.lastSyncedAt,
-            children: this.children
+            children: this.children,
+            docs: this.docs,
+            currentDocUUID: this.currentDocUUID
         }
+    }
+
+    toJSONString(): string {
+        return JSON.stringify(this.toJSON())
     }
 
     sameWith(node: TreeNode): boolean {
         return JSON.stringify(this.toJSON()) == JSON.stringify(node.toJSON())
+    }
+
+    updateDoc(doc: EditorDoc): this {
+        this.docs = this.docs.map((element: EditorDoc) => {
+            if (element.uuid === doc.uuid) {
+                return doc
+            } else {
+                return element
+            }
+        })
+
+        return this
     }
 }

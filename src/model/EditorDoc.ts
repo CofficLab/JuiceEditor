@@ -1,6 +1,8 @@
 import { Editor, JSONContent } from '@tiptap/core'
+import { v4 as uuidv4 } from 'uuid'
 
-export default class EditorData {
+// 从编辑器中能获得的数据
+export default class EditorDoc {
     public uuid: string = ""
     public title: string = ""
     public content: string = ""
@@ -8,7 +10,28 @@ export default class EditorData {
     public characterCount: number = 0
     public wordCount: number = 0
 
-    static fromEditor(editor: Editor): EditorData {
+    static makeDefaultDoc(): EditorDoc {
+        console.log("makeDefaultDoc")
+        return new EditorDoc()
+            .setUuid(uuidv4())
+            .setTitle('')
+            .setContent('<h1>Default Title</h1>')
+            .setJson({})
+            .setCharacterCount(0)
+            .setWordCount(0)
+    }
+
+    static fromObject(obj: { [key: string]: any }): EditorDoc {
+        return new EditorDoc()
+            .setUuid(obj['uuid'] as string)
+            .setTitle(obj['title'] as string)
+            .setContent(obj['content'] as string)
+            .setJson(obj['json'] as any) // 假设setJson可以接受任意类型的JSON对象
+            .setCharacterCount(obj['characterCount'] as number)
+            .setWordCount(obj['wordCount'] as number);
+    }
+
+    static fromEditor(editor: Editor): EditorDoc {
         let nodes = editor.state.doc.content
         let title = ''
         nodes.forEach((node) => {
@@ -17,7 +40,7 @@ export default class EditorData {
             }
         })
 
-        return new EditorData()
+        return new EditorDoc()
             .setUuid(editor.options.injectNonce ?? "")
             .setTitle(title)
             .setContent(editor.getHTML())

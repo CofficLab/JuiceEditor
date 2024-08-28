@@ -75,17 +75,6 @@ export default function makeExtensions(props: makeExtensionsProps) {
         }),
         Document.extend({
             content: 'heading block*',
-            addAttributes() {
-                return {
-                    'uuid': {
-                        default: uuidv4(),
-                    },
-                    class: {
-                        default: "my-class"
-                    },
-                }
-            },
-            renderHTML: ({ node }) => ["doc", node.attrs, 0],
         }),
         // GroupPre,
         // Heading,
@@ -157,7 +146,6 @@ export default function makeExtensions(props: makeExtensionsProps) {
         UUID.configure({
             attributeName: "uuid",
             types: [
-                // 'doc',
                 'heading',
                 'paragraph',
                 'pre',

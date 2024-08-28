@@ -1,4 +1,6 @@
-import EditorData from "../model/EditorData"
+import TreeNode from "src/model/TreeNode";
+import EditorDoc from "../model/EditorDoc"
+import UpdateData from "../model/UpdateData";
 
 const title = "🍎 WebKit"
 
@@ -22,17 +24,14 @@ const webkit = {
         }
     },
 
-    updateNode(data: EditorData) {
-        let verbose = false;
+    updateNode(data: UpdateData) {
+        let verbose = true;
+
         if (!('webkit' in window)) {
             if (verbose) {
                 console.log(title, '无 WebKit，忽略更新')
             }
             return
-        }
-
-        if (verbose) {
-            console.log(title, '调用 WebKit 以更新节点内容', data.uuid, data.title)
         }
 
         // 异步往 webkit 发送数据，防止界面卡顿
@@ -108,20 +107,12 @@ const webkit = {
         });
     },
 
-    asyncUpdateNodeTask(data: EditorData) {
+    asyncUpdateNodeTask(data: UpdateData) {
         let verbose = false;
         return new Promise((resolve, reject) => {
             try {
                 // 只能传字符、只能传普通object
-                (window as any).webkit.messageHandlers.sendMessage.postMessage({
-                    channel: 'updateNode',
-                    content: data.content,
-                    json: JSON.stringify(data.json),
-                    title: data.title,
-                    uuid: data.uuid,
-                    characterCount: `${data.characterCount}`,
-                    wordCount: `${data.wordCount}`
-                })
+                (window as any).webkit.messageHandlers.sendMessage.postMessage(data.toObject())
             } catch (e) {
                 console.log(title, '更新内容失败', e)
                 reject(e)
@@ -131,6 +122,13 @@ const webkit = {
                 resolve(title + ' 已发送Content更新');
             }
         });
+    },
+
+    debugMessage(message: string) {
+        (window as any).webkit.messageHandlers.sendMessage.postMessage({
+            channel: "message",
+            message: message
+        })
     }
 }
 

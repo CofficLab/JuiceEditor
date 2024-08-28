@@ -1,7 +1,7 @@
 import { Editor } from '@tiptap/vue-3'
 import { Editor as TiptapEditor } from '@tiptap/core'
 import { Mark as ProseMirrorMark, Node as ProseMirrorNode, NodeType, ParseOptions } from '@tiptap/pm/model';
-import EditorData from '../model/EditorData'
+import EditorDoc from '../model/EditorDoc'
 import makeExtensions from '../config/extension'
 
 const title = '📒 TiptapHelper'
@@ -10,8 +10,8 @@ interface Props {
     uuid: string,
     content: string
     editable: boolean
-    onCreate: (data: EditorData) => void
-    onUpdate: (data: EditorData) => void
+    onCreate: (data: EditorDoc) => void
+    onUpdate: (data: EditorDoc) => void
     onSelectionUpdate?: (type: string) => void
     drawIoLink?: string
     drawEnable: boolean
@@ -46,7 +46,7 @@ class TiptapHelper {
                 if (verbose) {
                     console.log(title, 'onCreate, callback with EditorData')
                 }
-                props.onCreate(EditorData.fromEditor(editor))
+                props.onCreate(EditorDoc.fromEditor(editor))
             },
             onFocus: ({ editor }) => {
                 let verbose = false;
@@ -78,7 +78,7 @@ class TiptapHelper {
             },
             onUpdate: ({ editor }) => {
                 let verbose = false;
-                let editorData = EditorData.fromEditor(editor)
+                let editorData = EditorDoc.fromEditor(editor)
                 if (props.onUpdate) {
                     if (verbose) {
                         console.log(title, 'onUpdate, callback with EditorData')

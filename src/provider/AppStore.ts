@@ -1,22 +1,30 @@
 import { defineStore } from 'pinia'
 import TreeNode from '../model/TreeNode'
-import EditorData from '../model/EditorData'
+import EditorDoc from '../model/EditorDoc'
 import webkit from '../api/WebKit'
-import LocalStore from './LocalStore'
+import LocalStore from '../helper/LocalStore'
 import Config from '../config/config'
 import MarkdownHelper from '../helper/MarkdownHelper'
 import Helper from '../helper/Helper'
+import UpdateData from '../model/UpdateData'
 
-const verbose = true
 const config = Config
 const isDebug = config.isDebug
 const title = "🍋 AppStore"
+
+function getDefaultTreeNode(): TreeNode {
+    if (isDebug) {
+        return LocalStore.getTreeNode()
+    }
+
+    return TreeNode.makeDefaultNode()
+}
 
 export const useAppStore = defineStore('app-store', {
     state: () => {
         return {
             isDebug: isDebug,
-            node: new TreeNode({}),
+            node: getDefaultTreeNode(),
             drawLink: config.drawLink,
             monacoLink: config.monacoLink,
             loading: true,
@@ -83,30 +91,6 @@ export const useAppStore = defineStore('app-store', {
             Helper.toTop()
         },
 
-        // 设置当前节点的子uuid和content，其中content传递一个通过base64编码的字符
-        setUUIDAndContent: function (uuid: string, content: string) {
-            let verbose = false;
-            this.loading = true
-            if (verbose) {
-                console.log(title, 'setUUIDAndContent')
-            }
-
-            let newNode = this.node
-            newNode.uuid = uuid
-            newNode.content = JSON.stringify(JSON.parse(atob(content)))
-
-            if (verbose) {
-                console.log(title, 'setUUIDAndContent', newNode.content)
-            }
-
-            // 会触发编辑器的更新
-            this.node = newNode
-
-            this.loading = false
-
-            Helper.toTop()
-        },
-
         /* 
             设置当前节点的子节点，传递一个通过base64编码的JSON数组
             所以要先base64解码再解析成JSON
@@ -136,21 +120,24 @@ export const useAppStore = defineStore('app-store', {
             Helper.toTop()
         },
 
-        updateNode: function (data: EditorData) {
-            if (data.content == this.node.content) {
+        updateDoc: function (doc: EditorDoc) {
+            if (doc.content == this.node.content) {
                 console.log(title, '更新节点，没变化，忽略')
                 return
             }
 
+            let updateData = UpdateData.fromNodeAndDoc(this.node, doc)
+
             console.log(title, '更新节点')
-            console.log(data.content)
-            console.log(data.json)
+            console.log(title, 'node', this.node)
+            console.log(title, 'doc', doc)
+            console.log(title, 'updateData', updateData)
 
             if (isDebug) {
-                LocalStore.saveData(data)
+                LocalStore.saveTreeNode(this.node.updateDoc(doc))
             }
 
-            webkit.updateNode(data)
+            webkit.updateNode(updateData)
         },
 
         setReady() {

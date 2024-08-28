@@ -95,7 +95,7 @@ import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import BubbleMenus from './BubbleMenus.vue'
 import FloatMenus from './FloatMenus.vue'
 import TiptapAgent from '../helper/TiptapHelper'
-import EditorData from '../model/EditorData'
+import EditorDoc from '../model/EditorDoc'
 import HeadingVue from './Heading.vue'
 import EventManager from '../event/EventManager'
 import Heading from '../extensions/Toc/Heading'
@@ -112,10 +112,10 @@ const editor = TiptapAgent.create({
   drawIoLink: props.drawLink,
   drawEnable: props.drawEnable,
   tableEnable: props.tableEnable,
-  onCreate: (data: EditorData) => {
+  onCreate: (data: EditorDoc) => {
     props.onCreate(data)
   },
-  onUpdate: (data: EditorData) => {
+  onUpdate: (data: EditorDoc) => {
     refreshToc('onUpdate')
     if (!props.editable) {
       return log('只读模式，不回调更新')

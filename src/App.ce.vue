@@ -12,10 +12,10 @@
     <IndexPage
       v-else
       v-show="app.ready"
-      :uuid="node.uuid"
-      :content="node.content"
+      :uuid="node.currentDocUUID"
+      :content="content"
       :drawLink="app.drawLink"
-      :onUpdate="app.updateNode"
+      :onUpdate="app.updateDoc"
       :onMessage="onMessage"
     ></IndexPage>
 
@@ -56,6 +56,9 @@ const message = ref('')
 const uuid = ref('')
 const node = computed(() => {
   return app.node
+})
+const content = computed(() => {
+  return app.node.getCurrentDoc().content
 })
 
 observer.observe(targetNode, config)
