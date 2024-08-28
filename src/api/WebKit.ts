@@ -25,7 +25,12 @@ const webkit = {
     },
 
     updateNode(data: UpdateData) {
-        let verbose = true;
+        let verbose = false;
+
+        if (verbose) {
+            console.log(title, data)
+            console.log(title, data.toObject())
+        }
 
         if (!('webkit' in window)) {
             if (verbose) {

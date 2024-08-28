@@ -9,12 +9,17 @@ export default class LocalStore {
     }
 
     static saveDocs(docs: EditorDoc[]): void {
-        console.log(title, 'saveDocs', docs)
+        let verbose = false
+
+        if (verbose) {
+            console.log(title, 'saveDocs', docs)
+        }
+
         localStorage.setItem('docs', JSON.stringify(docs))
     }
 
     static getTreeNode(): TreeNode {
-        let verbose = true
+        let verbose = false
         let saveData = localStorage.getItem('tree_node')
         let treeNode = saveData ? new TreeNode(JSON.parse(saveData)) : TreeNode.makeDefaultNode()
 
@@ -30,10 +35,12 @@ export default class LocalStore {
     }
 
     static getDocs(): EditorDoc[] | null {
-        let verbose = true
+        let verbose = false
         let saveData = localStorage.getItem('docs')
 
-        console.log(title, 'getDocs', saveData)
+        if (verbose) {
+            console.log(title, 'getDocs', saveData)
+        }
 
         if (!saveData) {
             return null

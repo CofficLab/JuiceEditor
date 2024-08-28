@@ -2,6 +2,8 @@ import { Editor, JSONContent } from '@tiptap/core'
 import TreeNode from './TreeNode'
 import EditorDoc from './EditorDoc'
 
+const emoji = '🍑 UpdateData'
+
 // 当编辑器更新时，对外发送的数据
 export default class UpdateData {
     public nodeUUID: string = ""
@@ -16,9 +18,9 @@ export default class UpdateData {
         return new UpdateData()
             .setNodeUUID(node.uuid)
             .setDocUUID(doc.uuid)
-            .setContent(node.content)
+            .setContent(doc.content)
             .setTitle(node.title)
-            .setJson(node.jsonContent)
+            .setJson(doc.json)
             .setCharacterCount(doc.characterCount)
             .setWordCount(doc.wordCount)
     }

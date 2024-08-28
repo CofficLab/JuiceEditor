@@ -13,7 +13,6 @@ export default class EditorDoc {
     public wordCount: number = 0
 
     static makeDefaultDoc(): EditorDoc {
-        console.log("makeDefaultDoc")
         return new EditorDoc()
             .setUuid(uuidv4())
             .setTitle('')
@@ -24,7 +23,12 @@ export default class EditorDoc {
     }
 
     static fromObject(obj: { [key: string]: any }): EditorDoc {
-        console.log(emoji, 'fromObject', obj)
+        let verbose = false
+
+        if (verbose) {
+            console.log(emoji, 'fromObject', obj)
+        }
+
         return new EditorDoc()
             .setUuid(obj['uuid'] as string)
             .setTitle(obj['title'] as string)
@@ -35,7 +39,12 @@ export default class EditorDoc {
     }
 
     static fromEditor(editor: Editor): EditorDoc {
-        console.log(emoji, 'fromEditor', editor.getHTML())
+        let verbose = false
+
+        if (verbose) {
+            console.log(emoji, 'fromEditor', editor.getJSON())
+        }
+
         let nodes = editor.state.doc.content
         let title = ''
         nodes.forEach((node) => {

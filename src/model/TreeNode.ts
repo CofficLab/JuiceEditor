@@ -7,9 +7,6 @@ interface TreeNodeParams {
     title?: string;
     isBook?: boolean;
     priority?: number;
-    content?: string;
-    json?: string;
-    jsonContent?: JSONContent;
     characterCount?: number;
     wordCount?: number;
     lastSyncedAt?: string;
@@ -27,7 +24,6 @@ export default class TreeNode {
     public wordCount: number = 0
     public lastSyncedAt: string = ""
     public children: TreeNode[] = []
-    public jsonContent: JSONContent = {};
     public docs: EditorDoc[] = []
     public currentDocUUID: string = ""
 
@@ -35,7 +31,6 @@ export default class TreeNode {
         let treeNode = new TreeNode({
             uuid: uuidv4(),
             title: '',
-            content: '',
             characterCount: 0,
             wordCount: 0,
         }).setDocs([EditorDoc.makeDefaultDoc()])
@@ -49,8 +44,6 @@ export default class TreeNode {
         this.uuid = params.uuid || uuidv4()
         this.title = params.title || ""
         this.priority = params.priority || 0
-        this.content = params.content || ""
-        this.jsonContent = params.jsonContent || {}
         this.characterCount = params.characterCount || 0
         this.wordCount = params.wordCount || 0
         this.lastSyncedAt = params.lastSyncedAt || ""
@@ -69,7 +62,6 @@ export default class TreeNode {
         this.title = params.title || this.title
         this.priority = params.priority || this.priority
         this.isBook = params.isBook || this.isBook
-        this.content = params.content || this.content
         this.characterCount = params.characterCount || this.characterCount
         this.wordCount = params.wordCount || this.wordCount
         this.lastSyncedAt = params.lastSyncedAt || this.lastSyncedAt
@@ -95,11 +87,6 @@ export default class TreeNode {
 
     setContent(content: string): this {
         this.content = content
-        return this
-    }
-
-    setJsonContent(jsonContent: JSONContent): this {
-        this.jsonContent = jsonContent
         return this
     }
 
@@ -139,40 +126,11 @@ export default class TreeNode {
         return this
     }
 
-    // toJSON(): Object {
-    //     return {
-    //         uuid: this.uuid,
-    //         title: this.title,
-    //         isBook: this.isBook,
-    //         priority: this.priority,
-    //         content: this.content,
-    //         jsonContent: this.jsonContent,
-    //         characterCount: this.characterCount,
-    //         wordCount: this.wordCount,
-    //         lastSyncedAt: this.lastSyncedAt,
-    //         children: this.children,
-    //         docs: this.docs.map(doc => doc.toJSONObject()),
-    //         currentDocUUID: this.currentDocUUID
-    //     }
-    // }
-
     toJSONString(): string {
         return JSON.stringify(this)
     }
 
     sameWith(node: TreeNode): boolean {
         return JSON.stringify(this.toJSONString()) == JSON.stringify(node.toJSONString())
-    }
-
-    updateDoc(doc: EditorDoc): this {
-        this.docs = this.docs.map((element: EditorDoc) => {
-            if (element.uuid === doc.uuid) {
-                return doc
-            } else {
-                return element
-            }
-        })
-
-        return this
     }
 }

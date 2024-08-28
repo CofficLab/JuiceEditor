@@ -143,7 +143,11 @@ export const useAppStore = defineStore('app-store', {
         },
 
         updateDoc: function (doc: EditorDoc) {
-            console.log(title, "updateDoc", doc)
+            let verbose = false
+
+            if (verbose) {
+                console.log(title, "updateDoc", doc)
+            }
 
             this.docs = this.docs.map((element: EditorDoc) => {
                 if (element.uuid == doc.uuid) {
@@ -160,15 +164,14 @@ export const useAppStore = defineStore('app-store', {
 
             let updateData = UpdateData.fromNodeAndDoc(this.node, doc)
 
-            console.log(title, '更新节点', JSON.stringify(updateData.toObject()))
-            webkit.debugMessage('更新节点' + JSON.stringify(updateData.toObject()))
-            console.log(title, 'node', this.node)
-            console.log(title, 'doc', doc)
-            console.log(title, 'updateData', updateData)
-            console.log(title, 'isDebug', isDebug)
+            // console.log(title, '更新节点', JSON.stringify(updateData.toObject()))
+            // webkit.debugMessage('更新节点' + JSON.stringify(updateData.toObject()))
+            // console.log(title, 'node', this.node)
+            // console.log(title, 'doc', doc)
+            // console.log(title, 'updateData', updateData)
 
             if (isDebug) {
-                LocalStore.saveTreeNode(this.node.updateDoc(doc))
+                LocalStore.saveTreeNode(this.node)
                 LocalStore.saveDocs(this.docs)
             }
 
@@ -191,8 +194,6 @@ export const useAppStore = defineStore('app-store', {
             if (this.currentDocUUID) {
                 return this.docs.find((doc) => doc.uuid == this.currentDocUUID)!
             }
-
-            console.log(this.docs)
 
             this.currentDocUUID = this.docs[0].uuid
             return this.docs[0]

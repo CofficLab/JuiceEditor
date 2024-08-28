@@ -77,7 +77,7 @@ class TiptapHelper {
                 }
             },
             onUpdate: ({ editor }) => {
-                let verbose = true;
+                let verbose = false;
                 let editorData = EditorDoc.fromEditor(editor)
                 if (props.onUpdate) {
                     if (verbose) {
