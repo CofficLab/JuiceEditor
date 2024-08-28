@@ -1,9 +1,16 @@
+import Sample from "../model/Sample"
+import EditorDoc from "../model/EditorDoc"
 import TreeNode from "../model/TreeNode"
 import { sampleImgSrc1, sampleImgSrc2 } from "./Images"
 
 const baseNode = new TreeNode({
   uuid: 'baseNode',
-  content: `
+  title: '基础文档',
+})
+
+const baseDoc = new EditorDoc()
+  .setUuid('baseDoc')
+  .setContent(`
     <h1>测试内容</h1>
     <pre><code class="language-js">console.log("ABC 通用文章中的代码")</code></pre>
     <h2>表格</h2>
@@ -40,7 +47,6 @@ const baseNode = new TreeNode({
       <li data-type="taskItem" data-checked="false">And another one</li>
     </ul>
     <toc></toc>
-  `
-})
+  `)
 
-export default baseNode
+export default new Sample(baseNode, baseDoc)

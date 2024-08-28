@@ -18,8 +18,6 @@ export default class TreeNode {
     public title: string = ""
     public priority: number = 0
     public isBook: boolean = false
-    public content: string = ""
-    public json: string = ""
     public characterCount: number = 0
     public wordCount: number = 0
     public lastSyncedAt: string = ""
@@ -82,11 +80,6 @@ export default class TreeNode {
 
     setTitle(title: string): this {
         this.title = title
-        return this
-    }
-
-    setContent(content: string): this {
-        this.content = content
         return this
     }
 

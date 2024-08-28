@@ -47,6 +47,7 @@ export const useAppStore = defineStore('app-store', {
             node: getDefaultTreeNode(),
             docs: getDefaultDocs(),
             currentDocUUID: getDefaultCurrentDocUUID(),
+            contentLastUpdatedAt: Date.now(),
             drawLink: config.drawLink,
             monacoLink: config.monacoLink,
             loading: true,
@@ -65,11 +66,11 @@ export const useAppStore = defineStore('app-store', {
         },
 
         getContent(): string {
-            return this.node.content
+            return this.getCurrentDoc().content
         },
 
         getJSON(): string {
-            return this.node.json
+            return JSON.stringify(this.getCurrentDoc().json)
         },
 
         getDrawLink(): string {
@@ -77,7 +78,7 @@ export const useAppStore = defineStore('app-store', {
         },
 
         getMarkdown(): string {
-            return MarkdownHelper.html2markdown(this.node.content)
+            return MarkdownHelper.html2markdown(this.getContent())
         },
 
         setDrawLink: function (link: string) {
@@ -100,17 +101,18 @@ export const useAppStore = defineStore('app-store', {
             Helper.toTop()
         },
 
-        setCurrentNodeContent: function (content: string) {
-            this.loading = true
+        setCurrentNodeAndDocs: function (node: TreeNode, docs: EditorDoc[]) {
             let verbose = false;
+            this.loading = true
             if (verbose) {
-                console.log(title, 'setCurrentNodeContent')
+                console.log(title, 'setCurrentNodeAndDocs')
             }
 
-            this.node.content = content
-            this.loading = false
+            this.node = node
+            this.docs = docs
+            this.currentDocUUID = docs[0].uuid
 
-            Helper.toTop()
+            this.loading = false
         },
 
         /* 
@@ -142,10 +144,11 @@ export const useAppStore = defineStore('app-store', {
             Helper.toTop()
         },
 
-        updateDoc: function (doc: EditorDoc) {
-            let verbose = false
+        updateDoc: function (doc: EditorDoc, reason: string) {
+            let verbose = true
 
             if (verbose) {
+                console.log(title, "updateDoc", doc, reason)
                 console.log(title, "updateDoc", doc)
             }
 
@@ -157,9 +160,10 @@ export const useAppStore = defineStore('app-store', {
                 }
             })
 
-            if (doc.content == this.node.content) {
-                console.log(title, '更新节点，没变化，忽略')
-                return
+            // 如果this.docs不包含doc,则插入
+            if (!this.docs.find((element: EditorDoc) => element.uuid == doc.uuid)) {
+                this.docs.push(doc)
+                this.currentDocUUID = doc.uuid
             }
 
             let updateData = UpdateData.fromNodeAndDoc(this.node, doc)
