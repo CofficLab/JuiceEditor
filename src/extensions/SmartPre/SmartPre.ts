@@ -44,18 +44,6 @@ export default CodeBlock.extend({
         default: 0,
         rendered: true
       },
-      uuid: {
-        default: uuidv4(),
-        parseHTML: (element) => {
-          let getFromAttribute = element.getAttribute('uuid')
-
-          if (getFromAttribute && getFromAttribute.length > 0) {
-            return getFromAttribute
-          }
-
-          return uuidv4()
-        }
-      },
     }
   },
 

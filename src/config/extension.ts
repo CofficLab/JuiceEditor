@@ -27,7 +27,8 @@ import SmartParagraph from "../extensions/SmartParagraph/SmartParagraph"
 import SmartBulletList from "../extensions/SmartBulletList/SmartBulletList"
 import SmartQuote from "../extensions/SmartQuote/SmartQuote"
 import SmartKbd from "../extensions/SmartKbd/SmartKbd"
-import UUID from "../extensions/UniqueID/UniqueID"
+import UUID, { UniqueID } from "../extensions/UUID/UUID"
+import { v4 as uuidv4 } from "uuid";
 
 interface makeExtensionsProps {
     drawIoLink?: string,
@@ -73,7 +74,18 @@ export default function makeExtensions(props: makeExtensionsProps) {
             }
         }),
         Document.extend({
-            content: 'heading block*'
+            content: 'heading block*',
+            addAttributes() {
+                return {
+                    'uuid': {
+                        default: uuidv4(),
+                    },
+                    class: {
+                        default: "my-class"
+                    },
+                }
+            },
+            renderHTML: ({ node }) => ["doc", node.attrs, 0],
         }),
         // GroupPre,
         // Heading,
@@ -143,7 +155,16 @@ export default function makeExtensions(props: makeExtensionsProps) {
             types: ['heading', 'paragraph'],
         }),
         UUID.configure({
-            types: ['heading', 'paragraph'],
+            attributeName: "uuid",
+            types: [
+                // 'doc',
+                'heading',
+                'paragraph',
+                'pre',
+                'image',
+                'table', 'tableCell', 'tableHeader', 'tableRow',
+                'taskList', 'taskItem'
+            ],
         }),
     ]
 
