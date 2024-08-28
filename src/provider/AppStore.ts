@@ -20,11 +20,33 @@ function getDefaultTreeNode(): TreeNode {
     return TreeNode.makeDefaultNode()
 }
 
+function getDefaultDocs(): EditorDoc[] {
+    if (isDebug) {
+        return LocalStore.getDocs() || [EditorDoc.makeDefaultDoc()]
+    }
+
+    return [EditorDoc.makeDefaultDoc()]
+}
+
+function getDefaultCurrentDocUUID(): string | undefined {
+    if (isDebug) {
+        return LocalStore.getCurrentDocUUID()
+    }
+
+    if (getDefaultDocs().length > 0) {
+        return getDefaultDocs()[0].uuid
+    }
+
+    return undefined
+}
+
 export const useAppStore = defineStore('app-store', {
     state: () => {
         return {
             isDebug: isDebug,
             node: getDefaultTreeNode(),
+            docs: getDefaultDocs(),
+            currentDocUUID: getDefaultCurrentDocUUID(),
             drawLink: config.drawLink,
             monacoLink: config.monacoLink,
             loading: true,
@@ -121,6 +143,16 @@ export const useAppStore = defineStore('app-store', {
         },
 
         updateDoc: function (doc: EditorDoc) {
+            console.log(title, "updateDoc", doc)
+
+            this.docs = this.docs.map((element: EditorDoc) => {
+                if (element.uuid == doc.uuid) {
+                    return doc
+                } else {
+                    return element
+                }
+            })
+
             if (doc.content == this.node.content) {
                 console.log(title, '更新节点，没变化，忽略')
                 return
@@ -128,13 +160,16 @@ export const useAppStore = defineStore('app-store', {
 
             let updateData = UpdateData.fromNodeAndDoc(this.node, doc)
 
-            console.log(title, '更新节点')
+            console.log(title, '更新节点', JSON.stringify(updateData.toObject()))
+            webkit.debugMessage('更新节点' + JSON.stringify(updateData.toObject()))
             console.log(title, 'node', this.node)
             console.log(title, 'doc', doc)
             console.log(title, 'updateData', updateData)
+            console.log(title, 'isDebug', isDebug)
 
             if (isDebug) {
                 LocalStore.saveTreeNode(this.node.updateDoc(doc))
+                LocalStore.saveDocs(this.docs)
             }
 
             webkit.updateNode(updateData)
@@ -150,6 +185,17 @@ export const useAppStore = defineStore('app-store', {
 
             this.selectionType = type
             webkit.updateSelectionType(type)
+        },
+
+        getCurrentDoc(): EditorDoc {
+            if (this.currentDocUUID) {
+                return this.docs.find((doc) => doc.uuid == this.currentDocUUID)!
+            }
+
+            console.log(this.docs)
+
+            this.currentDocUUID = this.docs[0].uuid
+            return this.docs[0]
         }
     },
 })

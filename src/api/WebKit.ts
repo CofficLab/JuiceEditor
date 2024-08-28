@@ -125,6 +125,10 @@ const webkit = {
     },
 
     debugMessage(message: string) {
+        if (!('webkit' in window)) {
+            return
+        }
+
         (window as any).webkit.messageHandlers.sendMessage.postMessage({
             channel: "message",
             message: message

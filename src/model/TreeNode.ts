@@ -14,7 +14,6 @@ interface TreeNodeParams {
     wordCount?: number;
     lastSyncedAt?: string;
     children?: Object[]
-    docs?: EditorDoc[]
 }
 
 export default class TreeNode {
@@ -57,7 +56,6 @@ export default class TreeNode {
         this.lastSyncedAt = params.lastSyncedAt || ""
         this.isBook = params.isBook || false
         this.children = []
-        this.docs = params.docs?.map(doc => EditorDoc.fromObject(doc)) || []
 
         if (params.children) {
             params.children.forEach((element: TreeNodeParams) => {
@@ -83,14 +81,6 @@ export default class TreeNode {
         }
 
         return this
-    }
-
-    getCurrentDoc(): EditorDoc {
-        if (!this.currentDocUUID) {
-            this.currentDocUUID = this.docs[0].uuid
-        }
-
-        return this.docs.find(doc => doc.uuid === this.currentDocUUID)
     }
 
     setId(id: string): this {
@@ -149,29 +139,29 @@ export default class TreeNode {
         return this
     }
 
-    toJSON(): Object {
-        return {
-            uuid: this.uuid,
-            title: this.title,
-            isBook: this.isBook,
-            priority: this.priority,
-            content: this.content,
-            jsonContent: this.jsonContent,
-            characterCount: this.characterCount,
-            wordCount: this.wordCount,
-            lastSyncedAt: this.lastSyncedAt,
-            children: this.children,
-            docs: this.docs,
-            currentDocUUID: this.currentDocUUID
-        }
-    }
+    // toJSON(): Object {
+    //     return {
+    //         uuid: this.uuid,
+    //         title: this.title,
+    //         isBook: this.isBook,
+    //         priority: this.priority,
+    //         content: this.content,
+    //         jsonContent: this.jsonContent,
+    //         characterCount: this.characterCount,
+    //         wordCount: this.wordCount,
+    //         lastSyncedAt: this.lastSyncedAt,
+    //         children: this.children,
+    //         docs: this.docs.map(doc => doc.toJSONObject()),
+    //         currentDocUUID: this.currentDocUUID
+    //     }
+    // }
 
     toJSONString(): string {
-        return JSON.stringify(this.toJSON())
+        return JSON.stringify(this)
     }
 
     sameWith(node: TreeNode): boolean {
-        return JSON.stringify(this.toJSON()) == JSON.stringify(node.toJSON())
+        return JSON.stringify(this.toJSONString()) == JSON.stringify(node.toJSONString())
     }
 
     updateDoc(doc: EditorDoc): this {

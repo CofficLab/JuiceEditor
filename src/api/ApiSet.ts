@@ -2,6 +2,7 @@ import EventManager from '../event/EventManager';
 import { Store } from 'pinia';
 import Helper from '../helper/Helper';
 import TreeNode from '../model/TreeNode';
+import webkit from './WebKit';
 
 let title = "🍎 ApiSet"
 
@@ -41,6 +42,8 @@ export default function setApi(app: Store<any, any, any, any>, feature: Store<an
         },
 
         setTreeNode: function (treeNodeInBase64: string) {
+            webkit.debugMessage('setTreeNode')
+
             let node = new TreeNode(JSON.parse(atob(treeNodeInBase64)))
             app.node = node
 

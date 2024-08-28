@@ -1,7 +1,6 @@
 import { Editor, JSONContent } from '@tiptap/core'
 import TreeNode from './TreeNode'
 import EditorDoc from './EditorDoc'
-import { channel } from 'diagnostics_channel'
 
 // 当编辑器更新时，对外发送的数据
 export default class UpdateData {
@@ -10,6 +9,8 @@ export default class UpdateData {
     public content: string = ""
     public title: string = ""
     public json: JSONContent = {}
+    public characterCount: number = 0
+    public wordCount: number = 0
 
     static fromNodeAndDoc(node: TreeNode, doc: EditorDoc): UpdateData {
         return new UpdateData()
@@ -18,9 +19,12 @@ export default class UpdateData {
             .setContent(node.content)
             .setTitle(node.title)
             .setJson(node.jsonContent)
+            .setCharacterCount(doc.characterCount)
+            .setWordCount(doc.wordCount)
     }
 
     toObject(): object {
+        console.log(this)
         return {
             channel: "updateNode",
             nodeUUID: this.nodeUUID,
@@ -53,6 +57,16 @@ export default class UpdateData {
 
     setJson(json: JSONContent): this {
         this.json = json
+        return this
+    }
+
+    setCharacterCount(characterCount: number): this {
+        this.characterCount = characterCount
+        return this
+    }
+
+    setWordCount(wordCount: number): this {
+        this.wordCount = wordCount
         return this
     }
 }

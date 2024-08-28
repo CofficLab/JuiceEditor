@@ -1,6 +1,8 @@
 import { Editor, JSONContent } from '@tiptap/core'
 import { v4 as uuidv4 } from 'uuid'
 
+const emoji = '🍉 EditorDoc'
+
 // 从编辑器中能获得的数据
 export default class EditorDoc {
     public uuid: string = ""
@@ -22,6 +24,7 @@ export default class EditorDoc {
     }
 
     static fromObject(obj: { [key: string]: any }): EditorDoc {
+        console.log(emoji, 'fromObject', obj)
         return new EditorDoc()
             .setUuid(obj['uuid'] as string)
             .setTitle(obj['title'] as string)
@@ -32,6 +35,7 @@ export default class EditorDoc {
     }
 
     static fromEditor(editor: Editor): EditorDoc {
+        console.log(emoji, 'fromEditor', editor.getHTML())
         let nodes = editor.state.doc.content
         let title = ''
         nodes.forEach((node) => {

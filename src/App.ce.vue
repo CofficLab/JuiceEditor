@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col items-center">
     <!-- 操作栏 -->
-    <ToolBar v-if="app.isDebug" class="top-1 sticky z-50"></ToolBar>
+    <ToolBar v-if="app.isDebug" class="sticky z-50 top-1"></ToolBar>
 
     <!-- 初始化时的内容来源 -->
     <slot></slot>
@@ -12,7 +12,7 @@
     <IndexPage
       v-else
       v-show="app.ready"
-      :uuid="node.currentDocUUID"
+      :uuid="app.currentDocUUID"
       :content="content"
       :drawLink="app.drawLink"
       :onUpdate="app.updateDoc"
@@ -58,7 +58,7 @@ const node = computed(() => {
   return app.node
 })
 const content = computed(() => {
-  return app.node.getCurrentDoc().content
+  return app.getCurrentDoc().content
 })
 
 observer.observe(targetNode, config)
