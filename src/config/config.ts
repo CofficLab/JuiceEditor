@@ -21,7 +21,7 @@ export const Config: ConfigType = {
         ? '/monaco/index.html'
         : '/editor/monaco/index.html',
     'plugins': [
-        // hasWebkit ? new WebKit() : new LocalApp()
+        hasWebkit ? new WebKit() : new LocalApp()
     ]
 }
 

@@ -1,8 +1,9 @@
 import { Editor } from '@tiptap/vue-3'
 import { Editor as TiptapEditor } from '@tiptap/core'
-import { Mark as ProseMirrorMark, Node as ProseMirrorNode, NodeType, ParseOptions } from '@tiptap/pm/model';
+import { Node as ProseMirrorNode } from '@tiptap/pm/model';
 import EditorDoc from '../model/EditorDoc'
 import makeExtensions from '../config/extension'
+import { error } from 'console';
 
 const title = '📒 TiptapHelper'
 
@@ -78,6 +79,9 @@ class TiptapHelper {
             },
             onUpdate: ({ editor }) => {
                 let verbose = false;
+
+                this.checkBlockUUID(editor)
+
                 let editorData = EditorDoc.fromEditor(editor)
                 if (props.onUpdate) {
                     if (verbose) {
@@ -263,6 +267,26 @@ class TiptapHelper {
 
             return content
         }
+    }
+
+    static checkBlockUUID(editor: TiptapEditor) {
+        let typesWithoutUUID = [
+            'text',
+            'tableRow',
+            'tableHeader',
+            'tableCell',
+            'taskItem',
+            'toc'
+        ]
+
+        // 检查每一个node，没有uuid属性则抛出异常
+        editor.state.doc.descendants((node, pos) => {
+            if (!typesWithoutUUID.includes(node.type.name) && !node.attrs.uuid) {
+                // console.error(node)
+                throw new Error(`Node [${node.type.name}] has no uuid`)
+                // console.warn('Node has no uuid', node)
+            }
+        })
     }
 }
 

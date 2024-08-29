@@ -113,22 +113,17 @@ export const useAppStore = defineStore('app-store', {
         },
 
         setDoc(doc: EditorDoc) {
-            let verbose = false;
-            if (verbose) {
-                console.log(title, 'setDoc', doc)
-            }
+            let verbose = true;
 
             if (this.getContent() == doc.content) {
                 if (verbose) {
                     console.log(title, '更新节点，没变化，忽略')
                 }
                 return
-            } else {
-                if (verbose) {
-                    console.log(title, '更新节点，有变化')
-                    console.log(this.getContent())
-                    console.log(doc.content)
-                }
+            }
+
+            if (verbose) {
+                console.log(title, 'setDoc', doc)
             }
 
             this.docs = this.docs.map((element: EditorDoc) => {
