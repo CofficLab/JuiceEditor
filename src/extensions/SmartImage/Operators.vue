@@ -61,7 +61,7 @@
 import { nodeViewProps } from '@tiptap/vue-3'
 import Helper from '../../helper/ImageHelper'
 import { defineProps, ref } from 'vue'
-import webkit from '../../api/WebKit'
+import webkit from '../../plugins/WebKit'
 import IconDownload from '../../ui/icons/IconDownload.vue'
 import IconEdit from '../../ui/icons/IconEdit.vue'
 import Reset from '../../ui/icons/Reset.vue'

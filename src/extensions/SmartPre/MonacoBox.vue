@@ -45,7 +45,7 @@
 <script lang="ts" setup>
 import { onMounted, onUnmounted, watch, ref, onBeforeUnmount, computed, onBeforeMount } from 'vue'
 import MonacoBox from './Entities/MonacoBox'
-import webkit from '../../api/WebKit'
+import webkit from '../../plugins/WebKit'
 import PlayIcon from '../../ui/icons/Play.vue'
 import CloseIcon from '../../ui/icons/Close.vue'
 import Pre from '../../ui/Pre.vue'

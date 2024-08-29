@@ -1,9 +1,18 @@
 import UpdateData from "../model/UpdateData";
+import Plugin from "../contract/Plugin";
 
 const title = "🍎 WebKit"
 
-class WebKit {
-    pageLoaded() {
+class WebKit implements Plugin {
+    onSelectionTypeChange(type: string): void {
+
+    }
+
+    onUpdated(data: UpdateData): void {
+
+    }
+
+    onPageLoaded() {
         let verbose = false;
 
         if (!('webkit' in window)) {
@@ -127,7 +136,7 @@ class WebKit {
         });
     }
 
-    debugMessage(message: string) {
+    onMessage(message: string) {
         if (!('webkit' in window)) {
             return
         }

@@ -3,10 +3,8 @@ import TreeNode from '../model/TreeNode';
 import EditorDoc from '../model/EditorDoc';
 import UpdateData from '../model/UpdateData';
 import LocalDB from '../database/LocalDB';
-import WebKit from './WebKit';
 
 let title = "🍎 NodeAPI"
-const webkit = new WebKit()
 
 export default class NodeApi {
     public app: Store<any, any, any, any>
@@ -61,8 +59,6 @@ export default class NodeApi {
 
         LocalDB.saveTreeNode(this.app.node)
         LocalDB.saveDocs(this.app.docs)
-
-        webkit.updateNode(updateData)
     }
 
     public setNodeAndDocs(node: TreeNode, docs: EditorDoc[]) {
@@ -70,8 +66,6 @@ export default class NodeApi {
     }
 
     public setNodeBase64(treeNodeInBase64: string) {
-        webkit.debugMessage('setTreeNodeInBase64')
-
         let node = new TreeNode(JSON.parse(atob(treeNodeInBase64)))
         this.app.setNode(node)
     }

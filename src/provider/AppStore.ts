@@ -1,16 +1,15 @@
 import { defineStore } from 'pinia'
 import TreeNode from '../model/TreeNode'
 import EditorDoc from '../model/EditorDoc'
-import Webkit from '../api/WebKit'
 import LocalDB from '../database/LocalDB'
 import Config from '../config/config'
 import MarkdownHelper from '../helper/MarkdownHelper'
 import Helper from '../helper/Helper'
+import UpdateData from '../model/UpdateData'
 
 const config = Config
 const isDebug = config.isDebug
 const title = "🍋 AppStore"
-const webkit = new Webkit()
 
 function getDefaultTreeNode(): TreeNode {
     if (isDebug) {
@@ -65,6 +64,7 @@ export const useAppStore = defineStore('app-store', {
             loading: true,
             ready: false,
             selectionType: '',
+            plugins: config.plugins
         }
     },
 
@@ -129,14 +129,18 @@ export const useAppStore = defineStore('app-store', {
 
         setReady() {
             this.ready = true
-            webkit.pageLoaded()
+            this.plugins.forEach((plugin) => {
+                plugin.onPageLoaded()
+            })
         },
 
         updateSelectionType(type: string) {
             if (type == this.selectionType) return
 
             this.selectionType = type
-            webkit.updateSelectionType(type)
+            this.plugins.forEach((plugin) => {
+                plugin.onSelectionTypeChange(type)
+            })
         },
 
         getCurrentDoc(): EditorDoc {
@@ -164,6 +168,43 @@ export const useAppStore = defineStore('app-store', {
 
             LocalDB.saveCurrentDocUUID(doc.uuid)
             return doc.uuid
+        },
+
+        setDoc(doc: EditorDoc) {
+            let verbose = false;
+            if (verbose) {
+                console.log(title, 'setDoc', doc)
+            }
+
+            if (this.getContent() == doc.content) {
+                console.log(title, '更新节点，没变化，忽略')
+                return
+            }
+
+            this.docs = this.docs.map((element: EditorDoc) => {
+                if (element.uuid == doc.uuid) {
+                    return doc
+                } else {
+                    return element
+                }
+            })
+
+            if (!this.docs.find((element: EditorDoc) => element.uuid == doc.uuid)) {
+                this.docs.push(doc)
+                this.currentDocUUID = doc.uuid
+            }
+
+            let updateData = UpdateData.fromNodeAndDoc(this.node, doc)
+
+            // console.log(title, '更新节点', JSON.stringify(updateData.toObject()))
+            // webkit.debugMessage('更新节点' + JSON.stringify(updateData.toObject()))
+            // console.log(title, 'node', this.node)
+            // console.log(title, 'doc', doc)
+            // console.log(title, 'updateData', updateData)
+
+            this.plugins.forEach((plugin) => {
+                plugin.onUpdated(updateData)
+            })
         }
     },
 })
