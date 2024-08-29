@@ -94,15 +94,15 @@ function onUpdate(doc: EditorDoc) {
 }
 
 function setEditorContent() {
-  // let content = document.querySelector('juice-editor')!.innerHTML
-  // api.node.setContent(content)
+  let content = document.querySelector('juice-editor')!.innerHTML
+  api.node.setContent(content)
 
   app.loading = false
   app.setReady()
 
-  // observer.disconnect()
-  // targetNode.innerHTML = ''
-  // observer.observe(targetNode, config)
+  observer.disconnect()
+  targetNode.innerHTML = ''
+  observer.observe(targetNode, config)
 }
 </script>
 
