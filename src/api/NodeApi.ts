@@ -36,7 +36,8 @@ export default class NodeApi {
     }
 
     public setNodeAndDocs(node: TreeNode, docs: EditorDoc[]) {
-        this.app.setNodeAndDocs(node, docs)
+        this.app.setNode(node)
+        this.app.setDocs(docs)
     }
 
     public setChildrenBase64(childrenBase64: string) {

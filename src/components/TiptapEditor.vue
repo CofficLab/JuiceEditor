@@ -101,6 +101,7 @@ import EventManager from '../event/EventManager'
 import Heading from '../extensions/Toc/Heading'
 import SmartEditorProps from './SmartEditorProps'
 import TiptapHelper from '../helper/TiptapHelper'
+import { useAppStore } from '../provider/AppStore'
 
 const title = '📒 TiptapEditor'
 const props = defineProps(SmartEditorProps)
@@ -129,6 +130,7 @@ const editor = TiptapAgent.create({
   }
 })
 
+const app = useAppStore()
 const isDebug = false
 const verbose = false
 const contextMenuDidShow = ref(false)
@@ -164,18 +166,31 @@ function onContextMenu(e: Event) {
   target.click()
 }
 
-watch(props, (newValue, oldValue) => {
-  let verbose = false
-  if (verbose) {
-    console.log(title, 'props changed', props)
-  }
+watch(
+  () => props.uuid,
+  (newValue, oldValue) => {
+    let verbose = true
+    if (verbose) {
+      console.log(title, 'uuid changed', newValue, oldValue)
+    }
 
-  editor.commands.setContent(TiptapHelper.getValidContent(newValue.content), false)
-  editor.setOptions({
-    injectNonce: props.uuid
-  })
-  editor.setEditable(props.editable, true)
-})
+    editor.setOptions({
+      injectNonce: props.uuid
+    })
+  }
+)
+
+watch(
+  () => props.content,
+  (newValue, oldValue) => {
+    let verbose = true
+    if (verbose) {
+      console.log(title, 'content changed')
+    }
+
+    editor.commands.setContent(props.content, false)
+  }
+)
 
 onMounted(() => {
   log('onMounted')

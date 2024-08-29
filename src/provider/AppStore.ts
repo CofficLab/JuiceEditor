@@ -56,7 +56,7 @@ export const useAppStore = defineStore('app-store', {
         },
 
         setNode: function (node: TreeNode) {
-            let verbose = false;
+            let verbose = true;
 
             this.loading = true
 
@@ -68,19 +68,9 @@ export const useAppStore = defineStore('app-store', {
             this.node = node
 
             Helper.toTop()
-        },
 
-        setNodeAndDocs: function (node: TreeNode, docs: EditorDoc[]) {
-            let verbose = false;
-            this.loading = true
-            if (verbose) {
-                console.log(title, 'setCurrentNodeAndDocs')
-            }
-
-            this.node = node
-            this.docs = docs
-
-            this.loading = false
+            console.log(title, "after set node", this.node)
+            console.log(title, 'docs after set node', this.docs)
         },
 
         setReady() {
@@ -116,30 +106,40 @@ export const useAppStore = defineStore('app-store', {
         },
 
         setDocs(docs: EditorDoc[]) {
-            let verbose = false;
+            let verbose = true;
 
             if (verbose) {
                 console.log(title, 'setDocs', docs)
             }
 
             this.docs = docs
+
+            console.log(title, "after set docs", this.docs)
         },
 
         setDoc(doc: EditorDoc) {
-            let verbose = false;
+            let verbose = true;
             if (verbose) {
                 console.log(title, 'setDoc', doc)
             }
+
+            console.log(title, 'current content', this.getContent().length)
+            console.log(title, 'new content', doc.content.length)
 
             if (this.getContent() == doc.content) {
                 if (verbose) {
                     console.log(title, '更新节点，没变化，忽略')
                 }
                 return
+            } else {
+                if (verbose) {
+                    console.log(title, '更新节点，有变化', doc.content, this.getContent())
+                }
             }
 
             this.docs = this.docs.map((element: EditorDoc) => {
                 if (element.uuid == doc.uuid) {
+                    console.log(title, '更新节点')
                     return doc
                 } else {
                     return element
@@ -147,8 +147,17 @@ export const useAppStore = defineStore('app-store', {
             })
 
             if (!this.docs.find((element: EditorDoc) => element.uuid == doc.uuid)) {
+                console.log(title, '新增节点')
                 this.docs.push(doc)
             }
+
+            this.docs = this.docs.map((element: EditorDoc) => {
+                if (element.uuid == doc.uuid) {
+                    return doc.setActive(true)
+                } else {
+                    return element.setActive(false)
+                }
+            })
 
             this.plugins.forEach((plugin) => {
                 plugin.onDocUpdated(doc)
@@ -161,6 +170,10 @@ export const useAppStore = defineStore('app-store', {
             this.plugins.forEach((plugin) => {
                 plugin.onUpdated(UpdateData.fromNodeAndDoc(this.node, doc))
             })
+
+            if (doc.content != this.getContent()) {
+                throw new Error('content not match')
+            }
         }
     },
 })

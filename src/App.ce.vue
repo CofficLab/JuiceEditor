@@ -9,7 +9,7 @@
 
     <TiptapEditor
       v-if="feature.editorVisible"
-      :content="content"
+      :content="app.getContent()"
       :editable="feature.editable"
       :tableEnable="feature.tableEnabled"
       :drawEnable="feature.drawEnabled"
@@ -49,6 +49,8 @@ import NodeCardList from './ui/NodeCardList.vue'
 import TiptapEditor from './components/TiptapEditor.vue'
 import TreeNode from './model/TreeNode'
 
+let title = '😊 AppVue'
+
 const props = defineProps({
   drawio: {
     type: String,
@@ -67,7 +69,6 @@ const feature = useFeatureStore()
 const app = useAppStore()
 const message = ref('')
 const uuid = ref('')
-const content = computed(() => app.getContent())
 window.api = new AllApi(feature, app)
 const api = window.api
 const children: TreeNode[] = []
@@ -90,7 +91,8 @@ function onMessage(m: string) {
 }
 
 function onUpdate(doc: EditorDoc) {
-  api.node.setDoc(doc)
+  console.log(title, 'onUpdate')
+  app.setDoc(doc)
 }
 
 function setEditorContent() {
