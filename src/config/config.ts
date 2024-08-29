@@ -10,6 +10,7 @@ interface ConfigType {
 }
 
 const isDebug = process.env.NODE_ENV === 'development'
+const hasWebkit = 'webkit' in window
 
 export const Config: ConfigType = {
     'isDebug': isDebug,
@@ -20,8 +21,7 @@ export const Config: ConfigType = {
         ? '/monaco/index.html'
         : '/editor/monaco/index.html',
     'plugins': [
-        new WebKit(),
-        new LocalApp()
+        hasWebkit ? new WebKit() : new LocalApp()
     ]
 }
 
