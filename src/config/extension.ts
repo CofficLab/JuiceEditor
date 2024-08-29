@@ -134,6 +134,7 @@ export default function makeExtensions(props: makeExtensionsProps) {
             resizable: true,
             HTMLAttributes: {
                 class: 'my-table',
+                uuid: null
             },
         }),
         TableRow,

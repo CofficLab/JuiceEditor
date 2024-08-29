@@ -63,7 +63,7 @@ const shouldShow = function (props: {
 }) {
   const { selection } = props.state
   const { empty } = selection
-  const excludes = ['toc', 'image', 'draw', 'table', 'link', 'tableCell', 'tableRow', 'tableHeader']
+  const excludes = ['toc', 'image', 'draw', 'link', 'tableCell', 'tableRow', 'tableHeader']
 
   excludes.forEach((exclude) => {
     if (props.editor.isActive(exclude)) {

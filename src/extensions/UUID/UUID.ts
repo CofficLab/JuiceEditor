@@ -9,7 +9,7 @@ const UUID = Extension.create({
 
     addOptions() {
         return {
-            types: ['paragraph', 'heading', 'a', 'pre', 'table', 'taskList']
+            types: ['paragraph', 'heading', 'a', 'pre', 'taskList', 'image', 'table']
         }
     },
 
@@ -42,31 +42,31 @@ const UUID = Extension.create({
 
     onCreate() {
         console.log(emoji, 'create')
-
-        // this.editor.state.doc.descendants((node: Node, pos: number) => {
-        //     if (node.type.name === 'paragraph' || node.type.name === 'heading') {
-        //         if (!node.attrs.uuid) {
-        //             console.log(emoji, 'set uuid for', node.type.name)
-        //             let tr = this.editor.state.tr
-        //             tr.setNodeMarkup(pos, void 0, { ...node.attrs, uuid: uuidv4() })
-        //             this.editor.view.dispatch(tr)
-        //         }
-        //     }
-        // })
     },
 
     onUpdate() {
-        console.log(emoji, 'onUpdate')
+        let verbose = true
+        let verbose2 = true
+
+        if (verbose) {
+            console.log(emoji, 'onUpdate')
+        }
+
+        let tr = this.editor.state.tr
         this.editor.state.doc.descendants((node: Node, pos: number) => {
             if (this.options.types.includes(node.type.name)) {
                 if (!node.attrs.uuid) {
-                    console.log(emoji, 'set uuid for', node.type.name)
-                    let tr = this.editor.state.tr
+                    console.log(this.editor.getJSON())
+                    if (verbose2) {
+                        console.log(emoji, 'set uuid for', node.type.name, node.textContent, node.attrs)
+                    }
+
                     tr.setNodeMarkup(pos, void 0, { ...node.attrs, uuid: uuidv4() })
-                    this.editor.view.dispatch(tr)
                 }
             }
         })
+
+        this.editor.view.dispatch(tr)
     }
 })
 

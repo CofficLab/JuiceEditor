@@ -276,7 +276,7 @@ class TiptapHelper {
             'tableHeader',
             'tableCell',
             'taskItem',
-            'toc'
+            'toc',
         ]
 
         // 检查每一个node，没有uuid属性则抛出异常
