@@ -55,18 +55,17 @@ export const useAppStore = defineStore('app-store', {
             this.drawLink = link
         },
 
-        setCurrentNode: function (data: object) {
+        setNode: function (node: TreeNode) {
             let verbose = false;
+
             this.loading = true
+
             if (verbose) {
-                console.log(title, 'setCurrentNode && close draw')
+                console.log(title, 'setNode')
             }
 
-            this.node = new TreeNode(data)
-
-            document.dispatchEvent(new CustomEvent('close-draw'))
-
             this.loading = false
+            this.node = node
 
             Helper.toTop()
         },

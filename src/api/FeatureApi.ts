@@ -8,4 +8,16 @@ export default class FeatureApi {
         console.log(title, '初始化')
         this.featureProvider = featureProvider
     }
+
+    enableFloatingMenu() {
+        this.featureProvider.enableFloatingMenu()
+    }
+
+    enableEdit() {
+        this.featureProvider.enableEdit()
+    }
+
+    showEditor() {
+        this.featureProvider.showEditor()
+    }
 }

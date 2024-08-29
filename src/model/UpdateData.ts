@@ -26,7 +26,6 @@ export default class UpdateData {
     }
 
     toObject(): object {
-        console.log(this)
         return {
             channel: "updateNode",
             nodeUUID: this.nodeUUID,

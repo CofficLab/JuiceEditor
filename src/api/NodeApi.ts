@@ -1,7 +1,6 @@
 import { Store } from 'pinia';
 import TreeNode from '../model/TreeNode';
 import EditorDoc from '../model/EditorDoc';
-import UpdateData from '../model/UpdateData';
 
 let title = "🍎 NodeAPI"
 
@@ -24,6 +23,10 @@ export default class NodeApi {
         this.setDoc(doc)
     }
 
+    public setDrawLink(link: string) {
+        this.app.setDrawLink(link)
+    }
+
     public setDoc(doc: EditorDoc) {
         this.app.setDoc(doc)
     }
@@ -34,6 +37,18 @@ export default class NodeApi {
 
     public setNodeAndDocs(node: TreeNode, docs: EditorDoc[]) {
         this.app.setNodeAndDocs(node, docs)
+    }
+
+    public setChildrenBase64(childrenBase64: string) {
+        let objects = JSON.parse(atob(childrenBase64))
+
+        let node = this.app.node
+
+        this.app.setNode(node.setChildren(objects.map((obj: any) => new TreeNode(obj))))
+    }
+
+    public setNodeAndChildren(node: TreeNode, children: TreeNode[]) {
+        this.app.setNode(node.setChildren(children))
     }
 
     public setNodeBase64(treeNodeInBase64: string) {

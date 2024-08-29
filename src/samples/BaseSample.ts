@@ -9,6 +9,7 @@ const baseNode = new TreeNode({
 })
 
 const baseDoc = new EditorDoc()
+  .setActive(true)
   .setUuid('baseDoc')
   .setContent(`
     <h1>测试内容</h1>
