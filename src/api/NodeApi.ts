@@ -37,6 +37,14 @@ export default class NodeApi {
 
     public setNodeAndDocs(node: TreeNode, docs: EditorDoc[]) {
         this.app.setNode(node)
+
+        // 如果docs中没有doc active，则设置第一个doc为active
+        if (!docs.find((doc: EditorDoc) => {
+            return doc.active
+        })) {
+            docs[0].active = true
+        }
+
         this.app.setDocs(docs)
     }
 

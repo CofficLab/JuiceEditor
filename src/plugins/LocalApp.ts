@@ -24,6 +24,13 @@ class LocalApp implements Plugin {
                 console.log(title, 'set docs from local db', docs)
             }
 
+            // 如果docs中任意doc都不active，则active第一个
+            if (!docs.find((doc: EditorDoc) => {
+                return doc.active
+            })) {
+                docs[0].active = true
+            }
+
             window.api.node.setDocs(docs)
             return
         }
