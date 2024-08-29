@@ -128,7 +128,7 @@ export default function makeExtensions(props: makeExtensionsProps) {
         }),
         SmartTaskList,
         Text,
-        SmartTable,
+        // SmartTable,
         // 默认启用table，保证table能够正常渲染
         Table.configure({
             resizable: true,
@@ -143,17 +143,17 @@ export default function makeExtensions(props: makeExtensionsProps) {
         TextAlign.configure({
             types: ['heading', 'paragraph'],
         }),
-        UUID.configure({
-            attributeName: "uuid",
-            types: [
-                'heading',
-                'paragraph',
-                'pre',
-                'image',
-                'table', 'tableCell', 'tableHeader', 'tableRow',
-                'taskList', 'taskItem'
-            ],
-        }),
+        // UUID.configure({
+        //     attributeName: "uuid",
+        //     types: [
+        //         'heading',
+        //         'paragraph',
+        //         'pre',
+        //         'image',
+        //         'table',
+        //         'taskList',
+        //     ],
+        // }),
     ]
 
     return extensions

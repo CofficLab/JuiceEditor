@@ -1,5 +1,5 @@
 <template>
-  <div v-if="editor" class="flex flex-col tiptap w-full">
+  <div v-if="editor" class="flex flex-col w-full tiptap">
     <!-- 选中文字后弹出的菜单 -->
     <BubbleMenus
       :editor="editor"
@@ -183,12 +183,12 @@ watch(
 watch(
   () => props.content,
   (newValue, oldValue) => {
-    let verbose = true
+    let verbose = false
     if (verbose) {
       console.log(title, 'content changed')
     }
 
-    editor.commands.setContent(props.content, false)
+    editor.commands.setContent(props.content, true)
   }
 )
 

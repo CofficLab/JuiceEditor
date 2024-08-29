@@ -36,6 +36,12 @@ export default class NodeApi {
     }
 
     public setNodeAndDocs(node: TreeNode, docs: EditorDoc[]) {
+        docs.forEach((doc: EditorDoc) => {
+            if (doc.uuid.length == 0) {
+                throw new Error('doc uuid is empty')
+            }
+        })
+
         this.app.setNode(node)
 
         // 如果docs中没有doc active，则设置第一个doc为active

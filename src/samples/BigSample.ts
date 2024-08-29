@@ -10,7 +10,9 @@ const bigNode = new TreeNode({
   title: '大型'
 })
 
-const bigDoc = new EditorDoc().setContent(`
+const bigDoc = new EditorDoc().
+  setUuid('bigDoc')
+  .setContent(`
     <h1>很长的测试内容</h1>
     <pre><code>console.log("超长文章 bigNode xxxxx")</code></pre>
     <h2>表格</h2>

@@ -68,9 +68,6 @@ export const useAppStore = defineStore('app-store', {
             this.node = node
 
             Helper.toTop()
-
-            console.log(title, "after set node", this.node)
-            console.log(title, 'docs after set node', this.docs)
         },
 
         setReady() {
@@ -106,7 +103,7 @@ export const useAppStore = defineStore('app-store', {
         },
 
         setDocs(docs: EditorDoc[]) {
-            let verbose = true;
+            let verbose = false;
 
             if (verbose) {
                 console.log(title, 'setDocs', docs)
@@ -118,13 +115,10 @@ export const useAppStore = defineStore('app-store', {
         },
 
         setDoc(doc: EditorDoc) {
-            let verbose = true;
+            let verbose = false;
             if (verbose) {
                 console.log(title, 'setDoc', doc)
             }
-
-            console.log(title, 'current content', this.getContent().length)
-            console.log(title, 'new content', doc.content.length)
 
             if (this.getContent() == doc.content) {
                 if (verbose) {
@@ -133,7 +127,9 @@ export const useAppStore = defineStore('app-store', {
                 return
             } else {
                 if (verbose) {
-                    console.log(title, '更新节点，有变化', doc.content, this.getContent())
+                    console.log(title, '更新节点，有变化')
+                    console.log(this.getContent())
+                    console.log(doc.content)
                 }
             }
 
