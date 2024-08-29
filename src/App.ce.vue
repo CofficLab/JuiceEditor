@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-center relative w-full" id="index">
+  <div class="relative flex flex-col items-center w-full" id="index">
     <ToolBar v-if="app.isDebug" class="sticky z-50 top-1"></ToolBar>
 
     <!-- 初始化时的内容来源 -->
@@ -91,7 +91,10 @@ function onMessage(m: string) {
 }
 
 function onUpdate(doc: EditorDoc) {
-  console.log(title, 'onUpdate')
+  let verbose = false
+  if (verbose) {
+    console.log(title, 'onUpdate', doc)
+  }
   app.setDoc(doc)
 }
 

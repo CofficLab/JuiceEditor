@@ -27,7 +27,7 @@ import SmartParagraph from "../extensions/SmartParagraph/SmartParagraph"
 import SmartBulletList from "../extensions/SmartBulletList/SmartBulletList"
 import SmartQuote from "../extensions/SmartQuote/SmartQuote"
 import SmartKbd from "../extensions/SmartKbd/SmartKbd"
-import UUID, { UniqueID } from "../extensions/UUID/UUID"
+import UUID from "../extensions/UUID/UUID"
 import { v4 as uuidv4 } from "uuid";
 
 interface makeExtensionsProps {
@@ -143,17 +143,7 @@ export default function makeExtensions(props: makeExtensionsProps) {
         TextAlign.configure({
             types: ['heading', 'paragraph'],
         }),
-        // UUID.configure({
-        //     attributeName: "uuid",
-        //     types: [
-        //         'heading',
-        //         'paragraph',
-        //         'pre',
-        //         'image',
-        //         'table',
-        //         'taskList',
-        //     ],
-        // }),
+        UUID,
     ]
 
     return extensions

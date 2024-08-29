@@ -171,7 +171,7 @@ watch(
   (newValue, oldValue) => {
     let verbose = true
     if (verbose) {
-      console.log(title, 'uuid changed', newValue, oldValue)
+      console.log(title, 'uuid changed', oldValue, '->', newValue)
     }
 
     editor.setOptions({

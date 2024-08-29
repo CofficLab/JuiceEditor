@@ -110,8 +110,6 @@ export const useAppStore = defineStore('app-store', {
             }
 
             this.docs = docs
-
-            console.log(title, "after set docs", this.docs)
         },
 
         setDoc(doc: EditorDoc) {
@@ -135,7 +133,6 @@ export const useAppStore = defineStore('app-store', {
 
             this.docs = this.docs.map((element: EditorDoc) => {
                 if (element.uuid == doc.uuid) {
-                    console.log(title, '更新节点')
                     return doc
                 } else {
                     return element
