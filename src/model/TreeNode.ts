@@ -21,8 +21,6 @@ export default class TreeNode {
             title: '',
         })
 
-        console.log(treeNode)
-
         return treeNode
     }
 

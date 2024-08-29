@@ -170,19 +170,11 @@ watch(props, (newValue, oldValue) => {
     console.log(title, 'props changed', props)
   }
 
-  if (newValue.content != oldValue.content) {
-    editor.commands.setContent(TiptapHelper.getValidContent(props.content), true)
-  }
-
-  if (newValue.uuid != oldValue.uuid) {
-    editor.setOptions({
-      injectNonce: props.uuid
-    })
-  }
-
-  if (newValue.editable != oldValue.editable) {
-    editor.setEditable(props.editable, true)
-  }
+  editor.commands.setContent(TiptapHelper.getValidContent(newValue.content), false)
+  editor.setOptions({
+    injectNonce: props.uuid
+  })
+  editor.setEditable(props.editable, true)
 })
 
 onMounted(() => {

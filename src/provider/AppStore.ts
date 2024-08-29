@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import TreeNode from '../model/TreeNode'
 import EditorDoc from '../model/EditorDoc'
-import LocalDB from '../database/LocalDB'
 import Config from '../config/config'
 import MarkdownHelper from '../helper/MarkdownHelper'
 import Helper from '../helper/Helper'
@@ -11,53 +10,12 @@ const config = Config
 const isDebug = config.isDebug
 const title = "🍋 AppStore"
 
-function getDefaultTreeNode(): TreeNode {
-    if (isDebug) {
-        return LocalDB.getTreeNode()
-    }
-
-    return TreeNode.makeDefaultNode()
-}
-
-function getDefaultDocs(): EditorDoc[] {
-    if (isDebug) {
-        return LocalDB.getDocs() || [EditorDoc.makeDefaultDoc()]
-    }
-
-    return [EditorDoc.makeDefaultDoc()]
-}
-
-function getDefaultCurrentDocUUID(): string | undefined {
-    if (isDebug) {
-        return LocalDB.getCurrentDocUUID()
-    }
-
-    return undefined
-}
-
-export interface AppStore {
-    isDebug: boolean
-    node: TreeNode
-    docs: EditorDoc[]
-    currentDocUUID: string | undefined
-    contentLastUpdatedAt: number
-    drawLink: string
-    monacoLink: string
-    loading: boolean
-    ready: boolean
-    selectionType: string
-    updateDoc: (doc: EditorDoc) => void
-    setNode: (node: TreeNode) => void
-    setTreeNodeAndDocs: (node: TreeNode, docs: EditorDoc[]) => void
-}
-
 export const useAppStore = defineStore('app-store', {
     state: () => {
         return {
             isDebug: isDebug,
-            node: getDefaultTreeNode(),
-            docs: getDefaultDocs(),
-            currentDocUUID: getDefaultCurrentDocUUID(),
+            node: TreeNode.makeDefaultNode(),
+            docs: [EditorDoc.makeDefaultDoc()],
             contentLastUpdatedAt: Date.now(),
             drawLink: config.drawLink,
             monacoLink: config.monacoLink,
@@ -122,7 +80,6 @@ export const useAppStore = defineStore('app-store', {
 
             this.node = node
             this.docs = docs
-            this.currentDocUUID = docs[0].uuid
 
             this.loading = false
         },
@@ -144,30 +101,29 @@ export const useAppStore = defineStore('app-store', {
         },
 
         getCurrentDoc(): EditorDoc {
-            if (this.currentDocUUID) {
-                return this.docs.find((doc) => doc.uuid == this.currentDocUUID)!
+            let doc = this.docs.find((doc: EditorDoc) => {
+                return doc.active
+            })
+
+            if (!doc) {
+                throw new Error('no active doc')
             }
 
-            this.currentDocUUID = this.docs[0].uuid
-            return this.docs[0]
+            return doc
         },
 
         getCurrentDocUUID(): string {
-            let uuid = this.currentDocUUID
+            return this.getCurrentDoc().uuid
+        },
 
-            if (uuid && uuid.length > 0) {
-                LocalDB.saveCurrentDocUUID(uuid)
-                return uuid
+        setDocs(docs: EditorDoc[]) {
+            let verbose = false;
+
+            if (verbose) {
+                console.log(title, 'setDocs', docs)
             }
 
-            let doc = this.getCurrentDoc()
-
-            if (!doc) {
-                throw new Error('doc is null')
-            }
-
-            LocalDB.saveCurrentDocUUID(doc.uuid)
-            return doc.uuid
+            this.docs = docs
         },
 
         setDoc(doc: EditorDoc) {
@@ -177,7 +133,9 @@ export const useAppStore = defineStore('app-store', {
             }
 
             if (this.getContent() == doc.content) {
-                console.log(title, '更新节点，没变化，忽略')
+                if (verbose) {
+                    console.log(title, '更新节点，没变化，忽略')
+                }
                 return
             }
 
@@ -191,19 +149,18 @@ export const useAppStore = defineStore('app-store', {
 
             if (!this.docs.find((element: EditorDoc) => element.uuid == doc.uuid)) {
                 this.docs.push(doc)
-                this.currentDocUUID = doc.uuid
             }
 
-            let updateData = UpdateData.fromNodeAndDoc(this.node, doc)
-
-            // console.log(title, '更新节点', JSON.stringify(updateData.toObject()))
-            // webkit.debugMessage('更新节点' + JSON.stringify(updateData.toObject()))
-            // console.log(title, 'node', this.node)
-            // console.log(title, 'doc', doc)
-            // console.log(title, 'updateData', updateData)
+            this.plugins.forEach((plugin) => {
+                plugin.onDocUpdated(doc)
+            })
 
             this.plugins.forEach((plugin) => {
-                plugin.onUpdated(updateData)
+                plugin.onNodeUpdated(this.node)
+            })
+
+            this.plugins.forEach((plugin) => {
+                plugin.onUpdated(UpdateData.fromNodeAndDoc(this.node, doc))
             })
         }
     },

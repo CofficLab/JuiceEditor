@@ -1,37 +1,36 @@
 import UpdateData from "../model/UpdateData";
 import Plugin from "../contract/Plugin";
+import TreeNode from "../model/TreeNode";
+import EditorDoc from "../model/EditorDoc";
 
 const title = "🍎 WebKit"
 
 class WebKit implements Plugin {
     onSelectionTypeChange(type: string): void {
-
-    }
-
-    onUpdated(data: UpdateData): void {
-
-    }
-
-    onPageLoaded() {
-        let verbose = false;
-
         if (!('webkit' in window)) {
             return
         }
 
-        if (verbose) {
-            console.log(title, '调用 WebKit 以通知 Swift 页面加载完成')
-        }
-        try {
-            ; (window as any).webkit.messageHandlers.sendMessage.postMessage({
-                channel: "pageLoaded"
-            })
-        } catch (e) {
-            console.log(title, '调用 WebKit 以通知 Swift 页面加载完成，失败', e)
-        }
+        console.log(title, '调用 WebKit 以更新 SelectionType')
+        // 异步往 webkit 发送数据，防止界面卡顿
+        this.asyncUpdateSelectionType(type).then((result) => {
+            console.log(result)
+        })
     }
 
-    updateNode(data: UpdateData) {
+    onCurrentDocUUIDChange(uuid: string): void {
+
+    }
+
+    onNodeUpdated(data: TreeNode): void {
+
+    }
+
+    onDocUpdated(data: EditorDoc): void {
+
+    }
+
+    onUpdated(data: UpdateData): void {
         let verbose = false;
 
         if (verbose) {
@@ -52,16 +51,23 @@ class WebKit implements Plugin {
         })
     }
 
-    updateSelectionType(type: string) {
+    onPageLoaded() {
+        let verbose = false;
+
         if (!('webkit' in window)) {
             return
         }
 
-        console.log(title, '调用 WebKit 以更新 SelectionType')
-        // 异步往 webkit 发送数据，防止界面卡顿
-        this.asyncUpdateSelectionType(type).then((result) => {
-            console.log(result)
-        })
+        if (verbose) {
+            console.log(title, '调用 WebKit 以通知 Swift 页面加载完成')
+        }
+        try {
+            ; (window as any).webkit.messageHandlers.sendMessage.postMessage({
+                channel: "pageLoaded"
+            })
+        } catch (e) {
+            console.log(title, '调用 WebKit 以通知 Swift 页面加载完成，失败', e)
+        }
     }
 
     runCode(code: string, lan: string, callback: (result: string) => void) {

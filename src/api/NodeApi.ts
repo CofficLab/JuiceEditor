@@ -2,7 +2,6 @@ import { Store } from 'pinia';
 import TreeNode from '../model/TreeNode';
 import EditorDoc from '../model/EditorDoc';
 import UpdateData from '../model/UpdateData';
-import LocalDB from '../database/LocalDB';
 
 let title = "🍎 NodeAPI"
 
@@ -26,39 +25,11 @@ export default class NodeApi {
     }
 
     public setDoc(doc: EditorDoc) {
-        let verbose = false;
-        if (verbose) {
-            console.log(title, 'setDoc', doc)
-        }
+        this.app.setDoc(doc)
+    }
 
-        if (this.app.getContent() == doc.content) {
-            console.log(title, '更新节点，没变化，忽略')
-            return
-        }
-
-        this.app.docs = this.app.docs.map((element: EditorDoc) => {
-            if (element.uuid == doc.uuid) {
-                return doc
-            } else {
-                return element
-            }
-        })
-
-        if (!this.app.docs.find((element: EditorDoc) => element.uuid == doc.uuid)) {
-            this.app.docs.push(doc)
-            this.app.currentDocUUID = doc.uuid
-        }
-
-        let updateData = UpdateData.fromNodeAndDoc(this.app.node, doc)
-
-        // console.log(title, '更新节点', JSON.stringify(updateData.toObject()))
-        // webkit.debugMessage('更新节点' + JSON.stringify(updateData.toObject()))
-        // console.log(title, 'node', this.node)
-        // console.log(title, 'doc', doc)
-        // console.log(title, 'updateData', updateData)
-
-        LocalDB.saveTreeNode(this.app.node)
-        LocalDB.saveDocs(this.app.docs)
+    public setDocs(docs: EditorDoc[]) {
+        this.app.setDocs(docs)
     }
 
     public setNodeAndDocs(node: TreeNode, docs: EditorDoc[]) {
