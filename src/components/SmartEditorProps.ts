@@ -43,7 +43,9 @@ const SmartEditorProps = {
     },
     onUpdate: {
         type: Function,
-        default: () => { }
+        default: () => {
+            console.log('onUpdate')
+        }
     },
     onSelectionUpdate: {
         type: Function,

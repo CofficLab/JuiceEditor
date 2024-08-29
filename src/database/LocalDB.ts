@@ -3,7 +3,7 @@ import TreeNode from "../model/TreeNode";
 
 let title = "🔋 LocalStore"
 
-export default class LocalStore {
+export default class LocalDB {
     static saveTreeNode(node: TreeNode): void {
         localStorage.setItem('tree_node', node.toJSONString())
     }
@@ -15,6 +15,12 @@ export default class LocalStore {
             console.log(title, 'saveDocs', docs)
         }
 
+        docs.forEach((doc: EditorDoc) => {
+            if (doc.uuid.length == 0) {
+                throw new Error('uuid is empty')
+            }
+        })
+
         localStorage.setItem('docs', JSON.stringify(docs))
     }
 
@@ -25,10 +31,6 @@ export default class LocalStore {
 
         if (verbose) {
             console.log(title, 'getTreeNode', treeNode)
-        }
-
-        if (treeNode.docs.length === 0) {
-            treeNode.docs = [EditorDoc.makeDefaultDoc()]
         }
 
         return treeNode

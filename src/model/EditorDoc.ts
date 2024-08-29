@@ -73,6 +73,10 @@ export default class EditorDoc {
     }
 
     setContent(content: string): this {
+        if (typeof content !== 'string') {
+            throw new Error('content must be a string')
+        }
+
         this.content = content
         return this
     }

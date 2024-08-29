@@ -1,40 +1,53 @@
 <template>
-  <div class="flex flex-col items-center">
-    <!-- 操作栏 -->
+  <div class="flex flex-col items-center relative w-full" id="index">
     <ToolBar v-if="app.isDebug" class="sticky z-50 top-1"></ToolBar>
 
     <!-- 初始化时的内容来源 -->
     <slot></slot>
 
-    <!-- loading -->
     <Loading v-if="app.loading"></Loading>
 
-    <IndexPage
-      v-else
-      v-show="app.ready"
-      :uuid="app.currentDocUUID"
+    <TiptapEditor
+      v-if="feature.editorVisible"
       :content="content"
+      :editable="feature.editable"
+      :tableEnable="feature.tableEnabled"
+      :drawEnable="feature.drawEnabled"
       :drawLink="app.drawLink"
-      :onUpdate="app.updateDoc"
+      :bubbleMenusEnable="feature.bubbleMenuVisible"
+      :floatingMenusEnable="feature.floatingMenuVisible"
+      :onUpdate="onUpdate"
       :onMessage="onMessage"
-    ></IndexPage>
+      :uuid="app.getCurrentDocUUID()"
+    />
 
-    <!-- 提示信息 -->
+    <!-- 子节点 -->
+    <div
+      class="container flex justify-center px-4 pt-4 pb-24 mx-auto mt-0 dark:border-gray-700/30"
+      :class="{ 'border-t': feature.editorVisible }"
+      v-if="children.length > 0"
+    >
+      <NodeCardList :nodes="children"></NodeCardList>
+    </div>
+
     <Message :message="message" type="tips" :uuid="uuid"></Message>
   </div>
 </template>
 
 <script setup lang="ts">
-import IndexPage from './components/IndexPage.vue'
 import ToolBar from './components/ToolBar.vue'
 import { useAppStore } from './provider/AppStore'
 import { useFeatureStore } from './provider/FeatureStore'
-import setApi from './api/ApiSet'
 import Loading from './ui/Loading.vue'
 import { computed, onMounted, ref } from 'vue'
 import Message from './ui/Message.vue'
 import URLHelper from './helper/URLHelper'
 import { v4 as generateUUID } from 'uuid'
+import AllApi from './api/AllApi'
+import EditorDoc from './model/EditorDoc'
+import NodeCardList from './ui/NodeCardList.vue'
+import TiptapEditor from './components/TiptapEditor.vue'
+import TreeNode from './model/TreeNode'
 
 const props = defineProps({
   drawio: {
@@ -54,21 +67,16 @@ const feature = useFeatureStore()
 const app = useAppStore()
 const message = ref('')
 const uuid = ref('')
-const node = computed(() => {
-  return app.node
-})
-const content = computed(() => {
-  return app.getCurrentDoc().content
-})
+const content = computed(() => app.getContent())
+window.api = new AllApi(feature, app)
+const api = window.api
+const children: TreeNode[] = []
 
 observer.observe(targetNode, config)
 
 onMounted(() => {
   app.drawLink = props.drawio
   feature.editable = !props.readonly
-
-  // 将方法暴露到外部，swift 可以调用
-  setApi(app, feature)
 
   setEditorContent()
 
@@ -81,10 +89,14 @@ function onMessage(m: string) {
   uuid.value = generateUUID()
 }
 
+function onUpdate(doc: EditorDoc) {
+  api.node.setDoc(doc)
+}
+
 function setEditorContent() {
   if (app.isDebug == false) {
     let content = document.querySelector('juice-editor')!.innerHTML
-    app.setCurrentNodeContent(content)
+    api.node.setContent(content)
   }
 
   app.loading = false

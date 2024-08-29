@@ -1,10 +1,8 @@
-import TreeNode from "src/model/TreeNode";
-import EditorDoc from "../model/EditorDoc"
 import UpdateData from "../model/UpdateData";
 
 const title = "🍎 WebKit"
 
-const webkit = {
+class WebKit {
     pageLoaded() {
         let verbose = false;
 
@@ -22,7 +20,7 @@ const webkit = {
         } catch (e) {
             console.log(title, '调用 WebKit 以通知 Swift 页面加载完成，失败', e)
         }
-    },
+    }
 
     updateNode(data: UpdateData) {
         let verbose = false;
@@ -43,7 +41,7 @@ const webkit = {
         this.asyncUpdateNodeTask(data).then((result) => {
             console.log(result)
         })
-    },
+    }
 
     updateSelectionType(type: string) {
         if (!('webkit' in window)) {
@@ -55,7 +53,7 @@ const webkit = {
         this.asyncUpdateSelectionType(type).then((result) => {
             console.log(result)
         })
-    },
+    }
 
     runCode(code: string, lan: string, callback: (result: string) => void) {
         if (!('webkit' in window)) {
@@ -80,7 +78,7 @@ const webkit = {
                 console.log(title, '运行代码失败', e)
             }
         }, 500)
-    },
+    }
 
     downloadImage(base64: String, name: String) {
         if (!('webkit' in window)) {
@@ -93,7 +91,7 @@ const webkit = {
             base64: base64,
             name: name
         })
-    },
+    }
 
     asyncUpdateSelectionType(type: string) {
         return new Promise((resolve, reject) => {
@@ -110,7 +108,7 @@ const webkit = {
 
             resolve('🍎 WebKit: 已发送SelectionType更新');
         });
-    },
+    }
 
     asyncUpdateNodeTask(data: UpdateData) {
         let verbose = false;
@@ -127,7 +125,7 @@ const webkit = {
                 resolve(title + ' 已发送Content更新');
             }
         });
-    },
+    }
 
     debugMessage(message: string) {
         if (!('webkit' in window)) {
@@ -141,4 +139,4 @@ const webkit = {
     }
 }
 
-export default webkit
+export default WebKit

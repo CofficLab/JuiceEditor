@@ -3,7 +3,7 @@
     <Button
       v-for="sample in allSamples"
       :key="sample.node.uuid"
-      @click="w.api.setTreeNodeAndDocs(sample.node, [sample.doc])"
+      @click="w.api.node.setNodeAndDocs(sample.node, [sample.doc])"
       >{{ sample.node.title }}</Button
     >
     <Button @click="feature.enableEdit" v-if="!feature.editable">编辑模式</Button>
@@ -19,13 +19,11 @@
 </template>
 
 <script lang="ts" setup>
-import { useAppStore } from '../provider/AppStore'
 import { useFeatureStore } from '../provider/FeatureStore'
 import allSamples from '../samples/AllSamples'
 import Button from '../ui/Button.vue'
 import ButtonBar from '../ui/ButtonBar.vue'
 
 const feature = useFeatureStore()
-const app = useAppStore()
 const w = window
 </script>

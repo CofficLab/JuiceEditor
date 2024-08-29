@@ -1,5 +1,5 @@
 <template>
-  <div v-if="editor" class="flex flex-col tiptap">
+  <div v-if="editor" class="flex flex-col tiptap w-full">
     <!-- 选中文字后弹出的菜单 -->
     <BubbleMenus
       :editor="editor"
@@ -164,19 +164,25 @@ function onContextMenu(e: Event) {
   target.click()
 }
 
-watch(props, () => {
+watch(props, (newValue, oldValue) => {
   let verbose = false
   if (verbose) {
-    console.log(title, 'props changed', props.content)
+    console.log(title, 'props changed', props)
   }
 
-  // 更新，但不触发onUpdate
-  editor.setOptions({
-    injectNonce: props.uuid
-  })
-  editor.commands.setContent(TiptapHelper.getValidContent(props.content), false)
-  // 最后一步，触发onUpdate
-  editor.setEditable(props.editable, true)
+  if (newValue.content != oldValue.content) {
+    editor.commands.setContent(TiptapHelper.getValidContent(props.content), true)
+  }
+
+  if (newValue.uuid != oldValue.uuid) {
+    editor.setOptions({
+      injectNonce: props.uuid
+    })
+  }
+
+  if (newValue.editable != oldValue.editable) {
+    editor.setEditable(props.editable, true)
+  }
 })
 
 onMounted(() => {

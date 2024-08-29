@@ -1,20 +1,20 @@
 import { defineStore } from 'pinia'
 import TreeNode from '../model/TreeNode'
 import EditorDoc from '../model/EditorDoc'
-import webkit from '../api/WebKit'
-import LocalStore from '../helper/LocalStore'
+import Webkit from '../api/WebKit'
+import LocalDB from '../database/LocalDB'
 import Config from '../config/config'
 import MarkdownHelper from '../helper/MarkdownHelper'
 import Helper from '../helper/Helper'
-import UpdateData from '../model/UpdateData'
 
 const config = Config
 const isDebug = config.isDebug
 const title = "🍋 AppStore"
+const webkit = new Webkit()
 
 function getDefaultTreeNode(): TreeNode {
     if (isDebug) {
-        return LocalStore.getTreeNode()
+        return LocalDB.getTreeNode()
     }
 
     return TreeNode.makeDefaultNode()
@@ -22,7 +22,7 @@ function getDefaultTreeNode(): TreeNode {
 
 function getDefaultDocs(): EditorDoc[] {
     if (isDebug) {
-        return LocalStore.getDocs() || [EditorDoc.makeDefaultDoc()]
+        return LocalDB.getDocs() || [EditorDoc.makeDefaultDoc()]
     }
 
     return [EditorDoc.makeDefaultDoc()]
@@ -30,14 +30,26 @@ function getDefaultDocs(): EditorDoc[] {
 
 function getDefaultCurrentDocUUID(): string | undefined {
     if (isDebug) {
-        return LocalStore.getCurrentDocUUID()
-    }
-
-    if (getDefaultDocs().length > 0) {
-        return getDefaultDocs()[0].uuid
+        return LocalDB.getCurrentDocUUID()
     }
 
     return undefined
+}
+
+export interface AppStore {
+    isDebug: boolean
+    node: TreeNode
+    docs: EditorDoc[]
+    currentDocUUID: string | undefined
+    contentLastUpdatedAt: number
+    drawLink: string
+    monacoLink: string
+    loading: boolean
+    ready: boolean
+    selectionType: string
+    updateDoc: (doc: EditorDoc) => void
+    setNode: (node: TreeNode) => void
+    setTreeNodeAndDocs: (node: TreeNode, docs: EditorDoc[]) => void
 }
 
 export const useAppStore = defineStore('app-store', {
@@ -101,7 +113,7 @@ export const useAppStore = defineStore('app-store', {
             Helper.toTop()
         },
 
-        setCurrentNodeAndDocs: function (node: TreeNode, docs: EditorDoc[]) {
+        setNodeAndDocs: function (node: TreeNode, docs: EditorDoc[]) {
             let verbose = false;
             this.loading = true
             if (verbose) {
@@ -113,73 +125,6 @@ export const useAppStore = defineStore('app-store', {
             this.currentDocUUID = docs[0].uuid
 
             this.loading = false
-        },
-
-        /* 
-            设置当前节点的子节点，传递一个通过base64编码的JSON数组
-            所以要先base64解码再解析成JSON
-            为什么不直接传递JSON
-            因为Swift中的JSON
-            [{ {
-                "content": "c=\"my-custom",
-                "title": "二"
-            }]
-            传递到这里，变成了
-            [{ {
-                "content": "class="my-custom",
-                "title": "二"
-            }]
-        */
-        setCurrentNodeChildren: function (children: string) {
-            this.loading = true
-            let verbose = false;
-            if (verbose) {
-                console.log(title, 'setCurrentNodeChildren')
-            }
-
-            let data = JSON.parse(decodeURIComponent(escape(atob(children))))
-            this.node.children = data.map((element: object) => new TreeNode(element))
-            this.loading = false
-
-            Helper.toTop()
-        },
-
-        updateDoc: function (doc: EditorDoc, reason: string) {
-            let verbose = true
-
-            if (verbose) {
-                console.log(title, "updateDoc", doc, reason)
-                console.log(title, "updateDoc", doc)
-            }
-
-            this.docs = this.docs.map((element: EditorDoc) => {
-                if (element.uuid == doc.uuid) {
-                    return doc
-                } else {
-                    return element
-                }
-            })
-
-            // 如果this.docs不包含doc,则插入
-            if (!this.docs.find((element: EditorDoc) => element.uuid == doc.uuid)) {
-                this.docs.push(doc)
-                this.currentDocUUID = doc.uuid
-            }
-
-            let updateData = UpdateData.fromNodeAndDoc(this.node, doc)
-
-            // console.log(title, '更新节点', JSON.stringify(updateData.toObject()))
-            // webkit.debugMessage('更新节点' + JSON.stringify(updateData.toObject()))
-            // console.log(title, 'node', this.node)
-            // console.log(title, 'doc', doc)
-            // console.log(title, 'updateData', updateData)
-
-            if (isDebug) {
-                LocalStore.saveTreeNode(this.node)
-                LocalStore.saveDocs(this.docs)
-            }
-
-            webkit.updateNode(updateData)
         },
 
         setReady() {
@@ -201,6 +146,24 @@ export const useAppStore = defineStore('app-store', {
 
             this.currentDocUUID = this.docs[0].uuid
             return this.docs[0]
+        },
+
+        getCurrentDocUUID(): string {
+            let uuid = this.currentDocUUID
+
+            if (uuid && uuid.length > 0) {
+                LocalDB.saveCurrentDocUUID(uuid)
+                return uuid
+            }
+
+            let doc = this.getCurrentDoc()
+
+            if (!doc) {
+                throw new Error('doc is null')
+            }
+
+            LocalDB.saveCurrentDocUUID(doc.uuid)
+            return doc.uuid
         }
     },
 })
