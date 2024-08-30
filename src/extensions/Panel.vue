@@ -1,26 +1,17 @@
 <template>
-  <div
-    ref="panel"
-    class="relative z-10 w-full"
-    :data-uuid="node.attrs.uuid"
-    :id="id"
-    :class="{
-      inline: inline,
-      'dark:bg-cyan-900/30 bg-cyan-300/20 shadow-inner': operatorsVisible,
-      'px-8': !inline && withPadding,
-      'dropdown-bottom': dropdownBottom,
-      'dropdown-top': !dropdownBottom
-    }"
-  >
+  <div ref="panel" class="relative z-10 w-full" :data-uuid="node.attrs.uuid" :id="id" :class="{
+    inline: inline,
+    'dark:bg-cyan-900/30 bg-cyan-300/20 shadow-inner': operatorsVisible,
+    'px-8': !inline && withPadding,
+    'dropdown-bottom': dropdownBottom,
+    'dropdown-top': !dropdownBottom
+  }">
     <!-- 左侧操作栏 -->
-    <div
-      :class="{
-        'absolute z-50': true,
-        '-left-20 -ml-1': !borderVisible,
-        '-left-20 -ml-2': borderVisible
-      }"
-      v-show="operatorsVisible && leftOperatorsVisible"
-    >
+    <div :class="{
+      'absolute z-50': true,
+      '-left-20 -ml-1': !borderVisible,
+      '-left-20 -ml-2': borderVisible
+    }" v-show="operatorsVisible && leftOperatorsVisible && withLeftBar">
       <ButtonBar>
         <Button tip="删除" @click="deleteNode">
           <IconDelete></IconDelete>
@@ -39,15 +30,12 @@
       </ButtonBar>
     </div>
 
-    <div
-      :class="{ inline: inline }"
-      v-bind:class="[
-        {
-          'bg-base-200': isSelected,
-          'outline-orange-600 outline-dashed outline-2 outline-offset-1': borderVisible
-        }
-      ]"
-    >
+    <div :class="{ inline: inline }" v-bind:class="[
+      {
+        'bg-base-200': isSelected,
+        'outline-orange-600 outline-dashed outline-2 outline-offset-1': borderVisible
+      }
+    ]">
       <slot name="content"></slot>
     </div>
   </div>
@@ -85,6 +73,10 @@ const props = defineProps({
     type: Boolean,
     default: true
   },
+  withLeftBar: {
+    type: Boolean,
+    default: true,
+  },
   editor: {
     type: Editor,
     required: true
@@ -96,7 +88,7 @@ const props = defineProps({
   getPos: {
     type: Function,
     required: true
-  }
+  },
 })
 
 const id = 'panel-' + uuidv4()

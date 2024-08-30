@@ -1,5 +1,5 @@
 <template>
-	<div v-if="true" :style="`transform: translate(${marginLeft}px, ${scrollTop}px);`" class="w-24">
+	<div v-if="true" :style="`transform: translate(${marginLeft}px, ${scrollTop}px);`" class="w-22">
 		<ButtonBar>
 			<Button tip="删除" @click="deleteNode">
 				<IconDelete></IconDelete>

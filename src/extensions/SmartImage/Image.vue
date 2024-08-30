@@ -1,20 +1,9 @@
 <template>
   <NodeViewWrapper>
-    <Panel
-      :deleteNode="props.deleteNode"
-      :readOnly="!props.editor.isEditable"
-      :editor="props.editor"
-      :node="props.node"
-      :getPos="props.getPos"
-      :withPadding="false"
-    >
+    <Panel :deleteNode="props.deleteNode" :readOnly="!props.editor.isEditable" :editor="props.editor" :node="props.node"
+      :getPos="props.getPos" :withPadding="false" :withLeftBar="false">
       <template v-slot:content>
-        <img
-          ref="imgDom"
-          :src="props.node.attrs.src"
-          :class="props.node.attrs.class"
-          class="p-0 m-0"
-        />
+        <img ref="imgDom" :src="props.node.attrs.src" :class="props.node.attrs.class" class="p-0 m-0" />
       </template>
 
       <template v-slot:operators>

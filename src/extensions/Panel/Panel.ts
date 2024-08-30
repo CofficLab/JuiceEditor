@@ -4,6 +4,7 @@ import { Node } from 'prosemirror-model'
 import PanelVue from './Panel.vue'
 
 let emoji = '🥘 Panel'
+const excepts = ['taskItem']
 
 const Panel = Extension.create({
     name: 'panel',
@@ -53,18 +54,7 @@ const Panel = Extension.create({
             console.log(emoji, 'onCreate')
         }
 
-        let tr = this.editor.state.tr
-        this.editor.state.doc.descendants((node: Node, pos: number) => {
-            if (this.options.types.includes(node.type.name)) {
-                if (!node.attrs.panel) {
-                    tr.setNodeMarkup(pos, void 0, { ...node.attrs, panel: true })
-                }
-            }
-        })
-
-        if (tr.docChanged) {
-            this.editor.view.dispatch(tr)
-        }
+        addPanel(this.editor, this.options.types)
 
         // showMenu(this.editor)
     },
@@ -77,23 +67,33 @@ const Panel = Extension.create({
             console.log(emoji, 'onUpdate')
         }
 
-        let tr = this.editor.state.tr
-        this.editor.state.doc.descendants((node: Node, pos: number) => {
-            if (this.options.types.includes(node.type.name)) {
-                if (!node.attrs.panel) {
-                    tr.setNodeMarkup(pos, void 0, { ...node.attrs, panel: true })
-                }
-            }
-        })
-
-        // 如果有变动，则提交
-        if (tr.docChanged) {
-            this.editor.view.dispatch(tr)
-        }
+        addPanel(this.editor, this.options.types)
     }
 })
 
 export default Panel
+
+function addPanel(editor: Editor, types: string[]) {
+    let verbose = false
+    let verbose2 = false
+
+    if (verbose) {
+        console.log(emoji, 'onCreate')
+    }
+
+    let tr = editor.state.tr
+    editor.state.doc.descendants((node: Node, pos: number, parent: Node | null) => {
+        if (types.includes(node.type.name) && parent?.type.name == 'doc') {
+            if (!node.attrs.panel) {
+                tr.setNodeMarkup(pos, void 0, { ...node.attrs, panel: true })
+            }
+        }
+    })
+
+    if (tr.docChanged) {
+        editor.view.dispatch(tr)
+    }
+}
 
 function showMenu(editor: Editor) {
     let panels = editor.view.dom.querySelectorAll('[panel]')
