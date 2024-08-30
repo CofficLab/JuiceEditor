@@ -32,6 +32,7 @@ import UUID from "../extensions/UUID/UUID"
 import { v4 as uuidv4 } from "uuid";
 import SmartTableHeader from "../extensions/SmartTableHeader/SmartTableHeader"
 import SmartTableRow from "../extensions/SmartTableRow/SmartTableRow"
+import SmartImage2 from "../extensions/SmartImage2"
 import Panel from "../extensions/Panel/Panel"
 import SmartSelection from "../extensions/SmartSelection"
 
@@ -71,13 +72,14 @@ export default function makeExtensions(props: makeExtensionsProps) {
             types: ['textStyle'],
         }),
         CharacterCount,
-        SmartImage.configure({
-            drawIoLink: props.drawIoLink,
-            allowBase64: true,
-            HTMLAttributes: {
-                class: ''
-            }
-        }),
+        SmartImage2,
+        // SmartImage.configure({
+        //     drawIoLink: props.drawIoLink,
+        //     allowBase64: true,
+        //     HTMLAttributes: {
+        //         class: ''
+        //     }
+        // }),
         Document.extend({
             content: 'heading block*',
         }),
