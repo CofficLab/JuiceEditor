@@ -7,6 +7,7 @@ import Italic from "@tiptap/extension-italic"
 import ListItem from "@tiptap/extension-list-item"
 import Placeholder from "@tiptap/extension-placeholder"
 import Strike from "@tiptap/extension-strike"
+import Focus from '@tiptap/extension-focus'
 import Table from "@tiptap/extension-table"
 import Highlight from "@tiptap/extension-highlight"
 import TableCell from "@tiptap/extension-table-cell"
@@ -31,7 +32,7 @@ import UUID from "../extensions/UUID/UUID"
 import { v4 as uuidv4 } from "uuid";
 import SmartTableHeader from "../extensions/SmartTableHeader/SmartTableHeader"
 import SmartTableRow from "../extensions/SmartTableRow/SmartTableRow"
-import Hover from "../extensions/Panel/Panel"
+import Panel from "../extensions/Panel/Panel"
 
 interface makeExtensionsProps {
     drawIoLink?: string,
@@ -81,6 +82,7 @@ export default function makeExtensions(props: makeExtensionsProps) {
         }),
         // GroupPre,
         // Heading,
+        Focus,
         SmartHeading,
         History.configure({
             depth: 100,
@@ -150,7 +152,7 @@ export default function makeExtensions(props: makeExtensionsProps) {
             types: ['heading', 'paragraph'],
         }),
         UUID,
-        Hover,
+        Panel,
     ]
 
     return extensions

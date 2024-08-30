@@ -1,20 +1,19 @@
 <template>
-  <Button
-    @click="focusedNode.toggleItalic().run()"
-    tip="斜体"
+  <button
+    @click="focusedNode.toggleCode().run()"
+    data-tip="代码"
     size="md"
-    :class="{ 'is-active': editor.isActive('italic') }"
+    :class="{ 'is-active': editor.isActive('code'), tooltip: iconOnly }"
   >
-    <IconItalic v-if="iconOnly"></IconItalic>
-    <span v-if="!iconOnly">斜体</span>
-  </Button>
+    <img :src="icon" v-if="iconOnly" />
+    <span v-if="!iconOnly">行内代码</span>
+  </button>
 </template>
 
 <script lang="ts" setup>
 import { Editor } from '@tiptap/vue-3'
 import { computed } from 'vue'
-import Button from '../../ui/Button.vue'
-import IconItalic from '../../ui/icons/IconItalic.vue'
+import icon from '../assets/code.bracket.svg'
 
 const props = defineProps({
   editor: {

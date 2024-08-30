@@ -56,6 +56,23 @@ class DomHelper {
         return shadowRoot.getElementById(id)
     }
 
+    static querySelector(s: string, shadowHostSelector: string = 'juice-editor'): Element | null {
+        // 从document中找
+        let element = document.querySelector(s)
+        if (element) {
+            return element
+        }
+
+        // 访问 Shadow DOM
+        const shadowRoot = DomHelper.getShadowRoot(shadowHostSelector)
+        if (!shadowRoot) {
+            console.error('Shadow root not found')
+            return null
+        }
+
+        return shadowRoot.querySelector(s)
+    }
+
     static selectorAll(s: string, shadowHostSelector: string = 'juice-editor'): NodeListOf<Element> {
         // 从document中找
         let elements = document.querySelectorAll(s)

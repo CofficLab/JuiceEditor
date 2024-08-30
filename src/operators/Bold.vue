@@ -1,20 +1,21 @@
 <template>
   <Button
-    @click="focusedNode.toggleStrike().run()"
-    tip="中横线"
+    v-if="!editor.isActive('heading')"
+    @click="focusedNode.toggleBold().run()"
+    tip="加粗"
     size="md"
-    :class="{ 'is-active': editor.isActive('strike') }"
   >
-    <IconStrike v-if="iconOnly"></IconStrike>
-    <span v-if="!iconOnly">中横线</span>
+    <IconBold v-if="iconOnly"></IconBold>
+
+    <span v-if="!iconOnly">加粗</span>
   </Button>
 </template>
 
 <script lang="ts" setup>
 import { Editor } from '@tiptap/vue-3'
 import { computed } from 'vue'
-import Button from '../../ui/Button.vue'
-import IconStrike from '../../ui/icons/IconStrike.vue'
+import Button from '../ui/Button.vue'
+import IconBold from '../ui/icons/IconBold.vue'
 
 const props = defineProps({
   editor: {

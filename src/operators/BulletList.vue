@@ -1,21 +1,20 @@
 <template>
   <Button
-    v-if="!editor.isActive('heading')"
-    @click="focusedNode.toggleBold().run()"
-    tip="加粗"
+    @click="focusedNode.toggleBulletList().run()"
+    tip="无序列表"
     size="md"
+    :class="{ 'is-active': editor.isActive('bulletList') }"
   >
-    <IconBold v-if="iconOnly"></IconBold>
-
-    <span v-if="!iconOnly">加粗</span>
+    <IconBulletList v-if="iconOnly"></IconBulletList>
+    <span v-if="!iconOnly">无序列表</span>
   </Button>
 </template>
 
 <script lang="ts" setup>
 import { Editor } from '@tiptap/vue-3'
 import { computed } from 'vue'
-import Button from '../../ui/Button.vue'
-import IconBold from '../../ui/icons/IconBold.vue'
+import Button from '../ui/Button.vue'
+import IconBulletList from '../ui/icons/IconBulletList.vue'
 
 const props = defineProps({
   editor: {

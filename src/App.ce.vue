@@ -35,7 +35,7 @@
 </template>
 
 <script setup lang="ts">
-import ToolBar from './components/ToolBar.vue'
+import ToolBar from './menus/ToolBar.vue'
 import { useAppStore } from './provider/AppStore'
 import { useFeatureStore } from './provider/FeatureStore'
 import Loading from './ui/Loading.vue'
@@ -46,7 +46,7 @@ import { v4 as generateUUID } from 'uuid'
 import AllApi from './api/AllApi'
 import EditorDoc from './model/EditorDoc'
 import NodeCardList from './ui/NodeCardList.vue'
-import TiptapEditor from './components/TiptapEditor.vue'
+import TiptapEditor from './core/TiptapEditor.vue'
 import TreeNode from './model/TreeNode'
 
 let title = '😊 AppVue'

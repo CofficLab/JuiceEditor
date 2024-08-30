@@ -12,7 +12,10 @@
       v-if="editable && floatingMenusEnable && !contextMenuDidShow"
     ></FloatMenus>
 
+    <BlockMenu :editor="editor" class="absolute" />
+
     <div
+      id="core"
       :class="{
         'bg-slate-300/10': isDebug,
         'md:bg-green-300/10': isDebug,
@@ -92,8 +95,8 @@
 <script lang="ts" setup>
 import { EditorContent } from '@tiptap/vue-3'
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
-import BubbleMenus from './BubbleMenus.vue'
-import FloatMenus from './FloatMenus.vue'
+import BubbleMenus from '../menus/BubbleMenus.vue'
+import FloatMenus from '../menus/FloatMenus.vue'
 import TiptapAgent from '../helper/TiptapHelper'
 import EditorDoc from '../model/EditorDoc'
 import HeadingVue from './Heading.vue'
@@ -102,6 +105,7 @@ import Heading from '../extensions/Toc/Heading'
 import SmartEditorProps from './SmartEditorProps'
 import TiptapHelper from '../helper/TiptapHelper'
 import { useAppStore } from '../provider/AppStore'
+import BlockMenu from '../menus/BlockMenu.vue'
 import Helper from '../helper/Helper'
 import DomHelper from '../helper/DomHelper'
 

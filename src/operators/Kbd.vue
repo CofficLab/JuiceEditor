@@ -11,8 +11,8 @@
 
 <script lang="ts" setup>
 import { Editor } from '@tiptap/vue-3'
-import IconKeyboard from '../../ui/icons/Keyboard.vue'
-import Button from '../../ui/Button.vue'
+import IconKeyboard from '../ui/icons/Keyboard.vue'
+import Button from '../ui/Button.vue'
 
 defineProps({
   editor: {

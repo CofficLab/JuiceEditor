@@ -1,20 +1,20 @@
 <template>
   <Button
-    v-if="!editor.isActive('heading')"
-    @click="focusedNode.toggleToc().run()"
-    tip="显示/隐藏TOC"
+    @click="focusedNode.toggleItalic().run()"
+    tip="斜体"
     size="md"
+    :class="{ 'is-active': editor.isActive('italic') }"
   >
-    <img :src="icon" v-if="iconOnly" />
-    <span v-if="!iconOnly">加粗</span>
+    <IconItalic v-if="iconOnly"></IconItalic>
+    <span v-if="!iconOnly">斜体</span>
   </Button>
 </template>
 
 <script lang="ts" setup>
 import { Editor } from '@tiptap/vue-3'
 import { computed } from 'vue'
-import Button from '../../ui/Button.vue'
-import icon from '../../assets/bold.svg'
+import Button from '../ui/Button.vue'
+import IconItalic from '../ui/icons/IconItalic.vue'
 
 const props = defineProps({
   editor: {

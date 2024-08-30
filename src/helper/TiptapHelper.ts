@@ -4,6 +4,7 @@ import { Node as ProseMirrorNode } from '@tiptap/pm/model';
 import EditorDoc from '../model/EditorDoc'
 import makeExtensions from '../config/extension'
 import { error } from 'console';
+import DomHelper from './DomHelper';
 
 const title = '📒 TiptapHelper'
 
@@ -287,6 +288,28 @@ class TiptapHelper {
                 // console.warn('Node has no uuid', node)
             }
         })
+    }
+
+    static getFocusedNodePosition(editor: TiptapEditor): { offsetTop: number | null, offsetLeft: number | null } {
+        // Focus扩展可定位当前编辑器焦点的元素
+        const currentNode: Element | null = DomHelper.querySelector(`.has-focus`)
+        if (currentNode === null) {
+            return { offsetTop: null, offsetLeft: null }
+        }
+
+        // 当前元素距离页面顶部的距离
+        let { offsetTop, offsetLeft } = currentNode as HTMLElement
+
+        // 微修正菜单位置
+        offsetTop = currentNode.tagName === 'DIV' ? offsetTop - 8 : offsetTop - 5
+        let offsetY = 0
+        if (editor.isActive('horizontalRule') || editor.isActive('table')) {
+            offsetY = 5
+        }
+        if (editor.isActive('pagination')) {
+            offsetY = -4
+        }
+        return { offsetTop, offsetLeft }
     }
 }
 

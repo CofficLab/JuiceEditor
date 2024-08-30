@@ -11,8 +11,8 @@
 
 <script lang="ts" setup>
 import { Editor } from '@tiptap/vue-3'
-import IconCode from '../../ui/icons/IconCode.vue'
-import Button from '../../ui/Button.vue'
+import IconCode from '../ui/icons/IconCode.vue'
+import Button from '../ui/Button.vue'
 
 defineProps({
   editor: {

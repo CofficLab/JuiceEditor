@@ -1,4 +1,4 @@
-import { Editor, Extension } from '@tiptap/core'
+import { Editor, Extension, NodePos } from '@tiptap/core'
 import { VueNodeViewRenderer } from '@tiptap/vue-3'
 import { Node } from 'prosemirror-model'
 import PanelVue from './Panel.vue'
@@ -65,14 +65,13 @@ const Panel = Extension.create({
             this.editor.view.dispatch(tr)
         }
 
-
         let panels = this.editor.view.dom.querySelectorAll('[panel]')
         panels.forEach((panel) => {
             panel.addEventListener('mouseenter', (event: Event) => {
                 let e = event as MouseEvent
                 const pos = this.editor.view.posAtCoords({ left: e.clientX, top: e.clientY })
                 if (pos) {
-                    const node = this.editor.view.state.doc.nodeAt(pos.inside)
+                    const node = this.editor.$pos(pos.pos).node
                     if (node) {
                         let target = event.target as HTMLElement
                         const nodeDOM = target
@@ -83,7 +82,7 @@ const Panel = Extension.create({
                             // 更新菜单位置，显示在节点的左侧
                             menu.style.left = `${left - menu.offsetWidth - 10}px` // 左侧偏移
                             menu.style.top = `${top}px` // 垂直对齐
-                            menu.innerText = `节点类型: ${node.type.name}` // 显示节点类型
+                            menu.innerText = `节点类型: ${node.type.name} Pos: ${pos.pos}` // 显示节点类型
                             menu.style.display = 'block' // 显示菜单
 
                             document.body.appendChild(menu)

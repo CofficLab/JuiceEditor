@@ -1,20 +1,20 @@
 <template>
   <Button
-    @click="focusedNode.setParagraph().run()"
-    tip="正文"
+    v-if="!editor.isActive('heading')"
+    @click="focusedNode.toggleToc().run()"
+    tip="显示/隐藏TOC"
     size="md"
-    :class="{ 'is-active': editor.isActive('paragraph', { level: 3 }) }"
   >
-    <IconChapter v-if="iconOnly"></IconChapter>
-    <span v-if="!iconOnly">正文</span>
+    <img :src="icon" v-if="iconOnly" />
+    <span v-if="!iconOnly">加粗</span>
   </Button>
 </template>
 
 <script lang="ts" setup>
 import { Editor } from '@tiptap/vue-3'
 import { computed } from 'vue'
-import Button from '../../ui/Button.vue'
-import IconChapter from '../../ui/icons/IconChapter.vue'
+import Button from '../ui/Button.vue'
+import icon from '../../assets/bold.svg'
 
 const props = defineProps({
   editor: {
