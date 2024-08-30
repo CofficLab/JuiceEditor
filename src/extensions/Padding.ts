@@ -1,9 +1,9 @@
 import { Extension } from '@tiptap/core';
 import { Plugin, PluginKey } from 'prosemirror-state';
 import { Decoration, DecorationSet } from 'prosemirror-view';
-import { PRE, TASK_ITEM } from '../config/node-names';
+import { IMAGE, PRE } from '../config/node-names';
 
-const noPaddingTypes = [PRE];
+const noPaddingTypes = [PRE, IMAGE];
 
 export const Padding = Extension.create({
     name: 'padding',

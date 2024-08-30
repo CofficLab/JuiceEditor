@@ -164,6 +164,12 @@ importers:
       daisyui:
         specifier: ^4.12.10
         version: 4.12.10(postcss@8.4.41)
+      es-drager:
+        specifier: ^1.2.11
+        version: 1.2.11(vue@3.4.38(typescript@5.1.6))
+      file64:
+        specifier: ^1.0.3
+        version: 1.0.3
       fs-extra:
         specifier: ^11.2.0
         version: 11.2.0
@@ -1209,6 +1215,11 @@ packages:
     resolution: {integrity: sha512-jxayLKShrEqqzJ0eumQbVhTYQM27CfT1T35+gCgDFoL82JLsXqTJ76zv6A0YLOgEnLUMvLzsDsGIrl8NFpT2gQ==}
     engines: {node: '>= 0.4'}
 
+  es-drager@1.2.11:
+    resolution: {integrity: sha512-36c7+Tz+Z+3NoUzk82M6PL84yA0fIEbz2eRC+qX6TymRLq3ApGdQXdtLZTcPtvXTKjeedJSMgYwb51oRISvrLA==}
+    peerDependencies:
+      vue: '>=3.2.0'
+
   es-errors@1.3.0:
     resolution: {integrity: sha512-Zf5H2Kxt2xjTvbJvP2ZWLEICxA6j+hAmMzIlypy4xcBg1vKVnx89Wy0GbS+kf5cwCVFFzdCFh2XSCFNULS6csw==}
     engines: {node: '>= 0.4'}
@@ -1264,6 +1275,10 @@ packages:
 
   fastq@1.17.1:
     resolution: {integrity: sha512-sRVD3lWVIXWg6By68ZN7vho9a1pQcN/WBFaAAsDDFzlJjvoGx0P8z7V1t72grFJfJhu3YPZBuu25f7Kaw2jN1w==}
+
+  file64@1.0.3:
+    resolution: {integrity: sha512-XTPmQ/uhnQWw6RgEG1uXhByWRrMZucXGL4fGUB1JVuuwjUUoDEvD5HvGqg7+NiFZ+ymFa36cEaG+v7i2FpThOQ==}
+    engines: {node: '>=18'}
 
   fill-range@7.1.1:
     resolution: {integrity: sha512-YsGpe3WHLK8ZYi4tWDg2Jy3ebRz2rXowDxnld4bkQB00cc/1Zw9AWnC0i9ztDJitivtQvaI9KaLyKrc+hBW0yg==}
@@ -3489,6 +3504,10 @@ snapshots:
     dependencies:
       get-intrinsic: 1.2.4
 
+  es-drager@1.2.11(vue@3.4.38(typescript@5.1.6)):
+    dependencies:
+      vue: 3.4.38(typescript@5.1.6)
+
   es-errors@1.3.0: {}
 
   es-object-atoms@1.0.0:
@@ -3571,6 +3590,8 @@ snapshots:
   fastq@1.17.1:
     dependencies:
       reusify: 1.0.4
+
+  file64@1.0.3: {}
 
   fill-range@7.1.1:
     dependencies:

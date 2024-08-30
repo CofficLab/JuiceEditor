@@ -39,6 +39,7 @@ import { Ring } from "../extensions/Ring"
 import { Padding } from "../extensions/Padding"
 import { SmartFocus } from "../extensions/SmartFocus"
 import Config from "./config"
+import SmartImage2 from "../extensions/SmartImage2"
 
 interface makeExtensionsProps {
     drawIoLink?: string,
@@ -76,13 +77,14 @@ export default function makeExtensions(props: makeExtensionsProps) {
             types: ['textStyle'],
         }),
         CharacterCount,
-        SmartImage.configure({
-            drawIoLink: props.drawIoLink,
-            allowBase64: true,
-            HTMLAttributes: {
-                class: ''
-            }
-        }),
+        // SmartImage.configure({
+        //     drawIoLink: props.drawIoLink,
+        //     allowBase64: true,
+        //     HTMLAttributes: {
+        //         class: ''
+        //     }
+        // }),
+        SmartImage2,
         Document.extend({
             content: 'heading block*',
         }),
