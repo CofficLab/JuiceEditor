@@ -46,7 +46,7 @@ import { v4 as generateUUID } from 'uuid'
 import AllApi from './api/AllApi'
 import EditorDoc from './model/EditorDoc'
 import NodeCardList from './ui/NodeCardList.vue'
-import TiptapEditor from './core/TiptapEditor.vue'
+import TiptapEditor from './core/Tiptap.vue'
 import TreeNode from './model/TreeNode'
 
 let title = '😊 AppVue'

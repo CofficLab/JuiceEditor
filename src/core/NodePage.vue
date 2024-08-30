@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts" setup>
-import TiptapEditor from '../core/TiptapEditor.vue'
+import TiptapEditor from './Tiptap.vue'
 import NodeCardList from '../ui/NodeCardList.vue'
 import { computed, nextTick, onMounted, onUnmounted, watch } from 'vue'
 import { useFeatureStore } from '../provider/FeatureStore'

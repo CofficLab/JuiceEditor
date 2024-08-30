@@ -37,16 +37,23 @@ const UUID = Extension.create({
      * The editor is not ready yet.
      */
     onBeforeCreate() {
-        console.log(emoji, 'onBeforeCreate')
+        let verbose = false
+        if (verbose) {
+            console.log(emoji, 'onBeforeCreate')
+        }
     },
 
     onCreate() {
-        console.log(emoji, 'create')
+        let verbose = false
+
+        if (verbose) {
+            console.log(emoji, 'create')
+        }
     },
 
     onUpdate() {
-        let verbose = true
-        let verbose2 = true
+        let verbose = false
+        let verbose2 = false
 
         if (verbose) {
             console.log(emoji, 'onUpdate')

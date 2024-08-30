@@ -1,15 +1,15 @@
 <template>
-  <div v-if="true" :style="`transform: translate(${marginLeft}px, ${scrollTop}px);`" class="w-24">
-    <ButtonBar>
-      <Button tip="删除" @click="deleteNode">
-        <IconDelete></IconDelete>
-      </Button>
+	<div v-if="true" :style="`transform: translate(${marginLeft}px, ${scrollTop}px);`" class="w-24">
+		<ButtonBar>
+			<Button tip="删除" @click="deleteNode">
+				<IconDelete></IconDelete>
+			</Button>
 
-      <Button>
-        <IconNewLine></IconNewLine>
-      </Button>
-    </ButtonBar>
-  </div>
+			<Button>
+				<IconNewLine></IconNewLine>
+			</Button>
+		</ButtonBar>
+	</div>
 </template>
 
 <script setup lang="ts">
@@ -22,10 +22,10 @@ import IconNewLine from '../ui/icons/IconNewLine.vue'
 import TiptapHelper from '../helper/TiptapHelper'
 
 const props = defineProps({
-  editor: {
-    type: Editor,
-    required: true
-  }
+	editor: {
+		type: Editor,
+		required: true
+	}
 })
 
 const emoji = '🐱 BlockMenu'
@@ -35,75 +35,77 @@ const marginLeft = ref(0)
 const scrollTop = ref(0)
 
 watch(
-  editor,
-  (val) => {
-    if (val) {
-      editor.value.on('selectionUpdate', () => {
-        console.log('selectionUpdate')
-        updateMenuPosition()
-      })
-      editor.value.on('blur', () => {
-        console.log('blur')
-        visible.value = false
-        updateMenuPosition()
-      })
-      editor.value.on('focus', () => {
-        console.log('focus')
-        updateMenuPosition()
-      })
-    } else {
-      visible.value = false
-    }
-  },
-  { immediate: true }
+	editor,
+	(val) => {
+		if (val) {
+			editor.value.on('selectionUpdate', () => {
+				let verbose = false
+
+				if (verbose) {
+					console.log(emoji, 'selectionUpdate')
+				}
+
+				updateMenuPosition()
+			})
+			editor.value.on('blur', () => {
+				console.log(emoji, 'blur')
+				visible.value = false
+				updateMenuPosition()
+			})
+			editor.value.on('focus', () => {
+				console.log(emoji, 'focus')
+				updateMenuPosition()
+			})
+		} else {
+			visible.value = false
+		}
+	},
+	{ immediate: true }
 )
 
 function deleteNode() {
-  let selection = editor.value.state.selection
-  let nodePos = editor.value.$pos(selection.$anchor.pos)
-  let node = nodePos.node
-  let parent = nodePos.parent?.node
+	let selection = editor.value.state.selection
+	var nodePos: NodePos = editor.value.$pos(selection.$anchor.pos)
 
-  if (!parent) {
-    return
-  }
+	console.log(nodePos)
 
-  console.log(emoji, 'current node is', node.type.name)
-  console.log(emoji, 'current node is', node.type.name)
-  console.log(emoji, 'current parent node is', parent?.type.name)
-  console.log(emoji, 'current pos is', nodePos.pos)
-  console.log(emoji, 'current node size is', node.nodeSize)
+	while (nodePos.depth > 1) {
+		let parent = nodePos.parent
 
-  if (['taskList', 'taskItem'].includes(parent.type.name)) {
-    console.log(emoji, 'delete taskItem')
-    editor.value.commands.deleteNode(parent.type.name)
-  }
+		if (!parent) {
+			console.log(nodePos)
+			throw new Error('parent is null')
+		}
 
-  // editor.value.commands.deleteRange({
-  //   from: pos - 1,
-  //   to: node.nodeSize + pos
-  // })
+		nodePos = parent
+	}
+
+	let node = nodePos.node
+
+	console.log(emoji, 'current node is', node.type.name)
+
+	editor.value.commands.deleteNode(node.type.name)
 }
 
 function updateMenuPosition() {
-  let editorDom = props.editor.view.dom
+	let editorDom = props.editor.view.dom
 
-  if (!editorDom) {
-    throw new Error('editorDom is null')
-  }
+	if (!editorDom) {
+		throw new Error('editorDom is null')
+	}
 
-  let { offsetLeft } = editorDom as HTMLElement
+	let { offsetLeft } = editorDom as HTMLElement
 
-  // 减去的是menu自身的宽度
-  marginLeft.value = offsetLeft - 96
+	// 减去的是menu自身的宽度
+	marginLeft.value = offsetLeft - 96
 
-  const { offsetTop } = TiptapHelper.getFocusedNodePosition(editor.value)
+	const { offsetTop } = TiptapHelper.getFocusedNodePosition(editor.value)
 
-  if (offsetTop === null) {
-    return
-  }
+	if (offsetTop === null) {
+		return
+	}
 
-  visible.value = true
-  scrollTop.value = offsetTop - 24
+	visible.value = true
+	scrollTop.value = offsetTop - 24
 }
 </script>

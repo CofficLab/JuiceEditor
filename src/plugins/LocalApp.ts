@@ -11,7 +11,7 @@ class LocalApp implements Plugin {
     }
 
     onPageLoaded(): void {
-        let verbose = true
+        let verbose = false
 
         if (verbose) {
             console.log(title, 'onPageLoaded')
