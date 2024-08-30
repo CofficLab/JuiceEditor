@@ -1,4 +1,4 @@
-import { Extension } from '@tiptap/core'
+import { Editor, Extension } from '@tiptap/core'
 import { VueNodeViewRenderer } from '@tiptap/vue-3'
 import { Node } from 'prosemirror-model'
 import PanelVue from './Panel.vue'
@@ -65,15 +65,6 @@ const Panel = Extension.create({
             this.editor.view.dispatch(tr)
         }
 
-        // 创建菜单元素
-        const menu = document.createElement('div')
-        menu.style.position = 'fixed'
-        menu.style.backgroundColor = 'rgba(0, 0, 0, 0.7)'
-        menu.style.color = 'white'
-        menu.style.padding = '5px'
-        menu.style.borderRadius = '3px'
-        // menu.style.display = 'none' // 初始隐藏
-        document.body.appendChild(menu)
 
         let panels = this.editor.view.dom.querySelectorAll('[panel]')
         panels.forEach((panel) => {
@@ -88,21 +79,18 @@ const Panel = Extension.create({
                         if (nodeDOM) {
                             const { left, top } = nodeDOM.getBoundingClientRect()
 
+                            let menu = makeMenu(this.editor, node)
                             // 更新菜单位置，显示在节点的左侧
                             menu.style.left = `${left - menu.offsetWidth - 10}px` // 左侧偏移
                             menu.style.top = `${top}px` // 垂直对齐
                             menu.innerText = `节点类型: ${node.type.name}` // 显示节点类型
                             menu.style.display = 'block' // 显示菜单
+
+                            document.body.appendChild(menu)
                         }
                     }
                 }
             })
-
-            // panel.addEventListener('mouseleave', (event) => {
-            //     console.log(emoji, 'leave', event.target)
-
-            //     menu.style.display = 'none' // 鼠标离开时隐藏菜单
-            // })
         })
     },
 
@@ -131,3 +119,26 @@ const Panel = Extension.create({
 })
 
 export default Panel
+
+function makeMenu(editor: Editor, node: Node) {
+    // 删除所有菜单
+    const menus = document.querySelectorAll('#block-menu')
+    menus.forEach((menu) => {
+        menu.remove()
+    })
+
+    // 创建菜单元素
+    const menu = document.createElement('div')
+    menu.id = 'block-menu'
+    menu.style.position = 'fixed'
+    menu.style.backgroundColor = 'rgba(0, 0, 0, 0.7)'
+    menu.style.color = 'white'
+    menu.style.padding = '5px'
+    menu.style.borderRadius = '3px'
+    menu.onclick = () => {
+        console.log(editor)
+        console.log(node)
+    }
+
+    return menu
+}
