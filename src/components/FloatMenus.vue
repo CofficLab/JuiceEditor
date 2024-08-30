@@ -11,7 +11,7 @@
       :editor="editor"
       :should-show="shouldShowFloatingMenu"
     >
-      <ButtonBar>
+      <ButtonBar type="blue">
         <Heading :editor="editor" :level="2" />
         <Heading :editor="editor" :level="3" />
         <Heading :editor="editor" :level="4" />

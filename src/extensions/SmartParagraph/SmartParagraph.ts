@@ -20,7 +20,7 @@ const SmartParagraph = Paragraph.extend({
         }
     },
 
-    addNodeView: () => VueNodeViewRenderer(SmartParagraphVue),
+    // addNodeView: () => VueNodeViewRenderer(SmartParagraphVue),
 });
 
 export default SmartParagraph;

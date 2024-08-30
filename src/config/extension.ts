@@ -29,6 +29,9 @@ import SmartQuote from "../extensions/SmartQuote/SmartQuote"
 import SmartKbd from "../extensions/SmartKbd/SmartKbd"
 import UUID from "../extensions/UUID/UUID"
 import { v4 as uuidv4 } from "uuid";
+import SmartTableHeader from "../extensions/SmartTableHeader/SmartTableHeader"
+import SmartTableRow from "../extensions/SmartTableRow/SmartTableRow"
+import Hover from "../extensions/Panel/Panel"
 
 interface makeExtensionsProps {
     drawIoLink?: string,
@@ -137,14 +140,17 @@ export default function makeExtensions(props: makeExtensionsProps) {
                 uuid: null
             },
         }),
-        TableRow,
+        // TableRow,
+        SmartTableRow,
         TableCell,
-        TableHeader,
+        // TableHeader,
+        SmartTableHeader,
         Toc,
         TextAlign.configure({
             types: ['heading', 'paragraph'],
         }),
         UUID,
+        Hover,
     ]
 
     return extensions

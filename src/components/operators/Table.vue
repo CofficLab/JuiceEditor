@@ -3,7 +3,7 @@
     tip="添加表格"
     size="md"
     v-if="enable"
-    @click="editor.chain().focus().insertSmartTable().run()"
+    @click="editor.chain().focus().insertTable().run()"
   >
     <IconTableCell></IconTableCell>
   </Button>

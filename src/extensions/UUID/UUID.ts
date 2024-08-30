@@ -66,7 +66,12 @@ const UUID = Extension.create({
             }
         })
 
-        this.editor.view.dispatch(tr)
+        if (tr.docChanged) {
+            if (verbose2) {
+                console.log(emoji, 'dispatch')
+            }
+            this.editor.view.dispatch(tr)
+        }
     }
 })
 

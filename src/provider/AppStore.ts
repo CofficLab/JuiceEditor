@@ -113,7 +113,7 @@ export const useAppStore = defineStore('app-store', {
         },
 
         setDoc(doc: EditorDoc) {
-            let verbose = true;
+            let verbose = false;
 
             if (this.getContent() == doc.content) {
                 if (verbose) {
