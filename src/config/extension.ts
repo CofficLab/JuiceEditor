@@ -33,6 +33,7 @@ import { v4 as uuidv4 } from "uuid";
 import SmartTableHeader from "../extensions/SmartTableHeader/SmartTableHeader"
 import SmartTableRow from "../extensions/SmartTableRow/SmartTableRow"
 import Panel from "../extensions/Panel/Panel"
+import SmartSelection from "../extensions/SmartSelection"
 
 interface makeExtensionsProps {
     drawIoLink?: string,
@@ -113,7 +114,7 @@ export default function makeExtensions(props: makeExtensionsProps) {
                 return ''
             }
         }),
-        SmartKbd,
+        SmartSelection,
         SmartLink.configure({
             protocols: ['ftp', 'mailto'],
             autolink: true,

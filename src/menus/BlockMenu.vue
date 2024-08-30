@@ -88,27 +88,7 @@ function getCurrentNode() {
 }
 
 function deleteNode() {
-	let selection = editor.value.state.selection
-	var nodePos: NodePos = editor.value.$pos(selection.$anchor.pos)
-
-	console.log(nodePos)
-
-	while (nodePos.depth > 1) {
-		let parent = nodePos.parent
-
-		if (!parent) {
-			console.log(nodePos)
-			throw new Error('parent is null')
-		}
-
-		nodePos = parent
-	}
-
-	let node = nodePos.node
-
-	console.log(emoji, 'current node is', node.type.name)
-
-	editor.value.commands.deleteNode(node.type.name)
+	editor.value.chain().focus().deleteSelectionNode().run()
 }
 
 function updateMenuPosition() {
