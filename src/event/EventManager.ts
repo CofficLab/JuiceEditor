@@ -60,9 +60,6 @@ export default class EventManager {
             case operators.toggleTOC:
                 editor.commands.toggleToc()
                 break;
-            case operators.toggleBanner:
-                editor.chain().focus().toggleBanner().run()
-                break;
             case operators.toggleBold:
                 editor.chain().focus().toggleBold().run()
                 break;
