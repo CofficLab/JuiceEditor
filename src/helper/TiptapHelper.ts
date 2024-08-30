@@ -3,8 +3,8 @@ import { Editor as TiptapEditor } from '@tiptap/core'
 import { Node as ProseMirrorNode } from '@tiptap/pm/model';
 import EditorDoc from '../model/EditorDoc'
 import makeExtensions from '../config/extension'
-import { error } from 'console';
 import DomHelper from './DomHelper';
+import Config from '../config/config';
 
 const title = '📒 TiptapHelper'
 
@@ -291,8 +291,7 @@ class TiptapHelper {
     }
 
     static getFocusedNodePosition(editor: TiptapEditor): { offsetTop: number | null, offsetLeft: number | null } {
-        // Focus扩展可定位当前编辑器焦点的元素
-        const currentNode: Element | null = DomHelper.querySelector(`.has-focus`)
+        const currentNode: Element | null = DomHelper.querySelector(`.` + Config.focusClassName)
         if (currentNode === null) {
             return { offsetTop: null, offsetLeft: null }
         }

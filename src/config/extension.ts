@@ -34,6 +34,11 @@ import SmartTableHeader from "../extensions/SmartTableHeader/SmartTableHeader"
 import SmartTableRow from "../extensions/SmartTableRow/SmartTableRow"
 import Panel from "../extensions/Panel/Panel"
 import SmartSelection from "../extensions/SmartSelection"
+import { SmartHover } from "../extensions/SmartHover"
+import { Ring } from "../extensions/Ring"
+import { Padding } from "../extensions/Padding"
+import { SmartFocus } from "../extensions/SmartFocus"
+import Config from "./config"
 
 interface makeExtensionsProps {
     drawIoLink?: string,
@@ -83,7 +88,9 @@ export default function makeExtensions(props: makeExtensionsProps) {
         }),
         // GroupPre,
         // Heading,
-        Focus,
+        SmartFocus.configure({
+            className: Config.focusClassName
+        }),
         SmartHeading,
         History.configure({
             depth: 100,
@@ -104,7 +111,9 @@ export default function makeExtensions(props: makeExtensionsProps) {
                 class: 'my-custom-class',
             },
         }),
+        Ring,
         SmartParagraph,
+        Padding,
         Placeholder.configure({
             placeholder: ({ node }) => {
                 if (node.type.name === 'heading' && node.attrs.level == 1) {
@@ -148,12 +157,13 @@ export default function makeExtensions(props: makeExtensionsProps) {
         TableCell,
         // TableHeader,
         SmartTableHeader,
-        Toc,
+        // Toc,
         TextAlign.configure({
             types: ['heading', 'paragraph'],
         }),
         UUID,
-        Panel,
+        // Panel,
+        SmartHover
     ]
 
     return extensions

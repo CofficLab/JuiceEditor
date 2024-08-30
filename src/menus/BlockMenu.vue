@@ -92,6 +92,7 @@ function deleteNode() {
 }
 
 function updateMenuPosition() {
+	let verbose = false
 	let editorDom = props.editor.view.dom
 
 	if (!editorDom) {
@@ -104,6 +105,10 @@ function updateMenuPosition() {
 	marginLeft.value = offsetLeft - 96
 
 	const { offsetTop } = TiptapHelper.getFocusedNodePosition(editor.value)
+
+	if (verbose) {
+		console.log(emoji, "offsetTop", offsetTop)
+	}
 
 	if (offsetTop === null) {
 		return

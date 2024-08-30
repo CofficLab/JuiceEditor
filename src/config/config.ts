@@ -7,6 +7,7 @@ interface ConfigType {
     drawLink: string;
     monacoLink: string;
     plugins: Plugin[];
+    focusClassName: string;
 }
 
 const isDebug = process.env.NODE_ENV === 'development'
@@ -22,7 +23,8 @@ export const Config: ConfigType = {
         : '/editor/monaco/index.html',
     'plugins': [
         hasWebkit ? new WebKit() : new LocalApp()
-    ]
+    ],
+    'focusClassName': 'focused'
 }
 
 export default Config

@@ -7,6 +7,7 @@ export const CC = 'CC'
 export const HEADING = 'heading'
 export const BULLET_LIST = 'bulletList'
 export const LIST_ITEM = 'listItem'
+export const PRE = 'pre'
 
 export const TASKLIST = 'taskList'
 export const TASK_ITEM = 'taskItem'
