@@ -5,7 +5,7 @@
 				<IconDelete></IconDelete>
 			</Button>
 
-			<Button>
+			<Button tip="增加一行" @click="newLine">
 				<IconNewLine></IconNewLine>
 			</Button>
 		</ButtonBar>
@@ -30,7 +30,7 @@ const props = defineProps({
 
 const emoji = '🐱 BlockMenu'
 const editor = computed(() => props.editor)
-const visible = ref(true)
+const visible = ref(false)
 const marginLeft = ref(0)
 const scrollTop = ref(0)
 
@@ -62,6 +62,30 @@ watch(
 	},
 	{ immediate: true }
 )
+
+function newLine() {
+	TiptapHelper.newLineOf(props.editor, getCurrentNode(), editor.value.state.selection.$anchor.pos)
+}
+
+function getCurrentNode() {
+	let selection = editor.value.state.selection
+	var nodePos: NodePos = editor.value.$pos(selection.$anchor.pos)
+
+	console.log(nodePos)
+
+	while (nodePos.depth > 1) {
+		let parent = nodePos.parent
+
+		if (!parent) {
+			console.log(nodePos)
+			throw new Error('parent is null')
+		}
+
+		nodePos = parent
+	}
+
+	return nodePos.node
+}
 
 function deleteNode() {
 	let selection = editor.value.state.selection
