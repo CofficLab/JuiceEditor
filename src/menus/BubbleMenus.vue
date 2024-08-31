@@ -1,35 +1,3 @@
-<template>
-  <!-- 选中后弹出的菜单 -->
-  <div>
-    <bubble-menu
-      :should-show="shouldShow"
-      :tippy-options="{
-        duration: 100,
-        maxWidth: 800,
-        placement: 'top',
-        appendTo: 'parent'
-      }"
-      :editor="editor"
-    >
-      <ButtonBar>
-        <Heading :editor="editor" :level="2" />
-        <Heading :editor="editor" :level="3" />
-        <Heading :editor="editor" :level="4" />
-        <Heading :editor="editor" :level="5" />
-        <Heading :editor="editor" :level="6" />
-        <Paragraph :editor="editor"></Paragraph>
-        <Bold :editor="editor"></Bold>
-        <Italic :editor="editor"></Italic>
-        <StrikeVue :editor="editor"></StrikeVue>
-        <BulletList :editor="editor"></BulletList>
-        <Code :editor="editor"></Code>
-        <Link :editor="editor"></Link>
-        <Kbd :editor="editor"></Kbd>
-      </ButtonBar>
-    </bubble-menu>
-  </div>
-</template>
-
 <script lang="ts" setup>
 import { EditorState } from '@tiptap/pm/state'
 import { EditorView } from '@tiptap/pm/view'
@@ -45,6 +13,9 @@ import Code from '../operators/Code.vue'
 import Link from '../operators/Link.vue'
 import ButtonBar from '../ui/ButtonBar.vue'
 import Kbd from '../operators/Kbd.vue'
+import { IMAGE } from '../config/node-names'
+
+let emoji = "🫧 BubbleMenus"
 
 defineProps({
   editor: {
@@ -63,13 +34,16 @@ const shouldShow = function (props: {
 }) {
   const { selection } = props.state
   const { empty } = selection
-  const excludes = ['toc', 'image', 'draw', 'link', 'tableCell', 'tableRow', 'tableHeader']
+  const shuoldShowNodes = [IMAGE]
+  const excludes = ['toc', 'draw', 'link', 'tableCell', 'tableRow', 'tableHeader']
 
-  excludes.forEach((exclude) => {
-    if (props.editor.isActive(exclude)) {
-      return false
-    }
-  })
+  if (shuoldShowNodes.some(node => props.editor.isActive(node))) {
+    return true;
+  }
+
+  if (excludes.some(node => props.editor.isActive(node))) {
+    return false;
+  }
 
   if (props.editor.isActive('heading', { level: 1 })) {
     return false
@@ -79,6 +53,39 @@ const shouldShow = function (props: {
     return false
   }
 
+  if (empty) {
+    console.log('empty selection, hide bubble menu')
+  }
+
   return !empty
 }
 </script>
+
+<template>
+  <!-- 选中后弹出的菜单 -->
+  <div>
+    <bubble-menu :should-show="shouldShow" :tippy-options="{
+      duration: 100,
+      maxWidth: 800,
+      placement: 'top',
+      appendTo: 'parent'
+    }" :editor="editor">
+      <ButtonBar>
+        <Heading :editor="editor" :level="2" />
+        <Heading :editor="editor" :level="3" />
+        <Heading :editor="editor" :level="4" />
+        <Heading :editor="editor" :level="5" />
+        <Heading :editor="editor" :level="6" />
+        <Paragraph :editor="editor"></Paragraph>
+        <Bold :editor="editor"></Bold>
+        <Italic :editor="editor"></Italic>
+        <StrikeVue :editor="editor"></StrikeVue>
+        <BulletList :editor="editor"></BulletList>
+        <Code :editor="editor"></Code>
+        <Link :editor="editor">
+        </Link>
+        <Kbd :editor="editor"></Kbd>
+      </ButtonBar>
+    </bubble-menu>
+  </div>
+</template>

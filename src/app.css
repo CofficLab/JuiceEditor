@@ -2,8 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+.tiptap {
+  img {
+    display: block;
+    height: auto;
+    margin: 1.5rem 0;
+    max-width: 100%;
+
+    &.ProseMirror-selectednode {
+      outline: 3px solid purple;
+    }
+  }
+}
+
 .focused {
-  @apply bg-white dark:bg-slate-800/80;
+  @apply bg-blue-500/40 dark:bg-slate-800/80;
 }
 
 button img,

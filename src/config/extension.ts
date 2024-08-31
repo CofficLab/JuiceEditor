@@ -7,6 +7,7 @@ import Italic from "@tiptap/extension-italic"
 import ListItem from "@tiptap/extension-list-item"
 import Placeholder from "@tiptap/extension-placeholder"
 import Strike from "@tiptap/extension-strike"
+import Dropcursor from '@tiptap/extension-dropcursor'
 import Focus from '@tiptap/extension-focus'
 import Table from "@tiptap/extension-table"
 import Highlight from "@tiptap/extension-highlight"
@@ -39,7 +40,8 @@ import { Ring } from "../extensions/Ring"
 import { Padding } from "../extensions/Padding"
 import { SmartFocus } from "../extensions/SmartFocus"
 import Config from "./config"
-import SmartImage2 from "../extensions/SmartImage2"
+import { Debug } from "../extensions/Debug"
+import Image from "@tiptap/extension-image"
 
 interface makeExtensionsProps {
     drawIoLink?: string,
@@ -49,6 +51,11 @@ interface makeExtensionsProps {
 
 export default function makeExtensions(props: makeExtensionsProps) {
     var extensions = [
+        // Debug,
+        Document.extend({
+            content: 'heading block*',
+        }),
+        Dropcursor,
         SmartQuote.configure({
             HTMLAttributes: {
                 class: 'my-custom-class',
@@ -77,19 +84,14 @@ export default function makeExtensions(props: makeExtensionsProps) {
             types: ['textStyle'],
         }),
         CharacterCount,
-        // SmartImage.configure({
-        //     drawIoLink: props.drawIoLink,
-        //     allowBase64: true,
-        //     HTMLAttributes: {
-        //         class: ''
-        //     }
-        // }),
-        SmartImage2,
-        Document.extend({
-            content: 'heading block*',
+        SmartImage.configure({
+            drawIoLink: props.drawIoLink,
+            allowBase64: true,
+            HTMLAttributes: {
+                class: 'smart-image'
+            }
         }),
         // GroupPre,
-        // Heading,
         SmartFocus.configure({
             className: Config.focusClassName
         }),
@@ -113,7 +115,7 @@ export default function makeExtensions(props: makeExtensionsProps) {
                 class: 'my-custom-class',
             },
         }),
-        Ring,
+        // Ring,
         SmartParagraph,
         Padding,
         Placeholder.configure({
@@ -146,7 +148,6 @@ export default function makeExtensions(props: makeExtensionsProps) {
         SmartTaskList,
         Text,
         // SmartTable,
-        // 默认启用table，保证table能够正常渲染
         Table.configure({
             resizable: true,
             HTMLAttributes: {
@@ -165,7 +166,7 @@ export default function makeExtensions(props: makeExtensionsProps) {
         }),
         UUID,
         // Panel,
-        SmartHover
+        // SmartHover
     ]
 
     return extensions

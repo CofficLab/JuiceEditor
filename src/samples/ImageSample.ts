@@ -14,8 +14,12 @@ const imageDoc = new EditorDoc()
   .setContent(`
     <h1>图片测试</h1>
     <h2>图片</h2>
-    <p>下面是一张图</p>
+    <p>下面是Base64图</p>
     <img src="${sampleImgSrc1}"></img>
+    <h2>网络图片1</h2>
+    <img src="https://placehold.co/800x200" />
+    <h2>网络图片2</h2>
+    <img src="https://placehold.co/200x200/6A00F5/white" />
     <toc></toc>
   `)
 
