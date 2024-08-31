@@ -38,7 +38,8 @@
         <Code :editor="editor" :icon-only="false"></Code>
       </li>
       <li>
-        <Link :editor="editor" :icon-only="false"></Link>
+        <Link :editor="editor" :icon-only="false">
+        </Link>
       </li>
     </ul>
   </div>
@@ -47,13 +48,13 @@
 <script lang="ts" setup>
 import { onMounted } from 'vue'
 import { Editor } from '@tiptap/vue-3'
-import Bold from '../operators/Bold.vue'
-import Heading from '../operators/Heading.vue'
-import Italic from '../operators/Italic.vue'
-import Paragraph from '../operators/Paragraph.vue'
-import StrikeVue from '../operators/Strike.vue'
-import BulletList from '../operators/BulletList.vue'
-import Code from '../operators/Code.vue'
+import Bold from './B./Heading.vue
+import Heading from ./ Italic.vueue'
+import Italic from '.././Paragraph.vue
+import Paragraph from './Strike.vuevue'
+import StrikeVue from '../BulletList.vue
+import BulletList ./Code.vuelletList.vue'
+import Code from './ButtonLink.vue'
 import Link from '../operators/Link.vue'
 
 defineProps({
@@ -89,13 +90,14 @@ onMounted(() => {
 
   ul {
     @apply p-1 menu;
+
     li {
       @apply text-xs py-0 m-0 rounded;
     }
   }
 
   button {
-    @apply px-3 py-1 flex cursor-default rounded  !important;
+    @apply px-3 py-1 flex cursor-default rounded !important;
 
     svg {
       @apply m-0;

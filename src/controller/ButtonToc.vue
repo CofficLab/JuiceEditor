@@ -9,7 +9,7 @@
 import { Editor } from '@tiptap/vue-3'
 import { computed } from 'vue'
 import Button from '../ui/Button.vue'
-import icon from '../../assets/bold.svg'
+import icon from '../assets/bold.svg'
 import { HEADING } from '../config/nodes';
 
 const props = defineProps({

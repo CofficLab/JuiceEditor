@@ -7,7 +7,7 @@
 
 <script lang="ts" setup>
 import { Editor } from '@tiptap/vue-3'
-import icon from '../../assets/code.bracket.svg'
+import icon from '../assets/code.bracket.svg'
 import { CODE_BLOCK } from '../config/nodes';
 
 defineProps({

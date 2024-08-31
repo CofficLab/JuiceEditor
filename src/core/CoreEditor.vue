@@ -71,13 +71,13 @@
 <script lang="ts" setup>
 import { EditorContent } from '@tiptap/vue-3'
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
-import BubbleMenus from '../menus/BubbleMenus.vue'
-import FloatMenus from '../menus/FloatMenus.vue'
+import BubbleMenus from '../controller/MenuBubble.vue'
+import FloatMenus from '../controller/MenuFloat.vue'
 import TiptapAgent from '../helper/TiptapHelper'
 import EditorDoc from '../model/EditorDoc'
 import HeadingVue from './Heading.vue'
 import Heading from '../extensions/Toc/Heading'
-import BlockMenu from '../menus/BlockMenu.vue'
+import BlockMenu from '../controller/MenuBlock.vue'
 
 const title = '📒 Tiptap'
 const props = defineProps({
