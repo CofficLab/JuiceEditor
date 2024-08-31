@@ -93,7 +93,8 @@ export default function makeExtensions(props: makeExtensionsProps) {
         }),
         // GroupPre,
         SmartFocus.configure({
-            className: Config.focusClassName
+            className: Config.focusClassName,
+            mode: 'shallowest'
         }),
         SmartHeading,
         History.configure({
