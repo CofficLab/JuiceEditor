@@ -1,70 +1,51 @@
 <template>
-  <div v-if="editor" class="flex flex-col w-full tiptap">
-    <!-- 选中文字后弹出的菜单 -->
-    <BubbleMenus
-      :editor="editor"
-      v-if="editable && bubbleMenusEnable && !contextMenuDidShow"
-    ></BubbleMenus>
-
-    <!-- 回车后弹出的菜单 -->
-    <FloatMenus
-      :editor="editor"
-      v-if="editable && floatingMenusEnable && !contextMenuDidShow"
-    ></FloatMenus>
-
+  <div v-if="editor" class="editor-container">
+    <BubbleMenus :editor="editor" v-if="editable && bubbleMenusEnable && !contextMenuDidShow"></BubbleMenus>
+    <FloatMenus :editor="editor" v-if="editable && floatingMenusEnable && !contextMenuDidShow"></FloatMenus>
     <BlockMenu :editor="editor" class="absolute" />
 
-    <div
-      id="core"
-      :class="{
-        'bg-slate-300/10': isDebug,
+    <div id="core" :class="{
+      'bg-slate-300/10': isDebug,
+      'md:bg-green-300/10': isDebug,
+      'lg:bg-blue-300/10': isDebug,
+      'xl:bg-purple-300/10': isDebug,
+      '2xl:bg-red-300/10': isDebug,
+      'px-4': true,
+      'flex flex-row pt-4 pb-24': true,
+      'justify-center': true
+    }">
+      <!-- 编辑器 -->
+      <EditorContent :editor="editor" :class="{
+        'bg-slate-300/10': true,
         'md:bg-green-300/10': isDebug,
         'lg:bg-blue-300/10': isDebug,
         'xl:bg-purple-300/10': isDebug,
         '2xl:bg-red-300/10': isDebug,
-        'px-4': true,
-        'flex flex-row pt-4 pb-24': true,
-        'justify-center': true
-      }"
-    >
-      <!-- 编辑器 -->
-      <EditorContent
-        :editor="editor"
-        :class="{
-          'bg-slate-300/10': true,
-          'md:bg-green-300/10': isDebug,
-          'lg:bg-blue-300/10': isDebug,
-          'xl:bg-purple-300/10': isDebug,
-          '2xl:bg-red-300/10': isDebug,
-          'md:max-w-xl': shouldShowToc,
-          'md:max-w-2xl': !shouldShowToc,
-          'md:px-0': true,
-          'md:py-6': true,
-          'lg:max-w-3xl': true,
-          'lg:px-0': true,
-          'lg:py-6': true,
-          'xl:max-w-3xl': true,
-          'xl:px-0': true,
-          'xl:py-6': true,
-          '2xl:max-w-4xl': true,
-          '2xl:px-0': true,
-          '2xl:py-8': true,
-          'dark:bg-zinc-900/30': true,
-          'shadow-inner': true,
-          rounded: true
-        }"
-        class="container flex flex-col min-h-screen px-4 pb-48 prose-sm prose dark:prose-invert"
-      />
+        'md:max-w-xl': shouldShowToc,
+        'md:max-w-2xl': !shouldShowToc,
+        'md:px-0': true,
+        'md:py-6': true,
+        'lg:max-w-3xl': true,
+        'lg:px-0': true,
+        'lg:py-6': true,
+        'xl:max-w-3xl': true,
+        'xl:px-0': true,
+        'xl:py-6': true,
+        '2xl:max-w-4xl': true,
+        '2xl:px-0': true,
+        '2xl:py-8': true,
+        'dark:bg-zinc-900/30': true,
+        'shadow-inner': true,
+        rounded: true
+      }" class="container flex flex-col min-h-screen px-4 pb-48 prose-sm prose dark:prose-invert" />
 
       <!-- TOC占位，宽度=TOC的宽度 -->
-      <div
-        :class="{
-          'md:w-56': shouldShowToc,
-          '4md:w-48': shouldShowToc,
-          'xl:w-64': shouldShowToc,
-          '2xl:w-88': shouldShowToc
-        }"
-      ></div>
+      <div :class="{
+        'md:w-56': shouldShowToc,
+        '4md:w-48': shouldShowToc,
+        'xl:w-64': shouldShowToc,
+        '2xl:w-88': shouldShowToc
+      }"></div>
 
       <!-- TOC，和顶部留一些距离，因为WEB项目顶部有导航栏 -->
       <!-- <div id="toc" v-if="shouldShowToc" :class="{
@@ -98,12 +79,68 @@ import EditorDoc from '../model/EditorDoc'
 import HeadingVue from './Heading.vue'
 import EventManager from '../event/EventManager'
 import Heading from '../extensions/Toc/Heading'
-import SmartEditorProps from './SmartEditorProps'
 import { useAppStore } from '../provider/AppStore'
 import BlockMenu from '../menus/BlockMenu.vue'
 
 const title = '📒 Tiptap'
-const props = defineProps(SmartEditorProps)
+const props = defineProps({
+  uuid: {
+    type: String,
+    required: true,
+    default: ''
+  },
+  drawLink: {
+    type: String,
+    default: '',
+    required: true
+  },
+  content: {
+    type: String,
+    default: ''
+  },
+  editable: {
+    type: Boolean,
+    default: false
+  },
+  drawEnable: {
+    required: true,
+    type: Boolean,
+    default: false
+  },
+  tableEnable: {
+    type: Boolean,
+    default: false,
+    required: true
+  },
+  bubbleMenusEnable: {
+    type: Boolean,
+    default: true,
+    required: true
+  },
+  floatingMenusEnable: {
+    type: Boolean,
+    default: true,
+    required: true
+  },
+  onCreate: {
+    type: Function,
+    default: () => { }
+  },
+  onUpdate: {
+    type: Function,
+    default: () => {
+      console.log('onUpdate')
+    }
+  },
+  onSelectionUpdate: {
+    type: Function,
+    default: () => { }
+  },
+  onMessage: {
+    type: Function,
+    default: () => { }
+  }
+})
 
 const editor = TiptapAgent.create({
   uuid: props.uuid,
