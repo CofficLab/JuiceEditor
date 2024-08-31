@@ -5,35 +5,12 @@ import EditorDoc from "../model/EditorDoc";
 
 const title = "🍎 EventPlugin"
 const apiEvent = "apiEvent";
-const operators = {
-    contextMenuWillOpen: 'contextMenuWillOpen',
-    insertDraw: 'insertDraw',
-    insertImage: 'insertImage',
-    insertTable: 'insertTable',
-    insertCodeBlock: 'insertCodeBlock',
-    insertTodo: 'insertTodo',
-    setHeading1: 'setHeading1',
-    setHeading2: 'setHeading2',
-    setHeading3: 'setHeading3',
-    setHeading4: 'setHeading4',
-    setHeading5: 'setHeading5',
-    setHeading6: 'setHeading6',
-    setParagraph: 'setParagraph',
-    toggleBanner: 'toggleBanner',
-    toggleBold: 'toggleBold',
-    toggleBulletList: 'toggleBulletList',
-    toggleCode: 'toggleCode',
-    toggleCodeBlock: 'toggleCodeBlock',
-    toggleItalic: 'toggleItalic',
-    toggleLink: 'toggleLink',
-    toggleTOC: 'toggleTOC',
-    toggleTaskList: 'toggleTaskList',
-}
 
-function emit(operator: keyof typeof operators) {
+function emit(name: string, data: object) {
     window.dispatchEvent(new CustomEvent(apiEvent, {
         detail: {
-            operator
+            name: name,
+            data: data
         }
     }));
 }
@@ -41,6 +18,11 @@ function emit(operator: keyof typeof operators) {
 class EventPlugin implements Plugin {
     onDownloadImage(src: string, name: string): void {
         console.log(title, 'download image')
+
+        emit('downloadImage', {
+            src: src,
+            name: name
+        })
     }
 
     onMessage(message: string): void {
@@ -48,6 +30,9 @@ class EventPlugin implements Plugin {
     }
 
     onPageLoaded(): void {
+        console.log(title, 'page loaded')
+
+        emit('pageLoaded', {})
     }
 
     onSelectionTypeChange(type: string): void {

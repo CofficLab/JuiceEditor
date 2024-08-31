@@ -51,26 +51,6 @@ class Helper {
         return shadowRoot
     }
 
-    static goto(id: string, shadowHostSelector: string, offset: number = 120) {
-        console.log('goto', id)
-
-        // 获取目标 div
-        const targetDiv = Helper.findElement(id, shadowHostSelector)
-
-        // 如果找到目标 div，则滚动到该 div
-        if (targetDiv) {
-            const elementPosition = targetDiv.getBoundingClientRect().top + window.scrollY // 目标元素的绝对位置
-            const offsetPosition = elementPosition - offset // 减去偏移量
-
-            window.scrollTo({
-                top: offsetPosition,
-                behavior: 'smooth'
-            })
-        } else {
-            console.log('Target div not found in Shadow DOM')
-        }
-    }
-
     static findElement(id: string, shadowHostSelector: string = 'juice-editor'): HTMLElement | null {
         // 从document中找
         let element = document.getElementById(id)

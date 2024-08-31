@@ -27,6 +27,10 @@ export const useAppStore = defineStore('app-store', {
     },
 
     actions: {
+        hideLoading() {
+            this.loading = false
+        },
+
         closeDraw: function () {
             let verbose = false;
             if (verbose) {

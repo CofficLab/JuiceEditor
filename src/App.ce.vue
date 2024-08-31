@@ -4,7 +4,6 @@ import { useFeatureStore } from './provider/FeatureStore'
 import Loading from './ui/Loading.vue'
 import { onMounted } from 'vue'
 import Message from './ui/Message.vue'
-import URLHelper from './helper/URLHelper'
 import AllApi from './api/AllApi'
 import CoreEditor from './core/CoreEditor.vue'
 import TreeNode from './model/TreeNode'
@@ -23,39 +22,21 @@ const props = defineProps({
 	}
 })
 
-const targetNode = document.querySelector(Config.editorLabel)!
-const config = { childList: true, subtree: true, characterData: true }
-const observer = new MutationObserver(setEditorContent)
 const feature = useFeatureStore()
 const app = useAppStore()
 const messageStore = useMessageStore()
-window.api = new AllApi(feature, app)
-const api = window.api
 const children: TreeNode[] = []
-
-observer.observe(targetNode, config)
 
 onMounted(() => {
 	app.drawLink = props.drawio
 	feature.editable = !props.readonly
 
-	setEditorContent()
+	app.hideLoading()
 
-	// 监听 URL 变化
-	window.onpopstate = URLHelper.onURLChanged
+	window.api = new AllApi(feature, app)
+	Config.listeners.forEach(l => l.start())
 })
 
-function setEditorContent() {
-	let content = document.querySelector(Config.editorLabel)!.innerHTML
-	api.node.setContent(content)
-
-	app.loading = false
-	app.setReady()
-
-	observer.disconnect()
-	targetNode.innerHTML = ''
-	observer.observe(targetNode, config)
-}
 </script>
 
 <style>

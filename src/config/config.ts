@@ -2,6 +2,9 @@ import LocalApp from "../plugins/LocalApp"
 import WebKit from "../plugins/WebKit"
 import Plugin from "../contract/Plugin";
 import EventPlugin from "../plugins/EventPlugin";
+import UrlListener from "../listeners/UrlListener";
+import EventListener from "../listeners/EventListener";
+import SlotListener from "../listeners/SlotListener";
 
 interface ConfigType {
     editorLabel: string;
@@ -9,6 +12,7 @@ interface ConfigType {
     drawLink: string;
     monacoLink: string;
     plugins: Plugin[];
+    listeners: Listener[];
     focusClassName: string;
 }
 
@@ -27,6 +31,11 @@ export const Config: ConfigType = {
     'plugins': [
         hasWebkit ? new WebKit() : new LocalApp(),
         new EventPlugin()
+    ],
+    listeners: [
+        new UrlListener(),
+        new EventListener(),
+        new SlotListener()
     ],
     'focusClassName': 'focused'
 }

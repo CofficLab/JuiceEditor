@@ -1,54 +1,53 @@
 <template>
-  <div v-if="editor" class="editor-container">
-    <BubbleMenus :editor="editor" v-if="editable && bubbleMenusEnable && !contextMenuDidShow"></BubbleMenus>
-    <FloatMenus :editor="editor" v-if="editable && floatingMenusEnable && !contextMenuDidShow"></FloatMenus>
-    <BlockMenu :editor="editor" class="absolute" />
+	<div v-if="editor" class="editor-container">
+		<BubbleMenus :editor="editor" v-if="editable && bubbleMenusEnable"></BubbleMenus>
+		<FloatMenus :editor="editor" v-if="editable && floatingMenusEnable"></FloatMenus>
+		<BlockMenu :editor="editor" class="absolute" />
 
-    <div id="core" :class="{
-      'bg-slate-300/10': isDebug,
-      'md:bg-green-300/10': isDebug,
-      'lg:bg-blue-300/10': isDebug,
-      'xl:bg-purple-300/10': isDebug,
-      '2xl:bg-red-300/10': isDebug,
-      'px-4': true,
-      'flex flex-row pt-4 pb-24': true,
-      'justify-center': true
-    }">
-      <!-- 编辑器 -->
-      <EditorContent :editor="editor" :class="{
-        'bg-slate-300/10': true,
-        'md:bg-green-300/10': isDebug,
-        'lg:bg-blue-300/10': isDebug,
-        'xl:bg-purple-300/10': isDebug,
-        '2xl:bg-red-300/10': isDebug,
-        'md:max-w-xl': shouldShowToc,
-        'md:max-w-2xl': !shouldShowToc,
-        'md:px-0': true,
-        'md:py-6': true,
-        'lg:max-w-3xl': true,
-        'lg:px-0': true,
-        'lg:py-6': true,
-        'xl:max-w-3xl': true,
-        'xl:px-0': true,
-        'xl:py-6': true,
-        '2xl:max-w-4xl': true,
-        '2xl:px-0': true,
-        '2xl:py-8': true,
-        'dark:bg-zinc-900/30': true,
-        'shadow-inner': true,
-        rounded: true
-      }" class="container flex flex-col min-h-screen px-4 pb-48 prose-sm prose dark:prose-invert" />
+		<div id="core" :class="{
+			'bg-slate-300/10': isDebug,
+			'md:bg-green-300/10': isDebug,
+			'lg:bg-blue-300/10': isDebug,
+			'xl:bg-purple-300/10': isDebug,
+			'2xl:bg-red-300/10': isDebug,
+			'px-4': true,
+			'flex flex-row pt-4 pb-24': true,
+			'justify-center': true
+		}">
+			<EditorContent :editor="editor" :class="{
+				'bg-slate-300/10': true,
+				'md:bg-green-300/10': isDebug,
+				'lg:bg-blue-300/10': isDebug,
+				'xl:bg-purple-300/10': isDebug,
+				'2xl:bg-red-300/10': isDebug,
+				'md:max-w-xl': shouldShowToc,
+				'md:max-w-2xl': !shouldShowToc,
+				'md:px-0': true,
+				'md:py-6': true,
+				'lg:max-w-3xl': true,
+				'lg:px-0': true,
+				'lg:py-6': true,
+				'xl:max-w-3xl': true,
+				'xl:px-0': true,
+				'xl:py-6': true,
+				'2xl:max-w-4xl': true,
+				'2xl:px-0': true,
+				'2xl:py-8': true,
+				'dark:bg-zinc-900/30': true,
+				'shadow-inner': true,
+				rounded: true
+			}" class="container flex flex-col min-h-screen px-4 pb-48 prose-sm prose dark:prose-invert" />
 
-      <!-- TOC占位，宽度=TOC的宽度 -->
-      <div :class="{
-        'md:w-56': shouldShowToc,
-        '4md:w-48': shouldShowToc,
-        'xl:w-64': shouldShowToc,
-        '2xl:w-88': shouldShowToc
-      }"></div>
+			<!-- TOC占位，宽度=TOC的宽度 -->
+			<div :class="{
+				'md:w-56': shouldShowToc,
+				'4md:w-48': shouldShowToc,
+				'xl:w-64': shouldShowToc,
+				'2xl:w-88': shouldShowToc
+			}"></div>
 
-      <!-- TOC，和顶部留一些距离，因为WEB项目顶部有导航栏 -->
-      <!-- <div id="toc" v-if="shouldShowToc" :class="{
+			<!-- TOC，和顶部留一些距离，因为WEB项目顶部有导航栏 -->
+			<!-- <div id="toc" v-if="shouldShowToc" :class="{
 				'md:bg-slate-300/10': false,
 				'lg:bg-blue-300/50': isDebug,
 				'xl:bg-purple-300/50': isDebug,
@@ -65,8 +64,8 @@
 					<HeadingVue :heading="h" v-for="h in headingTree.children"></HeadingVue>
 				</div>
 			</div> -->
-    </div>
-  </div>
+		</div>
+	</div>
 </template>
 
 <script lang="ts" setup>
@@ -77,188 +76,136 @@ import FloatMenus from '../menus/FloatMenus.vue'
 import TiptapAgent from '../helper/TiptapHelper'
 import EditorDoc from '../model/EditorDoc'
 import HeadingVue from './Heading.vue'
-import EventManager from '../event/EventManager'
 import Heading from '../extensions/Toc/Heading'
-import { useAppStore } from '../provider/AppStore'
 import BlockMenu from '../menus/BlockMenu.vue'
 
 const title = '📒 Tiptap'
 const props = defineProps({
-  uuid: {
-    type: String,
-    required: true,
-    default: ''
-  },
-  drawLink: {
-    type: String,
-    default: '',
-    required: true
-  },
-  content: {
-    type: String,
-    default: ''
-  },
-  editable: {
-    type: Boolean,
-    default: false
-  },
-  drawEnable: {
-    required: true,
-    type: Boolean,
-    default: false
-  },
-  tableEnable: {
-    type: Boolean,
-    default: false,
-    required: true
-  },
-  bubbleMenusEnable: {
-    type: Boolean,
-    default: true,
-    required: true
-  },
-  floatingMenusEnable: {
-    type: Boolean,
-    default: true,
-    required: true
-  },
-  onCreate: {
-    type: Function,
-    default: () => { }
-  },
-  onUpdate: {
-    type: Function,
-    default: () => {
-      console.log('onUpdate')
-    }
-  },
-  onSelectionUpdate: {
-    type: Function,
-    default: () => { }
-  },
-  onMessage: {
-    type: Function,
-    default: () => { }
-  }
+	uuid: {
+		type: String,
+		required: true,
+		default: ''
+	},
+	drawLink: {
+		type: String,
+		default: '',
+		required: true
+	},
+	content: {
+		type: String,
+		default: ''
+	},
+	editable: {
+		type: Boolean,
+		default: false
+	},
+	drawEnable: {
+		required: true,
+		type: Boolean,
+		default: false
+	},
+	tableEnable: {
+		type: Boolean,
+		default: false,
+		required: true
+	},
+	bubbleMenusEnable: {
+		type: Boolean,
+		default: true,
+		required: true
+	},
+	floatingMenusEnable: {
+		type: Boolean,
+		default: true,
+		required: true
+	},
+	onCreate: {
+		type: Function,
+		default: () => { }
+	},
+	onUpdate: {
+		type: Function,
+		default: () => {
+			console.log('onUpdate')
+		}
+	},
+	onSelectionUpdate: {
+		type: Function,
+		default: () => { }
+	},
+	onMessage: {
+		type: Function,
+		default: () => { }
+	}
 })
 
 const editor = TiptapAgent.create({
-  uuid: props.uuid,
-  content: props.content,
-  editable: props.editable,
-  drawIoLink: props.drawLink,
-  drawEnable: props.drawEnable,
-  tableEnable: props.tableEnable,
-  onCreate: (data: EditorDoc) => {
-    props.onCreate(data)
-  },
-  onUpdate: (data: EditorDoc) => {
-    refreshToc('onUpdate')
-    if (!props.editable) {
-      return log('只读模式，不回调更新')
-    }
+	uuid: props.uuid,
+	content: props.content,
+	editable: props.editable,
+	drawIoLink: props.drawLink,
+	drawEnable: props.drawEnable,
+	tableEnable: props.tableEnable,
+	onCreate: (data: EditorDoc) => {
+		props.onCreate(data)
+	},
+	onUpdate: (data: EditorDoc) => {
+		refreshToc('onUpdate')
+		if (!props.editable) {
+			return console.log('只读模式，不回调更新')
+		}
 
-    props.onUpdate(data)
-  },
-  onSelectionUpdate(type) {
-    log('onSelectionUpdate', type)
-    props.onSelectionUpdate(type)
-  }
+		props.onUpdate(data)
+	},
+	onSelectionUpdate(type) {
+		props.onSelectionUpdate(type)
+	}
 })
 
-const app = useAppStore()
 const isDebug = false
-const verbose = false
-const contextMenuDidShow = ref(false)
-const eventManager = new EventManager()
 const headingTree = ref(new Heading())
 const shouldShowToc = computed(() => {
-  return false
-  return editor.commands.hasToc() && headingTree
+	return false
+	return editor.commands.hasToc() && headingTree
 })
 
 function refreshToc(reason: string) {
-  // console.log('刷新TOC，因为', reason)
-  headingTree.value = Heading.makeTree(editor) as unknown as Heading
-}
-
-function onMouseDown(e: Event) {
-  console.log('TiptapEditor: mousedown')
-
-  let target = e.target as HTMLElement
-  const pos = editor.view.posAtDOM(target, 1)
-  editor.commands.focus(pos)
-}
-
-function onClick(e: Event) {
-  // log('click，关闭应用的右键菜单')
-  contextMenuDidShow.value = false
-}
-
-function onContextMenu(e: Event) {
-  log('contextmenu')
-  contextMenuDidShow.value = true
-
-  let target = e.target as HTMLElement
-  target.click()
+	console.log(title, '刷新TOC，因为', reason)
+	headingTree.value = Heading.makeTree(editor) as unknown as Heading
 }
 
 watch(
-  () => props.uuid,
-  (newValue, oldValue) => {
-    let verbose = false
-    if (verbose) {
-      console.log(title, 'uuid changed', oldValue, '->', newValue)
-    }
+	() => props.uuid,
+	(newValue, oldValue) => {
+		let verbose = false
+		if (verbose) {
+			console.log(title, 'uuid changed', oldValue, '->', newValue)
+		}
 
-    editor.setOptions({
-      injectNonce: props.uuid
-    })
-  }
+		editor.setOptions({
+			injectNonce: props.uuid
+		})
+	}
 )
 
 watch(
-  () => props.content,
-  (newValue, oldValue) => {
-    let verbose = false
-    if (verbose) {
-      console.log(title, 'content changed')
-    }
+	() => props.content,
+	(newValue, oldValue) => {
+		let verbose = false
+		if (verbose) {
+			console.log(title, 'content changed')
+		}
 
-    if (editor.getHTML() === newValue) {
-      // console.log('new content = editor content')
-      return
-    }
+		if (editor.getHTML() === newValue) {
+			// console.log('new content = editor content')
+			return
+		}
 
-    editor.commands.setContent(props.content, true)
-  }
+		editor.commands.setContent(props.content, true)
+	}
 )
 
 onMounted(() => {
-  log('onMounted')
-
-  refreshToc('onMounted')
-
-  // 处理事件
-  eventManager.setListener(editor, (msg) => {
-    props.onMessage(msg)
-  })
-
-  document.addEventListener('contextmenu', onContextMenu)
-  // document.addEventListener('mousedown', onMouseDown)
-  document.addEventListener('click', onClick)
+	refreshToc('onMounted')
 })
-
-onBeforeUnmount(() => {
-  log('onBeforeUnmount')
-  editor.destroy()
-  eventManager.removeListener()
-  document.removeEventListener('mousedown', onMouseDown)
-  document.removeEventListener('click', onClick)
-  document.removeEventListener('contextmenu', onContextMenu)
-})
-
-function log(...message: any[]) {
-  if (verbose) console.log('🍋 TiptapEditor:', ...message)
-}
 </script>
