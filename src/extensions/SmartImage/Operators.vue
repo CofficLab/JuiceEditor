@@ -47,14 +47,7 @@
   <Button @click="reset" data-tip="恢复原始形状">
     <Reset></Reset>
   </Button>
-  <input
-    ref="fileInput"
-    multiple="false"
-    accept="image/*"
-    type="file"
-    style="display: none"
-    @change="onFileSelected"
-  />
+  <input ref="fileInput" multiple="false" accept="image/*" type="file" style="display: none" @change="onFileSelected" />
 </template>
 
 <script lang="ts" setup>
@@ -265,7 +258,7 @@ function exportBase64(base64ImageString: string) {
       'Image' + Helper.getExtension(base64ImageString)
     )
   } else {
-    let a = Helper.download(base64ImageString)
+    let a = Helper.downloadBase64(base64ImageString)
 
     // Clean up
     a.remove()

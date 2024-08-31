@@ -10,6 +10,7 @@ interface Plugin {
     onNodeUpdated(data: TreeNode): void
     onDocUpdated(data: EditorDoc): void
     onCurrentDocUUIDChange(uuid: string): void
+    onDownloadImage(src: string, name: string): void
 }
 
 export default Plugin

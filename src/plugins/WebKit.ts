@@ -95,7 +95,7 @@ class WebKit implements Plugin {
         }, 500)
     }
 
-    downloadImage(base64: String, name: String) {
+    onDownloadImage(src: string, name: string) {
         if (!('webkit' in window)) {
             console.log(title, '下载图片，无 WebKit，忽略')
             return
@@ -103,7 +103,7 @@ class WebKit implements Plugin {
 
         (window as any).webkit.messageHandlers.sendMessage.postMessage({
             channel: "downloadFile",
-            base64: base64,
+            base64: src,
             name: name
         })
     }

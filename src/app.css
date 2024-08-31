@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* image */
 .tiptap {
   img {
     display: block;
@@ -15,6 +16,7 @@
   }
 }
 
+/* focused */
 .focused {
   @apply bg-blue-500/40 dark:bg-slate-800/80;
 }

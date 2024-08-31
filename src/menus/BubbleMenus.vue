@@ -13,79 +13,81 @@ import Code from '../operators/Code.vue'
 import Link from '../operators/Link.vue'
 import ButtonBar from '../ui/ButtonBar.vue'
 import Kbd from '../operators/Kbd.vue'
-import { IMAGE } from '../config/node-names'
+import { HEADING, IMAGE } from '../config/node-names'
+import MenuImage from './MenuImage.vue'
 
 let emoji = "🫧 BubbleMenus"
 
 defineProps({
-  editor: {
-    type: Editor,
-    required: true
-  }
+	editor: {
+		type: Editor,
+		required: true
+	}
 })
 
 const shouldShow = function (props: {
-  editor: TiptapEditor
-  view: EditorView
-  state: EditorState
-  oldState?: EditorState | undefined
-  from: number
-  to: number
+	editor: TiptapEditor
+	view: EditorView
+	state: EditorState
+	oldState?: EditorState | undefined
+	from: number
+	to: number
 }) {
-  const { selection } = props.state
-  const { empty } = selection
-  const shuoldShowNodes = [IMAGE]
-  const excludes = ['toc', 'draw', 'link', 'tableCell', 'tableRow', 'tableHeader']
+	const { selection } = props.state
+	const { empty } = selection
+	const shuoldShowNodes = [IMAGE]
+	const excludes = ['toc', 'draw', 'link', 'tableCell', 'tableRow', 'tableHeader']
 
-  if (shuoldShowNodes.some(node => props.editor.isActive(node))) {
-    return true;
-  }
+	if (shuoldShowNodes.some(node => props.editor.isActive(node))) {
+		return true;
+	}
 
-  if (excludes.some(node => props.editor.isActive(node))) {
-    return false;
-  }
+	if (excludes.some(node => props.editor.isActive(node))) {
+		return false;
+	}
 
-  if (props.editor.isActive('heading', { level: 1 })) {
-    return false
-  }
+	if (props.editor.isActive('heading', { level: 1 })) {
+		return false
+	}
 
-  if (!selection.visible) {
-    return false
-  }
+	if (!selection.visible) {
+		return false
+	}
 
-  if (empty) {
-    console.log('empty selection, hide bubble menu')
-  }
+	if (empty) {
+		console.log('empty selection, hide bubble menu')
+	}
 
-  return !empty
+	return !empty
 }
 </script>
 
 <template>
-  <!-- 选中后弹出的菜单 -->
-  <div>
-    <bubble-menu :should-show="shouldShow" :tippy-options="{
-      duration: 100,
-      maxWidth: 800,
-      placement: 'top',
-      appendTo: 'parent'
-    }" :editor="editor">
-      <ButtonBar>
-        <Heading :editor="editor" :level="2" />
-        <Heading :editor="editor" :level="3" />
-        <Heading :editor="editor" :level="4" />
-        <Heading :editor="editor" :level="5" />
-        <Heading :editor="editor" :level="6" />
-        <Paragraph :editor="editor"></Paragraph>
-        <Bold :editor="editor"></Bold>
-        <Italic :editor="editor"></Italic>
-        <StrikeVue :editor="editor"></StrikeVue>
-        <BulletList :editor="editor"></BulletList>
-        <Code :editor="editor"></Code>
-        <Link :editor="editor">
-        </Link>
-        <Kbd :editor="editor"></Kbd>
-      </ButtonBar>
-    </bubble-menu>
-  </div>
+	<!-- 选中后弹出的菜单 -->
+	<div>
+		<bubble-menu :should-show="shouldShow" :tippy-options="{
+			duration: 100,
+			maxWidth: 800,
+			placement: 'top',
+			appendTo: 'parent'
+		}" :editor="editor">
+			<ButtonBar>
+				<Heading :editor="editor" :level="2" v-if="editor.isActive(HEADING)" />
+				<Heading :editor="editor" :level="3" v-if="editor.isActive(HEADING)" />
+				<Heading :editor="editor" :level="4" v-if="editor.isActive(HEADING)" />
+				<Heading :editor="editor" :level="5" v-if="editor.isActive(HEADING)" />
+				<Heading :editor="editor" :level="6" v-if="editor.isActive(HEADING)" />
+				<Paragraph :editor="editor" v-if="editor.isActive(HEADING)"></Paragraph>
+				<Bold :editor="editor" v-if="!editor.isActive(IMAGE)"></Bold>
+				<Italic :editor="editor" v-if="!editor.isActive(IMAGE)"></Italic>
+				<StrikeVue :editor="editor" v-if="!editor.isActive(IMAGE)"></StrikeVue>
+				<BulletList :editor="editor" v-if="!editor.isActive(IMAGE)"></BulletList>
+				<Code :editor="editor" v-if="!editor.isActive(IMAGE)"></Code>
+				<Link :editor="editor" v-if="!editor.isActive(IMAGE)" />
+				<Kbd :editor="editor" v-if="!editor.isActive(IMAGE)"></Kbd>
+
+				<MenuImage :editor="editor" v-if="editor.isActive(IMAGE)"></MenuImage>
+			</ButtonBar>
+		</bubble-menu>
+	</div>
 </template>
