@@ -1,8 +1,14 @@
+import EditorDoc from "../model/EditorDoc"
 import TreeNode from "../model/TreeNode"
+import Sample from "../model/Sample"
 
 const tableNode = new TreeNode({
   uuid: 'tableNode',
-  content: `
+}).setTitle("表格")
+
+const tableDoc = new EditorDoc()
+  .setUuid('tableDoc')
+  .setContent(`
     <h1>测试内容</h1>
     <h2>表格 SmartTable</h2>
     <p>记得开启表格功能</p>
@@ -39,7 +45,6 @@ const tableNode = new TreeNode({
       </tr>
     </table>
     <p></p>
-  `
-})
+  `)
 
-export default tableNode
+export default new Sample(tableNode, tableDoc)

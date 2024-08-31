@@ -3,22 +3,17 @@ import { EditorState } from '@tiptap/pm/state'
 import { EditorView } from '@tiptap/pm/view'
 import { Editor, BubbleMenu } from '@tiptap/vue-3'
 import { Editor as TiptapEditor } from '@tiptap/core'
-import Bold from '../operators/Bold.vue'
-import Heading from '../operators/Heading.vue'
-import Italic from '../operators/Italic.vue'
-import Paragraph from '../operators/Paragraph.vue'
-import StrikeVue from '../operators/Strike.vue'
-import BulletList from '../operators/BulletList.vue'
-import Code from '../operators/Code.vue'
-import Link from '../operators/Link.vue'
 import ButtonBar from '../ui/ButtonBar.vue'
-import Kbd from '../operators/Kbd.vue'
-import { HEADING, IMAGE } from '../config/node-names'
+import { HEADING, IMAGE, PARAGRAPH, TABLE } from '../config/node-names'
 import MenuImage from './MenuImage.vue'
+import MenuTable from './MenuTable.vue'
+import MenuHeading from './MenuHeading.vue'
+import MenuFormat from './MenuFormat.vue'
+import { computed } from 'vue'
 
 let emoji = "🫧 BubbleMenus"
 
-defineProps({
+const props = defineProps({
 	editor: {
 		type: Editor,
 		required: true
@@ -35,7 +30,7 @@ const shouldShow = function (props: {
 }) {
 	const { selection } = props.state
 	const { empty } = selection
-	const shuoldShowNodes = [IMAGE]
+	const shuoldShowNodes = [IMAGE, TABLE]
 	const excludes = ['toc', 'draw', 'link', 'tableCell', 'tableRow', 'tableHeader']
 
 	if (shuoldShowNodes.some(node => props.editor.isActive(node))) {
@@ -60,6 +55,22 @@ const shouldShow = function (props: {
 
 	return !empty
 }
+
+const shouldShowHeadingMenu = computed(() => {
+	const nodesShow = [HEADING, PARAGRAPH]
+
+	return nodesShow.some(node => {
+		props.editor.isActive(node)
+	})
+})
+
+const shouldShowFormatMenu = computed(() => {
+	const nodesShow = [HEADING, PARAGRAPH]
+
+	return nodesShow.some(node => {
+		props.editor.isActive(node)
+	})
+})
 </script>
 
 <template>
@@ -72,21 +83,11 @@ const shouldShow = function (props: {
 			appendTo: 'parent'
 		}" :editor="editor">
 			<ButtonBar>
-				<Heading :editor="editor" :level="2" v-if="editor.isActive(HEADING)" />
-				<Heading :editor="editor" :level="3" v-if="editor.isActive(HEADING)" />
-				<Heading :editor="editor" :level="4" v-if="editor.isActive(HEADING)" />
-				<Heading :editor="editor" :level="5" v-if="editor.isActive(HEADING)" />
-				<Heading :editor="editor" :level="6" v-if="editor.isActive(HEADING)" />
-				<Paragraph :editor="editor" v-if="editor.isActive(HEADING)"></Paragraph>
-				<Bold :editor="editor" v-if="!editor.isActive(IMAGE)"></Bold>
-				<Italic :editor="editor" v-if="!editor.isActive(IMAGE)"></Italic>
-				<StrikeVue :editor="editor" v-if="!editor.isActive(IMAGE)"></StrikeVue>
-				<BulletList :editor="editor" v-if="!editor.isActive(IMAGE)"></BulletList>
-				<Code :editor="editor" v-if="!editor.isActive(IMAGE)"></Code>
-				<Link :editor="editor" v-if="!editor.isActive(IMAGE)" />
-				<Kbd :editor="editor" v-if="!editor.isActive(IMAGE)"></Kbd>
-
+				<MenuHeading :editor="editor" v-if="shouldShowHeadingMenu">
+				</MenuHeading>
+				<MenuFormat :editor="editor" v-if="shouldShowFormatMenu"></MenuFormat>
 				<MenuImage :editor="editor" v-if="editor.isActive(IMAGE)"></MenuImage>
+				<MenuTable :editor="editor" v-if="editor.isActive(TABLE)"></MenuTable>
 			</ButtonBar>
 		</bubble-menu>
 	</div>
