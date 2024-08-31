@@ -8,7 +8,6 @@ import ListItem from "@tiptap/extension-list-item"
 import Placeholder from "@tiptap/extension-placeholder"
 import Strike from "@tiptap/extension-strike"
 import Dropcursor from '@tiptap/extension-dropcursor'
-import Focus from '@tiptap/extension-focus'
 import Table from "@tiptap/extension-table"
 import Highlight from "@tiptap/extension-highlight"
 import TableCell from "@tiptap/extension-table-cell"
