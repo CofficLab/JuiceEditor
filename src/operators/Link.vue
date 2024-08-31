@@ -1,20 +1,16 @@
 <template>
-  <Button
-    v-if="!editor.isActive('link')"
-    @click="setLink"
-    tip="链接"
-    size="md"
-    :class="{ 'btn-disabled': editor.isActive('link'), tooltip: iconOnly }"
-  >
+  <Button v-if="!editor.isActive('link')" @click="setLink" tip="链接" size="md"
+    :class="{ 'btn-disabled': editor.isActive(A), tooltip: iconOnly }">
     <IconLink v-if="iconOnly"></IconLink>
     <span v-if="!iconOnly">链接</span>
   </Button>
 </template>
 
 <script lang="ts" setup>
-import { Editor } from '@tiptap/vue-3'
+import { Editor } from '@tiptap/core'
 import Button from '../ui/Button.vue'
 import IconLink from '../ui/icons/IconLink.vue'
+import { A } from '../config/nodes';
 
 const props = defineProps({
   editor: {

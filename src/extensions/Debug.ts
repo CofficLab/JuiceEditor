@@ -1,7 +1,7 @@
 import { Extension } from '@tiptap/core';
 import { Plugin, PluginKey } from 'prosemirror-state';
 import { Decoration, DecorationSet } from 'prosemirror-view';
-import { IMAGE, PRE } from '../config/node-names';
+import { IMAGE, PRE } from '../config/nodes';
 
 const noPaddingTypes = [PRE, IMAGE];
 

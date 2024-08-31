@@ -1,20 +1,8 @@
 <template>
-  <Button
-    tip="添加图片"
-    size="md"
-    @click="editor.commands.insertImage()"
-    :class="{ 'is-active': editor.isActive('banner') }"
-  >
+  <Button tip="添加图片" size="md" @click="editor.commands.insertImage()" :class="{ 'is-active': editor.isActive(BANNER) }">
     <IconPhoto />
-    <input
-      class="fixed"
-      ref="fileInput"
-      multiple="false"
-      accept="image/*"
-      type="file"
-      style="display: none"
-      @change="onFileSelected"
-    />
+    <input class="fixed" ref="fileInput" multiple="false" accept="image/*" type="file" style="display: none"
+      @change="onFileSelected" />
   </Button>
 </template>
 
@@ -23,6 +11,7 @@ import { Editor } from '@tiptap/vue-3'
 import { ref } from 'vue'
 import IconPhoto from '../ui/icons/IconPhoto.vue'
 import Button from '../ui/Button.vue'
+import { BANNER } from '../config/nodes';
 
 const props = defineProps({
   editor: {

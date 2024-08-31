@@ -1,19 +1,16 @@
 <template>
-  <button
-    @click="focusedNode.toggleCode().run()"
-    data-tip="代码"
-    size="md"
-    :class="{ 'is-active': editor.isActive('code'), tooltip: iconOnly }"
-  >
+  <button @click="focusedNode.toggleCode().run()" data-tip="代码" size="md"
+    :class="{ 'is-active': editor.isActive(CODE), tooltip: iconOnly }">
     <img :src="icon" v-if="iconOnly" />
     <span v-if="!iconOnly">行内代码</span>
   </button>
 </template>
 
 <script lang="ts" setup>
-import { Editor } from '@tiptap/vue-3'
+import { Editor } from '@tiptap/core'
 import { computed } from 'vue'
 import icon from '../assets/code.bracket.svg'
+import { CODE } from '../config/nodes';
 
 const props = defineProps({
   editor: {

@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 
 const isDebug = process.env.NODE_ENV === 'development'
 const verbose = false
+const title = '🔧 FeatureStore'
 
 export const useFeatureStore = defineStore('feature-store', {
     state: () => {
@@ -23,7 +24,7 @@ export const useFeatureStore = defineStore('feature-store', {
     actions: {
         disableEdit() {
             if (verbose) {
-                console.log('🔧 FeatureStore: disableEdit')
+                console.log(title, 'disableEdit')
             }
             this.editable = false
             this.updateNonce()
@@ -31,7 +32,7 @@ export const useFeatureStore = defineStore('feature-store', {
 
         disableTable() {
             if (verbose) {
-                console.log('🔧 FeatureStore: disableTable')
+                console.log(title, 'disableTable')
             }
             this.tableEnabled = false
             this.updateNonce()
@@ -39,7 +40,7 @@ export const useFeatureStore = defineStore('feature-store', {
 
         disableDraw() {
             if (verbose) {
-                console.log('🔧 FeatureStore: disableDraw')
+                console.log(title, 'disableDraw')
             }
             this.drawEnabled = false
             this.updateNonce()
@@ -47,7 +48,7 @@ export const useFeatureStore = defineStore('feature-store', {
 
         disableFloatingMenu() {
             if (verbose) {
-                console.log('🔧 FeatureStore: disableFloatingMenu')
+                console.log(title, 'disableFloatingMenu')
             }
             this.floatingMenuVisible = false
             this.updateNonce()
@@ -55,7 +56,7 @@ export const useFeatureStore = defineStore('feature-store', {
 
         disableBubbleMenu() {
             if (verbose) {
-                console.log('🔧 FeatureStore: disableBubbleMenu')
+                console.log(title, 'disableBubbleMenu')
             }
             this.bubbleMenuVisible = false
             this.updateNonce()
@@ -63,7 +64,7 @@ export const useFeatureStore = defineStore('feature-store', {
 
         disableFloatingMenuAndBubbleMenu() {
             if (verbose) {
-                console.log('🔧 FeatureStore: disableFloatingMenuAndBubbleMenu')
+                console.log(title, 'disableFloatingMenuAndBubbleMenu')
             }
             this.floatingMenuVisible = false
             this.bubbleMenuVisible = false
@@ -72,7 +73,7 @@ export const useFeatureStore = defineStore('feature-store', {
 
         disableContextMenu() {
             if (verbose) {
-                console.log('🔧 FeatureStore: disableContextMenu')
+                console.log(title, 'disableContextMenu')
             }
             this.contextMenu = false
             this.updateNonce()
@@ -80,7 +81,7 @@ export const useFeatureStore = defineStore('feature-store', {
 
         enableDraw() {
             if (verbose) {
-                console.log('🔧 FeatureStore: enableDraw')
+                console.log(title, 'enableDraw')
             }
             this.drawEnabled = true
             this.updateNonce()
@@ -88,7 +89,7 @@ export const useFeatureStore = defineStore('feature-store', {
 
         enableTable() {
             if (verbose) {
-                console.log('🔧 FeatureStore: enableTable')
+                console.log(title, 'enableTable')
             }
             this.tableEnabled = true
             this.updateNonce()
@@ -96,7 +97,7 @@ export const useFeatureStore = defineStore('feature-store', {
 
         enableContextMenu() {
             if (verbose) {
-                console.log('🔧 FeatureStore: enableContextMenu')
+                console.log(title, 'enableContextMenu')
             }
             this.contextMenu = true
             this.updateNonce()
@@ -104,14 +105,14 @@ export const useFeatureStore = defineStore('feature-store', {
 
         enableEdit() {
             if (verbose) {
-                console.log('🔧 FeatureStore: enableEdit')
+                console.log(title, 'enableEdit')
             }
             this.editable = true
         },
 
         enableBubbleMenu() {
             if (verbose) {
-                console.log('🔧 FeatureStore: enableBubbleMenu')
+                console.log(title, 'enableBubbleMenu')
             }
             this.bubbleMenuVisible = true
             this.updateNonce()
@@ -119,7 +120,7 @@ export const useFeatureStore = defineStore('feature-store', {
 
         enableFloatingMenu() {
             if (verbose) {
-                console.log('🔧 FeatureStore: enableFloatingMenu')
+                console.log(title, 'enableFloatingMenu')
             }
             this.floatingMenuVisible = true
             this.updateNonce()
@@ -127,7 +128,7 @@ export const useFeatureStore = defineStore('feature-store', {
 
         hideFloatingMenu() {
             if (verbose) {
-                console.log('🔧 FeatureStore: hideFloatingMenu')
+                console.log(title, 'hideFloatingMenu')
             }
             this.floatingMenuVisible = false
             this.updateNonce()
@@ -135,7 +136,7 @@ export const useFeatureStore = defineStore('feature-store', {
 
         hideToolbar() {
             if (verbose) {
-                console.log('🔧 FeatureStore: hideToolbar')
+                console.log(title, 'hideToolbar')
             }
             this.toolbarVisible = false
             this.updateNonce()
@@ -143,7 +144,7 @@ export const useFeatureStore = defineStore('feature-store', {
 
         hideBubbleMenu() {
             if (verbose) {
-                console.log('🔧 FeatureStore: hideBubbleMenu')
+                console.log(title, 'hideBubbleMenu')
             }
             this.bubbleMenuVisible = false
             this.updateNonce()
@@ -151,14 +152,14 @@ export const useFeatureStore = defineStore('feature-store', {
 
         hideEditor() {
             if (verbose) {
-                console.log('🔧 FeatureStore: hideEditor')
+                console.log(title, 'hideEditor')
             }
             this.editorVisible = false
         },
 
         showToolbar() {
             if (verbose) {
-                console.log('🔧 FeatureStore: showToolbar')
+                console.log(title, 'showToolbar')
             }
             this.toolbarVisible = true
             this.updateNonce()
@@ -166,14 +167,14 @@ export const useFeatureStore = defineStore('feature-store', {
 
         showEditor() {
             if (verbose) {
-                console.log('🔧 FeatureStore: showEditor')
+                console.log(title, 'showEditor')
             }
             this.editorVisible = true
         },
 
         showEditorAndEnableEdit() {
             if (verbose) {
-                console.log('🔧 FeatureStore: showEditorAndEnableEdit')
+                console.log(title, 'showEditorAndEnableEdit')
             }
             this.showEditor()
             this.enableEdit()
@@ -181,7 +182,7 @@ export const useFeatureStore = defineStore('feature-store', {
 
         showBubbleMenu() {
             if (verbose) {
-                console.log('🔧 FeatureStore: showBubbleMenu')
+                console.log(title, 'showBubbleMenu')
             }
             this.bubbleMenuVisible = true
             this.updateNonce()
@@ -189,7 +190,7 @@ export const useFeatureStore = defineStore('feature-store', {
 
         showFloatingMenu() {
             if (verbose) {
-                console.log('🔧 FeatureStore: showFloatingMenu')
+                console.log(title, 'showFloatingMenu')
             }
             this.floatingMenuVisible = true
             this.updateNonce()
@@ -197,7 +198,7 @@ export const useFeatureStore = defineStore('feature-store', {
 
         toggleFloatingMenu() {
             if (verbose) {
-                console.log('🔧 FeatureStore: toggleFloatingMenu')
+                console.log(title, 'toggleFloatingMenu')
             }
             this.floatingMenuVisible = !this.floatingMenuVisible
             this.updateNonce()

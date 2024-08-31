@@ -5,7 +5,7 @@ import IconEdit from '../ui/icons/IconEdit.vue'
 import Reset from '../ui/icons/Reset.vue'
 import Button from '../ui/Button.vue'
 import { Editor } from '@tiptap/core'
-import { IMAGE } from '../config/node-names'
+import { IMAGE } from '../config/nodes'
 import EventProvider from '../provider/EventProvider'
 
 let props = defineProps({

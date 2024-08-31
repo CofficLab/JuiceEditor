@@ -1,7 +1,6 @@
 import Sample from "../model/Sample"
 import EditorDoc from "../model/EditorDoc"
 import TreeNode from "../model/TreeNode"
-import { sampleImgSrc1, sampleImgSrc2 } from "./Images"
 
 const baseNode = new TreeNode({
   uuid: 'baseNode',
@@ -32,9 +31,6 @@ const baseDoc = new EditorDoc()
     </table>
     <h3>很长的标题很长的标题场机场很9长的标题场机场机场很9长的标题场机场123456</h3>
     <h2>图片</h2>
-    <p>下面是一张图</p>
-    <h2>画图 draw标签</h2>
-    <h2>画图 img标签</h2>
     <h2>链接</h2>
     <a href="https://www.baidu.com">百度</a>与谷歌的竞争
     <h2>待办列表</h2>

@@ -1,7 +1,7 @@
 import { Editor, Extension, findParentNode } from '@tiptap/core'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
-import { LIST_TYPE } from '../config/node-names'
+import { LIST_TYPE } from '../config/nodes'
 
 declare module '@tiptap/core' {
 	interface Commands<ReturnType> {

@@ -4,7 +4,7 @@ import { EditorView } from '@tiptap/pm/view'
 import { Editor, BubbleMenu } from '@tiptap/vue-3'
 import { Editor as TiptapEditor } from '@tiptap/core'
 import ButtonBar from '../ui/ButtonBar.vue'
-import { HEADING, IMAGE, PARAGRAPH, TABLE } from '../config/node-names'
+import { A, DRAW, HEADING, IMAGE, PARAGRAPH, TABLE, TABLE_CELL, TABLE_HEADER, TABLE_ROW, TOC } from '../config/nodes'
 import MenuImage from './MenuImage.vue'
 import MenuTable from './MenuTable.vue'
 import MenuHeading from './MenuHeading.vue'
@@ -31,7 +31,7 @@ const shouldShow = function (props: {
 	const { selection } = props.state
 	const { empty } = selection
 	const shuoldShowNodes = [IMAGE, TABLE]
-	const excludes = ['toc', 'draw', 'link', 'tableCell', 'tableRow', 'tableHeader']
+	const excludes = [TOC, DRAW, A, TABLE_CELL, TABLE_ROW, TABLE_HEADER]
 
 	if (shuoldShowNodes.some(node => props.editor.isActive(node))) {
 		return true;
@@ -41,7 +41,7 @@ const shouldShow = function (props: {
 		return false;
 	}
 
-	if (props.editor.isActive('heading', { level: 1 })) {
+	if (props.editor.isActive(HEADING, { level: 1 })) {
 		return false
 	}
 
@@ -50,7 +50,7 @@ const shouldShow = function (props: {
 	}
 
 	if (empty) {
-		console.log('empty selection, hide bubble menu')
+		console.log(emoji, 'empty selection, hide bubble menu')
 	}
 
 	return !empty

@@ -42,6 +42,7 @@ import { SmartFocus } from "../extensions/SmartFocus"
 import Config from "./config"
 import { Debug } from "../extensions/Debug"
 import Image from "@tiptap/extension-image"
+import { HEADING, PARAGRAPH } from "./nodes"
 
 interface makeExtensionsProps {
     drawIoLink?: string,
@@ -120,7 +121,7 @@ export default function makeExtensions(props: makeExtensionsProps) {
         Padding,
         Placeholder.configure({
             placeholder: ({ node }) => {
-                if (node.type.name === 'heading' && node.attrs.level == 1) {
+                if (node.type.name === HEADING && node.attrs.level == 1) {
                     return '输入标题'
                 }
 
@@ -162,7 +163,7 @@ export default function makeExtensions(props: makeExtensionsProps) {
         SmartTableHeader,
         // Toc,
         TextAlign.configure({
-            types: ['heading', 'paragraph'],
+            types: [HEADING, PARAGRAPH],
         }),
         UUID,
         // Panel,

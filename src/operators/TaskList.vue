@@ -1,10 +1,6 @@
 <template>
-  <Button
-    @click="focusedNode.toggleTaskList().run()"
-    tip="待办事项"
-    size="md"
-    :class="{ 'is-active': editor.isActive('taskList') }"
-  >
+  <Button @click="focusedNode.toggleTaskList().run()" tip="待办事项" size="md"
+    :class="{ 'is-active': editor.isActive(TASKLIST) }">
     <IconTask></IconTask>
   </Button>
 
@@ -31,6 +27,7 @@ import { Editor } from '@tiptap/vue-3'
 import { computed } from 'vue'
 import Button from '../ui/Button.vue'
 import IconTask from '../ui/icons/IconTask.vue'
+import { TASKLIST } from '../config/nodes';
 
 const props = defineProps({
   editor: {
