@@ -4,7 +4,7 @@
 
     <input type="checkbox" id="message" class="modal-toggle" />
     <div class="prose modal dark:prose-invert" role="dialog">
-      <div class="flex flex-col items-center justify-center w-56 p-0 bg-blue-300 modal-box">
+      <div class="flex flex-col items-center justify-center w-56 p-0 bg-blue-300 dark:bg-slate-800 modal-box">
         <div class="m-0 mt-4 text-lg font-bold">提示</div>
         <div class="w-full mt-4 bg-blue-100 rounded-none stats shadow-3xl">
           <div class="stat">
@@ -18,10 +18,8 @@
 
   <template v-else-if="props.type === 'tips' && displayMessage">
     <Transition name="fade">
-      <div
-        class="prose dark:prose-invert fixed mx-auto inset-0 flex items-center justify-center z-50"
-      >
-        <div class="mt-4 bg-cyan-100/90 rounded stats shadow-3xl">
+      <div class="prose dark:prose-invert fixed mx-auto inset-0 flex items-center justify-center z-50">
+        <div class="mt-4 bg-cyan-100/90 dark:bg-slate-800 rounded stats shadow-3xl">
           <div class="stat">
             <div class="text-center stat-title">{{ displayMessage }}</div>
           </div>

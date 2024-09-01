@@ -74,7 +74,7 @@ export const useAppStore = defineStore('app-store', {
                 console.log(title, 'setNode')
             }
 
-            this.setMessage("setNode")
+            this.setMessage("setNode:" + JSON.stringify(node))
             this.loading = false
             this.node = node
 
