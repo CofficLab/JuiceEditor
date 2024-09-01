@@ -10,6 +10,7 @@ import TreeNode from './model/TreeNode'
 import Config from './config/config'
 import Children from './core/Children.vue'
 import { useMessageStore } from './provider/MessageProvider'
+import { watch } from 'vue'
 
 const props = defineProps({
 	drawio: {
@@ -35,6 +36,10 @@ onMounted(() => {
 
 	window.api = new AllApi(feature, app)
 	Config.listeners.forEach(l => l.start())
+})
+
+watch(() => app.message.uuid, () => {
+	messageStore.setMessage(app.message.text)
 })
 
 </script>

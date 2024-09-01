@@ -18,7 +18,7 @@ class LocalApp implements Plugin {
     }
 
     onMessage(message: string): void {
-
+        console.log(title, message)
     }
 
     onPageLoaded(): void {

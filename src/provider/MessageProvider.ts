@@ -19,6 +19,10 @@ export const useMessageStore = defineStore('message-store', {
         setMessage(message: string) {
             this.message = message
             this.uuid = uuidv4()
+
+            Config.plugins.forEach(p => {
+                p.onMessage(message)
+            })
         }
     },
 })
