@@ -6,9 +6,9 @@ import SmartMessage from '../model/SmartMessage'
 
 const config = Config
 const isDebug = config.isDebug
-const title = "🍋 EditorStore"
+const title = "🍋 DocStore"
 
-export const useEditorStore = defineStore('editor-store', {
+export const useDocStore = defineStore('doc-store', {
     state: () => {
         return {
             message: new SmartMessage(""),
@@ -108,4 +108,4 @@ export const useEditorStore = defineStore('editor-store', {
     },
 })
 
-export type EditorStore = ReturnType<typeof useEditorStore>
+export type DocStore = ReturnType<typeof useDocStore>

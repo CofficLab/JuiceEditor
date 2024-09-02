@@ -26,7 +26,7 @@ class LocalNodeApp implements Plugin {
     }
 
     onPageLoaded(): void {
-        let verbose = true
+        let verbose = false
 
         if (verbose) {
             console.log(title, 'onPageLoaded')
@@ -62,7 +62,7 @@ class LocalNodeApp implements Plugin {
     }
 
     onDocUpdated(data: EditorDoc): void {
-        let verbose = true
+        let verbose = false
 
         if (verbose) {
             console.log(title, 'onDocUpdated', data)
@@ -85,7 +85,13 @@ class LocalDB {
             return undefined
         }
 
-        return docs.find(doc => doc.uuid == LocalDB.getCurrentDocUUID())
+        let currentDocUUID = LocalDB.getCurrentDocUUID()
+
+        if (currentDocUUID.length == 0) {
+            return docs[0]
+        }
+
+        return docs.find(doc => doc.uuid == currentDocUUID)
     }
 
     static saveNode(node: TreeNode): void {

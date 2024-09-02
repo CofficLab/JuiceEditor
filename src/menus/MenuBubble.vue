@@ -28,6 +28,7 @@ const shouldShow = function (props: {
 	from: number
 	to: number
 }) {
+	let verbose = false
 	const { selection } = props.state
 	const { empty } = selection
 	const shouldShowNodes = [IMAGE, TABLE, HEADING]
@@ -38,22 +39,30 @@ const shouldShow = function (props: {
 	}
 
 	if (excludes.some(node => props.editor.isActive(node))) {
-		console.log(emoji, 'hide bubble menu, node is excluded')
+		if (verbose) {
+			console.log(emoji, 'hide bubble menu, node is excluded')
+		}
 		return false;
 	}
 
 	if (props.editor.isActive(HEADING, { level: 1 })) {
-		console.log(emoji, 'hide bubble menu, current is h1')
+		if (verbose) {
+			console.log(emoji, 'hide bubble menu, current is h1')
+		}
 		return false
 	}
 
 	if (!selection.visible) {
-		console.log(emoji, 'invisible selection, hide bubble menu')
+		if (verbose) {
+			console.log(emoji, 'invisible selection, hide bubble menu')
+		}
 		return false
 	}
 
 	if (empty) {
-		console.log(emoji, 'empty selection, hide bubble menu')
+		if (verbose) {
+			console.log(emoji, 'empty selection, hide bubble menu')
+		}
 	}
 
 	return !empty

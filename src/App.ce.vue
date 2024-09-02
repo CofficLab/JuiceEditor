@@ -9,7 +9,7 @@ import Config from './config/config'
 import Children from './core/Children.vue'
 import { useMessageStore } from './store/MessageStore'
 import { onMounted, watch } from 'vue'
-import { useEditorStore } from './store/DocStore'
+import { useDocStore } from './store/DocStore'
 import PluginProvider from './provider/PluginProvider'
 import ListenerProvider from './provider/ListenerProvider'
 import ApiProvider from './provider/ApiProvider'
@@ -28,7 +28,7 @@ const props = defineProps({
 
 const feature = useFeatureStore()
 const app = useAppStore()
-const editorStore = useEditorStore()
+const editorStore = useDocStore()
 const nodeStore = useNodeStore()
 const messageStore = useMessageStore()
 const children: TreeNode[] = []

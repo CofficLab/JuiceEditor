@@ -6,7 +6,7 @@ import NodeApi from "../api/NodeApi";
 import DocApi from "../api/DocApi";
 import { FeatureStore } from "../store/FeatureStore";
 import { AppStore } from "../store/AppStore";
-import { EditorStore } from "../store/DocStore";
+import { DocStore } from "../store/DocStore";
 import { NodeStore } from "../store/NodeStore";
 
 const emoji = "🐶 ApiProvider"
@@ -22,8 +22,12 @@ export default class ApiProvider {
     public node: NodeApi
     public doc: DocApi
 
-    constructor(appProvider: AppStore, featureProvider: FeatureStore, editorProvider: EditorStore, nodeProvider: NodeStore) {
-        console.log(emoji, '初始化')
+    constructor(appProvider: AppStore, featureProvider: FeatureStore, editorProvider: DocStore, nodeProvider: NodeStore) {
+        let verbose = false
+
+        if (verbose) {
+            console.log(emoji, '初始化')
+        }
 
         this.feature = new FeatureApi(featureProvider)
         this.node = new NodeApi(nodeProvider)

@@ -21,7 +21,7 @@ export const useNodeStore = defineStore('node-store', {
         },
 
         setNode(node: TreeNode) {
-            let verbose = true;
+            let verbose = false;
 
             if (verbose) {
                 console.log(title, 'setNode')

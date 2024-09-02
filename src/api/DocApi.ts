@@ -3,13 +3,14 @@ import TreeNode from '../model/TreeNode';
 import EditorDoc from '../model/EditorDoc';
 
 import UpdateData from '../model/UpdateData';
+import { DocStore } from '../store/DocStore';
 
 let title = "💻 DocApi"
 
 export default class DocApi {
-    public editor: Store<any, any, any, any>
+    public editor: DocStore
 
-    constructor(editorProvider: Store<any, any, any, any>) {
+    constructor(editorProvider: DocStore) {
 
 
         let verbose = false
@@ -42,9 +43,5 @@ export default class DocApi {
 
     public setDocBase64(base64: string) {
         this.setDoc(EditorDoc.fromBase64(base64))
-    }
-
-    public setDocs(docs: EditorDoc[]) {
-        this.editor.setDocs(docs)
     }
 }

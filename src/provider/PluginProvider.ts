@@ -6,12 +6,17 @@ export default class PluginProvider {
     public plugins: Plugin[] = [];
 
     constructor(plugins: Plugin[]) {
-        console.log(emoji, "初始化插件，个数", plugins.length)
+        let verbose = false
+
+        if (verbose) {
+            console.log(emoji, "初始化插件，个数", plugins.length)
+        }
+
         this.plugins = plugins
     }
 
     onReadyChange() {
-        let verbose = true
+        let verbose = false
 
         if (verbose) {
             console.log(emoji, "OnReadyChange")
@@ -23,14 +28,24 @@ export default class PluginProvider {
     }
 
     onMessage(message: string) {
-        console.log(emoji, "OnMessage")
+        let verbose = false
+
+        if (verbose) {
+            console.log(emoji, "OnMessage", message)
+        }
+
         this.plugins.forEach(p => {
             p.onMessage(message)
         })
     }
 
     onDocUpdated(doc: EditorDoc) {
-        console.log(emoji, "OnDocUpdated")
+        let verbose = false
+
+        if (verbose) {
+            console.log(emoji, "OnDocUpdated")
+        }
+
         this.plugins.forEach(p => {
             p.onDocUpdated(doc)
         })
