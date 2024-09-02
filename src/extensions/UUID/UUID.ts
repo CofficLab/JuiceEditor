@@ -1,5 +1,6 @@
 import { Extension } from '@tiptap/core'
 import { Node } from 'prosemirror-model'
+import { A, HEADING, IMAGE, PARAGRAPH, PRE, TABLE, TASKLIST } from '../../config/nodes'
 import { v4 as uuidv4 } from 'uuid'
 
 let emoji = '🌌 UUID'
@@ -9,7 +10,7 @@ const UUID = Extension.create({
 
     addOptions() {
         return {
-            types: ['paragraph', 'heading', 'a', 'pre', 'taskList', 'image', 'table']
+            types: [PARAGRAPH, HEADING, , PRE, TASKLIST, IMAGE, TABLE, A]
         }
     },
 
@@ -63,7 +64,6 @@ const UUID = Extension.create({
         this.editor.state.doc.descendants((node: Node, pos: number) => {
             if (this.options.types.includes(node.type.name)) {
                 if (!node.attrs.uuid) {
-                    console.log(this.editor.getJSON())
                     if (verbose2) {
                         console.log(emoji, 'set uuid for', node.type.name, node.textContent, node.attrs)
                     }

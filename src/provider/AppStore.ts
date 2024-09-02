@@ -5,6 +5,7 @@ import Config from '../config/config'
 import MarkdownHelper from '../helper/MarkdownHelper'
 import Helper from '../helper/Helper'
 import UpdateData from '../model/UpdateData'
+import SmartMessage from '../model/SmartMessage'
 
 const config = Config
 const isDebug = config.isDebug
@@ -14,6 +15,7 @@ export const useAppStore = defineStore('app-store', {
     state: () => {
         return {
             isDebug: isDebug,
+            message: new SmartMessage(""),
             node: TreeNode.makeDefaultNode(),
             docs: [EditorDoc.makeDefaultDoc()],
             contentLastUpdatedAt: Date.now(),
@@ -27,6 +29,14 @@ export const useAppStore = defineStore('app-store', {
     },
 
     actions: {
+        setMessage(text: string) {
+            this.message = new SmartMessage(title + ": " + text)
+        },
+
+        hideLoading() {
+            this.loading = false
+        },
+
         closeDraw: function () {
             let verbose = false;
             if (verbose) {
@@ -64,6 +74,7 @@ export const useAppStore = defineStore('app-store', {
                 console.log(title, 'setNode')
             }
 
+            this.setMessage("setNode:" + JSON.stringify(node))
             this.loading = false
             this.node = node
 
@@ -114,6 +125,8 @@ export const useAppStore = defineStore('app-store', {
 
         setDoc(doc: EditorDoc) {
             let verbose = false;
+
+            this.setMessage("设置Doc")
 
             if (this.getContent() == doc.content) {
                 if (verbose) {

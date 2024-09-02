@@ -28,6 +28,8 @@ const MimeToExtension: MimeTypeMapping = {
     "audio/x-caf": ".caf",
 }
 
+const emoji = "🚗 ImageHelper"
+
 class ImageHelper {
     // 获取尾部位置
     static getTailPos(props: { getPos: () => any; node: { nodeSize: any } }): number {
@@ -91,8 +93,30 @@ class ImageHelper {
         return ".txt"
     }
 
-    static download(base64Image: string): HTMLAnchorElement {
-        console.log("Base64Helper.download", base64Image.substring(0, 40))
+    static async downloadImageFromUrl(url: string): Promise<void> {
+        console.log(emoji, "download", url)
+
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const blob = await response.blob();
+            const objectUrl = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = objectUrl;
+            a.download = `download.${blob.type.split('/')[1]}`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(objectUrl);
+        } catch (error) {
+            console.error('Failed to download image:', error);
+        }
+    }
+
+    static downloadBase64(base64Image: string): HTMLAnchorElement {
+        console.log(emoji, "download", base64Image.substring(0, 40))
 
         // 1. Decode base64 string to ArrayBuffer
         const bytes = atob(base64Image.split(",")[1]);

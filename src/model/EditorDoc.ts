@@ -1,4 +1,5 @@
 import { Editor, JSONContent } from '@tiptap/core'
+import { HEADING } from '../config/nodes'
 import { v4 as uuidv4 } from 'uuid'
 
 const emoji = '🍉 EditorDoc'
@@ -51,7 +52,7 @@ export default class EditorDoc {
         let nodes = editor.state.doc.content
         let title = ''
         nodes.forEach((node) => {
-            if (['heading'].includes(node.type.name) && title == '') {
+            if ([HEADING].includes(node.type.name) && title == '') {
                 title = node.textContent!
             }
         })

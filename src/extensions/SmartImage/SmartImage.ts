@@ -34,9 +34,9 @@ const SmartImage = ImageTipTap.extend<ImageOptions>({
         ]
     },
 
-    addNodeView() {
-        return VueNodeViewRenderer(SmartImageVue)
-    },
+    // addNodeView() {
+    //     return VueNodeViewRenderer(SmartImageVue)
+    // },
 
     addOptions() {
         return {

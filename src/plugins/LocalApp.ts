@@ -2,12 +2,23 @@ import UpdateData from "../model/UpdateData";
 import Plugin from "../contract/Plugin";
 import TreeNode from "../model/TreeNode";
 import EditorDoc from "../model/EditorDoc";
+import ImageHelper from "../helper/ImageHelper";
 
 const title = "🍎 LocalApp"
 
 class LocalApp implements Plugin {
-    onMessage(message: string): void {
+    onDownloadImage(src: string, name: string): void {
+        console.log(title, 'download image')
 
+        if (src.startsWith('data:image/') || src.startsWith('data: image/')) {
+            ImageHelper.downloadBase64(src)
+        } else {
+            ImageHelper.downloadImageFromUrl(src)
+        }
+    }
+
+    onMessage(message: string): void {
+        console.log(title, message)
     }
 
     onPageLoaded(): void {

@@ -1,13 +1,15 @@
 import { Store } from 'pinia';
 import TreeNode from '../model/TreeNode';
 import EditorDoc from '../model/EditorDoc';
+import ApiBase from './ApiBase';
 
 let title = "🍎 NodeAPI"
 
-export default class NodeApi {
+export default class NodeApi extends ApiBase {
     public app: Store<any, any, any, any>
 
     constructor(appProvider: Store<any, any, any, any>) {
+        super();
         console.log(title, '初始化')
         this.app = appProvider
     }
@@ -55,7 +57,7 @@ export default class NodeApi {
     }
 
     public setChildrenBase64(childrenBase64: string) {
-        let objects = JSON.parse(atob(childrenBase64))
+        let objects = this.getBase64ObjectArray(childrenBase64)
 
         let node = this.app.node
 
@@ -67,7 +69,7 @@ export default class NodeApi {
     }
 
     public setNodeBase64(treeNodeInBase64: string) {
-        let node = new TreeNode(JSON.parse(atob(treeNodeInBase64)))
+        let node = new TreeNode(this.getBase64Object(treeNodeInBase64))
         this.app.setNode(node)
     }
 }
