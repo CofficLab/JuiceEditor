@@ -1,16 +1,16 @@
 import { Store } from 'pinia';
 import TreeNode from '../model/TreeNode';
 import EditorDoc from '../model/EditorDoc';
-import ApiBase from './ApiBase';
+
 import UpdateData from '../model/UpdateData';
 
-let title = "💻 CoreAPI"
+let title = "💻 DocApi"
 
-export default class CoreApi extends ApiBase {
+export default class DocApi {
     public editor: Store<any, any, any, any>
 
     constructor(editorProvider: Store<any, any, any, any>) {
-        super();
+
 
         let verbose = false
 
@@ -38,6 +38,10 @@ export default class CoreApi extends ApiBase {
 
     public setDoc(doc: EditorDoc) {
         this.editor.setDoc(doc)
+    }
+
+    public setDocBase64(base64: string) {
+        this.setDoc(EditorDoc.fromBase64(base64))
     }
 
     public setDocs(docs: EditorDoc[]) {

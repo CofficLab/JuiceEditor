@@ -11,7 +11,7 @@ export default class PluginProvider {
     }
 
     onReadyChange() {
-        let verbose = false
+        let verbose = true
 
         if (verbose) {
             console.log(emoji, "OnReadyChange")

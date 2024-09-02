@@ -1,4 +1,4 @@
-import LocalApp from "../plugins/LocalApp"
+import LocalApp from "../plugins/LocalNodeApp"
 import WebKit from "../plugins/WebKit"
 import Plugin from "../contract/Plugin";
 import EventPlugin from "../plugins/EventPlugin";

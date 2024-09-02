@@ -2,18 +2,18 @@
 import { useAppStore } from './store/AppStore'
 import { useFeatureStore } from './store/FeatureStore'
 import Loading from './ui/Loading.vue'
-import { onMounted } from 'vue'
 import Message from './ui/Message.vue'
 import CoreEditor from './core/CoreEditor.vue'
 import TreeNode from './model/TreeNode'
 import Config from './config/config'
 import Children from './core/Children.vue'
 import { useMessageStore } from './store/MessageStore'
-import { watch } from 'vue'
+import { onMounted, watch } from 'vue'
 import { useEditorStore } from './store/EditorStore'
 import PluginProvider from './provider/PluginProvider'
 import ListenerProvider from './provider/ListenerProvider'
 import ApiProvider from './provider/ApiProvider'
+import { useNodeStore } from './store/NodeStore'
 
 const props = defineProps({
 	drawio: {
@@ -29,19 +29,22 @@ const props = defineProps({
 const feature = useFeatureStore()
 const app = useAppStore()
 const editorStore = useEditorStore()
+const nodeStore = useNodeStore()
 const messageStore = useMessageStore()
 const children: TreeNode[] = []
 const pluginProvider = new PluginProvider(Config.plugins)
 const listenerProvider = new ListenerProvider(Config.listeners)
-const apiProvider = new ApiProvider(app, feature, editorStore)
+const apiProvider = new ApiProvider(app, feature, editorStore, nodeStore)
 
 editorStore.drawLink = props.drawio
 feature.editable = !props.readonly
 
-listenerProvider.boot()
-apiProvider.boot()
+onMounted(() => {
+	listenerProvider.boot()
+	apiProvider.boot()
 
-app.setReady()
+	app.setReady()
+})
 
 watch(() => app.message.uuid, () => messageStore.setMessage(app.message.text))
 watch(() => app.ready, () => pluginProvider.onReadyChange())

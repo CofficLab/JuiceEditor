@@ -1,15 +1,13 @@
 import TreeNode from '../model/TreeNode';
-import ApiBase from './ApiBase';
 import { NodeStore } from '../store/NodeStore';
 
 let title = "💻 NodeAPI"
 
 
-export default class NodeApi extends ApiBase {
+export default class NodeApi {
     public nodeStore: NodeStore
 
-    constructor(nodeStore: NodeStore) { // 更新构造函数参数类型
-        super();
+    constructor(nodeStore: NodeStore) {
         let verbose = false
 
         if (verbose) {
@@ -20,9 +18,8 @@ export default class NodeApi extends ApiBase {
     }
 
     public setChildrenBase64(childrenBase64: string) {
-        let objects = this.getBase64ObjectArray(childrenBase64)
-
         let node = this.nodeStore.node
+        let objects = JSON.parse(atob(childrenBase64))
 
         this.nodeStore.setNode(node.setChildren(objects.map((obj: any) => new TreeNode(obj))))
     }
@@ -31,8 +28,12 @@ export default class NodeApi extends ApiBase {
         this.nodeStore.setNode(node.setChildren(children))
     }
 
+    public setNode(node: TreeNode) {
+        this.nodeStore.setNode(node)
+    }
+
     public setNodeBase64(treeNodeInBase64: string) {
-        let node = new TreeNode(this.getBase64Object(treeNodeInBase64))
+        let node = TreeNode.fromBase64(treeNodeInBase64)
         this.nodeStore.setNode(node)
     }
 }

@@ -23,6 +23,18 @@ export default class EditorDoc {
             .setWordCount(0)
     }
 
+    static fromBase64(base64: string): EditorDoc {
+        let verbose = false
+
+        if (verbose) {
+            console.log(emoji, 'fromBase64', base64)
+        }
+
+        let object = JSON.parse(atob(base64))
+
+        return EditorDoc.fromObject(object)
+    }
+
     static fromObject(obj: { [key: string]: any }): EditorDoc {
         let verbose = false
 

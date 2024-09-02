@@ -15,8 +15,6 @@ export const useEditorStore = defineStore('editor-store', {
             doc: EditorDoc.makeDefaultDoc(),
             drawLink: config.drawLink,
             monacoLink: config.monacoLink,
-            loading: true,
-            ready: false,
             selectionType: '',
         }
     },
@@ -24,10 +22,6 @@ export const useEditorStore = defineStore('editor-store', {
     actions: {
         setMessage(text: string) {
             this.message = new SmartMessage(title + ": " + text)
-        },
-
-        hideLoading() {
-            this.loading = false
         },
 
         closeDraw: function () {
@@ -113,3 +107,5 @@ export const useEditorStore = defineStore('editor-store', {
         }
     },
 })
+
+export type EditorStore = ReturnType<typeof useEditorStore>

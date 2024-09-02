@@ -24,6 +24,11 @@ export default class TreeNode {
         return treeNode
     }
 
+    static fromBase64(base64: string): TreeNode {
+        let object = JSON.parse(base64)
+        return new TreeNode(object)
+    }
+
     constructor(public params: TreeNodeParams) {
         if (params.uuid == null) {
             throw new NoUUIDError('uuid is empty')

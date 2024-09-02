@@ -3,34 +3,38 @@ import Config from "../config/config";
 import { Store } from "pinia";
 import FeatureApi from "../api/FeatureApi";
 import NodeApi from "../api/NodeApi";
-import CoreApi from "../api/CoreApi";
+import DocApi from "../api/DocApi";
+import { FeatureStore } from "../store/FeatureStore";
+import { AppStore } from "../store/AppStore";
+import { EditorStore } from "../store/EditorStore";
+import { NodeStore } from "../store/NodeStore";
 
 const emoji = "🐶 ApiProvider"
 
 export interface AllApi {
     feature: FeatureApi
     node: NodeApi
-    core: CoreApi
+    doc: DocApi
 }
 
 export default class ApiProvider {
     public feature: FeatureApi
     public node: NodeApi
-    public core: CoreApi
+    public doc: DocApi
 
-    constructor(featureProvider: Store<any, any, any, any>, appProvider: Store<any, any, any, any>, editorProvider: Store<any, any, any, any>) {
+    constructor(appProvider: AppStore, featureProvider: FeatureStore, editorProvider: EditorStore, nodeProvider: NodeStore) {
         console.log(emoji, '初始化')
 
         this.feature = new FeatureApi(featureProvider)
-        this.node = new NodeApi(appProvider)
-        this.core = new CoreApi(editorProvider)
+        this.node = new NodeApi(nodeProvider)
+        this.doc = new DocApi(editorProvider)
     }
 
     boot() {
         window.api = {
             feature: this.feature,
             node: this.node,
-            core: this.core
+            doc: this.doc
         }
     }
 }

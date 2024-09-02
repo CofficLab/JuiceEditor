@@ -209,3 +209,5 @@ export const useFeatureStore = defineStore('feature-store', {
         }
     },
 })
+
+export type FeatureStore = ReturnType<typeof useFeatureStore>

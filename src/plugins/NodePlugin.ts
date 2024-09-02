@@ -4,8 +4,6 @@ import EditorDoc from "../model/EditorDoc";
 import UpdateData from "../model/UpdateData";
 import { Store } from 'pinia';
 
-const api = window.api.node
-
 export default class NodePlugin implements Plugin {
     onPageLoaded(): void { }
     onMessage(message: string): void { }

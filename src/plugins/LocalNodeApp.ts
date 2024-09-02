@@ -6,7 +6,7 @@ import ImageHelper from "../helper/ImageHelper";
 
 const title = "🍎 LocalApp"
 
-class LocalApp implements Plugin {
+class LocalNodeApp implements Plugin {
     onDownloadImage(src: string, name: string): void {
         console.log(title, 'download image')
 
@@ -26,11 +26,17 @@ class LocalApp implements Plugin {
     }
 
     onPageLoaded(): void {
-        let verbose = false
+        let verbose = true
 
         if (verbose) {
             console.log(title, 'onPageLoaded')
         }
+
+        const currentNode = LocalDB.getNode()
+        const currentDoc = LocalDB.getCurrentDoc() || EditorDoc.makeDefaultDoc()
+
+        window.api.node.setNode(currentNode)
+        window.api.doc.setDoc(currentDoc)
     }
 
     onSelectionTypeChange(type: string): void {
@@ -52,7 +58,7 @@ class LocalApp implements Plugin {
             console.log(title, 'onNodeUpdated', node)
         }
 
-        LocalDB.saveTreeNode(node)
+        LocalDB.saveNode(node)
     }
 
     onDocUpdated(data: EditorDoc): void {
@@ -82,8 +88,8 @@ class LocalDB {
         return docs.find(doc => doc.uuid == LocalDB.getCurrentDocUUID())
     }
 
-    static saveTreeNode(node: TreeNode): void {
-        localStorage.setItem('tree_node', node.toJSONString())
+    static saveNode(node: TreeNode): void {
+        localStorage.setItem('node', node.toJSONString())
     }
 
     static saveDocs(docs: EditorDoc[]): void {
@@ -102,13 +108,13 @@ class LocalDB {
         localStorage.setItem('docs', JSON.stringify(docs))
     }
 
-    static getTreeNode(): TreeNode {
+    static getNode(): TreeNode {
         let verbose = false
-        let saveData = localStorage.getItem('tree_node')
+        let saveData = localStorage.getItem('node')
         let treeNode = saveData ? new TreeNode(JSON.parse(saveData)) : TreeNode.makeDefaultNode()
 
         if (verbose) {
-            console.log(title, 'getTreeNode', treeNode)
+            console.log(title, 'getNode', treeNode)
         }
 
         return treeNode
@@ -144,4 +150,4 @@ class LocalDB {
     }
 }
 
-export default LocalApp
+export default LocalNodeApp

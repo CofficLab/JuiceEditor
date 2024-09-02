@@ -30,10 +30,10 @@ const shouldShow = function (props: {
 }) {
 	const { selection } = props.state
 	const { empty } = selection
-	const shuoldShowNodes = [IMAGE, TABLE, HEADING]
+	const shouldShowNodes = [IMAGE, TABLE, HEADING]
 	const excludes = [TOC, DRAW, A, TABLE_CELL, TABLE_ROW, TABLE_HEADER]
 
-	if (shuoldShowNodes.some(node => props.editor.isActive(node))) {
+	if (shouldShowNodes.some(node => props.editor.isActive(node))) {
 		return true;
 	}
 

@@ -20,7 +20,7 @@ export const useNodeStore = defineStore('node-store', {
             this.message = new SmartMessage(title + ": " + text)
         },
 
-        setNode: function (node: TreeNode) {
+        setNode(node: TreeNode) {
             let verbose = true;
 
             if (verbose) {
