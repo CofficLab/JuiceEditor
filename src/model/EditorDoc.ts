@@ -9,7 +9,6 @@ export default class EditorDoc {
     public uuid: string = ""
     public title: string = ""
     public content: string = ""
-    public active: boolean = false
     public json: JSONContent = {}
     public characterCount: number = 0
     public wordCount: number = 0
@@ -18,11 +17,10 @@ export default class EditorDoc {
         return new EditorDoc()
             .setUuid(uuidv4())
             .setTitle('')
-            .setContent('<h1>Default Title</h1>')
+            .setContent('')
             .setJson({})
             .setCharacterCount(0)
             .setWordCount(0)
-            .setActive(true)
     }
 
     static fromObject(obj: { [key: string]: any }): EditorDoc {
@@ -38,7 +36,6 @@ export default class EditorDoc {
             .setContent(obj['content'] as string)
             .setJson(obj['json'] as any) // 假设setJson可以接受任意类型的JSON对象
             .setCharacterCount(obj['characterCount'] as number)
-            .setActive(obj['active'] as boolean)
             .setWordCount(obj['wordCount'] as number);
     }
 
@@ -64,7 +61,6 @@ export default class EditorDoc {
             .setJson(editor.getJSON())
             .setCharacterCount(editor.storage.characterCount.characters())
             .setWordCount(editor.storage.characterCount.words())
-            .setActive(true)
     }
 
     setUuid(uuid: string): this {
@@ -104,11 +100,6 @@ export default class EditorDoc {
 
     setWordCount(wordCount: number): this {
         this.wordCount = wordCount
-        return this
-    }
-
-    setActive(active: boolean): this {
-        this.active = active
         return this
     }
 }
