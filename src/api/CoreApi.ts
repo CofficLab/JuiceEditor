@@ -27,7 +27,7 @@ export default class CoreApi extends ApiBase {
             return
         }
 
-        let doc = this.editor.getCurrentDoc()
+        let doc = this.editor.getDoc()
         doc.content = content
         this.setDoc(doc)
     }
