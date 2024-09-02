@@ -30,6 +30,7 @@
 </template>
 
 <script lang="ts" setup>
+import DomHelper from '../helper/DomHelper';
 import { defineProps, watch, ref } from 'vue'
 
 const props = defineProps({
@@ -72,7 +73,7 @@ watch(
 )
 
 function toggleModal() {
-  const trigger = Helper.findElement('messageTrigger')
+  const trigger = DomHelper.findElement('messageTrigger')
 
   if (!trigger) return
   trigger.click()
