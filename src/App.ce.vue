@@ -9,7 +9,7 @@ import Config from './config/config'
 import Children from './core/Children.vue'
 import { useMessageStore } from './store/MessageStore'
 import { onMounted, watch } from 'vue'
-import { useEditorStore } from './store/EditorStore'
+import { useEditorStore } from './store/DocStore'
 import PluginProvider from './provider/PluginProvider'
 import ListenerProvider from './provider/ListenerProvider'
 import ApiProvider from './provider/ApiProvider'
@@ -49,6 +49,7 @@ onMounted(() => {
 watch(() => app.message.uuid, () => messageStore.setMessage(app.message.text))
 watch(() => app.ready, () => pluginProvider.onReadyChange())
 watch(() => messageStore.message, () => pluginProvider.onMessage(messageStore.message))
+watch(() => editorStore.getDoc(), () => pluginProvider.onDocUpdated(editorStore.getDoc()))
 
 </script>
 

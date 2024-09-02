@@ -62,7 +62,7 @@ class LocalNodeApp implements Plugin {
     }
 
     onDocUpdated(data: EditorDoc): void {
-        let verbose = false
+        let verbose = true
 
         if (verbose) {
             console.log(title, 'onDocUpdated', data)

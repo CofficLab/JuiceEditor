@@ -6,7 +6,7 @@ import NodeApi from "../api/NodeApi";
 import DocApi from "../api/DocApi";
 import { FeatureStore } from "../store/FeatureStore";
 import { AppStore } from "../store/AppStore";
-import { EditorStore } from "../store/EditorStore";
+import { EditorStore } from "../store/DocStore";
 import { NodeStore } from "../store/NodeStore";
 
 const emoji = "🐶 ApiProvider"

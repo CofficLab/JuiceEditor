@@ -1,5 +1,5 @@
-import Plugin from "src/contract/Plugin";
-
+import Plugin from "../contract/Plugin";
+import EditorDoc from "../model/EditorDoc";
 const emoji = "🐶 PluginProvider"
 
 export default class PluginProvider {
@@ -26,6 +26,13 @@ export default class PluginProvider {
         console.log(emoji, "OnMessage")
         this.plugins.forEach(p => {
             p.onMessage(message)
+        })
+    }
+
+    onDocUpdated(doc: EditorDoc) {
+        console.log(emoji, "OnDocUpdated")
+        this.plugins.forEach(p => {
+            p.onDocUpdated(doc)
         })
     }
 }
