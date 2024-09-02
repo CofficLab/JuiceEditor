@@ -28,9 +28,9 @@ export const Config: ConfigType = {
         ? '/monaco/index.html'
         : '/editor/monaco/index.html',
     'plugins': [
-        // new WebKit(),
-        // new LocalApp(),
-        // new EventPlugin()
+        new WebKit(),
+        new LocalApp(),
+        new EventPlugin()
     ],
     listeners: [
         new UrlListener(),

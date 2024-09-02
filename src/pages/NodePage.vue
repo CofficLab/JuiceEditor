@@ -50,10 +50,10 @@ const newDoc = () => {
     console.log('after new doc', docsStore.getDocs().length)
 }
 
-watch(docsStore.docs, () => {
+watch(() => docsStore.docs, () => {
     console.log('xxxxxxx', docsStore.docs.length, docs.value.length)
-    // pluginProvider.onDocsUpdated(docs.value)
-})
+    pluginProvider.onDocsUpdated(docsStore.docs)
+}, { deep: true })
 
 </script>
 
