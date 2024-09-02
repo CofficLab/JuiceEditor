@@ -50,4 +50,16 @@ export default class PluginProvider {
             p.onDocUpdated(doc)
         })
     }
+
+    onDocsUpdated(docs: EditorDoc[]) {
+        let verbose = true
+
+        if (verbose) {
+            console.log(emoji, "OnDocsUpdated")
+        }
+
+        this.plugins.forEach(p => {
+            p.onDocsUpdated(docs)
+        })
+    }
 }

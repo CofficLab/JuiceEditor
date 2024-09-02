@@ -1,6 +1,4 @@
-import UpdateData from "../model/UpdateData";
 import Plugin from "../contract/Plugin";
-import TreeNode from "../model/TreeNode";
 import EditorDoc from "../model/EditorDoc";
 
 const title = "🍎 WebKit"
@@ -18,24 +16,11 @@ class WebKit implements Plugin {
         })
     }
 
-    onCurrentDocUUIDChange(uuid: string): void {
-
-    }
-
-    onNodeUpdated(data: TreeNode): void {
-
-    }
-
     onDocUpdated(data: EditorDoc): void {
-
-    }
-
-    onUpdated(data: UpdateData): void {
-        let verbose = true;
+        let verbose = false;
 
         if (verbose) {
-            console.log(title, data)
-            console.log(title, data.toObject())
+            console.log(title, "onDocUpdated", data)
         }
 
         if (!('webkit' in window)) {
@@ -46,9 +31,19 @@ class WebKit implements Plugin {
         }
 
         // 异步往 webkit 发送数据，防止界面卡顿
-        this.asyncUpdateNodeTask(data).then((result) => {
+        this.asyncUpdateTask(data).then((result) => {
             console.log(result)
         })
+    }
+
+    onDocsUpdated(data: EditorDoc[]): void {
+        let verbose = false;
+
+        if (verbose) {
+            console.log(title, 'onDocsUpdated', data)
+        }
+
+
     }
 
     onPageLoaded() {
@@ -125,7 +120,7 @@ class WebKit implements Plugin {
         });
     }
 
-    asyncUpdateNodeTask(data: UpdateData) {
+    asyncUpdateTask(data: EditorDoc) {
         let verbose = false;
         return new Promise((resolve, reject) => {
             try {

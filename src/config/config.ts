@@ -5,7 +5,6 @@ import EventPlugin from "../plugins/EventPlugin";
 import UrlListener from "../listeners/UrlListener";
 import EventListener from "../listeners/EventListener";
 import SlotListener from "../listeners/SlotListener";
-import NodePlugin from "../plugins/NodePlugin";
 
 interface ConfigType {
     editorLabel: string;
@@ -29,10 +28,9 @@ export const Config: ConfigType = {
         ? '/monaco/index.html'
         : '/editor/monaco/index.html',
     'plugins': [
-        new WebKit(),
-        new LocalApp(),
-        new EventPlugin(),
-        new NodePlugin()
+        // new WebKit(),
+        // new LocalApp(),
+        // new EventPlugin()
     ],
     listeners: [
         new UrlListener(),

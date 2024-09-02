@@ -4,7 +4,7 @@ import TreeNode from "../model/TreeNode";
 import EditorDoc from "../model/EditorDoc";
 import ImageHelper from "../helper/ImageHelper";
 
-const title = "🍎 LocalApp"
+const title = "🍎 LocalNodeApp"
 
 class LocalNodeApp implements Plugin {
     onDownloadImage(src: string, name: string): void {
@@ -43,37 +43,38 @@ class LocalNodeApp implements Plugin {
 
     }
 
-    onUpdated(data: UpdateData): void {
-        let verbose = false
-
-        if (verbose) {
-            console.log(title, data)
-        }
-    }
-
-    onNodeUpdated(node: TreeNode): void {
-        let verbose = false
-
-        if (verbose) {
-            console.log(title, 'onNodeUpdated', node)
-        }
-
-        LocalDB.saveNode(node)
-    }
-
     onDocUpdated(data: EditorDoc): void {
-        let verbose = false
+        let verbose = true
 
         if (verbose) {
             console.log(title, 'onDocUpdated', data)
         }
 
-        LocalDB.saveDocs([data])
+        var docs = LocalDB.getDocs()
+        if (docs) {
+            docs = docs.map(doc => {
+                if (doc.uuid == data.uuid) {
+                    return data
+                }
+                return doc
+            })
+        }
+
+        if (!docs) {
+            docs = []
+        }
+
+        LocalDB.saveDocs(docs)
     }
 
-    onCurrentDocUUIDChange(uuid: string): void {
-        console.log(title, 'onCurrentDocUUIDChange', uuid)
-        LocalDB.saveCurrentDocUUID(uuid)
+    onDocsUpdated(data: EditorDoc[]): void {
+        let verbose = true
+
+        if (verbose) {
+            console.log(title, 'onDocsUpdated', data.length)
+        }
+
+        LocalDB.saveDocs(data)
     }
 }
 
@@ -99,10 +100,10 @@ class LocalDB {
     }
 
     static saveDocs(docs: EditorDoc[]): void {
-        let verbose = false
+        let verbose = true
 
         if (verbose) {
-            console.log(title, 'saveDocs', docs)
+            console.log(title, 'saveDocs', docs, docs.length)
         }
 
         docs.forEach((doc: EditorDoc) => {

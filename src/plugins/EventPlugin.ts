@@ -44,16 +44,10 @@ class EventPlugin implements Plugin {
 
     }
 
-    onUpdated(data: UpdateData): void {
-    }
-
-    onNodeUpdated(node: TreeNode): void {
-    }
-
     onDocUpdated(data: EditorDoc): void {
     }
 
-    onCurrentDocUUIDChange(uuid: string): void {
+    onDocsUpdated(data: EditorDoc[]): void {
     }
 }
 

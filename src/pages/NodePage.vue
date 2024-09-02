@@ -1,0 +1,71 @@
+<script lang="ts" setup>
+import BasicPage from './BasicPage.vue';
+import { useDocsStore } from '../store/DocsStore';
+import { computed, onMounted, ref } from 'vue';
+import { useDocStore } from '../store/DocStore';
+import EditorDoc from '../model/EditorDoc';
+import { watch } from 'vue';
+import PluginProvider from '../provider/PluginProvider'
+import Config from '../config/config'
+
+const props = defineProps({
+    drawio: {
+        type: String,
+        required: true
+    },
+    readonly: {
+        type: Boolean,
+        default: false
+    }
+});
+
+const docStore = useDocStore();
+const docsStore = useDocsStore();
+const docs = computed(() => docsStore.getDocs());
+const currentDoc = computed(() => docStore.getDoc());
+const selected = ref(currentDoc.value.uuid);
+const pluginProvider = new PluginProvider(Config.plugins)
+
+onMounted(() => {
+    if (docs.value.length == 0) {
+        docsStore.setDocs([docStore.getDoc()]);
+    }
+});
+
+watch(() => docStore.getDoc(), (newDoc) => {
+    docsStore.upsertDoc(newDoc);
+})
+
+watch(selected, (newSelected) => {
+    const doc = docsStore.getDoc(newSelected);
+    if (doc) {
+        docStore.setDoc(doc);
+    }
+})
+
+const newDoc = () => {
+    const doc = EditorDoc.makeDefaultDoc();
+    docStore.setDoc(doc);
+
+    console.log('after new doc', docsStore.getDocs().length)
+}
+
+watch(docsStore.docs, () => {
+    console.log('xxxxxxx', docsStore.docs.length, docs.value.length)
+    // pluginProvider.onDocsUpdated(docs.value)
+})
+
+</script>
+
+<template>
+    <div style="position: relative;" class="mt-0">
+        <BasicPage :drawio="drawio" :readonly="readonly" />
+        <div style="position: absolute; top: 0; right: 0;" class="mt-12 mr-24 z-50">
+            <select v-model="selected" v-if="docs.length > 0">
+                <option v-for="doc in docs" :key="doc.uuid" :value="doc.uuid" :selected="doc.uuid == currentDoc.uuid">{{
+                    doc.title }}</option>
+            </select>
+            <button @click="newDoc()">新建</button>
+        </div>
+    </div>
+</template>

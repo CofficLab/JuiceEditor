@@ -14,10 +14,13 @@ export default class EditorDoc {
     public wordCount: number = 0
 
     static makeDefaultDoc(): EditorDoc {
+        let title = 'default' + Date.now()
+        let content = '<h1>' + title + '</h1>'
+
         return new EditorDoc()
             .setUuid(uuidv4())
-            .setTitle('')
-            .setContent('')
+            .setTitle(title)
+            .setContent(content)
             .setJson({})
             .setCharacterCount(0)
             .setWordCount(0)
@@ -73,6 +76,17 @@ export default class EditorDoc {
             .setJson(editor.getJSON())
             .setCharacterCount(editor.storage.characterCount.characters())
             .setWordCount(editor.storage.characterCount.words())
+    }
+
+    toObject(): { [key: string]: any } {
+        return {
+            uuid: this.uuid,
+            title: this.title,
+            content: this.content,
+            json: this.json,
+            characterCount: this.characterCount,
+            wordCount: this.wordCount
+        }
     }
 
     setUuid(uuid: string): this {
