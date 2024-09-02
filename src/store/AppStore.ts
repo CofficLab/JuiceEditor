@@ -41,3 +41,5 @@ export const useAppStore = defineStore('app-store', {
         },
     },
 })
+
+export type AppStore = ReturnType<typeof useAppStore>

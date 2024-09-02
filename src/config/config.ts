@@ -5,6 +5,7 @@ import EventPlugin from "../plugins/EventPlugin";
 import UrlListener from "../listeners/UrlListener";
 import EventListener from "../listeners/EventListener";
 import SlotListener from "../listeners/SlotListener";
+import NodePlugin from "../plugins/NodePlugin";
 
 interface ConfigType {
     editorLabel: string;
@@ -17,7 +18,6 @@ interface ConfigType {
 }
 
 const isDebug = process.env.NODE_ENV === 'development'
-const hasWebkit = 'webkit' in window
 
 export const Config: ConfigType = {
     'editorLabel': 'juice-editor',
@@ -29,8 +29,10 @@ export const Config: ConfigType = {
         ? '/monaco/index.html'
         : '/editor/monaco/index.html',
     'plugins': [
-        hasWebkit ? new WebKit() : new LocalApp(),
-        new EventPlugin()
+        new WebKit(),
+        new LocalApp(),
+        new EventPlugin(),
+        new NodePlugin()
     ],
     listeners: [
         new UrlListener(),

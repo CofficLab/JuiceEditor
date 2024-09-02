@@ -4,7 +4,7 @@ import { Store } from 'pinia'
 import EventManager from './event/EventManager'
 import TreeNode from './model/TreeNode'
 import EditorDoc from './model/EditorDoc'
-import AllApi from './providers/AllApi'
+import { AllApi } from './provider/ApiProvider'
 
 declare module '*.vue' {
     import type { DefineComponent } from 'vue'
