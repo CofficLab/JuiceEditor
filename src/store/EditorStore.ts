@@ -1,12 +1,8 @@
 import { defineStore } from 'pinia'
-import TreeNode from '../model/TreeNode'
 import EditorDoc from '../model/EditorDoc'
 import Config from '../config/config'
 import MarkdownHelper from '../helper/MarkdownHelper'
-import Helper from '../helper/Helper'
-import UpdateData from '../model/UpdateData'
 import SmartMessage from '../model/SmartMessage'
-import { error } from 'console'
 
 const config = Config
 const isDebug = config.isDebug

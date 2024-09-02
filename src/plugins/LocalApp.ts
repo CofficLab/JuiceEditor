@@ -31,38 +31,6 @@ class LocalApp implements Plugin {
         if (verbose) {
             console.log(title, 'onPageLoaded')
         }
-
-        let docs = LocalDB.getDocs()
-
-        if (docs) {
-            if (verbose) {
-                console.log(title, 'set docs from local db', docs)
-            }
-
-            // 如果docs中任意doc都不active，则active第一个
-            if (!docs.find((doc: EditorDoc) => {
-                return doc.active
-            })) {
-                docs[0].active = true
-            }
-
-            let firstActiveDoc = docs.find((doc: EditorDoc) => doc.active);
-            if (firstActiveDoc) {
-                if (verbose) {
-                    console.log(title, 'first active doc', firstActiveDoc);
-                }
-
-            } else {
-                throw new Error(title + 'no active doc found');
-            }
-
-            window.api.core.setDoc(firstActiveDoc)
-            return
-        }
-
-        console.log(title, 'set docs to default', docs)
-
-        window.api.core.setDoc(EditorDoc.makeDefaultDoc())
     }
 
     onSelectionTypeChange(type: string): void {
@@ -111,7 +79,7 @@ class LocalDB {
             return undefined
         }
 
-        return docs.find((doc) => doc.active)
+        return docs.find(doc => doc.uuid == LocalDB.getCurrentDocUUID())
     }
 
     static saveTreeNode(node: TreeNode): void {

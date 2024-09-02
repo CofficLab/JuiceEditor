@@ -31,7 +31,6 @@
 
 <script lang="ts" setup>
 import { defineProps, watch, ref } from 'vue'
-import Helper from '../helper/Helper'
 
 const props = defineProps({
   message: {
