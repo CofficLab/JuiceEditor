@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import TreeNode from '../model/TreeNode'
 import Config from '../config/config'
 import SmartMessage from '../model/SmartMessage'
+import DomHelper from '../helper/DomHelper'
 
 const config = Config
 const isDebug = config.isDebug
@@ -65,7 +66,7 @@ export const useAppStore = defineStore('node-store', {
             this.node = node
             this.loading = false
 
-            Helper.toTop()
+            DomHelper.toTop()
         },
 
         setReady() {
