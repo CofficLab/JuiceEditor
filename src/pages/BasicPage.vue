@@ -14,7 +14,7 @@ import PluginProvider from '../provider/PluginProvider'
 import ListenerProvider from '../provider/ListenerProvider'
 import ApiProvider from '../provider/ApiProvider'
 import { useNodeStore } from '../store/NodeStore'
-
+import { useDocsStore } from '../store/DocsStore'
 const props = defineProps({
     drawio: {
         type: String,
@@ -31,10 +31,16 @@ const app = useAppStore()
 const editorStore = useDocStore()
 const nodeStore = useNodeStore()
 const messageStore = useMessageStore()
+const docsStore = useDocsStore()
 const children: TreeNode[] = []
 const pluginProvider = new PluginProvider(Config.plugins)
 const listenerProvider = new ListenerProvider(Config.listeners)
-const apiProvider = new ApiProvider(app, feature, editorStore, nodeStore)
+const apiProvider = new ApiProvider({
+    featureProvider: feature,
+    editorProvider: editorStore,
+    nodeProvider: nodeStore,
+    docsProvider: docsStore
+})
 
 editorStore.drawLink = props.drawio
 feature.editable = !props.readonly

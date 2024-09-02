@@ -3,16 +3,11 @@
   <div>
     <div class="relative">
       <!-- 运行按钮 -->
-      <button
-        class="absolute bottom-0 z-20 btn btn-square dark:hover:bg-gray-900/80 btn-ghost text-accent right-2"
+      <button class="absolute bottom-0 z-20 btn btn-square dark:hover:bg-gray-900/80 btn-ghost text-accent right-2"
         :class="{
           'btn-xs': lineCount <= 2,
           'btn-sm': lineCount > 2
-        }"
-        @click="onClickIcon"
-        v-show="runVisible && language.runnable"
-        contenteditable="false"
-      >
+        }" @click="onClickIcon" v-show="runVisible && language.runnable" contenteditable="false">
         <template v-if="!runResultVisible">
           <span class="loading loading-spinner" v-if="running"></span>
           <PlayIcon v-else />
@@ -22,11 +17,8 @@
 
       <!-- 语言 -->
       <div contenteditable="false" class="absolute top-0 right-0 z-50">
-        <LanguageSelect
-          :editable="!props.readOnly"
-          :current="language"
-          :on-changed="onLanguageChanged"
-        ></LanguageSelect>
+        <LanguageSelect :editable="!props.readOnly" :current="language" :on-changed="onLanguageChanged">
+        </LanguageSelect>
       </div>
 
       <!-- Monaco -->
@@ -83,15 +75,15 @@ const props = defineProps({
   },
   onContentChanged: {
     type: Function,
-    default: (content: string) => {}
+    default: (content: string) => { }
   },
   onRunnableChanged: {
     type: Function,
-    default: () => {}
+    default: () => { }
   },
   onLanguageChanged: {
     type: Function,
-    default: (language: SmartLanguage) => {}
+    default: (language: SmartLanguage) => { }
   },
   showLineNumbers: {
     type: Boolean,
@@ -99,7 +91,7 @@ const props = defineProps({
   },
   runner: {
     type: Function,
-    default: () => {}
+    default: () => { }
   },
   uuid: {
     type: String,
@@ -234,7 +226,7 @@ let onClickIcon = () => {
   }, 5)
 }
 
-const verbose = true
+const verbose = false
 function log(...message: any) {
   if (!verbose) return
   console.log('🐰 MonacoBox:', ...message)

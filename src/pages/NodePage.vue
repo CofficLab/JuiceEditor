@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import BasicPage from './BasicPage.vue';
 import { useDocsStore } from '../store/DocsStore';
-import { computed, onMounted, ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useDocStore } from '../store/DocStore';
 import EditorDoc from '../model/EditorDoc';
 import { watch } from 'vue';
@@ -26,12 +26,6 @@ const currentDoc = computed(() => docStore.getDoc());
 const selected = ref(currentDoc.value.uuid);
 const pluginProvider = new PluginProvider(Config.plugins)
 
-onMounted(() => {
-    if (docs.value.length == 0) {
-        docsStore.setDocs([docStore.getDoc()]);
-    }
-});
-
 watch(() => docStore.getDoc(), (newDoc) => {
     docsStore.upsertDoc(newDoc);
 })
@@ -46,12 +40,10 @@ watch(selected, (newSelected) => {
 const newDoc = () => {
     const doc = EditorDoc.makeDefaultDoc();
     docStore.setDoc(doc);
-
-    console.log('after new doc', docsStore.getDocs().length)
+    selected.value = doc.uuid
 }
 
 watch(() => docsStore.docs, () => {
-    console.log('xxxxxxx', docsStore.docs.length, docs.value.length)
     pluginProvider.onDocsUpdated(docsStore.docs)
 }, { deep: true })
 

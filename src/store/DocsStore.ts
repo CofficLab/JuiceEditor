@@ -37,7 +37,7 @@ export const useDocsStore = defineStore('docs-store', {
             let verbose = false;
 
             if (verbose) {
-                console.log(title, 'setDocs', docs)
+                console.log(title, 'setDocs', docs, docs.length)
             }
 
             this.setMessage("SetDocs: " + JSON.stringify(docs))
@@ -58,8 +58,6 @@ export const useDocsStore = defineStore('docs-store', {
             }
 
             this.docs = docs
-
-            console.log('docs upsert', this.docs.length)
         },
 
         hasDoc(uuid: string): boolean {

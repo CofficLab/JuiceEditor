@@ -52,7 +52,7 @@ export default class PluginProvider {
     }
 
     onDocsUpdated(docs: EditorDoc[]) {
-        let verbose = true
+        let verbose = false
 
         if (verbose) {
             console.log(emoji, "OnDocsUpdated")

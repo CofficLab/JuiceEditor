@@ -33,10 +33,12 @@ class LocalNodeApp implements Plugin {
         }
 
         const currentNode = LocalDB.getNode()
+        const docs = LocalDB.getDocs()
         const currentDoc = LocalDB.getCurrentDoc() || EditorDoc.makeDefaultDoc()
 
         window.api.node.setNode(currentNode)
         window.api.doc.setDoc(currentDoc)
+        window.api.docs.setDocs(docs || [])
     }
 
     onSelectionTypeChange(type: string): void {
@@ -44,7 +46,7 @@ class LocalNodeApp implements Plugin {
     }
 
     onDocUpdated(data: EditorDoc): void {
-        let verbose = true
+        let verbose = false
 
         if (verbose) {
             console.log(title, 'onDocUpdated', data)
@@ -68,7 +70,7 @@ class LocalNodeApp implements Plugin {
     }
 
     onDocsUpdated(data: EditorDoc[]): void {
-        let verbose = true
+        let verbose = false
 
         if (verbose) {
             console.log(title, 'onDocsUpdated', data.length)
@@ -100,7 +102,7 @@ class LocalDB {
     }
 
     static saveDocs(docs: EditorDoc[]): void {
-        let verbose = true
+        let verbose = false
 
         if (verbose) {
             console.log(title, 'saveDocs', docs, docs.length)
