@@ -1,16 +1,19 @@
 <script setup lang="ts">
-import { useAppStore } from './provider/AppStore'
-import { useFeatureStore } from './provider/FeatureStore'
+import { useAppStore } from './store/AppStore'
+import { useFeatureStore } from './store/FeatureStore'
 import Loading from './ui/Loading.vue'
 import { onMounted } from 'vue'
 import Message from './ui/Message.vue'
-import AllApi from './api/AllApi'
 import CoreEditor from './core/CoreEditor.vue'
 import TreeNode from './model/TreeNode'
 import Config from './config/config'
 import Children from './core/Children.vue'
-import { useMessageStore } from './provider/MessageProvider'
+import { useMessageStore } from './store/MessageStore'
 import { watch } from 'vue'
+import { useEditorStore } from './store/EditorStore'
+import PluginProvider from './provider/PluginProvider'
+import ListenerProvider from './provider/ListenerProvider'
+import ApiProvider from './provider/ApiProvider'
 
 const props = defineProps({
 	drawio: {
@@ -25,22 +28,24 @@ const props = defineProps({
 
 const feature = useFeatureStore()
 const app = useAppStore()
+const editorStore = useEditorStore()
 const messageStore = useMessageStore()
 const children: TreeNode[] = []
+const pluginProvider = new PluginProvider(Config.plugins)
+const listenerProvider = new ListenerProvider(Config.listeners)
+const apiProvider = new ApiProvider(app, feature, editorStore)
 
-onMounted(() => {
-	app.drawLink = props.drawio
-	feature.editable = !props.readonly
+editorStore.drawLink = props.drawio
+feature.editable = !props.readonly
 
-	app.hideLoading()
+listenerProvider.boot()
+apiProvider.boot()
 
-	window.api = new AllApi(feature, app)
-	Config.listeners.forEach(l => l.start())
-})
+app.setReady()
 
-watch(() => app.message.uuid, () => {
-	messageStore.setMessage(app.message.text)
-})
+watch(() => app.message.uuid, () => messageStore.setMessage(app.message.text))
+watch(() => app.ready, () => pluginProvider.onReadyChange())
+watch(() => messageStore.message, () => pluginProvider.onMessage(messageStore.message))
 
 </script>
 
@@ -55,10 +60,10 @@ watch(() => app.message.uuid, () => {
 
 		<Loading v-if="app.loading"></Loading>
 
-		<CoreEditor v-if="feature.editorVisible" :content="app.getContent()" :editable="feature.editable"
-			:tableEnable="feature.tableEnabled" :drawEnable="feature.drawEnabled" :drawLink="app.drawLink"
+		<CoreEditor v-if="feature.editorVisible" :content="editorStore.getContent()" :editable="feature.editable"
+			:tableEnable="feature.tableEnabled" :drawEnable="feature.drawEnabled" :drawLink="editorStore.drawLink"
 			:bubbleMenusEnable="feature.bubbleMenuVisible" :floatingMenusEnable="feature.floatingMenuVisible"
-			:onUpdate="app.setDoc" :onMessage="messageStore.setMessage" :uuid="app.getCurrentDocUUID()" />
+			:onUpdate="editorStore.updateDoc" :onMessage="messageStore.setMessage" :uuid="editorStore.getUUID()" />
 
 		<Children v-if="children.length > 0" :children="children"></Children>
 

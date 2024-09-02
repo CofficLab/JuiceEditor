@@ -18,7 +18,11 @@ class LocalApp implements Plugin {
     }
 
     onMessage(message: string): void {
-        console.log(title, message)
+        let verbose = false
+
+        if (verbose) {
+            console.log(title, 'message', message)
+        }
     }
 
     onPageLoaded(): void {
@@ -42,13 +46,23 @@ class LocalApp implements Plugin {
                 docs[0].active = true
             }
 
-            window.api.node.setDocs(docs)
+            let firstActiveDoc = docs.find((doc: EditorDoc) => doc.active);
+            if (firstActiveDoc) {
+                if (verbose) {
+                    console.log(title, 'first active doc', firstActiveDoc);
+                }
+
+            } else {
+                throw new Error(title + 'no active doc found');
+            }
+
+            window.api.core.setDoc(firstActiveDoc)
             return
         }
 
         console.log(title, 'set docs to default', docs)
 
-        window.api.node.setDocs([EditorDoc.makeDefaultDoc()])
+        window.api.core.setDoc(EditorDoc.makeDefaultDoc())
     }
 
     onSelectionTypeChange(type: string): void {

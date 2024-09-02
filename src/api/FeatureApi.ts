@@ -1,11 +1,16 @@
 import { Store } from 'pinia';
 
-let title = "🍎 FeatureApi"
+let title = "💻 FeatureApi"
 
 export default class FeatureApi {
     public featureProvider: Store<any, any, any, any>
     constructor(featureProvider: Store<any, any, any, any>) {
-        console.log(title, '初始化')
+        let verbose = false
+
+        if (verbose) {
+            console.log(title, '初始化')
+        }
+
         this.featureProvider = featureProvider
     }
 

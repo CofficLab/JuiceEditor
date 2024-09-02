@@ -25,7 +25,11 @@ export default class TreeNode {
     }
 
     constructor(public params: TreeNodeParams) {
-        this.uuid = params.uuid || uuidv4()
+        if (params.uuid == null) {
+            throw new NoUUIDError('uuid is empty')
+        }
+
+        this.uuid = params.uuid
         this.title = params.title || ""
         this.priority = params.priority || 0
         this.isBook = params.isBook || false

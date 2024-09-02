@@ -170,7 +170,12 @@ const shouldShowToc = computed(() => {
 })
 
 function refreshToc(reason: string) {
-	console.log(title, '刷新TOC，因为', reason)
+	let verbose = false
+
+	if (verbose) {
+		console.log(title, '刷新TOC，因为', reason)
+	}
+
 	headingTree.value = Heading.makeTree(editor) as unknown as Heading
 }
 

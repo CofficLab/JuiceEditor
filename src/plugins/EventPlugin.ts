@@ -15,6 +15,7 @@ function emit(name: string, data: object) {
     }));
 }
 
+// Send event to browser
 class EventPlugin implements Plugin {
     onDownloadImage(src: string, name: string): void {
         console.log(title, 'download image')
@@ -30,7 +31,11 @@ class EventPlugin implements Plugin {
     }
 
     onPageLoaded(): void {
-        console.log(title, 'page loaded')
+        let verbose = false
+
+        if (verbose) {
+            console.log(title, 'page loaded')
+        }
 
         emit('pageLoaded', {})
     }

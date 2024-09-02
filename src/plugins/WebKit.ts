@@ -31,7 +31,7 @@ class WebKit implements Plugin {
     }
 
     onUpdated(data: UpdateData): void {
-        let verbose = false;
+        let verbose = true;
 
         if (verbose) {
             console.log(title, data)
