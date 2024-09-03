@@ -1,12 +1,7 @@
 <template>
   <div v-show="visible" ref="dom">
     <template v-if="!canShowDrawing">
-      <Card
-        title="请将窗口调宽一点"
-        subTitle="画图要求的最小宽度：1000"
-        line1="当前宽度"
-        :line2="width.toString()"
-      ></Card>
+      <Card title="请将窗口调宽一点" subTitle="画图要求的最小宽度：1000" line1="当前宽度" :line2="width.toString()"></Card>
     </template>
 
     <template v-else>
@@ -18,6 +13,7 @@
 <script lang="ts" setup>
 import { onMounted, onUnmounted, ref, watch, computed } from 'vue'
 import Card from '../../ui/Card.vue'
+import DomHelper from '../../helper/DomHelper';
 
 const loadingDialog = document.createElement('dialog')
 loadingDialog.style.border = 'none'
@@ -60,7 +56,7 @@ function showModal() {
   loadingDialog.classList.add('modal')
   loadingDialog.appendChild(dom.value)
 
-  let shadowRoot = document.querySelector('juice-editor').shadowRoot
+  let shadowRoot = DomHelper.querySelector('juice-editor')!.shadowRoot!
 
   shadowRoot.appendChild(loadingDialog)
   loadingDialog.showModal()

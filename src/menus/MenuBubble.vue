@@ -9,6 +9,7 @@ import MenuImage from './MenuImage.vue'
 import MenuTable from './MenuTable.vue'
 import MenuHeading from './MenuHeading.vue'
 import MenuFormat from './MenuFormat.vue'
+import MenuDraw from './MenuDraw.vue'
 import { computed } from 'vue'
 
 let emoji = "🫧 BubbleMenus"
@@ -98,7 +99,9 @@ const shouldShowFormatMenu = computed(() => {
 				<MenuHeading :editor="editor" v-if="shouldShowHeadingMenu">
 				</MenuHeading>
 				<MenuFormat :editor="editor" v-if="shouldShowFormatMenu"></MenuFormat>
-				<MenuImage :editor="editor" v-if="editor.isActive(IMAGE)"></MenuImage>
+				<MenuImage :editor="editor" v-if="editor.isActive(IMAGE) && editor.getAttributes('draw') == null">
+				</MenuImage>
+				<MenuDraw :editor="editor" v-if="editor.getAttributes('draw') != null"></MenuDraw>
 				<MenuTable :editor="editor" v-if="editor.isActive(TABLE)"></MenuTable>
 			</ButtonBar>
 		</bubble-menu>

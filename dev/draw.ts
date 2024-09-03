@@ -1,9 +1,6 @@
-import TreeNode from "../model/TreeNode"
-import { sampleImgSrc1, sampleImgSrc2 } from "./Images"
+import { sampleImgSrc1, sampleImgSrc2 } from "./images_db"
 
-const drawNode = new TreeNode({
-  uuid: 'drawNode',
-  content: `
+const drawDoc = `
     <h2>画图1</h2>
     <img draw src="${sampleImgSrc1}"></img>
     <h2>链接</h2>
@@ -17,6 +14,5 @@ const drawNode = new TreeNode({
     <img src="${sampleImgSrc2}"></img>
     <toc></toc>
   `
-})
 
-export default drawNode
+export default drawDoc
