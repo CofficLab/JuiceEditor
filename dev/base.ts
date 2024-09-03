@@ -28,3 +28,4 @@ const baseDoc = `
     </ul>
     <toc></toc>
   `
+export default baseDoc

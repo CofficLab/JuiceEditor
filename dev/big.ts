@@ -92,3 +92,5 @@ const bigDoc = `
     <p>找出问题的最佳算法，充分利用计算机资源，才是编程的最高境界。</p>
     <toc></toc>
   `
+
+export default bigDoc

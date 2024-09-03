@@ -14,9 +14,10 @@ defineProps({
 	page: {
 		type: String as () => 'node' | 'basic', // 限定可能的值
 		required: false,
-		default: 'node'
+		default: 'basic'
 	}
 })
+
 </script>
 
 <style>

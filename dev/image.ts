@@ -12,3 +12,5 @@ const imageDoc = `
     <img src="https://placehold.co/200x200/6A00F5/white" />
     <toc></toc>
   `
+
+export default imageDoc
