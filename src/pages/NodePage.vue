@@ -28,7 +28,8 @@ const pluginProvider = new PluginProvider(Config.plugins)
 
 watch(() => docStore.getDoc(), (newDoc) => {
     docsStore.upsertDoc(newDoc);
-})
+    selected.value = newDoc.uuid
+}, { deep: true })
 
 watch(selected, (newSelected) => {
     const doc = docsStore.getDoc(newSelected);
