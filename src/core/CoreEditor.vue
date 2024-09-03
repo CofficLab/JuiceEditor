@@ -7,6 +7,7 @@ import TiptapAgent from '../helper/TiptapHelper'
 import EditorDoc from '../model/EditorDoc'
 import Heading from '../extensions/Toc/Heading'
 import BlockMenu from '../menus/MenuBlock.vue'
+import EditorData from '../model/EditorData'
 
 const title = '📒 Tiptap'
 const props = defineProps({
@@ -78,7 +79,7 @@ const editor = TiptapAgent.create({
 	onCreate: (data: EditorDoc) => {
 		props.onCreate(data)
 	},
-	onUpdate: (data: EditorDoc) => {
+	onUpdate: (data: EditorData) => {
 		refreshToc('onUpdate')
 		if (!props.editable) {
 			return console.log('只读模式，不回调更新')

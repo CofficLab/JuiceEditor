@@ -2,6 +2,7 @@ import { Editor, JSONContent } from '@tiptap/core'
 import { HEADING } from '../config/nodes'
 import { v4 as uuidv4 } from 'uuid'
 import { DOC } from '../config/nodes'
+import EditorData from './EditorData'
 
 const emoji = '🍉 EditorDoc'
 
@@ -183,6 +184,16 @@ export default class EditorDoc {
 
     setWordCount(wordCount: number): this {
         this.wordCount = wordCount
+        return this
+    }
+
+    updateFromEditorData(data: EditorData): this {
+        this.setContent(data.content)
+        this.setTitle(data.title)
+        this.setJson(data.json)
+        this.setCharacterCount(data.characterCount)
+        this.setWordCount(data.wordCount)
+
         return this
     }
 }

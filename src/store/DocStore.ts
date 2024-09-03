@@ -3,7 +3,7 @@ import EditorDoc from '../model/EditorDoc'
 import Config from '../config/config'
 import MarkdownHelper from '../helper/MarkdownHelper'
 import SmartMessage from '../model/SmartMessage'
-
+import EditorData from '../model/EditorData'
 const config = Config
 const isDebug = config.isDebug
 const title = "🍋 DocStore"
@@ -85,21 +85,21 @@ export const useDocStore = defineStore('doc-store', {
             this.doc = doc
         },
 
-        updateDoc(doc: EditorDoc) {
+        updateDoc(data: EditorData) {
             let verbose = false;
 
             this.setMessage("UpdateDoc")
 
-            if (doc instanceof EditorDoc == false) {
-                console.error(title, 'UpdateDoc', 'doc is not object', doc)
-                throw new Error('doc is not object')
+            if (data instanceof EditorData == false) {
+                console.error(title, 'UpdateDoc', 'data is not object', data)
+                throw new Error('data is not object')
             }
 
-            if (doc.title == undefined) {
+            if (data.title == undefined) {
                 throw new Error('doc.title is undefined')
             }
 
-            if (this.getContent() == doc.content) {
+            if (this.getContent() == data.content) {
                 if (verbose) {
                     console.log(title, '更新节点，没变化，忽略')
                 }
@@ -107,12 +107,12 @@ export const useDocStore = defineStore('doc-store', {
             }
 
             if (verbose) {
-                console.log(title, 'setDoc', doc)
+                console.log(title, 'updateDoc', data)
             }
 
-            this.doc = doc
+            this.doc = this.doc.updateFromEditorData(data)
 
-            if (doc.content != this.getContent()) {
+            if (data.content != this.getContent()) {
                 throw new Error('content not match')
             }
         }
