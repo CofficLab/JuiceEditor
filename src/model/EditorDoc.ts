@@ -1,6 +1,7 @@
 import { Editor, JSONContent } from '@tiptap/core'
 import { HEADING } from '../config/nodes'
 import { v4 as uuidv4 } from 'uuid'
+import { DOC } from '../config/nodes'
 
 const emoji = '🍉 EditorDoc'
 
@@ -21,7 +22,10 @@ export default class EditorDoc {
             .setUuid(uuidv4())
             .setTitle(title)
             .setContent(content)
-            .setJson({})
+            .setJson({
+                type: DOC,
+                content: []
+            })
             .setCharacterCount(0)
             .setWordCount(0)
     }
@@ -45,13 +49,49 @@ export default class EditorDoc {
             console.log(emoji, 'fromObject', obj)
         }
 
+        let uuid = obj['uuid'] as string
+        var title = obj['title'] as string
+        var content = obj['content'] as string
+        var json = obj['json'] as any
+        var characterCount = obj['characterCount'] as number
+        var wordCount = obj['wordCount'] as number
+
+        if (uuid == undefined) {
+            throw new Error('uuid is undefined')
+        }
+
+        if (title == undefined) {
+            console.warn(emoji, 'title is undefined', obj)
+            title = ''
+        }
+
+        if (content == undefined) {
+            console.warn(emoji, 'content is undefined', obj)
+            content = ''
+        }
+
+        if (json == undefined) {
+            console.warn(emoji, 'json is undefined', obj)
+            json = {}
+        }
+
+        if (characterCount == undefined) {
+            console.warn(emoji, 'characterCount is undefined', obj)
+            characterCount = 0
+        }
+
+        if (wordCount == undefined) {
+            console.warn(emoji, 'wordCount is undefined', obj)
+            wordCount = 0
+        }
+
         return new EditorDoc()
-            .setUuid(obj['uuid'] as string)
-            .setTitle(obj['title'] as string)
-            .setContent(obj['content'] as string)
-            .setJson(obj['json'] as any) // 假设setJson可以接受任意类型的JSON对象
-            .setCharacterCount(obj['characterCount'] as number)
-            .setWordCount(obj['wordCount'] as number);
+            .setUuid(uuid)
+            .setTitle(title)
+            .setContent(content)
+            .setJson(json)
+            .setCharacterCount(characterCount)
+            .setWordCount(wordCount);
     }
 
     static fromEditor(editor: Editor): EditorDoc {
@@ -86,6 +126,23 @@ export default class EditorDoc {
             json: this.json,
             characterCount: this.characterCount,
             wordCount: this.wordCount
+        }
+    }
+
+    toDictForWebKit(): { [key: string]: string } {
+        let verbose = false
+
+        if (verbose) {
+            console.log(emoji, 'toDictForWebKit', this)
+        }
+
+        return {
+            uuid: this.uuid,
+            title: this.title,
+            content: this.content,
+            json: JSON.stringify(this.json),
+            characterCount: this.characterCount.toString(),
+            wordCount: this.wordCount.toString()
         }
     }
 

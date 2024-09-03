@@ -16,6 +16,10 @@ export const useNodeStore = defineStore('node-store', {
     },
 
     actions: {
+        getNode(): TreeNode {
+            return this.node
+        },
+
         setMessage(text: string) {
             this.message = new SmartMessage(title + ": " + text)
         },

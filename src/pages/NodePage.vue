@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import BasicPage from './BasicPage.vue';
 import { useDocsStore } from '../store/DocsStore';
+import { useNodeStore } from '../store/NodeStore';
 import { computed, ref } from 'vue';
 import { useDocStore } from '../store/DocStore';
 import EditorDoc from '../model/EditorDoc';
@@ -20,6 +21,7 @@ const props = defineProps({
 });
 
 const docStore = useDocStore();
+const nodeStore = useNodeStore();
 const docsStore = useDocsStore();
 const docs = computed(() => docsStore.getDocs());
 const currentDoc = computed(() => docStore.getDoc());
@@ -47,6 +49,8 @@ const newDoc = () => {
 watch(() => docsStore.docs, () => {
     pluginProvider.onDocsUpdated(docsStore.docs)
 }, { deep: true })
+
+watch(() => docStore.getDoc(), () => pluginProvider.onDocUpdatedWithNode(docStore.getDoc(), nodeStore.getNode()), { deep: true })
 
 </script>
 

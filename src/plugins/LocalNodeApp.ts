@@ -45,6 +45,18 @@ class LocalNodeApp implements Plugin {
 
     }
 
+    onDocUpdatedWithNode(data: EditorDoc, node: TreeNode): void {
+        let verbose = false
+
+        if (verbose) {
+            console.log(title, 'onDocUpdatedWithNode', data, node)
+        }
+
+        LocalDB.saveNode(node)
+
+        this.onDocUpdated(data)
+    }
+
     onDocUpdated(data: EditorDoc): void {
         let verbose = false
 

@@ -22,6 +22,4 @@ export default function dev() {
     });
 
     document.body.insertBefore(div, document.body.firstChild);
-
-    console.log('开发脚本已加载');
 }

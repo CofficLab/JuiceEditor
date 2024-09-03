@@ -1,5 +1,8 @@
+import { channel } from "diagnostics_channel";
 import Plugin from "../contract/Plugin";
 import EditorDoc from "../model/EditorDoc";
+import { send } from "vite";
+import TreeNode from "src/model/TreeNode";
 
 const title = "🍎 WebKit"
 
@@ -10,8 +13,12 @@ class WebKit implements Plugin {
         }
 
         console.log(title, '调用 WebKit 以更新 SelectionType')
+
         // 异步往 webkit 发送数据，防止界面卡顿
-        this.asyncUpdateSelectionType(type).then((result) => {
+        asyncSendMessage({
+            channel: "updateSelectionType",
+            type: type
+        }).then((result) => {
             console.log(result)
         })
     }
@@ -30,8 +37,35 @@ class WebKit implements Plugin {
             return
         }
 
+        var messageData = data.toDictForWebKit();
+        messageData.channel = "updateDoc"
+
         // 异步往 webkit 发送数据，防止界面卡顿
-        this.asyncUpdateTask(data).then((result) => {
+        asyncSendMessage(messageData).then((result) => {
+            console.log(result)
+        })
+    }
+
+    onDocUpdatedWithNode(data: EditorDoc, node: TreeNode): void {
+        let verbose = false;
+
+        if (verbose) {
+            console.log(title, "onDocUpdated", data)
+        }
+
+        if (!('webkit' in window)) {
+            if (verbose) {
+                console.log(title, '无 WebKit，忽略更新')
+            }
+            return
+        }
+
+        var messageData = data.toDictForWebKit();
+        messageData.channel = "updateDocWithNode"
+        messageData.nodeUUID = node.uuid
+
+        // 异步往 webkit 发送数据，防止界面卡顿
+        asyncSendMessage(messageData).then((result) => {
             console.log(result)
         })
     }
@@ -42,8 +76,6 @@ class WebKit implements Plugin {
         if (verbose) {
             console.log(title, 'onDocsUpdated', data)
         }
-
-
     }
 
     onPageLoaded() {
@@ -56,13 +88,10 @@ class WebKit implements Plugin {
         if (verbose) {
             console.log(title, '调用 WebKit 以通知 Swift 页面加载完成')
         }
-        try {
-            ; (window as any).webkit.messageHandlers.sendMessage.postMessage({
-                channel: "pageLoaded"
-            })
-        } catch (e) {
-            console.log(title, '调用 WebKit 以通知 Swift 页面加载完成，失败', e)
-        }
+
+        sendMessage({
+            channel: "pageLoaded"
+        })
     }
 
     runCode(code: string, lan: string, callback: (result: string) => void) {
@@ -79,7 +108,7 @@ class WebKit implements Plugin {
         setTimeout(() => {
             try {
                 // 只能传字符、只能传普通object
-                (window as any).webkit.messageHandlers.sendMessage.postMessage({
+                sendMessage({
                     channel: "runCode",
                     code: code,
                     lan: lan
@@ -96,45 +125,11 @@ class WebKit implements Plugin {
             return
         }
 
-        (window as any).webkit.messageHandlers.sendMessage.postMessage({
+        sendMessage({
             channel: "downloadFile",
             base64: src,
             name: name
         })
-    }
-
-    asyncUpdateSelectionType(type: string) {
-        return new Promise((resolve, reject) => {
-            try {
-                // 只能传字符、只能传普通object
-                (window as any).webkit.messageHandlers.sendMessage.postMessage({
-                    channel: "updateSelectionType",
-                    type: type
-                })
-            } catch (e) {
-                console.log(title, '更新内容失败', e)
-                reject(e)
-            }
-
-            resolve('🍎 WebKit: 已发送SelectionType更新');
-        });
-    }
-
-    asyncUpdateTask(data: EditorDoc) {
-        let verbose = false;
-        return new Promise((resolve, reject) => {
-            try {
-                // 只能传字符、只能传普通object
-                (window as any).webkit.messageHandlers.sendMessage.postMessage(data.toObject())
-            } catch (e) {
-                console.log(title, '更新内容失败', e)
-                reject(e)
-            }
-
-            if (verbose) {
-                resolve(title + ' 已发送Content更新');
-            }
-        });
     }
 
     onMessage(message: string) {
@@ -142,7 +137,7 @@ class WebKit implements Plugin {
             return
         }
 
-        (window as any).webkit.messageHandlers.sendMessage.postMessage({
+        sendMessage({
             channel: "message",
             message: message
         })
@@ -150,3 +145,31 @@ class WebKit implements Plugin {
 }
 
 export default WebKit
+
+function sendMessage(data: object) {
+    try {
+        (window as any).webkit.messageHandlers.sendMessage.postMessage(data);
+    } catch (e) {
+        console.log(title, '发送消息失败', e);
+        throw e
+    }
+}
+
+function asyncSendMessage(data: object) {
+    let verbose = false;
+
+    return new Promise((resolve, reject) => {
+        try {
+            (window as any).webkit.messageHandlers.sendMessage.postMessage(data);
+        } catch (e) {
+            console.log(title, '发送消息失败', e);
+            reject(e);
+
+            throw e
+        }
+
+        if (verbose) {
+            resolve(title + ' 已发送消息');
+        }
+    });
+}

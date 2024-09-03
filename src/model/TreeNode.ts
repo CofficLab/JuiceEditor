@@ -25,8 +25,15 @@ export default class TreeNode {
     }
 
     static fromBase64(base64: string): TreeNode {
-        let object = JSON.parse(base64)
-        return new TreeNode(object)
+        let jsonString = atob(base64)
+
+        try {
+            let object = JSON.parse(jsonString)
+            return new TreeNode(object)
+        } catch (error) {
+            console.error('🍋 SmartDraw: 解析树节点失败', error)
+            throw new Error('🍋 SmartDraw: 解析树节点失败')
+        }
     }
 
     constructor(public params: TreeNodeParams) {

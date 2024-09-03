@@ -59,6 +59,9 @@ export const useDocStore = defineStore('doc-store', {
         },
 
         getDoc(): EditorDoc {
+            if (this.doc.title == undefined) {
+                throw new Error('doc.title is undefined')
+            }
             return this.doc
         },
 
@@ -71,6 +74,10 @@ export const useDocStore = defineStore('doc-store', {
 
             if (verbose) {
                 console.log(title, 'setDoc', doc)
+            }
+
+            if (doc.title == undefined) {
+                throw new Error('doc.title is undefined')
             }
 
             this.setMessage("SetDoc: " + JSON.stringify(doc))
@@ -86,6 +93,10 @@ export const useDocStore = defineStore('doc-store', {
             if (doc instanceof EditorDoc == false) {
                 console.error(title, 'UpdateDoc', 'doc is not object', doc)
                 throw new Error('doc is not object')
+            }
+
+            if (doc.title == undefined) {
+                throw new Error('doc.title is undefined')
             }
 
             if (this.getContent() == doc.content) {

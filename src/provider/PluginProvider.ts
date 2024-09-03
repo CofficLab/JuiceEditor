@@ -1,3 +1,4 @@
+import TreeNode from "../model/TreeNode";
 import Plugin from "../contract/Plugin";
 import EditorDoc from "../model/EditorDoc";
 const emoji = "🐶 PluginProvider"
@@ -48,6 +49,18 @@ export default class PluginProvider {
 
         this.plugins.forEach(p => {
             p.onDocUpdated(doc)
+        })
+    }
+
+    onDocUpdatedWithNode(doc: EditorDoc, node: TreeNode) {
+        let verbose = true
+
+        if (verbose) {
+            console.log(emoji, "OnDocUpdatedWithNode", doc, node)
+        }
+
+        this.plugins.forEach(p => {
+            p.onDocUpdatedWithNode(doc, node)
         })
     }
 

@@ -5,6 +5,7 @@ import EditorDoc from '../model/EditorDoc'
 import makeExtensions from '../config/extension'
 import DomHelper from './DomHelper';
 import Config from '../config/config';
+import { A, BANNER, BLOCKQUOTE, BULLET_LIST, CODE_BLOCK, DRAW, HEADING, IMAGE, LIST_ITEM, ORDERED_LIST, STRIKE, TABLE, TABLE_HEADER, TABLE_ROW } from '../config/nodes';
 
 const title = '📒 TiptapHelper'
 
@@ -106,63 +107,55 @@ class TiptapHelper {
         let type = "paragraph"
         if (editor.isActive('paragraph')) {
             type = "paragraph"
-        } else if (editor.isActive('heading', { level: 1 })) {
+        } else if (editor.isActive(HEADING, { level: 1 })) {
             type = "heading1"
-        } else if (editor.isActive('heading', { level: 2 })) {
+        } else if (editor.isActive(HEADING, { level: 2 })) {
             type = "heading2"
-        } else if (editor.isActive('heading', { level: 3 })) {
+        } else if (editor.isActive(HEADING, { level: 3 })) {
             type = "heading3"
-        } else if (editor.isActive('heading', { level: 4 })) {
+        } else if (editor.isActive(HEADING, { level: 4 })) {
             type = "heading4"
-        } else if (editor.isActive('heading', { level: 5 })) {
+        } else if (editor.isActive(HEADING, { level: 5 })) {
             type = "heading5"
-        } else if (editor.isActive('heading', { level: 6 })) {
+        } else if (editor.isActive(HEADING, { level: 6 })) {
             type = "heading6"
-        } else if (editor.isActive('codeBlock')) {
+        } else if (editor.isActive(CODE_BLOCK)) {
             type = "codeBlock"
-        } else if (editor.isActive('blockquote')) {
+        } else if (editor.isActive(BLOCKQUOTE)) {
             type = "blockquote"
-        } else if (editor.isActive('bulletList')) {
+        } else if (editor.isActive(BULLET_LIST)) {
             type = "bulletList"
-        } else if (editor.isActive('orderedList')) {
+        } else if (editor.isActive(ORDERED_LIST)) {
             type = "orderedList"
-        } else if (editor.isActive('listItem')) {
+        } else if (editor.isActive(LIST_ITEM)) {
             type = "listItem"
-        } else if (editor.isActive('image')) {
+        } else if (editor.isActive(IMAGE)) {
             type = "image"
-        } else if (editor.isActive('draw')) {
+        } else if (editor.isActive(DRAW)) {
             type = "draw"
-        } else if (editor.isActive('table')) {
+        } else if (editor.isActive(TABLE)) {
             type = "table"
         } else if (editor.isActive('tableCell')) {
             type = "tableCell"
-        } else if (editor.isActive('tableRow')) {
+        } else if (editor.isActive(TABLE_ROW)) {
             type = "tableRow"
-        } else if (editor.isActive('tableHeader')) {
+        } else if (editor.isActive(TABLE_HEADER)) {
             type = "tableHeader"
-        } else if (editor.isActive('link')) {
+        } else if (editor.isActive(A)) {
             type = "link"
-        } else if (editor.isActive('strike')) {
+        } else if (editor.isActive(STRIKE)) {
             type = "strike"
         } else if (editor.isActive('code')) {
             type = "code"
-        } else if (editor.isActive('underline')) {
-            type = "underline"
-        } else if (editor.isActive('bold')) {
-            type = "bold"
         } else if (editor.isActive('italic')) {
             type = "italic"
-        } else if (editor.isActive('superscript')) {
-            type = "superscript"
-        } else if (editor.isActive('subscript')) {
-            type = "subscript"
-        } else if (editor.isActive('orderedList')) {
+        } else if (editor.isActive(ORDERED_LIST)) {
             type = "orderedList"
-        } else if (editor.isActive('bulletList')) {
+        } else if (editor.isActive(BULLET_LIST)) {
             type = "bulletList"
-        } else if (editor.isActive('draw')) {
+        } else if (editor.isActive(DRAW)) {
             type = "draw"
-        } else if (editor.isActive('banner')) {
+        } else if (editor.isActive(BANNER)) {
             type = "banner"
         }
 

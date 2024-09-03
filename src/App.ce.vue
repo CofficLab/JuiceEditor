@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import PurePage from './pages/BasicPage.vue'
+import BasicPage from './pages/BasicPage.vue';
 import NodePage from './pages/NodePage.vue'
 
 defineProps({
@@ -14,7 +14,7 @@ defineProps({
 	page: {
 		type: String as () => 'node' | 'basic', // 限定可能的值
 		required: false,
-		default: 'basic'
+		default: 'node'
 	}
 })
 
@@ -26,6 +26,6 @@ defineProps({
 </style>
 
 <template>
-	<PurePage :drawio="drawio" :readonly="readonly" v-if="page == 'basic'"></PurePage>
+	<BasicPage :drawio="drawio" :readonly="readonly" v-if="page == 'basic'"></BasicPage>
 	<NodePage :drawio="drawio" :readonly="readonly" v-if="page == 'node'"></NodePage>
 </template>

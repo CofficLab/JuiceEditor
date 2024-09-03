@@ -28,7 +28,7 @@ const props = defineProps({
 
 const feature = useFeatureStore()
 const app = useAppStore()
-const editorStore = useDocStore()
+const docStore = useDocStore()
 const nodeStore = useNodeStore()
 const messageStore = useMessageStore()
 const docsStore = useDocsStore()
@@ -37,12 +37,12 @@ const pluginProvider = new PluginProvider(Config.plugins)
 const listenerProvider = new ListenerProvider(Config.listeners)
 const apiProvider = new ApiProvider({
     featureProvider: feature,
-    editorProvider: editorStore,
+    editorProvider: docStore,
     nodeProvider: nodeStore,
     docsProvider: docsStore
 })
 
-editorStore.drawLink = props.drawio
+docStore.drawLink = props.drawio
 feature.editable = !props.readonly
 
 onMounted(() => {
@@ -55,7 +55,7 @@ onMounted(() => {
 watch(() => app.message.uuid, () => messageStore.setMessage(app.message.text))
 watch(() => app.ready, () => pluginProvider.onReadyChange())
 watch(() => messageStore.message, () => pluginProvider.onMessage(messageStore.message))
-watch(() => editorStore.getDoc(), () => pluginProvider.onDocUpdated(editorStore.getDoc()))
+watch(() => docStore.getDoc(), () => pluginProvider.onDocUpdated(docStore.getDoc()), { deep: true })
 
 </script>
 
@@ -65,10 +65,10 @@ watch(() => editorStore.getDoc(), () => pluginProvider.onDocUpdated(editorStore.
 
         <Loading v-if="app.loading"></Loading>
 
-        <CoreEditor v-if="feature.editorVisible" :content="editorStore.getContent()" :editable="feature.editable"
-            :tableEnable="feature.tableEnabled" :drawEnable="feature.drawEnabled" :drawLink="editorStore.drawLink"
+        <CoreEditor v-if="feature.editorVisible" :content="docStore.getContent()" :editable="feature.editable"
+            :tableEnable="feature.tableEnabled" :drawEnable="feature.drawEnabled" :drawLink="docStore.drawLink"
             :bubbleMenusEnable="feature.bubbleMenuVisible" :floatingMenusEnable="feature.floatingMenuVisible"
-            :onUpdate="editorStore.updateDoc" :onMessage="messageStore.setMessage" :uuid="editorStore.getUUID()" />
+            :onUpdate="docStore.updateDoc" :onMessage="messageStore.setMessage" :uuid="docStore.getUUID()" />
 
         <Children v-if="children.length > 0" :children="children"></Children>
 
