@@ -249,7 +249,7 @@ jobs:
             git config --global user.email "action@github.com"
             git add .
             git commit -m "update editor to ${version}"
-            git push origin dev
+            git push origin main
           fi
 
   release:
