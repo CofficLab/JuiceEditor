@@ -53,6 +53,7 @@ watch(() => app.message, () => messageStore.setMessageText(app.message.text))
 	</NodePage>
 	<SlotPage :drawio="drawio" :readonly="readonly" v-if="modeStore.isSlot()" :onMessage="messageStore.setMessageText">
 	</SlotPage>
+	<p v-else>mode: {{ modeStore.mode.type }}</p>
 
 	<Message></Message>
 </template>
