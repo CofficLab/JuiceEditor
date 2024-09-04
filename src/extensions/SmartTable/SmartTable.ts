@@ -1,4 +1,4 @@
-import { Node, VueNodeViewRenderer } from "@tiptap/vue-3";
+import { Node, VueNodeViewRenderer, mergeAttributes } from "@tiptap/vue-3";
 import SmartTableVue from "./SmartTable.vue";
 
 declare module '@tiptap/core' {
@@ -16,7 +16,16 @@ const SmartTable = Node.create({
     parseHTML: () => [
         { tag: "table" },
     ],
-    renderHTML: ({ node }) => ["div", 0],
+    renderHTML: ({ HTMLAttributes }) => [
+        "div", mergeAttributes(HTMLAttributes), 0
+    ],
+    addAttributes() {
+        return {
+            class: {
+                default: 'smart-table',
+            }
+        };
+    },
     addNodeView: () => VueNodeViewRenderer(SmartTableVue),
     addCommands() {
         return {

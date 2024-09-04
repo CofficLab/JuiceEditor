@@ -206,6 +206,52 @@ jobs:
             git push origin dev
           fi
 
+  copy-file-to-demo:
+    runs-on: ubuntu-latest
+    needs: [tag]
+    steps:
+      - name: 当前目录
+        run: pwd
+      - name: 下载 JuiceEditor-Demo
+        uses: actions/checkout@v4
+        with:
+          repository: CofficLab/JuiceEditor-Demo
+          token: ${{ secrets.Token_Sync }}
+          ref: dev
+      - name: 检查文件
+        run: ls -alh
+      - name: 删除旧版
+        run: rm -rf public/juice-editor
+      - name: 下载构件
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: public/juice-editor
+      - name: 检查
+        run: ls -alh public/juice-editor
+      - name: 下载版本构件
+        uses: actions/download-artifact@v4
+        with:
+          name: version
+          path: temp
+      - name: 检查
+        run: ls -alh temp
+      - name: 推送
+        run: |
+          version=$(cat temp/version.txt)
+          echo $version
+          rm -rf temp
+
+          if [ -z "$(git status -s)" ]; then
+            echo "Working tree is clean."
+          else
+            git config --global user.name "GitHub Action of JuiceEditor"
+            git config --global user.email "action@github.com"
+            git add .
+            git commit -m "update editor to ${version}"
+            git push origin dev
+          fi
+
   release:
     runs-on: ubuntu-latest
     needs: [tag]

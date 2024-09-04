@@ -1,0 +1,14 @@
+@import './table.css';
+@import './focused.css';
+@import './taskList.css';
+@import './proseMirror.css';
+@import './button.css';
+@import './cursor.css';
+@import './toolbar.css';
+@import './main.css';
+@import './children.css';
+@import './editor.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

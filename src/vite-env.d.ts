@@ -2,6 +2,9 @@
 
 import { Store } from 'pinia'
 import EventManager from './event/EventManager'
+import TreeNode from './model/TreeNode'
+import EditorDoc from './model/EditorDoc'
+import { AllApi } from './provider/ApiProvider'
 
 declare module '*.vue' {
     import type { DefineComponent } from 'vue'
@@ -9,23 +12,10 @@ declare module '*.vue' {
     export default component
 }
 
-declare interface Window {
-    api: object
-    runner: Function
-    runnerCallback: Function
-    setCode: (code: string) => void
-}
-
 declare global {
     interface Window {
-        api: {
-            app: any;
-            event: EventManager;
-            feature?: any;
-        };
-        setCode: (code: string) => void
-        setLanguage: (lan: string) => void
-        runnerCallback: (result: string) => void
+        api: AllApi
+        runnerCallback: Function
     }
 }
 

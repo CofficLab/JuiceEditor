@@ -1,34 +1,37 @@
 import { Editor, JSONContent } from '@tiptap/core'
+import { HEADING } from '../config/nodes'
+import { v4 as uuidv4 } from 'uuid'
+import { DOC } from '../config/nodes'
+import EditorBlock from './EditorBlock'
+import EditorDoc from './EditorDoc'
+const emoji = '🍉 EditorData'
 
+// 从编辑器中能获得的数据
 export default class EditorData {
-    public uuid: string = ""
     public title: string = ""
     public content: string = ""
-    public json: JSONContent = {}
+    public jsonContent: JSONContent = {}
+    public doc: EditorDoc = EditorDoc.default()
     public characterCount: number = 0
     public wordCount: number = 0
 
     static fromEditor(editor: Editor): EditorData {
-        let nodes = editor.state.doc.content
-        let title = ''
-        nodes.forEach((node) => {
-            if (['heading'].includes(node.type.name) && title == '') {
-                title = node.textContent!
-            }
-        })
+        let verbose = false
+
+        if (verbose) {
+            console.log(emoji, 'fromEditor', editor.getJSON())
+        }
+
+        if (editor.options.injectNonce == undefined) {
+            throw new Error('EditorData.fromEditor: injectNonce is undefined')
+        }
 
         return new EditorData()
-            .setUuid(editor.options.injectNonce ?? "")
-            .setTitle(title)
+            .setTitle(this.getTitleFromEditor(editor))
             .setContent(editor.getHTML())
-            .setJson(editor.getJSON())
+            .setDoc(EditorDoc.fromEditor(editor))
             .setCharacterCount(editor.storage.characterCount.characters())
             .setWordCount(editor.storage.characterCount.words())
-    }
-
-    setUuid(uuid: string): this {
-        this.uuid = uuid
-        return this
     }
 
     setTitle(title: string): this {
@@ -37,12 +40,22 @@ export default class EditorData {
     }
 
     setContent(content: string): this {
-        this.content = content
+        var newContent = content
+
+        if (content == null || content == undefined) {
+            newContent = ''
+        }
+
+        if (typeof newContent !== 'string') {
+            throw new Error('EditorDoc.setContent: content must be a string, but got ' + newContent)
+        }
+
+        this.content = newContent
         return this
     }
 
-    setJson(json: JSONContent): this {
-        this.json = json
+    setDoc(doc: EditorDoc): this {
+        this.doc = doc
         return this
     }
 
@@ -54,5 +67,16 @@ export default class EditorData {
     setWordCount(wordCount: number): this {
         this.wordCount = wordCount
         return this
+    }
+
+    private static getTitleFromEditor(editor: Editor): string {
+        let nodes = editor.state.doc.content
+        let title = ''
+        nodes.forEach((node) => {
+            if ([HEADING].includes(node.type.name) && title == '') {
+                title = node.textContent!
+            }
+        })
+        return title
     }
 }

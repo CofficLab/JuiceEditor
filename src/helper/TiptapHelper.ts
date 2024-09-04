@@ -1,8 +1,12 @@
 import { Editor } from '@tiptap/vue-3'
 import { Editor as TiptapEditor } from '@tiptap/core'
-import { Mark as ProseMirrorMark, Node as ProseMirrorNode, NodeType, ParseOptions } from '@tiptap/pm/model';
-import EditorData from '../model/EditorData'
+import { Node as ProseMirrorNode } from '@tiptap/pm/model';
 import makeExtensions from '../config/extension'
+import DomHelper from './DomHelper';
+import Config from '../config/config';
+import { A, BANNER, BLOCKQUOTE, BULLET_LIST, CODE_BLOCK, DRAW, HEADING, IMAGE, LIST_ITEM, ORDERED_LIST, STRIKE, TABLE, TABLE_HEADER, TABLE_ROW } from '../config/nodes';
+import EditorData from '../model/EditorData';
+import EditorDoc from '../model/EditorDoc';
 
 const title = '📒 TiptapHelper'
 
@@ -11,7 +15,7 @@ interface Props {
     content: string
     editable: boolean
     onCreate: (data: EditorData) => void
-    onUpdate: (data: EditorData) => void
+    onUpdate: (data: EditorDoc) => void
     onSelectionUpdate?: (type: string) => void
     drawIoLink?: string
     drawEnable: boolean
@@ -22,7 +26,11 @@ class TiptapHelper {
     static create(props: Props): Editor {
         let verbose = false;
         if (verbose) {
-            console.log(title, 'create with content', props.content)
+            console.log(title, 'create with content', props.content, 'and uuid', props.uuid)
+        }
+
+        if (props.uuid.length == 0) {
+            throw new Error('uuid is empty')
         }
 
         return new Editor({
@@ -78,12 +86,15 @@ class TiptapHelper {
             },
             onUpdate: ({ editor }) => {
                 let verbose = false;
-                let editorData = EditorData.fromEditor(editor)
+
+                this.checkBlockUUID(editor)
+
+                let doc = EditorDoc.fromEditor(editor)
                 if (props.onUpdate) {
                     if (verbose) {
-                        console.log(title, 'onUpdate, callback with EditorData')
+                        console.log(title, 'onUpdate, callback with EditorDoc', doc)
                     }
-                    props.onUpdate(editorData)
+                    props.onUpdate(doc)
                 } else {
                     console.log(title, 'onUpdate, no callback')
                 }
@@ -101,63 +112,55 @@ class TiptapHelper {
         let type = "paragraph"
         if (editor.isActive('paragraph')) {
             type = "paragraph"
-        } else if (editor.isActive('heading', { level: 1 })) {
+        } else if (editor.isActive(HEADING, { level: 1 })) {
             type = "heading1"
-        } else if (editor.isActive('heading', { level: 2 })) {
+        } else if (editor.isActive(HEADING, { level: 2 })) {
             type = "heading2"
-        } else if (editor.isActive('heading', { level: 3 })) {
+        } else if (editor.isActive(HEADING, { level: 3 })) {
             type = "heading3"
-        } else if (editor.isActive('heading', { level: 4 })) {
+        } else if (editor.isActive(HEADING, { level: 4 })) {
             type = "heading4"
-        } else if (editor.isActive('heading', { level: 5 })) {
+        } else if (editor.isActive(HEADING, { level: 5 })) {
             type = "heading5"
-        } else if (editor.isActive('heading', { level: 6 })) {
+        } else if (editor.isActive(HEADING, { level: 6 })) {
             type = "heading6"
-        } else if (editor.isActive('codeBlock')) {
+        } else if (editor.isActive(CODE_BLOCK)) {
             type = "codeBlock"
-        } else if (editor.isActive('blockquote')) {
+        } else if (editor.isActive(BLOCKQUOTE)) {
             type = "blockquote"
-        } else if (editor.isActive('bulletList')) {
+        } else if (editor.isActive(BULLET_LIST)) {
             type = "bulletList"
-        } else if (editor.isActive('orderedList')) {
+        } else if (editor.isActive(ORDERED_LIST)) {
             type = "orderedList"
-        } else if (editor.isActive('listItem')) {
+        } else if (editor.isActive(LIST_ITEM)) {
             type = "listItem"
-        } else if (editor.isActive('image')) {
+        } else if (editor.isActive(IMAGE)) {
             type = "image"
-        } else if (editor.isActive('draw')) {
+        } else if (editor.isActive(DRAW)) {
             type = "draw"
-        } else if (editor.isActive('table')) {
+        } else if (editor.isActive(TABLE)) {
             type = "table"
         } else if (editor.isActive('tableCell')) {
             type = "tableCell"
-        } else if (editor.isActive('tableRow')) {
+        } else if (editor.isActive(TABLE_ROW)) {
             type = "tableRow"
-        } else if (editor.isActive('tableHeader')) {
+        } else if (editor.isActive(TABLE_HEADER)) {
             type = "tableHeader"
-        } else if (editor.isActive('link')) {
+        } else if (editor.isActive(A)) {
             type = "link"
-        } else if (editor.isActive('strike')) {
+        } else if (editor.isActive(STRIKE)) {
             type = "strike"
         } else if (editor.isActive('code')) {
             type = "code"
-        } else if (editor.isActive('underline')) {
-            type = "underline"
-        } else if (editor.isActive('bold')) {
-            type = "bold"
         } else if (editor.isActive('italic')) {
             type = "italic"
-        } else if (editor.isActive('superscript')) {
-            type = "superscript"
-        } else if (editor.isActive('subscript')) {
-            type = "subscript"
-        } else if (editor.isActive('orderedList')) {
+        } else if (editor.isActive(ORDERED_LIST)) {
             type = "orderedList"
-        } else if (editor.isActive('bulletList')) {
+        } else if (editor.isActive(BULLET_LIST)) {
             type = "bulletList"
-        } else if (editor.isActive('draw')) {
+        } else if (editor.isActive(DRAW)) {
             type = "draw"
-        } else if (editor.isActive('banner')) {
+        } else if (editor.isActive(BANNER)) {
             type = "banner"
         }
 
@@ -263,6 +266,47 @@ class TiptapHelper {
 
             return content
         }
+    }
+
+    static checkBlockUUID(editor: TiptapEditor) {
+        let typesWithoutUUID = [
+            'text',
+            'tableRow',
+            'tableHeader',
+            'tableCell',
+            'taskItem',
+            'toc',
+        ]
+
+        // 检查每一个node，没有uuid属性则抛出异常
+        editor.state.doc.descendants((node, pos) => {
+            if (!typesWithoutUUID.includes(node.type.name) && !node.attrs.uuid) {
+                // console.error(node)
+                throw new Error(`Node [${node.type.name}] has no uuid`)
+                // console.warn('Node has no uuid', node)
+            }
+        })
+    }
+
+    static getFocusedNodePosition(editor: TiptapEditor): { offsetTop: number | null, offsetLeft: number | null } {
+        const currentNode: Element | null = DomHelper.querySelector(`.` + Config.focusClassName)
+        if (currentNode === null) {
+            return { offsetTop: null, offsetLeft: null }
+        }
+
+        // 当前元素距离页面顶部的距离
+        let { offsetTop, offsetLeft } = currentNode as HTMLElement
+
+        // 微修正菜单位置
+        offsetTop = currentNode.tagName === 'DIV' ? offsetTop - 8 : offsetTop - 5
+        let offsetY = 0
+        if (editor.isActive('horizontalRule') || editor.isActive('table')) {
+            offsetY = 5
+        }
+        if (editor.isActive('pagination')) {
+            offsetY = -4
+        }
+        return { offsetTop, offsetLeft }
     }
 }
 

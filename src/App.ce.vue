@@ -1,99 +1,58 @@
-<template>
-  <div class="flex flex-col items-center">
-    <!-- 操作栏 -->
-    <ToolBar v-if="app.isDebug" class="top-1 sticky z-50"></ToolBar>
-
-    <!-- 初始化时的内容来源 -->
-    <slot></slot>
-
-    <!-- loading -->
-    <Loading v-if="app.loading"></Loading>
-
-    <IndexPage
-      v-else
-      v-show="app.ready"
-      :uuid="node.uuid"
-      :content="node.content"
-      :drawLink="app.drawLink"
-      :onUpdate="app.updateNode"
-      :onMessage="onMessage"
-    ></IndexPage>
-
-    <!-- 提示信息 -->
-    <Message :message="message" type="tips" :uuid="uuid"></Message>
-  </div>
-</template>
-
 <script setup lang="ts">
-import IndexPage from './components/IndexPage.vue'
-import ToolBar from './components/ToolBar.vue'
-import { useAppStore } from './provider/AppStore'
-import { useFeatureStore } from './provider/FeatureStore'
-import setApi from './api/ApiSet'
-import Loading from './ui/Loading.vue'
-import { computed, onMounted, ref } from 'vue'
-import Message from './ui/Message.vue'
-import URLHelper from './helper/URLHelper'
-import { v4 as generateUUID } from 'uuid'
+import { watch } from 'vue';
+import BasicPage from './pages/BasicPage.vue';
+import NodePage from './pages/NodePage.vue'
+import { useMessageStore } from './store/MessageStore'
+import PluginProvider from './provider/PluginProvider'
+import { Config } from './config/config';
+import { useAppStore } from './store/AppStore';
+import Message from './pages/Message.vue';
+import SlotPage from './pages/SlotPage.vue';
+import PageMode from './model/PageMode';
+import { useModeStore } from './store/ModeStore';
+import { onMounted } from 'vue';
 
 const props = defineProps({
-  drawio: {
-    type: String,
-    required: true
-  },
-  readonly: {
-    type: Boolean,
-    default: false
-  }
+	drawio: {
+		type: String,
+		required: true
+	},
+	readonly: {
+		type: Boolean,
+		default: false
+	},
+	mode: {
+		type: String,
+		required: false,
+		default: PageMode.BASIC_TYPE
+	}
 })
 
-const targetNode = document.querySelector('juice-editor')!
-const config = { childList: true, subtree: true, characterData: true }
-const observer = new MutationObserver(setEditorContent)
-const feature = useFeatureStore()
 const app = useAppStore()
-const message = ref('')
-const uuid = ref('')
-const node = computed(() => {
-  return app.node
-})
-
-observer.observe(targetNode, config)
+const messageStore = useMessageStore()
+const modeStore = useModeStore()
 
 onMounted(() => {
-  app.drawLink = props.drawio
-  feature.editable = !props.readonly
-
-  // 将方法暴露到外部，swift 可以调用
-  setApi(app, feature)
-
-  setEditorContent()
-
-  // 监听 URL 变化
-  window.onpopstate = URLHelper.onURLChanged
+	modeStore.setMode(props.mode)
 })
 
-function onMessage(m: string) {
-  message.value = m
-  uuid.value = generateUUID()
-}
+watch(() => app.message, () => messageStore.setMessageText(app.message.text))
 
-function setEditorContent() {
-  if (app.isDebug == false) {
-    let content = document.querySelector('juice-editor')!.innerHTML
-    app.setCurrentNodeContent(content)
-  }
-
-  app.loading = false
-  app.setReady()
-
-  observer.disconnect()
-  targetNode.innerHTML = ''
-  observer.observe(targetNode, config)
-}
 </script>
 
 <style>
-@import './app.css';
+@import './styles/app.css';
 @import 'monaco-editor/min/vs/editor/editor.main.css';
 </style>
+
+<template>
+	<BasicPage :drawio="drawio" :readonly="readonly" v-if="modeStore.isBasic()"
+		:onMessage="messageStore.setMessageText">
+	</BasicPage>
+	<NodePage :drawio="drawio" :readonly="readonly" v-if="modeStore.isNode()" :onMessage="messageStore.setMessageText">
+	</NodePage>
+	<SlotPage :drawio="drawio" :readonly="readonly" v-if="modeStore.isSlot()" :onMessage="messageStore.setMessageText">
+	</SlotPage>
+
+	<Message></Message>
+</template>

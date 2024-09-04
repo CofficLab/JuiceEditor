@@ -1,4 +1,4 @@
-import { Node } from "@tiptap/core";
+import { Node, mergeAttributes } from "@tiptap/core";
 import { VueNodeViewRenderer } from "@tiptap/vue-3";
 import SmartLinkVue from "./SmartLink.vue";
 
@@ -16,13 +16,14 @@ const SmartLink = Node.create({
     group: "inline",
     content: "text*",
     parseHTML: () => [{ tag: "a" }],
-    renderHTML: ({ node }) => [
-        "a",
-        {
-            "href": node.attrs.href,
-        },
-        node.attrs.text
-    ],
+    // renderHTML: ({ node }) => [
+    //     "a",
+    //     mergeAttributes(this.options.HTMLAttributes, node.attrs),
+    //     node.attrs.text
+    // ],
+    renderHTML({ HTMLAttributes }) {
+        return ['kbd', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
+    },
     addAttributes() {
         return {
             href: {

@@ -1,16 +1,10 @@
-import { JSONContent } from "@tiptap/core";
+import { v4 as uuidv4 } from 'uuid';
 
 interface TreeNodeParams {
     uuid?: string;
     title?: string;
     isBook?: boolean;
     priority?: number;
-    content?: string;
-    json?: string;
-    jsonContent?: JSONContent;
-    characterCount?: number;
-    wordCount?: number;
-    lastSyncedAt?: string;
     children?: Object[]
 }
 
@@ -19,29 +13,43 @@ export default class TreeNode {
     public title: string = ""
     public priority: number = 0
     public isBook: boolean = false
-    public content: string = ""
-    public json: string = ""
-    public characterCount: number = 0
-    public wordCount: number = 0
-    public lastSyncedAt: string = ""
     public children: TreeNode[] = []
-    jsonContent: JSONContent = {};
+
+    static makeDefaultNode(): TreeNode {
+        let treeNode = new TreeNode({
+            uuid: uuidv4(),
+            title: '',
+        })
+
+        return treeNode
+    }
+
+    static fromBase64(base64: string): TreeNode {
+        let jsonString = atob(base64)
+
+        try {
+            let object = JSON.parse(jsonString)
+            return new TreeNode(object)
+        } catch (error) {
+            console.error('🍋 SmartDraw: 解析树节点失败', error)
+            throw new Error('🍋 SmartDraw: 解析树节点失败')
+        }
+    }
 
     constructor(public params: TreeNodeParams) {
-        this.uuid = params.uuid || ""
+        if (params.uuid == null) {
+            throw new NoUUIDError('uuid is empty')
+        }
+
+        this.uuid = params.uuid
         this.title = params.title || ""
         this.priority = params.priority || 0
-        this.content = params.content || ""
-        this.jsonContent = params.jsonContent || {}
-        this.characterCount = params.characterCount || 0
-        this.wordCount = params.wordCount || 0
-        this.lastSyncedAt = params.lastSyncedAt || ""
         this.isBook = params.isBook || false
         this.children = []
 
         if (params.children) {
-            params.children.forEach((element: Object) => {
-                this.children.push(new TreeNode(element))
+            params.children.forEach((element: TreeNodeParams) => {
+                return this.children.push(new TreeNode(element));
             });
         }
     }
@@ -51,10 +59,6 @@ export default class TreeNode {
         this.title = params.title || this.title
         this.priority = params.priority || this.priority
         this.isBook = params.isBook || this.isBook
-        this.content = params.content || this.content
-        this.characterCount = params.characterCount || this.characterCount
-        this.wordCount = params.wordCount || this.wordCount
-        this.lastSyncedAt = params.lastSyncedAt || this.lastSyncedAt
         this.children = []
         if (params.children) {
             params.children.forEach((element: Object) => {
@@ -75,31 +79,6 @@ export default class TreeNode {
         return this
     }
 
-    setContent(content: string): this {
-        this.content = content
-        return this
-    }
-
-    setJsonContent(jsonContent: JSONContent): this {
-        this.jsonContent = jsonContent
-        return this
-    }
-
-    setCharacterCount(characterCount: number): this {
-        this.characterCount = characterCount
-        return this
-    }
-
-    setWordCount(wordCount: number): this {
-        this.wordCount = wordCount
-        return this
-    }
-
-    setLastSyncedAt(lastSyncedAt: string): this {
-        this.lastSyncedAt = lastSyncedAt
-        return this
-    }
-
     setPriority(priority: number): this {
         this.priority = priority
         return this
@@ -115,22 +94,11 @@ export default class TreeNode {
         return this
     }
 
-    toJSON(): Object {
-        return {
-            uuid: this.uuid,
-            title: this.title,
-            isBook: this.isBook,
-            priority: this.priority,
-            content: this.content,
-            jsonContent: this.jsonContent,
-            characterCount: this.characterCount,
-            wordCount: this.wordCount,
-            lastSyncedAt: this.lastSyncedAt,
-            children: this.children
-        }
+    toJSONString(): string {
+        return JSON.stringify(this)
     }
 
     sameWith(node: TreeNode): boolean {
-        return JSON.stringify(this.toJSON()) == JSON.stringify(node.toJSON())
+        return JSON.stringify(this.toJSONString()) == JSON.stringify(node.toJSONString())
     }
 }

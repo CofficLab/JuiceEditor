@@ -16,21 +16,11 @@ const SmartParagraph = Paragraph.extend({
             },
             type: {
                 default: "paragraph"
-            },
-            uuid: {
-                default: null,
-                parseHTML: element => element.getAttribute('data-uuid'),
-                renderHTML: attributes => {
-                    if (!attributes.uuid) {
-                        attributes.uuid = uuidv4();
-                    }
-                    return { 'data-uuid': attributes.uuid }
-                }
             }
         }
     },
 
-    addNodeView: () => VueNodeViewRenderer(SmartParagraphVue),
+    // addNodeView: () => VueNodeViewRenderer(SmartParagraphVue),
 });
 
 export default SmartParagraph;

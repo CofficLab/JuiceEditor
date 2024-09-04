@@ -7,6 +7,7 @@ import Italic from "@tiptap/extension-italic"
 import ListItem from "@tiptap/extension-list-item"
 import Placeholder from "@tiptap/extension-placeholder"
 import Strike from "@tiptap/extension-strike"
+import Dropcursor from '@tiptap/extension-dropcursor'
 import Table from "@tiptap/extension-table"
 import Highlight from "@tiptap/extension-highlight"
 import TableCell from "@tiptap/extension-table-cell"
@@ -27,7 +28,20 @@ import SmartParagraph from "../extensions/SmartParagraph/SmartParagraph"
 import SmartBulletList from "../extensions/SmartBulletList/SmartBulletList"
 import SmartQuote from "../extensions/SmartQuote/SmartQuote"
 import SmartKbd from "../extensions/SmartKbd/SmartKbd"
-import UUID from "../extensions/UniqueID/UniqueID"
+import UUID from "../extensions/UUID/UUID"
+import { v4 as uuidv4 } from "uuid";
+import SmartTableHeader from "../extensions/SmartTableHeader/SmartTableHeader"
+import SmartTableRow from "../extensions/SmartTableRow/SmartTableRow"
+import Panel from "../extensions/Panel/Panel"
+import SmartSelection from "../extensions/SmartSelection"
+import { SmartHover } from "../extensions/SmartHover"
+import { Ring } from "../extensions/Ring"
+import { Padding } from "../extensions/Padding"
+import { SmartFocus } from "../extensions/SmartFocus"
+import Config from "./config"
+import { Debug } from "../extensions/Debug"
+import Image from "@tiptap/extension-image"
+import { HEADING, PARAGRAPH } from "./nodes"
 
 interface makeExtensionsProps {
     drawIoLink?: string,
@@ -37,6 +51,11 @@ interface makeExtensionsProps {
 
 export default function makeExtensions(props: makeExtensionsProps) {
     var extensions = [
+        // Debug,
+        Document.extend({
+            content: 'heading block*',
+        }),
+        Dropcursor,
         SmartQuote.configure({
             HTMLAttributes: {
                 class: 'my-custom-class',
@@ -69,14 +88,14 @@ export default function makeExtensions(props: makeExtensionsProps) {
             drawIoLink: props.drawIoLink,
             allowBase64: true,
             HTMLAttributes: {
-                class: ''
+                class: 'smart-image'
             }
         }),
-        Document.extend({
-            content: 'heading block*'
-        }),
         // GroupPre,
-        // Heading,
+        SmartFocus.configure({
+            className: Config.focusClassName,
+            mode: 'shallowest'
+        }),
         SmartHeading,
         History.configure({
             depth: 100,
@@ -97,17 +116,19 @@ export default function makeExtensions(props: makeExtensionsProps) {
                 class: 'my-custom-class',
             },
         }),
+        // Ring,
         SmartParagraph,
+        Padding,
         Placeholder.configure({
             placeholder: ({ node }) => {
-                if (node.type.name === 'heading' && node.attrs.level == 1) {
+                if (node.type.name === HEADING && node.attrs.level == 1) {
                     return '输入标题'
                 }
 
                 return ''
             }
         }),
-        SmartKbd,
+        SmartSelection,
         SmartLink.configure({
             protocols: ['ftp', 'mailto'],
             autolink: true,
@@ -127,22 +148,26 @@ export default function makeExtensions(props: makeExtensionsProps) {
         }),
         SmartTaskList,
         Text,
-        SmartTable,
-        // 默认启用table，保证table能够正常渲染
+        // SmartTable,
         Table.configure({
             resizable: true,
             HTMLAttributes: {
                 class: 'my-table',
+                uuid: null
             },
         }),
-        TableRow,
+        // TableRow,
+        SmartTableRow,
         TableCell,
-        TableHeader,
-        Toc,
+        // TableHeader,
+        SmartTableHeader,
+        // Toc,
         TextAlign.configure({
-            types: ['heading', 'paragraph'],
+            types: [HEADING, PARAGRAPH],
         }),
-        // UUID
+        UUID,
+        // Panel,
+        // SmartHover
     ]
 
     return extensions

@@ -3,7 +3,8 @@ const { copy, emptyDir } = require('fs-extra')
 let destinations = [
   '../Kuaiyizhi_SwiftUI/Resources/dist/',
   '../Kuaiyizhi/public/editor',
-  '../Kuaiyizhi_Flutter/assets/editor'
+  '../Kuaiyizhi_Flutter/assets/editor',
+  '../JuiceEditor-Demo/public/juice-editor'
 ]
 
 deploy()
