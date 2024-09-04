@@ -3,7 +3,6 @@ import EditorDoc from '../model/EditorDoc'
 import Config from '../config/config'
 import MarkdownHelper from '../helper/MarkdownHelper'
 import SmartMessage from '../model/SmartMessage'
-import EditorData from '../model/EditorData'
 const config = Config
 const isDebug = config.isDebug
 const title = "🍋 DocStore"

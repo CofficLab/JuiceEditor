@@ -1,6 +1,7 @@
 import TreeNode from "../model/TreeNode";
 import Plugin from "../contract/Plugin";
 import EditorDoc from "../model/EditorDoc";
+import PageMode from "../model/PageMode";
 
 const emoji = "🐶 PluginProvider"
 
@@ -17,11 +18,11 @@ export default class PluginProvider {
         this.plugins = plugins
     }
 
-    onReadyChange() {
-        let verbose = false
+    onReady(mode: PageMode) {
+        let verbose = true
 
         if (verbose) {
-            console.log(emoji, "OnReadyChange")
+            console.log(emoji, "OnReady", mode.type)
         }
 
         this.plugins.forEach(p => {

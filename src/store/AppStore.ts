@@ -33,11 +33,21 @@ export const useAppStore = defineStore('app-store', {
             document.dispatchEvent(new CustomEvent('close-draw'))
         },
 
-        setReady() {
-            let verbose = false
+        setNotReady(reason: string) {
+            let verbose = true
 
             if (verbose) {
-                console.log(title, 'setReady')
+                console.log(title, 'setNotReady, reason:', reason)
+            }
+
+            this.ready = false
+        },
+
+        setReady(reason: string) {
+            let verbose = true
+
+            if (verbose) {
+                console.log(title, 'setReady, reason:', reason)
             }
 
             this.hideLoading()

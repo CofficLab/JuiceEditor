@@ -50,7 +50,7 @@ class WebKit implements Plugin {
     }
 
     onDocUpdatedWithNode(doc: EditorDoc, node: TreeNode): void {
-        let verbose = false;
+        let verbose = true;
 
         if (verbose) {
             console.log(title, "onDocUpdated", doc)

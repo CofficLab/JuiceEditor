@@ -2,7 +2,6 @@ import { Editor, JSONContent } from '@tiptap/core'
 import { HEADING } from '../config/nodes'
 import { v4 as uuidv4 } from 'uuid'
 import { DOC } from '../config/nodes'
-import EditorData from './EditorData'
 
 const emoji = '🍉 EditorBlock'
 
