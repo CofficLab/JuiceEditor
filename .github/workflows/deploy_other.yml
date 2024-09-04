@@ -217,7 +217,7 @@ jobs:
         with:
           repository: CofficLab/JuiceEditor-Demo
           token: ${{ secrets.Token_Sync }}
-          ref: dev
+          ref: main
       - name: 检查文件
         run: ls -alh
       - name: 删除旧版

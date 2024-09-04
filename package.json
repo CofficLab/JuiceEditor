@@ -1,6 +1,6 @@
 {
   "name": "juice-editor",
-  "version": "0.7.7",
+  "version": "0.9.1",
   "private": true,
   "scripts": {
     "dev": "vite",
