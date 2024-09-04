@@ -1,5 +1,5 @@
 <template>
-  <template v-if="props.type === 'message'">
+  <template v-if="message.type === 'message'">
     <label for="message" id="messageTrigger" class="hidden btn"></label>
 
     <input type="checkbox" id="message" class="modal-toggle" />
@@ -16,14 +16,10 @@
     </div>
   </template>
 
-  <template v-else-if="props.type === 'tips' && displayMessage">
+  <template v-else-if="message.type === 'tips' && displayMessage">
     <Transition name="fade">
-      <div class="prose dark:prose-invert fixed mx-auto inset-0 flex items-center justify-center z-50">
-        <div class="mt-4 bg-cyan-100/90 dark:bg-slate-800 rounded stats shadow-3xl">
-          <div class="stat">
-            <div class="text-center stat-title">{{ displayMessage }}</div>
-          </div>
-        </div>
+      <div class="fixed bottom-4 right-4 z-50">
+        <Card title="提示" :line1="displayMessage"></Card>
       </div>
     </Transition>
   </template>
@@ -31,46 +27,47 @@
 
 <script lang="ts" setup>
 import DomHelper from '../helper/DomHelper';
-import { defineProps, watch, ref } from 'vue'
+import { watch, ref, computed } from 'vue'
+import { useMessageStore } from '../store/MessageStore'
+import PluginProvider from '../provider/PluginProvider'
+import { Config } from '../config/config'
+import Card from '../ui/Card.vue';
 
-const props = defineProps({
-  message: {
-    type: String,
-    required: false
-  },
-  type: {
-    type: String,
-    required: true,
-    default: 'tips',
-    validator: (value: string) => ['message', 'tips'].includes(value)
-  },
-  uuid: {
-    type: String,
-    required: true
-  }
-})
-
-const displayMessage = ref(props.message)
+const title = "🍚 Message"
+const messageStore = useMessageStore()
+const message = computed(() => messageStore.message)
+const displayMessage = ref(message.value.text)
+const pluginProvider = new PluginProvider(Config.plugins)
 
 watch(
-  () => props.uuid,
+  () => messageStore.uuid,
   (newVal) => {
-    displayMessage.value = props.message
+    let verbose = true
 
-    if (props.type === 'message') {
+    if (verbose) {
+      console.log(title, 'messageStore.uuid', newVal)
+    }
+
+    displayMessage.value = messageStore.message.text
+
+    if (messageStore.message.type === 'message') {
       toggleModal()
       setTimeout(() => {
         toggleModal()
       }, 3000)
     }
 
-    if (props.type === 'tips') {
+    if (messageStore.message.type === 'tips') {
       setTimeout(() => {
         displayMessage.value = ''
       }, 3000)
     }
   }
 )
+
+watch(() => messageStore.message, () => {
+  pluginProvider.onMessage(messageStore.message.text)
+})
 
 function toggleModal() {
   const trigger = DomHelper.findElement('messageTrigger')

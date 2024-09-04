@@ -2,14 +2,16 @@ import { Editor, JSONContent } from '@tiptap/core'
 import { HEADING } from '../config/nodes'
 import { v4 as uuidv4 } from 'uuid'
 import { DOC } from '../config/nodes'
-
-const emoji = '🍉 EditorDoc'
+import EditorBlock from './EditorBlock'
+import EditorDoc from './EditorDoc'
+const emoji = '🍉 EditorData'
 
 // 从编辑器中能获得的数据
 export default class EditorData {
     public title: string = ""
     public content: string = ""
-    public json: JSONContent = {}
+    public jsonContent: JSONContent = {}
+    public doc: EditorDoc = EditorDoc.default()
     public characterCount: number = 0
     public wordCount: number = 0
 
@@ -20,18 +22,14 @@ export default class EditorData {
             console.log(emoji, 'fromEditor', editor.getJSON())
         }
 
-        let nodes = editor.state.doc.content
-        let title = ''
-        nodes.forEach((node) => {
-            if ([HEADING].includes(node.type.name) && title == '') {
-                title = node.textContent!
-            }
-        })
+        if (editor.options.injectNonce == undefined) {
+            throw new Error('EditorData.fromEditor: injectNonce is undefined')
+        }
 
         return new EditorData()
-            .setTitle(title)
+            .setTitle(this.getTitleFromEditor(editor))
             .setContent(editor.getHTML())
-            .setJson(editor.getJSON())
+            .setDoc(EditorDoc.fromEditor(editor))
             .setCharacterCount(editor.storage.characterCount.characters())
             .setWordCount(editor.storage.characterCount.words())
     }
@@ -56,8 +54,8 @@ export default class EditorData {
         return this
     }
 
-    setJson(json: JSONContent): this {
-        this.json = json
+    setDoc(doc: EditorDoc): this {
+        this.doc = doc
         return this
     }
 
@@ -69,5 +67,16 @@ export default class EditorData {
     setWordCount(wordCount: number): this {
         this.wordCount = wordCount
         return this
+    }
+
+    private static getTitleFromEditor(editor: Editor): string {
+        let nodes = editor.state.doc.content
+        let title = ''
+        nodes.forEach((node) => {
+            if ([HEADING].includes(node.type.name) && title == '') {
+                title = node.textContent!
+            }
+        })
+        return title
     }
 }

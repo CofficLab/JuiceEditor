@@ -2,12 +2,10 @@
 import { useAppStore } from '../store/AppStore'
 import { useFeatureStore } from '../store/FeatureStore'
 import Loading from '../ui/Loading.vue'
-import Message from '../ui/Message.vue'
 import CoreEditor from '../core/CoreEditor.vue'
 import TreeNode from '../model/TreeNode'
 import Config from '../config/config'
 import Children from '../core/Children.vue'
-import { useMessageStore } from '../store/MessageStore'
 import { onMounted, watch } from 'vue'
 import { useDocStore } from '../store/DocStore'
 import PluginProvider from '../provider/PluginProvider'
@@ -15,6 +13,7 @@ import ListenerProvider from '../provider/ListenerProvider'
 import ApiProvider from '../provider/ApiProvider'
 import { useNodeStore } from '../store/NodeStore'
 import { useDocsStore } from '../store/DocsStore'
+import UUIDHelper from '../helper/UUIDHelper'
 const props = defineProps({
     drawio: {
         type: String,
@@ -23,6 +22,10 @@ const props = defineProps({
     readonly: {
         type: Boolean,
         default: false
+    },
+    onMessage: {
+        type: Function,
+        required: true
     }
 })
 
@@ -30,7 +33,6 @@ const feature = useFeatureStore()
 const app = useAppStore()
 const docStore = useDocStore()
 const nodeStore = useNodeStore()
-const messageStore = useMessageStore()
 const docsStore = useDocsStore()
 const children: TreeNode[] = []
 const pluginProvider = new PluginProvider(Config.plugins)
@@ -52,9 +54,8 @@ onMounted(() => {
     app.setReady()
 })
 
-watch(() => app.message.uuid, () => messageStore.setMessage(app.message.text))
+
 watch(() => app.ready, () => pluginProvider.onReadyChange())
-watch(() => messageStore.message, () => pluginProvider.onMessage(messageStore.message))
 watch(() => docStore.getDoc(), () => pluginProvider.onDocUpdated(docStore.getDoc()), { deep: true })
 
 </script>
@@ -65,13 +66,11 @@ watch(() => docStore.getDoc(), () => pluginProvider.onDocUpdated(docStore.getDoc
 
         <Loading v-if="app.loading"></Loading>
 
-        <CoreEditor v-if="feature.editorVisible" :content="docStore.getContent()" :editable="feature.editable"
+        <CoreEditor v-if="feature.editorVisible" :content="docStore.getHTML()" :editable="feature.editable"
             :tableEnable="feature.tableEnabled" :drawEnable="feature.drawEnabled" :drawLink="docStore.drawLink"
             :bubbleMenusEnable="feature.bubbleMenuVisible" :floatingMenusEnable="feature.floatingMenuVisible"
-            :onUpdate="docStore.updateDoc" :onMessage="messageStore.setMessage" :uuid="docStore.getUUID()" />
+            :onUpdate="docStore.updateDoc" :onMessage="onMessage" :uuid="docStore.getUUID() ?? UUIDHelper.generate()" />
 
         <Children v-if="children.length > 0" :children="children"></Children>
-
-        <Message :message="messageStore.message" type="tips" :uuid="messageStore.uuid"></Message>
     </main>
 </template>

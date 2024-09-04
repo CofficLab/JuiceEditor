@@ -1,44 +1,43 @@
-import { Store } from 'pinia';
-import TreeNode from '../model/TreeNode';
 import EditorDoc from '../model/EditorDoc';
-
-import UpdateData from '../model/UpdateData';
 import { DocStore } from '../store/DocStore';
 
 let title = "💻 DocApi"
 
 export default class DocApi {
-    public editor: DocStore
+    public store: DocStore
 
     constructor(editorProvider: DocStore) {
-
-
         let verbose = false
 
         if (verbose) {
             console.log(title, '初始化')
         }
 
-        this.editor = editorProvider
+        this.store = editorProvider
     }
 
-    public setContent(content: string) {
-        if (typeof content != 'string') {
-            console.error(title, 'setContent', 'content is not string', content)
+    public setHTML(html: string) {
+        if (typeof html != 'string') {
+            console.error(title, 'setHTML', 'html is not string', html)
             return
         }
 
-        let doc = this.editor.getDoc()
-        doc.content = content
+        let doc = this.store.getDoc()
+
+        if (doc == null) {
+            throw new Error('doc is null')
+        }
+
+        doc.html = html
         this.setDoc(doc)
     }
 
     public setDrawLink(link: string) {
-        this.editor.setDrawLink(link)
+        this.store.setDrawLink(link)
     }
 
     public setDoc(doc: EditorDoc) {
-        this.editor.setDoc(doc)
+        this.store.setDoc(doc)
     }
 
     public setDocBase64(base64: string) {

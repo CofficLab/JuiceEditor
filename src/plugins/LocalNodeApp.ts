@@ -28,13 +28,13 @@ class LocalNodeApp implements Plugin {
     onPageLoaded(): void {
         let verbose = false
 
-        if (verbose) {
-            console.log(title, 'onPageLoaded')
-        }
-
         const currentNode = LocalDB.getNode()
         const docs = LocalDB.getDocs()
-        const currentDoc = LocalDB.getCurrentDoc() || EditorDoc.makeDefaultDoc()
+        const currentDoc = LocalDB.getCurrentDoc() || EditorDoc.default()
+
+        if (verbose) {
+            console.log(title, 'onPageLoaded, set node and doc', currentNode.uuid, currentDoc.uuid)
+        }
 
         window.api.node.setNode(currentNode)
         window.api.doc.setDoc(currentDoc)
@@ -90,6 +90,16 @@ class LocalNodeApp implements Plugin {
 
         LocalDB.saveDocs(data)
     }
+
+    onCurrentDocUUIDUpdated(uuid: string): void {
+        let verbose = false
+
+        if (verbose) {
+            console.log(title, 'onCurrentDocUUIDUpdated', uuid)
+        }
+
+        LocalDB.saveCurrentDocUUID(uuid)
+    }
 }
 
 class LocalDB {
@@ -103,7 +113,12 @@ class LocalDB {
         let currentDocUUID = LocalDB.getCurrentDocUUID()
 
         if (currentDocUUID.length == 0) {
-            return docs[0]
+            let firstDoc = docs[0]
+            if (firstDoc) {
+                LocalDB.saveCurrentDocUUID(firstDoc.uuid)
+            }
+
+            return firstDoc
         }
 
         return docs.find(doc => doc.uuid == currentDocUUID)
@@ -153,7 +168,7 @@ class LocalDB {
             return null
         }
 
-        let docs = JSON.parse(saveData).map((doc: { [key: string]: any; }) => EditorDoc.fromObject(doc))
+        let docs = JSON.parse(saveData).map((doc: { [key: string]: any; }) => EditorDoc.fromJSONString(JSON.stringify(doc)))
 
         if (verbose) {
             console.log(title, 'getDoc', docs)

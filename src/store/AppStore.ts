@@ -34,6 +34,12 @@ export const useAppStore = defineStore('app-store', {
         },
 
         setReady() {
+            let verbose = true
+
+            if (verbose) {
+                console.log(title, 'setReady')
+            }
+
             this.setMessage("setReady")
 
             this.hideLoading()

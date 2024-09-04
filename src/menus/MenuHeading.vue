@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { defineProps } from 'vue'
 import { Editor } from '@tiptap/core'
-import Heading from './ButtonHeading.vue'
+import Heading from '../buttons/ButtonHeading.vue'
 
 defineProps({
     editor: {

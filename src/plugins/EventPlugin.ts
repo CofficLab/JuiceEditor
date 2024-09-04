@@ -52,6 +52,9 @@ class EventPlugin implements Plugin {
 
     onDocUpdatedWithNode(data: EditorDoc, node: TreeNode): void {
     }
+
+    onCurrentDocUUIDUpdated(uuid: string): void {
+    }
 }
 
 export default EventPlugin

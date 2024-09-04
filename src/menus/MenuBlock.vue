@@ -48,12 +48,22 @@ watch(
 				updateMenuPosition()
 			})
 			editor.value.on('blur', () => {
-				console.log(emoji, 'blur')
+				let verbose = false
+
+				if (verbose) {
+					console.log(emoji, 'blur')
+				}
+
 				visible.value = false
 				updateMenuPosition()
 			})
 			editor.value.on('focus', () => {
-				console.log(emoji, 'focus')
+				let verbose = false
+
+				if (verbose) {
+					console.log(emoji, 'focus')
+				}
+
 				updateMenuPosition()
 			})
 		} else {

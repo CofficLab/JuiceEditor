@@ -1,6 +1,12 @@
 <script setup lang="ts">
+import { watch } from 'vue';
 import BasicPage from './pages/BasicPage.vue';
 import NodePage from './pages/NodePage.vue'
+import { useMessageStore } from './store/MessageStore'
+import PluginProvider from './provider/PluginProvider'
+import { Config } from './config/config';
+import { useAppStore } from './store/AppStore';
+import Message from './pages/Message.vue';
 
 defineProps({
 	drawio: {
@@ -18,6 +24,13 @@ defineProps({
 	}
 })
 
+const app = useAppStore()
+const pluginProvider = new PluginProvider(Config.plugins)
+const messageStore = useMessageStore()
+
+watch(() => app.ready, () => pluginProvider.onReadyChange())
+watch(() => app.message, () => messageStore.setMessageText(app.message.text))
+
 </script>
 
 <style>
@@ -26,6 +39,10 @@ defineProps({
 </style>
 
 <template>
-	<BasicPage :drawio="drawio" :readonly="readonly" v-if="page == 'basic'"></BasicPage>
-	<NodePage :drawio="drawio" :readonly="readonly" v-if="page == 'node'"></NodePage>
+	<BasicPage :drawio="drawio" :readonly="readonly" v-if="page == 'basic'" :onMessage="messageStore.setMessageText">
+	</BasicPage>
+	<NodePage :drawio="drawio" :readonly="readonly" v-if="page == 'node'" :onMessage="messageStore.setMessageText">
+	</NodePage>
+
+	<Message></Message>
 </template>

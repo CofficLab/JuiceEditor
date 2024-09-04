@@ -17,31 +17,47 @@ const props = defineProps({
     readonly: {
         type: Boolean,
         default: false
+    },
+    onMessage: {
+        type: Function,
+        required: true
     }
 });
 
+const title = '🐈 NodePage'
 const docStore = useDocStore();
 const nodeStore = useNodeStore();
 const docsStore = useDocsStore();
 const docs = computed(() => docsStore.getDocs());
 const currentDoc = computed(() => docStore.getDoc());
-const selected = ref(currentDoc.value.uuid);
+const selected = ref(currentDoc.value?.uuid);
 const pluginProvider = new PluginProvider(Config.plugins)
 
 watch(() => docStore.getDoc(), (newDoc) => {
-    docsStore.upsertDoc(newDoc);
-    selected.value = newDoc.uuid
+    if (newDoc) {
+        docsStore.upsertDoc(newDoc);
+        selected.value = newDoc.uuid
+    }
 }, { deep: true })
 
 watch(selected, (newSelected) => {
-    const doc = docsStore.getDoc(newSelected);
-    if (doc) {
-        docStore.setDoc(doc);
+    let verbose = true
+    if (verbose) {
+        console.log(title, 'selected changed', newSelected)
+    }
+
+    if (newSelected) {
+        const doc = docsStore.getDoc(newSelected);
+        if (doc) {
+            docStore.setDoc(doc);
+        }
+
+        pluginProvider.onCurrentDocUUIDUpdated(newSelected)
     }
 })
 
 const newDoc = () => {
-    const doc = EditorDoc.makeDefaultDoc();
+    const doc = EditorDoc.default();
     docStore.setDoc(doc);
     selected.value = doc.uuid
 }
@@ -56,11 +72,12 @@ watch(() => docStore.getDoc(), () => pluginProvider.onDocUpdatedWithNode(docStor
 
 <template>
     <div style="position: relative;" class="mt-0">
-        <BasicPage :drawio="drawio" :readonly="readonly" />
+        <BasicPage :drawio="drawio" :readonly="readonly" :onMessage="onMessage" />
         <div style="position: absolute; top: 0; right: 0;" class="mt-12 mr-24 z-50">
             <select v-model="selected" v-if="docs.length > 0">
-                <option v-for="doc in docs" :key="doc.uuid" :value="doc.uuid" :selected="doc.uuid == currentDoc.uuid">{{
-                    doc.title }}</option>
+                <option v-for="doc in docs" :key="doc.uuid" :value="doc.uuid" :selected="doc.uuid == currentDoc?.uuid">
+                    {{
+                        doc.title }}</option>
             </select>
             <button @click="newDoc()">新建</button>
         </div>

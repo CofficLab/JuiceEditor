@@ -8,10 +8,10 @@ export default function dev() {
     div.style.cssText = 'position: fixed; margin:0; padding:0; display: flex; justify-content: center; z-index: 500; width: 100%; background-color: purple;';
 
     const buttons = [
-        { text: '基础', onclick: () => window.api.doc.setContent(baseDoc) },
-        { text: '大型', onclick: () => window.api.doc.setContent(bigDoc) },
-        { text: '图片', onclick: () => window.api.doc.setContent(imageDoc) },
-        { text: '画图', onclick: () => window.api.doc.setContent(drawDoc) },
+        { text: '基础', onclick: () => window.api.doc.setHTML(baseDoc) },
+        { text: '大型', onclick: () => window.api.doc.setHTML(bigDoc) },
+        { text: '图片', onclick: () => window.api.doc.setHTML(imageDoc) },
+        { text: '画图', onclick: () => window.api.doc.setHTML(drawDoc) },
     ];
 
     buttons.forEach(button => {

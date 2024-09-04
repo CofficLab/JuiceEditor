@@ -12,7 +12,7 @@ export const useDocStore = defineStore('doc-store', {
     state: () => {
         return {
             message: new SmartMessage(""),
-            doc: EditorDoc.makeDefaultDoc(),
+            doc: null as EditorDoc | null,
             drawLink: config.drawLink,
             monacoLink: config.monacoLink,
             selectionType: '',
@@ -32,20 +32,17 @@ export const useDocStore = defineStore('doc-store', {
             document.dispatchEvent(new CustomEvent('close-draw'))
         },
 
-        getContent(): string {
-            return this.getDoc().content
-        },
-
-        getJSON(): string {
-            return JSON.stringify(this.getDoc().json)
+        getHTML(): string | undefined {
+            return this.getDoc()?.html
         },
 
         getDrawLink(): string {
             return this.drawLink
         },
 
-        getMarkdown(): string {
-            return MarkdownHelper.html2markdown(this.getContent())
+        getMarkdown(): string | undefined {
+            const html = this.getHTML()
+            return html ? MarkdownHelper.html2markdown(html) : undefined
         },
 
         setDrawLink: function (link: string) {
@@ -58,15 +55,12 @@ export const useDocStore = defineStore('doc-store', {
             this.selectionType = type
         },
 
-        getDoc(): EditorDoc {
-            if (this.doc.title == undefined) {
-                throw new Error('doc.title is undefined')
-            }
+        getDoc(): EditorDoc | null {
             return this.doc
         },
 
-        getUUID(): string {
-            return this.getDoc().uuid
+        getUUID(): string | undefined {
+            return this.getDoc()?.uuid
         },
 
         setDoc(doc: EditorDoc) {
@@ -76,8 +70,11 @@ export const useDocStore = defineStore('doc-store', {
                 console.log(title, 'setDoc', doc)
             }
 
-            if (doc.title == undefined) {
-                throw new Error('doc.title is undefined')
+            if (this.getHTML() == doc.html) {
+                if (verbose) {
+                    console.log(title, '更新节点，没变化，忽略')
+                }
+                return
             }
 
             this.setMessage("SetDoc: " + JSON.stringify(doc))
@@ -85,21 +82,17 @@ export const useDocStore = defineStore('doc-store', {
             this.doc = doc
         },
 
-        updateDoc(data: EditorData) {
+        updateDoc(doc: EditorDoc) {
             let verbose = false;
 
             this.setMessage("UpdateDoc")
 
-            if (data instanceof EditorData == false) {
-                console.error(title, 'UpdateDoc', 'data is not object', data)
-                throw new Error('data is not object')
+            if (doc instanceof EditorDoc == false) {
+                console.error(title, 'UpdateDoc', 'doc is not instance of EditorDoc', doc)
+                throw new Error('doc is not instance of EditorDoc')
             }
 
-            if (data.title == undefined) {
-                throw new Error('doc.title is undefined')
-            }
-
-            if (this.getContent() == data.content) {
+            if (this.getHTML() == doc.html) {
                 if (verbose) {
                     console.log(title, '更新节点，没变化，忽略')
                 }
@@ -107,12 +100,12 @@ export const useDocStore = defineStore('doc-store', {
             }
 
             if (verbose) {
-                console.log(title, 'updateDoc', data)
+                console.log(title, 'updateDoc', doc)
             }
 
-            this.doc = this.doc.updateFromEditorData(data)
+            this.doc = doc
 
-            if (data.content != this.getContent()) {
+            if (doc.html != this.getHTML()) {
                 throw new Error('content not match')
             }
         }

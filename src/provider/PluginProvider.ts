@@ -1,6 +1,7 @@
 import TreeNode from "../model/TreeNode";
 import Plugin from "../contract/Plugin";
 import EditorDoc from "../model/EditorDoc";
+
 const emoji = "🐶 PluginProvider"
 
 export default class PluginProvider {
@@ -40,11 +41,15 @@ export default class PluginProvider {
         })
     }
 
-    onDocUpdated(doc: EditorDoc) {
+    onDocUpdated(doc: EditorDoc | null) {
         let verbose = false
 
         if (verbose) {
             console.log(emoji, "OnDocUpdated")
+        }
+
+        if (doc == null) {
+            throw new Error("doc is null, this should not happen")
         }
 
         this.plugins.forEach(p => {
@@ -52,11 +57,19 @@ export default class PluginProvider {
         })
     }
 
-    onDocUpdatedWithNode(doc: EditorDoc, node: TreeNode) {
-        let verbose = true
+    onDocUpdatedWithNode(doc: EditorDoc | null, node: TreeNode | null) {
+        let verbose = false
 
         if (verbose) {
             console.log(emoji, "OnDocUpdatedWithNode", doc, node)
+        }
+
+        if (doc == null) {
+            throw new Error("doc is null, this should not happen")
+        }
+
+        if (node == null) {
+            throw new Error("node is null, this should not happen")
         }
 
         this.plugins.forEach(p => {
@@ -64,15 +77,31 @@ export default class PluginProvider {
         })
     }
 
-    onDocsUpdated(docs: EditorDoc[]) {
+    onDocsUpdated(docs: EditorDoc[] | null) {
         let verbose = false
 
         if (verbose) {
             console.log(emoji, "OnDocsUpdated")
         }
 
+        if (docs == null) {
+            throw new Error("docs is null, this should not happen")
+        }
+
         this.plugins.forEach(p => {
             p.onDocsUpdated(docs)
+        })
+    }
+
+    onCurrentDocUUIDUpdated(uuid: string) {
+        let verbose = false
+
+        if (verbose) {
+            console.log(emoji, "OnCurrentDocUUIDUpdated", uuid)
+        }
+
+        this.plugins.forEach(p => {
+            p.onCurrentDocUUIDUpdated(uuid)
         })
     }
 }

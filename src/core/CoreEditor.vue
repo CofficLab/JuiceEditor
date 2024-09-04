@@ -4,17 +4,17 @@ import { computed, onMounted, ref, watch } from 'vue'
 import BubbleMenus from '../menus/MenuBubble.vue'
 import FloatMenus from '../menus/MenuFloat.vue'
 import TiptapAgent from '../helper/TiptapHelper'
-import EditorDoc from '../model/EditorDoc'
 import Heading from '../extensions/Toc/Heading'
 import BlockMenu from '../menus/MenuBlock.vue'
 import EditorData from '../model/EditorData'
+import EditorDoc from '../model/EditorDoc'
 
 const title = '📒 Tiptap'
 const props = defineProps({
 	uuid: {
 		type: String,
 		required: true,
-		default: ''
+		validator: (value: string) => value !== undefined && value.trim().length > 0
 	},
 	drawLink: {
 		type: String,
@@ -76,10 +76,10 @@ const editor = TiptapAgent.create({
 	drawIoLink: props.drawLink,
 	drawEnable: props.drawEnable,
 	tableEnable: props.tableEnable,
-	onCreate: (data: EditorDoc) => {
+	onCreate: (data: EditorData) => {
 		props.onCreate(data)
 	},
-	onUpdate: (data: EditorData) => {
+	onUpdate: (data: EditorDoc) => {
 		refreshToc('onUpdate')
 		if (!props.editable) {
 			return console.log('只读模式，不回调更新')
@@ -132,7 +132,9 @@ watch(
 		}
 
 		if (editor.getHTML() === newValue) {
-			// console.log('new content = editor content')
+			if (verbose) {
+				console.log(title, 'new content = editor content, ignore')
+			}
 			return
 		}
 

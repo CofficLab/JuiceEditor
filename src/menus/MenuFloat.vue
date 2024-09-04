@@ -27,14 +27,14 @@
 <script lang="ts" setup>
 import { Editor, FloatingMenu } from '@tiptap/vue-3'
 import TiptapAgent from '../helper/TiptapHelper'
-import Heading from './ButtonHeading.vue'
-import Image from './ButtonImage.vue'
-import Draw from './ButtonDraw.vue'
-import Table from './ButtonTable.vue'
-import TaskList from './ButtonTaskList.vue'
-import SmartPre from './ButtonSmartPre.vue'
+import Heading from '../buttons/ButtonHeading.vue'
+import Image from '../buttons/ButtonImage.vue'
+import Draw from '../buttons/ButtonDraw.vue'
+import Table from '../buttons/ButtonTable.vue'
+import TaskList from '../buttons/ButtonTaskList.vue'
+import SmartPre from '../buttons/ButtonSmartPre.vue'
 import ButtonBar from '../ui/ButtonBar.vue'
-import Kbd from './ButtonKbd.vue'
+import Kbd from '../buttons/ButtonKbd.vue'
 
 defineProps({
   editor: {

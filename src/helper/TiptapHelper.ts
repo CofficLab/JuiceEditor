@@ -1,12 +1,12 @@
 import { Editor } from '@tiptap/vue-3'
 import { Editor as TiptapEditor } from '@tiptap/core'
 import { Node as ProseMirrorNode } from '@tiptap/pm/model';
-import EditorDoc from '../model/EditorDoc'
 import makeExtensions from '../config/extension'
 import DomHelper from './DomHelper';
 import Config from '../config/config';
 import { A, BANNER, BLOCKQUOTE, BULLET_LIST, CODE_BLOCK, DRAW, HEADING, IMAGE, LIST_ITEM, ORDERED_LIST, STRIKE, TABLE, TABLE_HEADER, TABLE_ROW } from '../config/nodes';
 import EditorData from '../model/EditorData';
+import EditorDoc from '../model/EditorDoc';
 
 const title = '📒 TiptapHelper'
 
@@ -14,8 +14,8 @@ interface Props {
     uuid: string,
     content: string
     editable: boolean
-    onCreate: (data: EditorDoc) => void
-    onUpdate: (data: EditorData) => void
+    onCreate: (data: EditorData) => void
+    onUpdate: (data: EditorDoc) => void
     onSelectionUpdate?: (type: string) => void
     drawIoLink?: string
     drawEnable: boolean
@@ -26,7 +26,11 @@ class TiptapHelper {
     static create(props: Props): Editor {
         let verbose = false;
         if (verbose) {
-            console.log(title, 'create with content', props.content)
+            console.log(title, 'create with content', props.content, 'and uuid', props.uuid)
+        }
+
+        if (props.uuid.length == 0) {
+            throw new Error('uuid is empty')
         }
 
         return new Editor({
@@ -50,7 +54,7 @@ class TiptapHelper {
                 if (verbose) {
                     console.log(title, 'onCreate, callback with EditorData')
                 }
-                props.onCreate(EditorDoc.fromEditor(editor))
+                props.onCreate(EditorData.fromEditor(editor))
             },
             onFocus: ({ editor }) => {
                 let verbose = false;
@@ -85,12 +89,12 @@ class TiptapHelper {
 
                 this.checkBlockUUID(editor)
 
-                let editorData = EditorData.fromEditor(editor)
+                let doc = EditorDoc.fromEditor(editor)
                 if (props.onUpdate) {
                     if (verbose) {
-                        console.log(title, 'onUpdate, callback with EditorData', editorData)
+                        console.log(title, 'onUpdate, callback with EditorDoc', doc)
                     }
-                    props.onUpdate(editorData)
+                    props.onUpdate(doc)
                 } else {
                     console.log(title, 'onUpdate, no callback')
                 }

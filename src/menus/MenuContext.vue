@@ -54,7 +54,7 @@ import Italic from '.././Paragraph.vue
 import Paragraph from './Strike.vuevue'
 import StrikeVue from '../BulletList.vue
 import BulletList ./Code.vuelletList.vue'
-import Code from './ButtonLink.vue'
+import Code from '../buttons/ButtonLink.vue'
 import Link from '../operators/Link.vue'
 
 defineProps({

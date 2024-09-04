@@ -23,11 +23,11 @@ class WebKit implements Plugin {
         })
     }
 
-    onDocUpdated(data: EditorDoc): void {
+    onDocUpdated(doc: EditorDoc): void {
         let verbose = false;
 
         if (verbose) {
-            console.log(title, "onDocUpdated", data)
+            console.log(title, "onDocUpdated", doc)
         }
 
         if (!('webkit' in window)) {
@@ -37,8 +37,9 @@ class WebKit implements Plugin {
             return
         }
 
-        var messageData = data.toDictForWebKit();
+        var messageData: any = {}
         messageData.channel = "updateDoc"
+        messageData.doc = JSON.stringify(doc)
 
         // 异步往 webkit 发送数据，防止界面卡顿
         asyncSendMessage(messageData).then((result) => {
@@ -46,11 +47,11 @@ class WebKit implements Plugin {
         })
     }
 
-    onDocUpdatedWithNode(data: EditorDoc, node: TreeNode): void {
+    onDocUpdatedWithNode(doc: EditorDoc, node: TreeNode): void {
         let verbose = false;
 
         if (verbose) {
-            console.log(title, "onDocUpdated", data)
+            console.log(title, "onDocUpdated", doc)
         }
 
         if (!('webkit' in window)) {
@@ -60,9 +61,10 @@ class WebKit implements Plugin {
             return
         }
 
-        var messageData = data.toDictForWebKit();
+        var messageData: any = {}
         messageData.channel = "updateDocWithNode"
         messageData.nodeUUID = node.uuid
+        messageData.doc = JSON.stringify(doc)
 
         // 异步往 webkit 发送数据，防止界面卡顿
         asyncSendMessage(messageData).then((result) => {
@@ -76,6 +78,26 @@ class WebKit implements Plugin {
         if (verbose) {
             console.log(title, 'onDocsUpdated', data)
         }
+    }
+
+    onCurrentDocUUIDUpdated(uuid: string): void {
+        let verbose = false;
+
+        if (verbose) {
+            console.log(title, 'onCurrentDocUUIDUpdated', uuid)
+        }
+
+        if (!('webkit' in window)) {
+            if (verbose) {
+                console.log(title, '无 WebKit，忽略更新')
+            }
+            return
+        }
+
+        sendMessage({
+            channel: "updateCurrentDocUUID",
+            uuid: uuid
+        })
     }
 
     onPageLoaded() {
