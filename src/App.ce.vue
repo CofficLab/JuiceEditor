@@ -7,8 +7,12 @@ import PluginProvider from './provider/PluginProvider'
 import { Config } from './config/config';
 import { useAppStore } from './store/AppStore';
 import Message from './pages/Message.vue';
+import SlotPage from './pages/SlotPage.vue';
+import PageMode from './model/PageMode';
+import { useModeStore } from './store/ModeStore';
+import { onMounted } from 'vue';
 
-defineProps({
+const props = defineProps({
 	drawio: {
 		type: String,
 		required: true
@@ -17,18 +21,21 @@ defineProps({
 		type: Boolean,
 		default: false
 	},
-	page: {
-		type: String as () => 'node' | 'basic', // 限定可能的值
+	mode: {
+		type: String,
 		required: false,
-		default: 'node'
+		default: PageMode.BASIC_TYPE
 	}
 })
 
 const app = useAppStore()
-const pluginProvider = new PluginProvider(Config.plugins)
 const messageStore = useMessageStore()
+const modeStore = useModeStore()
 
-watch(() => app.ready, () => pluginProvider.onReadyChange())
+onMounted(() => {
+	modeStore.setMode(props.mode)
+})
+
 watch(() => app.message, () => messageStore.setMessageText(app.message.text))
 
 </script>
@@ -39,10 +46,13 @@ watch(() => app.message, () => messageStore.setMessageText(app.message.text))
 </style>
 
 <template>
-	<BasicPage :drawio="drawio" :readonly="readonly" v-if="page == 'basic'" :onMessage="messageStore.setMessageText">
+	<BasicPage :drawio="drawio" :readonly="readonly" v-if="modeStore.isBasic()"
+		:onMessage="messageStore.setMessageText">
 	</BasicPage>
-	<NodePage :drawio="drawio" :readonly="readonly" v-if="page == 'node'" :onMessage="messageStore.setMessageText">
+	<NodePage :drawio="drawio" :readonly="readonly" v-if="modeStore.isNode()" :onMessage="messageStore.setMessageText">
 	</NodePage>
+	<SlotPage :drawio="drawio" :readonly="readonly" v-if="modeStore.isSlot()" :onMessage="messageStore.setMessageText">
+	</SlotPage>
 
 	<Message></Message>
 </template>

@@ -17,6 +17,12 @@ export default class DocApi {
     }
 
     public setHTML(html: string) {
+        let verbose = false
+
+        if (verbose) {
+            console.log(title, 'setHTML', html.length == 0 ? "[empty]" : html.substring(0, 100))
+        }
+
         if (typeof html != 'string') {
             console.error(title, 'setHTML', 'html is not string', html)
             return

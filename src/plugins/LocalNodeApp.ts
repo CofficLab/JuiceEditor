@@ -3,10 +3,12 @@ import Plugin from "../contract/Plugin";
 import TreeNode from "../model/TreeNode";
 import EditorDoc from "../model/EditorDoc";
 import ImageHelper from "../helper/ImageHelper";
-
+import PageMode from "../model/PageMode";
 const title = "🍎 LocalNodeApp"
 
 class LocalNodeApp implements Plugin {
+    forPages: PageMode[] = [PageMode.NODE]
+
     onDownloadImage(src: string, name: string): void {
         console.log(title, 'download image')
 
@@ -26,7 +28,7 @@ class LocalNodeApp implements Plugin {
     }
 
     onPageLoaded(): void {
-        let verbose = false
+        let verbose = true
 
         const currentNode = LocalDB.getNode()
         const docs = LocalDB.getDocs()

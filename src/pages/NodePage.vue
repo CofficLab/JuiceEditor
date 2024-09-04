@@ -41,7 +41,7 @@ watch(() => docStore.getDoc(), (newDoc) => {
 }, { deep: true })
 
 watch(selected, (newSelected) => {
-    let verbose = true
+    let verbose = false
     if (verbose) {
         console.log(title, 'selected changed', newSelected)
     }

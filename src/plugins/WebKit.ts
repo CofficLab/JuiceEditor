@@ -3,10 +3,12 @@ import Plugin from "../contract/Plugin";
 import EditorDoc from "../model/EditorDoc";
 import { send } from "vite";
 import TreeNode from "src/model/TreeNode";
-
+import PageMode from "../model/PageMode";
 const title = "🍎 WebKit"
 
 class WebKit implements Plugin {
+    forPages: PageMode[] = [PageMode.NODE]
+
     onSelectionTypeChange(type: string): void {
         if (!('webkit' in window)) {
             return

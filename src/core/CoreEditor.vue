@@ -80,9 +80,14 @@ const editor = TiptapAgent.create({
 		props.onCreate(data)
 	},
 	onUpdate: (data: EditorDoc) => {
+		let verbose = false
 		refreshToc('onUpdate')
 		if (!props.editable) {
-			return console.log('只读模式，不回调更新')
+			if (verbose) {
+				console.log('只读模式，不回调更新')
+			}
+
+			return
 		}
 
 		props.onUpdate(data)

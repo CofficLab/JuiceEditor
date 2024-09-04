@@ -1,3 +1,7 @@
+import PageMode from "../model/PageMode"
+
 interface Listener {
-    start(): void
+    start(pageMode: PageMode): void
 }
+
+export default Listener

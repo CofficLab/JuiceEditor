@@ -1,4 +1,6 @@
 const emoji = "🐶 ListenerProvider"
+import Listener from "../contract/Listener"
+import PageMode from "../model/PageMode"
 
 export default class ListenerProvider {
     public items: Listener[] = [];
@@ -13,7 +15,7 @@ export default class ListenerProvider {
         this.items = items
     }
 
-    boot() {
-        this.items.forEach(l => l.start())
+    boot(pageMode: PageMode) {
+        this.items.forEach(l => l.start(pageMode))
     }
 }

@@ -1,8 +1,10 @@
 import Config from "../config/config"
 import DomHelper from "../helper/DomHelper"
+import Listener from "../contract/Listener"
+import PageMode from "../model/PageMode"
 
-export default class UrlListener {
-    start() {
+export default class UrlListener implements Listener {
+    start(pageMode: PageMode) {
         window.onpopstate = this.onURLChanged
     }
 

@@ -42,7 +42,7 @@ const pluginProvider = new PluginProvider(Config.plugins)
 watch(
   () => messageStore.uuid,
   (newVal) => {
-    let verbose = true
+    let verbose = false
 
     if (verbose) {
       console.log(title, 'messageStore.uuid', newVal)

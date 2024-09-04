@@ -63,7 +63,10 @@ function showModal() {
 }
 
 onMounted(() => {
-  console.log('Opening mounted')
+  let verbose = false
+  if (verbose) {
+    console.log('Opening mounted')
+  }
   window.addEventListener('resize', refreshWidth)
   if (canShowDrawing.value && props.visible) {
     props.onReady()

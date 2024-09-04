@@ -17,6 +17,8 @@ function emit(name: string, data: object) {
 
 // Send event to browser
 class EventPlugin implements Plugin {
+    forPages: string[] = ["slot", "node", "basic"]
+
     onDownloadImage(src: string, name: string): void {
         console.log(title, 'download image')
 

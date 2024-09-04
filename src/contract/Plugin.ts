@@ -1,7 +1,8 @@
 import EditorDoc from "../model/EditorDoc"
 import TreeNode from "../model/TreeNode"
-
+import PageMode from "../model/PageMode"
 interface Plugin {
+    forPages: PageMode[]
     onPageLoaded(): void
     onMessage(message: string): void
     onSelectionTypeChange(type: string): void

@@ -18,7 +18,7 @@ export const useMessageStore = defineStore('message-store', {
 
     actions: {
         setMessageText(text: string) {
-            let verbose = true
+            let verbose = false
 
             if (verbose) {
                 console.log(title, 'setMessageText', text)

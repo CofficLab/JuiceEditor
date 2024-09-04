@@ -6,6 +6,8 @@ import { DocStore } from "../store/DocStore";
 import { NodeStore } from "../store/NodeStore";
 import DocsApi from "../api/DocsApi";
 import { DocsStore } from "../store/DocsStore";
+import ModeApi from "../api/ModeApi";
+import { ModeStore } from "../store/ModeStore";
 
 const emoji = "🐶 ApiProvider"
 
@@ -14,6 +16,7 @@ export interface AllApi {
     node: NodeApi
     doc: DocApi
     docs: DocsApi
+    mode: ModeApi
 }
 
 export interface ApiProviderParams {
@@ -21,6 +24,7 @@ export interface ApiProviderParams {
     editorProvider: DocStore
     nodeProvider: NodeStore
     docsProvider: DocsStore
+    modeProvider: ModeStore
 }
 
 export default class ApiProvider {
@@ -28,6 +32,7 @@ export default class ApiProvider {
     public node: NodeApi
     public doc: DocApi
     public docs: DocsApi
+    public mode: ModeApi
     constructor(params: ApiProviderParams) {
         let verbose = false
         if (verbose) {
@@ -38,6 +43,7 @@ export default class ApiProvider {
         this.node = new NodeApi(params.nodeProvider)
         this.doc = new DocApi(params.editorProvider)
         this.docs = new DocsApi(params.docsProvider)
+        this.mode = new ModeApi(params.modeProvider)
     }
 
     boot() {
@@ -45,7 +51,8 @@ export default class ApiProvider {
             feature: this.feature,
             node: this.node,
             doc: this.doc,
-            docs: this.docs
+            docs: this.docs,
+            mode: this.mode
         }
     }
 }
