@@ -1,4 +1,3 @@
-import UpdateData from "../model/UpdateData";
 import Plugin from "../contract/Plugin";
 import TreeNode from "../model/TreeNode";
 import EditorDoc from "../model/EditorDoc";
@@ -35,7 +34,7 @@ class LocalNodeApp implements Plugin {
         const currentDoc = LocalDB.getCurrentDoc() || EditorDoc.default()
 
         if (verbose) {
-            console.log(title, 'onPageLoaded, set node and doc', currentNode.uuid, currentDoc.uuid)
+            console.log(title, 'onPageLoaded, set node and doc', currentNode.uuid, currentDoc.getUUID())
         }
 
         window.api.node.setNode(currentNode)
@@ -48,7 +47,7 @@ class LocalNodeApp implements Plugin {
     }
 
     onDocUpdatedWithNode(data: EditorDoc, node: TreeNode): void {
-        let verbose = false
+        let verbose = true
 
         if (verbose) {
             console.log(title, 'onDocUpdatedWithNode', data, node)
@@ -69,7 +68,7 @@ class LocalNodeApp implements Plugin {
         var docs = LocalDB.getDocs()
         if (docs) {
             docs = docs.map(doc => {
-                if (doc.uuid == data.uuid) {
+                if (doc.getUUID() == data.getUUID()) {
                     return data
                 }
                 return doc
@@ -116,14 +115,20 @@ class LocalDB {
 
         if (currentDocUUID.length == 0) {
             let firstDoc = docs[0]
+            let uuid = firstDoc?.getUUID()
+
+            if (!uuid) {
+                throw new Error('uuid is empty')
+            }
+
             if (firstDoc) {
-                LocalDB.saveCurrentDocUUID(firstDoc.uuid)
+                LocalDB.saveCurrentDocUUID(uuid)
             }
 
             return firstDoc
         }
 
-        return docs.find(doc => doc.uuid == currentDocUUID)
+        return docs.find(doc => doc.getUUID() == currentDocUUID)
     }
 
     static saveNode(node: TreeNode): void {
@@ -138,7 +143,7 @@ class LocalDB {
         }
 
         docs.forEach((doc: EditorDoc) => {
-            if (doc.uuid.length == 0) {
+            if (doc.getUUID() == undefined) {
                 throw new Error('uuid is empty')
             }
         })

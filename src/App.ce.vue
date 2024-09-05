@@ -9,6 +9,7 @@ import SlotPage from './pages/SlotPage.vue';
 import PageMode from './model/PageMode';
 import { useModeStore } from './store/ModeStore';
 import { onMounted } from 'vue';
+import { useDocStore } from './store/DocStore';
 
 const props = defineProps({
 	drawio: {
@@ -27,6 +28,7 @@ const props = defineProps({
 })
 
 const app = useAppStore()
+const doc = useDocStore()
 const messageStore = useMessageStore()
 const modeStore = useModeStore()
 const loading = ref(true)
@@ -36,8 +38,9 @@ onMounted(() => {
 	loading.value = false
 })
 
+// collect message from every store
 watch(() => app.message, () => messageStore.setMessageText(app.message.text))
-
+watch(() => doc.message, () => messageStore.setMessageText(doc.message.text))
 </script>
 
 <style>

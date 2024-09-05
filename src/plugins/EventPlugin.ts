@@ -2,6 +2,7 @@ import UpdateData from "../model/UpdateData";
 import Plugin from "../contract/Plugin";
 import TreeNode from "../model/TreeNode";
 import EditorDoc from "../model/EditorDoc";
+import PageMode from "../model/PageMode";
 
 const title = "🍎 EventPlugin"
 const apiEvent = "apiEvent";
@@ -17,7 +18,7 @@ function emit(name: string, data: object) {
 
 // Send event to browser
 class EventPlugin implements Plugin {
-    forPages: string[] = ["slot", "node", "basic"]
+    forPages: PageMode[] = [PageMode.SLOT, PageMode.NODE, PageMode.BASIC]
 
     onDownloadImage(src: string, name: string): void {
         console.log(title, 'download image')
