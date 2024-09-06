@@ -6,7 +6,6 @@ const emoji = '🍉 EditorDoc'
 
 // 从编辑器中能获得的数据
 export default class EditorDoc extends EditorBlock {
-    public uuid: string = ""
     public title: string = ""
     public html: string = ""
     public wordCount: number = 0
@@ -15,21 +14,25 @@ export default class EditorDoc extends EditorBlock {
     static default(): EditorDoc {
         return new EditorDoc()
             .setType(DOC)
-            .setAttributes({})
+            .setAttrs({})
             .setChildren([])
     }
 
     static fromJSONString(jsonString: string): EditorDoc {
         const parsedJson = JSON.parse(jsonString);
-        const doc = new EditorDoc();
 
-        // 只复制 EditorDoc 中存在的属性
-        const docProperties = ['uuid', 'title', 'html', 'wordCount', 'characterCount', 'type', 'attributes'];
-        docProperties.forEach(prop => {
-            if (prop in parsedJson) {
-                (doc as any)[prop] = parsedJson[prop];
-            }
-        });
+        if (parsedJson.type != DOC) {
+            throw new Error('EditorDoc.fromJSONString: block.type is not DOC')
+        }
+
+        const doc = new EditorDoc()
+            .setType(parsedJson.type)
+
+        if (parsedJson.attrs) doc.setAttrs(parsedJson.attrs)
+        if (parsedJson.title) doc.setTitle(parsedJson.title)
+        if (parsedJson.html) doc.setHtml(parsedJson.html)
+        if (parsedJson.wordCount) doc.setWordCount(parsedJson.wordCount)
+        if (parsedJson.characterCount) doc.setCharacterCount(parsedJson.characterCount)
 
         // 确保 children 是 EditorBlock 实例
         if (Array.isArray(parsedJson.children)) {
@@ -40,7 +43,13 @@ export default class EditorDoc extends EditorBlock {
     }
 
     static fromBase64(base64: string): EditorDoc {
+        let verbose = true
         const jsonString = atob(base64);
+
+        if (verbose) {
+            console.log(emoji, 'base64 to json', jsonString)
+        }
+
         return EditorDoc.fromJSONString(jsonString);
     }
 
@@ -60,8 +69,9 @@ export default class EditorDoc extends EditorBlock {
         let doc = new EditorDoc()
 
         doc.type = json.type ?? ""
-        doc.attributes = json.attrs ?? {}
-        doc.uuid = editor.options.injectNonce
+        doc.attrs = {
+            uuid: editor.options.injectNonce,
+        }
         doc.wordCount = editor.storage.characterCount.words()
         doc.characterCount = editor.storage.characterCount.characters()
         doc.html = editor.getHTML()
@@ -80,6 +90,26 @@ export default class EditorDoc extends EditorBlock {
 
     toJSONString(): string {
         return JSON.stringify(this)
+    }
+
+    setTitle(title: string): this {
+        this.title = title
+        return this
+    }
+
+    setHtml(html: string): this {
+        this.html = html
+        return this
+    }
+
+    setWordCount(wordCount: number): this {
+        this.wordCount = wordCount
+        return this
+    }
+
+    setCharacterCount(characterCount: number): this {
+        this.characterCount = characterCount
+        return this
     }
 
     private static getTitleFromEditor(editor: Editor): string {

@@ -1,20 +1,18 @@
 import { Editor, JSONContent } from '@tiptap/core'
-import { HEADING } from '../config/nodes'
-import { v4 as uuidv4 } from 'uuid'
 import { DOC } from '../config/nodes'
-import EditorData from './EditorData'
 
 const emoji = '🍉 EditorBlock'
 
 export default class EditorBlock {
     public type: string = ""
-    public attributes: { [key: string]: any } = {}
-    public children: EditorBlock[] = []
+    public attrs: { [key: string]: any } | undefined = undefined
+    public children: EditorBlock[] | undefined = undefined
+    public text: string | undefined
 
     static emptyDocBlock(): EditorBlock {
         return new EditorBlock()
             .setType(DOC)
-            .setAttributes({})
+            .setAttrs({})
             .setChildren([])
     }
 
@@ -30,7 +28,7 @@ export default class EditorBlock {
         let block = new EditorBlock()
 
         block.type = json.type ?? ""
-        block.attributes = json.attrs ?? {}
+        block.attrs = json.attrs ?? {}
 
         if (block.type != DOC) {
             throw new Error('EditorBlock.fromEditor: block.type is not DOC')
@@ -39,23 +37,63 @@ export default class EditorBlock {
         if (json.content) {
             block.children = json.content.map((block) => EditorBlock.fromJSONContent(block))
         }
+
         return block
     }
 
-    // {"type":"heading","attrs":{"textAlign":"left","uuid":"63346510-ecc6-421c-9eac-15259ff5f9d2","level":1}}
+    /* 
+        {
+            "type":"heading",
+            "attrs":{
+                "textAlign":"left",
+                "uuid":"63346510-ecc6-421c-9eac-15259ff5f9d2",
+                "level":1
+            }
+        }
+    */
     static fromJSONContent(json: JSONContent): EditorBlock {
+        let verbose = false
+
+        if (verbose) {
+            console.log(emoji, 'fromJSONContent', json)
+        }
+
         let block = new EditorBlock()
-        block.type = json.type ?? ""
-        block.attributes = json.attrs ?? {}
+
+        if (json.type !== undefined) {
+            block.type = json.type
+        }
+
+        if (block.type.length == 0) {
+            console.log(emoji, 'fromJSONContent: block.type is empty', json)
+            throw new Error('EditorBlock.fromJSONContent: block.type is empty')
+        }
+
+        if (json.text !== undefined) {
+            block.text = json.text
+        }
+
+        if (json.attrs !== undefined) {
+            block.attrs = json.attrs
+        }
 
         if (json.content) {
             block.children = json.content.map((block) => EditorBlock.fromJSONContent(block))
         }
+
         return block
     }
 
-    getUUID(): string {
-        return this.attributes.uuid ?? ""
+    getUUID(): string | undefined {
+        return this.attrs?.uuid
+    }
+
+    setUUID(uuid: string): this {
+        if (!this.attrs) {
+            this.attrs = {};
+        }
+        this.attrs.uuid = uuid;
+        return this;
     }
 
     setType(type: string): this {
@@ -63,8 +101,8 @@ export default class EditorBlock {
         return this
     }
 
-    setAttributes(attributes: { [key: string]: any }): this {
-        this.attributes = attributes
+    setAttrs(attrs: { [key: string]: any }): this {
+        this.attrs = attrs
         return this
     }
 

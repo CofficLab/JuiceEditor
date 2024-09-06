@@ -3,7 +3,6 @@ import EditorDoc from '../model/EditorDoc'
 import Config from '../config/config'
 import MarkdownHelper from '../helper/MarkdownHelper'
 import SmartMessage from '../model/SmartMessage'
-import EditorData from '../model/EditorData'
 const config = Config
 const isDebug = config.isDebug
 const title = "🍋 DocStore"
@@ -60,14 +59,16 @@ export const useDocStore = defineStore('doc-store', {
         },
 
         getUUID(): string | undefined {
-            return this.getDoc()?.uuid
+            return this.getDoc()?.getUUID()
         },
 
         setDoc(doc: EditorDoc) {
-            let verbose = false;
+            let verbose = true;
 
             if (verbose) {
                 console.log(title, 'setDoc', doc)
+
+                this.setMessage("SetDoc: " + JSON.stringify(doc))
             }
 
             if (this.getHTML() == doc.html) {
@@ -76,8 +77,6 @@ export const useDocStore = defineStore('doc-store', {
                 }
                 return
             }
-
-            this.setMessage("SetDoc: " + JSON.stringify(doc))
 
             this.doc = doc
         },

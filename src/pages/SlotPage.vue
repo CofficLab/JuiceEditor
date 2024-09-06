@@ -63,7 +63,7 @@ const uuid = computed(() => {
     return newUuid
 })
 
-watch(() => app.ready, () => pluginProvider.onReadyChange())
+watch(() => app.ready, () => pluginProvider.onReady(PageMode.SLOT))
 watch(() => app.message, () => messageStore.setMessageText(app.message.text))
 
 docStore.drawLink = props.drawio
@@ -75,11 +75,11 @@ onMounted(() => {
     apiProvider.boot()
     listenerProvider.boot(PageMode.SLOT)
 
-    app.setReady()
+    app.setReady("SlotPage onMounted")
 })
 
 
-watch(() => app.ready, () => pluginProvider.onReadyChange())
+watch(() => app.ready, () => pluginProvider.onReady(PageMode.SLOT))
 watch(() => docStore.getDoc(), () => pluginProvider.onDocUpdated(docStore.getDoc()), { deep: true })
 
 </script>

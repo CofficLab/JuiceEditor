@@ -1,16 +1,15 @@
 <script setup lang="ts">
-import { watch } from 'vue';
+import { ref, watch } from 'vue';
 import BasicPage from './pages/BasicPage.vue';
 import NodePage from './pages/NodePage.vue'
 import { useMessageStore } from './store/MessageStore'
-import PluginProvider from './provider/PluginProvider'
-import { Config } from './config/config';
 import { useAppStore } from './store/AppStore';
 import Message from './pages/Message.vue';
 import SlotPage from './pages/SlotPage.vue';
 import PageMode from './model/PageMode';
 import { useModeStore } from './store/ModeStore';
 import { onMounted } from 'vue';
+import { useDocStore } from './store/DocStore';
 
 const props = defineProps({
 	drawio: {
@@ -29,15 +28,19 @@ const props = defineProps({
 })
 
 const app = useAppStore()
+const doc = useDocStore()
 const messageStore = useMessageStore()
 const modeStore = useModeStore()
+const loading = ref(true)
 
 onMounted(() => {
 	modeStore.setMode(props.mode)
+	loading.value = false
 })
 
+// collect message from every store
 watch(() => app.message, () => messageStore.setMessageText(app.message.text))
-
+watch(() => doc.message, () => messageStore.setMessageText(doc.message.text))
 </script>
 
 <style>
@@ -45,7 +48,7 @@ watch(() => app.message, () => messageStore.setMessageText(app.message.text))
 @import 'monaco-editor/min/vs/editor/editor.main.css';
 </style>
 
-<template>
+<template v-if="loading==false">
 	<BasicPage :drawio="drawio" :readonly="readonly" v-if="modeStore.isBasic()"
 		:onMessage="messageStore.setMessageText">
 	</BasicPage>

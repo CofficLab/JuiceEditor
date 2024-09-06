@@ -6,7 +6,6 @@ import FloatMenus from '../menus/MenuFloat.vue'
 import TiptapAgent from '../helper/TiptapHelper'
 import Heading from '../extensions/Toc/Heading'
 import BlockMenu from '../menus/MenuBlock.vue'
-import EditorData from '../model/EditorData'
 import EditorDoc from '../model/EditorDoc'
 
 const title = '📒 Tiptap'
@@ -76,8 +75,8 @@ const editor = TiptapAgent.create({
 	drawIoLink: props.drawLink,
 	drawEnable: props.drawEnable,
 	tableEnable: props.tableEnable,
-	onCreate: (data: EditorData) => {
-		props.onCreate(data)
+	onCreate: (doc: EditorDoc) => {
+		props.onCreate(doc)
 	},
 	onUpdate: (data: EditorDoc) => {
 		let verbose = false

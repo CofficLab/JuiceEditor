@@ -5,7 +5,6 @@ import makeExtensions from '../config/extension'
 import DomHelper from './DomHelper';
 import Config from '../config/config';
 import { A, BANNER, BLOCKQUOTE, BULLET_LIST, CODE_BLOCK, DRAW, HEADING, IMAGE, LIST_ITEM, ORDERED_LIST, STRIKE, TABLE, TABLE_HEADER, TABLE_ROW } from '../config/nodes';
-import EditorData from '../model/EditorData';
 import EditorDoc from '../model/EditorDoc';
 
 const title = '📒 TiptapHelper'
@@ -14,7 +13,7 @@ interface Props {
     uuid: string,
     content: string
     editable: boolean
-    onCreate: (data: EditorData) => void
+    onCreate: (data: EditorDoc) => void
     onUpdate: (data: EditorDoc) => void
     onSelectionUpdate?: (type: string) => void
     drawIoLink?: string
@@ -54,7 +53,7 @@ class TiptapHelper {
                 if (verbose) {
                     console.log(title, 'onCreate, callback with EditorData')
                 }
-                props.onCreate(EditorData.fromEditor(editor))
+                props.onCreate(EditorDoc.fromEditor(editor))
             },
             onFocus: ({ editor }) => {
                 let verbose = false;

@@ -56,11 +56,11 @@ onMounted(() => {
     listenerProvider.boot(PageMode.BASIC)
     apiProvider.boot()
 
-    app.setReady()
+    // app.setReady("BasicPage onMounted")
 })
 
 
-watch(() => app.ready, () => pluginProvider.onReadyChange())
+watch(() => app.ready, () => pluginProvider.onReady(PageMode.BASIC))
 watch(() => docStore.getDoc(), () => pluginProvider.onDocUpdated(docStore.getDoc()), { deep: true })
 
 </script>
