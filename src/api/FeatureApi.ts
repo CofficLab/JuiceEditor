@@ -25,4 +25,8 @@ export default class FeatureApi {
     showEditor() {
         this.featureProvider.showEditor()
     }
+
+    hideEditor() {
+        this.featureProvider.hideEditor()
+    }
 }
