@@ -19,7 +19,16 @@ export default class EditorDoc extends EditorBlock {
     }
 
     static fromJSONString(jsonString: string): EditorDoc {
-        const parsedJson = JSON.parse(jsonString);
+        let parsedJson: JSONContent
+
+        try {
+            parsedJson = JSON.parse(jsonString);
+        } catch (e) {
+            console.log(jsonString)
+            console.log(emoji, 'fromJSONString', jsonString)
+            console.error(emoji, 'fromJSONString', 'json parse error', e)
+            throw e
+        }
 
         if (parsedJson.type != DOC) {
             throw new Error('EditorDoc.fromJSONString: block.type is not DOC')
@@ -44,7 +53,8 @@ export default class EditorDoc extends EditorBlock {
 
     static fromBase64(base64: string): EditorDoc {
         let verbose = true
-        const jsonString = atob(base64);
+        // 使用 decodeURIComponent 和 escape 解码 Base64 字符串
+        const jsonString = decodeURIComponent(escape(atob(base64)));
 
         if (verbose) {
             console.log(emoji, 'base64 to json', jsonString)

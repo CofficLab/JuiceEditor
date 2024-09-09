@@ -1,3 +1,4 @@
+import { JSONContent } from '@tiptap/core';
 import EditorDoc from '../model/EditorDoc';
 import { DocStore } from '../store/DocStore';
 
@@ -46,7 +47,15 @@ export default class DocApi {
         this.store.setDoc(doc)
     }
 
+    public setDocJSON(json: string) {
+        this.setDoc(EditorDoc.fromJSONString(json))
+    }
+
     public setDocBase64(base64: string) {
         this.setDoc(EditorDoc.fromBase64(base64))
+    }
+
+    public printJSON(json: string) {
+        console.log(json)
     }
 }
