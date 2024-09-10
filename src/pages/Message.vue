@@ -16,7 +16,7 @@
     </div>
   </template>
 
-  <template v-else-if="message.type === 'tips' && displayMessage">
+  <template v-if="message.isDebug() && displayMessage && isDebug">
     <Transition name="fade">
       <div class="fixed bottom-4 right-4 z-50">
         <Card title="提示" :line1="displayMessage"></Card>
@@ -33,6 +33,7 @@ import PluginProvider from '../provider/PluginProvider'
 import { Config } from '../config/config'
 import Card from '../ui/Card.vue';
 
+const isDebug = Config.isDebug
 const title = "🍚 Message"
 const messageStore = useMessageStore()
 const message = computed(() => messageStore.message)
