@@ -7,7 +7,7 @@
     </Transition>
   </template>
 
-  <template v-if="message.isDebug() && displayMessage">
+  <template v-if="message.isDebug() && displayMessage && isDebug">
     <Transition name="fade">
       <div class="fixed inset-0 flex items-center justify-center z-50 translate-y-1/3 w-72 mx-auto">
         <Card title="调试" :line1="displayMessage"></Card>
@@ -23,6 +23,7 @@ import PluginProvider from '../provider/PluginProvider'
 import { Config } from '../config/config'
 import Card from '../ui/Card.vue';
 
+const isDebug = Config.isDebug
 const title = "🍚 Message"
 const messageStore = useMessageStore()
 const message = computed(() => messageStore.message)
