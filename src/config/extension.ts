@@ -41,7 +41,7 @@ import { SmartFocus } from "../extensions/SmartFocus"
 import Config from "./config"
 import { Debug } from "../extensions/Debug"
 import Image from "@tiptap/extension-image"
-import { HEADING, PARAGRAPH } from "./nodes"
+import { A, HEADING, IMAGE, PARAGRAPH, PRE, TABLE, TASKLIST, TEXT } from "./nodes"
 
 interface makeExtensionsProps {
     drawIoLink?: string,
@@ -165,7 +165,9 @@ export default function makeExtensions(props: makeExtensionsProps) {
         TextAlign.configure({
             types: [HEADING, PARAGRAPH],
         }),
-        UUID,
+        UUID.configure({
+            types: [PARAGRAPH, HEADING, PRE, TASKLIST, IMAGE, TABLE, A]
+        }),
         // Panel,
         // SmartHover
     ]

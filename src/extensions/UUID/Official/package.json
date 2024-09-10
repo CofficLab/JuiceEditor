@@ -1,0 +1,43 @@
+{
+  "name": "@tiptap-pro/extension-unique-id",
+  "description": "unique id extension for tiptap",
+  "version": "2.11.1",
+  "homepage": "https://tiptap.dev/api/extensions/unique-id",
+  "keywords": [
+    "tiptap",
+    "tiptap extension"
+  ],
+  "license": "SEE LICENSE IN LICENSE.md",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ueberdosis"
+  },
+  "main": "dist/tiptap-extension-unique-id.cjs.js",
+  "umd": "dist/tiptap-extension-unique-id.umd.js",
+  "module": "dist/tiptap-extension-unique-id.esm.js",
+  "types": "dist/tiptap-pro/packages/extension-unique-id/src/index.d.ts",
+  "files": [
+    "dist",
+    "CHANGELOG.md",
+    "LICENSE.md"
+  ],
+  "peerDependencies": {
+    "@tiptap/core": "^2.0.0",
+    "@tiptap/pm": "^2.0.0"
+  },
+  "dependencies": {
+    "uuid": "^10.0.0"
+  },
+  "devDependencies": {
+    "@tiptap/core": "^2.0.0",
+    "@tiptap/pm": "^2.0.0",
+    "@types/uuid": "^10.0.0"
+  },
+  "publishConfig": {
+    "registry": "https://registry.tiptap.dev"
+  },
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "npm run clean && rollup -c"
+  }
+}

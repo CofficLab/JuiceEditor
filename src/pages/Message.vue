@@ -1,5 +1,5 @@
 <template>
-  <template v-if="message.type === 'message'">
+  <template v-if="message.isTips() && displayMessage">
     <label for="message" id="messageTrigger" class="hidden btn"></label>
 
     <input type="checkbox" id="message" class="modal-toggle" />
@@ -26,7 +26,6 @@
 </template>
 
 <script lang="ts" setup>
-import DomHelper from '../helper/DomHelper';
 import { watch, ref, computed } from 'vue'
 import { useMessageStore } from '../store/MessageStore'
 import PluginProvider from '../provider/PluginProvider'
@@ -41,7 +40,7 @@ const displayMessage = ref(message.value.text)
 const pluginProvider = new PluginProvider(Config.plugins)
 
 watch(
-  () => messageStore.uuid,
+  () => messageStore.message,
   (newVal) => {
     let verbose = false
 
@@ -51,31 +50,15 @@ watch(
 
     displayMessage.value = messageStore.message.text
 
-    if (messageStore.message.type === 'message') {
-      toggleModal()
-      setTimeout(() => {
-        toggleModal()
-      }, 3000)
-    }
-
-    if (messageStore.message.type === 'tips') {
-      setTimeout(() => {
-        displayMessage.value = ''
-      }, 3000)
-    }
+    setTimeout(() => {
+      displayMessage.value = ''
+    }, 3000)
   }
 )
 
 watch(() => messageStore.message, () => {
   pluginProvider.onMessage(messageStore.message.text)
 })
-
-function toggleModal() {
-  const trigger = DomHelper.findElement('messageTrigger')
-
-  if (!trigger) return
-  trigger.click()
-}
 </script>
 
 <style scoped>

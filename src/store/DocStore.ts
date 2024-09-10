@@ -91,7 +91,7 @@ export const useDocStore = defineStore('doc-store', {
         },
 
         updateDoc(doc: EditorDoc) {
-            let verbose = false;
+            let verbose = true;
 
             if (verbose) {
                 this.setDebug("UpdateDoc")
