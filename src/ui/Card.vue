@@ -20,9 +20,9 @@
       'bg-green-200/50': props.bodyColor === 'green',
       'bg-red-200/50': props.bodyColor === 'red'
     }">
-      <div class="stat" v-if="props.line1 || props.line2">
-        <div class="stat-title text-center break-words break-all">{{ props.line1 }}</div>
-        <div class="stat-value text-center break-words break-all">{{ props.line2 }}</div>
+      <div v-if="props.line1 || props.line2" class="px-2">
+        <p class="text-center break-words break-all">{{ props.line1 }}</p>
+        <p class="text-center break-words break-all">{{ props.line2 }}</p>
       </div>
 
       <span class="loading loading-ring loading-lg" v-if="props.showLoading"></span>

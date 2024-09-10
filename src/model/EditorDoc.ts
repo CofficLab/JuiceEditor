@@ -1,6 +1,7 @@
 import { Editor, JSONContent } from '@tiptap/core'
 import { DOC, HEADING } from '../config/nodes'
 import EditorBlock from './EditorBlock'
+import UUIDHelper from '../helper/UUIDHelper'
 
 const emoji = '🍉 EditorDoc'
 
@@ -21,7 +22,9 @@ export default class EditorDoc extends EditorBlock {
     static default(): EditorDoc {
         return new EditorDoc()
             .setType(DOC)
-            .setAttrs({})
+            .setAttrs({
+                uuid: UUIDHelper.generate(),
+            })
             .setChildren([])
     }
 

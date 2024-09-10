@@ -19,14 +19,8 @@ export const useMessageStore = defineStore('message-store', {
             this.message = message
         },
 
-        setMessageText(text: string) {
-            let verbose = false
-
-            if (verbose) {
-                console.log(title, 'setMessageText', text)
-            }
-
-            this.message = new SmartMessage(text)
+        setDebug(text: string) {
+            this.message = new SmartMessage(text, "debug")
         },
 
         setError(error: Error | null) {

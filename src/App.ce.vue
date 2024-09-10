@@ -54,12 +54,11 @@ watch(() => doc.error, () => messageStore.setError(doc.error), { deep: true })
 </style>
 
 <template v-if="loading==false">
-	<BasicPage :drawio="drawio" :readonly="readonly" v-if="modeStore.isBasic()"
-		:onMessage="messageStore.setMessageText">
+	<BasicPage :drawio="drawio" :readonly="readonly" v-if="modeStore.isBasic()" :onMessage="messageStore.setMessage">
 	</BasicPage>
-	<NodePage :drawio="drawio" :readonly="readonly" v-if="modeStore.isNode()" :onMessage="messageStore.setMessageText">
+	<NodePage :drawio="drawio" :readonly="readonly" v-if="modeStore.isNode()" :onMessage="messageStore.setMessage">
 	</NodePage>
-	<SlotPage :drawio="drawio" :readonly="readonly" v-if="modeStore.isSlot()" :onMessage="messageStore.setMessageText">
+	<SlotPage :drawio="drawio" :readonly="readonly" v-if="modeStore.isSlot()" :onMessage="messageStore.setMessage">
 	</SlotPage>
 	<p v-else>mode: {{ modeStore.mode.type }}</p>
 

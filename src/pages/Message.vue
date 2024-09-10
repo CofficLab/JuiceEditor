@@ -7,10 +7,10 @@
     </Transition>
   </template>
 
-  <template v-if="message.isMessage() && displayMessage">
+  <template v-if="message.isDebug() && displayMessage">
     <Transition name="fade">
       <div class="fixed inset-0 flex items-center justify-center z-50 translate-y-1/3 w-72 mx-auto">
-        <Card title="消息" :line1="displayMessage"></Card>
+        <Card title="调试" :line1="displayMessage"></Card>
       </div>
     </Transition>
   </template>
@@ -40,17 +40,9 @@ watch(
 
     displayMessage.value = messageStore.message.text
 
-    if (messageStore.message.isMessage()) {
-      setTimeout(() => {
-        displayMessage.value = ''
-      }, 3000)
-    }
-
-    if (messageStore.message.isTips()) {
-      setTimeout(() => {
-        displayMessage.value = ''
-      }, 3000)
-    }
+    setTimeout(() => {
+      displayMessage.value = ''
+    }, 3000)
   }
 )
 

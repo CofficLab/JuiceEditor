@@ -3,9 +3,9 @@ import { v4 as uuidv4 } from 'uuid'
 export default class SmartMessage {
     public uuid: string = uuidv4()
     public text: string = ""
-    public type: "tips" | "message" = "tips"
+    public type: "tips" | "debug" = "tips"
 
-    constructor(text: string, type: "tips" | "message" = "tips") {
+    constructor(text: string, type: "tips" | "debug" = "tips") {
         this.text = text
         this.type = type
     }
@@ -14,13 +14,11 @@ export default class SmartMessage {
         return new SmartMessage('')
     }
 
-    isMessage() {
-        return this.type === "message"
-    }
-
     isTips() {
         return this.type === "tips"
     }
 
-
+    isDebug() {
+        return this.type === "debug"
+    }
 }

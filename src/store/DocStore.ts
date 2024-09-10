@@ -24,6 +24,10 @@ export const useDocStore = defineStore('doc-store', {
             this.message = new SmartMessage(title + ": " + text)
         },
 
+        setDebug(text: string) {
+            this.message = new SmartMessage(title + ": " + text, "debug")
+        },
+
         setError(error: Error) {
             this.error = error
         },
@@ -73,7 +77,7 @@ export const useDocStore = defineStore('doc-store', {
             if (verbose) {
                 console.log(title, 'setDoc', doc)
 
-                this.setMessage("SetDoc: " + JSON.stringify(doc).substring(0, 200))
+                this.setDebug("SetDoc: " + JSON.stringify(doc).substring(0, 200))
             }
 
             if (this.getHTML() == doc.html) {
@@ -87,9 +91,11 @@ export const useDocStore = defineStore('doc-store', {
         },
 
         updateDoc(doc: EditorDoc) {
-            let verbose = true;
+            let verbose = false;
 
-            this.setMessage("UpdateDoc")
+            if (verbose) {
+                this.setDebug("UpdateDoc")
+            }
 
             if (doc instanceof Error) {
                 this.setError(doc)
