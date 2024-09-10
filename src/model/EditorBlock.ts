@@ -16,7 +16,7 @@ export default class EditorBlock {
             .setChildren([])
     }
 
-    static fromEditor(editor: Editor): EditorBlock {
+    static fromEditor(editor: Editor): EditorBlock | Error {
         let verbose = false
 
         if (verbose) {
@@ -31,7 +31,7 @@ export default class EditorBlock {
         block.attrs = json.attrs ?? {}
 
         if (block.type != DOC) {
-            throw new Error('EditorBlock.fromEditor: block.type is not DOC')
+            return new Error('EditorBlock.fromEditor: block.type is not DOC')
         }
 
         if (json.content) {

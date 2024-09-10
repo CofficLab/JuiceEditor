@@ -11,6 +11,7 @@ export const useDocStore = defineStore('doc-store', {
     state: () => {
         return {
             message: new SmartMessage(""),
+            error: null as Error | null,
             doc: null as EditorDoc | null,
             drawLink: config.drawLink,
             monacoLink: config.monacoLink,
@@ -21,6 +22,10 @@ export const useDocStore = defineStore('doc-store', {
     actions: {
         setMessage(text: string) {
             this.message = new SmartMessage(title + ": " + text)
+        },
+
+        setError(error: Error) {
+            this.error = error
         },
 
         closeDraw: function () {
@@ -68,7 +73,7 @@ export const useDocStore = defineStore('doc-store', {
             if (verbose) {
                 console.log(title, 'setDoc', doc)
 
-                this.setMessage("SetDoc: " + JSON.stringify(doc))
+                this.setMessage("SetDoc: " + JSON.stringify(doc).substring(0, 200))
             }
 
             if (this.getHTML() == doc.html) {
@@ -82,13 +87,19 @@ export const useDocStore = defineStore('doc-store', {
         },
 
         updateDoc(doc: EditorDoc) {
-            let verbose = false;
+            let verbose = true;
 
             this.setMessage("UpdateDoc")
 
+            if (doc instanceof Error) {
+                this.setError(doc)
+                console.error(title, 'UpdateDoc', doc.message)
+                return
+            }
+
             if (doc instanceof EditorDoc == false) {
                 console.error(title, 'UpdateDoc', 'doc is not instance of EditorDoc', doc)
-                throw new Error('doc is not instance of EditorDoc')
+                return
             }
 
             if (this.getHTML() == doc.html) {
@@ -105,7 +116,7 @@ export const useDocStore = defineStore('doc-store', {
             this.doc = doc
 
             if (doc.html != this.getHTML()) {
-                throw new Error('content not match')
+                return new Error('content not match')
             }
         }
     },

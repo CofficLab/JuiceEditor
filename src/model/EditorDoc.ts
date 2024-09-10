@@ -11,6 +11,13 @@ export default class EditorDoc extends EditorBlock {
     public wordCount: number = 0
     public characterCount: number = 0
 
+    constructor(params?: object) {
+        super()
+        if (params) {
+            Object.assign(this, params)
+        }
+    }
+
     static default(): EditorDoc {
         return new EditorDoc()
             .setType(DOC)
@@ -63,7 +70,7 @@ export default class EditorDoc extends EditorBlock {
         return EditorDoc.fromJSONString(jsonString);
     }
 
-    static fromEditor(editor: Editor): EditorDoc {
+    static fromEditor(editor: Editor): EditorDoc | Error {
         let verbose = false
 
         if (verbose) {
@@ -71,7 +78,7 @@ export default class EditorDoc extends EditorBlock {
         }
 
         if (editor.options.injectNonce == undefined) {
-            throw new Error('EditorDoc.fromEditor: injectNonce is undefined')
+            return new Error('EditorDoc.fromEditor: injectNonce is undefined')
         }
 
         // {"type":"doc","content":[{"type":"heading","attrs":{"textAlign":"left","uuid":"63346510-ecc6-421c-9eac-15259ff5f9d2","level":1}}]}
@@ -88,7 +95,7 @@ export default class EditorDoc extends EditorBlock {
         doc.title = EditorDoc.getTitleFromEditor(editor)
 
         if (doc.type != DOC) {
-            throw new Error('EditorBlock.fromEditor: block.type is not DOC')
+            return new Error('EditorBlock.fromEditor: block.type is not DOC')
         }
 
         if (json.content) {

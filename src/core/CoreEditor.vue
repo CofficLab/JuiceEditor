@@ -75,10 +75,10 @@ const editor = TiptapAgent.create({
 	drawIoLink: props.drawLink,
 	drawEnable: props.drawEnable,
 	tableEnable: props.tableEnable,
-	onCreate: (doc: EditorDoc) => {
+	onCreate: (doc: EditorDoc | Error) => {
 		props.onCreate(doc)
 	},
-	onUpdate: (data: EditorDoc) => {
+	onUpdate: (data: EditorDoc | Error) => {
 		let verbose = false
 		refreshToc('onUpdate')
 		if (!props.editable) {

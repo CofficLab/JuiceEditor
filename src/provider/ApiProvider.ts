@@ -8,7 +8,8 @@ import DocsApi from "../api/DocsApi";
 import { DocsStore } from "../store/DocsStore";
 import ModeApi from "../api/ModeApi";
 import { ModeStore } from "../store/ModeStore";
-
+import { RequestStore } from "../store/RequestStore";
+import RequestApi from "../api/RequestApi";
 const emoji = "🐶 ApiProvider"
 
 export interface AllApi {
@@ -17,6 +18,7 @@ export interface AllApi {
     doc: DocApi
     docs: DocsApi
     mode: ModeApi
+    request: RequestApi
 }
 
 export interface ApiProviderParams {
@@ -25,6 +27,7 @@ export interface ApiProviderParams {
     nodeProvider: NodeStore
     docsProvider: DocsStore
     modeProvider: ModeStore
+    requestProvider: RequestStore
 }
 
 export default class ApiProvider {
@@ -33,6 +36,7 @@ export default class ApiProvider {
     public doc: DocApi
     public docs: DocsApi
     public mode: ModeApi
+    public request: RequestApi
     constructor(params: ApiProviderParams) {
         let verbose = false
         if (verbose) {
@@ -41,9 +45,10 @@ export default class ApiProvider {
 
         this.feature = new FeatureApi(params.featureProvider)
         this.node = new NodeApi(params.nodeProvider)
-        this.doc = new DocApi(params.editorProvider)
+        this.doc = new DocApi(params.editorProvider, params.requestProvider)
         this.docs = new DocsApi(params.docsProvider)
         this.mode = new ModeApi(params.modeProvider)
+        this.request = new RequestApi(params.requestProvider)
     }
 
     boot() {
@@ -52,7 +57,8 @@ export default class ApiProvider {
             node: this.node,
             doc: this.doc,
             docs: this.docs,
-            mode: this.mode
+            mode: this.mode,
+            request: this.request
         }
     }
 }

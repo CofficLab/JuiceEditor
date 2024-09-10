@@ -18,7 +18,7 @@ import { computed, ref } from 'vue';
 import { useDocStore } from '../store/DocStore';
 import EditorDoc from '../model/EditorDoc';
 import Config from '../config/config'
-
+import { useRequestStore } from '../store/RequestStore';
 const props = defineProps({
     drawio: {
         type: String,
@@ -38,9 +38,10 @@ const title = '🐈 NodePage'
 const docStore = useDocStore();
 const nodeStore = useNodeStore();
 const docsStore = useDocsStore();
+const requestStore = useRequestStore();
 const docs = computed(() => docsStore.getDocs());
 const currentDoc = computed(() => docStore.getDoc());
-const selected = ref(currentDoc.value?.uuid);
+const selected = ref(currentDoc.value?.getUUID());
 const pluginProvider = new PluginProvider(Config.plugins)
 const feature = useFeatureStore()
 const app = useAppStore()
@@ -52,7 +53,8 @@ const apiProvider = new ApiProvider({
     editorProvider: docStore,
     nodeProvider: nodeStore,
     docsProvider: docsStore,
-    modeProvider: modeStore
+    modeProvider: modeStore,
+    requestProvider: requestStore
 })
 
 docStore.drawLink = props.drawio
@@ -70,13 +72,13 @@ onMounted(() => {
 const newDoc = () => {
     const doc = EditorDoc.default();
     docStore.setDoc(doc);
-    selected.value = doc.uuid
+    selected.value = doc.getUUID()
 }
 
 watch(() => docStore.getDoc(), (newDoc) => {
     if (newDoc) {
         docsStore.upsertDoc(newDoc);
-        selected.value = newDoc.uuid
+        selected.value = newDoc.getUUID()
     }
 
     pluginProvider.onDocUpdated(docStore.getDoc())
@@ -123,7 +125,8 @@ watch(selected, (newSelected) => {
         <Children v-if="children.length > 0" :children="children"></Children>
         <div style="position: absolute; top: 0; right: 0;" class="mt-12 mr-24 z-50">
             <select v-model="selected" v-if="docs.length > 0">
-                <option v-for="doc in docs" :key="doc.uuid" :value="doc.uuid" :selected="doc.uuid == currentDoc?.uuid">
+                <option v-for="doc in docs" :key="doc.getUUID()" :value="doc.getUUID()"
+                    :selected="doc.getUUID() == currentDoc?.getUUID()">
                     {{
                         doc.title }}</option>
             </select>
