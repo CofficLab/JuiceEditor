@@ -5,6 +5,7 @@ import EventPlugin from "../plugins/EventPlugin";
 import UrlListener from "../listeners/UrlListener";
 import EventListener from "../listeners/EventListener";
 import SlotListener from "../listeners/SlotListener";
+import Listener from "../contract/Listener";
 
 interface ConfigType {
     editorLabel: string;
