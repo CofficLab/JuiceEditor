@@ -1,6 +1,7 @@
 import { Editor, JSONContent } from '@tiptap/core'
 import { DOC, HEADING } from '../config/nodes'
 import EditorBlock from './EditorBlock'
+import UUIDHelper from '../helper/UUIDHelper'
 
 const emoji = '🍉 EditorDoc'
 
@@ -11,15 +12,33 @@ export default class EditorDoc extends EditorBlock {
     public wordCount: number = 0
     public characterCount: number = 0
 
+    constructor(params?: object) {
+        super()
+        if (params) {
+            Object.assign(this, params)
+        }
+    }
+
     static default(): EditorDoc {
         return new EditorDoc()
             .setType(DOC)
-            .setAttrs({})
+            .setAttrs({
+                uuid: UUIDHelper.generate(),
+            })
             .setChildren([])
     }
 
     static fromJSONString(jsonString: string): EditorDoc {
-        const parsedJson = JSON.parse(jsonString);
+        let parsedJson: JSONContent
+
+        try {
+            parsedJson = JSON.parse(jsonString);
+        } catch (e) {
+            console.log(jsonString)
+            console.log(emoji, 'fromJSONString', jsonString)
+            console.error(emoji, 'fromJSONString', 'json parse error', e)
+            throw e
+        }
 
         if (parsedJson.type != DOC) {
             throw new Error('EditorDoc.fromJSONString: block.type is not DOC')
@@ -44,7 +63,8 @@ export default class EditorDoc extends EditorBlock {
 
     static fromBase64(base64: string): EditorDoc {
         let verbose = true
-        const jsonString = atob(base64);
+        // 使用 decodeURIComponent 和 escape 解码 Base64 字符串
+        const jsonString = decodeURIComponent(escape(atob(base64)));
 
         if (verbose) {
             console.log(emoji, 'base64 to json', jsonString)
@@ -53,7 +73,7 @@ export default class EditorDoc extends EditorBlock {
         return EditorDoc.fromJSONString(jsonString);
     }
 
-    static fromEditor(editor: Editor): EditorDoc {
+    static fromEditor(editor: Editor): EditorDoc | Error {
         let verbose = false
 
         if (verbose) {
@@ -61,7 +81,7 @@ export default class EditorDoc extends EditorBlock {
         }
 
         if (editor.options.injectNonce == undefined) {
-            throw new Error('EditorDoc.fromEditor: injectNonce is undefined')
+            return new Error('EditorDoc.fromEditor: injectNonce is undefined')
         }
 
         // {"type":"doc","content":[{"type":"heading","attrs":{"textAlign":"left","uuid":"63346510-ecc6-421c-9eac-15259ff5f9d2","level":1}}]}
@@ -78,7 +98,7 @@ export default class EditorDoc extends EditorBlock {
         doc.title = EditorDoc.getTitleFromEditor(editor)
 
         if (doc.type != DOC) {
-            throw new Error('EditorBlock.fromEditor: block.type is not DOC')
+            return new Error('EditorBlock.fromEditor: block.type is not DOC')
         }
 
         if (json.content) {

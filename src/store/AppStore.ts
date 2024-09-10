@@ -10,6 +10,7 @@ export const useAppStore = defineStore('app-store', {
     state: () => {
         return {
             isDebug: isDebug,
+            error: null as Error | null,
             message: new SmartMessage(""),
             loading: true,
             ready: false,

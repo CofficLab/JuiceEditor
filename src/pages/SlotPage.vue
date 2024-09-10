@@ -18,7 +18,7 @@ import EditorDoc from '../model/EditorDoc'
 import { useMessageStore } from '../store/MessageStore'
 import PageMode from '../model/PageMode'
 import { useModeStore } from '../store/ModeStore'
-
+import { useRequestStore } from '../store/RequestStore'
 const props = defineProps({
     drawio: {
         type: String,
@@ -38,6 +38,7 @@ const feature = useFeatureStore()
 const app = useAppStore()
 const docStore = useDocStore()
 const nodeStore = useNodeStore()
+const requestStore = useRequestStore()
 const docsStore = useDocsStore()
 const modeStore = useModeStore()
 const children: TreeNode[] = []
@@ -48,7 +49,8 @@ const apiProvider = new ApiProvider({
     editorProvider: docStore,
     nodeProvider: nodeStore,
     docsProvider: docsStore,
-    modeProvider: modeStore
+    modeProvider: modeStore,
+    requestProvider: requestStore
 })
 const messageStore = useMessageStore()
 const uuid = computed(() => {

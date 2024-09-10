@@ -16,6 +16,7 @@ import { useDocsStore } from '../store/DocsStore'
 import UUIDHelper from '../helper/UUIDHelper'
 import PageMode from '../model/PageMode'
 import { useModeStore } from '../store/ModeStore'
+import { useRequestStore } from '../store/RequestStore'
 
 const props = defineProps({
     drawio: {
@@ -38,6 +39,7 @@ const docStore = useDocStore()
 const nodeStore = useNodeStore()
 const docsStore = useDocsStore()
 const modeStore = useModeStore()
+const requestStore = useRequestStore()
 const children: TreeNode[] = []
 const pluginProvider = new PluginProvider(Config.plugins)
 const listenerProvider = new ListenerProvider(Config.listeners)
@@ -46,7 +48,8 @@ const apiProvider = new ApiProvider({
     editorProvider: docStore,
     nodeProvider: nodeStore,
     docsProvider: docsStore,
-    modeProvider: modeStore
+    modeProvider: modeStore,
+    requestProvider: requestStore
 })
 
 docStore.drawLink = props.drawio

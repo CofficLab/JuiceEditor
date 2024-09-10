@@ -36,6 +36,11 @@ export default class TreeNode {
         }
     }
 
+    static fromJSON(json: string): TreeNode {
+        let object = JSON.parse(json)
+        return new TreeNode(object)
+    }
+
     constructor(public params: TreeNodeParams) {
         if (params.uuid == null) {
             throw new NoUUIDError('uuid is empty')

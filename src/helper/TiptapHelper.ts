@@ -13,8 +13,8 @@ interface Props {
     uuid: string,
     content: string
     editable: boolean
-    onCreate: (data: EditorDoc) => void
-    onUpdate: (data: EditorDoc) => void
+    onCreate: (data: EditorDoc | Error) => void
+    onUpdate: (data: EditorDoc | Error) => void
     onSelectionUpdate?: (type: string) => void
     drawIoLink?: string
     drawEnable: boolean
@@ -86,7 +86,11 @@ class TiptapHelper {
             onUpdate: ({ editor }) => {
                 let verbose = false;
 
-                this.checkBlockUUID(editor)
+                let errors = TiptapHelper.checkBlockUUID(editor)
+                if (errors.length > 0) {
+                    props.onUpdate(errors[0])
+                    return
+                }
 
                 let doc = EditorDoc.fromEditor(editor)
                 if (props.onUpdate) {
@@ -267,7 +271,7 @@ class TiptapHelper {
         }
     }
 
-    static checkBlockUUID(editor: TiptapEditor) {
+    static checkBlockUUID(editor: TiptapEditor): Error[] {
         let typesWithoutUUID = [
             'text',
             'tableRow',
@@ -277,14 +281,18 @@ class TiptapHelper {
             'toc',
         ]
 
+        var errors: Error[] = []
+
         // 检查每一个node，没有uuid属性则抛出异常
         editor.state.doc.descendants((node, pos) => {
             if (!typesWithoutUUID.includes(node.type.name) && !node.attrs.uuid) {
                 // console.error(node)
-                throw new Error(`Node [${node.type.name}] has no uuid`)
+                errors.push(new Error(`Node [${node.type.name}] has no uuid`))
                 // console.warn('Node has no uuid', node)
             }
         })
+
+        return errors
     }
 
     static getFocusedNodePosition(editor: TiptapEditor): { offsetTop: number | null, offsetLeft: number | null } {

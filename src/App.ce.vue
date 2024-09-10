@@ -10,6 +10,7 @@ import PageMode from './model/PageMode';
 import { useModeStore } from './store/ModeStore';
 import { onMounted } from 'vue';
 import { useDocStore } from './store/DocStore';
+import ErrorPage from './pages/ErrorPage.vue';
 
 const props = defineProps({
 	drawio: {
@@ -39,8 +40,12 @@ onMounted(() => {
 })
 
 // collect message from every store
-watch(() => app.message, () => messageStore.setMessageText(app.message.text))
-watch(() => doc.message, () => messageStore.setMessageText(doc.message.text))
+watch(() => app.message.uuid, () => messageStore.setMessage(app.message))
+watch(() => doc.message.uuid, () => messageStore.setMessage(doc.message))
+
+// collect error from every store
+watch(() => app.error, () => messageStore.setError(app.error))
+watch(() => doc.error, () => messageStore.setError(doc.error), { deep: true })
 </script>
 
 <style>
@@ -49,14 +54,17 @@ watch(() => doc.message, () => messageStore.setMessageText(doc.message.text))
 </style>
 
 <template v-if="loading==false">
-	<BasicPage :drawio="drawio" :readonly="readonly" v-if="modeStore.isBasic()"
-		:onMessage="messageStore.setMessageText">
+	<BasicPage :drawio="drawio" :readonly="readonly" v-if="modeStore.isBasic()" :onMessage="messageStore.setMessage">
 	</BasicPage>
-	<NodePage :drawio="drawio" :readonly="readonly" v-if="modeStore.isNode()" :onMessage="messageStore.setMessageText">
+	<NodePage :drawio="drawio" :readonly="readonly" v-if="modeStore.isNode()" :onMessage="messageStore.setMessage">
 	</NodePage>
-	<SlotPage :drawio="drawio" :readonly="readonly" v-if="modeStore.isSlot()" :onMessage="messageStore.setMessageText">
+	<SlotPage :drawio="drawio" :readonly="readonly" v-if="modeStore.isSlot()" :onMessage="messageStore.setMessage">
 	</SlotPage>
 	<p v-else>mode: {{ modeStore.mode.type }}</p>
 
+	<!-- Message -->
 	<Message></Message>
+
+	<!-- Error -->
+	<ErrorPage></ErrorPage>
 </template>
