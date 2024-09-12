@@ -112,6 +112,16 @@ export default class EditorDoc extends EditorBlock {
         return JSON.stringify(this)
     }
 
+    getDocUUID(): string {
+        let uuid = this.getUUID()
+
+        if (!uuid) {
+            throw new Error('EditorDoc.getDocUUID: uuid is undefined')
+        }
+
+        return uuid
+    }
+
     setTitle(title: string): this {
         this.title = title
         return this

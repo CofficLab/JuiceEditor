@@ -25,7 +25,7 @@ class WebKit implements Plugin {
         })
     }
 
-    onDocUpdated(doc: EditorDoc): void {
+    onDocUpdated(doc: EditorDoc | null): void {
         let verbose = false;
 
         if (verbose) {
@@ -66,7 +66,9 @@ class WebKit implements Plugin {
         var messageData: any = {}
         messageData.channel = "updateDocWithNode"
         messageData.nodeUUID = node.uuid
-        messageData.doc = JSON.stringify(doc)
+        if (doc) {
+            messageData.doc = JSON.stringify(doc)
+        }
 
         // 异步往 webkit 发送数据，防止界面卡顿
         asyncSendMessage(messageData).then((result) => {

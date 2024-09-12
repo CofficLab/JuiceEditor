@@ -4,21 +4,11 @@ import { useFeatureStore } from '../store/FeatureStore'
 import Loading from '../ui/Loading.vue'
 import CoreEditor from '../core/CoreEditor.vue'
 import TreeNode from '../model/TreeNode'
-import Config from '../config/config'
 import Children from '../core/Children.vue'
-import { onMounted, watch, computed } from 'vue'
+import { onMounted, computed } from 'vue'
 import { useDocStore } from '../store/DocStore'
-import PluginProvider from '../provider/PluginProvider'
-import ListenerProvider from '../provider/ListenerProvider'
-import ApiProvider from '../provider/ApiProvider'
-import { useNodeStore } from '../store/NodeStore'
-import { useDocsStore } from '../store/DocsStore'
 import UUIDHelper from '../helper/UUIDHelper'
 import EditorDoc from '../model/EditorDoc'
-import { useMessageStore } from '../store/MessageStore'
-import PageMode from '../model/PageMode'
-import { useModeStore } from '../store/ModeStore'
-import { useRequestStore } from '../store/RequestStore'
 const props = defineProps({
     drawio: {
         type: String,
@@ -37,22 +27,7 @@ const props = defineProps({
 const feature = useFeatureStore()
 const app = useAppStore()
 const docStore = useDocStore()
-const nodeStore = useNodeStore()
-const requestStore = useRequestStore()
-const docsStore = useDocsStore()
-const modeStore = useModeStore()
 const children: TreeNode[] = []
-const pluginProvider = new PluginProvider(Config.plugins.filter(p => p.forPages.includes(PageMode.SLOT)))
-const listenerProvider = new ListenerProvider(Config.listeners)
-const apiProvider = new ApiProvider({
-    featureProvider: feature,
-    editorProvider: docStore,
-    nodeProvider: nodeStore,
-    docsProvider: docsStore,
-    modeProvider: modeStore,
-    requestProvider: requestStore
-})
-const messageStore = useMessageStore()
 const uuid = computed(() => {
     const uuid = docStore.getUUID()
 
@@ -65,24 +40,14 @@ const uuid = computed(() => {
     return newUuid
 })
 
-watch(() => app.ready, () => pluginProvider.onReady(PageMode.SLOT))
-watch(() => app.message, () => messageStore.setMessageText(app.message.text))
-
 docStore.drawLink = props.drawio
 feature.editable = !props.readonly
 
 onMounted(() => {
     docStore.setDoc(EditorDoc.default())
 
-    apiProvider.boot()
-    listenerProvider.boot(PageMode.SLOT)
-
     app.setReady("SlotPage onMounted")
 })
-
-
-watch(() => app.ready, () => pluginProvider.onReady(PageMode.SLOT))
-watch(() => docStore.getDoc(), () => pluginProvider.onDocUpdated(docStore.getDoc()), { deep: true })
 
 </script>
 

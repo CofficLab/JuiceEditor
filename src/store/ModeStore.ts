@@ -1,5 +1,8 @@
 import { defineStore } from "pinia";
 import PageMode from "../model/PageMode";
+
+const title = "💻 ModeStore"
+
 export const useModeStore = defineStore('mode-store', {
     state: () => {
         return {
@@ -8,7 +11,13 @@ export const useModeStore = defineStore('mode-store', {
     },
 
     actions: {
-        setMode(mode: string) {
+        setMode(mode: string, reason: string) {
+            let verbose = false
+
+            if (verbose) {
+                console.log(`${title}.setMode(${reason})`, mode)
+            }
+
             this.mode = new PageMode(mode)
         },
 

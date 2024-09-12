@@ -18,6 +18,6 @@ export default class ModeApi {
     }
 
     public setMode(mode: string) {
-        this.modeStore.setMode(mode)
+        this.modeStore.setMode(mode, 'ModeApi.setMode')
     }
 }

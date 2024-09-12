@@ -29,6 +29,12 @@ export const useDocStore = defineStore('doc-store', {
         },
 
         setError(error: Error) {
+            let verbose = true
+
+            if (verbose) {
+                console.log(title, 'setError', error)
+            }
+
             this.error = error
         },
 
@@ -71,16 +77,20 @@ export const useDocStore = defineStore('doc-store', {
             return this.getDoc()?.getUUID()
         },
 
-        setDoc(doc: EditorDoc) {
+        setDoc(doc: EditorDoc | null) {
             let verbose = true;
 
             if (verbose) {
                 console.log(title, 'setDoc', doc)
 
-                this.setDebug("SetDoc: " + JSON.stringify(doc).substring(0, 200))
+                if (doc) {
+                    this.setDebug("SetDoc: " + JSON.stringify(doc).substring(0, 200))
+                } else {
+                    this.setDebug("SetDoc: null")
+                }
             }
 
-            if (this.getHTML() == doc.html) {
+            if (this.getHTML() == doc?.html) {
                 if (verbose) {
                     console.log(title, '更新节点，没变化，忽略')
                 }

@@ -49,10 +49,6 @@ export default class PluginProvider {
             console.log(emoji, "OnDocUpdated")
         }
 
-        if (doc == null) {
-            throw new Error("doc is null, this should not happen")
-        }
-
         this.plugins.forEach(p => {
             p.onDocUpdated(doc)
         })
@@ -63,10 +59,6 @@ export default class PluginProvider {
 
         if (verbose) {
             console.log(emoji, "OnDocUpdatedWithNode", doc, node)
-        }
-
-        if (doc == null) {
-            throw new Error("doc is null, this should not happen")
         }
 
         if (node == null) {

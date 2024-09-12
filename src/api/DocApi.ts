@@ -2,7 +2,8 @@ import EditorDoc from '../model/EditorDoc';
 import { DocStore } from '../store/DocStore';
 import DocRequest from '../request/DocRequest';
 import { RequestStore } from '../store/RequestStore';
-let title = "💻 DocApi"
+
+let title = "🔌 DocApi"
 
 export default class DocApi {
     public store: DocStore
@@ -46,7 +47,17 @@ export default class DocApi {
     }
 
     public setDoc(doc: EditorDoc) {
+        let verbose = true
+
+        if (verbose) {
+            console.log(title, 'setDoc', doc)
+        }
+
         this.store.setDoc(doc)
+    }
+
+    public setDocNull() {
+        this.store.setDoc(null)
     }
 
     public setDocEmpty() {
