@@ -93,7 +93,8 @@ watch(selected, (newSelected) => {
             <CoreEditor :content="docStore.getHTML()" :editable="feature.editable" :tableEnable="feature.tableEnabled"
                 :drawEnable="feature.drawEnabled" :drawLink="docStore.drawLink"
                 :bubbleMenusEnable="feature.bubbleMenuVisible" :floatingMenusEnable="feature.floatingMenuVisible"
-                :onUpdate="docStore.updateDoc" :onMessage="onMessage" :uuid="currentDoc.getDocUUID()" />
+                :onUpdate="docStore.updateDoc" :onCreate="docStore.updateDoc" :onMessage="onMessage"
+                :uuid="currentDoc.getDocUUID()" />
 
             <div style="position: absolute; top: 0; right: 0;" class="mt-12 mr-24 z-50">
                 <select v-model="selected" v-if="docs.length > 0">
