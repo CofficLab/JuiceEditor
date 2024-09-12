@@ -90,9 +90,9 @@ export const useDocStore = defineStore('doc-store', {
                 }
             }
 
-            if (this.getHTML() == doc?.html) {
+            if (this.getHTML() == doc?.html && this.doc?.title == doc?.title) {
                 if (verbose) {
-                    console.log(title, '更新节点，没变化，忽略')
+                    console.log(title, 'SetDoc，没变化，忽略', this.getHTML(), doc?.html)
                 }
                 return
             }
@@ -118,9 +118,9 @@ export const useDocStore = defineStore('doc-store', {
                 return
             }
 
-            if (this.getHTML() == doc.html) {
+            if (this.getHTML() == doc.html && this.doc?.title == doc?.title) {
                 if (verbose) {
-                    console.log(title, '更新节点，没变化，忽略')
+                    console.log(title, 'UpdateDoc，没变化，忽略', this.getHTML(), doc?.html)
                 }
                 return
             }
