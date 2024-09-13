@@ -47,17 +47,17 @@ export default class DocApi {
     }
 
     public setDoc(doc: EditorDoc) {
-        let verbose = true
+        let verbose = false
 
         if (verbose) {
             console.log(title, 'setDoc', doc)
         }
 
-        this.store.setDoc(doc)
+        this.store.setDoc(doc, "DocApi setDoc")
     }
 
     public setDocNull() {
-        this.store.setDoc(null)
+        this.store.setDoc(null, "DocApi setDocNull")
     }
 
     public setDocEmpty() {
@@ -75,7 +75,7 @@ export default class DocApi {
     }
 
     public setDocBase64(base64: string) {
-        this.store.setDoc(EditorDoc.fromBase64(base64))
+        this.store.setDoc(EditorDoc.fromBase64(base64), "DocApi setDocBase64")
     }
 
     public printJSON(json: string) {

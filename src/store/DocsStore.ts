@@ -1,11 +1,7 @@
 import { defineStore } from 'pinia'
 import EditorDoc from '../model/EditorDoc'
-import Config from '../config/config'
-import MarkdownHelper from '../helper/MarkdownHelper'
 import SmartMessage from '../model/SmartMessage'
 
-const config = Config
-const isDebug = config.isDebug
 const title = "🍋 DocsStore"
 
 export const useDocsStore = defineStore('docs-store', {
@@ -19,14 +15,6 @@ export const useDocsStore = defineStore('docs-store', {
     actions: {
         setMessage(text: string) {
             this.message = new SmartMessage(title + ": " + text)
-        },
-
-        closeDraw: function () {
-            let verbose = false;
-            if (verbose) {
-                console.log(title, 'close draw')
-            }
-            document.dispatchEvent(new CustomEvent('close-draw'))
         },
 
         getDocs(): EditorDoc[] {
@@ -51,8 +39,8 @@ export const useDocsStore = defineStore('docs-store', {
 
         upsertDoc(doc: EditorDoc) {
             var docs = this.docs
-            if (this.hasDoc(doc.uuid)) {
-                docs[docs.findIndex(d => d.uuid === doc.uuid)] = doc
+            if (this.hasDoc(doc.getDocUUID())) {
+                docs[docs.findIndex(d => d.getDocUUID() === doc.getDocUUID())] = doc
             } else {
                 docs.push(doc)
             }
@@ -61,11 +49,11 @@ export const useDocsStore = defineStore('docs-store', {
         },
 
         hasDoc(uuid: string): boolean {
-            return this.docs.some(doc => doc.uuid === uuid)
+            return this.docs.some(doc => doc.getDocUUID() === uuid)
         },
 
         getDoc(uuid: string): EditorDoc | undefined {
-            return this.docs.find(doc => doc.uuid === uuid)
+            return this.docs.find(doc => doc.getDocUUID() === uuid)
         },
     },
 })
