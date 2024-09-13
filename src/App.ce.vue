@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { watch } from 'vue';
 import BasicPage from './pages/BasicPage.vue';
 import NodePage from './pages/NodePage.vue'
 import { useMessageStore } from './store/MessageStore'

@@ -29,7 +29,7 @@
 import { watch, ref, computed } from 'vue'
 import { useMessageStore } from '../store/MessageStore'
 import PluginProvider from '../provider/PluginProvider'
-import { Config } from '../config/config'
+import Config from '../config/config'
 import Card from '../ui/Card.vue';
 
 const isDebug = Config.isDebug

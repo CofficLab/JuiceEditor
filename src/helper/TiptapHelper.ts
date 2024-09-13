@@ -1,24 +1,23 @@
 import { Editor } from '@tiptap/vue-3'
 import { Editor as TiptapEditor } from '@tiptap/core'
 import { Node as ProseMirrorNode } from '@tiptap/pm/model';
-import makeExtensions from '../config/extension'
 import DomHelper from './DomHelper';
-import Config from '../config/config';
 import { A, BANNER, BLOCKQUOTE, BULLET_LIST, CODE_BLOCK, DRAW, HEADING, IMAGE, LIST_ITEM, ORDERED_LIST, STRIKE, TABLE, TABLE_HEADER, TABLE_ROW } from '../config/nodes';
 import EditorDoc from '../model/EditorDoc';
+import Config from '../config/config'
 
 const title = '📒 TiptapHelper'
 
 interface Props {
-    uuid: string,
+    uuid: string
     content: string
     editable: boolean
     onCreate: (data: EditorDoc | Error) => void
     onUpdate: (data: EditorDoc | Error) => void
     onSelectionUpdate?: (type: string) => void
-    drawIoLink?: string
     drawEnable: boolean
     tableEnable: boolean
+    extensions: any
 }
 
 class TiptapHelper {
@@ -33,11 +32,7 @@ class TiptapHelper {
         }
 
         return new Editor({
-            extensions: makeExtensions({
-                drawIoLink: props.drawIoLink,
-                drawEnable: props.drawEnable,
-                tableEnable: props.tableEnable
-            }),
+            extensions: props.extensions,
             injectNonce: props.uuid,
             autofocus: false,
             content: TiptapHelper.getValidContent(props.content),

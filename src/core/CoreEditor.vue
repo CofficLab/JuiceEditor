@@ -7,6 +7,7 @@ import TiptapAgent from '../helper/TiptapHelper'
 import Heading from '../extensions/Toc/Heading'
 import BlockMenu from '../menus/MenuBlock.vue'
 import EditorDoc from '../model/EditorDoc'
+import Config from '../config/config'
 
 const title = '📒 Tiptap'
 const props = defineProps({
@@ -69,10 +70,10 @@ const props = defineProps({
 })
 
 const editor = TiptapAgent.create({
+	extensions: Config.extensions,
 	uuid: props.uuid,
 	content: props.content,
 	editable: props.editable,
-	drawIoLink: props.drawLink,
 	drawEnable: props.drawEnable,
 	tableEnable: props.tableEnable,
 	onCreate: (doc: EditorDoc | Error) => {

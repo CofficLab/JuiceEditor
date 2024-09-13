@@ -81,4 +81,8 @@ export default class DocApi {
     public printJSON(json: string) {
         console.log(json)
     }
+
+    public ping(): string {
+        return 'pong'
+    }
 }

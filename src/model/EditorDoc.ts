@@ -41,6 +41,7 @@ export default class EditorDoc extends EditorBlock {
         }
 
         if (parsedJson.type != DOC) {
+            console.error(parsedJson)
             throw new Error('EditorDoc.fromJSONString: block.type is not DOC')
         }
 
