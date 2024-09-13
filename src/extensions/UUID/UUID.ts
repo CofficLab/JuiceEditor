@@ -1,6 +1,6 @@
 import { Extension } from '@tiptap/core'
 import { Node } from 'prosemirror-model'
-import { A, HEADING, IMAGE, PARAGRAPH, PRE, TABLE, TASKLIST, TEXT } from '../../config/nodes'
+import { A, BLOCKQUOTE, BULLET_LIST, HEADING, IMAGE, PARAGRAPH, PRE, TABLE, TASKLIST, TEXT } from '../../config/nodes'
 import { v4 as uuidv4 } from 'uuid'
 import UniqueID from './Official/'
 
@@ -11,7 +11,7 @@ const UUID = Extension.create({
 
     addOptions() {
         return {
-            types: [PARAGRAPH, HEADING, TEXT, PRE, TASKLIST, IMAGE, TABLE, A]
+            types: [PARAGRAPH, HEADING, TEXT, PRE, TASKLIST, IMAGE, TABLE, A, BLOCKQUOTE, BULLET_LIST]
         }
     },
 
