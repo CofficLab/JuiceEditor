@@ -142,6 +142,14 @@ export default class EditorDoc extends EditorBlock {
         return this
     }
 
+    isEqual(doc: EditorDoc): boolean {
+        return this.toJSONString() == doc.toJSONString()
+    }
+
+    hasSameHtmlAndTitle(doc: EditorDoc): boolean {
+        return this.html == doc.html && this.title == doc.title
+    }
+
     private static getTitleFromEditor(editor: Editor): string {
         let nodes = editor.state.doc.content
         let title = ''

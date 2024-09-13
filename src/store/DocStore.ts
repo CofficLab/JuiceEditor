@@ -77,11 +77,11 @@ export const useDocStore = defineStore('doc-store', {
             return this.getDoc()?.getUUID()
         },
 
-        setDoc(doc: EditorDoc | null) {
+        setDoc(doc: EditorDoc | null, reason: string) {
             let verbose = true;
 
             if (verbose) {
-                console.log(title, 'setDoc', doc)
+                console.log(title, `setDoc(${reason})`, doc)
 
                 if (doc) {
                     this.setDebug("SetDoc: " + JSON.stringify(doc).substring(0, 200))
@@ -90,9 +90,9 @@ export const useDocStore = defineStore('doc-store', {
                 }
             }
 
-            if (this.getHTML() == doc?.html) {
+            if (this.getHTML() == doc?.html && this.doc?.title == doc?.title) {
                 if (verbose) {
-                    console.log(title, '更新节点，没变化，忽略')
+                    console.log(title, 'SetDoc，没变化，忽略')
                 }
                 return
             }
@@ -100,11 +100,12 @@ export const useDocStore = defineStore('doc-store', {
             this.doc = doc
         },
 
-        updateDoc(doc: EditorDoc) {
+        updateDoc(doc: EditorDoc, reason: string) {
             let verbose = true;
+            let verbose2 = false;
 
             if (verbose) {
-                this.setDebug("UpdateDoc")
+                this.setDebug(`UpdateDoc(${reason})`)
             }
 
             if (doc instanceof Error) {
@@ -118,15 +119,15 @@ export const useDocStore = defineStore('doc-store', {
                 return
             }
 
-            if (this.getHTML() == doc.html) {
-                if (verbose) {
-                    console.log(title, '更新节点，没变化，忽略')
+            if (this.getDoc()?.hasSameHtmlAndTitle(doc)) {
+                if (verbose2) {
+                    console.log(title, 'UpdateDoc，没变化，忽略')
                 }
                 return
             }
 
             if (verbose) {
-                console.log(title, 'updateDoc', doc)
+                console.log(title, `updateDoc(${reason})`, doc)
             }
 
             this.doc = doc

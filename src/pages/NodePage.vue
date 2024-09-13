@@ -49,10 +49,18 @@ onMounted(() => {
     app.setReady("NodePage onMounted")
 })
 
-const newDoc = () => {
+function newDoc() {
     const doc = EditorDoc.default();
-    docStore.setDoc(doc);
+    docStore.setDoc(doc, "NodePage newDoc");
     selected.value = doc.getUUID()
+}
+
+function onUpdate(doc: EditorDoc) {
+    docStore.updateDoc(doc, "NodePage onUpdate");
+}
+
+function onCreate(doc: EditorDoc) {
+    docStore.updateDoc(doc, "NodePage onCreate");
 }
 
 watch(() => docStore.getDoc(), (newDoc) => {
@@ -77,8 +85,8 @@ watch(selected, (newSelected) => {
 
     if (newSelected) {
         const doc = docsStore.getDoc(newSelected);
-        if (doc) {
-            docStore.setDoc(doc);
+        if (doc && doc.getDocUUID() != newSelected) {
+            docStore.setDoc(doc, "NodePage selected changed");
         }
 
         pluginProvider.onCurrentDocUUIDUpdated(newSelected)
@@ -93,7 +101,7 @@ watch(selected, (newSelected) => {
             <CoreEditor :content="docStore.getHTML()" :editable="feature.editable" :tableEnable="feature.tableEnabled"
                 :drawEnable="feature.drawEnabled" :drawLink="docStore.drawLink"
                 :bubbleMenusEnable="feature.bubbleMenuVisible" :floatingMenusEnable="feature.floatingMenuVisible"
-                :onUpdate="docStore.updateDoc" :onMessage="onMessage" :uuid="currentDoc.getDocUUID()" />
+                :onUpdate="onUpdate" :onCreate="onCreate" :onMessage="onMessage" :uuid="currentDoc.getDocUUID()" />
 
             <div style="position: absolute; top: 0; right: 0;" class="mt-12 mr-24 z-50">
                 <select v-model="selected" v-if="docs.length > 0">

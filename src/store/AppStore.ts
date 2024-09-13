@@ -38,7 +38,7 @@ export const useAppStore = defineStore('app-store', {
             let verbose = true
 
             if (verbose) {
-                console.log(title, 'setNotReady, reason:', reason)
+                console.log(title, `setNotReady, reason(${reason})`)
             }
 
             this.ready = false
@@ -48,7 +48,7 @@ export const useAppStore = defineStore('app-store', {
             let verbose = true
 
             if (verbose) {
-                console.log(title, 'setReady, reason:', reason)
+                console.log(title, `setReady, reason(${reason})`)
             }
 
             this.hideLoading()
