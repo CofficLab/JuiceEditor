@@ -25,10 +25,6 @@ export const useModeStore = defineStore('mode-store', {
             return this.mode.isBasic()
         },
 
-        isNode() {
-            return this.mode.isNode()
-        },
-
         isSlot() {
             return this.mode.isSlot()
         },

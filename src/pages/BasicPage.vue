@@ -25,7 +25,6 @@ const feature = useFeatureStore()
 const app = useAppStore()
 const docStore = useDocStore()
 
-docStore.drawLink = props.drawio
 feature.editable = !props.readonly
 
 onMounted(() => {
@@ -37,7 +36,7 @@ onMounted(() => {
 <template>
     <main class="main">
         <CoreEditor v-if="feature.editorVisible" :content="docStore.getHTML()" :editable="feature.editable"
-            :tableEnable="feature.tableEnabled" :drawEnable="feature.drawEnabled" :drawLink="docStore.drawLink"
+            :tableEnable="feature.tableEnabled" :drawEnable="feature.drawEnabled"
             :bubbleMenusEnable="feature.bubbleMenuVisible" :floatingMenusEnable="feature.floatingMenuVisible"
             :onUpdate="docStore.updateDoc" :onMessage="onMessage" :uuid="docStore.getUUID() ?? UUIDHelper.generate()" />
     </main>

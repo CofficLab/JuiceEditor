@@ -30,7 +30,6 @@ function flattenBlock(block: JSONContent): JSONContent[] {
         return rest;
     });
 
-    console.log(collection)
     return collection
 }
 

@@ -42,10 +42,6 @@ export default class DocApi {
         this.setDoc(doc)
     }
 
-    public setDrawLink(link: string) {
-        this.store.setDrawLink(link)
-    }
-
     public setDoc(doc: EditorDoc) {
         let verbose = false
 

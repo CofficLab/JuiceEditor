@@ -40,11 +40,10 @@ const uuid = computed(() => {
     return newUuid
 })
 
-docStore.drawLink = props.drawio
 feature.editable = !props.readonly
 
 onMounted(() => {
-    docStore.setDoc(EditorDoc.default())
+    docStore.setDoc(EditorDoc.default(), "SlotPage onMounted")
 
     app.setReady("SlotPage onMounted")
 })
@@ -58,7 +57,7 @@ onMounted(() => {
         <Loading v-if="app.loading"></Loading>
 
         <CoreEditor v-if="feature.editorVisible" :content="docStore.getHTML()" :editable="feature.editable"
-            :tableEnable="feature.tableEnabled" :drawEnable="feature.drawEnabled" :drawLink="docStore.drawLink"
+            :tableEnable="feature.tableEnabled" :drawEnable="feature.drawEnabled"
             :bubbleMenusEnable="feature.bubbleMenuVisible" :floatingMenusEnable="feature.floatingMenuVisible"
             :onUpdate="docStore.updateDoc" :onMessage="onMessage" :uuid="uuid" />
 

@@ -13,7 +13,6 @@ export const useDocStore = defineStore('doc-store', {
             message: new SmartMessage(""),
             error: null as Error | null,
             doc: null as EditorDoc | null,
-            drawLink: config.drawLink,
             monacoLink: config.monacoLink,
             selectionType: '',
         }
@@ -50,17 +49,9 @@ export const useDocStore = defineStore('doc-store', {
             return this.getDoc()?.html
         },
 
-        getDrawLink(): string {
-            return this.drawLink
-        },
-
         getMarkdown(): string | undefined {
             const html = this.getHTML()
             return html ? MarkdownHelper.html2markdown(html) : undefined
-        },
-
-        setDrawLink: function (link: string) {
-            this.drawLink = link
         },
 
         updateSelectionType(type: string) {

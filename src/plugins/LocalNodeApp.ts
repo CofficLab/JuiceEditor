@@ -39,7 +39,6 @@ class LocalNodeApp implements Plugin {
 
         window.api.node.setNode(currentNode)
         window.api.doc.setDoc(currentDoc)
-        window.api.docs.setDocs(docs || [])
     }
 
     onSelectionTypeChange(type: string): void {

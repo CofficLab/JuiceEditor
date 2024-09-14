@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { watch } from 'vue';
 import BasicPage from './pages/BasicPage.vue';
-import NodePage from './pages/NodePage.vue'
 import { useMessageStore } from './store/MessageStore'
 import { useAppStore } from './store/AppStore';
 import Message from './pages/Message.vue';
@@ -12,7 +11,6 @@ import { onMounted } from 'vue';
 import { useDocStore } from './store/DocStore';
 import ErrorPage from './pages/ErrorPage.vue';
 import { useNodeStore } from './store/NodeStore';
-import { useDocsStore } from './store/DocsStore';
 import { useRequestStore } from './store/RequestStore';
 import ListenerProvider from './provider/ListenerProvider';
 import ApiProvider from './provider/ApiProvider';
@@ -43,7 +41,6 @@ const doc = useDocStore()
 const messageStore = useMessageStore()
 const modeStore = useModeStore()
 const nodeStore = useNodeStore()
-const docsStore = useDocsStore()
 const feature = useFeatureStore()
 const docStore = useDocStore()
 const requestStore = useRequestStore()
@@ -52,7 +49,6 @@ const apiProvider = new ApiProvider({
 	featureProvider: feature,
 	editorProvider: docStore,
 	nodeProvider: nodeStore,
-	docsProvider: docsStore,
 	modeProvider: modeStore,
 	requestProvider: requestStore
 })
@@ -101,9 +97,6 @@ watch(() => doc.error, () => messageStore.setError(doc.error), { deep: true })
 		<BasicPage :drawio="drawio" :readonly="readonly" v-if="modeStore.isBasic()"
 			:onMessage="messageStore.setMessage">
 		</BasicPage>
-		<NodePage :drawio="drawio" :readonly="readonly" :pluginProvider="pluginProvider" v-if="modeStore.isNode()"
-			:onMessage="messageStore.setMessage">
-		</NodePage>
 		<SlotPage :drawio="drawio" :readonly="readonly" :pluginProvider="pluginProvider" v-if="modeStore.isSlot()"
 			:onMessage="messageStore.setMessage">
 		</SlotPage>

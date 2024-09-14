@@ -17,10 +17,6 @@ export default class PageMode {
         return new PageMode(mode)
     }
 
-    isNode(): boolean {
-        return this.type === PageMode.NODE_TYPE
-    }
-
     isSlot(): boolean {
         return this.type === PageMode.SLOT_TYPE
     }

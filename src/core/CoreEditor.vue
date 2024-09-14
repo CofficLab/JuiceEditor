@@ -16,11 +16,6 @@ const props = defineProps({
 		required: true,
 		validator: (value: string) => value !== undefined && value.trim().length > 0
 	},
-	drawLink: {
-		type: String,
-		default: '',
-		required: true
-	},
 	content: {
 		type: String,
 		default: ''
