@@ -39,7 +39,8 @@ import { Padding } from "../extensions/Padding"
 import { SmartFocus } from "../extensions/SmartFocus"
 import { Branch } from "../extensions/Branch/Branch"
 import { BranchContent } from "../extensions/BranchContent/BranchContent"
-import { A, HEADING, IMAGE, PARAGRAPH, PRE, TABLE, TASKLIST } from "./nodes"
+import { Root } from "../extensions/Root/Root"
+import { A, HEADING, IMAGE, PARAGRAPH, PRE, ROOT, TABLE, TASKLIST } from "./nodes"
 
 interface ConfigType {
     editorLabel: string;
@@ -89,10 +90,11 @@ interface makeExtensionsProps {
 function makeExtensions(props: makeExtensionsProps) {
     var extensions = [
         // Debug,
+        Root,
         Branch,
         BranchContent,
         Document.extend({
-            content: 'heading block*',
+            content: ROOT,
         }),
         Dropcursor,
         SmartQuote.configure({

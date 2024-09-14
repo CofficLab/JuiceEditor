@@ -57,6 +57,7 @@ export default class DocApi {
 
     public setDocByRequest(id: string) {
         new DocRequest(this.request.getBaseUrl()).getDoc(id).then((doc) => {
+            console.log("setDocByRequest", doc)
             this.setDoc(doc)
         })
     }
@@ -76,17 +77,6 @@ export default class DocApi {
 function flattenBlock(block: JSONContent): JSONContent[] {
     var newBlock = block
 
-    if (newBlock.type == DOC) {
-        if (newBlock.content) {
-            newBlock.content.forEach(child => {
-                if (child.type == HEADING && child.attrs && child.attrs.uuid) {
-                    newBlock.attrs = newBlock.attrs || {};
-                    newBlock.attrs.uuid = child.attrs.uuid + "-doc";
-                }
-            });
-        }
-    }
-
     if (newBlock.attrs == null) {
         newBlock.attrs = {}
     }
@@ -99,16 +89,23 @@ function flattenBlock(block: JSONContent): JSONContent[] {
 
     if (children.length > 0) {
         children.map(child => {
+            child.attrs = child.attrs || {};
+
             if (child.type == TEXT) {
-                child.attrs = child.attrs || {};
                 if (newBlock.attrs && newBlock.attrs.uuid) {
-                    child.attrs.uuid = newBlock.attrs.uuid + "-text";
+                    child.attrs.uuid = "text-" + newBlock.attrs.uuid;
                 }
             }
+
+            child.attrs.parent = newBlock.type == DOC ? "" : newBlock.attrs!.uuid;
         });
     }
 
-    var flattened: JSONContent[] = [newBlock]
+    var flattened: JSONContent[] = []
+
+    if (newBlock.type != DOC) {
+        flattened.push(newBlock)
+    }
 
     if (children.length > 0) {
         children.forEach(content => {
