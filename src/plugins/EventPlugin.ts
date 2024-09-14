@@ -1,7 +1,7 @@
 import UpdateData from "../model/UpdateData";
 import Plugin from "../contract/Plugin";
 import TreeNode from "../model/TreeNode";
-import EditorDoc from "../model/EditorDoc";
+import EditorData from "../model/EditorData";
 import PageMode from "../model/PageMode";
 
 const title = "🍎 EventPlugin"
@@ -47,13 +47,13 @@ class EventPlugin implements Plugin {
 
     }
 
-    onDocUpdated(data: EditorDoc): void {
+    onDocUpdated(data: EditorData): void {
     }
 
-    onDocsUpdated(data: EditorDoc[]): void {
+    onDocsUpdated(data: EditorData[]): void {
     }
 
-    onDocUpdatedWithNode(data: EditorDoc, node: TreeNode): void {
+    onDocUpdatedWithNode(data: EditorData, node: TreeNode): void {
     }
 
     onCurrentDocUUIDUpdated(uuid: string): void {

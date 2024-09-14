@@ -6,16 +6,11 @@ import FloatMenus from '../menus/MenuFloat.vue'
 import TiptapAgent from '../helper/TiptapHelper'
 import Heading from '../extensions/Toc/Heading'
 import BlockMenu from '../menus/MenuBlock.vue'
-import EditorDoc from '../model/EditorDoc'
+import EditorData from '../model/EditorData'
 import Config from '../config/config'
 
 const title = '📒 Tiptap'
 const props = defineProps({
-	uuid: {
-		type: String,
-		required: true,
-		validator: (value: string) => value !== undefined && value.trim().length > 0
-	},
 	content: {
 		type: String,
 		default: ''
@@ -66,15 +61,14 @@ const props = defineProps({
 
 const editor = TiptapAgent.create({
 	extensions: Config.extensions,
-	uuid: props.uuid,
 	content: props.content,
 	editable: props.editable,
 	drawEnable: props.drawEnable,
 	tableEnable: props.tableEnable,
-	onCreate: (doc: EditorDoc | Error) => {
+	onCreate: (doc: EditorData | Error) => {
 		props.onCreate(doc)
 	},
-	onUpdate: (data: EditorDoc | Error) => {
+	onUpdate: (data: EditorData | Error) => {
 		let verbose = false
 		refreshToc('onUpdate')
 		if (!props.editable) {
@@ -108,20 +102,6 @@ function refreshToc(reason: string) {
 
 	headingTree.value = Heading.makeTree(editor) as unknown as Heading
 }
-
-watch(
-	() => props.uuid,
-	(newValue, oldValue) => {
-		let verbose = false
-		if (verbose) {
-			console.log(title, 'uuid changed', oldValue, '->', newValue)
-		}
-
-		editor.setOptions({
-			injectNonce: props.uuid
-		})
-	}
-)
 
 watch(
 	() => props.content,

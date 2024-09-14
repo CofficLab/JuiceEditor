@@ -1,6 +1,6 @@
 import { channel } from "diagnostics_channel";
 import Plugin from "../contract/Plugin";
-import EditorDoc from "../model/EditorDoc";
+import EditorData from "../model/EditorData";
 import { send } from "vite";
 import TreeNode from "src/model/TreeNode";
 import PageMode from "../model/PageMode";
@@ -25,7 +25,7 @@ class WebKit implements Plugin {
         })
     }
 
-    onDocUpdated(doc: EditorDoc | null): void {
+    onDocUpdated(doc: EditorData | null): void {
         let verbose = false;
 
         if (verbose) {
@@ -49,7 +49,7 @@ class WebKit implements Plugin {
         })
     }
 
-    onDocUpdatedWithNode(doc: EditorDoc, node: TreeNode): void {
+    onDocUpdatedWithNode(doc: EditorData, node: TreeNode): void {
         let verbose = true;
 
         if (verbose) {
@@ -76,7 +76,7 @@ class WebKit implements Plugin {
         })
     }
 
-    onDocsUpdated(data: EditorDoc[]): void {
+    onDocsUpdated(data: EditorData[]): void {
         let verbose = false;
 
         if (verbose) {

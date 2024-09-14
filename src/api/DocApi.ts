@@ -1,4 +1,4 @@
-import EditorDoc from '../model/EditorDoc';
+import EditorData from '../model/EditorData';
 import { DocStore } from '../store/DocStore';
 import DocRequest from '../request/DocRequest';
 import { RequestStore } from '../store/RequestStore';
@@ -42,7 +42,7 @@ export default class DocApi {
         this.setDoc(doc)
     }
 
-    public setDoc(doc: EditorDoc) {
+    public setDoc(doc: EditorData) {
         let verbose = false
 
         if (verbose) {
@@ -57,7 +57,7 @@ export default class DocApi {
     }
 
     public setDocEmpty() {
-        this.setDoc(EditorDoc.default())
+        this.setDoc(EditorData.default())
     }
 
     public setDocByRequest(id: string) {
@@ -67,11 +67,11 @@ export default class DocApi {
     }
 
     public setDocJSON(json: string) {
-        this.setDoc(EditorDoc.fromJSONString(json))
+        this.setDoc(EditorData.fromJSONString(json))
     }
 
     public setDocBase64(base64: string) {
-        this.store.setDoc(EditorDoc.fromBase64(base64), "DocApi setDocBase64")
+        this.store.setDoc(EditorData.fromBase64(base64), "DocApi setDocBase64")
     }
 
     public printJSON(json: string) {

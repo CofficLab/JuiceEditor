@@ -3,17 +3,16 @@ import { Editor as TiptapEditor } from '@tiptap/core'
 import { Node as ProseMirrorNode } from '@tiptap/pm/model';
 import DomHelper from './DomHelper';
 import { A, BANNER, BLOCKQUOTE, BULLET_LIST, CODE_BLOCK, DRAW, HEADING, IMAGE, LIST_ITEM, ORDERED_LIST, STRIKE, TABLE, TABLE_HEADER, TABLE_ROW } from '../config/nodes';
-import EditorDoc from '../model/EditorDoc';
+import EditorData from '../model/EditorData';
 import Config from '../config/config'
 
 const title = '📒 TiptapHelper'
 
 interface Props {
-    uuid: string
     content: string
     editable: boolean
-    onCreate: (data: EditorDoc | Error) => void
-    onUpdate: (data: EditorDoc | Error) => void
+    onCreate: (data: EditorData | Error) => void
+    onUpdate: (data: EditorData | Error) => void
     onSelectionUpdate?: (type: string) => void
     drawEnable: boolean
     tableEnable: boolean
@@ -27,13 +26,10 @@ class TiptapHelper {
             console.log(title, 'create with content', props.content, 'and uuid', props.uuid)
         }
 
-        if (props.uuid.length == 0) {
-            throw new Error('uuid is empty')
-        }
 
         return new Editor({
             extensions: props.extensions,
-            injectNonce: props.uuid,
+            injectNonce: "",
             autofocus: false,
             content: TiptapHelper.getValidContent(props.content),
             editable: props.editable,
@@ -48,7 +44,7 @@ class TiptapHelper {
                 if (verbose) {
                     console.log(title, 'onCreate, callback with EditorData')
                 }
-                props.onCreate(EditorDoc.fromEditor(editor))
+                props.onCreate(EditorData.fromEditor(editor))
             },
             onFocus: ({ editor }) => {
                 let verbose = false;
@@ -87,7 +83,7 @@ class TiptapHelper {
                     return
                 }
 
-                let doc = EditorDoc.fromEditor(editor)
+                let doc = EditorData.fromEditor(editor)
                 if (props.onUpdate) {
                     if (verbose) {
                         console.log(title, 'onUpdate, callback with EditorDoc', doc)

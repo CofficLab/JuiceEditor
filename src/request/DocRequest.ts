@@ -1,4 +1,4 @@
-import EditorDoc from "../model/EditorDoc";
+import EditorData from "../model/EditorData";
 import axios from 'axios';
 
 export default class DocRequest {
@@ -9,10 +9,10 @@ export default class DocRequest {
         this.baseUrl = baseUrl
     }
 
-    async getDoc(id: string): Promise<EditorDoc> {
+    async getDoc(id: string): Promise<EditorData> {
         try {
             const response = await axios.get(`${this.baseUrl}/api/doc/${id}`);
-            return new EditorDoc(response.data);
+            return new EditorData(response.data);
         } catch (error) {
             throw error;
         }

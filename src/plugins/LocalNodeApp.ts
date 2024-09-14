@@ -1,6 +1,6 @@
 import Plugin from "../contract/Plugin";
 import TreeNode from "../model/TreeNode";
-import EditorDoc from "../model/EditorDoc";
+import EditorData from "../model/EditorData";
 import ImageHelper from "../helper/ImageHelper";
 import PageMode from "../model/PageMode";
 const title = "🍎 LocalNodeApp"
@@ -29,15 +29,12 @@ class LocalNodeApp implements Plugin {
     onPageLoaded(): void {
         let verbose = false
 
-        const currentNode = LocalDB.getNode()
-        const docs = LocalDB.getDocs()
-        const currentDoc = LocalDB.getCurrentDoc() || EditorDoc.default()
+        const currentDoc = LocalDB.getDoc() || EditorData.default()
 
         if (verbose) {
-            console.log(title, 'onPageLoaded, set node and doc', currentNode.uuid, currentDoc.getUUID())
+            console.log(title, 'onPageLoaded, set doc')
         }
 
-        window.api.node.setNode(currentNode)
         window.api.doc.setDoc(currentDoc)
     }
 
@@ -45,7 +42,7 @@ class LocalNodeApp implements Plugin {
 
     }
 
-    onDocUpdatedWithNode(data: EditorDoc, node: TreeNode): void {
+    onDocUpdatedWithNode(data: EditorData, node: TreeNode): void {
         let verbose = false
 
         if (verbose) {
@@ -57,38 +54,32 @@ class LocalNodeApp implements Plugin {
         this.onDocUpdated(data)
     }
 
-    onDocUpdated(data: EditorDoc): void {
+    onDocUpdated(data: EditorData): void {
         let verbose = false
 
         if (verbose) {
             console.log(title, 'onDocUpdated', data)
         }
 
-        var docs = LocalDB.getDocs()
-        if (docs) {
-            docs = docs.map(doc => {
-                if (doc.getUUID() == data.getUUID()) {
-                    return data
-                }
-                return doc
-            })
-        }
+        // var docs = LocalDB.getDocs()
+        // if (docs) {
+        //     docs = docs.map(doc => {
+        //         if (doc.getUUID() == data.getUUID()) {
+        //             return data
+        //         }
+        //         return doc
+        //     })
+        // }
 
-        if (!docs) {
-            docs = []
-        }
+        // if (!docs) {
+        //     docs = []
+        // }
 
-        LocalDB.saveDocs(docs)
+        // LocalDB.saveDocs(docs)
     }
 
-    onDocsUpdated(data: EditorDoc[]): void {
-        let verbose = false
+    onDocsUpdated(data: EditorData[]): void {
 
-        if (verbose) {
-            console.log(title, 'onDocsUpdated', data.length)
-        }
-
-        LocalDB.saveDocs(data)
     }
 
     onCurrentDocUUIDUpdated(uuid: string): void {
@@ -103,84 +94,34 @@ class LocalNodeApp implements Plugin {
 }
 
 class LocalDB {
-    static getCurrentDoc(): EditorDoc | undefined {
-        let docs = LocalDB.getDocs()
-
-        if (!docs) {
-            return undefined
-        }
-
-        let currentDocUUID = LocalDB.getCurrentDocUUID()
-
-        if (currentDocUUID.length == 0) {
-            let firstDoc = docs[0]
-            let uuid = firstDoc?.getUUID()
-
-            if (!uuid) {
-                throw new Error('uuid is empty')
-            }
-
-            if (firstDoc) {
-                LocalDB.saveCurrentDocUUID(uuid)
-            }
-
-            return firstDoc
-        }
-
-        return docs.find(doc => doc.getUUID() == currentDocUUID)
-    }
-
     static saveNode(node: TreeNode): void {
         localStorage.setItem('node', node.toJSONString())
     }
 
-    static saveDocs(docs: EditorDoc[]): void {
+    static saveDoc(doc: EditorData): void {
         let verbose = false
 
         if (verbose) {
-            console.log(title, 'saveDocs', docs, docs.length)
+            console.log(title, 'saveDoc', doc)
         }
 
-        docs.forEach((doc: EditorDoc) => {
-            if (doc.getUUID() == undefined) {
-                throw new Error('uuid is empty')
-            }
-        })
-
-        localStorage.setItem('docs', JSON.stringify(docs))
+        localStorage.setItem('doc', doc.toJSONString())
     }
 
-    static getNode(): TreeNode {
+    static getDoc(): EditorData | null {
         let verbose = false
-        let saveData = localStorage.getItem('node')
-        let treeNode = saveData ? new TreeNode(JSON.parse(saveData)) : TreeNode.makeDefaultNode()
+        let saveData = localStorage.getItem('doc')
+        let doc = saveData ? new EditorData(JSON.parse(saveData)) : EditorData.default()
 
         if (verbose) {
-            console.log(title, 'getNode', treeNode)
-        }
-
-        return treeNode
-    }
-
-    static getDocs(): EditorDoc[] | null {
-        let verbose = false
-        let saveData = localStorage.getItem('docs')
-
-        if (verbose) {
-            console.log(title, 'getDocs', saveData)
+            console.log(title, 'getDoc', doc)
         }
 
         if (!saveData) {
             return null
         }
 
-        let docs = JSON.parse(saveData).map((doc: { [key: string]: any; }) => EditorDoc.fromJSONString(JSON.stringify(doc)))
-
-        if (verbose) {
-            console.log(title, 'getDoc', docs)
-        }
-
-        return docs
+        return doc
     }
 
     static saveCurrentDocUUID(uuid: string): void {

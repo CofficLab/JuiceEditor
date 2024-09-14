@@ -1,6 +1,6 @@
 import TreeNode from "../model/TreeNode";
 import Plugin from "../contract/Plugin";
-import EditorDoc from "../model/EditorDoc";
+import EditorData from "../model/EditorData";
 import PageMode from "../model/PageMode";
 
 const emoji = "🐶 PluginProvider"
@@ -42,7 +42,7 @@ export default class PluginProvider {
         })
     }
 
-    onDocUpdated(doc: EditorDoc | null) {
+    onDocUpdated(doc: EditorData | null) {
         let verbose = false
 
         if (verbose) {
@@ -54,7 +54,7 @@ export default class PluginProvider {
         })
     }
 
-    onDocUpdatedWithNode(doc: EditorDoc | null, node: TreeNode | null) {
+    onDocUpdatedWithNode(doc: EditorData | null, node: TreeNode | null) {
         let verbose = false
 
         if (verbose) {
@@ -70,7 +70,7 @@ export default class PluginProvider {
         })
     }
 
-    onDocsUpdated(docs: EditorDoc[] | null) {
+    onDocsUpdated(docs: EditorData[] | null) {
         let verbose = false
 
         if (verbose) {

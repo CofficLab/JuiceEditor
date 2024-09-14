@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import EditorDoc from '../model/EditorDoc'
+import EditorData from '../model/EditorData'
 import Config from '../config/config'
 import MarkdownHelper from '../helper/MarkdownHelper'
 import SmartMessage from '../model/SmartMessage'
@@ -12,7 +12,7 @@ export const useDocStore = defineStore('doc-store', {
         return {
             message: new SmartMessage(""),
             error: null as Error | null,
-            doc: null as EditorDoc | null,
+            doc: null as EditorData | null,
             monacoLink: config.monacoLink,
             selectionType: '',
         }
@@ -60,15 +60,11 @@ export const useDocStore = defineStore('doc-store', {
             this.selectionType = type
         },
 
-        getDoc(): EditorDoc | null {
+        getDoc(): EditorData | null {
             return this.doc
         },
 
-        getUUID(): string | undefined {
-            return this.getDoc()?.getUUID()
-        },
-
-        setDoc(doc: EditorDoc | null, reason: string) {
+        setDoc(doc: EditorData | null, reason: string) {
             let verbose = true;
 
             if (verbose) {
@@ -91,7 +87,7 @@ export const useDocStore = defineStore('doc-store', {
             this.doc = doc
         },
 
-        updateDoc(doc: EditorDoc, reason: string) {
+        updateDoc(doc: EditorData, reason: string) {
             let verbose = true;
             let verbose2 = false;
 
@@ -105,7 +101,7 @@ export const useDocStore = defineStore('doc-store', {
                 return
             }
 
-            if (doc instanceof EditorDoc == false) {
+            if (doc instanceof EditorData == false) {
                 console.error(title, 'UpdateDoc', 'doc is not instance of EditorDoc', doc)
                 return
             }

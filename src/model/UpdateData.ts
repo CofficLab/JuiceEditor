@@ -1,6 +1,6 @@
 import { Editor, JSONContent } from '@tiptap/core'
 import TreeNode from './TreeNode'
-import EditorDoc from './EditorDoc'
+import EditorData from './EditorData'
 
 const emoji = '🍑 UpdateData'
 
@@ -14,7 +14,7 @@ export default class UpdateData {
     public characterCount: number = 0
     public wordCount: number = 0
 
-    static fromNodeAndDoc(node: TreeNode, doc: EditorDoc): UpdateData {
+    static fromNodeAndDoc(node: TreeNode, doc: EditorData): UpdateData {
         return new UpdateData()
             .setNodeUUID(node.uuid)
             .setDocUUID(doc.uuid)

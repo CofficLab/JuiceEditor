@@ -8,7 +8,7 @@ import Children from '../core/Children.vue'
 import { onMounted, computed } from 'vue'
 import { useDocStore } from '../store/DocStore'
 import UUIDHelper from '../helper/UUIDHelper'
-import EditorDoc from '../model/EditorDoc'
+import EditorData from '../model/EditorData'
 const props = defineProps({
     drawio: {
         type: String,
@@ -43,7 +43,7 @@ const uuid = computed(() => {
 feature.editable = !props.readonly
 
 onMounted(() => {
-    docStore.setDoc(EditorDoc.default(), "SlotPage onMounted")
+    docStore.setDoc(EditorData.default(), "SlotPage onMounted")
 
     app.setReady("SlotPage onMounted")
 })

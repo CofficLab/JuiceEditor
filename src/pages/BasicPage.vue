@@ -4,7 +4,6 @@ import { useFeatureStore } from '../store/FeatureStore'
 import CoreEditor from '../core/CoreEditor.vue'
 import { onMounted } from 'vue'
 import { useDocStore } from '../store/DocStore'
-import UUIDHelper from '../helper/UUIDHelper'
 
 const props = defineProps({
     drawio: {
@@ -38,6 +37,6 @@ onMounted(() => {
         <CoreEditor v-if="feature.editorVisible" :content="docStore.getHTML()" :editable="feature.editable"
             :tableEnable="feature.tableEnabled" :drawEnable="feature.drawEnabled"
             :bubbleMenusEnable="feature.bubbleMenuVisible" :floatingMenusEnable="feature.floatingMenuVisible"
-            :onUpdate="docStore.updateDoc" :onMessage="onMessage" :uuid="docStore.getUUID() ?? UUIDHelper.generate()" />
+            :onUpdate="docStore.updateDoc" :onMessage="onMessage" />
     </main>
 </template>

@@ -1,4 +1,4 @@
-import EditorDoc from "../model/EditorDoc"
+import EditorData from "../model/EditorData"
 import TreeNode from "../model/TreeNode"
 import PageMode from "../model/PageMode"
 interface Plugin {
@@ -6,9 +6,9 @@ interface Plugin {
     onPageLoaded(): void
     onMessage(message: string): void
     onSelectionTypeChange(type: string): void
-    onDocUpdated(data: EditorDoc | null): void
-    onDocUpdatedWithNode(data: EditorDoc | null, node: TreeNode): void
-    onDocsUpdated(data: EditorDoc[]): void
+    onDocUpdated(data: EditorData | null): void
+    onDocUpdatedWithNode(data: EditorData | null, node: TreeNode): void
+    onDocsUpdated(data: EditorData[]): void
     onDownloadImage(src: string, name: string): void
     onCurrentDocUUIDUpdated(uuid: string): void
 }
