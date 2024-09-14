@@ -37,6 +37,8 @@ import SmartTableRow from "../extensions/SmartTableRow/SmartTableRow"
 import SmartSelection from "../extensions/SmartSelection"
 import { Padding } from "../extensions/Padding"
 import { SmartFocus } from "../extensions/SmartFocus"
+import { Branch } from "../extensions/Branch/Branch"
+import { BranchContent } from "../extensions/BranchContent/BranchContent"
 import { A, HEADING, IMAGE, PARAGRAPH, PRE, TABLE, TASKLIST } from "./nodes"
 
 interface ConfigType {
@@ -87,8 +89,10 @@ interface makeExtensionsProps {
 function makeExtensions(props: makeExtensionsProps) {
     var extensions = [
         // Debug,
+        Branch,
+        BranchContent,
         Document.extend({
-            content: 'heading block*',
+            content: 'block*',
         }),
         Dropcursor,
         SmartQuote.configure({

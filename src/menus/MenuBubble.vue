@@ -4,7 +4,7 @@ import { EditorView } from '@tiptap/pm/view'
 import { Editor, BubbleMenu } from '@tiptap/vue-3'
 import { Editor as TiptapEditor } from '@tiptap/core'
 import ButtonBar from '../ui/ButtonBar.vue'
-import { A, DRAW, HEADING, IMAGE, PARAGRAPH, TABLE, TABLE_CELL, TABLE_HEADER, TABLE_ROW, TEXT, TOC } from '../config/nodes'
+import { A, DRAW, HEADING, IMAGE, PARAGRAPH, TABLE, TABLE_CELL, TABLE_HEADER, TABLE_ROW, TEXT, TOC, BRANCH, BRANCH_CONTENT } from '../config/nodes'
 import MenuImage from './MenuImage.vue'
 import MenuTable from './MenuTable.vue'
 import MenuHeading from './MenuHeading.vue'
@@ -33,7 +33,7 @@ const shouldShow = function (props: {
 	const { selection } = props.state
 	const { empty } = selection
 	const shouldShowNodes = [IMAGE, TABLE, HEADING]
-	const excludes = [TOC, DRAW, A, TABLE_CELL, TABLE_ROW, TABLE_HEADER]
+	const excludes = [TOC, DRAW, A, TABLE_CELL, TABLE_ROW, TABLE_HEADER, BRANCH, BRANCH_CONTENT]
 
 	if (shouldShowNodes.some(node => props.editor.isActive(node))) {
 		return true;

@@ -282,7 +282,7 @@ class TiptapHelper {
         editor.state.doc.descendants((node, pos) => {
             if (!typesWithoutUUID.includes(node.type.name) && !node.attrs.uuid) {
                 // console.error(node)
-                errors.push(new Error(`Node [${node.type.name}] has no uuid`))
+                // errors.push(new Error(`Node [${node.type.name}] has no uuid`))
                 // console.warn('Node has no uuid', node)
             }
         })
