@@ -92,7 +92,7 @@ function makeExtensions(props: makeExtensionsProps) {
         Branch,
         BranchContent,
         Document.extend({
-            content: 'block*',
+            content: 'heading block*',
         }),
         Dropcursor,
         SmartQuote.configure({

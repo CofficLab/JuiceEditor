@@ -1,8 +1,11 @@
 import EditorData from '../model/EditorData';
-import { DocStore } from '../store/DocStore';
+import { DocStore } from '../store/EditorStore';
 import DocRequest from '../request/DocRequest';
 import { RequestStore } from '../store/RequestStore';
-
+import { generateJSON, JSONContent } from '@tiptap/core'
+import Config from '../config/config'
+import { DOC, HEADING, TEXT } from '../config/nodes';
+import UUIDHelper from '../helper/UUIDHelper';
 let title = "🔌 DocApi"
 
 export default class DocApi {
@@ -33,12 +36,8 @@ export default class DocApi {
         }
 
         let doc = this.store.getDoc()
-
-        if (doc == null) {
-            throw new Error('doc is null')
-        }
-
         doc.html = html
+
         this.setDoc(doc)
     }
 
@@ -52,10 +51,6 @@ export default class DocApi {
         this.store.setDoc(doc, "DocApi setDoc")
     }
 
-    public setDocNull() {
-        this.store.setDoc(null, "DocApi setDocNull")
-    }
-
     public setDocEmpty() {
         this.setDoc(EditorData.default())
     }
@@ -66,19 +61,71 @@ export default class DocApi {
         })
     }
 
-    public setDocJSON(json: string) {
-        this.setDoc(EditorData.fromJSONString(json))
+    public getJSONFromHTML(html: string): JSONContent {
+        return generateJSON(html, Config.extensions)
     }
 
-    public setDocBase64(base64: string) {
-        this.store.setDoc(EditorData.fromBase64(base64), "DocApi setDocBase64")
+    public getBlocksFromHTML(html: string): JSONContent[] {
+        let blocks = flattenBlock(this.getJSONFromHTML(html))
+        console.log(blocks)
+        return blocks
+    }
+}
+
+
+function flattenBlock(block: JSONContent): JSONContent[] {
+    var newBlock = block
+
+    if (newBlock.type == DOC) {
+        if (newBlock.content) {
+            newBlock.content.forEach(child => {
+                if (child.type == HEADING && child.attrs && child.attrs.uuid) {
+                    newBlock.attrs = newBlock.attrs || {};
+                    newBlock.attrs.uuid = child.attrs.uuid + "-doc";
+                }
+            });
+        }
     }
 
-    public printJSON(json: string) {
-        console.log(json)
+    if (newBlock.attrs == null) {
+        newBlock.attrs = {}
     }
 
-    public ping(): string {
-        return 'pong'
+    if (newBlock.attrs.uuid == null) {
+        newBlock.attrs.uuid = UUIDHelper.generate();
     }
+
+    var children = newBlock.content || []
+
+    if (children.length > 0) {
+        children.map(child => {
+            if (child.type == TEXT) {
+                child.attrs = child.attrs || {};
+                if (newBlock.attrs && newBlock.attrs.uuid) {
+                    child.attrs.uuid = newBlock.attrs.uuid + "-text";
+                }
+            }
+        });
+    }
+
+    var flattened: JSONContent[] = [newBlock]
+
+    if (children.length > 0) {
+        children.forEach(content => {
+            flattened = flattened.concat(flattenBlock(content))
+        })
+    }
+
+    const collection = flattened.map(b => {
+        const { content, ...rest } = b;
+        return rest;
+    });
+
+    collection.forEach(b => {
+        if (!b.attrs?.uuid) {
+            console.warn("uuid is null", b)
+        }
+    })
+
+    return collection
 }

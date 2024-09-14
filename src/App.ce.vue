@@ -8,7 +8,7 @@ import SlotPage from './pages/SlotPage.vue';
 import PageMode from './model/PageMode';
 import { useModeStore } from './store/ModeStore';
 import { onMounted } from 'vue';
-import { useDocStore } from './store/DocStore';
+import { useDocStore } from './store/EditorStore';
 import ErrorPage from './pages/ErrorPage.vue';
 import { useNodeStore } from './store/NodeStore';
 import { useRequestStore } from './store/RequestStore';
@@ -100,7 +100,6 @@ watch(() => doc.error, () => messageStore.setError(doc.error), { deep: true })
 		<SlotPage :drawio="drawio" :readonly="readonly" :pluginProvider="pluginProvider" v-if="modeStore.isSlot()"
 			:onMessage="messageStore.setMessage">
 		</SlotPage>
-		<p v-else>mode: {{ modeStore.mode.type }}</p>
 	</template>
 
 	<!-- Message -->

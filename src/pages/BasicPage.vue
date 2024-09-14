@@ -3,7 +3,7 @@ import { useAppStore } from '../store/AppStore'
 import { useFeatureStore } from '../store/FeatureStore'
 import CoreEditor from '../core/CoreEditor.vue'
 import { onMounted } from 'vue'
-import { useDocStore } from '../store/DocStore'
+import { useDocStore } from '../store/EditorStore'
 
 const props = defineProps({
     drawio: {

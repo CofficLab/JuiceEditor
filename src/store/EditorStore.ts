@@ -4,7 +4,6 @@ import Config from '../config/config'
 import MarkdownHelper from '../helper/MarkdownHelper'
 import SmartMessage from '../model/SmartMessage'
 const config = Config
-const isDebug = config.isDebug
 const title = "🍋 DocStore"
 
 export const useDocStore = defineStore('doc-store', {
@@ -12,7 +11,7 @@ export const useDocStore = defineStore('doc-store', {
         return {
             message: new SmartMessage(""),
             error: null as Error | null,
-            doc: null as EditorData | null,
+            doc: EditorData.default(),
             monacoLink: config.monacoLink,
             selectionType: '',
         }
@@ -60,11 +59,11 @@ export const useDocStore = defineStore('doc-store', {
             this.selectionType = type
         },
 
-        getDoc(): EditorData | null {
+        getDoc(): EditorData {
             return this.doc
         },
 
-        setDoc(doc: EditorData | null, reason: string) {
+        setDoc(doc: EditorData, reason: string) {
             let verbose = true;
 
             if (verbose) {

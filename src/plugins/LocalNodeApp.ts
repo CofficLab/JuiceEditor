@@ -35,7 +35,7 @@ class LocalNodeApp implements Plugin {
             console.log(title, 'onPageLoaded, set doc')
         }
 
-        window.api.doc.setDoc(currentDoc)
+        window.api.doc.setHTML(currentDoc.html)
     }
 
     onSelectionTypeChange(type: string): void {
@@ -55,27 +55,13 @@ class LocalNodeApp implements Plugin {
     }
 
     onDocUpdated(data: EditorData): void {
-        let verbose = false
+        let verbose = true
 
         if (verbose) {
             console.log(title, 'onDocUpdated', data)
         }
 
-        // var docs = LocalDB.getDocs()
-        // if (docs) {
-        //     docs = docs.map(doc => {
-        //         if (doc.getUUID() == data.getUUID()) {
-        //             return data
-        //         }
-        //         return doc
-        //     })
-        // }
-
-        // if (!docs) {
-        //     docs = []
-        // }
-
-        // LocalDB.saveDocs(docs)
+        LocalDB.saveDoc(data)
     }
 
     onDocsUpdated(data: EditorData[]): void {

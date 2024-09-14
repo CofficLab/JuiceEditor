@@ -2,14 +2,12 @@ import FeatureApi from "../api/FeatureApi";
 import NodeApi from "../api/NodeApi";
 import DocApi from "../api/DocApi";
 import { FeatureStore } from "../store/FeatureStore";
-import { DocStore } from "../store/DocStore";
+import { DocStore } from "../store/EditorStore";
 import { NodeStore } from "../store/NodeStore";
-import DocsApi from "../api/DocsApi";
 import ModeApi from "../api/ModeApi";
 import { ModeStore } from "../store/ModeStore";
 import { RequestStore } from "../store/RequestStore";
 import RequestApi from "../api/RequestApi";
-import EditorApi from "../api/EditorApi";
 const emoji = "🐶 ApiProvider"
 
 export interface AllApi {
@@ -18,7 +16,6 @@ export interface AllApi {
     doc: DocApi
     mode: ModeApi
     request: RequestApi
-    editor: EditorApi
 }
 
 export interface ApiProviderParams {
@@ -35,7 +32,6 @@ export default class ApiProvider {
     public doc: DocApi
     public mode: ModeApi
     public request: RequestApi
-    public editor: EditorApi
 
     constructor(params: ApiProviderParams) {
         let verbose = false
@@ -48,7 +44,6 @@ export default class ApiProvider {
         this.doc = new DocApi(params.editorProvider, params.requestProvider)
         this.mode = new ModeApi(params.modeProvider)
         this.request = new RequestApi(params.requestProvider)
-        this.editor = new EditorApi()
     }
 
     boot() {
@@ -58,7 +53,6 @@ export default class ApiProvider {
             doc: this.doc,
             mode: this.mode,
             request: this.request,
-            editor: this.editor
         }
     }
 }

@@ -5,9 +5,8 @@ import Loading from '../ui/Loading.vue'
 import CoreEditor from '../core/CoreEditor.vue'
 import TreeNode from '../model/TreeNode'
 import Children from '../core/Children.vue'
-import { onMounted, computed } from 'vue'
-import { useDocStore } from '../store/DocStore'
-import UUIDHelper from '../helper/UUIDHelper'
+import { onMounted } from 'vue'
+import { useDocStore } from '../store/EditorStore'
 import EditorData from '../model/EditorData'
 const props = defineProps({
     drawio: {
@@ -28,17 +27,6 @@ const feature = useFeatureStore()
 const app = useAppStore()
 const docStore = useDocStore()
 const children: TreeNode[] = []
-const uuid = computed(() => {
-    const uuid = docStore.getUUID()
-
-    if (uuid && UUIDHelper.isUUID(uuid)) {
-        return uuid
-    }
-
-    const newUuid = UUIDHelper.generate()
-
-    return newUuid
-})
 
 feature.editable = !props.readonly
 
@@ -59,7 +47,7 @@ onMounted(() => {
         <CoreEditor v-if="feature.editorVisible" :content="docStore.getHTML()" :editable="feature.editable"
             :tableEnable="feature.tableEnabled" :drawEnable="feature.drawEnabled"
             :bubbleMenusEnable="feature.bubbleMenuVisible" :floatingMenusEnable="feature.floatingMenuVisible"
-            :onUpdate="docStore.updateDoc" :onMessage="onMessage" :uuid="uuid" />
+            :onUpdate="docStore.updateDoc" :onMessage="onMessage" />
 
         <Children v-if="children.length > 0" :children="children"></Children>
     </main>
