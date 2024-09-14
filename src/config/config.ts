@@ -90,7 +90,9 @@ interface makeExtensionsProps {
 function makeExtensions(props: makeExtensionsProps) {
     var extensions = [
         // Debug,
-        Root,
+        Root.extend({
+            content: `${HEADING} block*`,
+        }),
         Branch,
         BranchContent,
         Document.extend({

@@ -4,8 +4,9 @@ import DocRequest from '../request/DocRequest';
 import { RequestStore } from '../store/RequestStore';
 import { generateJSON, JSONContent } from '@tiptap/core'
 import Config from '../config/config'
-import { DOC, HEADING, TEXT } from '../config/nodes';
+import { DOC, ROOT, TEXT } from '../config/nodes';
 import UUIDHelper from '../helper/UUIDHelper';
+import TiptapHelper from '../helper/TiptapHelper';
 let title = "🔌 DocApi"
 
 export default class DocApi {
@@ -67,7 +68,13 @@ export default class DocApi {
     }
 
     public getBlocksFromHTML(html: string): JSONContent[] {
-        let blocks = flattenBlock(this.getJSONFromHTML(html))
+        let blocks = flattenBlock(this.getJSONFromHTML(html)).map(b => {
+            if (b.type == ROOT) {
+                b.html = html
+            }
+
+            return b
+        })
         console.log(blocks)
         return blocks
     }
@@ -83,6 +90,10 @@ function flattenBlock(block: JSONContent): JSONContent[] {
 
     if (newBlock.attrs.uuid == null) {
         newBlock.attrs.uuid = UUIDHelper.generate();
+    }
+
+    if (newBlock.type == ROOT) {
+        newBlock.attrs.title = TiptapHelper.getTitle(newBlock)
     }
 
     var children = newBlock.content || []

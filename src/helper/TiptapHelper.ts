@@ -1,8 +1,8 @@
 import { Editor } from '@tiptap/vue-3'
-import { Editor as TiptapEditor } from '@tiptap/core'
+import { JSONContent, Editor as TiptapEditor } from '@tiptap/core'
 import { Node as ProseMirrorNode } from '@tiptap/pm/model';
 import DomHelper from './DomHelper';
-import { A, BANNER, BLOCKQUOTE, BULLET_LIST, CODE_BLOCK, DRAW, HEADING, IMAGE, LIST_ITEM, ORDERED_LIST, STRIKE, TABLE, TABLE_HEADER, TABLE_ROW } from '../config/nodes';
+import { A, BANNER, BLOCKQUOTE, BULLET_LIST, CODE_BLOCK, DOC, DRAW, HEADING, IMAGE, LIST_ITEM, ORDERED_LIST, STRIKE, TABLE, TABLE_HEADER, TABLE_ROW, TEXT } from '../config/nodes';
 import EditorData from '../model/EditorData';
 import Config from '../config/config'
 
@@ -305,6 +305,19 @@ class TiptapHelper {
             offsetY = -4
         }
         return { offsetTop, offsetLeft }
+    }
+
+    static getTitle(json: JSONContent): string {
+        if (json.type == TEXT) {
+            return json.text ?? ""
+        }
+
+        let content = json.content
+        if (!content || content.length == 0) {
+            return ""
+        }
+
+        return this.getTitle(content[0])
     }
 }
 
