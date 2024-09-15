@@ -137,7 +137,8 @@ function makeExtensions(props: makeExtensionsProps) {
         // GroupPre,
         SmartFocus.configure({
             className: focusClassName,
-            mode: 'shallowest'
+            mode: 'all',
+            excludeNodes: [ROOT]
         }),
         SmartHeading,
         History.configure({
