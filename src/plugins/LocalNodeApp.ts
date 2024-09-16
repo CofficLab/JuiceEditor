@@ -27,7 +27,7 @@ class LocalNodeApp implements Plugin {
     }
 
     onPageLoaded(): void {
-        let verbose = false
+        let verbose = true
 
         const currentDoc = LocalDB.getDoc() || EditorData.default()
 

@@ -21,11 +21,10 @@ interface Props {
 
 class TiptapHelper {
     static create(props: Props): Editor {
-        let verbose = false;
+        let verbose = true;
         if (verbose) {
-            console.log(title, 'create with content', props.content, 'and uuid', props.uuid)
+            console.log(title, 'create with content', props.content)
         }
-
 
         return new Editor({
             extensions: props.extensions,

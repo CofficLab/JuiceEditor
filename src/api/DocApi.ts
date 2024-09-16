@@ -57,7 +57,11 @@ export default class DocApi {
     }
 
     public setDocByRequest(id: string) {
-        let verbose = false
+        let verbose = true
+
+        if (verbose) {
+            console.log("setDocByRequest", id)
+        }
 
         new DocRequest(this.request.getBaseUrl()).getDoc(id).then((doc) => {
             if (verbose) {

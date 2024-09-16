@@ -30,7 +30,7 @@ export default class SlotListener implements Listener {
     }
 
     setEditorContent() {
-        let verbose = false
+        let verbose = true
         let content = document.querySelector(Config.editorLabel)!.innerHTML
 
         if (verbose) {
