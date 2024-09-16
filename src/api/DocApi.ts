@@ -57,8 +57,13 @@ export default class DocApi {
     }
 
     public setDocByRequest(id: string) {
+        let verbose = false
+
         new DocRequest(this.request.getBaseUrl()).getDoc(id).then((doc) => {
-            console.log("setDocByRequest", doc)
+            if (verbose) {
+                console.log("setDocByRequest", doc)
+            }
+
             this.setDoc(doc)
         })
     }
@@ -68,6 +73,8 @@ export default class DocApi {
     }
 
     public getBlocksFromHTML(html: string): JSONContent[] {
+        let verbose = true
+
         let blocks = flattenBlock(this.getJSONFromHTML(html)).map(b => {
             if (b.type == ROOT) {
                 b.html = html
@@ -75,7 +82,11 @@ export default class DocApi {
 
             return b
         })
-        console.log(blocks)
+
+        if (verbose) {
+            console.log(blocks)
+        }
+
         return blocks
     }
 }
@@ -108,7 +119,9 @@ function flattenBlock(block: JSONContent): JSONContent[] {
                 }
             }
 
-            child.attrs.parent = newBlock.type == DOC ? "" : newBlock.attrs!.uuid;
+            if (newBlock.type !== DOC) {
+                child.attrs.parent = newBlock.attrs!.uuid;
+            }
         });
     }
 

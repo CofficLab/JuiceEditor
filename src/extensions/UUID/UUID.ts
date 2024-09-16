@@ -2,7 +2,6 @@ import { Extension } from '@tiptap/core'
 import { Node } from 'prosemirror-model'
 import { A, BLOCKQUOTE, BULLET_LIST, HEADING, IMAGE, PARAGRAPH, PRE, TABLE, TASKLIST, TEXT } from '../../config/nodes'
 import { v4 as uuidv4 } from 'uuid'
-import UniqueID from './Official/'
 
 let emoji = '🌌 UUID'
 

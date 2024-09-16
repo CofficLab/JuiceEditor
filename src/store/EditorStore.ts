@@ -14,6 +14,7 @@ export const useDocStore = defineStore('doc-store', {
             doc: EditorData.default(),
             monacoLink: config.monacoLink,
             selectionType: '',
+            coreEditorLastUpdatedAt: Date.now(),
         }
     },
 
@@ -64,7 +65,7 @@ export const useDocStore = defineStore('doc-store', {
         },
 
         setDoc(doc: EditorData, reason: string) {
-            let verbose = true;
+            let verbose = false;
 
             if (verbose) {
                 console.log(title, `setDoc(${reason})`, doc)
@@ -87,7 +88,7 @@ export const useDocStore = defineStore('doc-store', {
         },
 
         updateDoc(doc: EditorData, reason: string) {
-            let verbose = true;
+            let verbose = false;
             let verbose2 = false;
 
             if (verbose) {
@@ -121,6 +122,8 @@ export const useDocStore = defineStore('doc-store', {
             if (doc.html != this.getHTML()) {
                 return new Error('content not match')
             }
+
+            this.coreEditorLastUpdatedAt = Date.now()
         }
     },
 })

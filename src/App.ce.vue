@@ -10,7 +10,6 @@ import { useModeStore } from './store/ModeStore';
 import { onMounted } from 'vue';
 import { useDocStore } from './store/EditorStore';
 import ErrorPage from './pages/ErrorPage.vue';
-import { useNodeStore } from './store/NodeStore';
 import { useRequestStore } from './store/RequestStore';
 import ListenerProvider from './provider/ListenerProvider';
 import ApiProvider from './provider/ApiProvider';
@@ -40,7 +39,6 @@ const app = useAppStore()
 const doc = useDocStore()
 const messageStore = useMessageStore()
 const modeStore = useModeStore()
-const nodeStore = useNodeStore()
 const feature = useFeatureStore()
 const docStore = useDocStore()
 const requestStore = useRequestStore()
@@ -48,7 +46,6 @@ const listenerProvider = new ListenerProvider(Config.listeners)
 const apiProvider = new ApiProvider({
 	featureProvider: feature,
 	editorProvider: docStore,
-	nodeProvider: nodeStore,
 	modeProvider: modeStore,
 	requestProvider: requestStore
 })
@@ -74,7 +71,7 @@ watch(() => app.ready, () => {
 		pluginProvider.onReady(modeStore.mode)
 	}
 })
-watch(() => docStore.getDoc(), () => pluginProvider.onDocUpdated(docStore.getDoc()), { deep: true })
+watch(() => docStore.coreEditorLastUpdatedAt, () => pluginProvider.onDocUpdated(docStore.getDoc()), { deep: true })
 
 // collect message from every store
 watch(() => app.message.uuid, () => messageStore.setMessage(app.message))
