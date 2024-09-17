@@ -80,7 +80,6 @@ export default class DocApi {
     }
 }
 
-
 function flattenBlock(block: JSONContent): JSONContent[] {
     var newBlock = block
 
