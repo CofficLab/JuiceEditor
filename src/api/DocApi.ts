@@ -7,6 +7,7 @@ import Config from '../config/config'
 import { DOC, ROOT, TEXT } from '../config/nodes';
 import UUIDHelper from '../helper/UUIDHelper';
 import TiptapHelper from '../helper/TiptapHelper';
+import EditorData from '../model/EditorData';
 let title = "🔌 DocApi"
 
 export default class DocApi {
@@ -64,10 +65,9 @@ export default class DocApi {
         }
 
         new DocRequest(this.request.getBaseUrl()).getDoc(id).then((doc) => {
-            if (verbose) {
-                console.log("setDocByRequest", doc)
-            }
-
+            console.log("setDocByRequest", doc)
+            console.log("setDocByRequest", doc.html)
+            doc.html = fixHtml(doc.html, doc.attrs!.uuid)
             this.setDoc(doc)
         })
     }
@@ -93,6 +93,15 @@ export default class DocApi {
 
         return blocks
     }
+}
+
+function fixHtml(html: string, uuid: string): string {
+    let fixedHtml = `
+    <div data-type="root" data-uuid="${uuid}">
+        ${html}
+    </div>
+    `
+    return fixedHtml
 }
 
 function flattenBlock(block: JSONContent): JSONContent[] {
