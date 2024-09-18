@@ -52,7 +52,7 @@ const apiProvider = new ApiProvider({
 const pluginProvider = new PluginProvider(Config.plugins)
 
 onMounted(() => {
-	let verbose = true
+	let verbose = false
 
 	if (verbose) {
 		console.log(title, 'onMounted, props.mode is', props.mode)

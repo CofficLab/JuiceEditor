@@ -75,7 +75,7 @@ const editor = TiptapAgent.create({
 		props.onCreate(doc)
 	},
 	onUpdate: (data: EditorData | Error) => {
-		let verbose = true
+		let verbose = false
 
 		if (verbose) {
 			console.log(title, "OnUpdate", data)

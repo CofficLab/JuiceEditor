@@ -19,7 +19,7 @@ export default class PluginProvider {
     }
 
     onReady(mode: PageMode) {
-        let verbose = true
+        let verbose = false
 
         if (verbose) {
             console.log(emoji, "OnReady", mode.type)

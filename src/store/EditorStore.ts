@@ -65,7 +65,7 @@ export const useDocStore = defineStore('doc-store', {
         },
 
         setDoc(doc: EditorData, reason: string) {
-            let verbose = true;
+            let verbose = false;
 
             if (verbose) {
                 console.log(title, `setDoc(${reason})`, doc)
@@ -88,7 +88,7 @@ export const useDocStore = defineStore('doc-store', {
         },
 
         updateDoc(doc: EditorData, reason: string) {
-            let verbose = true;
+            let verbose = false;
             let verbose2 = false;
 
             if (verbose) {
@@ -124,7 +124,6 @@ export const useDocStore = defineStore('doc-store', {
             }
 
             this.coreEditorLastUpdatedAt = Date.now()
-            console.log(doc.html)
         }
     },
 })

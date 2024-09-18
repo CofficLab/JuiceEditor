@@ -21,7 +21,7 @@ interface Props {
 
 class TiptapHelper {
     static create(props: Props): Editor {
-        let verbose = true;
+        let verbose = false;
         if (verbose) {
             console.log(title, 'create with content', props.content)
         }

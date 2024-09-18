@@ -58,15 +58,13 @@ export default class DocApi {
     }
 
     public setDocByRequest(id: string) {
-        let verbose = true
+        let verbose = false
 
         if (verbose) {
             console.log("setDocByRequest", id)
         }
 
         new DocRequest(this.request.getBaseUrl()).getDoc(id).then((doc) => {
-            console.log("setDocByRequest", doc)
-            console.log("setDocByRequest", doc.html)
             doc.html = fixHtml(doc.html, doc.attrs!.uuid)
             this.setDoc(doc)
         })
@@ -77,7 +75,7 @@ export default class DocApi {
     }
 
     public getBlocksFromHTML(html: string): JSONContent[] {
-        let verbose = true
+        let verbose = false
 
         let blocks = flattenBlock(this.getJSONFromHTML(html)).map(b => {
             if (b.type == ROOT) {

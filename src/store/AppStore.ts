@@ -35,7 +35,7 @@ export const useAppStore = defineStore('app-store', {
         },
 
         setNotReady(reason: string) {
-            let verbose = true
+            let verbose = false
 
             if (verbose) {
                 console.log(title, `setNotReady, reason(${reason})`)
@@ -45,7 +45,7 @@ export const useAppStore = defineStore('app-store', {
         },
 
         setReady(reason: string) {
-            let verbose = true
+            let verbose = false
 
             if (verbose) {
                 console.log(title, `setReady, reason(${reason})`)
