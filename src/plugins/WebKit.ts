@@ -26,7 +26,7 @@ class WebKit implements Plugin {
     }
 
     onDocUpdated(doc: EditorData): void {
-        let verbose = false;
+        let verbose = true;
 
         if (verbose) {
             console.log(title, "onDocUpdated", doc)
@@ -53,30 +53,6 @@ class WebKit implements Plugin {
     }
 
     onDocUpdatedWithNode(doc: EditorData, node: TreeNode): void {
-        let verbose = true;
-
-        if (verbose) {
-            console.log(title, "onDocUpdated", doc)
-        }
-
-        if (!('webkit' in window)) {
-            if (verbose) {
-                console.log(title, '无 WebKit，忽略更新')
-            }
-            return
-        }
-
-        var messageData: any = {}
-        messageData.channel = "updateDocWithNode"
-        messageData.nodeUUID = node.uuid
-        if (doc) {
-            messageData.doc = JSON.stringify(doc)
-        }
-
-        // 异步往 webkit 发送数据，防止界面卡顿
-        asyncSendMessage(messageData).then((result) => {
-            console.log(result)
-        })
     }
 
     onDocsUpdated(data: EditorData[]): void {

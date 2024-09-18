@@ -6,7 +6,7 @@ const emoji = '🍉 EditorDoc'
 // 从编辑器中能获得的数据
 export default class EditorData {
     public title: string = ""
-    public html: string = ""
+    public html: string = `<div data-type="root" data-uuid="default-root"></div>`
     public wordCount: number = 0
     public characterCount: number = 0
 

@@ -14,6 +14,7 @@ export const useDocStore = defineStore('doc-store', {
             doc: EditorData.default(),
             monacoLink: config.monacoLink,
             selectionType: '',
+            coreEditorLastUpdatedAt: Date.now(),
         }
     },
 
@@ -121,6 +122,9 @@ export const useDocStore = defineStore('doc-store', {
             if (doc.html != this.getHTML()) {
                 return new Error('content not match')
             }
+
+            this.coreEditorLastUpdatedAt = Date.now()
+            console.log(doc.html)
         }
     },
 })

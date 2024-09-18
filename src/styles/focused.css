@@ -1,7 +1,7 @@
 .focused {
-  @apply bg-blue-500/40 dark:bg-slate-800/80 ring-1 ring-red-700;
+    @apply bg-blue-500/20 dark:bg-slate-800/80 ring-1 ring-green-700/20 rounded;
 }
 
 [contenteditable]:focus {
-  @apply border-none outline-none;
+    @apply border-none outline-none;
 }

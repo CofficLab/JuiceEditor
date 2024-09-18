@@ -96,7 +96,22 @@ function makeExtensions(props: makeExtensionsProps) {
         Branch,
         BranchContent,
         Document.extend({
+            topNode: false,
             content: ROOT,
+            addAttributes() {
+                return {
+                    currentVersion: {
+                        default: 0,
+                        parseHTML: element => parseInt(element.getAttribute('data-current-version') || '0'),
+                        renderHTML: attributes => ({
+                            'data-current-version': attributes.currentVersion,
+                        }),
+                    },
+                }
+            },
+            renderHTML({ HTMLAttributes }) {
+                return ['div', { 'data-type': 'doc', ...HTMLAttributes }, 0]
+            },
         }),
         Dropcursor,
         SmartQuote.configure({
@@ -137,7 +152,8 @@ function makeExtensions(props: makeExtensionsProps) {
         // GroupPre,
         SmartFocus.configure({
             className: focusClassName,
-            mode: 'shallowest'
+            mode: 'all',
+            excludeNodes: [ROOT]
         }),
         SmartHeading,
         History.configure({
@@ -209,6 +225,7 @@ function makeExtensions(props: makeExtensionsProps) {
             types: [HEADING, PARAGRAPH],
         }),
         UUID.configure({
+            attributeName: 'uuid',
             types: [PARAGRAPH, HEADING, PRE, TASKLIST, IMAGE, TABLE, A]
         }),
         // Panel,
