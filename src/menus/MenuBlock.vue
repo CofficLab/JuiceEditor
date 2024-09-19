@@ -1,17 +1,3 @@
-<template>
-	<div v-if="visible" :style="`transform: translate(${marginLeft}px, ${scrollTop}px);`" class="w-22">
-		<ButtonBar>
-			<Button tip="删除" @click="deleteNode">
-				<IconDelete></IconDelete>
-			</Button>
-
-			<Button tip="增加一行" @click="newLine">
-				<IconNewLine></IconNewLine>
-			</Button>
-		</ButtonBar>
-	</div>
-</template>
-
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import { Editor, NodePos } from '@tiptap/core'
@@ -20,7 +6,8 @@ import Button from '../ui/Button.vue'
 import IconDelete from '../ui/icons/Delete.vue'
 import IconNewLine from '../ui/icons/IconNewLine.vue'
 import TiptapHelper from '../helper/TiptapHelper'
-
+import { PARAGRAPH } from '../config/nodes'
+import MenuParagraph from './MenuParagraph.vue'
 const props = defineProps({
 	editor: {
 		type: Editor,
@@ -47,16 +34,16 @@ watch(
 
 				updateMenuPosition()
 			})
-			editor.value.on('blur', () => {
-				let verbose = false
+			// editor.value.on('blur', () => {
+			// 	let verbose = false
 
-				if (verbose) {
-					console.log(emoji, 'blur')
-				}
+			// 	if (verbose) {
+			// 		console.log(emoji, 'blur')
+			// 	}
 
-				visible.value = false
-				updateMenuPosition()
-			})
+			// 	visible.value = false
+			// 	updateMenuPosition()
+			// })
 			editor.value.on('focus', () => {
 				let verbose = false
 
@@ -74,6 +61,7 @@ watch(
 )
 
 function newLine() {
+	console.log('newLine')
 	TiptapHelper.newLineOf(props.editor, getCurrentNode(), editor.value.state.selection.$anchor.pos)
 }
 
@@ -98,6 +86,7 @@ function getCurrentNode() {
 }
 
 function deleteNode() {
+	console.log('deleteNode')
 	editor.value.chain().focus().deleteSelectionNode().run()
 }
 
@@ -127,4 +116,25 @@ function updateMenuPosition() {
 	visible.value = true
 	scrollTop.value = offsetTop - 24
 }
+
+
+function shouldShowParagraphMenu() {
+	return props.editor.isActive(PARAGRAPH)
+}
 </script>
+
+<template>
+	<div v-if="visible" :style="`transform: translate(${marginLeft}px, ${scrollTop}px);`" class="w-22">
+		<ButtonBar>
+			<Button tip="删除" @click="deleteNode">
+				<IconDelete></IconDelete>
+			</Button>
+
+			<Button tip="增加一行" @click="newLine">
+				<IconNewLine></IconNewLine>
+			</Button>
+
+			<MenuParagraph :editor="editor" v-if="shouldShowParagraphMenu()"></MenuParagraph>
+		</ButtonBar>
+	</div>
+</template>

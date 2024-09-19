@@ -12,64 +12,40 @@ let props = defineProps({
         required: true
     }
 })
-
-function setStyleToCyan(type) {
-    props.editor.commands.setParagraph({ class: 'text-cyan-500' })
-}
-
-function setStyleToBlue(type) {
-    props.editor.commands.setParagraph({ class: 'text-blue-500' })
-}
-
-function setStyleToYellow(type) {
-    props.editor.commands.setParagraph({ class: 'text-yellow-500' })
-}
-
-function setStyleToRed(type) {
-    props.editor.commands.setParagraph({ class: 'text-red-500' })
-}
-
-function setStyleToGreen(type) {
-    props.editor.commands.setParagraph({ class: 'text-green-500' })
-}
-
-function setStyleToParagraph() {
-    props.editor.commands.setParagraph({ class: 'text-gray-500' })
-}
 </script>
 
 <template>
-    <Button @click="setStyleToCyan('info')">
+    <Button @click="props.editor.commands.setParagraphCyan('info')">
         <Info class="w-5 h-6 text-cyan-500"></Info>
     </Button>
-    <Button @click="setStyleToBlue('info')">
+    <Button @click="props.editor.commands.setParagraphBlue('info')">
         <Info class="w-5 h-6 text-blue-500"></Info>
     </Button>
-    <Button @click="setStyleToYellow('info')">
+    <Button @click="props.editor.commands.setParagraphYellow('info')">
         <Info class="w-5 h-6 text-yellow-500"></Info>
     </Button>
-    <Button @click="setStyleToRed('info')">
+    <Button @click="props.editor.commands.setParagraphRed('info')">
         <Info class="w-5 h-6 text-red-500"></Info>
     </Button>
-    <Button @click="setStyleToGreen('info')">
+    <Button @click="props.editor.commands.setParagraphGreen('info')">
         <Info class="w-5 h-6 text-green-500"></Info>
     </Button>
-    <Button @click="setStyleToCyan('question')">
+    <Button @click="props.editor.commands.setParagraphCyan('question')">
         <Question class="w-5 h-6 text-cyan-500"></Question>
     </Button>
-    <Button @click="setStyleToBlue('question')">
+    <Button @click="props.editor.commands.setParagraphBlue('question')">
         <Question class="w-5 h-6 text-blue-500"></Question>
     </Button>
-    <Button @click="setStyleToYellow('question')">
+    <Button @click="props.editor.commands.setParagraphYellow('question')">
         <Question class="w-5 h-6 text-yellow-500"></Question>
     </Button>
-    <Button @click="setStyleToRed('question')">
+    <Button @click="props.editor.commands.setParagraphRed('question')">
         <Question class="w-5 h-6 text-red-500"></Question>
     </Button>
-    <Button @click="setStyleToGreen('question')">
+    <Button @click="props.editor.commands.setParagraphGreen('question')">
         <Question class="w-5 h-6 text-green-500"></Question>
     </Button>
-    <Button @click="setStyleToParagraph">
+    <Button @click="props.editor.commands.setParagraph()">
         <IconStop class="w-5 h-6 text-gray-500"></IconStop>
     </Button>
 </template>
