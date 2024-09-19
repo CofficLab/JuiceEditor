@@ -3,6 +3,7 @@ import bigDoc from '../dev/big';
 import imageDoc from '../dev/image';
 import drawDoc from '../dev/draw';
 import docs from '../dev/docs';
+import pDoc from '../dev/p';
 
 export default function dev() {
     const div = document.createElement('div');
@@ -14,6 +15,7 @@ export default function dev() {
         { text: '大型', onclick: () => window.api.doc.setHTML(bigDoc) },
         { text: '图片', onclick: () => window.api.doc.setHTML(imageDoc) },
         { text: '画图', onclick: () => window.api.doc.setHTML(drawDoc) },
+        { text: '段落', onclick: () => window.api.doc.setHTML(pDoc) },
     ];
 
     buttons.forEach(button => {

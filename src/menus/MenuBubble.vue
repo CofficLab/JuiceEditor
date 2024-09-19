@@ -10,6 +10,7 @@ import MenuTable from './MenuTable.vue'
 import MenuHeading from './MenuHeading.vue'
 import MenuFormat from './MenuFormat.vue'
 import MenuDraw from './MenuDraw.vue'
+import MenuParagraph from './MenuParagraph.vue'
 import { computed } from 'vue'
 
 let emoji = "🫧 BubbleMenus"
@@ -84,6 +85,22 @@ const shouldShowFormatMenu = computed(() => {
 		return props.editor.isActive(node)
 	})
 })
+
+const shouldShowDrawMenu = computed(() => {
+	return props.editor.getAttributes(IMAGE).draw == true
+})
+
+const shouldShowImageMenu = computed(() => {
+	return props.editor.isActive(IMAGE) && props.editor.getAttributes(IMAGE).draw == null
+})
+
+const shouldShowParagraphMenu = computed(() => {
+	return props.editor.isActive(PARAGRAPH)
+})
+
+const shouldShowTableMenu = computed(() => {
+	return props.editor.isActive(TABLE)
+})
 </script>
 
 <template>
@@ -96,13 +113,12 @@ const shouldShowFormatMenu = computed(() => {
 			appendTo: 'parent'
 		}" :editor="editor">
 			<ButtonBar>
-				<MenuHeading :editor="editor" v-if="shouldShowHeadingMenu">
-				</MenuHeading>
+				<MenuHeading :editor="editor" v-if="shouldShowHeadingMenu"></MenuHeading>
 				<MenuFormat :editor="editor" v-if="shouldShowFormatMenu"></MenuFormat>
-				<MenuImage :editor="editor" v-if="editor.isActive(IMAGE) && editor.getAttributes('draw') == null">
-				</MenuImage>
-				<MenuDraw :editor="editor" v-if="editor.getAttributes('draw') != null"></MenuDraw>
-				<MenuTable :editor="editor" v-if="editor.isActive(TABLE)"></MenuTable>
+				<MenuImage :editor="editor" v-if="shouldShowImageMenu"></MenuImage>
+				<MenuDraw :editor="editor" v-if="shouldShowDrawMenu"></MenuDraw>
+				<MenuTable :editor="editor" v-if="shouldShowTableMenu"></MenuTable>
+				<MenuParagraph :editor="editor" v-if="shouldShowParagraphMenu"></MenuParagraph>
 			</ButtonBar>
 		</bubble-menu>
 	</div>

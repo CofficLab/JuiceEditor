@@ -27,7 +27,7 @@ class LocalNodeApp implements Plugin {
     }
 
     onPageLoaded(): void {
-        let verbose = true
+        let verbose = false
 
         const currentDoc = LocalDB.getDoc() || EditorData.default()
 
@@ -55,7 +55,7 @@ class LocalNodeApp implements Plugin {
     }
 
     onDocUpdated(data: EditorData): void {
-        let verbose = true
+        let verbose = false
 
         if (verbose) {
             console.log(title, 'onDocUpdated', data)

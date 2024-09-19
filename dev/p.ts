@@ -1,8 +1,4 @@
-import TreeNode from "../model/TreeNode"
-
-const paragraphNode = new TreeNode({
-    uuid: 'paragraphNode',
-    content: `
+const pDoc = `
     <h1>段落</h1>
     <p>这是一个段落</p>
     <h2>滕王阁序</h2>
@@ -11,6 +7,4 @@ const paragraphNode = new TreeNode({
     <p>“滕王阁序”是我国著名的名句3。</p>
     <p>“滕王阁序”是我国著名的名句4。</p>
   `
-})
-
-export default paragraphNode
+export default pDoc
