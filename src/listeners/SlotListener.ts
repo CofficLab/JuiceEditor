@@ -16,6 +16,7 @@ export default class SlotListener implements Listener {
         let verbose = false
 
         if (!pageMode.isSlot()) {
+            this.clearContent()
             return
         }
 
@@ -42,7 +43,7 @@ export default class SlotListener implements Listener {
         }
 
         window.api.node.setHTML(content)
-        this.getTarget().innerHTML = ''
+        this.clearContent()
 
         if (this.observer == null) {
             return
@@ -58,5 +59,9 @@ export default class SlotListener implements Listener {
 
     getTarget() {
         return document.querySelector(Config.editorLabel)!
+    }
+
+    clearContent() {
+        this.getTarget().innerHTML = ''
     }
 }
