@@ -8,6 +8,7 @@ import IconNewLine from '../ui/icons/IconNewLine.vue'
 import TiptapHelper from '../helper/TiptapHelper'
 import { PARAGRAPH } from '../config/nodes'
 import MenuParagraph from './MenuParagraph.vue'
+import ButtonList from '../ui/ButtonList.vue'
 const props = defineProps({
 	editor: {
 		type: Editor,
@@ -125,7 +126,7 @@ function shouldShowParagraphMenu() {
 
 <template>
 	<div v-if="visible" :style="`transform: translate(${marginLeft}px, ${scrollTop}px);`" class="w-22">
-		<ButtonBar>
+		<ButtonList>
 			<Button tip="删除" @click="deleteNode">
 				<IconDelete></IconDelete>
 			</Button>
@@ -135,6 +136,6 @@ function shouldShowParagraphMenu() {
 			</Button>
 
 			<MenuParagraph :editor="editor" v-if="shouldShowParagraphMenu()"></MenuParagraph>
-		</ButtonBar>
+		</ButtonList>
 	</div>
 </template>

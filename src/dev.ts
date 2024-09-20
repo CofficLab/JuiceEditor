@@ -7,7 +7,7 @@ import pDoc from '../dev/p';
 
 export default function dev() {
     const div = document.createElement('div');
-    div.style.cssText = 'position: fixed; margin:0; padding:0; display: flex; justify-content: center; z-index: 500; width: 100%; background-color: purple;';
+    div.style.cssText = 'position: fixed; top: 0; left: 0; right: 0; margin: 0 auto; padding: 0; display: flex; justify-content: center; z-index: 500; ';
 
     const buttons = [
         { text: '文档组', onclick: () => window.api.doc.setHTML(docs) },

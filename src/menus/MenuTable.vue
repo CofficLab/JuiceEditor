@@ -27,46 +27,46 @@ const isEditable = computed(() => props.editor.isEditable)
 </script>
 
 <template>
-    <Button @click="focusedNode.addColumnBefore().run()" data-tip="在左边加一列">
+    <Button @click="focusedNode.addColumnBefore().run()" tip="在左边加一列">
         <RowPlusBefore></RowPlusBefore>
     </Button>
-    <Button @click="focusedNode.addColumnAfter().run()" data-tip="在右边加一列">
+    <Button @click="focusedNode.addColumnAfter().run()" tip="在右边加一列">
         <RowPlusAfter></RowPlusAfter>
     </Button>
-    <Button @click="focusedNode.deleteColumn().run()" data-tip="删除当前列">
+    <Button @click="focusedNode.deleteColumn().run()" tip="删除当前列">
         <ColumnRemove></ColumnRemove>
     </Button>
     <Divider></Divider>
-    <Button @click="focusedNode.addRowBefore().run()" data-tip="在上面加一行">
+    <Button @click="focusedNode.addRowBefore().run()" tip="在上面加一行">
         <RowPlusBefore></RowPlusBefore>
     </Button>
-    <Button @click="focusedNode.addRowAfter().run()" data-tip="在下面加一行">
+    <Button @click="focusedNode.addRowAfter().run()" tip="在下面加一行">
         <RowPlusAfter></RowPlusAfter>
     </Button>
-    <Button @click="focusedNode.deleteRow().run()" data-tip="删除当前行">
+    <Button @click="focusedNode.deleteRow().run()" tip="删除当前行">
         <RowRemove></RowRemove>
     </Button>
     <Divider></Divider>
-    <Button @click="focusedNode.mergeCells().run()" data-tip="合并">
+    <Button @click="focusedNode.mergeCells().run()" tip="合并">
         <CellMerge></CellMerge>
     </Button>
-    <Button @click="focusedNode.splitCell().run()" data-tip="拆分">
+    <Button @click="focusedNode.splitCell().run()" tip="拆分">
         <CellSplit></CellSplit>
     </Button>
     <Divider></Divider>
-    <Button @click="focusedNode.toggleHeaderColumn().run()" data-tip="切换表头列">
+    <Button @click="focusedNode.toggleHeaderColumn().run()" tip="切换表头列">
         <LeadingHeader></LeadingHeader>
     </Button>
-    <Button @click="focusedNode.toggleHeaderRow().run()" data-tip="切换表头行">
+    <Button @click="focusedNode.toggleHeaderRow().run()" tip="切换表头行">
         <TopHeader></TopHeader>
     </Button>
-    <Button @click="focusedNode.toggleHeaderCell().run()" data-tip="切换普通和表头">
+    <Button @click="focusedNode.toggleHeaderCell().run()" tip="切换普通和表头">
         <TableToggleHeader></TableToggleHeader>
     </Button>
     <Divider></Divider>
     <!-- <button
           @click="focusedNode.deleteTable().run()"
-          data-tip="删除整个表格"
+          tip="删除整个表格"
         >
           <Remove></Remove>
         </button> -->

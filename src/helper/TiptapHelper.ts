@@ -168,21 +168,29 @@ class TiptapHelper {
     }) {
         let isAtBannerPosition = props.editor.isActive('banner')
         let isAtSmartImagePosition = props.editor.isActive('image')
-        const excludes = ['banner', 'draw', 'table', 'link', 'tableCell', 'tableRow', 'tableHeader']
+        const excludes = [DRAW, TABLE, A, TABLE_ROW, TABLE_HEADER]
         const { selection } = props.state
         const { $anchor, empty } = selection
         const isEmptyTextBlock =
             $anchor.parent.isTextblock && !$anchor.parent.type.spec.code && !$anchor.parent.textContent
         const type = $anchor.parent.type.name
+        const { editor } = props
 
-        // log('shouldShowFloatingMenu: type', type)
+        console.log('shouldShowFloatingMenu: type', type)
+        console.log('shouldShowFloatingMenu: parent type', selection.$anchor.parent.type.name)
 
         // 如果在 H1 中，不展示
-        if (type == 'heading' && selection.$head.parent.attrs.level == 1) {
+        if (type == HEADING && selection.$head.parent.attrs.level == 1) {
             return false
         }
 
+        // 如果在 excludes 中，不展示
         if (excludes.includes(type)) {
+            return false
+        }
+
+        // 如果 excludes 中的节点 active，不展示
+        if (excludes.some(extension => editor.isActive(extension))) {
             return false
         }
 

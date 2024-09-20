@@ -91,7 +91,7 @@ const shouldShowDrawMenu = computed(() => {
 })
 
 const shouldShowImageMenu = computed(() => {
-	return props.editor.isActive(IMAGE) && props.editor.getAttributes(IMAGE).draw == null
+	return props.editor.isActive(IMAGE) && !props.editor.getAttributes(IMAGE).draw
 })
 
 const shouldShowTableMenu = computed(() => {
@@ -108,12 +108,21 @@ const shouldShowTableMenu = computed(() => {
 			placement: 'top',
 			appendTo: 'parent'
 		}" :editor="editor">
-			<ButtonBar>
+			<ButtonBar v-if="shouldShowHeadingMenu || shouldShowFormatMenu">
 				<MenuHeading :editor="editor" v-if="shouldShowHeadingMenu"></MenuHeading>
 				<MenuFormat :editor="editor" v-if="shouldShowFormatMenu"></MenuFormat>
-				<MenuImage :editor="editor" v-if="shouldShowImageMenu"></MenuImage>
-				<MenuDraw :editor="editor" v-if="shouldShowDrawMenu"></MenuDraw>
-				<MenuTable :editor="editor" v-if="shouldShowTableMenu"></MenuTable>
+			</ButtonBar>
+
+			<ButtonBar v-if="shouldShowDrawMenu">
+				<MenuDraw :editor="editor"></MenuDraw>
+			</ButtonBar>
+
+			<ButtonBar v-if="shouldShowImageMenu">
+				<MenuImage :editor="editor"></MenuImage>
+			</ButtonBar>
+
+			<ButtonBar v-if="shouldShowTableMenu">
+				<MenuTable :editor="editor"></MenuTable>
 			</ButtonBar>
 		</bubble-menu>
 	</div>
