@@ -6,7 +6,7 @@ import Button from '../ui/Button.vue'
 import IconDelete from '../ui/icons/Delete.vue'
 import IconNewLine from '../ui/icons/IconNewLine.vue'
 import TiptapHelper from '../helper/TiptapHelper'
-import { PARAGRAPH, TOC } from '../config/nodes'
+import { HEADING, PARAGRAPH, TOC } from '../config/nodes'
 import MenuParagraph from './MenuParagraph.vue'
 import ButtonList from '../ui/ButtonList.vue'
 const props = defineProps({
@@ -104,6 +104,12 @@ function updateMenuPosition() {
 		return
 	}
 
+	// 如果是Heading，且Level=1，不显示
+	if (props.editor.isActive(HEADING) && props.editor.getAttributes(HEADING).level === 1) {
+		visible.value = false
+		return
+	}
+
 	let { offsetLeft } = editorDom as HTMLElement
 
 	// 减去的是menu自身的宽度
@@ -122,7 +128,6 @@ function updateMenuPosition() {
 	visible.value = true
 	scrollTop.value = offsetTop - 24
 }
-
 
 function shouldShowParagraphMenu() {
 	return props.editor.isActive(PARAGRAPH)
