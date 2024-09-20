@@ -19,7 +19,7 @@ export default function dev() {
         { text: '画图', onclick: () => window.api.node.setHTML(drawDoc) },
         { text: '段落', onclick: () => window.api.node.setHTML(pDoc) },
         { text: '目录', onclick: () => window.api.node.setHTML(tocDoc) },
-        // { text: 'TOC', onclick: () => window.api.doc. },
+        { text: 'TOC', onclick: () => window.api.node.toggleToc() },
     ];
 
     buttons.forEach(button => {
