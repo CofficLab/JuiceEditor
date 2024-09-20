@@ -62,7 +62,18 @@ export const Toc = Node.create({
 				return result
 			},
 			addToc: () => ({ editor, commands }) => {
-				return commands.insertContentAt(editor.state.doc.content.size, "<toc></toc>", {
+				let verbose = true
+				if (verbose) {
+					console.log("addToc, content size is", editor.state.doc.content.size)
+				}
+
+				let size = editor.state.doc.content.size
+
+				if (size < 1) {
+					return false
+				}
+
+				return commands.insertContentAt(editor.state.doc.content.size - 1, "<toc></toc>", {
 					updateSelection: false,
 					parseOptions: {
 						preserveWhitespace: "full",
@@ -90,7 +101,11 @@ export const Toc = Node.create({
 				return true;
 			},
 			toggleToc: () => ({ commands }) => {
-				console.log("toggleToc")
+				let verbose = false
+				if (verbose) {
+					console.log("toggleToc")
+				}
+
 				if (commands.hasToc()) {
 					return commands.removeToc()
 				}
