@@ -1,4 +1,4 @@
-import TreeNode from "../model/TreeNode";
+import EditorData from "../model/EditorData";
 import axios from 'axios';
 
 export default class NodeRequest {
@@ -9,10 +9,10 @@ export default class NodeRequest {
         this.baseUrl = baseUrl
     }
 
-    async getNode(id: string): Promise<TreeNode> {
+    async getHtml(id: string): Promise<string> {
         try {
-            const response = await axios.get(`${this.baseUrl}/api/nodes/${id}`);
-            return new TreeNode(response.data);
+            const response = await axios.get(`${this.baseUrl}/api/node/${id}/html`);
+            return response.data;
         } catch (error) {
             throw error;
         }

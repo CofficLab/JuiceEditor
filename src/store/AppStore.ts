@@ -34,6 +34,10 @@ export const useAppStore = defineStore('app-store', {
             document.dispatchEvent(new CustomEvent('close-draw'))
         },
 
+        setError(error: Error) {
+            this.error = error
+        },
+
         setNotReady(reason: string) {
             let verbose = false
 

@@ -87,6 +87,18 @@ export default class NodeApi {
     public getNodes(): JSONContent {
         return this.editor.getJSON()
     }
+
+    public insertToc() {
+        this.editor.commands.addToc()
+    }
+
+    public removeToc() {
+        this.editor.commands.removeToc()
+    }
+
+    public toggleToc() {
+        this.editor.commands.toggleToc()
+    }
 }
 
 function fixHtml(html: string, uuid: string): string {

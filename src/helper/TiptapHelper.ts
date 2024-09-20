@@ -176,9 +176,6 @@ class TiptapHelper {
         const type = $anchor.parent.type.name
         const { editor } = props
 
-        console.log('shouldShowFloatingMenu: type', type)
-        console.log('shouldShowFloatingMenu: parent type', selection.$anchor.parent.type.name)
-
         // 如果在 H1 中，不展示
         if (type == HEADING && selection.$head.parent.attrs.level == 1) {
             return false

@@ -1,95 +1,102 @@
-<template>
-  <NodeViewWrapper
-    class="h-full top-0 w-36 md:w-40 xl:w-48 2xl:w-56 right-3 z-40 flex justify-end items-start pt-24"
-  >
-    <div class="overflow-y-scroll w-full h-2/3">
-      <ul
-        style="padding-left: 0"
-        class="menu w-full dark:border-gray-700/50 backdrop-blur-sm backdrop-filter border-l border-gray-400/50"
-      >
-        <template v-for="(heading, index) in headings" :key="index">
-          <li style="margin: 0" class="list-none text-xs rounded-none">
-            <a :href="getLink(heading)" class="no-underline rounded-none p-1">
-              <DynamicPadding :count="heading.level - 1"></DynamicPadding>
-              {{ heading.text }}
-            </a>
-          </li>
-        </template>
-      </ul>
-    </div>
-  </NodeViewWrapper>
-</template>
-
 <script setup lang="ts">
 import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
-import DynamicPadding from '../../ui/DynamicPadding.vue'
 import { onMounted, nextTick, ref, onBeforeUnmount, computed } from 'vue'
-import Heading from './Heading'
+import SmartHeading from './SmartHeading'
+import HeadingTree from './HeadingTree.vue'
 
+const isDebug = false
+const title = '📖 TocView'
 const props = defineProps(nodeViewProps)
-const uuid = computed(() => props.editor.options.injectNonce)
 
-let headings = ref<Heading[]>([])
+let headingTree = ref(new SmartHeading())
 
-let getLink = function (heading: { id: any }) {
-  return `#${heading.id}`
-}
+function handleUpdate() {
+	let verbose = false
+	if (verbose) {
+		console.log(title, 'handleUpdate')
+	}
 
-let handleUpdate = function () {
-  // if (props.editor.options.injectNonce != uuid) {
-  //   console.log('🍋 📖 Toc: 查找 Headings，非当前UUID，忽略')
-  //   return
-  // }
-
-  Heading.getHeadings(props.editor)
+	headingTree.value = SmartHeading.makeTree(props.editor) as unknown as SmartHeading
 }
 
 onMounted(() => {
-  console.log('🍋 📖 Toc: mounted，Tiptap UUID -> ', uuid)
-  props.editor.on('update', handleUpdate)
-  nextTick(() => handleUpdate())
+	let verbose = false
+	if (verbose) {
+		console.log(title, 'mounted')
+	}
 
-  // 监听滚动的距离以高亮toc菜单
-  // document.addEventListener('scroll', function (e) {
-  //   // 已经滚动了多少距离
-  //   // console.log(document.querySelector('h1'))
-  //   var scrollTop = (document.querySelector('h1') as HTMLElement).scrollTop
-  //   // console.log('已滚动' + scrollTop)
-  //   // 正文DOM
-  //   var proseDom = document.getElementsByClassName('prose').item(0)
-  //   // 正文里的标题
-  //   var titleDoms = proseDom?.querySelectorAll('h2,h3,h4')
+	props.editor.on('update', handleUpdate)
 
-  //   if (!titleDoms) return
+	nextTick(() => handleUpdate())
 
-  //   for (var i = 0; i < titleDoms.length; i++) {
-  //     var title = titleDoms.item(i)
-  //     if (!title) return
+	// 监听滚动的距离以高亮toc菜单
+	// document.addEventListener('scroll', function (e) {
+	//   // 已经滚动了多少距离
+	//   // console.log(document.querySelector('h1'))
+	//   var scrollTop = (document.querySelector('h1') as HTMLElement).scrollTop
+	//   // console.log('已滚动' + scrollTop)
+	//   // 正文DOM
+	//   var proseDom = document.getElementsByClassName('prose').item(0)
+	//   // 正文里的标题
+	//   var titleDoms = proseDom?.querySelectorAll('h2,h3,h4')
 
-  //     // 当前标题离顶部的距离
-  //     var offsetTop = (title as HTMLElement).offsetTop
-  //     if (scrollTop - offsetTop > 0 && scrollTop - offsetTop < 20) {
-  //       console.log(title + 'offset= ' + offsetTop)
-  //       var aDoms = document.getElementsByClassName('toc').item(0)?.getElementsByTagName('a')
-  //       if (!aDoms) {
-  //         return
-  //       }
+	//   if (!titleDoms) return
 
-  //       for (var j = 0; j < aDoms.length; j++) {
-  //         var a = aDoms.item(j)
-  //         if (a != null && a.attributes['href'].nodeValue == '#' + title?.id) {
-  //           a.classList.add('bg-sky-300/30')
-  //         } else {
-  //           a?.classList.remove('bg-sky-300/30')
-  //         }
-  //       }
-  //     }
-  //   }
-  // })
+	//   for (var i = 0; i < titleDoms.length; i++) {
+	//     var title = titleDoms.item(i)
+	//     if (!title) return
+
+	//     // 当前标题离顶部的距离
+	//     var offsetTop = (title as HTMLElement).offsetTop
+	//     if (scrollTop - offsetTop > 0 && scrollTop - offsetTop < 20) {
+	//       console.log(title + 'offset= ' + offsetTop)
+	//       var aDoms = document.getElementsByClassName('toc').item(0)?.getElementsByTagName('a')
+	//       if (!aDoms) {
+	//         return
+	//       }
+
+	//       for (var j = 0; j < aDoms.length; j++) {
+	//         var a = aDoms.item(j)
+	//         if (a != null && a.attributes['href'].nodeValue == '#' + title?.id) {
+	//           a.classList.add('bg-sky-300/30')
+	//         } else {
+	//           a?.classList.remove('bg-sky-300/30')
+	//         }
+	//       }
+	//     }
+	//   }
+	// })
 })
 
 onBeforeUnmount(() => {
-  console.log('🍋 📖 Toc: onBeforeUnmount，destroy listener for Tiptap UUID', uuid)
-  props.editor.off('update', handleUpdate)
+	let verbose = false
+	if (verbose) {
+		console.log(title, 'onBeforeUnmount')
+	}
+
+	props.editor.off('update', handleUpdate)
 })
 </script>
+
+<template>
+	<NodeViewWrapper>
+		<!-- TOC，和顶部留一些距离，因为WEB项目顶部有导航栏 -->
+		<div id="toc" v-if="true" :class="{
+			'md:bg-slate-300/10': false,
+			'lg:bg-blue-300/50': isDebug,
+			'xl:bg-purple-300/50': isDebug,
+			'2xl:bg-red-300/50': isDebug,
+			'fixed right-0 top-12 z-30': true,
+			'flex-row justify-start hidden h-screen overflow-y-scroll': true,
+			'w-48': true,
+			'md:w-56 md:flex md:right-1': true,
+			'4md:w-48 4md:right-2': true,
+			'xl:w-64 4md:right-2': true,
+			'2xl:w-88 2xl:right-24': true
+		}">
+			<div class="w-full my-12 overflow-y-scroll menu menu-xs">
+				<HeadingTree :heading="h" v-for="h in headingTree.children"></HeadingTree>
+			</div>
+		</div>
+	</NodeViewWrapper>
+</template>

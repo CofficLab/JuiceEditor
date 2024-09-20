@@ -1,33 +1,33 @@
 import FeatureApi from "../api/FeatureApi";
-import DocApi from "../api/DocApi";
+import NodeApi from "../api/NodeApi";
 import { FeatureStore } from "../store/FeatureStore";
-import { DocStore } from "../store/EditorStore";
 import ModeApi from "../api/ModeApi";
 import { ModeStore } from "../store/ModeStore";
 import { RequestStore } from "../store/RequestStore";
 import RequestApi from "../api/RequestApi";
+import { Editor } from "@tiptap/vue-3";
 const emoji = "🐶 ApiProvider"
 
 export interface AllApi {
     feature: FeatureApi
-    doc: DocApi
+    node: NodeApi
     mode: ModeApi
     request: RequestApi
 }
 
 export interface ApiProviderParams {
     featureProvider: FeatureStore
-    editorProvider: DocStore
     modeProvider: ModeStore
     requestProvider: RequestStore
+    editor: Editor
 }
 
 export default class ApiProvider {
     public feature: FeatureApi
-    public doc: DocApi
+    public node: NodeApi
     public mode: ModeApi
     public request: RequestApi
-
+    public editor: Editor
     constructor(params: ApiProviderParams) {
         let verbose = false
         if (verbose) {
@@ -35,15 +35,16 @@ export default class ApiProvider {
         }
 
         this.feature = new FeatureApi(params.featureProvider)
-        this.doc = new DocApi(params.editorProvider, params.requestProvider)
+        this.node = new NodeApi(params.requestProvider, params.editor)
         this.mode = new ModeApi(params.modeProvider)
         this.request = new RequestApi(params.requestProvider)
+        this.editor = params.editor
     }
 
     boot() {
         window.api = {
             feature: this.feature,
-            doc: this.doc,
+            node: this.node,
             mode: this.mode,
             request: this.request,
         }

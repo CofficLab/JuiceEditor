@@ -2,6 +2,7 @@ import { sampleImgSrc1, sampleImgSrc2 } from "./images_db"
 
 const drawDoc = `
     <div data-type="root">
+    <h1>画图</h1>
     <h2>画图1</h2>
     <img draw=true src="${sampleImgSrc1}"></img>
     <h2>画图2</h2>

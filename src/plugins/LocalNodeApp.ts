@@ -35,7 +35,7 @@ class LocalNodeApp implements Plugin {
             console.log(title, 'onPageLoaded, set doc')
         }
 
-        window.api.doc.setHTML(currentDoc.html)
+        window.api.node.setHTML(currentDoc.html)
     }
 
     onSelectionTypeChange(type: string): void {
