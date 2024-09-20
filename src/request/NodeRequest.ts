@@ -1,7 +1,7 @@
 import EditorData from "../model/EditorData";
 import axios from 'axios';
 
-export default class DocRequest {
+export default class NodeRequest {
 
     public baseUrl: string
 
@@ -11,7 +11,7 @@ export default class DocRequest {
 
     async getHtml(id: string): Promise<string> {
         try {
-            const response = await axios.get(`${this.baseUrl}/api/html/${id}`);
+            const response = await axios.get(`${this.baseUrl}/api/node/${id}/html`);
             return response.data;
         } catch (error) {
             throw error;
