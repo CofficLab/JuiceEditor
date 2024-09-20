@@ -1,5 +1,4 @@
 import EditorData from '../model/EditorData';
-import { DocStore } from '../store/EditorStore';
 import DocRequest from '../request/DocRequest';
 import { RequestStore } from '../store/RequestStore';
 import { generateJSON, JSONContent } from '@tiptap/core'
@@ -7,21 +6,23 @@ import Config from '../config/config'
 import { DOC, ROOT, TEXT } from '../config/nodes';
 import UUIDHelper from '../helper/UUIDHelper';
 import TiptapHelper from '../helper/TiptapHelper';
-let title = "🔌 DocApi"
+import { Editor } from "@tiptap/vue-3";
 
-export default class DocApi {
-    public store: DocStore
+let title = "🔌 NodeApi"
+
+export default class NodeApi {
     public request: RequestStore
+    public editor: Editor
 
-    constructor(editorProvider: DocStore, requestProvider: RequestStore) {
+    constructor(requestProvider: RequestStore, editor: Editor) {
         let verbose = false
 
         if (verbose) {
             console.log(title, '初始化')
         }
 
-        this.store = editorProvider
         this.request = requestProvider
+        this.editor = editor
     }
 
     public setHTML(html: string) {
@@ -36,36 +37,24 @@ export default class DocApi {
             return
         }
 
-        let doc = this.store.getDoc()
-        doc.html = html
-
-        this.setDoc(doc)
+        this.editor.commands.setContent(html, true)
     }
 
-    public setDoc(doc: EditorData) {
+    public setHtmlEmpty() {
+        this.setHTML(EditorData.default().html)
+    }
+
+    public setHtmlByRequest(id: string) {
         let verbose = false
 
         if (verbose) {
-            console.log(title, 'setDoc', doc)
+            console.log("setHtmlByRequest", id)
         }
 
-        this.store.setDoc(doc, "DocApi setDoc")
-    }
-
-    public setDocEmpty() {
-        this.setDoc(EditorData.default())
-    }
-
-    public setDocByRequest(id: string) {
-        let verbose = false
-
-        if (verbose) {
-            console.log("setDocByRequest", id)
-        }
-
-        new DocRequest(this.request.getBaseUrl()).getDoc(id).then((doc) => {
-            doc.html = fixHtml(doc.html, doc.attrs!.uuid)
-            this.setDoc(doc)
+        new DocRequest(this.request.getBaseUrl()).getHtml(id).then((html) => {
+            this.setHTML(fixHtml(html, id))
+        }).catch((error) => {
+            console.error(title, 'setHtmlByRequest', error)
         })
     }
 
@@ -89,6 +78,26 @@ export default class DocApi {
         }
 
         return blocks
+    }
+
+    public getHTML(): string {
+        return this.editor.getHTML()
+    }
+
+    public getNodes(): JSONContent {
+        return this.editor.getJSON()
+    }
+
+    public insertToc() {
+        this.editor.commands.addToc()
+    }
+
+    public removeToc() {
+        this.editor.commands.removeToc()
+    }
+
+    public toggleToc() {
+        this.editor.commands.toggleToc()
     }
 }
 

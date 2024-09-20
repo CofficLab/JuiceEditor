@@ -31,8 +31,6 @@ export default class EditorData {
             return new Error('EditorDoc.fromEditor: injectNonce is undefined')
         }
 
-        // {"type":"doc","content":[{"type":"heading","attrs":{"textAlign":"left","uuid":"63346510-ecc6-421c-9eac-15259ff5f9d2","level":1}}]}
-        let json: JSONContent = editor.getJSON()
         let doc = new EditorData()
 
         doc.wordCount = editor.storage.characterCount.words()

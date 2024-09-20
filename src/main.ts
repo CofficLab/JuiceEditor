@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { defineCustomElement } from 'vue'
-import App from './App.ce.vue'
+import App from './pages/App.ce.vue'
 import Config from './config/config'
 
 let pinia = createPinia()

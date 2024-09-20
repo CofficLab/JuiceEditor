@@ -11,14 +11,14 @@ export default function dev() {
     div.style.cssText = 'position: fixed; top: 0; left: 0; right: 0; margin: 0 auto; padding: 0; display: flex; justify-content: center; z-index: 500; ';
 
     const buttons = [
-        { text: '小型', onclick: () => window.api.doc.setHTML(miniDoc) },
-        { text: '文档组', onclick: () => window.api.doc.setHTML(docs) },
-        { text: '混合', onclick: () => window.api.doc.setHTML(baseDoc) },
-        { text: '大型', onclick: () => window.api.doc.setHTML(bigDoc) },
-        { text: '图片', onclick: () => window.api.doc.setHTML(imageDoc) },
-        { text: '画图', onclick: () => window.api.doc.setHTML(drawDoc) },
-        { text: '段落', onclick: () => window.api.doc.setHTML(pDoc) },
-        { text: '目录', onclick: () => window.api.doc.setHTML(tocDoc) },
+        { text: '小型', onclick: () => window.api.node.setHTML(miniDoc) },
+        { text: '文档组', onclick: () => window.api.node.setHTML(docs) },
+        { text: '混合', onclick: () => window.api.node.setHTML(baseDoc) },
+        { text: '大型', onclick: () => window.api.node.setHTML(bigDoc) },
+        { text: '图片', onclick: () => window.api.node.setHTML(imageDoc) },
+        { text: '画图', onclick: () => window.api.node.setHTML(drawDoc) },
+        { text: '段落', onclick: () => window.api.node.setHTML(pDoc) },
+        { text: '目录', onclick: () => window.api.node.setHTML(tocDoc) },
         // { text: 'TOC', onclick: () => window.api.doc. },
     ];
 

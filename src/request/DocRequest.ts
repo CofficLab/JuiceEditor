@@ -9,10 +9,10 @@ export default class DocRequest {
         this.baseUrl = baseUrl
     }
 
-    async getDoc(id: string): Promise<EditorData> {
+    async getHtml(id: string): Promise<string> {
         try {
-            const response = await axios.get(`${this.baseUrl}/api/doc/${id}`);
-            return new EditorData(response.data);
+            const response = await axios.get(`${this.baseUrl}/api/html/${id}`);
+            return response.data;
         } catch (error) {
             throw error;
         }
