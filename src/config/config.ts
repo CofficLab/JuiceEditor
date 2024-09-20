@@ -40,7 +40,8 @@ import { SmartFocus } from "../extensions/SmartFocus"
 import { Branch } from "../extensions/Branch/Branch"
 import { BranchContent } from "../extensions/BranchContent/BranchContent"
 import { Root } from "../extensions/Root/Root"
-import { A, HEADING, IMAGE, PARAGRAPH, PRE, ROOT, TABLE, TASKLIST } from "./nodes"
+import { Toc } from "../extensions/Toc/Toc"
+import { A, HEADING, IMAGE, PARAGRAPH, PRE, ROOT, TABLE, TASKLIST, TOC } from "./nodes"
 
 interface ConfigType {
     editorLabel: string;
@@ -153,7 +154,7 @@ function makeExtensions(props: makeExtensionsProps) {
         SmartFocus.configure({
             className: focusClassName,
             mode: 'all',
-            excludeNodes: [ROOT]
+            excludeNodes: [ROOT, TOC]
         }),
         SmartHeading,
         History.configure({
@@ -220,14 +221,14 @@ function makeExtensions(props: makeExtensionsProps) {
         TableCell,
         // TableHeader,
         SmartTableHeader,
-        // Toc,
+        Toc,
         TextAlign.configure({
             types: [HEADING, PARAGRAPH],
         }),
-        UUID.configure({
-            attributeName: 'uuid',
-            types: [PARAGRAPH, HEADING, PRE, TASKLIST, IMAGE, TABLE, A]
-        }),
+        // UUID.configure({
+        //     attributeName: 'uuid',
+        //     types: [PARAGRAPH, HEADING, PRE, TASKLIST, IMAGE, TABLE, A]
+        // }),
         // Panel,
         // SmartHover
     ]

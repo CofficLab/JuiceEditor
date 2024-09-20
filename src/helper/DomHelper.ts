@@ -20,7 +20,10 @@ class DomHelper {
     }
 
     static goto(id: string, shadowHostSelector: string, offset: number = 120) {
-        console.log('goto', id)
+        let verbose = false
+        if (verbose) {
+            console.log(title, 'goto', id)
+        }
 
         // 获取目标 div
         const targetDiv = DomHelper.findElement(id, shadowHostSelector)

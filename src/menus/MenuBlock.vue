@@ -6,7 +6,7 @@ import Button from '../ui/Button.vue'
 import IconDelete from '../ui/icons/Delete.vue'
 import IconNewLine from '../ui/icons/IconNewLine.vue'
 import TiptapHelper from '../helper/TiptapHelper'
-import { PARAGRAPH } from '../config/nodes'
+import { PARAGRAPH, TOC } from '../config/nodes'
 import MenuParagraph from './MenuParagraph.vue'
 import ButtonList from '../ui/ButtonList.vue'
 const props = defineProps({
@@ -87,7 +87,6 @@ function getCurrentNode() {
 }
 
 function deleteNode() {
-	console.log('deleteNode')
 	editor.value.chain().focus().deleteSelectionNode().run()
 }
 
@@ -97,6 +96,12 @@ function updateMenuPosition() {
 
 	if (!editorDom) {
 		throw new Error('editorDom is null')
+	}
+
+	// 如果是TOC，不显示
+	if (props.editor.isActive(TOC)) {
+		visible.value = false
+		return
 	}
 
 	let { offsetLeft } = editorDom as HTMLElement

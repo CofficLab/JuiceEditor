@@ -1,45 +1,47 @@
 import { Editor } from "@tiptap/core"
 
-class Heading {
+const title = '🌳 SmartHeading'
+
+class SmartHeading {
     level: number = 0
     text: string = "ROOT"
     id: string = ""
-    children: Heading[] = []
+    children: SmartHeading[] = []
 
-    setLevel(level: number): Heading {
+    setLevel(level: number): SmartHeading {
         this.level = level
         return this
     }
 
-    setText(text: string): Heading {
+    setText(text: string): SmartHeading {
         this.text = text
         return this
     }
 
-    setId(id: string): Heading {
+    setId(id: string): SmartHeading {
         this.id = id
         return this
     }
 
-    firstChild(): Heading {
+    firstChild(): SmartHeading {
         return this.children[0]
     }
 
-    appendChild(heading: Heading): Heading {
+    appendChild(heading: SmartHeading): SmartHeading {
         this.children.push(heading)
         return this
     }
 
-    updateLastChild(heading: Heading): Heading {
+    updateLastChild(heading: SmartHeading): SmartHeading {
         this.children[this.children.length - 1] = heading
         return this
     }
 
-    getLastChild(): Heading {
+    getLastChild(): SmartHeading {
         return this.children[this.children.length - 1]
     }
 
-    appendNode(node: Heading): Heading {
+    appendNode(node: SmartHeading): SmartHeading {
         if (this.level >= node.level) {
             throw new Error("不能将" + node.level + "级标题插入到" + this.level + "级标题中，append " + node.text + " -> " + this.text)
         }
@@ -60,11 +62,11 @@ class Heading {
         return this.updateLastChild(this.children[this.children.length - 1].appendNode(node))
     }
 
-    static makeTree(editor: Editor): Heading {
-        let headings = Heading.getHeadings(editor)
+    static makeTree(editor: Editor): SmartHeading {
+        let headings = SmartHeading.getHeadings(editor)
 
         //console.log("makeTree with", headings)
-        var root = new Heading()
+        var root = new SmartHeading()
 
         headings.forEach((heading) => {
             //console.log("appendNode", heading)
@@ -75,9 +77,12 @@ class Heading {
         return root
     }
 
-    static getHeadings(editor: Editor): Heading[] {
-        log('查找 Headings')
-        var headings: Heading[] = []
+    static getHeadings(editor: Editor): SmartHeading[] {
+        let verbose = false
+        if (verbose) {
+            console.log(title, '查找 Headings')
+        }
+        var headings: SmartHeading[] = []
 
         const transaction = editor.state.tr
 
@@ -91,7 +96,7 @@ class Heading {
                     transaction.setNodeMarkup(pos, undefined, { ...node.attrs, id })
                 }
 
-                headings.push(new Heading()
+                headings.push(new SmartHeading()
                     .setId(id)
                     .setText(node.textContent)
                     .setLevel(node.attrs.level)
@@ -108,10 +113,4 @@ class Heading {
     }
 }
 
-export default Heading
-
-const verbose = false;
-
-function log(...message: any[]) {
-    if (verbose) console.log("🍋 TOC-Heading:", ...message)
-}
+export default SmartHeading

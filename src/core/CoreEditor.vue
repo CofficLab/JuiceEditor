@@ -1,10 +1,9 @@
 <script lang="ts" setup>
 import { EditorContent } from '@tiptap/vue-3'
-import { computed, onMounted, ref, watch } from 'vue'
+import { watch } from 'vue'
 import BubbleMenus from '../menus/MenuBubble.vue'
 import FloatMenus from '../menus/MenuFloat.vue'
 import TiptapAgent from '../helper/TiptapHelper'
-import Heading from '../extensions/Toc/Heading'
 import BlockMenu from '../menus/MenuBlock.vue'
 import EditorData from '../model/EditorData'
 import Config from '../config/config'
@@ -81,7 +80,6 @@ const editor = TiptapAgent.create({
 			console.log(title, "OnUpdate", data)
 		}
 
-		refreshToc('onUpdate')
 		if (!props.editable) {
 			if (verbose) {
 				console.log('只读模式，不回调更新')
@@ -98,44 +96,31 @@ const editor = TiptapAgent.create({
 })
 
 const isDebug = false
-const headingTree = ref(new Heading())
-const shouldShowToc = computed(() => {
-	return false
-	return editor.commands.hasToc() && headingTree
-})
-
-function refreshToc(reason: string) {
-	let verbose = false
-
-	if (verbose) {
-		console.log(title, '刷新TOC，因为', reason)
-	}
-
-	headingTree.value = Heading.makeTree(editor) as unknown as Heading
-}
 
 watch(
 	() => props.content,
 	(newValue, oldValue) => {
 		let verbose = false
-		if (verbose) {
-			console.log(title, 'content changed')
-		}
+		let verbose2 = false
 
 		if (editor.getHTML() === newValue) {
-			if (verbose) {
+			if (verbose2) {
 				console.log(title, 'new content = editor content, ignore')
 			}
 			return
+		}
+
+		if (verbose) {
+			console.log(title, 'content changed')
+			console.log(oldValue)
+			console.log(newValue)
 		}
 
 		editor.commands.setContent(props.content, true)
 	}
 )
 
-onMounted(() => {
-	refreshToc('onMounted')
-})
+
 </script>
 
 <template>
@@ -160,8 +145,8 @@ onMounted(() => {
 				'lg:bg-blue-300/10': isDebug,
 				'xl:bg-purple-300/10': isDebug,
 				'2xl:bg-red-300/10': isDebug,
-				'md:max-w-xl': shouldShowToc,
-				'md:max-w-2xl': !shouldShowToc,
+				// 'md:max-w-xl': shouldShowToc,
+				// 'md:max-w-2xl': !shouldShowToc,
 				'md:px-0': true,
 				'md:py-6': true,
 				'lg:max-w-3xl': true,
@@ -177,33 +162,6 @@ onMounted(() => {
 				'shadow-inner': true,
 				rounded: true
 			}" class="container flex flex-col min-h-screen px-4 pb-48 prose-sm prose dark:prose-invert" />
-
-			<!-- TOC占位，宽度=TOC的宽度 -->
-			<div :class="{
-				'md:w-56': shouldShowToc,
-				'4md:w-48': shouldShowToc,
-				'xl:w-64': shouldShowToc,
-				'2xl:w-88': shouldShowToc
-			}"></div>
-
-			<!-- TOC，和顶部留一些距离，因为WEB项目顶部有导航栏 -->
-			<!-- <div id="toc" v-if="shouldShowToc" :class="{
-				'md:bg-slate-300/10': false,
-				'lg:bg-blue-300/50': isDebug,
-				'xl:bg-purple-300/50': isDebug,
-				'2xl:bg-red-300/50': isDebug,
-				'fixed right-0 top-12 z-30': true,
-				'flex-row justify-start hidden h-screen overflow-y-scroll': true,
-				'w-48': true,
-				'md:w-56 md:flex md:right-1': true,
-				'4md:w-48 4md:right-2': true,
-				'xl:w-64 4md:right-2': true,
-				'2xl:w-88 2xl:right-24': true
-			}">
-				<div class="w-full my-12 overflow-y-scroll menu menu-xs">
-					<HeadingVue :heading="h" v-for="h in headingTree.children"></HeadingVue>
-				</div>
-			</div> -->
 		</div>
 	</div>
 </template>

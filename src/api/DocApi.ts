@@ -7,7 +7,6 @@ import Config from '../config/config'
 import { DOC, ROOT, TEXT } from '../config/nodes';
 import UUIDHelper from '../helper/UUIDHelper';
 import TiptapHelper from '../helper/TiptapHelper';
-import EditorData from '../model/EditorData';
 let title = "🔌 DocApi"
 
 export default class DocApi {
