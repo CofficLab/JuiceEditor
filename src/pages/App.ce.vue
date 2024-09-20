@@ -42,6 +42,14 @@ const editor = TiptapAgent.create({
 		if (verbose) {
 			console.log(title, "onCreate", doc)
 		}
+
+		modeStore.setMode(props.mode, 'App.onCreate')
+
+		apiProvider.boot()
+		listenerProvider.boot(modeStore.mode)
+
+		app.loading = false
+		app.setReady('App.onCreate')
 	},
 	onUpdate: (data: EditorData | Error) => {
 		let verbose = false
@@ -79,21 +87,6 @@ const apiProvider = new ApiProvider({
 })
 const listenerProvider = new ListenerProvider(Config.listeners)
 const pluginProvider = new PluginProvider(Config.plugins)
-
-onMounted(() => {
-	let verbose = true
-
-	if (verbose) {
-		console.log(title, 'onMounted, props.mode is', props.mode)
-	}
-
-	modeStore.setMode(props.mode, 'App.onMounted')
-	listenerProvider.boot(modeStore.mode)
-	apiProvider.boot()
-
-	app.loading = false
-	app.setReady('App.onMounted')
-})
 
 // collect events from every store
 watch(() => app.ready, () => {

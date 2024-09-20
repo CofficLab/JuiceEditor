@@ -8,8 +8,12 @@ let emoji = "👂 SlotListener"
 export default class SlotListener implements Listener {
     public observer?: MutationObserver
 
+    constructor() {
+        this.setEditorContent = this.setEditorContent.bind(this)
+    }
+
     start(pageMode: PageMode) {
-        let verbose = true
+        let verbose = false
 
         if (!pageMode.isSlot()) {
             return
@@ -30,21 +34,21 @@ export default class SlotListener implements Listener {
     }
 
     setEditorContent() {
-        let verbose = true
-        let content = document.querySelector(Config.editorLabel)!.innerHTML
+        let verbose = false
+        let content = this.getTarget().innerHTML
 
         if (verbose) {
             console.log(emoji, "got content", content.length == 0 ? "[empty]" : content.substring(0, 100))
         }
 
-        window.api.doc.setHTML(content)
+        window.api.node.setHTML(content)
+        this.getTarget().innerHTML = ''
 
         if (this.observer == null) {
             return
         }
 
         this.observer.disconnect()
-        this.getTarget().innerHTML = ''
         this.observer.observe(this.getTarget(), this.getConfig())
     }
 
