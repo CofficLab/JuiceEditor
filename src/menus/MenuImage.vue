@@ -102,7 +102,7 @@ function downloadImage() {
     let attrs = props.editor.getAttributes(IMAGE)
     let src: string = attrs.src
 
-    EventProvider.downloadImage(ImageHelper.getBase64FromBase64Image(src), "image-" + Date.now() + ImageHelper.getExtension(src))
+    EventProvider.downloadImage(src, "image-" + Date.now() + ImageHelper.getExtension(src))
 }
 
 async function onFileSelected() {

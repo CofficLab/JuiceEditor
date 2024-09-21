@@ -4,6 +4,7 @@ import EditorData from "../model/EditorData";
 import { send } from "vite";
 import TreeNode from "src/model/TreeNode";
 import PageMode from "../model/PageMode";
+import ImageHelper from "../helper/ImageHelper";
 const title = "🍎 WebKit"
 
 class WebKit implements Plugin {
@@ -132,7 +133,7 @@ class WebKit implements Plugin {
 
         sendMessage({
             channel: "downloadFile",
-            base64: src,
+            base64: ImageHelper.getBase64FromBase64Image(src),
             name: name
         })
     }
