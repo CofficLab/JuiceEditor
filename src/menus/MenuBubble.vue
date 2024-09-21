@@ -36,6 +36,11 @@ const shouldShow = function (props: {
 	const shouldShowNodes = [IMAGE, TABLE, HEADING]
 	const excludes = [TOC, DRAW, A, TABLE_CELL, TABLE_ROW, TABLE_HEADER, BRANCH, BRANCH_CONTENT]
 
+	// 如果是只读模式，不显示
+	if (props.editor.isEditable == false) {
+		return false
+	}
+
 	// 如果当前是Heading，且Level=1，不显示
 	if (props.editor.isActive(HEADING) && props.editor.getAttributes(HEADING).level === 1) {
 		return false

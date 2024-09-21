@@ -98,6 +98,12 @@ function updateMenuPosition() {
 		throw new Error('editorDom is null')
 	}
 
+	// 如果是只读模式，不显示
+	if (props.editor.isEditable == false) {
+		visible.value = false
+		return
+	}
+
 	// 如果是TOC，不显示
 	if (props.editor.isActive(TOC)) {
 		visible.value = false
