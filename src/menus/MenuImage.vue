@@ -7,6 +7,7 @@ import Button from '../ui/Button.vue'
 import { Editor } from '@tiptap/core'
 import { IMAGE } from '../config/nodes'
 import EventProvider from '../provider/EventProvider'
+import ImageHelper from '../helper/ImageHelper'
 
 let props = defineProps({
     editor: {
@@ -101,7 +102,7 @@ function downloadImage() {
     let attrs = props.editor.getAttributes(IMAGE)
     let src: string = attrs.src
 
-    EventProvider.downloadImage(src, "image")
+    EventProvider.downloadImage(ImageHelper.getBase64FromBase64Image(src), "image-" + Date.now() + ImageHelper.getExtension(src))
 }
 
 async function onFileSelected() {

@@ -1,5 +1,3 @@
-import { Editor, Node } from "@tiptap/core";
-
 interface MimeTypeMapping {
     [key: string]: string
 }
@@ -31,42 +29,6 @@ const MimeToExtension: MimeTypeMapping = {
 const emoji = "🚗 ImageHelper"
 
 class ImageHelper {
-    // 获取尾部位置
-    static getTailPos(props: { getPos: () => any; node: { nodeSize: any } }): number {
-        const start = props.getPos()
-        const end = start + props.node.nodeSize
-
-        // console.log('start is', start)
-        // console.log('size is', props.node.nodeSize)
-
-        return end
-    }
-
-    // 在本节点的后面插入一行
-    static newLine(props: { editor: any; getPos: () => any; node: { nodeSize: any } }) {
-        let tail = ImageHelper.getTailPos(props)
-        console.log('tail is', tail)
-        props.editor.commands.insertContentAt(tail - 1, '<p></p>', {
-            updateSelection: false,
-            parseOptions: {
-                preserveWhitespace: 'full'
-            }
-        })
-        props.editor.commands.focus(tail)
-    }
-
-    // 是否是整个editor.state.doc.content的最后一个node
-    static isTheLastNode(props: { editor: any; getPos: () => any; node: { nodeSize: any } }) {
-        return props.node.nodeSize + props.getPos() == props.editor.state.doc.content.size
-    }
-
-    // 如果是最后一个节点，在本节点后插入一个空的p，防止光标无法移动到下一个节点
-    static insertNewLineIfIsTheLastNode(props: { editor: any; getPos: () => any; node: { nodeSize: any } }) {
-        if (ImageHelper.isTheLastNode(props)) {
-            ImageHelper.newLine(props)
-        }
-    }
-
     static getBase64FromBase64Image(base64Image: string) {
         return base64Image.split(",")[1]
     }
@@ -94,7 +56,7 @@ class ImageHelper {
     }
 
     static async downloadImageFromUrl(url: string): Promise<void> {
-        console.log(emoji, "download", url)
+        console.log(emoji, "downloadImageFromUrl", url)
 
         try {
             const response = await fetch(url);
@@ -115,34 +77,7 @@ class ImageHelper {
         }
     }
 
-    static downloadBase64(base64Image: string): HTMLAnchorElement {
-        console.log(emoji, "download", base64Image.substring(0, 40))
-
-        // 1. Decode base64 string to ArrayBuffer
-        const bytes = atob(base64Image.split(",")[1]);
-        const arrayBuffer = new ArrayBuffer(bytes.length);
-        const uintArray = new Uint8Array(arrayBuffer);
-        for (let i = 0; i < bytes.length; i++) {
-            uintArray[i] = bytes.charCodeAt(i);
-        }
-
-        // 2. Create Blob from ArrayBuffer
-        const blob = new Blob([arrayBuffer]);
-
-        // 3. Generate file download url
-        const url = URL.createObjectURL(blob);
-
-        // 4. Create <a> tag and trigger download
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = "download" + this.getExtension(base64Image);
-        document.body.appendChild(a);
-        a.click();
-
-        return a
-    }
-
-    static download2(base64Image: string) {
+    static downloadBase64(base64Image: string): void {
         // 创建一个虚拟的URL
         var url = base64Image.replace(/^data:image\/[^;]+/, 'data:application/octet-stream')
 
