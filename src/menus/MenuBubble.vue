@@ -33,7 +33,7 @@ const shouldShow = function (props: {
 	let verbose = false
 	const { selection } = props.state
 	const { empty } = selection
-	const shouldShowNodes = [IMAGE, TABLE, HEADING]
+	const shouldShowNodes = [IMAGE, TABLE]
 	const excludes = [TOC, DRAW, A, TABLE_CELL, TABLE_ROW, TABLE_HEADER, BRANCH, BRANCH_CONTENT]
 
 	// 如果是只读模式，不显示
@@ -46,6 +46,7 @@ const shouldShow = function (props: {
 		return false
 	}
 
+	// 如果当前是应该显示的节点，显示
 	if (shouldShowNodes.some(node => props.editor.isActive(node))) {
 		return true;
 	}
