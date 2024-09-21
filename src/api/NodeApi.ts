@@ -99,6 +99,20 @@ export default class NodeApi {
     public toggleToc() {
         this.editor.commands.toggleToc()
     }
+
+    public sendHtmlByRequest(html: string) {
+        let verbose = false
+
+        if (verbose) {
+            console.log("sendHtmlByRequest", html)
+        }
+
+        new NodeRequest(this.request.getBaseUrl()).updateHtml(html).then((html) => {
+            console.log("sendHtmlByRequest", html)
+        }).catch((error) => {
+            console.error(title, 'sendHtmlByRequest', error)
+        })
+    }
 }
 
 function fixHtml(html: string, uuid: string): string {

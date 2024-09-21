@@ -41,6 +41,7 @@ import { Branch } from "../extensions/Branch/Branch"
 import { BranchContent } from "../extensions/BranchContent/BranchContent"
 import { Root } from "../extensions/Root/Root"
 import { Toc } from "../extensions/Toc/Toc"
+import ApiApp from "../plugins/APIApp"
 import { A, HEADING, IMAGE, PARAGRAPH, PRE, ROOT, TABLE, TASKLIST, TOC } from "./nodes"
 
 interface ConfigType {
@@ -67,7 +68,8 @@ const Config: ConfigType = {
         : '/editor/monaco/index.html',
     'plugins': [
         ('webkit' in window) ? new WebKit() : new LocalApp(),
-        new EventPlugin()
+        new EventPlugin(),
+        new ApiApp()
     ],
     listeners: [
         new UrlListener(),
