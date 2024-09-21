@@ -100,6 +100,18 @@ export default class NodeApi {
         this.editor.commands.toggleToc()
     }
 
+    public setReadOnly() {
+        this.editor.setEditable(false)
+    }
+
+    public setEditable() {
+        this.editor.setEditable(true)
+    }
+
+    public toggleReadOnly() {
+        this.editor.setEditable(!this.editor.isEditable)
+    }
+
     public sendHtmlByRequest(html: string) {
         let verbose = false
 

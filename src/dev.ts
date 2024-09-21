@@ -20,6 +20,7 @@ export default function dev() {
         { text: '段落', onclick: () => window.api.node.setHTML(pDoc) },
         { text: '目录', onclick: () => window.api.node.setHTML(tocDoc) },
         { text: 'TOC', onclick: () => window.api.node.toggleToc() },
+        { text: '只读/编辑', onclick: () => window.api.node.toggleReadOnly() },
     ];
 
     buttons.forEach(button => {

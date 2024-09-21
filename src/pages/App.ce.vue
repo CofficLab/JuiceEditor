@@ -33,7 +33,7 @@ const requestStore = useRequestStore()
 const editor = TiptapAgent.create({
 	extensions: Config.extensions,
 	content: EditorData.default().html,
-	editable: feature.editable,
+	editable: !props.readonly,
 	drawEnable: feature.drawEnabled,
 	tableEnable: feature.tableEnabled,
 	onCreate: (doc: EditorData | Error) => {
