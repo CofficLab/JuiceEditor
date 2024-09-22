@@ -67,7 +67,9 @@ class ImageHelper {
             const objectUrl = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = objectUrl;
-            a.download = `download.${blob.type.split('/')[1]}`;
+            // 使用 getExtension 方法来获取正确的文件扩展名
+            const extension = this.getExtension(`data:${blob.type};base64,`);
+            a.download = `download${extension}`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
