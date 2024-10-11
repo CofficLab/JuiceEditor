@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import { Editor, NodePos } from '@tiptap/core'
-import ButtonBar from '../ui/ButtonBar.vue'
 import Button from '../ui/Button.vue'
 import IconDelete from '../ui/icons/Delete.vue'
 import IconNewLine from '../ui/icons/IconNewLine.vue'
@@ -27,7 +26,7 @@ watch(
 	(val) => {
 		if (val) {
 			editor.value.on('selectionUpdate', () => {
-				let verbose = false
+				let verbose = true
 
 				if (verbose) {
 					console.log(emoji, 'selectionUpdate')

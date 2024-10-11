@@ -123,46 +123,57 @@ async function onFileSelected() {
     <Button @click="downloadImage" data-tip="下载">
         <IconDownload></IconDownload>
     </Button>
-    <!-- <li><a @click="setTriangle">三角形</a></li> -->
-    <!-- <li><a @click="setTriangle2">三角形2</a></li> -->
-    <!-- <li><a @click="setTriangle3">三角形3</a></li> -->
-    <!-- <li><a @click="setTriangle4">三角形4</a></li> -->
-    <!-- <li><a @click="setParallelogram2">平行四边形2</a></li> -->
-    <!-- <li><a @click="setParallelogram3">平行四边形3</a></li> -->
-    <!-- <li><a @click="setParallelogram4">平行四边形4</a></li> -->
-    <!-- <li><a @click="setStar2">星形2</a></li> -->
-    <!-- <li><a @click="setHexagon2">六边形2</a></li> -->
-    <Button @click="setSquircle">
-        <div class="w-5 h-5 bg-cyan-400 mask mask-squircle"></div>
-    </Button>
-    <Button @click="setHeart">
-        <div class="w-5 h-5 bg-cyan-400 mask mask-heart"></div>
-    </Button>
-    <Button @click="setDecagon">
-        <div class="w-5 h-5 bg-cyan-400 mask mask-decagon"></div>
-    </Button>
-    <Button @click="setHexagon">
-        <div class="w-5 h-5 bg-cyan-400 mask mask-hexagon"></div>
-    </Button>
-    <Button @click="setPentagon">
-        <div class="w-5 h-5 bg-cyan-400 mask mask-pentagon"></div>
-    </Button>
-    <Button @click="setStar">
-        <div class="w-5 h-5 bg-cyan-400 mask mask-star"></div>
-    </Button>
-    <Button @click="setParallelogram">
-        <div class="w-5 h-5 bg-cyan-400 mask mask-parallelogram"></div>
-    </Button>
-    <Button @click="setDiamond">
-        <div class="w-5 h-5 bg-cyan-400 mask mask-diamond"></div>
-    </Button>
-    <Button @click="setSquare">
-        <div class="w-5 h-5 bg-cyan-400 mask mask-square"></div>
-    </Button>
-    <Button @click="setCircle">
-        <div class="w-5 h-5 bg-cyan-400 mask mask-circle"></div>
-    </Button>
-    <Button @click="reset" data-tip="恢复原始形状">
+    <div class="dropdown dropdown-bottom inline">
+        <Button tabindex="0" role="button" tip="样式">
+            <div class="w-6 h-6 flex justify-center items-center">
+                <div class="w-5 h-5 text-white bg-blue-500 rounded-full p-1"></div>
+            </div>
+        </Button>
+        <div tabindex="0" class="dropdown-content bg-slate-100 rounded-box z-50 p-2 shadow w-48">
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
+                <!-- <li><a @click="setTriangle">三角形</a></li> -->
+                <!-- <li><a @click="setTriangle2">三角形2</a></li> -->
+                <!-- <li><a @click="setTriangle3">三角形3</a></li> -->
+                <!-- <li><a @click="setTriangle4">三角形4</a></li> -->
+                <!-- <li><a @click="setParallelogram2">平行四边形2</a></li> -->
+                <!-- <li><a @click="setParallelogram3">平行四边形3</a></li> -->
+                <!-- <li><a @click="setParallelogram4">平行四边形4</a></li> -->
+                <!-- <li><a @click="setStar2">星形2</a></li> -->
+                <!-- <li><a @click="setHexagon2">六边形2</a></li> -->
+                <Button @click="setSquircle">
+                    <div class="w-5 h-5 bg-cyan-400 mask mask-squircle"></div>
+                </Button>
+                <Button @click="setHeart">
+                    <div class="w-5 h-5 bg-cyan-400 mask mask-heart"></div>
+                </Button>
+                <Button @click="setDecagon">
+                    <div class="w-5 h-5 bg-cyan-400 mask mask-decagon"></div>
+                </Button>
+                <Button @click="setHexagon">
+                    <div class="w-5 h-5 bg-cyan-400 mask mask-hexagon"></div>
+                </Button>
+                <Button @click="setPentagon">
+                    <div class="w-5 h-5 bg-cyan-400 mask mask-pentagon"></div>
+                </Button>
+                <Button @click="setStar">
+                    <div class="w-5 h-5 bg-cyan-400 mask mask-star"></div>
+                </Button>
+                <Button @click="setParallelogram">
+                    <div class="w-5 h-5 bg-cyan-400 mask mask-parallelogram"></div>
+                </Button>
+                <Button @click="setDiamond">
+                    <div class="w-5 h-5 bg-cyan-400 mask mask-diamond"></div>
+                </Button>
+                <Button @click="setSquare">
+                    <div class="w-5 h-5 bg-cyan-400 mask mask-square"></div>
+                </Button>
+                <Button @click="setCircle">
+                    <div class="w-5 h-5 bg-cyan-400 mask mask-circle"></div>
+                </Button>
+            </div>
+        </div>
+    </div>
+    <Button @click="reset" tip="恢复原始形状">
         <Reset></Reset>
     </Button>
     <input ref="fileInput" multiple="false" accept="image/*" type="file" style="display: none"

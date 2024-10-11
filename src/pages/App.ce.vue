@@ -108,7 +108,11 @@ watch(() => app.error, () => messageStore.setError(app.error))
 </style>
 
 <template>
-	<Loading v-if="app.loading"></Loading>
+	<div v-if="app.loading" class="fixed inset-0 flex items-center justify-center bg-white bg-opacity-80 z-50">
+		<div class="transform scale-150">
+			<Loading></Loading>
+		</div>
+	</div>
 
 	<template v-if="app.loading == false">
 		<main class="main">

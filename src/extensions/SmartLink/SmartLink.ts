@@ -22,7 +22,7 @@ const SmartLink = Node.create({
     //     node.attrs.text
     // ],
     renderHTML({ HTMLAttributes }) {
-        return ['kbd', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
+        return [this.name, mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0]
     },
     addAttributes() {
         return {

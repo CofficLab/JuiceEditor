@@ -194,10 +194,10 @@ async function onFileSelected() {
 
 <template>
     <Opening :onReady="open" :visible="isOpening" class="opening" ref="opening"></Opening>
-    <Button @click="downloadImage" data-tip="下载">
+    <Button @click="downloadImage" tip="下载图片">
         <IconDownload></IconDownload>
     </Button>
-    <Button @click="openLoading" data-tip="编辑">
+    <Button @click="openLoading" tip="打开画图界面">
         <IconEdit></IconEdit>
     </Button>
     <input ref="fileInput" multiple="false" accept="image/*" type="file" style="display: none"
