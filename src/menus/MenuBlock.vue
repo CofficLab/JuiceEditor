@@ -27,7 +27,7 @@ watch(
 	(val) => {
 		if (val) {
 			editor.value.on('selectionUpdate', () => {
-				let verbose = false
+				let verbose = true
 
 				if (verbose) {
 					console.log(emoji, 'selectionUpdate')

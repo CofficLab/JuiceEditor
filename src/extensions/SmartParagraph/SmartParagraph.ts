@@ -25,7 +25,7 @@ const SmartParagraph = Paragraph.extend({
     addAttributes() {
         return {
             class: {
-                default: "my-class"
+                default: "p-class"
             },
             type: {
                 default: "paragraph"
@@ -33,7 +33,7 @@ const SmartParagraph = Paragraph.extend({
         }
     },
 
-    // addNodeView: () => VueNodeViewRenderer(SmartParagraphVue),
+    addNodeView: () => VueNodeViewRenderer(SmartParagraphVue),
 
     addCommands() {
         return {
