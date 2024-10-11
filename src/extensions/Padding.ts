@@ -24,7 +24,7 @@ export const Padding = Extension.create({
                         const decorations: Decoration[] = []
 
                         doc.descendants((node, pos) => {
-                            let verbose = true
+                            let verbose = false
 
                             if (node.isInline || noPaddingTypes.includes(node.type.name) || doc.resolve(pos).depth > 1) {
                                 if (verbose) {
