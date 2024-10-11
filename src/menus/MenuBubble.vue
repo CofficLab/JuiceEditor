@@ -10,7 +10,6 @@ import MenuTable from './MenuTable.vue'
 import MenuHeading from './MenuHeading.vue'
 import MenuFormat from './MenuFormat.vue'
 import MenuDraw from './MenuDraw.vue'
-import MenuParagraph from './MenuParagraph.vue'
 import { computed } from 'vue'
 
 let emoji = "🫧 BubbleMenus"
