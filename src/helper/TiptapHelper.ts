@@ -217,22 +217,6 @@ class TiptapHelper {
         return end
     }
 
-    // 在本节点的后面插入一行
-    static newLineOf(editor: TiptapEditor, node: ProseMirrorNode, pos: number) {
-        let tail = TiptapHelper.getTailPosOf(editor, node, pos)
-        // console.log('new line, node is', node)
-        // console.log('new line, pos is', pos)
-        // console.log('node size is', node.nodeSize)
-        // console.log('tail is', tail)
-        editor.commands.insertContentAt(Math.min(tail, editor.state.doc.content.size), '<p></p>', {
-            updateSelection: true,
-            parseOptions: {
-                preserveWhitespace: 'full'
-            }
-        })
-        editor.commands.focus(tail)
-    }
-
     // 别处传递给editor的content可能是html字符串，也可能是json字符串，这里确保是正确的
     static getValidContent(content: string): object | string {
         let verbose = false;

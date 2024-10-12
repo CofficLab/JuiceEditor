@@ -17,7 +17,7 @@
           <IconDelete></IconDelete>
         </Button>
 
-        <Button @click="TiptapHelper.newLineOf(props.editor, props.node, props.getPos())">
+        <Button @click="TiptapHelper.newLineAfterSelection(props.editor, props.node, props.getPos())">
           <IconNewLine></IconNewLine>
         </Button>
       </ButtonBar>

@@ -13,6 +13,7 @@ declare module '@tiptap/core' {
 		}
 	}
 }
+
 export default Extension.create({
 	name: 'selection',
 	addProseMirrorPlugins() {

@@ -42,6 +42,7 @@ import { BranchContent } from "../extensions/BranchContent/BranchContent"
 import { Root } from "../extensions/Root/Root"
 import { Toc } from "../extensions/Toc/Toc"
 import ApiApp from "../plugins/APIApp"
+import { NewLine } from "../extensions/NewLine"
 import { A, HEADING, IMAGE, PARAGRAPH, PRE, ROOT, TABLE, TASKLIST, TOC } from "./nodes"
 
 interface ConfigType {
@@ -181,6 +182,7 @@ function makeExtensions(props: makeExtensionsProps) {
         // Ring,
         SmartParagraph,
         Padding,
+        NewLine,
         Placeholder.configure({
             placeholder: ({ node }) => {
                 if (node.type.name === HEADING && node.attrs.level == 1) {
