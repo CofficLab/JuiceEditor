@@ -1,15 +1,18 @@
 <script lang="ts" setup>
-import { defineProps } from 'vue'
+import { defineProps, computed } from 'vue'
 import { Editor } from '@tiptap/core'
-import Info from '../ui/icons/IconInfo.vue'
-import Question from '../ui/icons/Question.vue'
-import IconStop from '../ui/icons/IconStop.vue'
 import Button from '../ui/Button.vue'
+import IconInfo from '../ui/icons/IconInfo.vue';
+
 let props = defineProps({
     editor: {
         type: Editor,
         required: true
     }
+})
+
+let colorClass = computed(() => {
+    return props.editor.options.extensions.find(extension => extension.name === 'paragraph')?.options.colorClass
 })
 </script>
 
@@ -22,39 +25,11 @@ let props = defineProps({
         </Button>
         <div tabindex="0" class="dropdown-content bg-slate-100 rounded-box z-50 p-2 shadow w-48">
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
-                <Info
-                    class="w-7 h-7 flex items-center justify-center rounded-full cursor-pointer transition-colors duration-200 ease-in-out hover:bg-indigo-200/90 text-cyan-500"
-                    @click="props.editor.commands.setParagraphCyan('info')"></Info>
-                <Info
-                    class="w-7 h-7 flex items-center justify-center rounded-full cursor-pointer transition-colors duration-200 ease-in-out hover:bg-indigo-200/90 text-blue-500"
-                    @click="props.editor.commands.setParagraphBlue('info')"></Info>
-                <Info
-                    class="w-7 h-7 flex items-center justify-center rounded-full cursor-pointer transition-colors duration-200 ease-in-out hover:bg-indigo-200/90 text-yellow-500"
-                    @click="props.editor.commands.setParagraphYellow('info')"></Info>
-                <Info
-                    class="w-7 h-7 flex items-center justify-center rounded-full cursor-pointer transition-colors duration-200 ease-in-out hover:bg-indigo-200/90 text-red-500"
-                    @click="props.editor.commands.setParagraphRed('info')"></Info>
-                <Info
-                    class="w-7 h-7 flex items-center justify-center rounded-full cursor-pointer transition-colors duration-200 ease-in-out hover:bg-indigo-200/90 text-green-500"
-                    @click="props.editor.commands.setParagraphGreen('info')"></Info>
-                <Question
-                    class="w-7 h-7 flex items-center justify-center rounded-full cursor-pointer transition-colors duration-200 ease-in-out hover:bg-indigo-200/90 text-cyan-500"
-                    @click="props.editor.commands.setParagraphCyan('question')"></Question>
-                <Question
-                    class="w-7 h-7 flex items-center justify-center rounded-full cursor-pointer transition-colors duration-200 ease-in-out hover:bg-indigo-200/90 text-blue-500"
-                    @click="props.editor.commands.setParagraphBlue('question')"></Question>
-                <Question
-                    class="w-7 h-7 flex items-center justify-center rounded-full cursor-pointer transition-colors duration-200 ease-in-out hover:bg-indigo-200/90 text-yellow-500"
-                    @click="props.editor.commands.setParagraphYellow('question')"></Question>
-                <Question
-                    class="w-7 h-7 flex items-center justify-center rounded-full cursor-pointer transition-colors duration-200 ease-in-out hover:bg-indigo-200/90 text-red-500"
-                    @click="props.editor.commands.setParagraphRed('question')"></Question>
-                <Question
-                    class="w-7 h-7 flex items-center justify-center rounded-full cursor-pointer transition-colors duration-200 ease-in-out hover:bg-indigo-200/90 text-green-500"
-                    @click="props.editor.commands.setParagraphGreen('question')"></Question>
-                <IconStop
-                    class="w-7 h-7 flex items-center justify-center rounded-full cursor-pointer transition-colors duration-200 ease-in-out hover:bg-indigo-200/90 text-gray-500"
-                    @click="props.editor.commands.setParagraph()"></IconStop>
+                <div v-for="color in Object.keys(colorClass)"
+                    class="w-7 h-7 flex items-center justify-center cursor-pointer transition-colors duration-200 ease-in-out hover:bg-indigo-200/90 rounded-full p-1"
+                    :key="color" @click="props.editor.commands.setBackgroundColor(color)">
+                    <div :class="colorClass[color]" class="w-5 h-5 rounded-full p-1"></div>
+                </div>
             </div>
         </div>
     </div>
