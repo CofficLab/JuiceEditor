@@ -1,6 +1,6 @@
 <template>
-  <Button @click="focusedNode.setHeading({ level: props.level as Level }).run()" size="md" :tip="props.level + '号标题'"
-    :class="{
+  <Button @click="focusedNode.setHeading({ level: props.level as Level }).run()" size="sm" :tip="props.level + '号标题'"
+    :shape="shape" :class="{
       'is-active': editor.isActive(HEADING, { level: props.level })
     }">
     <span v-text="text"></span>
@@ -27,6 +27,10 @@ const props = defineProps({
   iconOnly: {
     type: Boolean,
     default: true
+  },
+  shape: {
+    type: String,
+    default: 'rectangle'
   }
 })
 

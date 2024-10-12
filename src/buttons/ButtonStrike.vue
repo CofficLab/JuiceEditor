@@ -1,5 +1,5 @@
 <template>
-  <Button @click="focusedNode.toggleStrike().run()" tip="中横线" size="md"
+  <Button @click="focusedNode.toggleStrike().run()" tip="中横线" :size="size" :shape="shape"
     :class="{ 'is-active': editor.isActive(STRIKE) }">
     <IconStrike v-if="iconOnly"></IconStrike>
     <span v-if="!iconOnly">中横线</span>
@@ -21,6 +21,14 @@ const props = defineProps({
   iconOnly: {
     type: Boolean,
     default: true
+  },
+  size: {
+    type: String,
+    default: 'sm'
+  },
+  shape: {
+    type: String,
+    default: 'square'
   }
 })
 

@@ -1,5 +1,5 @@
 <template>
-  <Button @click="focusedNode.toggleTaskList().run()" tip="待办事项" size="md"
+  <Button @click="focusedNode.toggleTaskList().run()" tip="待办事项" :size="size"
     :class="{ 'is-active': editor.isActive(TASKLIST) }">
     <IconTask></IconTask>
   </Button>
@@ -33,6 +33,10 @@ const props = defineProps({
   editor: {
     type: Editor,
     required: true
+  },
+  size: {
+    type: String,
+    default: 'sm'
   }
 })
 

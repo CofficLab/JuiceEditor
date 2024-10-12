@@ -143,11 +143,11 @@ function shouldShowParagraphMenu() {
 	<div v-if="visible" :style="`transform: translate(${marginLeft}px, ${scrollTop}px);`" class="w-22">
 		<ButtonList>
 			<Button tip="删除" @click="deleteNode">
-				<IconDelete></IconDelete>
+				<IconDelete size="md" color="secondary"></IconDelete>
 			</Button>
 
 			<Button tip="增加一行" @click="newLine">
-				<IconNewLine></IconNewLine>
+				<IconNewLine size="md" color="primary"></IconNewLine>
 			</Button>
 
 			<MenuParagraph :editor="editor" v-if="shouldShowParagraphMenu()"></MenuParagraph>

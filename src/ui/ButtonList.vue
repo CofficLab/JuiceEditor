@@ -1,20 +1,7 @@
 <template>
   <div :class="{
-    'flex flex-col items-center border shadow-lg not-prose': true,
-    'border-green-800 bg-slate-500/20':
-      props.type == 'gray',
-    'border-blue-800 bg-blue-500/20':
-      props.type == 'blue'
+    'flex flex-col items-center border shadow-lg not-prose rounded-xl py-1 px-1 gap-1': true
   }">
     <slot></slot>
   </div>
 </template>
-
-<script lang="ts" setup>
-const props = defineProps({
-  type: {
-    type: String,
-    default: 'gray'
-  }
-})
-</script>

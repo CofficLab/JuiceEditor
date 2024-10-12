@@ -1,5 +1,5 @@
 <template>
-  <Button tip="画图" size="md" v-if="isDrawEnable" @click="editor.commands.insertDraw()">
+  <Button tip="画图" :size="size" v-if="isDrawEnable" @click="editor.commands.insertDraw()">
     <IconDraw class="mx-auto" />
   </Button>
 </template>
@@ -16,6 +16,10 @@ defineProps({
   editor: {
     type: Editor,
     required: true
+  },
+  size: {
+    type: String,
+    default: 'sm'
   }
 })
 

@@ -1,5 +1,5 @@
 <template>
-  <Button @click="focusedNode.toggleItalic().run()" tip="斜体" size="md"
+  <Button @click="focusedNode.toggleItalic().run()" tip="斜体" :size="size" :shape="shape"
     :class="{ 'is-active': editor.isActive(ITALIC) }">
     <IconItalic v-if="iconOnly"></IconItalic>
     <span v-if="!iconOnly">斜体</span>
@@ -21,6 +21,14 @@ const props = defineProps({
   iconOnly: {
     type: Boolean,
     default: true
+  },
+  size: {
+    type: String,
+    default: 'sm'
+  },
+  shape: {
+    type: String,
+    default: 'square'
   }
 })
 

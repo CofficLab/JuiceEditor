@@ -1,5 +1,5 @@
 <template>
-  <Button v-if="!editor.isActive(HEADING)" @click="focusedNode.toggleToc().run()" tip="显示/隐藏TOC" size="md">
+  <Button v-if="!editor.isActive(HEADING)" @click="focusedNode.toggleToc().run()" tip="显示/隐藏TOC" :size="size">
     <img :src="icon" v-if="iconOnly" />
     <span v-if="!iconOnly">加粗</span>
   </Button>
@@ -20,6 +20,10 @@ const props = defineProps({
   iconOnly: {
     type: Boolean,
     default: true
+  },
+  size: {
+    type: String,
+    default: 'sm'
   }
 })
 

@@ -1,5 +1,5 @@
 <template>
-  <Button @click="focusedNode.setParagraph().run()" tip="正文" size="md"
+  <Button @click="focusedNode.setParagraph().run()" tip="正文" :size="size" :shape="shape"
     :class="{ 'is-active': editor.isActive(PARAGRAPH, { level: 3 }) }">
     <IconChapter v-if="iconOnly"></IconChapter>
     <span v-if="!iconOnly">正文</span>
@@ -21,6 +21,14 @@ const props = defineProps({
   iconOnly: {
     type: Boolean,
     default: true
+  },
+  size: {
+    type: String,
+    default: 'sm'
+  },
+  shape: {
+    type: String,
+    default: 'square'
   }
 })
 

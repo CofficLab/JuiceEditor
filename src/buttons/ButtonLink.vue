@@ -1,5 +1,5 @@
 <template>
-  <Button v-if="!editor.isActive('link')" @click="setLink" tip="链接" size="md"
+  <Button v-if="!editor.isActive('link')" @click="setLink" tip="链接" :size="size" :shape="shape"
     :class="{ 'btn-disabled': editor.isActive(A), tooltip: iconOnly }">
     <IconLink v-if="iconOnly"></IconLink>
     <span v-if="!iconOnly">链接</span>
@@ -20,6 +20,14 @@ const props = defineProps({
   iconOnly: {
     type: Boolean,
     default: true
+  },
+  size: {
+    type: String,
+    default: 'sm'
+  },
+  shape: {
+    type: String,
+    default: 'square'
   }
 })
 

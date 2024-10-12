@@ -1,17 +1,14 @@
-import { VueNodeViewRenderer } from "@tiptap/vue-3";
-import SmartParagraphVue from "./SmartParagraph.vue";
 import Paragraph from "@tiptap/extension-paragraph";
-import { v4 as uuidv4 } from 'uuid';
 
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
         SmartParagraph: {
             setParagraph: () => ReturnType
-            setParagraphCyan: (type: string) => ReturnType
-            setParagraphBlue: (type: string) => ReturnType
-            setParagraphYellow: (type: string) => ReturnType
-            setParagraphRed: (type: string) => ReturnType
-            setParagraphGreen: (type: string) => ReturnType
+            setBackgroundCyan: () => ReturnType
+            setBackgroundBlue: () => ReturnType
+            setBackgroundYellow: () => ReturnType
+            setBackgroundRed: () => ReturnType
+            setBackgroundGreen: () => ReturnType
         }
     }
 }
@@ -26,48 +23,40 @@ const SmartParagraph = Paragraph.extend({
         return {
             class: {
                 default: "p-class"
-            },
-            type: {
-                default: "paragraph"
             }
         }
     },
 
-    addNodeView: () => VueNodeViewRenderer(SmartParagraphVue),
+    // addNodeView: () => VueNodeViewRenderer(SmartParagraphVue),
 
     addCommands() {
         return {
             setParagraph: () => ({ commands }) => {
                 return commands.setNode(this.name)
             },
-            setParagraphCyan: (type: string) => ({ commands }) => {
+            setBackgroundCyan: () => ({ commands }) => {
                 return commands.updateAttributes(this.name, {
-                    class: 'bg-gradient-to-r from-cyan-800/50 to-cyan-800/30',
-                    type: type
+                    class: 'bg-gradient-to-r from-cyan-800/50 to-cyan-800/30'
                 })
             },
-            setParagraphBlue: (type: string) => ({ commands }) => {
+            setBackgroundBlue: () => ({ commands }) => {
                 return commands.updateAttributes(this.name, {
-                    class: 'bg-gradient-to-r from-blue-800/50 to-blue-800/30',
-                    type: type
+                    class: 'bg-gradient-to-r from-blue-800/50 to-blue-800/30'
                 })
             },
-            setParagraphYellow: (type: string) => ({ commands }) => {
+            setBackgroundYellow: () => ({ commands }) => {
                 return commands.updateAttributes(this.name, {
-                    class: 'bg-gradient-to-r from-yellow-800/50 to-yellow-800/30',
-                    type: type
+                    class: 'bg-gradient-to-r from-yellow-800/50 to-yellow-800/30'
                 })
             },
-            setParagraphRed: (type: string) => ({ commands }) => {
+            setBackgroundRed: () => ({ commands }) => {
                 return commands.updateAttributes(this.name, {
-                    class: 'bg-gradient-to-r from-red-800/50 to-red-800/30',
-                    type: type
+                    class: 'bg-gradient-to-r from-red-800/50 to-red-800/30'
                 })
             },
-            setParagraphGreen: (type: string) => ({ commands }) => {
+            setBackgroundGreen: () => ({ commands }) => {
                 return commands.updateAttributes(this.name, {
-                    class: 'bg-gradient-to-r from-green-800/50 to-green-800/30',
-                    type: type
+                    class: 'bg-gradient-to-r from-green-800/50 to-green-800/30'
                 })
             },
 

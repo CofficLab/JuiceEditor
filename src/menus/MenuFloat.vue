@@ -14,6 +14,10 @@ defineProps({
   editor: {
     type: Editor,
     required: true
+  },
+  shape: {
+    type: String,
+    default: 'rectangle'
   }
 })
 
@@ -28,18 +32,18 @@ const shouldShowFloatingMenu = TiptapAgent.shouldShowFloatingMenu
       placement: 'top',
       appendTo: 'parent'
     }" :editor="editor" :should-show="shouldShowFloatingMenu">
-      <ButtonBar type="blue">
-        <Heading :editor="editor" :level="2" />
-        <Heading :editor="editor" :level="3" />
-        <Heading :editor="editor" :level="4" />
-        <Heading :editor="editor" :level="5" />
-        <Heading :editor="editor" :level="6" />
-        <Image :editor="editor" />
-        <Draw :editor="editor" />
-        <TaskList :editor="editor" />
-        <Table :editor="editor"></Table>
-        <SmartPre :editor="editor"></SmartPre>
-        <Kbd :editor="editor"></Kbd>
+      <ButtonBar type="blue" :shape="shape">
+        <Heading :editor="editor" :level="2" :shape="shape" />
+        <Heading :editor="editor" :level="3" :shape="shape" />
+        <Heading :editor="editor" :level="4" :shape="shape" />
+        <Heading :editor="editor" :level="5" :shape="shape" />
+        <Heading :editor="editor" :level="6" :shape="shape" />
+        <Image :editor="editor" :shape="shape" />
+        <Draw :editor="editor" :shape="shape" />
+        <TaskList :editor="editor" :shape="shape" />
+        <Table :editor="editor" :shape="shape"></Table>
+        <SmartPre :editor="editor" :shape="shape"></SmartPre>
+        <Kbd :editor="editor" :shape="shape"></Kbd>
       </ButtonBar>
     </floating-menu>
   </div>
