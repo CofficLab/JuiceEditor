@@ -1,5 +1,5 @@
 <template>
-  <Button v-if="!editor.isActive(HEADING)" @click="focusedNode.toggleBold().run()" tip="加粗" size="md">
+  <Button v-if="!editor.isActive(HEADING)" @click="focusedNode.toggleBold().run()" tip="加粗" :size="size" :shape="shape">
     <IconBold v-if="iconOnly"></IconBold>
 
     <span v-if="!iconOnly">加粗</span>
@@ -21,6 +21,14 @@ const props = defineProps({
   iconOnly: {
     type: Boolean,
     default: true
+  },
+  size: {
+    type: String,
+    default: 'sm'
+  },
+  shape: {
+    type: String,
+    default: 'square'
   }
 })
 

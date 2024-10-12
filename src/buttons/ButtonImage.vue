@@ -1,5 +1,6 @@
 <template>
-  <Button tip="添加图片" size="md" @click="editor.commands.insertImage()" :class="{ 'is-active': editor.isActive(BANNER) }">
+  <Button tip="添加图片" :size="size" @click="editor.commands.insertImage()"
+    :class="{ 'is-active': editor.isActive(BANNER) }">
     <IconPhoto />
     <input class="fixed" ref="fileInput" multiple="false" accept="image/*" type="file" style="display: none"
       @change="onFileSelected" />
@@ -17,6 +18,10 @@ const props = defineProps({
   editor: {
     type: Editor,
     required: true
+  },
+  size: {
+    type: String,
+    default: 'sm'
   }
 })
 let fileInput = ref<HTMLInputElement | null>(null)

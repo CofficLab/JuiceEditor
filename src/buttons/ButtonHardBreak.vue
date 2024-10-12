@@ -12,12 +12,16 @@ const props = defineProps({
   editor: {
     type: Editor,
     required: true
+  },
+  size: {
+    type: String,
+    default: 'sm'
   }
 })
 
 const focusedNode = computed(() => props.editor.chain().focus())
 
 function setHardBreak() {
-  focusedNode.value.setHardBreak().run()
+  // focusedNode.value.setHardBreak().run()
 }
 </script>

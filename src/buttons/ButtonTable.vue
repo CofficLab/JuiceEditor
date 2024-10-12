@@ -1,10 +1,5 @@
 <template>
-  <Button
-    tip="添加表格"
-    size="md"
-    v-if="enable"
-    @click="editor.chain().focus().insertTable().run()"
-  >
+  <Button tip="添加表格" :size="size" v-if="enable" @click="editor.chain().focus().insertTable().run()">
     <IconTableCell></IconTableCell>
   </Button>
 </template>
@@ -22,6 +17,10 @@ defineProps({
   enable: {
     type: Boolean,
     default: true
+  },
+  size: {
+    type: String,
+    default: 'sm'
   }
 })
 </script>

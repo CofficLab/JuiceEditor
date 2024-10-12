@@ -14,17 +14,22 @@ defineProps({
     editor: {
         type: Editor,
         required: true
+    },
+    shape: {
+        type: String,
+        default: 'rectangle'
     }
 })
 </script>
 
 <template>
-    <Paragraph :editor="editor"></Paragraph>
-    <Bold :editor="editor"></Bold>
-    <Italic :editor="editor"></Italic>
-    <StrikeVue :editor="editor"></StrikeVue>
-    <BulletList :editor="editor"></BulletList>
-    <Code :editor="editor"></Code>
-    <Link :editor="editor" />
-    <Kbd :editor="editor"></Kbd>
+    <Paragraph :editor="editor" :shape="shape"></Paragraph>
+    <Bold :editor="editor" :shape="shape"></Bold>
+    <Italic :editor="editor" :shape="shape"></Italic>
+    <StrikeVue :editor="editor" :shape="shape"></StrikeVue>
+    <BulletList :editor="editor" :shape="shape"></BulletList>
+    <Code :editor="editor" :shape="shape"></Code>
+    <Link :editor="editor" :shape="shape">
+    </Link>
+    <Kbd :editor="editor" :shape="shape"></Kbd>
 </template>

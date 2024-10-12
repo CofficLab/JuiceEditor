@@ -1,7 +1,4 @@
-import { VueNodeViewRenderer } from "@tiptap/vue-3";
-import SmartParagraphVue from "./SmartParagraph.vue";
 import Paragraph from "@tiptap/extension-paragraph";
-import { v4 as uuidv4 } from 'uuid';
 
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
@@ -66,9 +63,6 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
         return {
             class: {
                 default: "p-class"
-            },
-            type: {
-                default: "paragraph"
             }
         }
     },

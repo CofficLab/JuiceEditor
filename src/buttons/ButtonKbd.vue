@@ -1,5 +1,5 @@
 <template>
-  <Button tip="Kbd" size="md" @click="editor.chain().focus().toggleKbd().run()"
+  <Button tip="Kbd" :size="size" :shape="shape" @click="editor.chain().focus().toggleKbd().run()"
     :class="{ 'is-active': editor.isActive(KBD) }">
     <IconKeyboard />
   </Button>
@@ -15,6 +15,14 @@ defineProps({
   editor: {
     type: Editor,
     required: true
+  },
+  size: {
+    type: String,
+    default: 'sm'
+  },
+  shape: {
+    type: String,
+    default: 'square'
   }
 })
 </script>

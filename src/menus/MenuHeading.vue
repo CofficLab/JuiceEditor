@@ -7,14 +7,18 @@ defineProps({
     editor: {
         type: Editor,
         required: true
+    },
+    shape: {
+        type: String,
+        default: 'rectangle'
     }
 })
 </script>
 
 <template>
-    <Heading :editor="editor" :level="2" />
-    <Heading :editor="editor" :level="3" />
-    <Heading :editor="editor" :level="4" />
-    <Heading :editor="editor" :level="5" />
-    <Heading :editor="editor" :level="6" />
+    <Heading :editor="editor" :level="2" :shape="shape"></Heading>
+    <Heading :editor="editor" :level="3" :shape="shape"></Heading>
+    <Heading :editor="editor" :level="4" :shape="shape"></Heading>
+    <Heading :editor="editor" :level="5" :shape="shape"></Heading>
+    <Heading :editor="editor" :level="6" :shape="shape"></Heading>
 </template>

@@ -34,13 +34,6 @@ export const Padding = Extension.create({
                                 return
                             }
 
-                            if (node.type.name == PARAGRAPH && node.attrs.type != 'paragraph') {
-                                if (verbose) {
-                                    console.log(title, "no padding for", node.type.name, "with type", node.attrs.type)
-                                }
-                                return
-                            }
-
                             if (verbose) {
                                 console.log(title, "padding for", node.type.name)
                             }

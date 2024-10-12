@@ -1,5 +1,5 @@
 <template>
-  <button @click="focusedNode.toggleBlockquote().run()" class="tooltip" data-tip="引用" size="md"
+  <button @click="focusedNode.toggleBlockquote().run()" class="tooltip" data-tip="引用" :size="size"
     :class="{ 'is-active': editor.isActive(BLOCKQUOTE) }">
     <img :src="icon" />
   </button>
@@ -15,6 +15,10 @@ const props = defineProps({
   editor: {
     type: Editor,
     required: true
+  },
+  size: {
+    type: String,
+    default: 'sm'
   }
 })
 

@@ -1,5 +1,5 @@
 <template>
-  <Button @click="focusedNode.toggleBulletList().run()" tip="无序列表" size="md"
+  <Button @click="focusedNode.toggleBulletList().run()" tip="无序列表" :size="size" :shape="shape"
     :class="{ 'is-active': editor.isActive(BULLET_LIST) }">
     <IconBulletList v-if="iconOnly"></IconBulletList>
     <span v-if="!iconOnly">无序列表</span>
@@ -21,6 +21,14 @@ const props = defineProps({
   iconOnly: {
     type: Boolean,
     default: true
+  },
+  size: {
+    type: String,
+    default: 'sm'
+  },
+  shape: {
+    type: String,
+    default: 'square'
   }
 })
 

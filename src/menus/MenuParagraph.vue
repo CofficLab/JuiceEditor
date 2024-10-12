@@ -17,11 +17,9 @@ let colorClass = computed(() => {
 </script>
 
 <template>
-    <div class="dropdown dropdown-bottom w-full">
-        <Button tabindex="0" role="button" tip="样式">
-            <div class="w-6 h-6 flex justify-center items-center">
-                <div class="w-5 h-5 text-white bg-blue-500 rounded-full p-1"></div>
-            </div>
+    <div class="dropdown dropdown-bottom h-8 w-8">
+        <Button tabindex="0" role="button" tip="样式" size="md">
+            <IconInfo color="primary"></IconInfo>
         </Button>
         <div tabindex="0" class="dropdown-content bg-slate-100 rounded-box z-50 p-2 shadow w-48">
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
