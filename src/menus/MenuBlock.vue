@@ -60,11 +60,6 @@ watch(
 	{ immediate: true }
 )
 
-function newLine() {
-	console.log('newLine')
-	TiptapHelper.newLineOf(props.editor, getCurrentNode(), editor.value.state.selection.$anchor.pos)
-}
-
 function getCurrentNode() {
 	let selection = editor.value.state.selection
 	var nodePos: NodePos = editor.value.$pos(selection.$anchor.pos)
@@ -137,6 +132,10 @@ function updateMenuPosition() {
 function shouldShowParagraphMenu() {
 	return props.editor.isActive(PARAGRAPH)
 }
+
+function shouldShowNewLineMenu() {
+	return !props.editor.isActive(HEADING)
+}
 </script>
 
 <template>
@@ -146,7 +145,7 @@ function shouldShowParagraphMenu() {
 				<IconDelete size="md" color="secondary"></IconDelete>
 			</Button>
 
-			<Button tip="增加一行" @click="newLine">
+			<Button tip="增加一行" @click="editor.commands.addBlankLineAfterSelection()" v-if="shouldShowNewLineMenu()">
 				<IconNewLine size="md" color="primary"></IconNewLine>
 			</Button>
 

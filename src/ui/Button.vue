@@ -1,6 +1,7 @@
 <template>
   <div class="inline my-auto prose dark:prose-invert p-0 m-0" :class="[sizeClass]">
-    <div class="absolute px-2 mb-1 text-xs text-white bg-gray-700 rounded group-hover:block bottom-full"
+    <div
+      class="absolute px-2 mb-1 text-xs text-white bg-gray-700 rounded group-hover:block bottom-full whitespace-nowrap"
       v-text="props.tip" v-if="showTip && props.tip"></div>
 
     <button @mouseover="showTip = true" @mouseleave="showTip = false" :class="{
