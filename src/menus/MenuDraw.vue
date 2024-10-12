@@ -14,6 +14,10 @@ let props = defineProps({
     editor: {
         type: Editor,
         required: true
+    },
+    shape: {
+        type: String,
+        default: 'rectangle'
     }
 })
 
@@ -194,10 +198,10 @@ async function onFileSelected() {
 
 <template>
     <Opening :onReady="open" :visible="isOpening" class="opening" ref="opening"></Opening>
-    <Button @click="downloadImage" tip="下载图片">
+    <Button @click="downloadImage" tip="下载图片" :shape="shape">
         <IconDownload></IconDownload>
     </Button>
-    <Button @click="openLoading" tip="打开画图界面">
+    <Button @click="openLoading" tip="打开画图界面" :shape="shape">
         <IconEdit></IconEdit>
     </Button>
     <input ref="fileInput" multiple="false" accept="image/*" type="file" style="display: none"

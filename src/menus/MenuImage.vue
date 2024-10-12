@@ -128,7 +128,7 @@ async function onFileSelected() {
     <Button @click="downloadImage" tip="下载" :shape="shape">
         <IconDownload></IconDownload>
     </Button>
-    <div class="dropdown dropdown-bottom inline">
+    <div class="dropdown dropdown-bottom inline w-8 h-8">
         <Button tabindex="0" role="button" tip="样式" :shape="shape">
             <IconInfo></IconInfo>
         </Button>

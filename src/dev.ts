@@ -7,10 +7,45 @@ import pDoc from '../dev/p';
 import tocDoc from '../dev/toc';
 import miniDoc from '../dev/mini';
 import bulletListDoc from '../dev/bulletList';
-
+import aDoc from '../dev/a';
 export default function dev() {
     const div = document.createElement('div');
-    div.style.cssText = 'position: fixed; top: 0; left: 0; right: 0; margin: 0 auto; padding: 0; display: flex; justify-content: center; z-index: 500; ';
+    div.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        padding: 5px;
+        display: flex;
+        justify-content: center;
+        z-index: 500;
+        background-color: rgba(255, 255, 255, 0.8);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    `;
+
+    // Add dark mode styles
+    const darkModeStyles = `
+        @media (prefers-color-scheme: dark) {
+            #dev-toolbar {
+                background-color: rgba(50, 50, 50, 0.8) !important;
+            }
+            #dev-toolbar button {
+                background-color: #444;
+                color: #fff;
+                border: 1px solid #666;
+            }
+            #dev-toolbar button:hover {
+                background-color: #555;
+            }
+        }
+    `;
+
+    const styleElement = document.createElement('style');
+    styleElement.textContent = darkModeStyles;
+    document.head.appendChild(styleElement);
+
+    div.id = 'dev-toolbar';
 
     const buttons = [
         { text: '小型', onclick: () => window.api.node.setHTML(miniDoc) },
@@ -20,6 +55,7 @@ export default function dev() {
         { text: '图片', onclick: () => window.api.node.setHTML(imageDoc) },
         { text: '画图', onclick: () => window.api.node.setHTML(drawDoc) },
         { text: '段落', onclick: () => window.api.node.setHTML(pDoc) },
+        { text: '链接', onclick: () => window.api.node.setHTML(aDoc) },
         { text: '目录', onclick: () => window.api.node.setHTML(tocDoc) },
         { text: '列表', onclick: () => window.api.node.setHTML(bulletListDoc) },
         { text: 'TOC', onclick: () => window.api.node.toggleToc() },

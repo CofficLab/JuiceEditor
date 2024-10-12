@@ -19,7 +19,7 @@ const props = defineProps({
   },
   backgroundColor: {
     type: String,
-    default: 'bg-slate-100/95'
+    default: 'bg-slate-100/95 dark:bg-zinc-900/95'
   },
   shape: {
     type: String,
