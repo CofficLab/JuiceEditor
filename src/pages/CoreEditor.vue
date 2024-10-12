@@ -64,8 +64,8 @@ const isDebug = false
 				'2xl:py-8': true,
 				'dark:bg-zinc-900/30': true,
 				'shadow-inner': true,
-				rounded: true
-			}" class="container flex flex-col min-h-screen px-4 pb-48 prose-sm prose dark:prose-invert" />
+				'rounded px-0': true
+			}" class="container flex flex-col min-h-screen pb-48 prose-sm prose dark:prose-invert" />
 		</div>
 	</div>
 </template>
