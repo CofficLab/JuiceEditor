@@ -36,6 +36,7 @@ export const TASK_ITEM = 'taskItem'
 export const TEXT = 'text'
 export const TEXT_BOX = 'textBox'
 export const TOC = 'toc'
+export const UL = 'ul'
 export const VIDEO = 'video'
 
 export const LIST_TYPE = [BULLET_LIST, ORDERED_LIST, TABLE, TASKLIST]

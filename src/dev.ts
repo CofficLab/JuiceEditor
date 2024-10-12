@@ -6,6 +6,8 @@ import docs from '../dev/docs';
 import pDoc from '../dev/p';
 import tocDoc from '../dev/toc';
 import miniDoc from '../dev/mini';
+import bulletListDoc from '../dev/bulletList';
+
 export default function dev() {
     const div = document.createElement('div');
     div.style.cssText = 'position: fixed; top: 0; left: 0; right: 0; margin: 0 auto; padding: 0; display: flex; justify-content: center; z-index: 500; ';
@@ -19,6 +21,7 @@ export default function dev() {
         { text: '画图', onclick: () => window.api.node.setHTML(drawDoc) },
         { text: '段落', onclick: () => window.api.node.setHTML(pDoc) },
         { text: '目录', onclick: () => window.api.node.setHTML(tocDoc) },
+        { text: '列表', onclick: () => window.api.node.setHTML(bulletListDoc) },
         { text: 'TOC', onclick: () => window.api.node.toggleToc() },
         { text: '只读/编辑', onclick: () => window.api.node.toggleReadOnly() },
     ];

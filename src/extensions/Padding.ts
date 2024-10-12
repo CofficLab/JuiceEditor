@@ -1,9 +1,8 @@
 import { Extension } from '@tiptap/core';
 import { Plugin, PluginKey } from 'prosemirror-state';
 import { Decoration, DecorationSet } from 'prosemirror-view';
-import { IMAGE, PRE, ROOT, PARAGRAPH } from '../config/nodes';
+import { ROOT, PARAGRAPH, LIST_ITEM, UL, BULLET_LIST, HEADING } from '../config/nodes';
 
-const noPaddingTypes = [PRE, IMAGE, ROOT];
 const title = '👔 Padding'
 
 export const Padding = Extension.create({
@@ -11,7 +10,13 @@ export const Padding = Extension.create({
 
     addOptions() {
         return {
-            noPaddingTypes: noPaddingTypes,
+            defaultPadding: 'px-8',
+            paddingConfig: {
+                [ROOT]: '',
+                [UL]: 'pl-12',
+                [BULLET_LIST]: 'pl-12',
+                // 可以在这里添加更多节点类型的配置
+            },
         }
     },
 
@@ -20,29 +25,25 @@ export const Padding = Extension.create({
             new Plugin({
                 key: new PluginKey('padding'),
                 props: {
-                    decorations: ({ doc, selection }) => {
+                    decorations: ({ doc }) => {
                         const decorations: Decoration[] = []
+                        let parentHasPadding = false
 
                         doc.descendants((node, pos) => {
-                            let verbose = false
+                            let paddingClass = this.options.paddingConfig[node.type.name] || this.options.defaultPadding
 
-                            if (node.isInline || noPaddingTypes.includes(node.type.name) || doc.resolve(pos).depth > 1) {
-                                if (verbose) {
-                                    console.log(title, "no padding for", node.type.name)
-                                }
-
-                                return
+                            if (paddingClass.trim() !== '' && !parentHasPadding) {
+                                decorations.push(
+                                    Decoration.node(pos, pos + node.nodeSize, {
+                                        class: paddingClass,
+                                    }),
+                                )
+                                parentHasPadding = true
+                            } else if (paddingClass.trim() === '') {
+                                parentHasPadding = false
                             }
 
-                            if (verbose) {
-                                console.log(title, "padding for", node.type.name)
-                            }
-
-                            decorations.push(
-                                Decoration.node(pos, pos + node.nodeSize, {
-                                    class: 'px-8',
-                                }),
-                            )
+                            return parentHasPadding
                         })
 
                         return DecorationSet.create(doc, decorations)

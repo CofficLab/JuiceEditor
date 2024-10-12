@@ -17,7 +17,7 @@
           <IconDelete></IconDelete>
         </Button>
 
-        <Button @click="TiptapHelper.newLineAfterSelection(props.editor, props.node, props.getPos())">
+        <Button @click="editor.commands.addBlankLineAfterSelection()">
           <IconNewLine></IconNewLine>
         </Button>
       </ButtonBar>
@@ -47,7 +47,6 @@ import { v4 as uuidv4 } from 'uuid'
 import IconDelete from './BaseIcons/Delete.vue'
 import Button from '../ui/Button.vue'
 import ButtonBar from '../ui/ButtonBar.vue'
-import TiptapHelper from '../helper/TiptapHelper'
 import { Editor } from '@tiptap/core'
 import { Node as ProseMirrorNode } from '@tiptap/pm/model'
 import IconNewLine from '../components/../ui/icons/IconNewLine.vue'
