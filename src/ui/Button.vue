@@ -11,6 +11,7 @@
       'text-md': props.size === 'md',
       'text-lg': props.size === 'lg',
       'text-xl': props.size === 'xl',
+      'text-2xl': props.size === '2xl',
       'dark:hover:bg-slate-500 hover:bg-blue-100': true,
       'rounded-full': props.shape === 'circle',
       'rounded-none': props.shape === 'square',
@@ -49,6 +50,8 @@ const sizeClass = computed(() => {
     case 'md': return 'h-12 w-12'
     case 'lg': return 'h-14 w-14'
     case 'xl': return 'h-16 w-16'
+    case '2xl': return 'h-20 w-20'
+
     default: return 'h-10 w-10'
   }
 })

@@ -12,23 +12,20 @@
       </template>
 
       <template v-slot:operators>
-        <Button tip="在浏览器中打开" contenteditable="false">
+        <Button tip="在浏览器中打开" contenteditable="false" shape="rectangle" size="xs">
           <a :href="props.node.attrs.href" target="_blank" class="no-underline">
             <Open></Open>
           </a>
         </Button>
 
-        <Button tip="在此输入链接">
-          <input type="text" v-model="props.node.attrs.href" placeholder="在此输入链接"
-            class="w-48 h-full rounded-none input focus:outline-none input-xs" />
-        </Button>
 
-        <Button tip="在此输入文字">
-          <input type="text" v-model="props.node.attrs.text" placeholder="在此输入文字"
-            class="w-48 h-full rounded-none focus:outline-none input-xs input" />
-        </Button>
+        <input type="text" v-model="props.node.attrs.href" placeholder="在此输入链接"
+          class="w-48 rounded-none input focus:outline-none focus:ring-1 input-sm" />
 
-        <Button tip="删除链接，保留文字" @click="notLink" contenteditable="false">
+        <input type="text" v-model="props.node.attrs.text" placeholder="在此输入文字"
+          class="w-48 rounded-none input focus:outline-none focus:ring-1 input-sm" />
+
+        <Button tip="删除链接，保留文字" @click="notLink" contenteditable="false" shape="rectangle">
           <NoLink></NoLink>
         </Button>
       </template>
