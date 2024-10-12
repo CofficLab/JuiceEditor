@@ -8,11 +8,16 @@ import { Editor } from '@tiptap/core'
 import { IMAGE } from '../config/nodes'
 import EventProvider from '../provider/EventProvider'
 import ImageHelper from '../helper/ImageHelper'
+import IconInfo from '../ui/icons/IconInfo.vue';
 
 let props = defineProps({
     editor: {
         type: Editor,
         required: true
+    },
+    shape: {
+        type: String,
+        default: 'rectangle'
     }
 })
 
@@ -117,17 +122,15 @@ async function onFileSelected() {
 </script>
 
 <template>
-    <Button @click="changeImage" tip="更换图片">
+    <Button @click="changeImage" tip="更换图片" :shape="shape">
         <IconEdit></IconEdit>
     </Button>
-    <Button @click="downloadImage" data-tip="下载">
+    <Button @click="downloadImage" tip="下载" :shape="shape">
         <IconDownload></IconDownload>
     </Button>
     <div class="dropdown dropdown-bottom inline">
-        <Button tabindex="0" role="button" tip="样式">
-            <div class="w-6 h-6 flex justify-center items-center">
-                <div class="w-5 h-5 text-white bg-blue-500 rounded-full p-1"></div>
-            </div>
+        <Button tabindex="0" role="button" tip="样式" :shape="shape">
+            <IconInfo></IconInfo>
         </Button>
         <div tabindex="0" class="dropdown-content bg-slate-100 rounded-box z-50 p-2 shadow w-48">
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
@@ -173,7 +176,7 @@ async function onFileSelected() {
             </div>
         </div>
     </div>
-    <Button @click="reset" tip="恢复原始形状">
+    <Button @click="reset" tip="恢复原始形状" :shape="shape">
         <Reset></Reset>
     </Button>
     <input ref="fileInput" multiple="false" accept="image/*" type="file" style="display: none"

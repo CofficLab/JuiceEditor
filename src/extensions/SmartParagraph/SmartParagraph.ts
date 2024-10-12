@@ -76,7 +76,7 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
             },
             setBackgroundColor: (color: string) => ({ commands }) => {
                 return commands.updateAttributes(this.name, {
-                    class: this.options.colorClass[color]
+                    class: this.options.colorClass[color] + ' no-padding'
                 })
             },
         };

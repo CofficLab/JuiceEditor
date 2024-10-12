@@ -1,31 +1,30 @@
 ul[data-type='taskList'] {
-  list-style: none;
-  padding: 0;
+    list-style: none;
 
-  p {
-    margin: 0;
-  }
-
-  li {
-    display: flex;
-
-    > label {
-      flex: 0 0 auto;
-      margin-right: 0.5rem;
-      user-select: none;
+    p {
+        margin: 0;
     }
 
-    > div {
-      flex: 1 1 auto;
-    }
+    li {
+        display: flex;
 
-    ul li,
-    ol li {
-      display: list-item;
-    }
+        > label {
+            flex: 0 0 auto;
+            margin-right: 0.5rem;
+            user-select: none;
+        }
 
-    ul[data-type='taskList'] > li {
-      display: flex;
+        > div {
+            flex: 1 1 auto;
+        }
+
+        ul li,
+        ol li {
+            display: list-item;
+        }
+
+        ul[data-type='taskList'] > li {
+            display: flex;
+        }
     }
-  }
 }
