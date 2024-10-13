@@ -3,11 +3,11 @@ import { computed, ref, watch } from 'vue'
 import { Editor, NodePos } from '@tiptap/core'
 import Button from '../ui/Button.vue'
 import IconDelete from '../ui/icons/Delete.vue'
-import IconNewLine from '../ui/icons/IconNewLine.vue'
 import TiptapHelper from '../helper/TiptapHelper'
 import { HEADING, PARAGRAPH, TOC } from '../config/nodes'
 import MenuParagraph from './MenuParagraph.vue'
 import ButtonList from '../ui/ButtonList.vue'
+import IconPlus from '../ui/icons/IconPlus.vue'
 const props = defineProps({
 	editor: {
 		type: Editor,
@@ -146,7 +146,7 @@ function shouldShowNewLineMenu() {
 			</Button>
 
 			<Button tip="增加一行" @click="editor.commands.addBlankLineAfterSelection()" v-if="shouldShowNewLineMenu()">
-				<IconNewLine size="md" color="primary"></IconNewLine>
+				<IconPlus size="md" color="primary"></IconPlus>
 			</Button>
 
 			<MenuParagraph :editor="editor" v-if="shouldShowParagraphMenu()"></MenuParagraph>

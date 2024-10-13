@@ -18,7 +18,7 @@
         </Button>
 
         <Button @click="editor.commands.addBlankLineAfterSelection()">
-          <IconNewLine></IconNewLine>
+          <IconPlus></IconPlus>
         </Button>
       </ButtonBar>
     </div>
@@ -49,7 +49,7 @@ import Button from '../ui/Button.vue'
 import ButtonBar from '../ui/ButtonBar.vue'
 import { Editor } from '@tiptap/core'
 import { Node as ProseMirrorNode } from '@tiptap/pm/model'
-import IconNewLine from '../components/../ui/icons/IconNewLine.vue'
+import IconPlus from '../ui/icons/IconPlus.vue'
 
 const props = defineProps({
   inline: {
