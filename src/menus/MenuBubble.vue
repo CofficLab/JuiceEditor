@@ -4,12 +4,13 @@ import { EditorView } from '@tiptap/pm/view'
 import { Editor, BubbleMenu } from '@tiptap/vue-3'
 import { Editor as TiptapEditor } from '@tiptap/core'
 import ButtonBar from '../ui/ButtonBar.vue'
-import { A, DRAW, HEADING, IMAGE, PARAGRAPH, TABLE, TABLE_CELL, TABLE_HEADER, TABLE_ROW, TEXT, TOC, BRANCH, BRANCH_CONTENT } from '../config/nodes'
+import { A, DRAW, HEADING, IMAGE, PARAGRAPH, TABLE, TABLE_CELL, TABLE_HEADER, TABLE_ROW, TEXT, TOC, BRANCH, BRANCH_CONTENT, LINK } from '../config/nodes'
 import MenuImage from './MenuImage.vue'
 import MenuTable from './MenuTable.vue'
 import MenuHeading from './MenuHeading.vue'
 import MenuFormat from './MenuFormat.vue'
 import MenuDraw from './MenuDraw.vue'
+import MenuLink from './MenuLink.vue'
 import { computed } from 'vue'
 
 let emoji = "🫧 BubbleMenus"
@@ -32,8 +33,8 @@ const shouldShow = function (props: {
 	let verbose = false
 	const { selection } = props.state
 	const { empty } = selection
-	const shouldShowNodes = [IMAGE, TABLE]
-	const excludes = [TOC, DRAW, A, TABLE_CELL, TABLE_ROW, TABLE_HEADER, BRANCH, BRANCH_CONTENT]
+	const shouldShowNodes = [IMAGE, TABLE, LINK]
+	const excludes = [TOC, DRAW, TABLE_CELL, TABLE_ROW, TABLE_HEADER, BRANCH, BRANCH_CONTENT]
 
 	// 如果是只读模式，不显示
 	if (props.editor.isEditable == false) {
@@ -81,6 +82,10 @@ const shouldShow = function (props: {
 }
 
 const shouldShowHeadingMenu = computed(() => {
+	if (props.editor.isActive(LINK)) {
+		return false
+	}
+
 	const nodesShow = [HEADING, PARAGRAPH, TEXT]
 
 	return nodesShow.some(node => {
@@ -89,6 +94,10 @@ const shouldShowHeadingMenu = computed(() => {
 })
 
 const shouldShowFormatMenu = computed(() => {
+	if (props.editor.isActive(LINK)) {
+		return false
+	}
+
 	const nodesShow = [HEADING, PARAGRAPH, TEXT]
 
 	return nodesShow.some(node => {
@@ -106,6 +115,10 @@ const shouldShowImageMenu = computed(() => {
 
 const shouldShowTableMenu = computed(() => {
 	return props.editor.isActive(TABLE)
+})
+
+const shouldShowLinkMenu = computed(() => {
+	return props.editor.isActive(LINK)
 })
 </script>
 
@@ -133,6 +146,10 @@ const shouldShowTableMenu = computed(() => {
 
 			<ButtonBar v-if="shouldShowTableMenu">
 				<MenuTable :editor="editor"></MenuTable>
+			</ButtonBar>
+
+			<ButtonBar v-if="shouldShowLinkMenu">
+				<MenuLink :editor="editor"></MenuLink>
 			</ButtonBar>
 		</bubble-menu>
 	</div>

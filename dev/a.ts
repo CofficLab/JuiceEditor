@@ -7,7 +7,7 @@ const aDoc = `
     <p>“滕王阁序”是我国著名的名句3。</p>
     <p>“滕王阁序”是我国著名的名句4。</p>
     <p><a href="https://www.baidu.com">百度</a></p>
-    <p><a href="https://www.baidu.com" target="_blank">百度</a></p>
-    <p><a href="https://www.baidu.com" target="_blank" rel="noopener noreferrer">百度</a></p>
+    <p><a href="https://www.baidu.com" target="_blank">百度</a>都是广告</p>
+    <p><a href="https://www.baidu.com" target="_blank" rel="noopener noreferrer">百度</a>都是广告</p>
   `
 export default aDoc

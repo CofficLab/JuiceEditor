@@ -196,7 +196,7 @@ function makeExtensions(props: makeExtensionsProps) {
         SmartLink.configure({
             protocols: ['ftp', 'mailto'],
             autolink: true,
-            openOnClick: true,
+            openOnClick: false,
             linkOnPaste: true,
             HTMLAttributes: {
                 class: 'link link-primary link-hover mx-1',

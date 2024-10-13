@@ -44,30 +44,23 @@ export const Padding = Extension.create({
                         const decorations: Decoration[] = []
 
                         doc.descendants((node, pos) => {
-                            console.log(`Processing node: ${node.type.name}, attrs:`, node.attrs)
-
                             if (this.options.excludeNodes.includes(node.type.name)) {
-                                console.log(`Excluded node: ${node.type.name}`)
                                 return
                             }
 
                             const hasExcludeClass = node.attrs.class && node.attrs.class.includes(this.options.excludeClass)
 
                             if (hasExcludeClass) {
-                                console.log(`Node has exclude class: ${node.type.name}`)
                                 return
                             }
 
                             // 检查父节点是否在排除列表中
                             const parent = doc.resolve(pos).parent
                             if (this.options.excludeIfIn.includes(parent.type.name)) {
-                                console.log(`Parent node ${parent.type.name} is in exclude list, skipping padding for ${node.type.name}`)
                                 return
                             }
 
                             const paddingClass = this.options.paddingConfig[node.type.name] || this.options.defaultPadding
-
-                            console.log(`Node: ${node.type.name}, Padding class: ${paddingClass}`)
 
                             if (paddingClass.trim() !== '') {
                                 decorations.push(
@@ -75,11 +68,6 @@ export const Padding = Extension.create({
                                         class: paddingClass,
                                     }),
                                 )
-
-                                const headingLevel = node.type.name === HEADING ? node.attrs.level : null;
-                                console.log(`Padding applied to node: ${node.type.name}${headingLevel ? ` (level ${headingLevel})` : ''}, class: ${paddingClass}`)
-                            } else {
-                                console.log(`Padding not applied to node: ${node.type.name}, paddingClass is empty`)
                             }
                         })
 
