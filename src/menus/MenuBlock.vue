@@ -113,7 +113,7 @@ function updateMenuPosition() {
 	let { offsetLeft } = editorDom as HTMLElement
 
 	// 减去的是menu自身的宽度
-	marginLeft.value = offsetLeft - 96
+	marginLeft.value = offsetLeft - 56
 
 	const { offsetTop } = TiptapHelper.getFocusedNodePosition(editor.value)
 
