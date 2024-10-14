@@ -31,6 +31,17 @@ function openLink() {
 watch(href, (newVal) => {
     props.editor.commands.setLink({ href: newVal })
 })
+
+watch(text, (newVal) => {
+    props.editor
+        .chain()
+        .extendMarkRange('link')
+        .insertContent(newVal, {
+            updateSelection: false
+        })
+        .setLink({ href: href.value })
+        .run()
+})
 </script>
 
 <template>

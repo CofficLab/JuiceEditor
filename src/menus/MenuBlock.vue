@@ -2,7 +2,7 @@
 import { computed, ref, watch } from 'vue'
 import { Editor, NodePos } from '@tiptap/core'
 import Button from '../ui/Button.vue'
-import IconDelete from '../ui/icons/Delete.vue'
+import IconDelete from '../ui/icons/IconDelete.vue'
 import TiptapHelper from '../helper/TiptapHelper'
 import { HEADING, PARAGRAPH, TOC } from '../config/nodes'
 import MenuParagraph from './MenuParagraph.vue'
@@ -142,7 +142,7 @@ function shouldShowNewLineMenu() {
 	<div v-if="visible" :style="`transform: translate(${marginLeft}px, ${scrollTop}px);`" class="w-22">
 		<ButtonList>
 			<Button tip="删除" @click="deleteNode">
-				<IconDelete size="md" color="secondary"></IconDelete>
+				<IconDelete size="md" color="primary"></IconDelete>
 			</Button>
 
 			<Button tip="增加一行" @click="editor.commands.addBlankLineAfterSelection()" v-if="shouldShowNewLineMenu()">

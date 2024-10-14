@@ -19,3 +19,7 @@
 - [TailwindCSS](https://tailwindcss.com/)
 - [Vue3](https://v3.vuejs.org/)
 - [Tiptap](https://tiptap.dev/)
+
+## 部分资源来自
+
+- [Heroicons](https://heroicons.com)
