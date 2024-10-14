@@ -1,5 +1,5 @@
 ---
-name: Deploy to Other Projects
+name: 👷 Deploy to Other Projects
 
 on:
     workflow_run:

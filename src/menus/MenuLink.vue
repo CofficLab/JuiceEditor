@@ -29,7 +29,7 @@ function openLink() {
 }
 
 watch(href, (newVal) => {
-    props.editor.commands.setLink({ href: newVal })
+    props.editor.chain().extendMarkRange('link').setLink({ href: newVal, target: '_blank' }).run()
 })
 
 watch(text, (newVal) => {
