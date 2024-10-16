@@ -5,6 +5,7 @@ declare module '@tiptap/core' {
         SmartParagraph: {
             setParagraph: () => ReturnType
             setBackgroundColor: (color: string) => ReturnType
+            translate: (language: string) => ReturnType
         }
     }
 }
@@ -55,7 +56,16 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
                 crimson: 'bg-gradient-to-r from-[#DC143C]/50 to-[#DC143C]/30 dark:from-[#DC143C]/30 dark:to-[#DC143C]/10',
                 gold: 'bg-gradient-to-r from-[#FFD700]/50 to-[#FFD700]/30 dark:from-[#FFD700]/30 dark:to-[#FFD700]/10',
                 none: 'ring-1 scale-90',
-            }
+            },
+            languages: [
+                '英语',
+                '日语',
+                '韩语',
+                '法语',
+                '德语',
+                '西班牙语',
+                '意大利语',
+            ]
         }
     },
 
@@ -78,6 +88,13 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
                 return commands.updateAttributes(this.name, {
                     class: this.options.colorClass[color]
                 })
+            },
+            translate: (language: string) => ({ commands, editor }) => {
+                const currentContent = editor.getHTML();
+                // 这里应该有一个翻译逻辑，将 currentContent 翻译成目标语言
+                const translatedContent = `Translated content to ${language}: ${currentContent}`;
+
+                return commands.setContent(translatedContent, false);
             },
         };
     },
