@@ -1,0 +1,159 @@
+<script setup lang="ts">
+import { useMessageStore } from '../store/MessageStore'
+import { useAppStore } from '../store/AppStore';
+import Message from './Message.vue';
+import { useModeStore } from '../store/ModeStore';
+import { watch } from 'vue';
+import ErrorPage from './ErrorPage.vue';
+import { useRequestStore } from '../store/RequestStore';
+import ListenerProvider from '../provider/ListenerProvider';
+import ApiProvider from '../provider/ApiProvider';
+import { useFeatureStore } from '../store/FeatureStore';
+import PluginProvider from '../provider/PluginProvider';
+import Loading from '../ui/Loading.vue'
+import TiptapAgent from '../helper/TiptapHelper'
+import EditorData from '../model/EditorData'
+import { useConfigStore } from '../store/ConfigStore';
+import { AppProps } from '../model/AppProps'
+import { Editor } from '@tiptap/vue-3';
+import { ref } from 'vue';
+import App from './App.vue'
+
+const props = defineProps(AppProps)
+
+const title = "💻 App"
+const app = useAppStore()
+const config = useConfigStore()
+const messageStore = useMessageStore()
+const modeStore = useModeStore()
+const feature = useFeatureStore()
+const requestStore = useRequestStore()
+var editor = createEditor()
+const renderKey = ref(0);
+
+// init all providers
+
+let apiProvider: ApiProvider | null = null
+let listenerProvider: ListenerProvider | null = null
+let pluginProvider: PluginProvider | null = null
+
+// collect events from every store
+watch(() => app.ready, () => {
+    if (app.ready) {
+        pluginProvider!.onReady(modeStore.mode)
+    }
+})
+
+// collect message from every store
+watch(() => app.message.uuid, () => messageStore.setMessage(app.message))
+
+// collect error from every store
+watch(() => app.error, () => messageStore.setError(app.error))
+
+watch(() => config.translateApi, onTranslateApiChange)
+
+function handleTranslationError(message: string) {
+    messageStore.setError(new Error(message))
+}
+
+function onTranslateApiChange() {
+    reload()
+}
+
+function createEditor(): Editor {
+    return TiptapAgent.create({
+        extensions: config.getExtensions(),
+        content: EditorData.default().html,
+        editable: !props.readonly,
+        drawEnable: feature.drawEnabled,
+        tableEnable: feature.tableEnabled,
+        onCreate: (doc: EditorData | Error) => {
+            let verbose = false
+
+            if (verbose) {
+                console.log(title, "onCreate", doc)
+            }
+
+            editor.on('translation:error', handleTranslationError)
+
+            modeStore.setMode(props.mode, 'App.onCreate')
+
+            bootProviders(editor)
+            apiProvider!.boot()
+            listenerProvider!.boot(modeStore.mode)
+
+            app.loading = false
+            app.setReady('App.onCreate')
+        },
+        onUpdate: (data: EditorData | Error) => {
+            let verbose = false
+
+            if (verbose) {
+                console.log(title, "OnUpdate", data)
+            }
+
+            if (!feature.editable) {
+                if (verbose) {
+                    console.log('只读模式，不回调更新')
+                }
+
+                return
+            }
+
+            if (data instanceof Error) {
+                app.setError(data)
+            } else {
+                pluginProvider!.onDocUpdated(data)
+            }
+        },
+        onSelectionUpdate(type) {
+
+        }
+    })
+}
+
+function reload() {
+    console.log('reload')
+    app.setNotReady("Reload")
+    app.loading = true
+    editor.destroy()
+    editor = createEditor()
+    renderKey.value += 1;
+    app.loading = false
+}
+
+function bootProviders(editor: Editor) {
+    apiProvider = new ApiProvider({
+        featureProvider: feature,
+        modeProvider: modeStore,
+        requestProvider: requestStore,
+        editor: editor,
+        configProvider: config
+    })
+    listenerProvider = new ListenerProvider(config.listeners)
+    pluginProvider = new PluginProvider(config.plugins)
+}
+
+</script>
+
+<style>
+@import '../styles/app.css';
+@import 'monaco-editor/min/vs/editor/editor.main.css';
+</style>
+
+<template>
+    <div v-if="app.loading"
+        class="fixed inset-0 flex items-center justify-center bg-white dark:bg-black bg-opacity-80 z-50">
+        <div class="transform scale-150">
+            <Loading></Loading>
+        </div>
+    </div>
+
+    <App :editor="editor" :key="renderKey" v-if="app.loading == false" />
+
+    <!-- Message -->
+    <Message :plugins="config.plugins"></Message>
+
+    <!-- Error -->
+    <ErrorPage></ErrorPage>
+</template>

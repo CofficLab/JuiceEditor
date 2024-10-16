@@ -17,7 +17,7 @@ let emoji = "🫧 BubbleMenus"
 
 const props = defineProps({
 	editor: {
-		type: Editor,
+		type: TiptapEditor,
 		required: true
 	}
 })

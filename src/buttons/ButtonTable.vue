@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Editor } from '@tiptap/vue-3'
+import { Editor } from '@tiptap/core'
 import IconTableCell from '../ui/icons/IconTableCell.vue'
 import Button from '../ui/Button.vue'
 

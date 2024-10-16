@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Editor } from '@tiptap/vue-3'
+import { Editor } from '@tiptap/core'
 import { computed } from 'vue'
 import Button from '../ui/Button.vue'
 import IconTask from '../ui/icons/IconTask.vue'

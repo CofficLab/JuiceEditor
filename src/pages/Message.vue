@@ -29,15 +29,19 @@
 import { watch, ref, computed } from 'vue'
 import { useMessageStore } from '../store/MessageStore'
 import PluginProvider from '../provider/PluginProvider'
-import Config from '../config/config'
 import Card from '../ui/Card.vue';
+import Plugin from '../contract/Plugin'
 
-const isDebug = Config.isDebug
+const props = defineProps<{
+  plugins: Plugin[]
+}>()
+
 const title = "🍚 Message"
+const isDebug = process.env.NODE_ENV === 'development'
 const messageStore = useMessageStore()
 const message = computed(() => messageStore.message)
 const displayMessage = ref(message.value.text)
-const pluginProvider = new PluginProvider(Config.plugins)
+const pluginProvider = new PluginProvider(props.plugins)
 
 watch(
   () => messageStore.message,
