@@ -6,14 +6,12 @@ import UrlListener from "../listeners/UrlListener";
 import EventListener from "../listeners/EventListener";
 import SlotListener from "../listeners/SlotListener";
 import Listener from "../contract/Listener";
-import Bold from "@tiptap/extension-bold"
 import CharacterCount from "@tiptap/extension-character-count"
 import Code from "@tiptap/extension-code"
 import Color from "@tiptap/extension-color"
 import History from "@tiptap/extension-history"
 import Italic from "@tiptap/extension-italic"
 import ListItem from "@tiptap/extension-list-item"
-import Placeholder from "@tiptap/extension-placeholder"
 import Strike from "@tiptap/extension-strike"
 import Dropcursor from '@tiptap/extension-dropcursor'
 import Table from "@tiptap/extension-table"
@@ -22,7 +20,6 @@ import TableCell from "@tiptap/extension-table-cell"
 import TaskItem from "@tiptap/extension-task-item"
 import Text from "@tiptap/extension-text"
 import TextAlign from '@tiptap/extension-text-align'
-import { Document } from "@tiptap/extension-document"
 import SmartHeading from "../extensions/SmartHeading/SmartHeading"
 import SmartTaskList from "../extensions/SmartTaskList/SmartTaskList"
 import SmartPre from "../extensions/SmartPre/SmartPre"
@@ -31,7 +28,6 @@ import SmartLink from "../extensions/SmartLink/SmartLink"
 import SmartParagraph from "../extensions/SmartParagraph/SmartParagraph"
 import SmartBulletList from "../extensions/SmartBulletList/SmartBulletList"
 import SmartQuote from "../extensions/SmartQuote/SmartQuote"
-import UUID from "../extensions/UUID/UUID"
 import SmartTableHeader from "../extensions/SmartTableHeader/SmartTableHeader"
 import SmartTableRow from "../extensions/SmartTableRow/SmartTableRow"
 import SmartSelection from "../extensions/SmartSelection"
@@ -44,6 +40,9 @@ import { Toc } from "../extensions/Toc/Toc"
 import ApiApp from "../plugins/APIApp"
 import { NewLine } from "../extensions/NewLine"
 import { Debug } from "../extensions/Debug"
+import SmartDoc from "../extensions/SmartDoc"
+import SmartBold from "../extensions/SmartBold"
+import SmartPlaceholder from "../extensions/SmartPlaceholder"
 import { A, HEADING, IMAGE, PARAGRAPH, PRE, ROOT, TABLE, TASKLIST, TOC } from "./nodes"
 
 interface ConfigType {
@@ -100,24 +99,7 @@ function makeExtensions(props: makeExtensionsProps) {
         }),
         Branch,
         BranchContent,
-        Document.extend({
-            topNode: false,
-            content: ROOT,
-            addAttributes() {
-                return {
-                    currentVersion: {
-                        default: 0,
-                        parseHTML: element => parseInt(element.getAttribute('data-current-version') || '0'),
-                        renderHTML: attributes => ({
-                            'data-current-version': attributes.currentVersion,
-                        }),
-                    },
-                }
-            },
-            renderHTML({ HTMLAttributes }) {
-                return ['div', { 'data-type': 'doc', ...HTMLAttributes }, 0]
-            },
-        }),
+        SmartDoc,
         Dropcursor,
         SmartQuote.configure({
             HTMLAttributes: {
@@ -132,11 +114,7 @@ function makeExtensions(props: makeExtensionsProps) {
             keepMarks: false,
             keepAttributes: false,
         }),
-        Bold.configure({
-            HTMLAttributes: {
-                class: 'bold-class',
-            },
-        }),
+        SmartBold,
         Code.configure({
             HTMLAttributes: {
                 class: '',
@@ -181,18 +159,12 @@ function makeExtensions(props: makeExtensionsProps) {
             },
         }),
         // Ring,
-        SmartParagraph,
+        SmartParagraph.configure({
+            translateApi: 'http://127.0.0.1:49493/api/translate',
+        }),
         Padding,
         NewLine,
-        Placeholder.configure({
-            placeholder: ({ node }) => {
-                if (node.type.name === HEADING && node.attrs.level == 1) {
-                    return '输入标题'
-                }
-
-                return ''
-            }
-        }),
+        SmartPlaceholder,
         SmartSelection,
         SmartLink.configure({
             protocols: ['ftp', 'mailto'],

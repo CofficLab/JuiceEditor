@@ -3,7 +3,6 @@ import { defineProps, computed } from 'vue'
 import { Editor } from '@tiptap/core'
 import Button from '../ui/Button.vue'
 import IconInfo from '../ui/icons/IconInfo.vue';
-import ButtonTranslate from '../buttons/ButtonTranslate.vue';
 import IconLanguage from '../ui/icons/IconLanguage.vue';
 
 let props = defineProps({

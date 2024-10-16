@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { watch } from 'vue';
 import { useMessageStore } from '../store/MessageStore'
 import { useAppStore } from '../store/AppStore';
 import Message from './Message.vue';
 import PageMode from '../model/PageMode';
 import { useModeStore } from '../store/ModeStore';
-import { onMounted } from 'vue';
+import { onMounted, onBeforeUnmount, watch } from 'vue';
 import ErrorPage from './ErrorPage.vue';
 import { useRequestStore } from '../store/RequestStore';
 import ListenerProvider from '../provider/ListenerProvider';
@@ -52,7 +51,7 @@ const editor = TiptapAgent.create({
 		app.setReady('App.onCreate')
 	},
 	onUpdate: (data: EditorData | Error) => {
-		let verbose = true
+		let verbose = false
 
 		if (verbose) {
 			console.log(title, "OnUpdate", data)
@@ -100,6 +99,20 @@ watch(() => app.message.uuid, () => messageStore.setMessage(app.message))
 
 // collect error from every store
 watch(() => app.error, () => messageStore.setError(app.error))
+
+
+
+onMounted(() => {
+	editor.on('translation:error', handleTranslationError)
+})
+
+onBeforeUnmount(() => {
+	editor.off('translation:error', handleTranslationError)
+})
+
+function handleTranslationError(error: any) {
+	messageStore.setError(error)
+}
 </script>
 
 <style>

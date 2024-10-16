@@ -1,19 +1,24 @@
 import Paragraph from "@tiptap/extension-paragraph";
 import axios from 'axios';
-import { CommandProps } from '@tiptap/core';
+import { CommandProps, Editor } from '@tiptap/core';
 
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
         SmartParagraph: {
             setParagraph: () => ReturnType
             setBackgroundColor: (color: string) => ReturnType
-            translate: (language: string) => ({ tr, state, editor }: CommandProps) => Promise<boolean>
+            translate: (language: string) => ReturnType
         }
+    }
+
+    interface EditorEvents {
+        'translation:error': string
     }
 }
 
 interface ParagraphOptions {
     colorClass: Record<string, string>
+    translateApi: string
 }
 
 const SmartParagraph = Paragraph.extend<ParagraphOptions>({
@@ -66,7 +71,8 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
                 '韩语',
                 '法语',
                 '德语',
-            ]
+            ],
+            translateApi: 'http://127.0.0.1/api/translate',
         }
     },
 
@@ -90,58 +96,67 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
                     class: this.options.colorClass[color]
                 })
             },
-            translate: (language: string) => ({ tr, state, editor }: CommandProps): Promise<boolean> => {
-                const { selection } = state;
+            translate: (language: string) => ({ editor }: { editor: Editor }) => {
+                if (!editor) {
+                    console.error('No editor instance available');
+                    return false;
+                }
+
+                const { selection } = editor.state;
                 const { $from, $to } = selection;
                 const node = $from.node();
 
                 if (node.type.name !== this.name) {
-                    console.error('Not a paragraph node');
-                    return Promise.resolve(false);
+                    console.error('Selected node is not a paragraph');
+                    return false;
                 }
 
                 const start = $from.start();
                 const end = $to.end();
-                const content = state.doc.textBetween(start, end, ' ');
+                const content = editor.state.doc.textBetween(start, end, ' ');
 
-                return new Promise<boolean>((resolve) => {
-                    translateApi(content, language).then(translatedContent => {
-                        if (editor) {
-                            // Create a new text node with the translated content
-                            const translatedNode = editor.schema.text(translatedContent);
+                (async () => {
+                    try {
+                        const translatedContent = await performTranslation(content, language, this.options.translateApi);
+                        const translatedNode = editor.schema.text(translatedContent);
+                        const tr = editor.state.tr.replaceWith(start, end, translatedNode);
+                        editor.view.dispatch(tr);
+                    } catch (error) {
+                        editor.emit('translation:error', 'Translation failed. Please try again.');
+                    }
+                })();
 
-                            // Replace the content in the document
-                            const tr = editor.state.tr.replaceWith(start, end, translatedNode);
-
-                            // Apply the transaction
-                            editor.view.dispatch(tr);
-
-                            console.log('Content updated');
-                            resolve(true);
-                        } else {
-                            console.error('No editor instance available');
-                            resolve(false);
-                        }
-                    }).catch(error => {
-                        console.error('Translation error:', error);
-                        resolve(false);
-                    });
-                });
+                return true;
             },
         };
     },
 });
 
-async function translateApi(content: string, language: string): Promise<string> {
+/**
+ * Performs translation of the given content.
+ * @throws {Error} If the translation fails or if there's a network error.
+ */
+async function performTranslation(content: string, language: string, apiUrl: string): Promise<string> {
     try {
-        const response = await axios.post('http://127.0.0.1:49493/api/translate', {
+        const response = await axios.post(apiUrl, {
             lang: language,
             text: content
         });
-        return response.data;
+
+        // 检查HTTP状态码
+        if (response.status >= 200 && response.status < 300) {
+            return response.data;
+        } else {
+            throw new Error(`Translation API returned status code: ${response.status}`);
+        }
     } catch (error) {
-        console.error('Translation error:', error);
-        return `Error translating to ${language}: ${content}`;
+        // 保持原始错误堆栈
+        if (error instanceof Error) {
+            throw error;
+        } else {
+            // 如果是axios错误，提供更详细的错信息
+            throw new Error(`Translation failed: ${JSON.stringify(error)}`);
+        }
     }
 }
 
