@@ -6,7 +6,7 @@ import { generateJSON, JSONContent } from '@tiptap/core'
 import { DOC, ROOT, TEXT } from '../config/nodes';
 import UUIDHelper from '../helper/UUIDHelper';
 import TiptapHelper from '../helper/TiptapHelper';
-import { Editor } from "@tiptap/vue-3";
+import { Editor } from "@tiptap/core";
 
 let title = "🔌 NodeApi"
 
@@ -61,7 +61,7 @@ export default class NodeApi {
     }
 
     public getJSONFromHTML(html: string): JSONContent {
-        return generateJSON(html, this.config.extensions)
+        return generateJSON(html, this.config.getExtensions())
     }
 
     public getBlocksFromHTML(html: string): JSONContent[] {

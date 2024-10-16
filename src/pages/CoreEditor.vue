@@ -3,12 +3,12 @@ import { EditorContent } from '@tiptap/vue-3'
 import BubbleMenus from '../menus/MenuBubble.vue'
 import FloatMenus from '../menus/MenuFloat.vue'
 import BlockMenu from '../menus/MenuBlock.vue'
-import { Editor } from '@tiptap/vue-3'
+import { Editor as EditorVue } from '@tiptap/vue-3'
 
 const title = '📒 Tiptap'
 const props = defineProps({
 	editor: {
-		type: Editor,
+		type: EditorVue,
 		required: true
 	},
 	bubbleMenusEnable: {

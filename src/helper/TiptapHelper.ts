@@ -1,5 +1,5 @@
-import { Editor } from '@tiptap/vue-3'
-import { JSONContent, Editor as TiptapEditor } from '@tiptap/core'
+import { Editor as EditorVue } from '@tiptap/vue-3'
+import { JSONContent, Editor } from '@tiptap/core'
 import { Node as ProseMirrorNode } from '@tiptap/pm/model';
 import DomHelper from './DomHelper';
 import { A, BANNER, BLOCKQUOTE, BULLET_LIST, CODE_BLOCK, DRAW, HEADING, IMAGE, LIST_ITEM, ORDERED_LIST, STRIKE, TABLE, TABLE_HEADER, TABLE_ROW, TEXT } from '../config/nodes';
@@ -11,7 +11,7 @@ const title = '📒 TiptapHelper'
 interface Props {
     content: string
     editable: boolean
-    onCreate: (data: EditorData | Error) => void
+    onCreate: (data: EditorData | Error, editor: Editor) => void
     onUpdate: (data: EditorData | Error) => void
     onSelectionUpdate?: (type: string) => void
     drawEnable: boolean
@@ -20,13 +20,13 @@ interface Props {
 }
 
 class TiptapHelper {
-    static create(props: Props): Editor {
+    static create(props: Props): EditorVue {
         let verbose = false;
         if (verbose) {
             console.log(title, 'create with content', props.content)
         }
 
-        return new Editor({
+        return new EditorVue({
             extensions: props.extensions,
             injectNonce: "",
             autofocus: false,
@@ -43,7 +43,7 @@ class TiptapHelper {
                 if (verbose) {
                     console.log(title, 'onCreate, callback with EditorData')
                 }
-                props.onCreate(EditorData.fromEditor(editor))
+                props.onCreate(EditorData.fromEditor(editor), editor)
             },
             onFocus: ({ editor }) => {
                 let verbose = false;
@@ -101,7 +101,7 @@ class TiptapHelper {
         })
     }
 
-    static getSelectionNodeType(editor: TiptapEditor): string {
+    static getSelectionNodeType(editor: Editor): string {
         let type = "paragraph"
         if (editor.isActive('paragraph')) {
             type = "paragraph"
@@ -207,7 +207,7 @@ class TiptapHelper {
     }
 
     // 获取尾部位置
-    static getTailPosOf(editor: TiptapEditor, node: ProseMirrorNode, pos: number): number {
+    static getTailPosOf(editor: Editor, node: ProseMirrorNode, pos: number): number {
         const start = pos
         const end = start + node.nodeSize
 
@@ -250,7 +250,7 @@ class TiptapHelper {
         }
     }
 
-    static checkBlockUUID(editor: TiptapEditor): Error[] {
+    static checkBlockUUID(editor: Editor): Error[] {
         let typesWithoutUUID = [
             'text',
             'tableRow',
@@ -274,7 +274,7 @@ class TiptapHelper {
         return errors
     }
 
-    static getFocusedNodePosition(editor: TiptapEditor): { offsetTop: number | null, offsetLeft: number | null } {
+    static getFocusedNodePosition(editor: Editor): { offsetTop: number | null, offsetLeft: number | null } {
         const focusClassName = editor.extensionManager.extensions.find(extension => extension.name === SmartFocus.name)?.options.className
         const currentNode: Element | null = DomHelper.querySelector(`.` + focusClassName)
         if (currentNode === null) {

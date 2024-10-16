@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Editor } from '@tiptap/vue-3'
+import { Editor } from '@tiptap/core'
 import { ref } from 'vue'
 import IconPhoto from '../ui/icons/IconPhoto.vue'
 import Button from '../ui/Button.vue'

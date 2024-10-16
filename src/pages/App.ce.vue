@@ -27,12 +27,10 @@ const modeStore = useModeStore()
 const feature = useFeatureStore()
 const requestStore = useRequestStore()
 
-// init config
-
 // init editor
 
 const editor = TiptapAgent.create({
-	extensions: config.extensions,
+	extensions: config.getExtensions(),
 	content: EditorData.default().html,
 	editable: !props.readonly,
 	drawEnable: feature.drawEnabled,

@@ -1,5 +1,4 @@
 import { defineStore } from "pinia";
-import { generateJSON, JSONContent } from '@tiptap/core'
 import LocalApp from "../plugins/LocalNodeApp"
 import WebKit from "../plugins/WebKit"
 import EventPlugin from "../plugins/EventPlugin";
@@ -74,10 +73,6 @@ export const useConfigStore = defineStore('config-store', {
             monacoLink: defaultMonacoLink,
             translateApi: defaultTranslateApi,
             focusClassName: defaultFocusClassName,
-            extensions: makeExtensions({
-                translateApi: defaultTranslateApi,
-                focusClassName: defaultFocusClassName,
-            }),
             plugins: [
                 ('webkit' in window) ? new WebKit() : new LocalApp(),
                 new EventPlugin(),
@@ -101,6 +96,13 @@ export const useConfigStore = defineStore('config-store', {
 
             this.translateApi = api
         },
+
+        getExtensions() {
+            return makeExtensions({
+                translateApi: this.translateApi,
+                focusClassName: this.focusClassName,
+            })
+        }
     }
 })
 

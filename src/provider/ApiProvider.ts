@@ -7,7 +7,7 @@ import { RequestStore } from "../store/RequestStore";
 import { ConfigStore } from "../store/ConfigStore";
 import RequestApi from "../api/RequestApi";
 import ConfigApi from "../api/ConfigApi";
-import { Editor } from "@tiptap/vue-3";
+import { Editor } from "@tiptap/core";
 const emoji = "🐶 ApiProvider"
 
 export interface AllApi {

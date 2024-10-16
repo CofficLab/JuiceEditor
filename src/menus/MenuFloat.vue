@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { Editor, FloatingMenu } from '@tiptap/vue-3'
+import { Editor as TiptapEditor } from '@tiptap/core'
 import TiptapAgent from '../helper/TiptapHelper'
 import Heading from '../buttons/ButtonHeading.vue'
 import Image from '../buttons/ButtonImage.vue'
@@ -12,7 +13,7 @@ import Kbd from '../buttons/ButtonKbd.vue'
 import BulletList from '../buttons/ButtonBulletList.vue'
 defineProps({
   editor: {
-    type: Editor,
+    type: TiptapEditor,
     required: true
   },
   shape: {
