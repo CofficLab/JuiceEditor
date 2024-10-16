@@ -61,12 +61,11 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
             },
             languages: [
                 '英语',
+                '汉语',
                 '日语',
                 '韩语',
                 '法语',
                 '德语',
-                '西班牙语',
-                '意大利语',
             ]
         }
     },
