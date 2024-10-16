@@ -26,7 +26,7 @@ watch(
 	(val) => {
 		if (val) {
 			editor.value.on('selectionUpdate', () => {
-				let verbose = true
+				let verbose = false
 
 				if (verbose) {
 					console.log(emoji, 'selectionUpdate')
@@ -59,26 +59,6 @@ watch(
 	},
 	{ immediate: true }
 )
-
-function getCurrentNode() {
-	let selection = editor.value.state.selection
-	var nodePos: NodePos = editor.value.$pos(selection.$anchor.pos)
-
-	console.log(nodePos)
-
-	while (nodePos.depth > 1) {
-		let parent = nodePos.parent
-
-		if (!parent) {
-			console.log(nodePos)
-			throw new Error('parent is null')
-		}
-
-		nodePos = parent
-	}
-
-	return nodePos.node
-}
 
 function deleteNode() {
 	editor.value.chain().focus().deleteSelectionNode().run()

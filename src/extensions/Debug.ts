@@ -14,47 +14,23 @@ export const Debug = Extension.create({
                 key: new PluginKey('debug'),
                 props: {
                     handleClick: (view, event) => {
-                        console.log("click");
+                        var enableDebug = false;
+
+                        if (process.env.NODE_ENV !== 'development' || !enableDebug) {
+                            return true;
+                        }
+
                         const { state } = view;
                         const { from, to } = state.selection;
-                        // const node = state.doc.nodeAt(from);
-                        // console.log('clicked node is', node)
+                        const node = state.doc.nodeAt(from);
+                        console.log('clicked node is', node)
+                        console.log('clicked node type is', node?.type.name)
                         console.log('clicked pos is', from, to)
-                        // console.log('clicked depth is', state.doc.resolve(from).depth)
-                        // var pos = from;
 
-                        // while (state.doc.resolve(pos).depth > 2) {
-                        //     pos = pos - 1
-
-                        //     console.log(pos)
-                        // }
-
-                        // console.log(pos)
-                        // let target = state.doc.resolve(pos).parent
-                        // console.log(target)
-
-                        // var targetPos = pos
-                        // var targetNode = state.doc.resolve(pos).parent
-                        // state.doc.descendants((node, p) => {
-                        //     if (p < pos && node.isLeaf == false) {
-                        //         console.log('ok', node)
-                        //         console.log(p)
-                        //         targetPos = p
-                        //         targetNode = node
-                        //     }
-                        // })
-
-                        // console.log(targetNode)
-
-                        // const transaction = state.tr.setNodeMarkup(targetPos, undefined, {
-                        //     ...targetNode.attrs,
-                        //     class: "bg-red-500",
-                        //     style: 'background-color: red;',
-                        // });
-
-                        // console.log(transaction.docChanged)
-
-                        // view.dispatch(transaction);
+                        // 获取并输出父节点类型
+                        const $from = state.selection.$from;
+                        const parentNode = $from.parent;
+                        console.log('parent node type is', parentNode.type.name);
 
                         return true;
                     },

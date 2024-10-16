@@ -43,6 +43,7 @@ import { Root } from "../extensions/Root/Root"
 import { Toc } from "../extensions/Toc/Toc"
 import ApiApp from "../plugins/APIApp"
 import { NewLine } from "../extensions/NewLine"
+import { Debug } from "../extensions/Debug"
 import { A, HEADING, IMAGE, PARAGRAPH, PRE, ROOT, TABLE, TASKLIST, TOC } from "./nodes"
 
 interface ConfigType {
@@ -93,7 +94,7 @@ interface makeExtensionsProps {
 
 function makeExtensions(props: makeExtensionsProps) {
     var extensions = [
-        // Debug,
+        Debug,
         Root.extend({
             content: `${HEADING} block*`,
         }),
