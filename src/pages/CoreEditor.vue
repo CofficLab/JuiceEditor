@@ -4,6 +4,7 @@ import BubbleMenus from '../menus/MenuBubble.vue'
 import FloatMenus from '../menus/MenuFloat.vue'
 import BlockMenu from '../menus/MenuBlock.vue'
 import { Editor as EditorVue } from '@tiptap/vue-3'
+import { watch } from 'vue'
 
 const title = '📒 Tiptap'
 const props = defineProps({
@@ -14,16 +15,20 @@ const props = defineProps({
 	bubbleMenusEnable: {
 		type: Boolean,
 		default: true,
-		required: true
+		required: false
 	},
 	floatingMenusEnable: {
 		type: Boolean,
 		default: true,
-		required: true
+		required: false
 	},
 })
 
 const isDebug = false
+
+watch(() => props.editor, () => {
+	console.log("editor changed")
+})
 
 </script>
 

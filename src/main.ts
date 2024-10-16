@@ -1,14 +1,14 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { defineCustomElement } from 'vue'
-import App from './pages/App.ce.vue'
+import Root from './pages/Root.ce.vue'
 
 let pinia = createPinia()
-let app = createApp(App)
+let app = createApp(Root)
 
 app.use(pinia)
 
-customElements.define('juice-editor', defineCustomElement(App))
+customElements.define('juice-editor', defineCustomElement(Root))
 
 if (process.env.NODE_ENV === 'development') {
     import('./dev').then(module => {

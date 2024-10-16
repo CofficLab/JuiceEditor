@@ -13,4 +13,12 @@ export default class ConfigApi {
 
         this.configProvider = configProvider
     }
+
+    public getTranslateApi(): string {
+        return this.configProvider.translateApi
+    }
+
+    public setTranslateApi(url: string) {
+        this.configProvider.setTranslateApi(url)
+    }
 }
