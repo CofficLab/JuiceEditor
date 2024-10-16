@@ -2,7 +2,7 @@ import { Extension } from '@tiptap/core';
 import { Plugin, PluginKey } from 'prosemirror-state';
 import { Decoration, DecorationSet } from 'prosemirror-view';
 import { ROOT, PARAGRAPH, LIST_ITEM, UL, BULLET_LIST, HEADING, A, TASKLIST, TASK_ITEM, TABLE_CELL, TABLE_HEADER, IMAGE } from '../config/nodes';
-import BulletList from 'src/buttons/BulletList.vue';
+import BulletList from 'src/buttons/ButtonBulletList.vue';
 import Link from 'src/ui/Link.vue';
 
 const title = '👔 Padding'
