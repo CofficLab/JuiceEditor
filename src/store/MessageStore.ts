@@ -1,8 +1,6 @@
 import { defineStore } from 'pinia'
-import Config from '../config/config'
 import SmartMessage from '../model/SmartMessage'
-const config = Config
-const isDebug = config.isDebug
+const isDebug = process.env.NODE_ENV === 'development'
 const title = "🍋 MessageStore"
 
 export const useMessageStore = defineStore('message-store', {

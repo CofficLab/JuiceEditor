@@ -1,4 +1,3 @@
-import Config from "../config/config"
 import DomHelper from "../helper/DomHelper"
 import PageMode from "../model/PageMode"
 import Listener from "../contract/Listener"
@@ -7,8 +6,10 @@ let emoji = "👂 SlotListener"
 
 export default class SlotListener implements Listener {
     public observer?: MutationObserver
+    public editorLabel: string = ""
 
-    constructor() {
+    constructor(editorLabel: string) {
+        this.editorLabel = editorLabel
         this.setEditorContent = this.setEditorContent.bind(this)
     }
 
@@ -57,10 +58,17 @@ export default class SlotListener implements Listener {
     }
 
     getTarget() {
-        return document.querySelector(Config.editorLabel)!
+        return document.querySelector(this.editorLabel)!
     }
 
     clearContent() {
-        this.getTarget().innerHTML = ''
+        let target = this.getTarget()
+
+        if (target == null) {
+            console.error("target is null")
+            return
+        }
+
+        target.innerHTML = ''
     }
 }

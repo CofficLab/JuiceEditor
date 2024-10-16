@@ -1,4 +1,3 @@
-import Config from "../config/config"
 import DomHelper from "../helper/DomHelper"
 import Listener from "../contract/Listener"
 import PageMode from "../model/PageMode"
@@ -6,6 +5,13 @@ import PageMode from "../model/PageMode"
 const title = '🚢 UrlListener'
 
 export default class UrlListener implements Listener {
+
+    public editorLabel: string = ""
+
+    constructor(editorLabel: string) {
+        this.editorLabel = editorLabel
+    }
+
     start(pageMode: PageMode) {
         window.onpopstate = this.onURLChanged
     }
@@ -17,7 +23,7 @@ export default class UrlListener implements Listener {
         }
         let hash = window.location.hash
         if (hash) {
-            DomHelper.goto(hash.substring(1), Config.editorLabel)
+            DomHelper.goto(hash.substring(1), this.editorLabel)
         }
     }
 }

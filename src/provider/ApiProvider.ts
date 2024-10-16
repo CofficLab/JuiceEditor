@@ -4,7 +4,9 @@ import { FeatureStore } from "../store/FeatureStore";
 import ModeApi from "../api/ModeApi";
 import { ModeStore } from "../store/ModeStore";
 import { RequestStore } from "../store/RequestStore";
+import { ConfigStore } from "../store/ConfigStore";
 import RequestApi from "../api/RequestApi";
+import ConfigApi from "../api/ConfigApi";
 import { Editor } from "@tiptap/vue-3";
 const emoji = "🐶 ApiProvider"
 
@@ -13,6 +15,7 @@ export interface AllApi {
     node: NodeApi
     mode: ModeApi
     request: RequestApi
+    config: ConfigApi
 }
 
 export interface ApiProviderParams {
@@ -20,6 +23,7 @@ export interface ApiProviderParams {
     modeProvider: ModeStore
     requestProvider: RequestStore
     editor: Editor
+    configProvider: ConfigStore
 }
 
 export default class ApiProvider {
@@ -28,6 +32,7 @@ export default class ApiProvider {
     public mode: ModeApi
     public request: RequestApi
     public editor: Editor
+    public config: ConfigApi
     constructor(params: ApiProviderParams) {
         let verbose = false
         if (verbose) {
@@ -35,10 +40,11 @@ export default class ApiProvider {
         }
 
         this.feature = new FeatureApi(params.featureProvider)
-        this.node = new NodeApi(params.requestProvider, params.editor)
+        this.node = new NodeApi(params.requestProvider, params.editor, params.configProvider)
         this.mode = new ModeApi(params.modeProvider)
         this.request = new RequestApi(params.requestProvider)
         this.editor = params.editor
+        this.config = new ConfigApi(params.configProvider)
     }
 
     boot() {
@@ -47,6 +53,7 @@ export default class ApiProvider {
             node: this.node,
             mode: this.mode,
             request: this.request,
+            config: this.config,
         }
     }
 }

@@ -2,35 +2,37 @@
 import { useMessageStore } from '../store/MessageStore'
 import { useAppStore } from '../store/AppStore';
 import Message from './Message.vue';
-import PageMode from '../model/PageMode';
 import { useModeStore } from '../store/ModeStore';
 import { onMounted, onBeforeUnmount, watch } from 'vue';
 import ErrorPage from './ErrorPage.vue';
 import { useRequestStore } from '../store/RequestStore';
 import ListenerProvider from '../provider/ListenerProvider';
 import ApiProvider from '../provider/ApiProvider';
-import Config from '../config/config';
 import { useFeatureStore } from '../store/FeatureStore';
 import PluginProvider from '../provider/PluginProvider';
 import Loading from '../ui/Loading.vue'
 import TiptapAgent from '../helper/TiptapHelper'
 import EditorData from '../model/EditorData'
 import CoreEditor from './CoreEditor.vue'
+import { useConfigStore } from '../store/ConfigStore';
 import { AppProps } from '../model/AppProps'
 
 const props = defineProps(AppProps)
 
 const title = "💻 App"
 const app = useAppStore()
+const config = useConfigStore()
 const messageStore = useMessageStore()
 const modeStore = useModeStore()
 const feature = useFeatureStore()
 const requestStore = useRequestStore()
 
+// init config
+
 // init editor
 
 const editor = TiptapAgent.create({
-	extensions: Config.extensions,
+	extensions: config.extensions,
 	content: EditorData.default().html,
 	editable: !props.readonly,
 	drawEnable: feature.drawEnabled,
@@ -82,10 +84,11 @@ const apiProvider = new ApiProvider({
 	featureProvider: feature,
 	modeProvider: modeStore,
 	requestProvider: requestStore,
-	editor: editor
+	editor: editor,
+	configProvider: config
 })
-const listenerProvider = new ListenerProvider(Config.listeners)
-const pluginProvider = new PluginProvider(Config.plugins)
+const listenerProvider = new ListenerProvider(config.listeners)
+const pluginProvider = new PluginProvider(config.plugins)
 
 // collect events from every store
 watch(() => app.ready, () => {
@@ -134,7 +137,7 @@ function handleTranslationError(message: string) {
 	</template>
 
 	<!-- Message -->
-	<Message></Message>
+	<Message :plugins="config.plugins"></Message>
 
 	<!-- Error -->
 	<ErrorPage></ErrorPage>

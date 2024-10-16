@@ -1,11 +1,11 @@
+import { defineStore } from "pinia";
+import { generateJSON, JSONContent } from '@tiptap/core'
 import LocalApp from "../plugins/LocalNodeApp"
 import WebKit from "../plugins/WebKit"
-import Plugin from "../contract/Plugin";
 import EventPlugin from "../plugins/EventPlugin";
 import UrlListener from "../listeners/UrlListener";
 import EventListener from "../listeners/EventListener";
 import SlotListener from "../listeners/SlotListener";
-import Listener from "../contract/Listener";
 import CharacterCount from "@tiptap/extension-character-count"
 import Code from "@tiptap/extension-code"
 import Color from "@tiptap/extension-color"
@@ -43,61 +43,66 @@ import { Debug } from "../extensions/Debug"
 import SmartDoc from "../extensions/SmartDoc"
 import SmartBold from "../extensions/SmartBold"
 import SmartPlaceholder from "../extensions/SmartPlaceholder"
-import { A, HEADING, IMAGE, PARAGRAPH, PRE, ROOT, TABLE, TASKLIST, TOC } from "./nodes"
-
-interface ConfigType {
-    editorLabel: string;
-    isDebug: boolean;
-    monacoLink: string;
-    translateApi: string;
-    plugins: Plugin[];
-    listeners: Listener[];
-    focusClassName: string;
-    extensions: any
-}
-
-const isDebug = process.env.NODE_ENV === 'development'
-const focusClassName = 'focused'
-const drawLink = isDebug
-    ? '/drawio/webapp/index.html?'
-    : '/drawio/index.html?'
-const monacoLink = isDebug
-    ? '/monaco/index.html'
-    : '/editor/monaco/index.html'
-const translateApi = isDebug
-    ? 'http://127.0.0.1/api/translate'
-    : 'http://127.0.0.1:49493/api/translate'
-
-const Config: ConfigType = {
-    'editorLabel': 'juice-editor',
-    'isDebug': isDebug,
-    'monacoLink': monacoLink,
-    'translateApi': translateApi,
-    'plugins': [
-        ('webkit' in window) ? new WebKit() : new LocalApp(),
-        new EventPlugin(),
-        new ApiApp()
-    ],
-    listeners: [
-        new UrlListener(),
-        new EventListener(),
-        new SlotListener()
-    ],
-    'focusClassName': focusClassName,
-    extensions: makeExtensions({
-        drawIoLink: drawLink,
-        drawEnable: true,
-        tableEnable: true,
-        translateApi: translateApi
-    })
-}
+import { HEADING, PARAGRAPH, ROOT, TOC } from "../config/nodes"
 
 interface makeExtensionsProps {
     drawIoLink?: string,
     drawEnable?: boolean,
     tableEnable?: boolean,
-    translateApi: string
+    translateApi: string,
+    focusClassName: string
 }
+
+const title = "🔧 ConfigStore"
+const isDebug = process.env.NODE_ENV === 'development'
+const editorLabel = 'juice-editor'
+const defaultTranslateApi = isDebug
+    ? 'http://127.0.0.1/api/translate'
+    : 'http://127.0.0.1:49493/api/translate'
+const defaultFocusClassName = 'smart-focus'
+const defaultDrawIoLink = isDebug
+    ? '/drawio/webapp/index.html?'
+    : '/drawio/index.html?'
+const defaultMonacoLink = isDebug
+    ? '/monaco/index.html'
+    : '/editor/monaco/index.html'
+
+export const useConfigStore = defineStore('config-store', {
+    state: () => {
+        return {
+            drawLink: defaultDrawIoLink,
+            monacoLink: defaultMonacoLink,
+            translateApi: defaultTranslateApi,
+            focusClassName: defaultFocusClassName,
+            extensions: makeExtensions({
+                translateApi: defaultTranslateApi,
+                focusClassName: defaultFocusClassName,
+            }),
+            plugins: [
+                ('webkit' in window) ? new WebKit() : new LocalApp(),
+                new EventPlugin(),
+                new ApiApp()
+            ],
+            listeners: [
+                new UrlListener(editorLabel),
+                new EventListener(),
+                new SlotListener(editorLabel)
+            ],
+        }
+    },
+
+    actions: {
+        setTranslateApi(api: string) {
+            let verbose = false
+
+            if (verbose) {
+                console.log(`${title}.setTranslateApi(${api})`)
+            }
+
+            this.translateApi = api
+        },
+    }
+})
 
 function makeExtensions(props: makeExtensionsProps) {
     var extensions = [
@@ -142,7 +147,7 @@ function makeExtensions(props: makeExtensionsProps) {
         }),
         // GroupPre,
         SmartFocus.configure({
-            className: focusClassName,
+            className: props.focusClassName,
             mode: 'all',
             excludeNodes: [ROOT, TOC]
         }),
@@ -221,4 +226,4 @@ function makeExtensions(props: makeExtensionsProps) {
     return extensions
 }
 
-export default Config
+export type ConfigStore = ReturnType<typeof useConfigStore>

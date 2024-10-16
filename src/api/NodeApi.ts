@@ -1,8 +1,8 @@
 import EditorData from '../model/EditorData';
 import NodeRequest from '../request/NodeRequest';
 import { RequestStore } from '../store/RequestStore';
+import { ConfigStore } from '../store/ConfigStore';
 import { generateJSON, JSONContent } from '@tiptap/core'
-import Config from '../config/config'
 import { DOC, ROOT, TEXT } from '../config/nodes';
 import UUIDHelper from '../helper/UUIDHelper';
 import TiptapHelper from '../helper/TiptapHelper';
@@ -13,8 +13,9 @@ let title = "🔌 NodeApi"
 export default class NodeApi {
     public request: RequestStore
     public editor: Editor
+    public config: ConfigStore
 
-    constructor(requestProvider: RequestStore, editor: Editor) {
+    constructor(requestProvider: RequestStore, editor: Editor, config: ConfigStore) {
         let verbose = false
 
         if (verbose) {
@@ -23,6 +24,7 @@ export default class NodeApi {
 
         this.request = requestProvider
         this.editor = editor
+        this.config = config
     }
 
     public setHTML(html: string) {
@@ -59,7 +61,7 @@ export default class NodeApi {
     }
 
     public getJSONFromHTML(html: string): JSONContent {
-        return generateJSON(html, Config.extensions)
+        return generateJSON(html, this.config.extensions)
     }
 
     public getBlocksFromHTML(html: string): JSONContent[] {
