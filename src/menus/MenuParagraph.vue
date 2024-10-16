@@ -20,8 +20,6 @@ let colorClass = computed(() => {
 let languages = computed(() => {
     return props.editor.options.extensions.find(extension => extension.name === 'paragraph')?.options.languages
 })
-
-console.log(languages.value)
 </script>
 
 <template>

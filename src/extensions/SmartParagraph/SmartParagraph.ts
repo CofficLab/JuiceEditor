@@ -89,12 +89,29 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
                     class: this.options.colorClass[color]
                 })
             },
-            translate: (language: string) => ({ commands, editor }) => {
-                const currentContent = editor.getHTML();
-                // 这里应该有一个翻译逻辑，将 currentContent 翻译成目标语言
-                const translatedContent = `Translated content to ${language}: ${currentContent}`;
+            translate: (language: string) => ({ tr, state, dispatch }) => {
+                const { selection } = state;
+                const { $from, $to } = selection;
 
-                return commands.setContent(translatedContent, false);
+                // Find the start and end of the paragraph
+                const start = $from.start();
+                const end = $from.end();
+
+                // Get the text content of the entire paragraph
+                const content = state.doc.textBetween(start, end);
+
+                // Here you would call your translation API
+                // For demonstration, we'll just prepend the language to the content
+                const translatedContent = `Translated to ${language}: ${content}`;
+
+                if (dispatch) {
+                    // Replace the entire paragraph with the translated content
+                    const textNode = state.schema.text(translatedContent);
+                    tr.replaceWith(start, end, textNode);
+                    dispatch(tr);
+                }
+
+                return true;
             },
         };
     },
