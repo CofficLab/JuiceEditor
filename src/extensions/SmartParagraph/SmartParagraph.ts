@@ -1,11 +1,13 @@
 import Paragraph from "@tiptap/extension-paragraph";
+import axios from 'axios';
+import { CommandProps } from '@tiptap/core';
 
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
         SmartParagraph: {
             setParagraph: () => ReturnType
             setBackgroundColor: (color: string) => ReturnType
-            translate: (language: string) => ReturnType
+            translate: (language: string) => ({ tr, state, editor }: CommandProps) => Promise<boolean>
         }
     }
 }
@@ -89,32 +91,59 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
                     class: this.options.colorClass[color]
                 })
             },
-            translate: (language: string) => ({ tr, state, dispatch }) => {
+            translate: (language: string) => ({ tr, state, editor }: CommandProps): Promise<boolean> => {
                 const { selection } = state;
                 const { $from, $to } = selection;
+                const node = $from.node();
 
-                // Find the start and end of the paragraph
-                const start = $from.start();
-                const end = $from.end();
-
-                // Get the text content of the entire paragraph
-                const content = state.doc.textBetween(start, end);
-
-                // Here you would call your translation API
-                // For demonstration, we'll just prepend the language to the content
-                const translatedContent = `Translated to ${language}: ${content}`;
-
-                if (dispatch) {
-                    // Replace the entire paragraph with the translated content
-                    const textNode = state.schema.text(translatedContent);
-                    tr.replaceWith(start, end, textNode);
-                    dispatch(tr);
+                if (node.type.name !== this.name) {
+                    console.error('Not a paragraph node');
+                    return Promise.resolve(false);
                 }
 
-                return true;
+                const start = $from.start();
+                const end = $to.end();
+                const content = state.doc.textBetween(start, end, ' ');
+
+                return new Promise<boolean>((resolve) => {
+                    translateApi(content, language).then(translatedContent => {
+                        if (editor) {
+                            // Create a new text node with the translated content
+                            const translatedNode = editor.schema.text(translatedContent);
+
+                            // Replace the content in the document
+                            const tr = editor.state.tr.replaceWith(start, end, translatedNode);
+
+                            // Apply the transaction
+                            editor.view.dispatch(tr);
+
+                            console.log('Content updated');
+                            resolve(true);
+                        } else {
+                            console.error('No editor instance available');
+                            resolve(false);
+                        }
+                    }).catch(error => {
+                        console.error('Translation error:', error);
+                        resolve(false);
+                    });
+                });
             },
         };
     },
 });
+
+async function translateApi(content: string, language: string): Promise<string> {
+    try {
+        const response = await axios.post('http://127.0.0.1:49493/api/translate', {
+            lang: language,
+            text: content
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Translation error:', error);
+        return `Error translating to ${language}: ${content}`;
+    }
+}
 
 export default SmartParagraph;
