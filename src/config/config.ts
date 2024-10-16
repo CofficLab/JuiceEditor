@@ -120,12 +120,12 @@ function makeExtensions(props: makeExtensionsProps) {
         Dropcursor,
         SmartQuote.configure({
             HTMLAttributes: {
-                class: 'my-custom-class',
+                class: 'quote-class',
             },
         }),
         SmartBulletList.configure({
             HTMLAttributes: {
-                class: 'my-custom-class',
+                class: 'bullet-list-class',
             },
             itemTypeName: 'listItem',
             keepMarks: false,
@@ -133,7 +133,7 @@ function makeExtensions(props: makeExtensionsProps) {
         }),
         Bold.configure({
             HTMLAttributes: {
-                class: 'my-custom-class',
+                class: 'bold-class',
             },
         }),
         Code.configure({

@@ -1,5 +1,5 @@
 <template>
-  <Button tip="添加表格" :size="size" v-if="enable" @click="editor.chain().focus().insertTable().run()">
+  <Button tip="表格" :size="size" v-if="enable" @click="editor.chain().focus().insertTable().run()">
     <IconTableCell></IconTableCell>
   </Button>
 </template>

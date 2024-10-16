@@ -7,7 +7,7 @@ import Paragraph from '../buttons/ButtonParagraph.vue';
 import Bold from '../buttons/ButtonBold.vue';
 import Italic from '../buttons/ButtonItalic.vue';
 import StrikeVue from '../buttons/ButtonStrike.vue';
-import BulletList from '../buttons/BulletList.vue';
+import BulletList from '../buttons/ButtonBulletList.vue';
 import Code from '../buttons/ButtonCode.vue'
 
 defineProps({

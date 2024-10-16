@@ -9,7 +9,7 @@ import TaskList from '../buttons/ButtonTaskList.vue'
 import SmartPre from '../buttons/ButtonSmartPre.vue'
 import ButtonBar from '../ui/ButtonBar.vue'
 import Kbd from '../buttons/ButtonKbd.vue'
-
+import BulletList from '../buttons/ButtonBulletList.vue'
 defineProps({
   editor: {
     type: Editor,
@@ -40,6 +40,7 @@ const shouldShowFloatingMenu = TiptapAgent.shouldShowFloatingMenu
         <Heading :editor="editor" :level="6" :shape="shape" />
         <Image :editor="editor" :shape="shape" />
         <Draw :editor="editor" :shape="shape" />
+        <BulletList :editor="editor" :shape="shape"></BulletList>
         <TaskList :editor="editor" :shape="shape" />
         <Table :editor="editor" :shape="shape"></Table>
         <SmartPre :editor="editor" :shape="shape"></SmartPre>
