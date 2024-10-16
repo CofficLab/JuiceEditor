@@ -100,8 +100,6 @@ watch(() => app.message.uuid, () => messageStore.setMessage(app.message))
 // collect error from every store
 watch(() => app.error, () => messageStore.setError(app.error))
 
-
-
 onMounted(() => {
 	editor.on('translation:error', handleTranslationError)
 })
@@ -110,8 +108,8 @@ onBeforeUnmount(() => {
 	editor.off('translation:error', handleTranslationError)
 })
 
-function handleTranslationError(error: any) {
-	messageStore.setError(error)
+function handleTranslationError(message: string) {
+	messageStore.setError(new Error(message))
 }
 </script>
 

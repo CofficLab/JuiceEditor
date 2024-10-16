@@ -121,8 +121,12 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
                         const translatedNode = editor.schema.text(translatedContent);
                         const tr = editor.state.tr.replaceWith(start, end, translatedNode);
                         editor.view.dispatch(tr);
-                    } catch (error) {
-                        editor.emit('translation:error', 'Translation failed. Please try again.');
+                    } catch (error: unknown) {
+                        if (error instanceof Error) {
+                            editor.emit('translation:error', "翻译失败: " + error.message);
+                        } else {
+                            editor.emit('translation:error', '翻译失败: 未知错误');
+                        }
                     }
                 })();
 
@@ -150,7 +154,6 @@ async function performTranslation(content: string, language: string, apiUrl: str
             throw new Error(`Translation API returned status code: ${response.status}`);
         }
     } catch (error) {
-        // 保持原始错误堆栈
         if (error instanceof Error) {
             throw error;
         } else {

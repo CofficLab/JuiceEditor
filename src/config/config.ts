@@ -49,6 +49,7 @@ interface ConfigType {
     editorLabel: string;
     isDebug: boolean;
     monacoLink: string;
+    translateApi: string;
     plugins: Plugin[];
     listeners: Listener[];
     focusClassName: string;
@@ -60,13 +61,18 @@ const focusClassName = 'focused'
 const drawLink = isDebug
     ? '/drawio/webapp/index.html?'
     : '/drawio/index.html?'
+const monacoLink = isDebug
+    ? '/monaco/index.html'
+    : '/editor/monaco/index.html'
+const translateApi = isDebug
+    ? 'http://127.0.0.1/api/translate'
+    : 'http://127.0.0.1:49493/api/translate'
 
 const Config: ConfigType = {
     'editorLabel': 'juice-editor',
     'isDebug': isDebug,
-    'monacoLink': isDebug
-        ? '/monaco/index.html'
-        : '/editor/monaco/index.html',
+    'monacoLink': monacoLink,
+    'translateApi': translateApi,
     'plugins': [
         ('webkit' in window) ? new WebKit() : new LocalApp(),
         new EventPlugin(),
@@ -81,14 +87,16 @@ const Config: ConfigType = {
     extensions: makeExtensions({
         drawIoLink: drawLink,
         drawEnable: true,
-        tableEnable: true
+        tableEnable: true,
+        translateApi: translateApi
     })
 }
 
 interface makeExtensionsProps {
     drawIoLink?: string,
     drawEnable?: boolean,
-    tableEnable?: boolean
+    tableEnable?: boolean,
+    translateApi: string
 }
 
 function makeExtensions(props: makeExtensionsProps) {
@@ -160,7 +168,7 @@ function makeExtensions(props: makeExtensionsProps) {
         }),
         // Ring,
         SmartParagraph.configure({
-            translateApi: 'http://127.0.0.1:49493/api/translate',
+            translateApi: props.translateApi,
         }),
         Padding,
         NewLine,
