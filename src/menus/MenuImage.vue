@@ -6,9 +6,9 @@ import Reset from '../ui/icons/Reset.vue'
 import Button from '../ui/Button.vue'
 import { Editor } from '@tiptap/core'
 import { IMAGE } from '../config/nodes'
-import EventProvider from '../provider/EventProvider'
 import ImageHelper from '../helper/ImageHelper'
 import IconInfo from '../ui/icons/IconInfo.vue';
+import SmartImage from '../extensions/SmartImage/SmartImage'
 
 let props = defineProps({
     editor: {
@@ -104,10 +104,23 @@ function changeImage() {
 }
 
 function downloadImage() {
-    let attrs = props.editor.getAttributes(IMAGE)
+    let verbose = false
+
+    let attrs = props.editor.getAttributes(SmartImage.name)
     let src: string = attrs.src
 
-    EventProvider.downloadImage(src, "image-" + Date.now() + ImageHelper.getExtension(src))
+    if (verbose) {
+        console.log('downloadImage', SmartImage.name)
+        console.log('downloadImage', attrs)
+        console.log('downloadImage', src)
+    }
+
+    window.dispatchEvent(new CustomEvent('downloadImage', {
+        detail: {
+            src: src,
+            name: "image-" + Date.now() + ImageHelper.getExtension(src)
+        }
+    }))
 }
 
 async function onFileSelected() {

@@ -52,6 +52,12 @@ watch(() => app.error, () => messageStore.setError(app.error))
 
 watch(() => config.translateApi, onTranslateApiChange)
 
+window.addEventListener('downloadImage', ((event: CustomEvent) => {
+    pluginProvider!.plugins.forEach(plugin => {
+        plugin.onDownloadImage(event.detail.src, event.detail.name)
+    })
+}) as EventListener);
+
 function handleTranslationError(message: string) {
     messageStore.setError(new Error(message))
 }
