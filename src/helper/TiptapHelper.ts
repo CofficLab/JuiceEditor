@@ -5,6 +5,9 @@ import DomHelper from './DomHelper';
 import { A, BANNER, BLOCKQUOTE, BULLET_LIST, CODE_BLOCK, DRAW, HEADING, IMAGE, LIST_ITEM, ORDERED_LIST, STRIKE, TABLE, TABLE_HEADER, TABLE_ROW, TEXT } from '../config/nodes';
 import EditorData from '../model/EditorData';
 import { SmartFocus } from '../extensions/SmartFocus';
+import UUIDHelper from './UUIDHelper';
+import { Root } from '../extensions/Root/Root';
+import SmartDoc from '../extensions/SmartDoc';
 
 const title = '📒 TiptapHelper'
 
@@ -308,6 +311,66 @@ class TiptapHelper {
 
         return this.getTitle(content[0])
     }
+
+    static flattenBlock(block: JSONContent): JSONContent[] {
+        var newBlock = block
+
+        if (newBlock.attrs == null) {
+            newBlock.attrs = {}
+        }
+
+        if (newBlock.attrs.uuid == null) {
+            newBlock.attrs.uuid = UUIDHelper.generate();
+        }
+
+        if (newBlock.type == Root.name) {
+            newBlock.attrs.title = TiptapHelper.getTitle(newBlock)
+        }
+
+        var children = newBlock.content || []
+
+        if (children.length > 0) {
+            children.map(child => {
+                child.attrs = child.attrs || {};
+
+                if (child.type == TEXT) {
+                    if (newBlock.attrs && newBlock.attrs.uuid) {
+                        child.attrs.uuid = "text-" + newBlock.attrs.uuid;
+                    }
+                }
+
+                if (newBlock.type !== SmartDoc.name) {
+                    child.attrs.parent = newBlock.attrs!.uuid;
+                }
+            });
+        }
+
+        var flattened: JSONContent[] = []
+
+        if (newBlock.type != SmartDoc.name) {
+            flattened.push(newBlock)
+        }
+
+        if (children.length > 0) {
+            children.forEach(content => {
+                flattened = flattened.concat(TiptapHelper.flattenBlock(content))
+            })
+        }
+
+        const collection = flattened.map(b => {
+            const { content, ...rest } = b;
+            return rest;
+        });
+
+        collection.forEach(b => {
+            if (!b.attrs?.uuid) {
+                console.warn("uuid is null", b)
+            }
+        })
+
+        return collection
+    }
 }
 
 export default TiptapHelper
+

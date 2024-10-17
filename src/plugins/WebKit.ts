@@ -1,10 +1,10 @@
-import { channel } from "diagnostics_channel";
 import Plugin from "../contract/Plugin";
 import EditorData from "../model/EditorData";
-import { send } from "vite";
 import TreeNode from "src/model/TreeNode";
 import PageMode from "../model/PageMode";
 import ImageHelper from "../helper/ImageHelper";
+import TiptapHelper from "../helper/TiptapHelper";
+import { Root } from "../extensions/Root/Root";
 const title = "🍎 WebKit"
 
 class WebKit implements Plugin {
@@ -44,6 +44,12 @@ class WebKit implements Plugin {
         messageData.channel = "updateDoc"
         messageData.title = doc.title
         messageData.html = doc.html
+        messageData.nodes = TiptapHelper.flattenBlock(doc.node).map(node => {
+            if (node.type == Root.name) {
+                node.html = doc.html
+            }
+            return node
+        })
         messageData.wordCount = doc.wordCount
         messageData.characterCount = doc.characterCount
 

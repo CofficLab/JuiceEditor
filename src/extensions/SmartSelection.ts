@@ -2,6 +2,8 @@ import { Editor, Extension, findParentNode } from '@tiptap/core'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
 import { LIST_TYPE } from '../config/nodes'
+import SmartImage from './SmartImage/SmartImage'
+import SmartTable from './SmartTable/SmartTable'
 
 declare module '@tiptap/core' {
 	interface Commands<ReturnType> {
@@ -64,41 +66,20 @@ export default Extension.create({
 				() =>
 					({ editor, chain }) => {
 						const node = getSelectionNode(editor)
-						console.log(node)
 						if (!node) {
 							console.warn("no selected node")
 							return false
 						}
 
-						if (editor.isActive('table')) {
-							chain().focus().deleteTable().run()
-							return true
+						if (editor.isActive(SmartTable.name)) {
+							return chain().focus().deleteTable().run()
 						}
-						console.log('delete node type', node.type.name)
+
+						if (node.type.name === SmartImage.name) {
+							return chain().focus().deleteSelection().run()
+						}
+
 						return chain().focus().deleteNode(node.type.name).run()
-
-						// return
-						// let selection = editor.value.state.selection
-						// var nodePos: NodePos = editor.value.$pos(selection.$anchor.pos)
-
-						// console.log(nodePos)
-
-						// while (nodePos.depth > 1) {
-						// 	let parent = nodePos.parent
-
-						// 	if (!parent) {
-						// 		console.log(nodePos)
-						// 		throw new Error('parent is null')
-						// 	}
-
-						// 	nodePos = parent
-						// }
-
-						// let node = nodePos.node
-
-						// console.log(emoji, 'current node is', node.type.name)
-
-						// editor.value.commands.deleteNode(node.type.name)
 					},
 		}
 	},

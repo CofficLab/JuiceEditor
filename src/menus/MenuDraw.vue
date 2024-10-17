@@ -5,10 +5,10 @@ import IconEdit from '../ui/icons/IconEdit.vue'
 import Button from '../ui/Button.vue'
 import { Editor } from '@tiptap/core'
 import { IMAGE } from '../config/nodes'
-import EventProvider from '../provider/EventProvider'
 import { makeDrawUrl } from '../extensions/SmartImage/DrawUrl'
 import Opening from '../extensions/SmartImage/Opening.vue'
 import DrawConfig from '../extensions/SmartImage/DrawConfig'
+import ImageHelper from '../helper/ImageHelper'
 
 let props = defineProps({
     editor: {
@@ -59,7 +59,7 @@ function downloadImage() {
     let attrs = props.editor.getAttributes(IMAGE)
     let src: string = attrs.src
 
-    EventProvider.downloadImage(src, "image")
+    window.dispatchEvent(new CustomEvent('downloadImage', { detail: { src: src, name: "image-" + Date.now() + ImageHelper.getExtension(src) } }))
 }
 
 // 画图页面已经准备完成，可以展示了

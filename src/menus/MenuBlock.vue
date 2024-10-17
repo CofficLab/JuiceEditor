@@ -60,10 +60,6 @@ watch(
 	{ immediate: true }
 )
 
-function deleteNode() {
-	editor.value.chain().focus().deleteSelectionNode().run()
-}
-
 function updateMenuPosition() {
 	let verbose = false
 	let editorDom = props.editor.view.dom
@@ -121,7 +117,7 @@ function shouldShowNewLineMenu() {
 <template>
 	<div v-if="visible" :style="`transform: translate(${marginLeft}px, ${scrollTop}px);`" class="w-22">
 		<ButtonList>
-			<Button tip="删除" @click="deleteNode">
+			<Button tip="删除" @click="editor.commands.deleteSelectionNode()">
 				<IconDelete size="md" color="primary"></IconDelete>
 			</Button>
 
