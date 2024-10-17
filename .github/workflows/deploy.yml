@@ -146,7 +146,7 @@ jobs:
                     git config --global user.name "GitHub Action of Kuaiyizhi_Editor"
                     git config --global user.email "action@github.com"
                     git add .
-                    git commit -m "🎨 Choreupdate editor to ${version}"
+                    git commit -m "👷 CI: update editor to ${version}"
                     git push origin dev
                   fi
 
