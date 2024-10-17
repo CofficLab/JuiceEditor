@@ -45,7 +45,7 @@ import SmartPlaceholder from "../extensions/SmartPlaceholder"
 import { HEADING, PARAGRAPH, ROOT, TOC } from "../config/nodes"
 
 interface makeExtensionsProps {
-    drawIoLink?: string,
+    drawIoLink: string,
     drawEnable?: boolean,
     tableEnable?: boolean,
     translateApi: string,
@@ -101,6 +101,7 @@ export const useConfigStore = defineStore('config-store', {
             return makeExtensions({
                 translateApi: this.translateApi,
                 focusClassName: this.focusClassName,
+                drawIoLink: this.drawLink,
             })
         }
     }
