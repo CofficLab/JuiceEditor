@@ -95,6 +95,10 @@ export const useConfigStore = defineStore('config-store', {
                 console.log(`${title}.setTranslateApi(${api})`)
             }
 
+            if (this.translateApi === api) {
+                return
+            }
+
             this.translateApi = api
             this.updatedAt = new Date()
         },
@@ -104,6 +108,10 @@ export const useConfigStore = defineStore('config-store', {
 
             if (verbose) {
                 console.log(`${title}.setDrawIoLink(${url})`)
+            }
+
+            if (this.drawLink === url) {
+                return
             }
 
             this.drawLink = url
