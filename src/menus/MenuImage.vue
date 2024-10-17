@@ -1,8 +1,7 @@
 <script lang="ts" setup>
-import { defineProps, ref } from 'vue'
+import { computed, defineProps, ref } from 'vue'
 import IconDownload from '../ui/icons/IconDownload.vue'
 import IconEdit from '../ui/icons/IconEdit.vue'
-import Reset from '../ui/icons/Reset.vue'
 import Button from '../ui/Button.vue'
 import { Editor } from '@tiptap/core'
 import { IMAGE } from '../config/nodes'
@@ -29,73 +28,6 @@ function fileToBase64(file: File) {
         reader.readAsDataURL(file)
         reader.onload = () => resolve(reader.result)
         reader.onerror = (error) => reject(error)
-    })
-}
-
-function setHexagon() {
-    props.editor.commands.updateAttributes(IMAGE, {
-        class: 'mask mask-hexagon'
-    })
-}
-
-
-function setHeart() {
-    props.editor.commands.updateAttributes(IMAGE, {
-        class: 'mask mask-heart'
-    })
-}
-
-function setSquircle() {
-    props.editor.commands.updateAttributes(IMAGE, {
-        class: 'mask mask-squircle'
-    })
-}
-
-function setDecagon() {
-    props.editor.commands.updateAttributes(IMAGE, {
-        class: 'mask mask-decagon'
-    })
-}
-
-function setPentagon() {
-    props.editor.commands.updateAttributes(IMAGE, {
-        class: 'mask mask-pentagon'
-    })
-}
-
-function setDiamond() {
-    props.editor.commands.updateAttributes(IMAGE, {
-        class: 'mask mask-diamond'
-    })
-}
-
-function setSquare() {
-    props.editor.commands.updateAttributes(IMAGE, {
-        class: 'mask mask-square'
-    })
-}
-
-function setCircle() {
-    props.editor.commands.updateAttributes(IMAGE, {
-        class: 'mask mask-circle'
-    })
-}
-
-function setParallelogram() {
-    props.editor.commands.updateAttributes(IMAGE, {
-        class: 'mask mask-parallelogram'
-    })
-}
-
-function setStar() {
-    props.editor.commands.updateAttributes(IMAGE, {
-        class: 'mask mask-star'
-    })
-}
-
-function reset() {
-    props.editor.commands.updateAttributes(IMAGE, {
-        class: ''
     })
 }
 
@@ -132,6 +64,10 @@ async function onFileSelected() {
         src: base64
     })
 }
+
+let shapeClass = computed(() => {
+    return props.editor.options.extensions.find(extension => extension.name === SmartImage.name)?.options.shapeClass
+})
 </script>
 
 <template>
@@ -141,57 +77,20 @@ async function onFileSelected() {
     <Button @click="downloadImage" tip="下载" :shape="shape">
         <IconDownload></IconDownload>
     </Button>
-    <div class="dropdown dropdown-bottom inline w-8 h-8">
-        <Button tabindex="0" role="button" tip="样式" :shape="shape">
+    <div class="dropdown dropdown-bottom h-8 w-8">
+        <Button tabindex="0" role="button" tip="样式" size="md" :shape="shape">
             <IconInfo></IconInfo>
         </Button>
-        <div tabindex="0" class="dropdown-content bg-slate-100 rounded-box z-50 p-2 shadow w-48">
+        <div tabindex="0" class="dropdown-content bg-slate-100 dark:bg-zinc-900 rounded-box z-50 p-2 shadow w-48">
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
-                <!-- <li><a @click="setTriangle">三角形</a></li> -->
-                <!-- <li><a @click="setTriangle2">三角形2</a></li> -->
-                <!-- <li><a @click="setTriangle3">三角形3</a></li> -->
-                <!-- <li><a @click="setTriangle4">三角形4</a></li> -->
-                <!-- <li><a @click="setParallelogram2">平行四边形2</a></li> -->
-                <!-- <li><a @click="setParallelogram3">平行四边形3</a></li> -->
-                <!-- <li><a @click="setParallelogram4">平行四边形4</a></li> -->
-                <!-- <li><a @click="setStar2">星形2</a></li> -->
-                <!-- <li><a @click="setHexagon2">六边形2</a></li> -->
-                <Button @click="setSquircle">
-                    <div class="w-5 h-5 bg-cyan-400 mask mask-squircle"></div>
-                </Button>
-                <Button @click="setHeart">
-                    <div class="w-5 h-5 bg-cyan-400 mask mask-heart"></div>
-                </Button>
-                <Button @click="setDecagon">
-                    <div class="w-5 h-5 bg-cyan-400 mask mask-decagon"></div>
-                </Button>
-                <Button @click="setHexagon">
-                    <div class="w-5 h-5 bg-cyan-400 mask mask-hexagon"></div>
-                </Button>
-                <Button @click="setPentagon">
-                    <div class="w-5 h-5 bg-cyan-400 mask mask-pentagon"></div>
-                </Button>
-                <Button @click="setStar">
-                    <div class="w-5 h-5 bg-cyan-400 mask mask-star"></div>
-                </Button>
-                <Button @click="setParallelogram">
-                    <div class="w-5 h-5 bg-cyan-400 mask mask-parallelogram"></div>
-                </Button>
-                <Button @click="setDiamond">
-                    <div class="w-5 h-5 bg-cyan-400 mask mask-diamond"></div>
-                </Button>
-                <Button @click="setSquare">
-                    <div class="w-5 h-5 bg-cyan-400 mask mask-square"></div>
-                </Button>
-                <Button @click="setCircle">
-                    <div class="w-5 h-5 bg-cyan-400 mask mask-circle"></div>
-                </Button>
+                <div v-for="shape in Object.keys(shapeClass)"
+                    class="w-7 h-7 flex items-center justify-center cursor-pointer transition-colors duration-200 ease-in-out hover:bg-indigo-200/90 rounded-full p-1"
+                    :key="shape" @click="props.editor.commands.setShape(shape)">
+                    <div :class="shapeClass[shape]" class="w-5 h-5 rounded-full p-1 bg-cyan-400"></div>
+                </div>
             </div>
         </div>
     </div>
-    <Button @click="reset" tip="恢复原始形状" :shape="shape">
-        <Reset></Reset>
-    </Button>
     <input ref="fileInput" multiple="false" accept="image/*" type="file" style="display: none"
         @change="onFileSelected" />
 </template>
