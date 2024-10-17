@@ -50,7 +50,8 @@ watch(() => app.message.uuid, () => messageStore.setMessage(app.message))
 // collect error from every store
 watch(() => app.error, () => messageStore.setError(app.error))
 
-watch(() => config.translateApi, onTranslateApiChange)
+// if config change, reload
+watch(() => config.updatedAt, reload)
 
 window.addEventListener('downloadImage', ((event: CustomEvent) => {
     pluginProvider!.plugins.forEach(plugin => {
@@ -60,10 +61,6 @@ window.addEventListener('downloadImage', ((event: CustomEvent) => {
 
 function handleTranslationError(message: string) {
     messageStore.setError(new Error(message))
-}
-
-function onTranslateApiChange() {
-    reload()
 }
 
 function createEditor(): Editor {

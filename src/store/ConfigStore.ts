@@ -69,6 +69,7 @@ const defaultMonacoLink = isDebug
 export const useConfigStore = defineStore('config-store', {
     state: () => {
         return {
+            updatedAt: new Date(),
             drawLink: defaultDrawIoLink,
             monacoLink: defaultMonacoLink,
             translateApi: defaultTranslateApi,
@@ -95,6 +96,18 @@ export const useConfigStore = defineStore('config-store', {
             }
 
             this.translateApi = api
+            this.updatedAt = new Date()
+        },
+
+        setDrawIoLink(url: string) {
+            let verbose = true
+
+            if (verbose) {
+                console.log(`${title}.setDrawIoLink(${url})`)
+            }
+
+            this.drawLink = url
+            this.updatedAt = new Date()
         },
 
         getExtensions() {
