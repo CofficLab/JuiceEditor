@@ -59,7 +59,7 @@ const SmartImage = ImageTipTap.extend<ImageOptions>({
                 star: 'mask mask-star',
                 hexagon: 'mask mask-hexagon',
                 triangle: 'mask mask-triangle',
-                none: 'ring ring-primary bg-red-400',
+                none: '',
             }
         }
     },

@@ -86,7 +86,12 @@ let shapeClass = computed(() => {
                 <div v-for="shape in Object.keys(shapeClass)"
                     class="w-7 h-7 flex items-center justify-center cursor-pointer transition-colors duration-200 ease-in-out hover:bg-indigo-200/90 rounded-full p-1"
                     :key="shape" @click="props.editor.commands.setShape(shape)">
-                    <div :class="shapeClass[shape]" class="w-5 h-5 rounded-full p-1 bg-cyan-400"></div>
+                    <div :class="[
+                        shapeClass[shape],
+                        'w-5 h-5 rounded-full p-1',
+                        { 'ring-1 scale-90': shape === 'none' },
+                        { ' bg-cyan-400': shape !== 'none' }
+                    ]"></div>
                 </div>
             </div>
         </div>
