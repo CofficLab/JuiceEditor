@@ -2,128 +2,128 @@
 name: Release
 
 on:
-  push:
-    branches: [main]
-    tags:
-      - '*'
+    push:
+        branches: [main]
+        tags:
+            - '*'
 
 permissions:
-  contents: write
+    contents: write
 
 env:
-  tag: ${{ github.event.head_commit.id }}
+    tag: ${{ github.event.head_commit.id }}
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: 当前用户
-        run: whoami
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: NPM 版本
-        run: npm -v
-      - name: 安装PNPM
-        run: npm i -g pnpm
-      - name: NPM 安装
-        run: pnpm i
-      - name: NPM 构建
-        run: npm run build
-      - name: 上传构件
-        uses: actions/upload-artifact@v4
-        with:
-          name: dist
-          path: dist
-          retention-days: 1
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: 当前用户
+              run: whoami
+            - name: Checkout
+              uses: actions/checkout@v4
+            - name: NPM 版本
+              run: npm -v
+            - name: 安装PNPM
+              run: npm i -g pnpm
+            - name: NPM 安装
+              run: pnpm i
+            - name: NPM 构建
+              run: npm run build
+            - name: 上传构件
+              uses: actions/upload-artifact@v4
+              with:
+                  name: dist
+                  path: dist
+                  retention-days: 1
 
-  tag:
-    needs: [build]
-    runs-on: ubuntu-latest
-    steps:
-      - name: 当前用户
-        run: whoami
-      - uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-      - name: 生成标签
-        run: |
-          git config --global user.name "GitHub Action"
-          git config --global user.email "action@github.com"
-          npm version patch
-          git push origin main --tags
-      - name: 读取版本，写入文件
-        run: |
-          version=$(node -p "require('./package.json').version")
-          echo $version
-          echo "${version}" >> version.txt
-      - name: 上传构件
-        uses: actions/upload-artifact@v4
-        with:
-          name: version
-          path: version.txt
-          retention-days: 1
-  
-  rebase_dev:
-    needs:
-      - tag
-    runs-on: ubuntu-latest
-    steps:
-      - name: 拉取 dev 分支
-        uses: actions/checkout@v3
-        with:
-          ref: dev
-      - name: Rebase dev on main
-        continue-on-error: true
-        run: git rebase origin/main
-      - name: Push the rebased dev branch
-        continue-on-error: true
-        run: git push origin dev
+    tag:
+        needs: [build]
+        runs-on: ubuntu-latest
+        steps:
+            - name: 当前用户
+              run: whoami
+            - uses: actions/checkout@v4
+              with:
+                  token: ${{ secrets.GITHUB_TOKEN }}
+            - name: 生成标签
+              run: |
+                  git config --global user.name "GitHub Action"
+                  git config --global user.email "action@github.com"
+                  npm version patch -m "👷 CI: Upgrade to v%s"
+                  git push origin main --tags
+            - name: 读取版本，写入文件
+              run: |
+                  version=$(node -p "require('./package.json').version")
+                  echo $version
+                  echo "${version}" >> version.txt
+            - name: 上传构件
+              uses: actions/upload-artifact@v4
+              with:
+                  name: version
+                  path: version.txt
+                  retention-days: 1
 
-  release:
-    runs-on: ubuntu-latest
-    needs: [tag]
-    steps:
-      - uses: actions/checkout@v4
-      - name: 下载版本构件
-        uses: actions/download-artifact@v4
-        with:
-          name: version
-          path: temp
-      - run: ls -alhR
-      - name: 读取版本号
-        run: |
+    rebase_dev:
+        needs:
+            - tag
+        runs-on: ubuntu-latest
+        steps:
+            - name: 拉取 dev 分支
+              uses: actions/checkout@v3
+              with:
+                  ref: dev
+            - name: Rebase dev on main
+              continue-on-error: true
+              run: git rebase origin/main
+            - name: Push the rebased dev branch
+              continue-on-error: true
+              run: git push origin dev
 
-          version=$(cat temp/version.txt)
-          echo $version
+    release:
+        runs-on: ubuntu-latest
+        needs: [tag]
+        steps:
+            - uses: actions/checkout@v4
+            - name: 下载版本构件
+              uses: actions/download-artifact@v4
+              with:
+                  name: version
+                  path: temp
+            - run: ls -alhR
+            - name: 读取版本号
+              run: |
 
-          # 写入环境变量
-          echo "tag=v$version" >> $GITHUB_ENV
-      - uses: softprops/action-gh-release@v1
-        with:
-          tag_name: ${{ env.tag }}
-          files: |
-            ./**/*.dmg
-            ./**/*.zip
-            ./**/*.exe
-            ./**/*.pkg
-            ./**/*.deb
-            ./**/*.ipa
-            ./**/*.AppImage
-            ./**/*.snap
+                  version=$(cat temp/version.txt)
+                  echo $version
 
-  clear:
-    needs:
-      - release
-    runs-on: ubuntu-latest
-    permissions:
-      actions: write
-    steps:
-      - name: 当前用户
-        run: whoami
-      - name: 清理构件
-        uses: geekyeggo/delete-artifact@v4
-        with:
-          token: ${{ github.token }}
-          name: |
-            dist
-            version
+                  # 写入环境变量
+                  echo "tag=v$version" >> $GITHUB_ENV
+            - uses: softprops/action-gh-release@v1
+              with:
+                  tag_name: ${{ env.tag }}
+                  files: |
+                      ./**/*.dmg
+                      ./**/*.zip
+                      ./**/*.exe
+                      ./**/*.pkg
+                      ./**/*.deb
+                      ./**/*.ipa
+                      ./**/*.AppImage
+                      ./**/*.snap
+
+    clear:
+        needs:
+            - release
+        runs-on: ubuntu-latest
+        permissions:
+            actions: write
+        steps:
+            - name: 当前用户
+              run: whoami
+            - name: 清理构件
+              uses: geekyeggo/delete-artifact@v4
+              with:
+                  token: ${{ github.token }}
+                  name: |
+                      dist
+                      version
