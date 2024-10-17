@@ -9,6 +9,7 @@ export interface ImageOptions {
     monacoLink: string,
     baseImage: string,
     HTMLAttributes: Record<string, any>,
+    shapeClass: Record<string, string>,
 }
 
 declare module '@tiptap/core' {
@@ -16,6 +17,7 @@ declare module '@tiptap/core' {
         SmartImage: {
             insertImage: () => ReturnType,
             insertDraw: () => ReturnType,
+            setShape: (shape: string) => ReturnType,
         }
     }
 }
@@ -45,6 +47,20 @@ const SmartImage = ImageTipTap.extend<ImageOptions>({
             baseImage: baseImage,
             openDialog: 'click',
             HTMLAttributes: {},
+            shapeClass: {
+                heart: 'mask mask-heart',
+                squircle: 'mask mask-squircle',
+                decagon: 'mask mask-decagon',
+                pentagon: 'mask mask-pentagon',
+                diamond: 'mask mask-diamond',
+                square: 'mask mask-square',
+                circle: 'mask mask-circle',
+                parallelogram: 'mask mask-parallelogram',
+                star: 'mask mask-star',
+                hexagon: 'mask mask-hexagon',
+                triangle: 'mask mask-triangle',
+                none: '',
+            }
         }
     },
 
@@ -103,6 +119,12 @@ const SmartImage = ImageTipTap.extend<ImageOptions>({
                     },
                 })
             },
+
+            setShape: (shape: string) => ({ commands }) => {
+                return commands.updateAttributes(this.name, {
+                    class: this.options.shapeClass[shape]
+                })
+            }
         }
     }
 })

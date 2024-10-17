@@ -9,6 +9,7 @@ import { makeDrawUrl } from '../extensions/SmartImage/DrawUrl'
 import Opening from '../extensions/SmartImage/Opening.vue'
 import DrawConfig from '../extensions/SmartImage/DrawConfig'
 import ImageHelper from '../helper/ImageHelper'
+import SmartImage from '../extensions/SmartImage/SmartImage'
 
 let props = defineProps({
     editor: {
@@ -22,7 +23,11 @@ let props = defineProps({
 })
 
 const opening = ref<HTMLImageElement | null>(null)
-const drawIoLink = props.editor.options.extensions.find((extension: any) => extension.name === IMAGE)?.options.drawIoLink
+const drawIoLink = props.editor.options.extensions.find((extension: any) => extension.name === SmartImage.name)?.options.drawIoLink
+
+if (!drawIoLink) {
+    console.error('🍋 SmartDraw: 没有找到 drawIoLink')
+}
 
 const drawingPage = document.createElement('iframe')
 drawingPage.setAttribute('frameborder', '0')

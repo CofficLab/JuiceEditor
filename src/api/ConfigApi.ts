@@ -4,6 +4,7 @@ let title = "🔧 ConfigApi"
 
 export default class ConfigApi {
     public configProvider: ConfigStore
+
     constructor(configProvider: ConfigStore) {
         let verbose = false
 
@@ -20,5 +21,9 @@ export default class ConfigApi {
 
     public setTranslateApi(url: string) {
         this.configProvider.setTranslateApi(url)
+    }
+
+    public setDrawIoLink(url: string) {
+        this.configProvider.setDrawIoLink(url)
     }
 }

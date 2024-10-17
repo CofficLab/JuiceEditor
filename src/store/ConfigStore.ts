@@ -45,7 +45,7 @@ import SmartPlaceholder from "../extensions/SmartPlaceholder"
 import { HEADING, PARAGRAPH, ROOT, TOC } from "../config/nodes"
 
 interface makeExtensionsProps {
-    drawIoLink?: string,
+    drawIoLink: string,
     drawEnable?: boolean,
     tableEnable?: boolean,
     translateApi: string,
@@ -69,6 +69,7 @@ const defaultMonacoLink = isDebug
 export const useConfigStore = defineStore('config-store', {
     state: () => {
         return {
+            updatedAt: new Date(),
             drawLink: defaultDrawIoLink,
             monacoLink: defaultMonacoLink,
             translateApi: defaultTranslateApi,
@@ -95,12 +96,25 @@ export const useConfigStore = defineStore('config-store', {
             }
 
             this.translateApi = api
+            this.updatedAt = new Date()
+        },
+
+        setDrawIoLink(url: string) {
+            let verbose = true
+
+            if (verbose) {
+                console.log(`${title}.setDrawIoLink(${url})`)
+            }
+
+            this.drawLink = url
+            this.updatedAt = new Date()
         },
 
         getExtensions() {
             return makeExtensions({
                 translateApi: this.translateApi,
                 focusClassName: this.focusClassName,
+                drawIoLink: this.drawLink,
             })
         }
     }
