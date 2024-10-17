@@ -58,7 +58,7 @@ const editorLabel = 'juice-editor'
 const defaultTranslateApi = isDebug
     ? 'http://127.0.0.1/api/translate'
     : 'http://127.0.0.1:49493/api/translate'
-const defaultFocusClassName = 'smart-focus'
+const defaultFocusClassName = 'focused'
 const defaultDrawIoLink = isDebug
     ? '/drawio/webapp/index.html?'
     : '/drawio/index.html?'
