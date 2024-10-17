@@ -44,6 +44,7 @@ class WebKit implements Plugin {
         messageData.channel = "updateDoc"
         messageData.title = doc.title
         messageData.html = doc.html
+        messageData.nodes = doc.nodes
         messageData.wordCount = doc.wordCount
         messageData.characterCount = doc.characterCount
 

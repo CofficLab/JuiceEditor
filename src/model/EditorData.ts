@@ -1,5 +1,7 @@
 import { Editor, JSONContent } from '@tiptap/core'
 import { DOC, HEADING } from '../config/nodes'
+import TiptapHelper from '../helper/TiptapHelper'
+import { Root } from '../extensions/Root/Root'
 
 const emoji = '🍉 EditorDoc'
 
@@ -7,6 +9,7 @@ const emoji = '🍉 EditorDoc'
 export default class EditorData {
     public title: string = ""
     public html: string = `<div data-type="root" data-uuid="default-root"></div>`
+    public nodes: JSONContent[] = []
     public wordCount: number = 0
     public characterCount: number = 0
 
@@ -36,6 +39,12 @@ export default class EditorData {
         doc.wordCount = editor.storage.characterCount.words()
         doc.characterCount = editor.storage.characterCount.characters()
         doc.html = editor.getHTML()
+        doc.nodes = TiptapHelper.flattenBlock(editor.getJSON()).map(node => {
+            if (node.type == Root.name) {
+                node.html = doc.html
+            }
+            return node
+        })
         doc.title = EditorData.getTitleFromEditor(editor)
 
         return doc
@@ -52,6 +61,11 @@ export default class EditorData {
 
     setHtml(html: string): this {
         this.html = html
+        return this
+    }
+
+    setNodes(nodes: JSONContent[]): this {
+        this.nodes = nodes
         return this
     }
 

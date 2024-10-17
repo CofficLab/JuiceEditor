@@ -92,7 +92,7 @@ function createEditor(): Editor {
             app.setReady('App.onCreate')
         },
         onUpdate: (data: EditorData | Error) => {
-            let verbose = false
+            let verbose = true
 
             if (verbose) {
                 console.log(title, "OnUpdate", data)
