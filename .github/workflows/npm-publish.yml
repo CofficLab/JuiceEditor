@@ -14,7 +14,8 @@ jobs:
               with:
                   node-version: '16'
                   registry-url: 'https://registry.npmjs.org'
-            - run: npm ci
+            - run: npm install -g pnpm
+            - run: pnpm install
             - run: npm run build && rm -rf dist/drawio
             - run: npm publish
               env:
