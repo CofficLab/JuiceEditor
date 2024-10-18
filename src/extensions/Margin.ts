@@ -8,7 +8,8 @@ import { getSelectionNode } from './SmartSelection';
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
         margin: {
-            setMargin: (className: string) => ReturnType
+            moveRight: () => ReturnType,
+            moveLeft: () => ReturnType,
         }
     }
 }
@@ -40,19 +41,98 @@ export const Margin = Extension.create({
                 TABLE_CELL,
                 TABLE_HEADER
             ],
+            levels: [
+                'ml-0',
+                'ml-2',
+                'ml-4',
+                'ml-6',
+                'ml-8',
+                'ml-10',
+                'ml-12',
+                'ml-14',
+                'ml-16',
+                'ml-20',
+                'ml-24',
+                'ml-28',
+                'ml-32',
+                'ml-36',
+                'ml-40',
+                'ml-44',
+                'ml-48',
+                'ml-52',
+                'ml-56',
+                'ml-60',
+                'ml-64',
+                'ml-72',
+                'ml-80',
+                'ml-96',
+            ] as const,
         }
     },
 
     addCommands() {
         return {
-            setMargin: (className: string) => ({ commands }) => {
-                let node = getSelectionNode(this.editor)
-                console.log('node', node)
-                console.log('className', className)
-                console.log('node name', node.type.name)
-                console.log(this.editor.isActive(node.type.name))
-                return commands.updateAttributes(node.type.name, { class: className })
-            }
+            moveRight: () => ({ commands }) => {
+                let node = getSelectionNode(this.editor);
+                let attrs = { ...node.attrs };
+                let currentIndex = -1;
+
+                if (attrs.class == null) {
+                    console.log('no class attrs', attrs)
+                    return false
+                }
+
+                // 找出当前的 level 索引
+                this.options.levels.forEach((cls: string, index: number) => {
+                    if (attrs.class.includes(cls)) {
+                        currentIndex = index;
+                    }
+                });
+
+                // 删除原有的 margin class
+                this.options.levels.forEach((cls: string) => {
+                    attrs.class = attrs.class.replace(cls, '').trim();
+                });
+
+                // 设置下一个 level，如果已经是最大的索引就设置为第一个
+                const nextIndex = currentIndex + 1 < this.options.levels.length
+                    ? currentIndex + 1
+                    : 0;
+
+                attrs.class += ' ' + this.options.levels[nextIndex];
+                return commands.updateAttributes(node.type.name, attrs);
+            },
+            moveLeft: () => ({ commands }) => {
+                let node = getSelectionNode(this.editor);
+                let attrs = { ...node.attrs };
+                let currentIndex = -1;
+
+                if (attrs.class == null) {
+                    console.log('node type', node.type.name)
+                    console.log('no class attrs', attrs)
+                    return false
+                }
+
+                // 找出当前的 level 索引
+                this.options.levels.forEach((cls: string, index: number) => {
+                    if (attrs.class.includes(cls)) {
+                        currentIndex = index;
+                    }
+                });
+
+                // 删除原有的 margin class
+                this.options.levels.forEach((cls: string) => {
+                    attrs.class = attrs.class.replace(cls, '').trim();
+                });
+
+                // 设置下一个 level，如果已经是最大的索引就设置为第一个
+                const nextIndex = currentIndex - 1 >= 0
+                    ? currentIndex - 1
+                    : this.options.levels.length - 1;
+
+                attrs.class += ' ' + this.options.levels[nextIndex];
+                return commands.updateAttributes(node.type.name, attrs);
+            },
         }
     },
 

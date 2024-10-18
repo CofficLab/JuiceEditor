@@ -67,7 +67,7 @@ const SmartImage = ImageTipTap.extend<ImageOptions>({
     addAttributes() {
         return {
             class: {
-                default: null,
+                default: "",
             },
             src: {
                 default: null,

@@ -9,6 +9,8 @@ import MenuParagraph from './MenuParagraph.vue'
 import ButtonList from '../ui/ButtonList.vue'
 import IconPlus from '../ui/icons/IconPlus.vue'
 import IconRight from '../ui/icons/IconRight.vue'
+import IconLeft from '../ui/icons/IconLeft.vue'
+
 const props = defineProps({
 	editor: {
 		type: Editor,
@@ -126,7 +128,11 @@ function shouldShowNewLineMenu() {
 				<IconPlus size="md" color="primary"></IconPlus>
 			</Button>
 
-			<Button tip="往右移动" @click="editor.commands.setMargin('ml-6')">
+			<Button tip="往左移动" @click="editor.commands.moveLeft()">
+				<IconLeft size="md" color="primary"></IconLeft>
+			</Button>
+
+			<Button tip="往右移动" @click="editor.commands.moveRight()">
 				<IconRight size="md" color="primary"></IconRight>
 			</Button>
 

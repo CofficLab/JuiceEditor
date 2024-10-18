@@ -6,7 +6,7 @@ const SmartHeading = Heading.extend({
         return {
             ...this.parent?.(),
             class: {
-                default: null,
+                default: "",
             },
         }
     },
