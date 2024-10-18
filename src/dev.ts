@@ -9,9 +9,12 @@ import miniDoc from '../dev/mini';
 import bulletListDoc from '../dev/bulletList';
 import aDoc from '../dev/a';
 import featureDoc from '../dev/feature';
-export default function dev() {
-    const div = document.createElement('div');
-    div.style.cssText = `
+import { defineJuiceEditor } from './main'
+
+defineJuiceEditor()
+
+const div = document.createElement('div');
+div.style.cssText = `
         position: fixed;
         top: 0;
         left: 0;
@@ -25,8 +28,8 @@ export default function dev() {
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     `;
 
-    // Add dark mode styles
-    const darkModeStyles = `
+// Add dark mode styles
+const darkModeStyles = `
         @media (prefers-color-scheme: dark) {
             #dev-toolbar {
                 background-color: rgba(50, 50, 50, 0.8) !important;
@@ -42,34 +45,33 @@ export default function dev() {
         }
     `;
 
-    const styleElement = document.createElement('style');
-    styleElement.textContent = darkModeStyles;
-    document.head.appendChild(styleElement);
+const styleElement = document.createElement('style');
+styleElement.textContent = darkModeStyles;
+document.head.appendChild(styleElement);
 
-    div.id = 'dev-toolbar';
+div.id = 'dev-toolbar';
 
-    const buttons = [
-        { text: '功能', onclick: () => window.api.node.setHTML(featureDoc) },
-        { text: '小型', onclick: () => window.api.node.setHTML(miniDoc) },
-        { text: '文档组', onclick: () => window.api.node.setHTML(docs) },
-        { text: '混合', onclick: () => window.api.node.setHTML(baseDoc) },
-        { text: '大型', onclick: () => window.api.node.setHTML(bigDoc) },
-        { text: '图片', onclick: () => window.api.node.setHTML(imageDoc) },
-        { text: '画图', onclick: () => window.api.node.setHTML(drawDoc) },
-        { text: '段落', onclick: () => window.api.node.setHTML(pDoc) },
-        { text: '链接', onclick: () => window.api.node.setHTML(aDoc) },
-        { text: '目录', onclick: () => window.api.node.setHTML(tocDoc) },
-        { text: '列表', onclick: () => window.api.node.setHTML(bulletListDoc) },
-        { text: 'TOC', onclick: () => window.api.node.toggleToc() },
-        { text: '只读/编辑', onclick: () => window.api.node.toggleReadOnly() },
-    ];
+const buttons = [
+    { text: '功能', onclick: () => window.api.node.setHTML(featureDoc) },
+    { text: '小型', onclick: () => window.api.node.setHTML(miniDoc) },
+    { text: '文档组', onclick: () => window.api.node.setHTML(docs) },
+    { text: '混合', onclick: () => window.api.node.setHTML(baseDoc) },
+    { text: '大型', onclick: () => window.api.node.setHTML(bigDoc) },
+    { text: '图片', onclick: () => window.api.node.setHTML(imageDoc) },
+    { text: '画图', onclick: () => window.api.node.setHTML(drawDoc) },
+    { text: '段落', onclick: () => window.api.node.setHTML(pDoc) },
+    { text: '链接', onclick: () => window.api.node.setHTML(aDoc) },
+    { text: '目录', onclick: () => window.api.node.setHTML(tocDoc) },
+    { text: '列表', onclick: () => window.api.node.setHTML(bulletListDoc) },
+    { text: 'TOC', onclick: () => window.api.node.toggleToc() },
+    { text: '只读/编辑', onclick: () => window.api.node.toggleReadOnly() },
+];
 
-    buttons.forEach(button => {
-        const btn = document.createElement('button');
-        btn.textContent = button.text;
-        btn.onclick = button.onclick;
-        div.appendChild(btn);
-    });
+buttons.forEach(button => {
+    const btn = document.createElement('button');
+    btn.textContent = button.text;
+    btn.onclick = button.onclick;
+    div.appendChild(btn);
+});
 
-    document.body.insertBefore(div, document.body.firstChild);
-}
+document.body.insertBefore(div, document.body.firstChild);

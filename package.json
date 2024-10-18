@@ -100,5 +100,14 @@
     "typescript": "~5.1.6",
     "vite": "^4.5.3",
     "vue-tsc": "^1.8.27"
+  },
+  "main": "dist/juice-editor.umd.js",
+  "module": "dist/juice-editor.es.js",
+  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/juice-editor.es.js",
+      "require": "./dist/juice-editor.umd.js"
+    }
   }
 }
