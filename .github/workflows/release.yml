@@ -68,16 +68,21 @@ jobs:
             - tag
         runs-on: ubuntu-latest
         steps:
-            - name: 拉取 dev 分支
-              uses: actions/checkout@v3
+            - name: 拉取 main 分支
+              uses: actions/checkout@v4
               with:
-                  ref: dev
+                  fetch-depth: 0
+            - name: 配置 Git
+              run: |
+                  git config user.name github-actions
+                  git config user.email github-actions@github.com
             - name: Rebase dev on main
-              continue-on-error: true
-              run: git rebase origin/main
+              run: |
+                  git fetch origin dev
+                  git checkout dev
+                  git rebase origin/main
             - name: Push the rebased dev branch
-              continue-on-error: true
-              run: git push origin dev
+              run: git push origin dev --force
 
     release:
         runs-on: ubuntu-latest
