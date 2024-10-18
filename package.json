@@ -1,17 +1,18 @@
 {
   "name": "juice-editor",
-  "version": "0.9.39",
-  "private": true,
+  "version": "0.9.40",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "dev": "vite",
     "install:monaco": "cd monaco && pnpm install",
     "build": "rm -rf dist && vite build && npm run build:drawio",
     "build:drawio": "copyfiles -u 2 --all 'drawio/webapp/**/*' dist/drawio",
     "deploy": "node deploy.js",
-    "preview": "vite preview",
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@codemirror/lang-javascript": "^6.2.2",
