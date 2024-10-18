@@ -9,6 +9,7 @@ declare module '@tiptap/core' {
     interface Commands<ReturnType> {
         margin: {
             moveRight: () => ReturnType,
+            moveCenter: () => ReturnType,
             moveLeft: () => ReturnType,
         }
     }
@@ -22,12 +23,6 @@ export const Margin = Extension.create({
     addOptions() {
         return {
             defaultMargin: '',
-            marginConfig: {
-                [BULLET_LIST]: 'ml-0',
-                [TASKLIST]: 'ml-0',
-                [HEADING]: '',
-                [SmartImage.name]: 'ml-0',
-            },
             excludeNodes: [
                 ROOT,
                 A,
@@ -133,49 +128,20 @@ export const Margin = Extension.create({
                 attrs.class += ' ' + this.options.levels[nextIndex];
                 return commands.updateAttributes(node.type.name, attrs);
             },
+            moveCenter: () => ({ commands }) => {
+                let node = getSelectionNode(this.editor);
+                let attrs = { ...node.attrs };
+
+                // 删除所有 margin 相关的 class
+                this.options.levels.forEach((cls: string) => {
+                    attrs.class = attrs.class.replace(cls, '').trim();
+                });
+
+                // 添加 mx-auto 类
+                attrs.class += ' mx-auto';
+
+                return commands.updateAttributes(node.type.name, attrs);
+            },
         }
-    },
-
-    addProseMirrorPlugins() {
-        return [
-            new Plugin({
-                key: new PluginKey('margin'),
-                props: {
-                    decorations: ({ doc }) => {
-                        const decorations: Decoration[] = []
-
-                        doc.descendants((node, pos) => {
-                            if (this.options.excludeNodes.includes(node.type.name)) {
-                                return
-                            }
-
-                            const hasExcludeClass = node.attrs.class && node.attrs.class.includes(this.options.excludeClass)
-
-                            if (hasExcludeClass) {
-                                return
-                            }
-
-                            // 检查父节点是否在排除列表中
-                            const parent = doc.resolve(pos).parent
-                            if (this.options.excludeIfIn.includes(parent.type.name)) {
-                                return
-                            }
-
-                            const marginClass = this.options.marginConfig[node.type.name] || this.options.defaultMargin
-
-                            if (marginClass.trim() !== '') {
-                                decorations.push(
-                                    Decoration.node(pos, pos + node.nodeSize, {
-                                        class: marginClass,
-                                    }),
-                                )
-                            }
-                        })
-
-                        return DecorationSet.create(doc, decorations)
-                    },
-                },
-            }),
-        ];
     },
 });
