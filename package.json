@@ -1,7 +1,6 @@
 {
   "name": "juice-editor",
   "version": "0.9.33",
-  "private": true,
   "scripts": {
     "dev": "vite",
     "install:monaco": "cd monaco && pnpm install",
