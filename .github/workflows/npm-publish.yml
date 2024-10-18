@@ -1,9 +1,11 @@
 name: Publish to npm
 
 on:
-    push:
-        branches:
-            - dev
+    workflow_run:
+        workflows:
+            - 'Release'
+        types:
+            - completed
 
 jobs:
     publish:
