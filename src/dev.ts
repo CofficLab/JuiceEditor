@@ -8,6 +8,7 @@ import tocDoc from '../dev/toc';
 import miniDoc from '../dev/mini';
 import bulletListDoc from '../dev/bulletList';
 import aDoc from '../dev/a';
+import featureDoc from '../dev/feature';
 export default function dev() {
     const div = document.createElement('div');
     div.style.cssText = `
@@ -48,6 +49,7 @@ export default function dev() {
     div.id = 'dev-toolbar';
 
     const buttons = [
+        { text: '功能', onclick: () => window.api.node.setHTML(featureDoc) },
         { text: '小型', onclick: () => window.api.node.setHTML(miniDoc) },
         { text: '文档组', onclick: () => window.api.node.setHTML(docs) },
         { text: '混合', onclick: () => window.api.node.setHTML(baseDoc) },

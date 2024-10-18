@@ -43,6 +43,7 @@ import SmartDoc from "../extensions/SmartDoc"
 import SmartBold from "../extensions/SmartBold"
 import SmartPlaceholder from "../extensions/SmartPlaceholder"
 import { HEADING, PARAGRAPH, ROOT, TOC } from "../config/nodes"
+import { Margin } from "../extensions/Margin"
 
 interface makeExtensionsProps {
     drawIoLink: string,
@@ -138,6 +139,7 @@ function makeExtensions(props: makeExtensionsProps) {
         BranchContent,
         SmartDoc,
         Dropcursor,
+        Margin,
         SmartQuote.configure({
             HTMLAttributes: {
                 class: 'quote-class',

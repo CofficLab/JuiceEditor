@@ -8,6 +8,9 @@ import { HEADING, PARAGRAPH, TOC } from '../config/nodes'
 import MenuParagraph from './MenuParagraph.vue'
 import ButtonList from '../ui/ButtonList.vue'
 import IconPlus from '../ui/icons/IconPlus.vue'
+import IconRight from '../ui/icons/IconRight.vue'
+import IconLeft from '../ui/icons/IconLeft.vue'
+import IconAlignCenter from '../ui/icons/IconAlignCenter.vue'
 const props = defineProps({
 	editor: {
 		type: Editor,
@@ -123,6 +126,18 @@ function shouldShowNewLineMenu() {
 
 			<Button tip="增加一行" @click="editor.commands.addBlankLineAfterSelection()" v-if="shouldShowNewLineMenu()">
 				<IconPlus size="md" color="primary"></IconPlus>
+			</Button>
+
+			<Button tip="往左移动" @click="editor.commands.moveLeft()">
+				<IconLeft size="md" color="primary"></IconLeft>
+			</Button>
+
+			<Button tip="居中对齐" @click="editor.commands.moveCenter()">
+				<IconAlignCenter size="md" color="primary"></IconAlignCenter>
+			</Button>
+
+			<Button tip="往右移动" @click="editor.commands.moveRight()">
+				<IconRight size="md" color="primary"></IconRight>
 			</Button>
 
 			<MenuParagraph :editor="editor" v-if="shouldShowParagraphMenu()"></MenuParagraph>
