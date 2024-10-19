@@ -15,6 +15,19 @@ export default defineConfig({
     }
   },
   build: {
-    outDir: 'dist' // 自定义输出目录
+    outDir: 'dist',
+    lib: {
+      entry: fileURLToPath(new URL('./src/index.ts', import.meta.url)),
+      name: 'JuiceEditor',
+      fileName: (format) => `juice-editor.${format}.js`
+    },
+    rollupOptions: {
+      external: ['vue'],
+      output: {
+        globals: {
+          vue: 'Vue'
+        }
+      }
+    }
   }
 })

@@ -1,4 +1,4 @@
-import UpdateData from "../model/UpdateData";
+
 import Plugin from "../contract/Plugin";
 import TreeNode from "../model/TreeNode";
 import EditorData from "../model/EditorData";

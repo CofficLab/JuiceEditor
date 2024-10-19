@@ -1,7 +1,5 @@
-import { Editor, Extension, NodePos } from '@tiptap/core'
-import { VueNodeViewRenderer } from '@tiptap/vue-3'
+import { Editor, Extension } from '@tiptap/core'
 import { Node } from 'prosemirror-model'
-import PanelVue from './Panel.vue'
 
 let emoji = '🥘 Panel'
 const excepts = ['taskItem']

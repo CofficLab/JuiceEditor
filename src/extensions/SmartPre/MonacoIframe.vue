@@ -1,18 +1,11 @@
 <template>
   <div class="relative">
     <!-- Monaco -->
-    <iframe
-      :name="name"
-      ref="iframe"
-      :src="'index?language=' + language.key"
-      width="100%"
-      height="0"
-      frameborder="0"
-      allowfullscreen
-    ></iframe>
+    <iframe :name="name" ref="iframe" :src="'index?language=' + language.key" width="100%" height="0" frameborder="0"
+      allowfullscreen></iframe>
 
     <div class="absolute top-0 right-0">
-      <LanguageSelect :on-language-changed="onLanguageChanged" :language="props.language" />
+      <LanguageSelect :on-changed="onLanguageChanged" :language="props.language" />
     </div>
   </div>
 </template>
@@ -39,12 +32,12 @@ const props = defineProps({
   onUpdated: {
     type: Function,
     required: true,
-    default: () => {}
+    default: () => { }
   },
   onLanguageChanged: {
     type: Function,
     required: true,
-    default: () => {}
+    default: () => { }
   }
 })
 
@@ -58,7 +51,7 @@ onBeforeUnmount(() => {
 
 function onLanguageChanged(lan: SmartLanguage) {
   log('onLanguageChanged ->', lan)
-  iframe.value.contentWindow!.setLanguage(lan.key)
+  // iframe.value.contentWindow!.setLanguage(lan.key)
   props.onLanguageChanged(lan)
 }
 
@@ -77,7 +70,7 @@ function handleMessage(event: {
   //console.log('接收到来自 iframe 的消息:', event.data)
 
   if (event.data.event == 'ready') {
-    iframe.value.contentWindow!.setCode(props.code)
+    // iframe.value.contentWindow!.setCode(props.code)
   }
 
   if (event.data.event === 'resize' && event.data.height) {

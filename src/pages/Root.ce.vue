@@ -14,12 +14,23 @@ import Loading from '../ui/Loading.vue'
 import TiptapAgent from '../helper/TiptapHelper'
 import EditorData from '../model/EditorData'
 import { useConfigStore } from '../store/ConfigStore';
-import { AppProps } from '../model/AppProps'
 import { Editor } from '@tiptap/vue-3';
 import { ref } from 'vue';
 import App from './App.vue'
+import PageMode from '../model/PageMode';
 
-const props = defineProps(AppProps)
+
+const props = defineProps({
+    readonly: {
+        type: Boolean,
+        default: false
+    },
+    mode: {
+        type: String,
+        required: false,
+        default: PageMode.BASIC_TYPE
+    }
+})
 
 const title = "💻 App"
 const app = useAppStore()

@@ -6,15 +6,18 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup generic="T extends { getTitle: () => string }">
+import { PropType } from 'vue'
+
 defineProps({
   items: {
-    type: Array,
-    required: true
+    type: Array as PropType<T[]>,
+    required: true,
+    validator: (value: T[]) => value.every(item => typeof item.getTitle === 'function')
   },
   onclick: {
-    type: Function,
-    default: (item: any) => {}
+    type: Function as PropType<(item: T) => void>,
+    default: () => { }
   }
 })
 </script>

@@ -1,5 +1,3 @@
-import Config from "../config/config"
-import DomHelper from "../helper/DomHelper"
 import Listener from "../contract/Listener"
 import PageMode from "../model/PageMode"
 let emoji = "👂 EventListener"

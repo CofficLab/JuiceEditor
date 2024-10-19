@@ -216,6 +216,9 @@ importers:
       '@types/node':
         specifier: ^18.19.45
         version: 18.19.45
+      '@types/turndown':
+        specifier: ^5.0.5
+        version: 5.0.5
       '@vitejs/plugin-vue':
         specifier: ^4.6.2
         version: 4.6.2(vite@4.5.3(@types/node@18.19.45)(less@4.2.0)(sass@1.77.8)(terser@5.31.6))(vue@3.4.38(typescript@5.1.6))
@@ -764,6 +767,9 @@ packages:
 
   '@types/node@18.19.45':
     resolution: {integrity: sha512-VZxPKNNhjKmaC1SUYowuXSRSMGyQGmQjvvA1xE4QZ0xce2kLtEhPDS+kqpCPBZYgqblCLQ2DAjSzmgCM5auvhA==}
+
+  '@types/turndown@5.0.5':
+    resolution: {integrity: sha512-TL2IgGgc7B5j78rIccBtlYAnkuv8nUQqhQc+DSYV5j9Be9XOcm/SKOVRuA47xAVI3680Tk9B1d8flK2GWT2+4w==}
 
   '@types/uuid@9.0.8':
     resolution: {integrity: sha512-jg+97EGIcY9AGHJJRaaPVgetKDsrTgbRjQ5Msgjh/DQKEFl0DtyRr/VCOyD1T2R1MNeWPK/u7JoGhlDZnKBAfA==}
@@ -2923,6 +2929,8 @@ snapshots:
   '@types/node@18.19.45':
     dependencies:
       undici-types: 5.26.5
+
+  '@types/turndown@5.0.5': {}
 
   '@types/uuid@9.0.8': {}
 

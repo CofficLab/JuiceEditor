@@ -9,8 +9,9 @@
   "scripts": {
     "dev": "vite",
     "install:monaco": "cd monaco && pnpm install",
-    "build": "rm -rf dist && vite build && npm run build:drawio",
+    "build": "rm -rf dist && vue-tsc --emitDeclarationOnly && vite build && npm run build:drawio && npm run build:types",
     "build:drawio": "copyfiles -u 2 --all 'drawio/webapp/**/*' dist/drawio",
+    "build:types": "tsc --emitDeclarationOnly && mv dist/src dist/types",
     "deploy": "node deploy.js",
     "preview": "vite preview"
   },
@@ -86,6 +87,7 @@
     "@tailwindcss/typography": "^0.5.14",
     "@tsconfig/node18": "^18.2.4",
     "@types/node": "^18.19.45",
+    "@types/turndown": "^5.0.5",
     "@vitejs/plugin-vue": "^4.6.2",
     "@vue/tsconfig": "^0.4.0",
     "autoprefixer": "^10.4.20",
@@ -100,5 +102,14 @@
     "typescript": "~5.1.6",
     "vite": "^4.5.3",
     "vue-tsc": "^1.8.27"
+  },
+  "main": "dist/juice-editor.umd.js",
+  "module": "dist/juice-editor.es.js",
+  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/juice-editor.es.js",
+      "require": "./dist/juice-editor.umd.js"
+    }
   }
 }
