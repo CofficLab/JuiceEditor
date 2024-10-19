@@ -1,7 +1,6 @@
 import CodeBlock from '@tiptap/extension-code-block'
 import { VueNodeViewRenderer } from '@tiptap/vue-3'
 import SmartPreVue from './SmartPre.vue'
-import { v4 as uuidv4 } from 'uuid';
 import MonacoBox from './Entities/MonacoBox';
 
 const verbose = true;

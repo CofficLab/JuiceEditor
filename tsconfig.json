@@ -13,10 +13,18 @@
     "strict": true,
     "paths": {},
     "allowSyntheticDefaultImports": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "dist"
   },
   "exclude": [
     "node_modules",
     ".next"
+  ],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue"
   ]
 }

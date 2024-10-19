@@ -3,8 +3,7 @@ import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
 import { LIST_TYPE } from '../config/nodes'
 import SmartImage from './SmartImage/SmartImage'
-import SmartTable from './SmartTable/SmartTable'
-
+import Table from '@tiptap/extension-table'
 declare module '@tiptap/core' {
 	interface Commands<ReturnType> {
 		setCurrentNodeSelection: {
@@ -71,7 +70,7 @@ export default Extension.create({
 							return false
 						}
 
-						if (editor.isActive(SmartTable.name)) {
+						if (editor.isActive(Table.name)) {
 							return chain().focus().deleteTable().run()
 						}
 

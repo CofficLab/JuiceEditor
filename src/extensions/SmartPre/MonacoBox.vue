@@ -42,7 +42,7 @@ import PlayIcon from '../../ui/icons/Play.vue'
 import CloseIcon from '../../ui/icons/Close.vue'
 import Pre from '../../ui/Pre.vue'
 import { v4 as uuidv4 } from 'uuid'
-import * as monaco from 'monaco-editor'
+import * as monaco from "monaco-editor/esm/vs/editor/editor.api"
 import { SmartLanguage, languages } from './Entities/SmartLanguage'
 import LanguageSelect from './LanguageSelect.vue'
 
@@ -115,7 +115,7 @@ let runResultVisible = ref(false)
  * editor相关属性
  */
 let lan = ref(languages[0])
-var editor: { dispose: () => void; getValue: () => string; setValue: (arg0: string) => void }
+var editor: monaco.editor.IStandaloneCodeEditor
 var lineCount = ref(0)
 
 function getResultElement(): HTMLElement {
@@ -212,17 +212,17 @@ let onClickIcon = () => {
   setTimeout(() => {
     let content = editor.getValue() || ''
     let language = props.language.getTitle() || languages[0].getTitle()
-    webkit.runCode(content, language, (result) => {
-      var output = ''
-      if (result.length == 0) {
-        output += '「程序没有输出」'
-      } else {
-        output += result
-      }
-      getResultElement().innerHTML = output
-      runResultVisible.value = true
-      running.value = false
-    })
+    // webkit.runCode(content, language, (result) => {
+    //   var output = ''
+    //   if (result.length == 0) {
+    //     output += '「程序没有输出」'
+    //   } else {
+    //     output += result
+    //   }
+    //   getResultElement().innerHTML = output
+    //   runResultVisible.value = true
+    //   running.value = false
+    // })
   }, 5)
 }
 

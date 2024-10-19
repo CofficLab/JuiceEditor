@@ -224,7 +224,6 @@ function makeExtensions(props: makeExtensionsProps) {
         }),
         SmartTaskList,
         Text,
-        // SmartTable,
         Table.configure({
             resizable: true,
             HTMLAttributes: {
