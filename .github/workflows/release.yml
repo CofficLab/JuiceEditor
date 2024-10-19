@@ -78,11 +78,11 @@ jobs:
                   git config user.email github-actions@github.com
             - name: Rebase dev on main
               run: |
-                  git fetch origin dev
-                  git checkout dev
+                  git fetch origin dev:refs/remotes/origin/dev
+                  git checkout -b dev origin/dev
                   git rebase origin/main
             - name: Push the rebased dev branch
-              run: git push origin dev --force
+              run: git push origin dev:dev --force
 
     release:
         runs-on: ubuntu-latest
