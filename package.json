@@ -109,7 +109,8 @@
   "exports": {
     ".": {
       "import": "./dist/juice-editor.es.js",
-      "require": "./dist/juice-editor.umd.js"
+      "require": "./dist/juice-editor.umd.js",
+      "types": "./dist/types/index.d.ts"
     }
   }
 }
