@@ -6,7 +6,7 @@ Currently still under development and not yet stable.
 
 ## Documentation
 
-<https://cofficlab.github.io/JuiceEditor>
+<https://cofficlab.github.io/en/juiceEditor/>
 
 ## Products based on JuiceEditor
 
