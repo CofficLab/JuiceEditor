@@ -1,6 +1,8 @@
 {
   "name": "@coffic/juice-editor",
   "version": "0.9.80",
+  "homepage": "https://cofficlab.github.io/en/juiceEditor",
+  "repository": "https://github.com/cofficlab/juiceEditor",
   "files": [
     "dist",
     "README.md",
