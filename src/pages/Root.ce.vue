@@ -75,10 +75,6 @@ window.addEventListener('downloadImage', ((event: CustomEvent) => {
     })
 }) as EventListener);
 
-function handleTranslationError(message: string) {
-    messageStore.setError(new Error(message))
-}
-
 function createEditor(): Editor {
     return TiptapAgent.create({
         extensions: config.getExtensions(),
@@ -92,8 +88,6 @@ function createEditor(): Editor {
             if (verbose) {
                 console.log(title, "onCreate", doc)
             }
-
-            editor.on('translation:error', handleTranslationError)
 
             modeStore.setMode(props.mode, 'App.onCreate')
 

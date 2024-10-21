@@ -5,10 +5,26 @@ import EditorData from "../model/EditorData";
 import PageMode from "../model/PageMode";
 
 const title = "🍎 EventPlugin"
-const apiEvent = "apiEvent";
+const eventName = "editor-event";
 
-function emit(name: string, data: object) {
-    window.dispatchEvent(new CustomEvent(apiEvent, {
+enum EventType {
+    editorReady = "editorReady",
+    downloadImage = "downloadImage",
+    configChanged = "configChanged",
+    docUpdated = "docUpdated",
+    docsUpdated = "docsUpdated",
+    docUpdatedWithNode = "docUpdatedWithNode",
+    currentDocUUIDUpdated = "currentDocUUIDUpdated"
+}
+
+function emit(name: EventType, data: object = {}) {
+    let verbose = false
+
+    if (verbose) {
+        console.log(title, `emit event`, eventName)
+    }
+
+    window.dispatchEvent(new CustomEvent(eventName, {
         detail: {
             name: name,
             data: data
@@ -23,7 +39,7 @@ class EventPlugin implements Plugin {
     onDownloadImage(src: string, name: string): void {
         console.log(title, 'download image')
 
-        emit('downloadImage', {
+        emit(EventType.downloadImage, {
             src: src,
             name: name
         })
@@ -34,6 +50,7 @@ class EventPlugin implements Plugin {
     }
 
     onConfigChanged(): void {
+        emit(EventType.configChanged)
     }
 
     onLoading(reason: string): void {
@@ -46,7 +63,7 @@ class EventPlugin implements Plugin {
             console.log(title, 'page loaded')
         }
 
-        emit('pageLoaded', {})
+        emit(EventType.editorReady)
     }
 
     onSelectionTypeChange(type: string): void {
@@ -54,15 +71,24 @@ class EventPlugin implements Plugin {
     }
 
     onDocUpdated(data: EditorData): void {
+        emit(EventType.docUpdated, data)
     }
 
     onDocsUpdated(data: EditorData[]): void {
+        emit(EventType.docsUpdated, data)
     }
 
     onDocUpdatedWithNode(data: EditorData, node: TreeNode): void {
+        emit(EventType.docUpdatedWithNode, {
+            data: data,
+            node: node
+        })
     }
 
     onCurrentDocUUIDUpdated(uuid: string): void {
+        emit(EventType.currentDocUUIDUpdated, {
+            uuid: uuid
+        })
     }
 }
 
