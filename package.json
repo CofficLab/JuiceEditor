@@ -67,7 +67,7 @@
     "fs-extra": "^11.2.0",
     "monaco-editor": "^0.50.0",
     "pinia": "^2.2.2",
-    "prosemirror-model": "^1.22.3",
+    "prosemirror-model": "^1.23.0",
     "prosemirror-state": "^1.4.3",
     "prosemirror-view": "^1.33.11",
     "sass": "^1.77.8",
