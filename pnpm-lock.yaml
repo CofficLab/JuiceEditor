@@ -180,8 +180,8 @@ importers:
         specifier: ^0.2.4
         version: 0.2.4
       terser:
-        specifier: ^5.31.6
-        version: 5.31.6
+        specifier: ^5.36.0
+        version: 5.36.0
       turndown:
         specifier: ^7.2.0
         version: 7.2.0
@@ -224,7 +224,7 @@ importers:
         version: 5.0.5
       '@vitejs/plugin-vue':
         specifier: ^4.6.2
-        version: 4.6.2(vite@4.5.3(@types/node@18.19.45)(less@4.2.0)(sass@1.77.8)(terser@5.31.6))(vue@3.4.38(typescript@5.1.6))
+        version: 4.6.2(vite@4.5.3(@types/node@18.19.45)(less@4.2.0)(sass@1.77.8)(terser@5.36.0))(vue@3.4.38(typescript@5.1.6))
       '@vue/tsconfig':
         specifier: ^0.4.0
         version: 0.4.0
@@ -257,7 +257,7 @@ importers:
         version: 5.1.6
       vite:
         specifier: ^4.5.3
-        version: 4.5.3(@types/node@18.19.45)(less@4.2.0)(sass@1.77.8)(terser@5.31.6)
+        version: 4.5.3(@types/node@18.19.45)(less@4.2.0)(sass@1.77.8)(terser@5.36.0)
       vue-tsc:
         specifier: ^1.8.27
         version: 1.8.27(typescript@5.1.6)
@@ -2166,8 +2166,8 @@ packages:
     engines: {node: '>=14.0.0'}
     hasBin: true
 
-  terser@5.31.6:
-    resolution: {integrity: sha512-PQ4DAriWzKj+qgehQ7LK5bQqCFNMmlhjR2PFFLuqGCpuCAauxemVBWwWOxo3UIwWQx8+Pr61Df++r76wDmkQBg==}
+  terser@5.36.0:
+    resolution: {integrity: sha512-IYV9eNMuFAV4THUspIRXkLakHnV6XO7FEdtKjf/mDyrnqUg9LnlOn6/RwRvM9SZjR4GUq8Nk8zj67FzVARr74w==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -2848,9 +2848,9 @@ snapshots:
 
   '@types/uuid@9.0.8': {}
 
-  '@vitejs/plugin-vue@4.6.2(vite@4.5.3(@types/node@18.19.45)(less@4.2.0)(sass@1.77.8)(terser@5.31.6))(vue@3.4.38(typescript@5.1.6))':
+  '@vitejs/plugin-vue@4.6.2(vite@4.5.3(@types/node@18.19.45)(less@4.2.0)(sass@1.77.8)(terser@5.36.0))(vue@3.4.38(typescript@5.1.6))':
     dependencies:
-      vite: 4.5.3(@types/node@18.19.45)(less@4.2.0)(sass@1.77.8)(terser@5.31.6)
+      vite: 4.5.3(@types/node@18.19.45)(less@4.2.0)(sass@1.77.8)(terser@5.36.0)
       vue: 3.4.38(typescript@5.1.6)
 
   '@volar/language-core@1.11.1':
@@ -4400,7 +4400,7 @@ snapshots:
     transitivePeerDependencies:
       - ts-node
 
-  terser@5.31.6:
+  terser@5.36.0:
     dependencies:
       '@jridgewell/source-map': 0.3.6
       acorn: 8.12.1
@@ -4508,7 +4508,7 @@ snapshots:
 
   vary@1.1.2: {}
 
-  vite@4.5.3(@types/node@18.19.45)(less@4.2.0)(sass@1.77.8)(terser@5.31.6):
+  vite@4.5.3(@types/node@18.19.45)(less@4.2.0)(sass@1.77.8)(terser@5.36.0):
     dependencies:
       esbuild: 0.18.20
       postcss: 8.4.41
@@ -4518,7 +4518,7 @@ snapshots:
       fsevents: 2.3.3
       less: 4.2.0
       sass: 1.77.8
-      terser: 5.31.6
+      terser: 5.36.0
 
   vue-demi@0.14.10(vue@3.4.38(typescript@5.1.6)):
     dependencies:
