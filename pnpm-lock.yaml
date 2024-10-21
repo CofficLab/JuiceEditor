@@ -136,7 +136,7 @@ importers:
         version: 2.6.4
       '@tiptap/vue-3':
         specifier: ^2.6.4
-        version: 2.6.4(@tiptap/core@2.6.4(@tiptap/pm@2.6.4))(@tiptap/pm@2.6.4)(vue@3.4.38(typescript@5.1.6))
+        version: 2.6.4(@tiptap/core@2.6.4(@tiptap/pm@2.6.4))(@tiptap/pm@2.6.4)(vue@3.4.38(typescript@5.6.3))
       '@types/uuid':
         specifier: ^9.0.8
         version: 9.0.8
@@ -151,7 +151,7 @@ importers:
         version: 4.12.10(postcss@8.4.41)
       es-drager:
         specifier: ^1.2.11
-        version: 1.2.11(vue@3.4.38(typescript@5.1.6))
+        version: 1.2.11(vue@3.4.38(typescript@5.6.3))
       file64:
         specifier: ^1.0.3
         version: 1.0.3
@@ -163,7 +163,7 @@ importers:
         version: 0.50.0
       pinia:
         specifier: ^2.2.2
-        version: 2.2.2(typescript@5.1.6)(vue@3.4.38(typescript@5.1.6))
+        version: 2.2.2(typescript@5.6.3)(vue@3.4.38(typescript@5.6.3))
       prosemirror-model:
         specifier: ^1.22.3
         version: 1.22.3
@@ -190,10 +190,10 @@ importers:
         version: 9.0.1
       vue:
         specifier: ^3.4.38
-        version: 3.4.38(typescript@5.1.6)
+        version: 3.4.38(typescript@5.6.3)
       vue-toastification:
         specifier: ^1.7.14
-        version: 1.7.14(vue@3.4.38(typescript@5.1.6))
+        version: 1.7.14(vue@3.4.38(typescript@5.6.3))
       y-prosemirror:
         specifier: ^1.2.12
         version: 1.2.12(prosemirror-model@1.22.3)(prosemirror-state@1.4.3)(prosemirror-view@1.33.11)(y-protocols@1.0.6(yjs@13.6.18))(yjs@13.6.18)
@@ -221,7 +221,7 @@ importers:
         version: 5.0.5
       '@vitejs/plugin-vue':
         specifier: ^4.6.2
-        version: 4.6.2(vite@4.5.3(@types/node@18.19.45)(less@4.2.0)(sass@1.77.8)(terser@5.31.6))(vue@3.4.38(typescript@5.1.6))
+        version: 4.6.2(vite@4.5.3(@types/node@18.19.45)(less@4.2.0)(sass@1.77.8)(terser@5.31.6))(vue@3.4.38(typescript@5.6.3))
       '@vue/tsconfig':
         specifier: ^0.4.0
         version: 0.4.0
@@ -250,14 +250,14 @@ importers:
         specifier: ^3.4.10
         version: 3.4.10
       typescript:
-        specifier: ~5.1.6
-        version: 5.1.6
+        specifier: ~5.6.3
+        version: 5.6.3
       vite:
         specifier: ^4.5.3
         version: 4.5.3(@types/node@18.19.45)(less@4.2.0)(sass@1.77.8)(terser@5.31.6)
       vue-tsc:
         specifier: ^1.8.27
-        version: 1.8.27(typescript@5.1.6)
+        version: 1.8.27(typescript@5.6.3)
 
 packages:
 
@@ -2212,8 +2212,8 @@ packages:
     resolution: {integrity: sha512-/OxDN6OtAk5KBpGb28T+HZc2M+ADtvRxXrKKbUwtsLgdoxgX13hyy7ek6bFRl5+aBs2yZzB0c4CnQfAtVypW/g==}
     engines: {node: '>= 0.4'}
 
-  typescript@5.1.6:
-    resolution: {integrity: sha512-zaWCozRZ6DLEWAWFrVDz1H6FVXzUSfTy5FUMWsQlU8Ym5JP9eO4xkTIROFCQvhQf61z6O/G6ugw3SgAnvvm+HA==}
+  typescript@5.6.3:
+    resolution: {integrity: sha512-hjcS1mhfuyi4WW8IWtjP7brDrG2cuDZukyrYrSauoXGNgx0S7zceP07adYkJycEr56BOUTNPzbInooiN3fn1qw==}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -2822,13 +2822,13 @@ snapshots:
       prosemirror-transform: 1.10.0
       prosemirror-view: 1.33.11
 
-  '@tiptap/vue-3@2.6.4(@tiptap/core@2.6.4(@tiptap/pm@2.6.4))(@tiptap/pm@2.6.4)(vue@3.4.38(typescript@5.1.6))':
+  '@tiptap/vue-3@2.6.4(@tiptap/core@2.6.4(@tiptap/pm@2.6.4))(@tiptap/pm@2.6.4)(vue@3.4.38(typescript@5.6.3))':
     dependencies:
       '@tiptap/core': 2.6.4(@tiptap/pm@2.6.4)
       '@tiptap/extension-bubble-menu': 2.6.4(@tiptap/core@2.6.4(@tiptap/pm@2.6.4))(@tiptap/pm@2.6.4)
       '@tiptap/extension-floating-menu': 2.6.4(@tiptap/core@2.6.4(@tiptap/pm@2.6.4))(@tiptap/pm@2.6.4)
       '@tiptap/pm': 2.6.4
-      vue: 3.4.38(typescript@5.1.6)
+      vue: 3.4.38(typescript@5.6.3)
 
   '@tsconfig/node18@18.2.4': {}
 
@@ -2840,10 +2840,10 @@ snapshots:
 
   '@types/uuid@9.0.8': {}
 
-  '@vitejs/plugin-vue@4.6.2(vite@4.5.3(@types/node@18.19.45)(less@4.2.0)(sass@1.77.8)(terser@5.31.6))(vue@3.4.38(typescript@5.1.6))':
+  '@vitejs/plugin-vue@4.6.2(vite@4.5.3(@types/node@18.19.45)(less@4.2.0)(sass@1.77.8)(terser@5.31.6))(vue@3.4.38(typescript@5.6.3))':
     dependencies:
       vite: 4.5.3(@types/node@18.19.45)(less@4.2.0)(sass@1.77.8)(terser@5.31.6)
-      vue: 3.4.38(typescript@5.1.6)
+      vue: 3.4.38(typescript@5.6.3)
 
   '@volar/language-core@1.11.1':
     dependencies:
@@ -2890,7 +2890,7 @@ snapshots:
 
   '@vue/devtools-api@6.6.3': {}
 
-  '@vue/language-core@1.8.27(typescript@5.1.6)':
+  '@vue/language-core@1.8.27(typescript@5.6.3)':
     dependencies:
       '@volar/language-core': 1.11.1
       '@volar/source-map': 1.11.1
@@ -2902,7 +2902,7 @@ snapshots:
       path-browserify: 1.0.1
       vue-template-compiler: 2.7.16
     optionalDependencies:
-      typescript: 5.1.6
+      typescript: 5.6.3
 
   '@vue/reactivity@3.4.38':
     dependencies:
@@ -2920,11 +2920,11 @@ snapshots:
       '@vue/shared': 3.4.38
       csstype: 3.1.3
 
-  '@vue/server-renderer@3.4.38(vue@3.4.38(typescript@5.1.6))':
+  '@vue/server-renderer@3.4.38(vue@3.4.38(typescript@5.6.3))':
     dependencies:
       '@vue/compiler-ssr': 3.4.38
       '@vue/shared': 3.4.38
-      vue: 3.4.38(typescript@5.1.6)
+      vue: 3.4.38(typescript@5.6.3)
 
   '@vue/shared@3.4.38': {}
 
@@ -3330,9 +3330,9 @@ snapshots:
     dependencies:
       get-intrinsic: 1.2.4
 
-  es-drager@1.2.11(vue@3.4.38(typescript@5.1.6)):
+  es-drager@1.2.11(vue@3.4.38(typescript@5.6.3)):
     dependencies:
-      vue: 3.4.38(typescript@5.1.6)
+      vue: 3.4.38(typescript@5.6.3)
 
   es-errors@1.3.0: {}
 
@@ -3900,13 +3900,13 @@ snapshots:
   pify@4.0.1:
     optional: true
 
-  pinia@2.2.2(typescript@5.1.6)(vue@3.4.38(typescript@5.1.6)):
+  pinia@2.2.2(typescript@5.6.3)(vue@3.4.38(typescript@5.6.3)):
     dependencies:
       '@vue/devtools-api': 6.6.3
-      vue: 3.4.38(typescript@5.1.6)
-      vue-demi: 0.14.10(vue@3.4.38(typescript@5.1.6))
+      vue: 3.4.38(typescript@5.6.3)
+      vue-demi: 0.14.10(vue@3.4.38(typescript@5.6.3))
     optionalDependencies:
-      typescript: 5.1.6
+      typescript: 5.6.3
 
   pirates@4.0.6: {}
 
@@ -4459,7 +4459,7 @@ snapshots:
       is-typed-array: 1.1.13
       possible-typed-array-names: 1.0.0
 
-  typescript@5.1.6: {}
+  typescript@5.6.3: {}
 
   uc.micro@2.1.0: {}
 
@@ -4512,35 +4512,35 @@ snapshots:
       sass: 1.77.8
       terser: 5.31.6
 
-  vue-demi@0.14.10(vue@3.4.38(typescript@5.1.6)):
+  vue-demi@0.14.10(vue@3.4.38(typescript@5.6.3)):
     dependencies:
-      vue: 3.4.38(typescript@5.1.6)
+      vue: 3.4.38(typescript@5.6.3)
 
   vue-template-compiler@2.7.16:
     dependencies:
       de-indent: 1.0.2
       he: 1.2.0
 
-  vue-toastification@1.7.14(vue@3.4.38(typescript@5.1.6)):
+  vue-toastification@1.7.14(vue@3.4.38(typescript@5.6.3)):
     dependencies:
-      vue: 3.4.38(typescript@5.1.6)
+      vue: 3.4.38(typescript@5.6.3)
 
-  vue-tsc@1.8.27(typescript@5.1.6):
+  vue-tsc@1.8.27(typescript@5.6.3):
     dependencies:
       '@volar/typescript': 1.11.1
-      '@vue/language-core': 1.8.27(typescript@5.1.6)
+      '@vue/language-core': 1.8.27(typescript@5.6.3)
       semver: 7.6.3
-      typescript: 5.1.6
+      typescript: 5.6.3
 
-  vue@3.4.38(typescript@5.1.6):
+  vue@3.4.38(typescript@5.6.3):
     dependencies:
       '@vue/compiler-dom': 3.4.38
       '@vue/compiler-sfc': 3.4.38
       '@vue/runtime-dom': 3.4.38
-      '@vue/server-renderer': 3.4.38(vue@3.4.38(typescript@5.1.6))
+      '@vue/server-renderer': 3.4.38(vue@3.4.38(typescript@5.6.3))
       '@vue/shared': 3.4.38
     optionalDependencies:
-      typescript: 5.1.6
+      typescript: 5.6.3
 
   w3c-keyname@2.2.8: {}
 
