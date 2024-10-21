@@ -12,6 +12,12 @@ class APIApp implements Plugin {
     onSelectionTypeChange(type: string): void {
     }
 
+    onLoading(reason: string): void {
+    }
+
+    onConfigChanged(): void {
+    }
+
     onDocUpdated(doc: EditorData): void {
         // window.api.node.sendHtmlByRequest(doc.html)
     }
@@ -27,7 +33,7 @@ class APIApp implements Plugin {
 
     }
 
-    onPageLoaded() {
+    onReady() {
     }
 
     runCode(code: string, lan: string, callback: (result: string) => void) {

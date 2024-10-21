@@ -3,7 +3,9 @@ import TreeNode from "../model/TreeNode"
 import PageMode from "../model/PageMode"
 interface Plugin {
     forPages: PageMode[]
-    onPageLoaded(): void
+    onLoading(reason: string): void
+    onReady(): void
+    onConfigChanged(): void
     onMessage(message: string): void
     onSelectionTypeChange(type: string): void
     onDocUpdated(data: EditorData | null): void

@@ -52,6 +52,8 @@ let pluginProvider: PluginProvider | null = null
 watch(() => app.ready, () => {
     if (app.ready) {
         pluginProvider!.onReady(modeStore.mode)
+    } else {
+        pluginProvider!.onLoading(app.loadingReason)
     }
 })
 
@@ -62,7 +64,10 @@ watch(() => app.message.uuid, () => messageStore.setMessage(app.message))
 watch(() => app.error, () => messageStore.setError(app.error))
 
 // if config change, reload
-watch(() => config.updatedAt, reload)
+watch(() => config.updatedAt, () => {
+    pluginProvider!.onConfigChanged()
+    reload('Config Changed')
+})
 
 window.addEventListener('downloadImage', ((event: CustomEvent) => {
     pluginProvider!.plugins.forEach(plugin => {
@@ -96,7 +101,6 @@ function createEditor(): Editor {
             apiProvider!.boot()
             listenerProvider!.boot(modeStore.mode)
 
-            app.loading = false
             app.setReady('App.onCreate')
         },
         onUpdate: (data: EditorData | Error) => {
@@ -126,14 +130,11 @@ function createEditor(): Editor {
     })
 }
 
-function reload() {
-    console.log('reload')
-    app.setNotReady("Reload")
-    app.loading = true
+function reload(reason: string) {
+    app.setLoading(reason)
     editor.destroy()
     editor = createEditor()
     renderKey.value += 1;
-    app.loading = false
 }
 
 function bootProviders(editor: Editor) {
@@ -156,14 +157,14 @@ function bootProviders(editor: Editor) {
 </style>
 
 <template>
-    <div v-if="app.loading"
+    <div v-if="app.ready == false"
         class="fixed inset-0 flex items-center justify-center bg-white dark:bg-black bg-opacity-80 z-50">
         <div class="transform scale-150">
             <Loading></Loading>
         </div>
     </div>
 
-    <App :editor="editor" :key="renderKey" v-if="app.loading == false" />
+    <App :editor="editor" :key="renderKey" v-if="app.ready" />
 
     <!-- Message -->
     <Message :plugins="config.plugins"></Message>
