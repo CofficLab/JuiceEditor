@@ -5,9 +5,9 @@ import EditorData from "../model/EditorData";
 import PageMode from "../model/PageMode";
 
 const title = "🍎 EventPlugin"
-const eventName = "editor-event";
+export const EventName = "editor-event";
 
-enum EventType {
+export enum EventType {
     editorReady = "editorReady",
     downloadImage = "downloadImage",
     configChanged = "configChanged",
@@ -17,16 +17,16 @@ enum EventType {
     currentDocUUIDUpdated = "currentDocUUIDUpdated"
 }
 
-function emit(name: EventType, data: object = {}) {
+function emit(type: EventType, data: object = {}) {
     let verbose = false
 
     if (verbose) {
-        console.log(title, `emit event`, eventName)
+        console.log(title, `emit event`, EventName)
     }
 
-    window.dispatchEvent(new CustomEvent(eventName, {
+    window.dispatchEvent(new CustomEvent(EventName, {
         detail: {
-            name: name,
+            type: type,
             data: data
         }
     }));
