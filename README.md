@@ -30,9 +30,11 @@ defineJuiceEditor()
 
 <https://cofficlab.github.io/en/juiceEditor/>
 
-## For SwiftUI
+## Related Projects
 
-<https://github.com/cofficlab/JuiceEditorSwift>
+- [JuiceEditor works with SwiftUI](https://github.com/cofficlab/JuiceEditorSwift)
+- [JuiceEditor Playground](https://github.com/cofficlab/JuiceEditor-Playground)
+- [JuiceEditor Examples](https://github.com/cofficlab/JuiceEditor-Examples)
 
 ## Products based on JuiceEditor
 
