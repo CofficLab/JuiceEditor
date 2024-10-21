@@ -1,6 +1,6 @@
 {
   "name": "@coffic/juice-editor",
-  "version": "0.9.44",
+  "version": "0.9.45",
   "files": [
     "dist",
     "README.md",
