@@ -1,5 +1,5 @@
 {
-  "name": "juice-editor",
+  "name": "@coffic/juice-editor",
   "version": "0.9.44",
   "files": [
     "dist",
