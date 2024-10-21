@@ -4,6 +4,28 @@ A powerful rich text editor.
 
 Currently still under development and not yet stable.
 
+## Quick Start
+
+1.Install JuiceEditor
+
+```bash
+npm install @coffic/juice-editor
+```
+
+2.Use JuiceEditor in your project  
+
+```js
+import { defineJuiceEditor } from '@coffic/juice-editor'
+
+defineJuiceEditor()
+```
+
+3.Use JuiceEditor in your template
+
+```vue
+<juice-editor></juice-editor>
+```
+
 ## Documentation
 
 <https://cofficlab.github.io/en/juiceEditor/>

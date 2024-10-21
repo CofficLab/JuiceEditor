@@ -9,9 +9,10 @@
     "LICENSE"
   ],
   "scripts": {
-    "dev": "vite",
+    "dev": "npm run build:drawio && vite",
     "install:monaco": "cd monaco && pnpm install",
     "build": "rm -rf dist && vue-tsc --emitDeclarationOnly && vite build && npm run build:types",
+    "build:drawio": "rm -rf public/drawio && cp -r node_modules/@coffic/juice-editor-draw/drawio public/drawio",
     "build:types": "tsc --emitDeclarationOnly && mv dist/src dist/types",
     "deploy": "node deploy.js",
     "preview": "vite preview"
@@ -85,6 +86,7 @@
     "yjs": "^13.6.18"
   },
   "devDependencies": {
+    "@coffic/juice-editor-draw": "^0.2.6",
     "@tailwindcss/typography": "^0.5.14",
     "@tsconfig/node18": "^18.2.4",
     "@types/node": "^18.19.45",
