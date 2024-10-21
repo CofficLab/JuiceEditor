@@ -9,8 +9,7 @@
   "scripts": {
     "dev": "vite",
     "install:monaco": "cd monaco && pnpm install",
-    "build": "rm -rf dist && vue-tsc --emitDeclarationOnly && vite build && npm run build:drawio && npm run build:types",
-    "build:drawio": "copyfiles -u 2 --all 'drawio/webapp/**/*' dist/drawio",
+    "build": "rm -rf dist && vue-tsc --emitDeclarationOnly && vite build && npm run build:types",
     "build:types": "tsc --emitDeclarationOnly && mv dist/src dist/types",
     "deploy": "node deploy.js",
     "preview": "vite preview"
@@ -91,7 +90,6 @@
     "@vitejs/plugin-vue": "^4.6.2",
     "@vue/tsconfig": "^0.4.0",
     "autoprefixer": "^10.4.20",
-    "copyfiles": "^2.4.1",
     "less": "^4.2.0",
     "npm-run-all": "^4.1.5",
     "postcss": "^8.4.41",
