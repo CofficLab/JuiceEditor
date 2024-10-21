@@ -87,7 +87,7 @@
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.14",
     "@tsconfig/node18": "^18.2.4",
-    "@types/node": "^18.19.45",
+    "@types/node": "^22.7.7",
     "@types/turndown": "^5.0.5",
     "@vitejs/plugin-vue": "^4.6.2",
     "@vue/tsconfig": "^0.4.0",
