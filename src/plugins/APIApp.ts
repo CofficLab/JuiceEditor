@@ -1,10 +1,7 @@
-import { channel } from "diagnostics_channel";
 import Plugin from "../contract/Plugin";
 import EditorData from "../model/EditorData";
-import { send } from "vite";
 import TreeNode from "src/model/TreeNode";
 import PageMode from "../model/PageMode";
-const title = "🍎 WebKit"
 
 class APIApp implements Plugin {
     forPages: PageMode[] = [PageMode.NODE]
