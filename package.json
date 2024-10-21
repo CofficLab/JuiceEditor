@@ -66,7 +66,7 @@
     "codemirror": "^6.0.1",
     "daisyui": "^4.12.10",
     "es-drager": "^1.2.11",
-    "file64": "^1.0.3",
+    "file64": "^1.0.4",
     "fs-extra": "^11.2.0",
     "monaco-editor": "^0.50.0",
     "pinia": "^2.2.2",
