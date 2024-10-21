@@ -13,9 +13,7 @@
     "install:monaco": "cd monaco && pnpm install",
     "build": "rm -rf dist && vue-tsc --emitDeclarationOnly && vite build && npm run build:types",
     "build:drawio": "rm -rf public/drawio && cp -r node_modules/@coffic/juice-editor-draw/drawio public/drawio",
-    "build:types": "tsc --emitDeclarationOnly && mv dist/src dist/types",
-    "deploy": "node deploy.js",
-    "preview": "vite preview"
+    "build:types": "tsc --emitDeclarationOnly && mv dist/src dist/types"
   },
   "dependencies": {
     "@codemirror/lang-javascript": "^6.2.2",

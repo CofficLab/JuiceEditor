@@ -152,7 +152,7 @@ function bootProviders(editor: Editor) {
 
 <template>
     <div v-if="app.ready == false"
-        class="fixed inset-0 flex items-center justify-center bg-white dark:bg-black bg-opacity-80 z-50">
+        class="fixed inset-0 flex items-center justify-center bg-white dark:bg-black bg-opacity-80 z-50 text-left">
         <div class="transform scale-150">
             <Loading></Loading>
         </div>
