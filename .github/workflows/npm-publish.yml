@@ -3,7 +3,7 @@ name: 📦 Publish to npm
 on:
     workflow_run:
         workflows:
-            - 'Release'
+            - '🎉 Release'
         types:
             - completed
 
