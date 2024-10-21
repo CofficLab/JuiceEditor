@@ -1,31 +1,53 @@
-<template>
-  <svg
-    version="1.1"
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:xlink="http://www.w3.org/1999/xlink"
-    width="10.4785"
-    height="13.9746"
-  >
-    <g>
-      <rect height="13.9746" opacity="0" width="10.4785" x="0" y="0" />
-      <path
-        d="M0.78125 13.9648L6.95312 13.9648C7.41211 13.9648 7.74414 13.6816 7.74414 13.2227C7.74414 12.7832 7.42188 12.5 6.96289 12.5L4.77539 12.5L7.14844 1.46484L9.33594 1.46484C9.79492 1.46484 10.1172 1.18164 10.1172 0.722656C10.1172 0.283203 9.80469 0 9.3457 0L3.14453 0C2.68555 0 2.37305 0.283203 2.37305 0.722656C2.37305 1.18164 2.69531 1.46484 3.1543 1.46484L5.3418 1.46484L2.96875 12.5L0.771484 12.5C0.3125 12.5 0 12.7832 0 13.2227C0 13.6816 0.322266 13.9648 0.78125 13.9648Z"
-        fill="currentColor"
-        fill-opacity="0.85"
-      />
-    </g>
-  </svg>
-</template>
+<script setup lang="ts">
+import { computed } from 'vue'
 
-<script lang="ts" setup>
-defineProps({
-  class: {
+const props = defineProps({
+  size: {
     type: String,
-    default: 'h-6 w-6'
+    default: 'md',
+    validator: (value: string) => ['xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl'].includes(value)
   },
-  solid: {
-    type: Boolean,
-    default: false
+  color: {
+    type: String,
+    default: 'current',
+    validator: (value: string) => ['current', 'primary', 'secondary', 'success', 'warning', 'danger'].includes(value)
   }
 })
+
+const sizeClass = computed(() => {
+  const sizeMap = {
+    'xs': 'w-3 h-3',
+    'sm': 'w-4 h-4',
+    'md': 'w-6 h-6',
+    'lg': 'w-8 h-8',
+    'xl': 'w-10 h-10',
+    '2xl': 'w-12 h-12',
+    '3xl': 'w-16 h-16'
+  }
+  return sizeMap[props.size as keyof typeof sizeMap] || sizeMap['md']
+})
+
+const colorClass = computed(() => {
+  const colorMap = {
+    'current': 'currentColor',
+    'primary': '#3490dc',
+    'secondary': '#6574cd',
+    'success': '#38c172',
+    'warning': '#ffed4a',
+    'danger': '#e3342f'
+  };
+  return colorMap[props.color as keyof typeof colorMap] || colorMap['current'];
+});
 </script>
+
+<template>
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" :stroke="colorClass"
+    :class="sizeClass">
+    <path stroke-linecap="round" stroke-linejoin="round"
+      d="M5.248 20.246H9.05m0 0h3.696m-3.696 0 5.893-16.502m0 0h-3.697m3.697 0h3.803" />
+  </svg>
+
+
+
+
+</template>

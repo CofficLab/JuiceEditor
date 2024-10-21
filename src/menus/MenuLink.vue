@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { defineProps } from 'vue'
-import Open from '../ui/icons/Open.vue'
+import Open from '../ui/icons/IconOpen.vue'
 import Button from '../ui/Button.vue'
 import { Editor } from '@tiptap/core'
-import NoLink from '../ui/icons/NoLink.vue'
+import NoLink from '../ui/icons/IconNoLink.vue'
 import { ref, watch } from 'vue'
 import { LINK } from '../config/nodes'
 

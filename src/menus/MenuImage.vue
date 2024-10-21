@@ -72,14 +72,14 @@ let shapeClass = computed(() => {
 
 <template>
     <Button @click="changeImage" tip="更换图片" :shape="shape">
-        <IconEdit></IconEdit>
+        <IconEdit size="sm" color="primary"></IconEdit>
     </Button>
     <Button @click="downloadImage" tip="下载" :shape="shape">
-        <IconDownload></IconDownload>
+        <IconDownload size="sm" color="primary"></IconDownload>
     </Button>
     <div class="dropdown dropdown-bottom h-8 w-8">
         <Button tabindex="0" role="button" tip="样式" size="md" :shape="shape">
-            <IconInfo></IconInfo>
+            <IconInfo size="md" color="primary"></IconInfo>
         </Button>
         <div tabindex="0" class="dropdown-content bg-slate-100 dark:bg-zinc-900 rounded-box z-50 p-2 shadow w-48">
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
