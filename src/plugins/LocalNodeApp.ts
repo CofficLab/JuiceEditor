@@ -26,13 +26,29 @@ class LocalNodeApp implements Plugin {
         }
     }
 
-    onPageLoaded(): void {
-        let verbose = false
+    onLoading(reason: string): void {
+        let verbose = true
+
+        if (verbose) {
+            console.log(title, 'onLoading', reason)
+        }
+    }
+
+    onConfigChanged(): void {
+        let verbose = true
+
+        if (verbose) {
+            console.log(title, 'onConfigChanged')
+        }
+    }
+
+    onReady(): void {
+        let verbose = true
 
         const currentDoc = LocalDB.getDoc() || EditorData.default()
 
         if (verbose) {
-            console.log(title, 'onPageLoaded, set doc')
+            console.log(title, 'onReady, set doc')
         }
 
         window.api.node.setHTML(currentDoc.html)

@@ -18,6 +18,30 @@ export default class PluginProvider {
         this.plugins = plugins
     }
 
+    onLoading(reason: string) {
+        let verbose = false
+
+        if (verbose) {
+            console.log(emoji, "OnLoading", reason)
+        }
+
+        this.plugins.forEach(p => {
+            p.onLoading(reason)
+        })
+    }
+
+    onConfigChanged() {
+        let verbose = false
+
+        if (verbose) {
+            console.log(emoji, "OnConfigChanged")
+        }
+
+        this.plugins.forEach(p => {
+            p.onConfigChanged()
+        })
+    }
+
     onReady(mode: PageMode) {
         let verbose = false
 
@@ -26,7 +50,7 @@ export default class PluginProvider {
         }
 
         this.plugins.forEach(p => {
-            p.onPageLoaded()
+            p.onReady()
         })
     }
 

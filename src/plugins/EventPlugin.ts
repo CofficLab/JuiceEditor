@@ -33,7 +33,13 @@ class EventPlugin implements Plugin {
 
     }
 
-    onPageLoaded(): void {
+    onConfigChanged(): void {
+    }
+
+    onLoading(reason: string): void {
+    }
+
+    onReady(): void {
         let verbose = false
 
         if (verbose) {

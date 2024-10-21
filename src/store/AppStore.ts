@@ -10,7 +10,7 @@ export const useAppStore = defineStore('app-store', {
             isDebug: isDebug,
             error: null as Error | null,
             message: new SmartMessage(""),
-            loading: true,
+            loadingReason: "初始化",
             ready: false,
         }
     },
@@ -18,10 +18,6 @@ export const useAppStore = defineStore('app-store', {
     actions: {
         setMessage(text: string) {
             this.message = new SmartMessage(title + ": " + text)
-        },
-
-        hideLoading() {
-            this.loading = false
         },
 
         closeDraw: function () {
@@ -36,13 +32,14 @@ export const useAppStore = defineStore('app-store', {
             this.error = error
         },
 
-        setNotReady(reason: string) {
+        setLoading(reason: string) {
             let verbose = false
 
             if (verbose) {
-                console.log(title, `setNotReady, reason(${reason})`)
+                console.log(title, `setLoading, reason(${reason})`)
             }
 
+            this.loadingReason = reason
             this.ready = false
         },
 
@@ -53,7 +50,7 @@ export const useAppStore = defineStore('app-store', {
                 console.log(title, `setReady, reason(${reason})`)
             }
 
-            this.hideLoading()
+            this.loadingReason = ""
             this.ready = true
         },
     },

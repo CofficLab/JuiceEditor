@@ -90,7 +90,36 @@ class WebKit implements Plugin {
         })
     }
 
-    onPageLoaded() {
+    onLoading(reason: string): void {
+        let verbose = false;
+
+        if (!('webkit' in window)) {
+            return
+        }
+
+        if (verbose) {
+            console.log(title, '调用 WebKit 以通知 Swift 页面加载中', reason)
+        }
+
+        sendMessage({
+            channel: "loading",
+            reason: reason
+        })
+    }
+
+    onConfigChanged(): void {
+        let verbose = false;
+
+        if (verbose) {
+            console.log(title, '调用 WebKit 以通知 Swift 配置已更新')
+        }
+
+        sendMessage({
+            channel: "configChanged"
+        })
+    }
+
+    onReady() {
         let verbose = false;
 
         if (!('webkit' in window)) {
