@@ -18,6 +18,7 @@ import { Editor } from '@tiptap/vue-3';
 import { ref } from 'vue';
 import App from './App.vue'
 import PageMode from '../model/PageMode';
+import Features from './Features.vue'
 
 
 const props = defineProps({
@@ -152,13 +153,15 @@ function bootProviders(editor: Editor) {
 
 <template>
     <div v-if="app.ready == false"
-        class="fixed inset-0 flex items-center justify-center bg-white dark:bg-black bg-opacity-80 z-50">
+        class="fixed inset-0 flex items-center justify-center bg-white dark:bg-black bg-opacity-80 z-50 text-left">
         <div class="transform scale-150">
             <Loading></Loading>
         </div>
     </div>
 
-    <App :editor="editor" :key="renderKey" v-if="app.ready" />
+    <Features v-if="mode == PageMode.FEATURES.type" />
+
+    <App :editor="editor" :key="renderKey" v-else-if="app.ready" />
 
     <!-- Message -->
     <Message :plugins="config.plugins"></Message>

@@ -27,7 +27,7 @@ function toggleSourceCode() {
 </script>
 
 <template>
-	<main class="main">
+	<main class="main text-left">
 		<slot></slot>
 		<CoreEditor :editor="editor" />
 		<div class="h-48 w-full" @dblclick="toggleSourceCode"></div>

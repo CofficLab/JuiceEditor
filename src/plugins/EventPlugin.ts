@@ -21,7 +21,7 @@ function emit(type: EventType, data: object = {}) {
     let verbose = false
 
     if (verbose) {
-        console.log(title, `emit event`, EventName)
+        console.log(title, `window emit event`, EventName)
     }
 
     window.dispatchEvent(new CustomEvent(EventName, {
@@ -57,10 +57,10 @@ class EventPlugin implements Plugin {
     }
 
     onReady(): void {
-        let verbose = false
+        let verbose = true
 
         if (verbose) {
-            console.log(title, 'page loaded')
+            console.log(title, 'editor ready, emit event')
         }
 
         emit(EventType.editorReady)
