@@ -75,7 +75,7 @@
     "terser": "^5.31.6",
     "turndown": "^7.2.0",
     "uuid": "^9.0.1",
-    "vue": "^3.4.38",
+    "vue": "^3.5.12",
     "vue-toastification": "^1.7.14",
     "y-prosemirror": "^1.2.12",
     "y-protocols": "^1.0.6",
