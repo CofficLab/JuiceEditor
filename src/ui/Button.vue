@@ -62,6 +62,27 @@ function handleDropdownMouseleave() {
   showDropdown.value = false
   dropdownHovered.value = false
 }
+
+const dropdownContent = ref<HTMLElement | null>(null)
+
+const dropdownClass = computed(() => {
+  if (!dropdownContent.value) return ''
+
+  const childCount = dropdownContent.value.children.length
+  console.log(childCount)
+  return {
+    'grid': childCount > 1,
+    'grid-cols-2': childCount > 3 && childCount <= 8,
+    'grid-cols-3': childCount > 8 && childCount <= 15,
+    'grid-cols-4': childCount > 15 && childCount <= 24,
+    'grid-cols-5': childCount > 24,
+    'w-max': childCount <= 1,
+    'w-[200px]': childCount > 1 && childCount <= 8,
+    'w-[300px]': childCount > 8 && childCount <= 15,
+    'w-[400px]': childCount > 15 && childCount <= 24,
+    'w-[500px]': childCount > 24
+  }
+})
 </script>
 
 <template>
@@ -87,8 +108,9 @@ function handleDropdownMouseleave() {
     </button>
 
     <div v-if="showDropdown && $slots['dropdown-item']" @mouseover="handleDropdownMouseover"
-      @mouseleave="handleDropdownMouseleave"
-      class="bg-slate-100 dark:bg-zinc-900 rounded-box z-50 p-2 shadow flex flex-row w-72 h-72">
+      @mouseleave="handleDropdownMouseleave" ref="dropdownContent"
+      class="bg-slate-100 dark:bg-zinc-900 translate-x-8 -translate-y-4 rounded-box z-50 p-2 shadow overflow-auto max-h-[80vh]"
+      :class="dropdownClass">
       <slot name="dropdown-item"></slot>
     </div>
   </div>
