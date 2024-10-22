@@ -27,7 +27,7 @@ export const BranchContent = Node.create<BranchOptions>({
     },
 
     addNodeView() {
-        return VueNodeViewRenderer(BranchContentVue)
+        return VueNodeViewRenderer(BranchContentVue as any)
     },
 
     addAttributes() {

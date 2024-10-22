@@ -40,7 +40,7 @@ export const Branch = Node.create<BranchOptions>({
     },
 
     addNodeView() {
-        return VueNodeViewRenderer(BranchVue)
+        return VueNodeViewRenderer(BranchVue as any)
     },
 
     parseHTML() {
