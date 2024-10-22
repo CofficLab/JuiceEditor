@@ -5,11 +5,10 @@ import IconEdit from '../ui/icons/IconEdit.vue'
 import Button from '../ui/Button.vue'
 import { Editor } from '@tiptap/core'
 import { IMAGE } from '../config/nodes'
-import { makeDrawUrl } from '../extensions/SmartImage/DrawUrl'
 import Opening from '../extensions/SmartImage/Opening.vue'
 import DrawConfig from '../extensions/SmartImage/DrawConfig'
 import ImageHelper from '../helper/ImageHelper'
-import SmartImage from '../extensions/SmartImage/SmartImage'
+import DrawHelper from '../extensions/SmartImage/DrawHelper'
 
 let props = defineProps({
     editor: {
@@ -23,53 +22,24 @@ let props = defineProps({
 })
 
 const opening = ref<HTMLImageElement | null>(null)
-const drawIoLink = props.editor.options.extensions.find((extension: any) => extension.name === SmartImage.name)?.options.drawIoLink
-
-if (!drawIoLink) {
-    console.error('🍋 SmartDraw: 没有找到 drawIoLink')
-}
-
-const drawingPage = document.createElement('iframe')
-drawingPage.setAttribute('frameborder', '0')
-drawingPage.setAttribute('src', makeDrawUrl(drawIoLink))
-drawingPage.setAttribute('width', '100%')
-drawingPage.setAttribute('height', '100%')
-
-const drawingDialog = document.createElement('dialog')
-drawingDialog.classList.add('modal')
-drawingDialog.style.border = 'none'
-
+const drawIoLink = DrawHelper.getDrawIoLink(props.editor)
+const drawingDialog = DrawHelper.makeDrawDialog(drawIoLink)
 const isOpening = ref(false)
 const isSelected = ref(false)
 
-let fileInput = ref<HTMLInputElement | null>(null)
-
 function getSrc() {
-    let attrs = props.editor.getAttributes(IMAGE)
-    let src: string = attrs.src
-
-    return src
-}
-
-function fileToBase64(file: File) {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader()
-        reader.readAsDataURL(file)
-        reader.onload = () => resolve(reader.result)
-        reader.onerror = (error) => reject(error)
-    })
+    return props.editor.getAttributes(IMAGE).src
 }
 
 function downloadImage() {
-    let attrs = props.editor.getAttributes(IMAGE)
-    let src: string = attrs.src
+    let src: string = getSrc()
 
     window.dispatchEvent(new CustomEvent('downloadImage', { detail: { src: src, name: "image-" + Date.now() + ImageHelper.getExtension(src) } }))
 }
 
 // 画图页面已经准备完成，可以展示了
 function onDrawingPageReady() {
-    drawingDialog.showModal()
+    drawingDialog.style.opacity = '1'
     isOpening.value = false
 }
 
@@ -81,7 +51,7 @@ function onClose(_event: any) {
 }
 
 function sendToDrawio(message: object) {
-    drawingPage.contentWindow!.postMessage(JSON.stringify(message), '*')
+    drawingDialog.querySelector('iframe')!.contentWindow!.postMessage(JSON.stringify(message), '*')
 }
 
 // 显示打开画图前的loading页面
@@ -99,9 +69,6 @@ function open() {
         return
     }
 
-    console.log('打开画图')
-
-    drawingDialog.appendChild(drawingPage)
     document.body.appendChild(drawingDialog)
 
     // 接收画图iframe传递的消息
@@ -189,16 +156,6 @@ function receive(event: MessageEvent): void {
             console.log(`🍋 SmartDraw: 收到 drawio 发来的消息 -> ${msg.event}，不知道怎么处理`)
     }
 }
-
-async function onFileSelected() {
-    let file = fileInput.value?.files?.item(0)
-    const base64 = await fileToBase64(file!)
-
-    // base64编码的文件内容
-    props.editor.commands.updateAttributes(IMAGE, {
-        src: base64
-    })
-}
 </script>
 
 <template>
@@ -209,6 +166,4 @@ async function onFileSelected() {
     <Button @click="openLoading" tip="打开画图界面" :shape="shape">
         <IconEdit size="sm" color="primary"></IconEdit>
     </Button>
-    <input ref="fileInput" multiple="false" accept="image/*" type="file" style="display: none"
-        @change="onFileSelected" />
 </template>
