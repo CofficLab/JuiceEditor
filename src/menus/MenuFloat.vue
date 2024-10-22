@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Editor, FloatingMenu } from '@tiptap/vue-3'
+import { FloatingMenu } from '@tiptap/vue-3'
 import { Editor as TiptapEditor } from '@tiptap/core'
 import TiptapAgent from '../helper/TiptapHelper'
 import Heading from '../buttons/ButtonHeading.vue'
