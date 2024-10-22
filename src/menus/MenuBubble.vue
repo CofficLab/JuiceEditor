@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { EditorState } from '@tiptap/pm/state'
 import { EditorView } from '@tiptap/pm/view'
-import { Editor, BubbleMenu } from '@tiptap/vue-3'
+import { BubbleMenu } from '@tiptap/vue-3'
 import { Editor as TiptapEditor } from '@tiptap/core'
 import ButtonBar from '../ui/ButtonBar.vue'
-import { A, DRAW, HEADING, IMAGE, PARAGRAPH, TABLE, TABLE_CELL, TABLE_HEADER, TABLE_ROW, TEXT, TOC, BRANCH, BRANCH_CONTENT, LINK } from '../config/nodes'
+import { DRAW, HEADING, IMAGE, PARAGRAPH, TABLE, TABLE_CELL, TABLE_HEADER, TABLE_ROW, TEXT, TOC, BRANCH, BRANCH_CONTENT, LINK } from '../config/nodes'
 import MenuImage from './MenuImage.vue'
 import MenuTable from './MenuTable.vue'
 import MenuHeading from './MenuHeading.vue'
@@ -129,7 +129,8 @@ const shouldShowLinkMenu = computed(() => {
 			duration: 100,
 			maxWidth: 800,
 			placement: 'top',
-			appendTo: 'parent'
+			appendTo: 'parent',
+			zIndex: 888
 		}" :editor="editor">
 			<ButtonBar v-if="shouldShowHeadingMenu || shouldShowFormatMenu">
 				<MenuHeading :editor="editor" v-if="shouldShowHeadingMenu"></MenuHeading>

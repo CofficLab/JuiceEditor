@@ -89,11 +89,12 @@ export const Margin = Extension.create({
                     attrs.class = attrs.class.replace(cls, '').trim();
                 });
 
-                // 设置下一个 level，如果已经是最大的索引就设置为第一个
-                const nextIndex = currentIndex + 1 < this.options.levels.length
-                    ? currentIndex + 1
-                    : 0;
+                // 如果已经是最大索引,则不做任何操作
+                if (currentIndex + 1 >= this.options.levels.length) {
+                    return false;
+                }
 
+                const nextIndex = currentIndex + 1;
                 attrs.class += ' ' + this.options.levels[nextIndex];
                 return commands.updateAttributes(node.type.name, attrs);
             },
@@ -120,11 +121,12 @@ export const Margin = Extension.create({
                     attrs.class = attrs.class.replace(cls, '').trim();
                 });
 
-                // 设置下一个 level，如果已经是最大的索引就设置为第一个
-                const nextIndex = currentIndex - 1 >= 0
-                    ? currentIndex - 1
-                    : this.options.levels.length - 1;
+                // 如果已经是最小索引,则不做任何操作
+                if (currentIndex - 1 < 0) {
+                    return false;
+                }
 
+                const nextIndex = currentIndex - 1;
                 attrs.class += ' ' + this.options.levels[nextIndex];
                 return commands.updateAttributes(node.type.name, attrs);
             },

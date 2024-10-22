@@ -130,3 +130,4 @@ const SmartImage = ImageTipTap.extend<ImageOptions>({
 })
 
 export default SmartImage;
+
