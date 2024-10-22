@@ -6,12 +6,11 @@ import { Editor as TiptapEditor } from '@tiptap/core'
 import ButtonBar from '../ui/ButtonBar.vue'
 import { DRAW, HEADING, IMAGE, PARAGRAPH, TABLE, TABLE_CELL, TABLE_HEADER, TABLE_ROW, TEXT, TOC, BRANCH, BRANCH_CONTENT, LINK } from '../config/nodes'
 import MenuImage from './MenuImage.vue'
-import MenuTable from './MenuTable.vue'
-import MenuHeading from './MenuHeading.vue'
-import MenuFormat from './MenuFormat.vue'
 import MenuDraw from './MenuDraw.vue'
 import MenuLink from './MenuLink.vue'
 import { computed } from 'vue'
+import Button from '../ui/Button.vue'
+import { RiH2, RiH3, RiH4, RiH5, RiH6, RiText, RiBold, RiItalic, RiStrikethrough } from '@remixicon/vue'
 
 let emoji = "🫧 BubbleMenus"
 
@@ -23,6 +22,10 @@ const props = defineProps({
 	iconSize: {
 		type: String,
 		default: '24px'
+	},
+	shape: {
+		type: String,
+		default: 'rectangle'
 	}
 })
 
@@ -139,9 +142,40 @@ const shouldShowLinkMenu = computed(() => {
 			<p class="text-xs prose dark:prose-invert rounded-md bg-white dark:bg-gray-800 px-2 py-1 inline-block mb-2">
 				BubbleMenu
 			</p>
-			<ButtonBar v-if="shouldShowHeadingMenu || shouldShowFormatMenu">
-				<MenuHeading :editor="editor" v-if="shouldShowHeadingMenu"></MenuHeading>
-				<MenuFormat :editor="editor" v-if="shouldShowFormatMenu" :iconSize="iconSize"></MenuFormat>
+			<ButtonBar>
+				<Button tips="2号标题" v-if="shouldShowHeadingMenu" :shape="shape"
+					@click="editor.chain().focus().setHeading({ level: 2 }).run()">
+					<RiH2></RiH2>
+				</Button>
+				<Button tips="3号标题" v-if="shouldShowHeadingMenu" :shape="shape"
+					@click="editor.chain().focus().setHeading({ level: 3 }).run()">
+					<RiH3></RiH3>
+				</Button>
+				<Button tips="4号标题" v-if="shouldShowHeadingMenu" :shape="shape"
+					@click="editor.chain().focus().setHeading({ level: 4 }).run()">
+					<RiH4></RiH4>
+				</Button>
+				<Button tips="5号标题" v-if="shouldShowHeadingMenu" :shape="shape"
+					@click="editor.chain().focus().setHeading({ level: 5 }).run()">
+					<RiH5></RiH5>
+				</Button>
+				<Button tips="6号标题" v-if="shouldShowHeadingMenu" :shape="shape"
+					@click="editor.chain().focus().setHeading({ level: 6 }).run()">
+					<RiH6></RiH6>
+				</Button>
+				<Button tips="正文" :iconSize="iconSize" :shape="shape"
+					@click="editor.chain().focus().setParagraph().run()">
+					<RiText></RiText>
+				</Button>
+				<Button tips="加粗" :shape="shape" @click="editor.chain().focus().toggleBold().run()">
+					<RiBold></RiBold>
+				</Button>
+				<Button tips="斜体" :shape="shape" @click="editor.chain().focus().toggleItalic().run()">
+					<RiItalic></RiItalic>
+				</Button>
+				<Button tips="删除线" :shape="shape" @click="editor.chain().focus().toggleStrike().run()">
+					<RiStrikethrough></RiStrikethrough>
+				</Button>
 			</ButtonBar>
 
 			<ButtonBar v-if="shouldShowDrawMenu">

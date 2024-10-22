@@ -4,9 +4,8 @@ import { Editor } from '@tiptap/core'
 import Button from '../ui/Button.vue'
 import TiptapHelper from '../helper/TiptapHelper'
 import { HEADING, PARAGRAPH, TOC } from '../config/nodes'
-import MenuParagraph from './MenuParagraph.vue'
 import ButtonList from '../ui/ButtonList.vue'
-import { RiDeleteBin7Line, RiAddLine, RiIndentDecrease, RiIndentIncrease, RiAlignCenter } from '@remixicon/vue'
+import { RiDeleteBin7Line, RiAddLine, RiIndentDecrease, RiIndentIncrease, RiAlignCenter, RiPaletteLine, RiGlobalLine } from '@remixicon/vue'
 
 const props = defineProps({
 	editor: {
@@ -16,6 +15,10 @@ const props = defineProps({
 	iconSize: {
 		type: String,
 		default: '24px'
+	},
+	shape: {
+		type: String,
+		default: 'rectangle'
 	}
 })
 
@@ -24,6 +27,14 @@ const editor = computed(() => props.editor)
 const visible = ref(false)
 const marginLeft = ref(0)
 const scrollTop = ref(0)
+
+let colorClass = computed(() => {
+	return props.editor.options.extensions.find(extension => extension.name === 'paragraph')?.options.colorClass
+})
+
+let languages = computed(() => {
+	return props.editor.options.extensions.find(extension => extension.name === 'paragraph')?.options.languages
+})
 
 watch(
 	editor,
@@ -121,27 +132,56 @@ function shouldShowNewLineMenu() {
 <template>
 	<div v-if="visible" :style="`transform: translate(${marginLeft}px, ${scrollTop}px);`" class="w-22">
 		<ButtonList>
-			<Button tip="删除" @click="editor.commands.deleteSelectionNode()">
+			<Button tips="删除" @click="editor.commands.deleteSelectionNode()" :shape="shape">
 				<RiDeleteBin7Line :size="iconSize"></RiDeleteBin7Line>
 			</Button>
 
-			<Button tip="增加一行" @click="editor.commands.addBlankLineAfterSelection()" v-if="shouldShowNewLineMenu()">
+			<Button tips="增加一行" @click="editor.commands.addBlankLineAfterSelection()" v-if="shouldShowNewLineMenu()"
+				:shape="shape">
 				<RiAddLine :size="iconSize"></RiAddLine>
 			</Button>
 
-			<Button tip="往左移动" @click="editor.commands.moveLeft()">
+			<Button tips="往左移动" @click="editor.commands.moveLeft()" :shape="shape">
 				<RiIndentDecrease :size="iconSize"></RiIndentDecrease>
 			</Button>
 
-			<Button tip="居中对齐" @click="editor.commands.moveCenter()">
+			<Button tips="居中对齐" @click="editor.commands.moveCenter()" :shape="shape">
 				<RiAlignCenter :size="iconSize"></RiAlignCenter>
 			</Button>
 
-			<Button tip="往右移动" @click="editor.commands.moveRight()">
+			<Button tips="往右移动" @click="editor.commands.moveRight()" :shape="shape">
 				<RiIndentIncrease :size="iconSize"></RiIndentIncrease>
 			</Button>
 
-			<MenuParagraph :editor="editor" :iconSize="iconSize" v-if="shouldShowParagraphMenu()"></MenuParagraph>
+			<div class="dropdown dropdown-bottom h-8 w-8">
+				<Button tabindex="0" role="button" tips="样式" size="md" :shape="shape">
+					<RiPaletteLine :size="iconSize"></RiPaletteLine>
+				</Button>
+				<div tabindex="0"
+					class="dropdown-content bg-slate-100 dark:bg-zinc-900 rounded-box z-50 p-2 shadow w-48">
+					<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
+						<div v-for="color in Object.keys(colorClass)"
+							class="w-7 h-7 flex items-center justify-center cursor-pointer transition-colors duration-200 ease-in-out hover:bg-indigo-200/90 rounded-full p-1"
+							:key="color" @click="props.editor.commands.setBackgroundColor(color)">
+							<div :class="colorClass[color]" class="w-5 h-5 rounded-full p-1"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="dropdown dropdown-bottom h-8 w-8">
+				<Button tabindex="0" role="button" tips="翻译" size="md" :shape="shape">
+					<RiGlobalLine :size="iconSize"></RiGlobalLine>
+				</Button>
+				<div tabindex="0"
+					class="dropdown-content bg-slate-100 dark:bg-zinc-900 rounded-box z-50 p-2 shadow w-48">
+					<div class="grid grid-cols-2 sm:grid-cols-1 md:grid-cols-2 gap-2">
+						<div v-for="language in languages" @click="props.editor.commands.translate(language)">
+							<Button size="xl" shape="square">{{ language }}</Button>
+						</div>
+					</div>
+				</div>
+			</div>
 		</ButtonList>
 	</div>
 </template>
