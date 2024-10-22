@@ -2,13 +2,16 @@
 import { defineProps, computed } from 'vue'
 import { Editor } from '@tiptap/core'
 import Button from '../ui/Button.vue'
-import IconInfo from '../ui/icons/IconInfo.vue';
-import IconLanguage from '../ui/icons/IconLanguage.vue';
+import { RiPaletteLine, RiGlobalLine } from '@remixicon/vue';
 
 let props = defineProps({
     editor: {
         type: Editor,
         required: true
+    },
+    iconSize: {
+        type: String,
+        default: '36px'
     }
 })
 
@@ -24,7 +27,7 @@ let languages = computed(() => {
 <template>
     <div class="dropdown dropdown-bottom h-8 w-8">
         <Button tabindex="0" role="button" tip="样式" size="md">
-            <IconInfo color="primary"></IconInfo>
+            <RiPaletteLine :size="iconSize"></RiPaletteLine>
         </Button>
         <div tabindex="0" class="dropdown-content bg-slate-100 dark:bg-zinc-900 rounded-box z-50 p-2 shadow w-48">
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
@@ -39,7 +42,7 @@ let languages = computed(() => {
 
     <div class="dropdown dropdown-bottom h-8 w-8">
         <Button tabindex="0" role="button" tip="翻译" size="md">
-            <IconLanguage color="primary"></IconLanguage>
+            <RiGlobalLine :size="iconSize"></RiGlobalLine>
         </Button>
         <div tabindex="0" class="dropdown-content bg-slate-100 dark:bg-zinc-900 rounded-box z-50 p-2 shadow w-48">
             <div class="grid grid-cols-2 sm:grid-cols-1 md:grid-cols-2 gap-2">

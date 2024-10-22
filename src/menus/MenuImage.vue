@@ -1,13 +1,11 @@
 <script lang="ts" setup>
 import { computed, defineProps, ref } from 'vue'
-import IconDownload from '../ui/icons/IconDownload.vue'
-import IconEdit from '../ui/icons/IconEdit.vue'
 import Button from '../ui/Button.vue'
 import { Editor } from '@tiptap/core'
 import { IMAGE } from '../config/nodes'
 import ImageHelper from '../helper/ImageHelper'
-import IconInfo from '../ui/icons/IconInfo.vue';
 import SmartImage from '../extensions/SmartImage/SmartImage'
+import { RiDownload2Fill, RiInfoI, RiEdit2Fill } from '@remixicon/vue'
 
 let props = defineProps({
     editor: {
@@ -72,14 +70,14 @@ let shapeClass = computed(() => {
 
 <template>
     <Button @click="changeImage" tip="更换图片" :shape="shape">
-        <IconEdit size="sm" color="primary"></IconEdit>
+        <RiEdit2Fill size="36px"></RiEdit2Fill>
     </Button>
     <Button @click="downloadImage" tip="下载" :shape="shape">
-        <IconDownload size="sm" color="primary"></IconDownload>
+        <RiDownload2Fill color="primary"></RiDownload2Fill>
     </Button>
     <div class="dropdown dropdown-bottom h-8 w-8">
         <Button tabindex="0" role="button" tip="样式" size="md" :shape="shape">
-            <IconInfo size="md" color="primary"></IconInfo>
+            <RiInfoI color="primary"></RiInfoI>
         </Button>
         <div tabindex="0" class="dropdown-content bg-slate-100 dark:bg-zinc-900 rounded-box z-50 p-2 shadow w-48">
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">

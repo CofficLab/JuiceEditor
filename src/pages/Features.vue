@@ -1,20 +1,6 @@
 <script lang="ts" setup>
-import IconBold from '../ui/icons/IconBold.vue';
-import IconItalic from '../ui/icons/IconItalic.vue';
-import IconStrike from '../ui/icons/IconStrike.vue';
-import IconLink from '../ui/icons/IconLink.vue';
-import IconCode from '../ui/icons/IconCode.vue';
-import IconInfo from '../ui/icons/IconInfo.vue';
+import { RiBold } from '@remixicon/vue';
 import SampleImage from '../assets/sample.jpeg';
-import IconDownload from '../ui/icons/IconDownload.vue';
-import IconEdit from '../ui/icons/IconEdit.vue';
-import IconRight from '../ui/icons/IconRight.vue';
-import IconLeft from '../ui/icons/IconLeft.vue';
-import IconOpen from '../ui/icons/IconOpen.vue';
-import IconNoLink from '../ui/icons/IconNoLink.vue';
-import IconH1 from '../ui/icons/IconH1.vue';
-import IconH2 from '../ui/icons/IconH2.vue';
-import IconH3 from '../ui/icons/IconH3.vue';
 
 
 const colorClass = [
@@ -54,7 +40,7 @@ const menuClass = 'bg-slate-100 px-4 py-2 h-8 flex flex-row shadow gap-2 justify
                     <IconH2 color="primary" size="sm" />
                     <IconH3 color="primary" size="sm" />
                     <div class="ring-2 rounded-full h-6 w-6 bg-gray-600/10 flex items-center justify-center ">
-                        <IconBold color="primary" size="sm" />
+                        <RiBold size="36px"></RiBold>
                     </div>
                 </div>
                 <p class="mt-2 ring-1 rounded-2xl p-2 self-end ">

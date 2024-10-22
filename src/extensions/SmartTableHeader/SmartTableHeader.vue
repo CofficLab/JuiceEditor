@@ -8,7 +8,6 @@
 import { nodeViewProps, NodeViewWrapper, NodeViewContent } from '@tiptap/vue-3'
 import { computed } from 'vue'
 import Divider from './Divider.vue'
-import Panel from '../Panel.vue'
 import TableToggleHeader from '../../ui/icons/ToggleHeader.vue'
 import RowRemove from '../../ui/icons/RowRemove.vue'
 import CellMerge from '../../ui/icons/CellMerge.vue'

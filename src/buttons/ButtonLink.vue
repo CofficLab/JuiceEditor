@@ -1,16 +1,8 @@
-<template>
-  <Button v-if="!editor.isActive('link')" @click="setLink" tip="链接" :size="size" :shape="shape"
-    :class="{ 'btn-disabled': editor.isActive(A), tooltip: iconOnly }">
-    <IconLink v-if="iconOnly"></IconLink>
-    <span v-if="!iconOnly">链接</span>
-  </Button>
-</template>
-
 <script lang="ts" setup>
 import { Editor } from '@tiptap/core'
 import Button from '../ui/Button.vue'
-import IconLink from '../ui/icons/IconLink.vue'
 import { A } from '../config/nodes';
+import { RiLink } from '@remixicon/vue';
 
 const props = defineProps({
   editor: {
@@ -28,6 +20,10 @@ const props = defineProps({
   shape: {
     type: String,
     default: 'square'
+  },
+  iconSize: {
+    type: String,
+    default: '24px'
   }
 })
 
@@ -45,3 +41,10 @@ const setLink = () => {
     .run()
 }
 </script>
+<template>
+  <Button v-if="!editor.isActive('link')" @click="setLink" tip="链接" :size="size" :shape="shape"
+    :class="{ 'btn-disabled': editor.isActive(A), tooltip: iconOnly }">
+    <RiLink v-if="iconOnly" :size="iconSize"></RiLink>
+    <span v-if="!iconOnly">链接</span>
+  </Button>
+</template>

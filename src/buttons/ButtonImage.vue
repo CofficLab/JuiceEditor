@@ -1,18 +1,9 @@
-<template>
-  <Button tip="添加图片" :size="size" @click="editor.commands.insertImage()"
-    :class="{ 'is-active': editor.isActive(BANNER) }">
-    <IconPhoto />
-    <input class="fixed" ref="fileInput" multiple="false" accept="image/*" type="file" style="display: none"
-      @change="onFileSelected" />
-  </Button>
-</template>
-
 <script lang="ts" setup>
 import { Editor } from '@tiptap/core'
 import { ref } from 'vue'
-import IconPhoto from '../ui/icons/IconPhoto.vue'
 import Button from '../ui/Button.vue'
 import { BANNER } from '../config/nodes';
+import { RiImage2Line } from '@remixicon/vue';
 
 const props = defineProps({
   editor: {
@@ -22,6 +13,10 @@ const props = defineProps({
   size: {
     type: String,
     default: 'sm'
+  },
+  iconOnly: {
+    type: Boolean,
+    default: true
   }
 })
 let fileInput = ref<HTMLInputElement | null>(null)
@@ -46,9 +41,12 @@ async function onFileSelected() {
     .setImage({ src: base64 as string })
     .run()
 }
-
-function addImage() {
-  console.log('添加图片')
-  fileInput.value?.click()
-}
 </script>
+<template>
+  <Button tip="添加图片" :size="size" @click="editor.commands.insertImage()"
+    :class="{ 'is-active': editor.isActive(BANNER) }">
+    <RiImage2Line v-if="iconOnly" size="36px"></RiImage2Line>
+    <input class="fixed" ref="fileInput" multiple="false" accept="image/*" type="file" style="display: none"
+      @change="onFileSelected" />
+  </Button>
+</template>

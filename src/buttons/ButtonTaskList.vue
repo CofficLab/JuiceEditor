@@ -1,7 +1,31 @@
+<script lang="ts" setup>
+import { Editor } from '@tiptap/core'
+import { computed } from 'vue'
+import Button from '../ui/Button.vue'
+import { TASKLIST } from '../config/nodes';
+import { RiListCheck3 } from '@remixicon/vue';
+
+const props = defineProps({
+  editor: {
+    type: Editor,
+    required: true
+  },
+  size: {
+    type: String,
+    default: 'sm'
+  },
+  iconOnly: {
+    type: Boolean,
+    default: true
+  }
+})
+
+const focusedNode = computed(() => props.editor.chain().focus())
+</script>
 <template>
   <Button @click="focusedNode.toggleTaskList().run()" tip="待办事项" :size="size"
     :class="{ 'is-active': editor.isActive(TASKLIST) }">
-    <IconTask></IconTask>
+    <RiListCheck3 v-if="iconOnly" size="36px"></RiListCheck3>
   </Button>
 
   <!-- <button @click="focusedNode.splitListItem('taskItem').run()"
@@ -21,24 +45,3 @@
       <img src="../assets/decrease.indent.svg" />
     </button> -->
 </template>
-
-<script lang="ts" setup>
-import { Editor } from '@tiptap/core'
-import { computed } from 'vue'
-import Button from '../ui/Button.vue'
-import IconTask from '../ui/icons/IconTask.vue'
-import { TASKLIST } from '../config/nodes';
-
-const props = defineProps({
-  editor: {
-    type: Editor,
-    required: true
-  },
-  size: {
-    type: String,
-    default: 'sm'
-  }
-})
-
-const focusedNode = computed(() => props.editor.chain().focus())
-</script>

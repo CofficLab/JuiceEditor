@@ -1,20 +1,21 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
-import { Editor, NodePos } from '@tiptap/core'
+import { Editor } from '@tiptap/core'
 import Button from '../ui/Button.vue'
-import IconDelete from '../ui/icons/IconDelete.vue'
 import TiptapHelper from '../helper/TiptapHelper'
 import { HEADING, PARAGRAPH, TOC } from '../config/nodes'
 import MenuParagraph from './MenuParagraph.vue'
 import ButtonList from '../ui/ButtonList.vue'
-import IconPlus from '../ui/icons/IconPlus.vue'
-import IconRight from '../ui/icons/IconRight.vue'
-import IconLeft from '../ui/icons/IconLeft.vue'
-import IconAlignCenter from '../ui/icons/IconAlignCenter.vue'
+import { RiDeleteBin7Line, RiAddLine, RiIndentDecrease, RiIndentIncrease, RiAlignCenter } from '@remixicon/vue'
+
 const props = defineProps({
 	editor: {
 		type: Editor,
 		required: true
+	},
+	iconSize: {
+		type: String,
+		default: '24px'
 	}
 })
 
@@ -121,26 +122,26 @@ function shouldShowNewLineMenu() {
 	<div v-if="visible" :style="`transform: translate(${marginLeft}px, ${scrollTop}px);`" class="w-22">
 		<ButtonList>
 			<Button tip="删除" @click="editor.commands.deleteSelectionNode()">
-				<IconDelete size="md" color="primary"></IconDelete>
+				<RiDeleteBin7Line :size="iconSize"></RiDeleteBin7Line>
 			</Button>
 
 			<Button tip="增加一行" @click="editor.commands.addBlankLineAfterSelection()" v-if="shouldShowNewLineMenu()">
-				<IconPlus size="md" color="primary"></IconPlus>
+				<RiAddLine :size="iconSize"></RiAddLine>
 			</Button>
 
 			<Button tip="往左移动" @click="editor.commands.moveLeft()">
-				<IconLeft size="md" color="primary"></IconLeft>
+				<RiIndentDecrease :size="iconSize"></RiIndentDecrease>
 			</Button>
 
 			<Button tip="居中对齐" @click="editor.commands.moveCenter()">
-				<IconAlignCenter size="md" color="primary"></IconAlignCenter>
+				<RiAlignCenter :size="iconSize"></RiAlignCenter>
 			</Button>
 
 			<Button tip="往右移动" @click="editor.commands.moveRight()">
-				<IconRight size="md" color="primary"></IconRight>
+				<RiIndentIncrease :size="iconSize"></RiIndentIncrease>
 			</Button>
 
-			<MenuParagraph :editor="editor" v-if="shouldShowParagraphMenu()"></MenuParagraph>
+			<MenuParagraph :editor="editor" :iconSize="iconSize" v-if="shouldShowParagraphMenu()"></MenuParagraph>
 		</ButtonList>
 	</div>
 </template>

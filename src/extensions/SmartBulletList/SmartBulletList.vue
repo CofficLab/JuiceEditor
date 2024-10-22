@@ -1,12 +1,7 @@
 <template>
   <NodeViewWrapper>
-    <Panel
-      :deleteNode="props.deleteNode"
-      :readOnly="!props.editor.isEditable"
-      :editor="props.editor"
-      :node="props.node"
-      :getPos="props.getPos"
-    >
+    <Panel :deleteNode="props.deleteNode" :readOnly="!props.editor.isEditable" :editor="props.editor" :node="props.node"
+      :getPos="props.getPos">
       <template v-slot:content>
         <ul>
           <NodeViewContent></NodeViewContent>
@@ -17,7 +12,6 @@
 </template>
 <script setup lang="ts">
 import { NodeViewContent, nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
-import Panel from '../Panel.vue'
 
 const props = defineProps(nodeViewProps)
 </script>

@@ -35,7 +35,6 @@
 <script setup lang="ts">
 import { nodeViewProps, NodeViewWrapper, NodeViewContent } from '@tiptap/vue-3'
 import { ref } from 'vue'
-import Panel from '../Panel.vue'
 import Open from '../../ui/icons/IconOpen.vue'
 import NoLink from '../../ui/icons/IconNoLink.vue'
 import Button from '../../ui/Button.vue'

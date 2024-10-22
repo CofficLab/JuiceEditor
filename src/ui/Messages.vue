@@ -12,7 +12,6 @@
 </template>
 
 <script lang="ts" setup>
-import IconInfo from '../ui/icons/IconInfo.vue'
 
 defineProps({
   messages: {

@@ -7,7 +7,7 @@ import Image from '../buttons/ButtonImage.vue'
 import Draw from '../buttons/ButtonDraw.vue'
 import Table from '../buttons/ButtonTable.vue'
 import TaskList from '../buttons/ButtonTaskList.vue'
-import SmartPre from '../buttons/ButtonSmartPre.vue'
+import ButtonCodeBlock from '../buttons/ButtonCodeBlock.vue'
 import ButtonBar from '../ui/ButtonBar.vue'
 import Kbd from '../buttons/ButtonKbd.vue'
 import BulletList from '../buttons/ButtonBulletList.vue'
@@ -33,6 +33,8 @@ const shouldShowFloatingMenu = TiptapAgent.shouldShowFloatingMenu
       placement: 'top',
       appendTo: 'parent'
     }" :editor="editor" :should-show="shouldShowFloatingMenu">
+      <p class="text-xs prose dark:prose-invert rounded-md bg-white dark:bg-gray-800 px-2 py-1 inline-block mb-2">新增节点
+      </p>
       <ButtonBar type="blue" :shape="shape">
         <Heading :editor="editor" :level="2" :shape="shape" />
         <Heading :editor="editor" :level="3" :shape="shape" />
@@ -44,7 +46,7 @@ const shouldShowFloatingMenu = TiptapAgent.shouldShowFloatingMenu
         <BulletList :editor="editor" :shape="shape"></BulletList>
         <TaskList :editor="editor" :shape="shape" />
         <Table :editor="editor" :shape="shape"></Table>
-        <SmartPre :editor="editor" :shape="shape"></SmartPre>
+        <ButtonCodeBlock :editor="editor" :shape="shape"></ButtonCodeBlock>
         <Kbd :editor="editor" :shape="shape"></Kbd>
       </ButtonBar>
     </floating-menu>

@@ -19,6 +19,10 @@ const props = defineProps({
 	editor: {
 		type: TiptapEditor,
 		required: true
+	},
+	iconSize: {
+		type: String,
+		default: '24px'
 	}
 })
 
@@ -132,9 +136,12 @@ const shouldShowLinkMenu = computed(() => {
 			appendTo: 'parent',
 			zIndex: 888
 		}" :editor="editor">
+			<p class="text-xs prose dark:prose-invert rounded-md bg-white dark:bg-gray-800 px-2 py-1 inline-block mb-2">
+				BubbleMenu
+			</p>
 			<ButtonBar v-if="shouldShowHeadingMenu || shouldShowFormatMenu">
 				<MenuHeading :editor="editor" v-if="shouldShowHeadingMenu"></MenuHeading>
-				<MenuFormat :editor="editor" v-if="shouldShowFormatMenu"></MenuFormat>
+				<MenuFormat :editor="editor" v-if="shouldShowFormatMenu" :iconSize="iconSize"></MenuFormat>
 			</ButtonBar>
 
 			<ButtonBar v-if="shouldShowDrawMenu">
@@ -146,7 +153,7 @@ const shouldShowLinkMenu = computed(() => {
 			</ButtonBar>
 
 			<ButtonBar v-if="shouldShowTableMenu">
-				<MenuTable :editor="editor"></MenuTable>
+				<!-- <MenuTable :editor="editor"></MenuTable> -->
 			</ButtonBar>
 
 			<ButtonBar v-if="shouldShowLinkMenu">

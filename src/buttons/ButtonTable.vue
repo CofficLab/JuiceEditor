@@ -1,13 +1,7 @@
-<template>
-  <Button tip="表格" :size="size" v-if="enable" @click="editor.chain().focus().insertTable().run()">
-    <IconTableCell></IconTableCell>
-  </Button>
-</template>
-
 <script lang="ts" setup>
 import { Editor } from '@tiptap/core'
-import IconTableCell from '../ui/icons/IconTableCell.vue'
 import Button from '../ui/Button.vue'
+import { RiTable2 } from '@remixicon/vue';
 
 defineProps({
   editor: {
@@ -21,6 +15,15 @@ defineProps({
   size: {
     type: String,
     default: 'sm'
+  },
+  iconOnly: {
+    type: Boolean,
+    default: true
   }
 })
 </script>
+<template>
+  <Button tip="表格" :size="size" v-if="enable" @click="editor.chain().focus().insertTable().run()">
+    <RiTable2 v-if="iconOnly" size="36px"></RiTable2>
+  </Button>
+</template>
