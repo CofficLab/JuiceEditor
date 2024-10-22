@@ -31,7 +31,7 @@ export const Toc = Node.create({
 		return ["toc", mergeAttributes(HTMLAttributes)];
 	},
 	addNodeView() {
-		return VueNodeViewRenderer(TocView);
+		return VueNodeViewRenderer(TocView as any)
 	},
 	addGlobalAttributes() {
 		return [

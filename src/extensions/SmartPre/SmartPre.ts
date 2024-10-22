@@ -47,7 +47,7 @@ export default CodeBlock.extend({
   },
 
   addNodeView() {
-    return VueNodeViewRenderer(SmartPreVue)
+    return VueNodeViewRenderer(SmartPreVue as any)
   },
 
   addCommands() {

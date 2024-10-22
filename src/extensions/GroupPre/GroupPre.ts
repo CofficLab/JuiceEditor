@@ -41,7 +41,7 @@ export const GroupPre = Node.create({
 
   // 在页面渲染时要执行的内容
   addNodeView() {
-    return VueNodeViewRenderer(GroupPreVue)
+    return VueNodeViewRenderer(GroupPreVue as any)
   },
 
   addCommands() {

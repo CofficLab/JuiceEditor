@@ -80,7 +80,7 @@ function destroy() {
 
 const receive = (event: MessageEvent): void => {
     if (!event.data) return
-    let msg
+    let msg: { event: string; data?: string }
     try {
         msg = JSON.parse(event.data)
     } catch {
