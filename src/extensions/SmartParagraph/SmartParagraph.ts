@@ -58,7 +58,6 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
                 olive: 'bg-gradient-to-r from-[#808000]/50 to-[#808000]/30 dark:from-[#808000]/30 dark:to-[#808000]/10',
                 navy: 'bg-gradient-to-r from-[#000080]/50 to-[#000080]/30 dark:from-[#000080]/30 dark:to-[#000080]/10',
                 turquoise: 'bg-gradient-to-r from-[#40E0D0]/50 to-[#40E0D0]/30 dark:from-[#40E0D0]/30 dark:to-[#40E0D0]/10',
-                lavender: 'bg-gradient-to-r from-[#E6E6FA]/50 to-[#E6E6FA]/30 dark:from-[#E6E6FA]/30 dark:to-[#E6E6FA]/10',
                 coral: 'bg-gradient-to-r from-[#FF7F50]/50 to-[#FF7F50]/30 dark:from-[#FF7F50]/30 dark:to-[#FF7F50]/10',
                 crimson: 'bg-gradient-to-r from-[#DC143C]/50 to-[#DC143C]/30 dark:from-[#DC143C]/30 dark:to-[#DC143C]/10',
                 gold: 'bg-gradient-to-r from-[#FFD700]/50 to-[#FFD700]/30 dark:from-[#FFD700]/30 dark:to-[#FFD700]/10',
