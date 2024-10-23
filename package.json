@@ -87,7 +87,7 @@
     "@coffic/juice-editor-draw": "^0.2.7",
     "@tailwindcss/typography": "^0.5.15",
     "@tsconfig/node18": "^18.2.4",
-    "@types/node": "^18.19.58",
+    "@types/node": "^22.7.8",
     "@types/turndown": "^5.0.5",
     "@vitejs/plugin-vue": "^4.6.2",
     "@vue/tsconfig": "^0.4.0",
