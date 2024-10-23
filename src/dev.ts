@@ -9,6 +9,7 @@ import miniDoc from '../dev/mini';
 import bulletListDoc from '../dev/bulletList';
 import aDoc from '../dev/a';
 import featureDoc from '../dev/feature';
+import tableDoc from '../dev/table';
 import { defineJuiceEditor } from './main'
 
 defineJuiceEditor()
@@ -58,6 +59,7 @@ const buttons = [
     { text: '混合', onclick: () => window.api.node.setHTML(baseDoc) },
     { text: '大型', onclick: () => window.api.node.setHTML(bigDoc) },
     { text: '图片', onclick: () => window.api.node.setHTML(imageDoc) },
+    { text: '表格', onclick: () => window.api.node.setHTML(tableDoc) },
     { text: '画图', onclick: () => window.api.node.setHTML(drawDoc) },
     { text: '段落', onclick: () => window.api.node.setHTML(pDoc) },
     { text: '链接', onclick: () => window.api.node.setHTML(aDoc) },

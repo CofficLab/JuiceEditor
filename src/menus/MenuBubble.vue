@@ -8,6 +8,7 @@ import { DRAW, HEADING, IMAGE, PARAGRAPH, TABLE, TABLE_CELL, TABLE_HEADER, TABLE
 import MenuImage from './MenuImage.vue'
 import MenuDraw from './MenuDraw.vue'
 import MenuLink from './MenuLink.vue'
+import MenuTable from './MenuTable.vue'
 import { computed } from 'vue'
 import Button from '../ui/Button.vue'
 import { RiH2, RiH3, RiH4, RiH5, RiH6, RiText, RiBold, RiItalic, RiStrikethrough } from '@remixicon/vue'
@@ -195,7 +196,7 @@ const shouldShowLinkMenu = computed(() => {
 
 			<!-- Table -->
 			<ButtonBar v-if="shouldShowTableMenu">
-				<!-- <MenuTable :editor="editor"></MenuTable> -->
+				<MenuTable :editor="editor"></MenuTable>
 			</ButtonBar>
 
 			<!-- Link -->

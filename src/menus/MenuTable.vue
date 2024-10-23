@@ -4,7 +4,7 @@ import { Editor } from '@tiptap/core'
 import { computed } from 'vue'
 import Divider from '../ui/Divider.vue'
 import Button from '../ui/Button.vue'
-
+import { RiInsertColumnLeft, RiInsertColumnRight, RiDeleteColumn, RiInsertRowTop, RiInsertRowBottom, RiDeleteRow, RiMergeCellsHorizontal, RiSplitCellsHorizontal } from '@remixicon/vue'
 let props = defineProps({
     editor: {
         type: Editor,
@@ -19,48 +19,40 @@ const isEditable = computed(() => props.editor.isEditable)
 
 <template>
     <Button @click="focusedNode.addColumnBefore().run()" tip="在左边加一列">
-        <RowPlusBefore></RowPlusBefore>
+        <RiInsertColumnLeft></RiInsertColumnLeft>
     </Button>
     <Button @click="focusedNode.addColumnAfter().run()" tip="在右边加一列">
-        <RowPlusAfter></RowPlusAfter>
+        <RiInsertColumnRight></RiInsertColumnRight>
     </Button>
     <Button @click="focusedNode.deleteColumn().run()" tip="删除当前列">
-        <ColumnRemove></ColumnRemove>
+        <RiDeleteColumn></RiDeleteColumn>
     </Button>
     <Divider></Divider>
     <Button @click="focusedNode.addRowBefore().run()" tip="在上面加一行">
-        <RowPlusBefore></RowPlusBefore>
+        <RiInsertRowTop></RiInsertRowTop>
     </Button>
     <Button @click="focusedNode.addRowAfter().run()" tip="在下面加一行">
-        <RowPlusAfter></RowPlusAfter>
+        <RiInsertRowBottom></RiInsertRowBottom>
     </Button>
     <Button @click="focusedNode.deleteRow().run()" tip="删除当前行">
-        <RowRemove></RowRemove>
+        <RiDeleteRow></RiDeleteRow>
     </Button>
     <Divider></Divider>
     <Button @click="focusedNode.mergeCells().run()" tip="合并">
-        <CellMerge></CellMerge>
+        <RiMergeCellsHorizontal></RiMergeCellsHorizontal>
     </Button>
     <Button @click="focusedNode.splitCell().run()" tip="拆分">
-        <CellSplit></CellSplit>
+        <RiSplitCellsHorizontal></RiSplitCellsHorizontal>
     </Button>
-    <Divider></Divider>
-    <Button @click="focusedNode.toggleHeaderColumn().run()" tip="切换表头列">
-        <LeadingHeader></LeadingHeader>
+    <!-- <Button @click="focusedNode.toggleHeaderColumn().run()" tip="切换表头列">
+        <RiLeadingHeader></RiLeadingHeader>
     </Button>
     <Button @click="focusedNode.toggleHeaderRow().run()" tip="切换表头行">
-        <TopHeader></TopHeader>
+        <RiTopHeader></RiTopHeader>
     </Button>
     <Button @click="focusedNode.toggleHeaderCell().run()" tip="切换普通和表头">
-        <TableToggleHeader></TableToggleHeader>
-    </Button>
-    <Divider></Divider>
-    <!-- <button
-          @click="focusedNode.deleteTable().run()"
-          tip="删除整个表格"
-        >
-          <Remove></Remove>
-        </button> -->
+        <RiTableToggleHeader></RiTableToggleHeader>
+    </Button> -->
     <!-- <button @click="focusedNode.setCellAttribute('colspan', 2).run()">占两格</button> -->
     <!-- <button @click="focusedNode.fixTables().run()">修复</button> -->
     <!-- <button @click="focusedNode.goToNextCell().run()">下一格</button> -->
