@@ -2,9 +2,9 @@
 import { computed, ref, watch } from 'vue'
 import { Editor } from '@tiptap/core'
 import Button from '../ui/Button.vue'
-import TiptapHelper from '../helper/TiptapHelper'
 import { HEADING, PARAGRAPH, TOC } from '../config/nodes'
 import ButtonList from '../ui/ButtonList.vue'
+import { getFirstActiveNodePosition } from '../extensions/SmartActive'
 import { RiDeleteBin7Line, RiAddLine, RiIndentDecrease, RiIndentIncrease, RiAlignCenter, RiPaletteLine, RiGlobalLine } from '@remixicon/vue'
 
 const props = defineProps({
@@ -22,7 +22,7 @@ const props = defineProps({
 	}
 })
 
-const emoji = '🐱 BlockMenu'
+const emoji = '🐱 LeftMenu'
 const editor = computed(() => props.editor)
 const visible = ref(false)
 const marginLeft = ref(0)
@@ -49,16 +49,6 @@ watch(
 
 				updateMenuPosition()
 			})
-			// editor.value.on('blur', () => {
-			// 	let verbose = false
-
-			// 	if (verbose) {
-			// 		console.log(emoji, 'blur')
-			// 	}
-
-			// 	visible.value = false
-			// 	updateMenuPosition()
-			// })
 			editor.value.on('focus', () => {
 				let verbose = true
 
@@ -109,7 +99,7 @@ function updateMenuPosition() {
 	// 减去的是menu自身的宽度
 	marginLeft.value = offsetLeft - 56
 
-	const { offsetTop } = TiptapHelper.getFocusedNodePosition(editor.value)
+	const { offsetTop } = getFirstActiveNodePosition(editor.value)
 
 	if (verbose) {
 		console.log(emoji, "offsetTop", offsetTop)

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import { Editor } from '@tiptap/core'
-import TiptapHelper from '../helper/TiptapHelper'
+import { getFirstActiveNodePosition } from '../extensions/SmartActive'
 import { HEADING, TOC } from '../config/nodes'
 import ButtonList from '../ui/ButtonList.vue'
 import MenuTable from './MenuTable.vue'
@@ -22,7 +22,7 @@ const props = defineProps({
     }
 })
 
-const emoji = '🐱 BlockMenu'
+const emoji = '🐶 RightMenu'
 const editor = computed(() => props.editor)
 const visible = ref(false)
 const marginLeft = ref(0)
@@ -34,7 +34,7 @@ watch(
     (val) => {
         if (val) {
             editor.value.on('selectionUpdate', () => {
-                let verbose = true
+                let verbose = false
 
                 if (verbose) {
                     console.log(emoji, 'selectionUpdate')
@@ -42,16 +42,6 @@ watch(
 
                 updateMenuPosition()
             })
-            // editor.value.on('blur', () => {
-            // 	let verbose = false
-
-            // 	if (verbose) {
-            // 		console.log(emoji, 'blur')
-            // 	}
-
-            // 	visible.value = false
-            // 	updateMenuPosition()
-            // })
             editor.value.on('focus', () => {
                 let verbose = true
 
@@ -101,7 +91,7 @@ function updateMenuPosition() {
 
     marginLeft.value = offsetLeft + editorDom.clientWidth + 12
 
-    const { offsetTop } = TiptapHelper.getFocusedNodePosition(editor.value)
+    const { offsetTop } = getFirstActiveNodePosition(editor.value)
 
     if (verbose) {
         console.log(emoji, "offsetTop", offsetTop)

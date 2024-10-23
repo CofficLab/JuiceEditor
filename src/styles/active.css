@@ -1,4 +1,4 @@
-.has-active {
+.first-active:not(.tableWrapper) {
     @apply bg-blue-100/10 dark:bg-slate-800/80 ring-1 ring-green-700/20 rounded;
 }
 

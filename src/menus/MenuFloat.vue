@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { FloatingMenu } from '@tiptap/vue-3'
 import { Editor as TiptapEditor } from '@tiptap/core'
-import TiptapAgent from '../helper/TiptapHelper'
+import { shouldShowFloatingMenu } from '../extensions/SmartMenus/SmartMenus'
 import ButtonBar from '../ui/ButtonBar.vue'
 import Button from '../ui/Button.vue'
 import { RiH2, RiH3, RiH4, RiEdit2Line, RiListCheck, RiTaskFill, RiTable2, RiCodeBlock, RiKeyboardBoxLine } from '@remixicon/vue'
@@ -17,7 +17,6 @@ defineProps({
   }
 })
 
-const shouldShowFloatingMenu = TiptapAgent.shouldShowFloatingMenu
 </script>
 <template>
   <!-- 回车后显示的菜单 -->

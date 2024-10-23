@@ -4,15 +4,14 @@ import { EditorView } from '@tiptap/pm/view'
 import { BubbleMenu } from '@tiptap/vue-3'
 import { Editor as TiptapEditor } from '@tiptap/core'
 import ButtonBar from '../ui/ButtonBar.vue'
-import { DRAW, HEADING, IMAGE, PARAGRAPH, TABLE, TABLE_CELL, TABLE_HEADER, TABLE_ROW, TEXT, TOC, BRANCH, BRANCH_CONTENT, LINK } from '../config/nodes'
+import { HEADING, IMAGE, PARAGRAPH, TEXT, LINK } from '../config/nodes'
 import MenuImage from './MenuImage.vue'
 import MenuDraw from './MenuDraw.vue'
 import MenuLink from './MenuLink.vue'
 import { computed } from 'vue'
+import { shouldShowBubbleMenu } from '../extensions/SmartMenus/SmartMenus'
 import Button from '../ui/Button.vue'
 import { RiH2, RiH3, RiH4, RiH5, RiH6, RiText, RiBold, RiItalic, RiStrikethrough } from '@remixicon/vue'
-
-let emoji = "🫧 BubbleMenus"
 
 const props = defineProps({
 	editor: {
@@ -37,55 +36,7 @@ const shouldShow = function (props: {
 	from: number
 	to: number
 }) {
-	let verbose = false
-	const { selection } = props.state
-	const { empty } = selection
-	const shouldShowNodes = [IMAGE, TABLE, LINK]
-	const excludes = [TOC, DRAW, TABLE_CELL, TABLE_ROW, TABLE_HEADER, BRANCH, BRANCH_CONTENT]
-
-	// 如果是只读模式，不显示
-	if (props.editor.isEditable == false) {
-		return false
-	}
-
-	// 如果当前是Heading，且Level=1，不显示
-	if (props.editor.isActive(HEADING) && props.editor.getAttributes(HEADING).level === 1) {
-		return false
-	}
-
-	// 如果当前是应该显示的节点，显示
-	if (shouldShowNodes.some(node => props.editor.isActive(node))) {
-		return true;
-	}
-
-	if (excludes.some(node => props.editor.isActive(node))) {
-		if (verbose) {
-			console.log(emoji, 'hide bubble menu, node is excluded')
-		}
-		return false;
-	}
-
-	if (props.editor.isActive(HEADING, { level: 1 })) {
-		if (verbose) {
-			console.log(emoji, 'hide bubble menu, current is h1')
-		}
-		return false
-	}
-
-	if (!selection.visible) {
-		if (verbose) {
-			console.log(emoji, 'invisible selection, hide bubble menu')
-		}
-		return false
-	}
-
-	if (empty) {
-		if (verbose) {
-			console.log(emoji, 'empty selection, hide bubble menu')
-		}
-	}
-
-	return !empty
+	return shouldShowBubbleMenu(props)
 }
 
 const shouldShowHeadingMenu = computed(() => {
