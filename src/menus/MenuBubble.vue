@@ -122,7 +122,8 @@ const shouldShowImageMenu = computed(() => {
 })
 
 const shouldShowTableMenu = computed(() => {
-	return props.editor.isActive(TABLE)
+	const { selection } = props.editor.state
+	return selection.empty && props.editor.isActive(TABLE)
 })
 
 const shouldShowLinkMenu = computed(() => {
@@ -145,7 +146,7 @@ const shouldShowLinkMenu = computed(() => {
 			</p>
 
 			<!-- Heading And Format -->
-			<ButtonBar v-if="shouldShowHeadingMenu || shouldShowFormatMenu">
+			<ButtonBar v-if="(shouldShowHeadingMenu || shouldShowFormatMenu) && !shouldShowTableMenu">
 				<Button tips="2号标题" v-if="shouldShowHeadingMenu" :shape="shape"
 					@click="editor.chain().focus().setHeading({ level: 2 }).run()">
 					<RiH2></RiH2>

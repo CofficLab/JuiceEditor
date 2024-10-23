@@ -29,6 +29,8 @@ import SmartBulletList from "../extensions/SmartBulletList/SmartBulletList"
 import SmartQuote from "../extensions/SmartQuote/SmartQuote"
 import SmartTableHeader from "../extensions/SmartTableHeader/SmartTableHeader"
 import SmartTableRow from "../extensions/SmartTableRow/SmartTableRow"
+import TableRow from "@tiptap/extension-table-row"
+import TableHeader from "@tiptap/extension-table-header"
 import SmartSelection from "../extensions/SmartSelection"
 import { Padding } from "../extensions/Padding"
 import { SmartFocus } from "../extensions/SmartFocus"
@@ -231,11 +233,11 @@ function makeExtensions(props: makeExtensionsProps) {
                 uuid: null
             },
         }),
-        // TableRow,
-        SmartTableRow,
+        TableRow,
+        // SmartTableRow,
         TableCell,
-        // TableHeader,
-        SmartTableHeader,
+        TableHeader,
+        // SmartTableHeader,
         Toc,
         TextAlign.configure({
             types: [HEADING, PARAGRAPH],
