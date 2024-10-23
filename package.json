@@ -8,6 +8,13 @@
     "README.md",
     "LICENSE"
   ],
+  "keywords": [
+    "tiptap",
+    "headless",
+    "wysiwyg",
+    "text editor",
+    "prosemirror"
+  ],
   "scripts": {
     "dev": "npm run build:drawio && vite",
     "install:monaco": "cd monaco && pnpm install",
