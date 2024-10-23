@@ -1,6 +1,8 @@
 <script lang="ts" setup>
-import { RiBold } from '@remixicon/vue';
+import { RiBold, RiItalic, RiUnderline, RiStrikethrough, RiInformation2Line, RiH1, RiH2, RiH3, RiLink, RiText } from '@remixicon/vue';
 import SampleImage from '../assets/sample.jpeg';
+import html2canvas from 'html2canvas';
+import DomHelper from '../helper/DomHelper';
 
 
 const colorClass = [
@@ -25,22 +27,44 @@ const languages = [
     '日语',
 ]
 
-const menuClass = 'bg-slate-100 px-4 py-2 h-8 flex flex-row shadow gap-2 justify-center items-center rounded-2xl'
+const menuClass = 'bg-slate-100 px-4 py-2 h-10 flex flex-row shadow gap-2 justify-center items-center rounded-2xl'
+const activeMenuClass = 'bg-slate-200 justify-center items-center rounded-2xl p-1'
+
+const iconSize = '24px'
+
+function downloadAsImage() {
+    const element = DomHelper.findElement('box');
+    if (element) {
+        html2canvas(element, {
+            scale: 2,
+            useCORS: false,
+            logging: false,
+            backgroundColor: null,
+        }).then(canvas => {
+            const link = document.createElement('a');
+            link.href = canvas.toDataURL('image/png');
+            link.download = 'hero.png';
+            link.click();
+        });
+    }
+}
 </script>
 
 
 <template>
-    <div class="h-full w-full bg-cyan-500/10 mt-24 py-8 glass">
-        <div
-            class="max-w-4xl mx-auto bg-gradient-to-r from-indigo-500/10 to-green-100/90 glass rounded-xl shadow-2xl p-4">
-            <div id="section1" class="bg-indigo-500/10 rounded-2xl p-4 glass bg-blend-darken">
+    <div class="h-full min-h-screen w-full bg-gray-500/20 mt-24 p-4 glass">
+        <div class="flex flex-row justify-center mb-8">
+            <button @click="downloadAsImage" class="mt-4 p-2 bg-blue-500 text-white rounded">Download as Image</button>
+        </div>
 
+        <div id="box" class="max-w-4xl mx-auto p-8">
+            <div id="section1" class="bg-indigo-500/10 rounded-2xl p-4 shadow-2xl">
                 <div :class="menuClass" class="w-36 ml-24">
-                    <IconH1 color="primary" size="sm" />
-                    <IconH2 color="primary" size="sm" />
-                    <IconH3 color="primary" size="sm" />
-                    <div class="ring-2 rounded-full h-6 w-6 bg-gray-600/10 flex items-center justify-center ">
-                        <RiBold size="36px"></RiBold>
+                    <RiH1 :size="iconSize" color="primary" />
+                    <RiH2 :size="iconSize" color="primary" />
+                    <RiH3 :size="iconSize" color="primary" />
+                    <div :class="activeMenuClass">
+                        <RiBold :size="iconSize"></RiBold>
                     </div>
                 </div>
                 <p class="mt-2 ring-1 rounded-2xl p-2 self-end ">
@@ -59,17 +83,17 @@ const menuClass = 'bg-slate-100 px-4 py-2 h-8 flex flex-row shadow gap-2 justify
             </div>
 
             <div id="section2" class="flex flex-row bg-indigo-500/0 mt-4 rounded-2xl gap-2 justify-between">
-                <div id="image" class="rounded-xl bg-rose-400/30 p-4 glass">
+                <div id="image" class="rounded-xl bg-rose-400/30 p-4 shadow-2xl">
                     <div :class="menuClass" class="rounded-box z-50 shadow w-40 ml-40 mb-1 flex flex-row gap-2">
                         <div :class="shape" v-for="shape in shapeClass" class="w-5 h-5 rounded-full p-1"></div>
                     </div>
                     <div :class="menuClass" class="mt-1 w-40 ring-1 ml-8">
-                        <IconDownload size="sm" color="primary" />
-                        <IconEdit size="sm" color="primary" />
-                        <IconLeft size="sm" color="primary" />
-                        <IconRight size="sm" color="primary" />
-                        <div class="ring-2 rounded-full h-6 w-6 bg-gray-600/10 flex items-center justify-center ">
-                            <IconInfo color="primary" />
+                        <RiBold color="primary" />
+                        <RiItalic color="primary" />
+                        <RiUnderline color="primary" />
+                        <RiStrikethrough color="primary" />
+                        <div :class="activeMenuClass">
+                            <RiInformation2Line :size="iconSize" color="primary" />
                         </div>
                     </div>
                     <div class="flex justify-start pr-24 ml-4 mt-2">
@@ -79,20 +103,20 @@ const menuClass = 'bg-slate-100 px-4 py-2 h-8 flex flex-row shadow gap-2 justify
                 </div>
 
                 <div id="link-list" class="flex flex-col gap-2 justify-between">
-                    <div id="link" class="rounded-xl p-4 bg-orange-300/40 glass">
+                    <div id="link" class="rounded-xl p-4 bg-orange-300/40 shadow-2xl">
                         <div :class="menuClass" class="w-72 ml-24">
-                            <IconOpen size="sm" color="primary" />
+                            <RiLink color="primary" />
                             <input type="text" value="https://cofficlab.github.io"
                                 class="w-48 rounded-none input ring-1 input-sm" />
-                            <IconNoLink color="primary" size="sm" />
+                            <RiText color="primary" />
                         </div>
                         <div class="flex justify-start pr-24 ml-0 mt-2">
                             <p>Create softwares with love by <b class="ring-1 rounded-2xl p-1">CofficLab</b></p>
                         </div>
                     </div>
-                    <div id="list" class="mt-8 rounded-xl p-4 bg-cyan-500/30 glass">
+                    <div id="list" class="mt-8 rounded-xl p-4 bg-cyan-500/30 shadow-2xl">
                         <div :class="menuClass" class="w-48">
-                            <IconNoLink color="secondary" size="sm" />
+                            <RiText color="secondary" />
                             <div v-for="language in languages" class="text-xs w-12 rounded-full p-1">{{ language }}
                             </div>
                         </div>
