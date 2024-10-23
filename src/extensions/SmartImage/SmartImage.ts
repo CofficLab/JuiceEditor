@@ -22,6 +22,8 @@ declare module '@tiptap/core' {
     }
 }
 
+let title = "🐰 SmartImage"
+
 const SmartImage = ImageTipTap.extend<ImageOptions>({
     parseHTML() {
         return [
@@ -33,10 +35,6 @@ const SmartImage = ImageTipTap.extend<ImageOptions>({
             },
         ]
     },
-
-    // addNodeView() {
-    //     return VueNodeViewRenderer(SmartImageVue)
-    // },
 
     addOptions() {
         return {
@@ -53,7 +51,6 @@ const SmartImage = ImageTipTap.extend<ImageOptions>({
                 decagon: 'mask mask-decagon',
                 pentagon: 'mask mask-pentagon',
                 diamond: 'mask mask-diamond',
-                square: 'mask mask-square',
                 circle: 'mask mask-circle',
                 parallelogram: 'mask mask-parallelogram',
                 star: 'mask mask-star',
@@ -121,8 +118,15 @@ const SmartImage = ImageTipTap.extend<ImageOptions>({
             },
 
             setShape: (shape: string) => ({ commands }) => {
+                var verbose = true;
+                var className = this.options.shapeClass[shape] || '';
+
+                if (verbose) {
+                    console.log(title, "setShape", shape, className)
+                }
+
                 return commands.updateAttributes(this.name, {
-                    class: this.options.shapeClass[shape]
+                    class: className
                 })
             }
         }
@@ -130,4 +134,3 @@ const SmartImage = ImageTipTap.extend<ImageOptions>({
 })
 
 export default SmartImage;
-

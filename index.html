@@ -8,10 +8,24 @@
   <title>聚思编辑器</title>
   <script type="module" src="/src/dev.ts"></script><!-- Icons (Material Icons) -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: white;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body {
+        background-color: #202124;
+      }
+    }
+  </style>
 </head>
 
 <body>
-  <juice-editor></juice-editor>
+  <juice-editor mode="basic"></juice-editor>
 </body>
 
 <script>

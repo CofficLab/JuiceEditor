@@ -1,38 +1,14 @@
-<template>
-  <div class="inline my-auto prose dark:prose-invert p-0 m-0" :class="[sizeClass]">
-    <div
-      class="absolute px-2 mb-1 text-xs text-white bg-gray-700 rounded group-hover:block bottom-full whitespace-nowrap"
-      v-text="props.tip" v-if="showTip && props.tip"></div>
-
-    <button @mouseover="showTip = true" @mouseleave="showTip = false" :class="{
-      'h-full w-full px-0 items-center flex justify-center': true,
-      'text-xs': props.size === 'xs',
-      'text-sm': props.size === 'sm',
-      'text-md': props.size === 'md',
-      'text-lg': props.size === 'lg',
-      'text-xl': props.size === 'xl',
-      'text-2xl': props.size === '2xl',
-      'dark:hover:bg-slate-500 hover:bg-blue-100': true,
-      'rounded-full': props.shape === 'circle',
-      'rounded-none': props.shape === 'square',
-      'rounded': props.shape === 'rectangle'
-    }">
-      <slot></slot>
-    </button>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 
-const showTip = ref(false)
+const showTips = ref(false)
 
 const props = defineProps({
   size: {
     type: String,
     default: 'xs'
   },
-  tip: {
+  tips: {
     type: String,
     default: ''
   },
@@ -40,6 +16,10 @@ const props = defineProps({
     type: String,
     default: 'circle',
     validator: (value: string) => ['rectangle', 'circle', 'square'].includes(value)
+  },
+  class: {
+    type: String,
+    default: ''
   }
 })
 
@@ -56,3 +36,36 @@ const sizeClass = computed(() => {
   }
 })
 </script>
+
+<template>
+  <div :class="{
+    'dropdown dropdown-hover dropdown-right': true,
+    [sizeClass]: true && props.class.length == 0,
+    [props.class]: true
+  }">
+    <div
+      class="absolute px-2 mb-1 text-xs text-white bg-gray-700 rounded group-hover:block bottom-full whitespace-nowrap"
+      v-text="props.tips" v-if="showTips && props.tips"></div>
+
+    <button tabindex="0" role="button" @mouseover="showTips = true" @mouseleave="showTips = false" :class="{
+      'h-full w-full px-0 items-center flex justify-center': true,
+      'text-xs': props.size === 'xs',
+      'text-sm': props.size === 'sm',
+      'text-md': props.size === 'md',
+      'text-lg': props.size === 'lg',
+      'text-xl': props.size === 'xl',
+      'text-2xl': props.size === '2xl',
+      'dark:hover:bg-slate-500 hover:bg-blue-100': true,
+      'rounded-full': props.shape === 'circle',
+      'rounded-none': props.shape === 'square',
+      'rounded': props.shape === 'rectangle'
+    }">
+      <slot></slot>
+    </button>
+
+    <div tabindex="0" v-if="$slots['dropdown-item']"
+      class="dropdown-content menu bg-slate-100 dark:bg-zinc-900 rounded-box z-50 p-2 shadow">
+      <slot name="dropdown-item"></slot>
+    </div>
+  </div>
+</template>

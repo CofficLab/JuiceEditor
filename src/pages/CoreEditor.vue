@@ -2,12 +2,11 @@
 import { EditorContent } from '@tiptap/vue-3'
 import BubbleMenus from '../menus/MenuBubble.vue'
 import FloatMenus from '../menus/MenuFloat.vue'
-import BlockMenu from '../menus/MenuBlock.vue'
+import MenuLeft from '../menus/MenuLeft.vue'
+import MenuRight from '../menus/MenuRight.vue'
 import { Editor as EditorVue } from '@tiptap/vue-3'
-import { watch } from 'vue'
 
-const title = '📒 Tiptap'
-const props = defineProps({
+defineProps({
 	editor: {
 		type: EditorVue,
 		required: true
@@ -26,17 +25,14 @@ const props = defineProps({
 
 const isDebug = false
 
-watch(() => props.editor, () => {
-	console.log("editor changed")
-})
-
 </script>
 
 <template>
 	<div v-if="editor" class="editor-container">
 		<BubbleMenus :editor="editor" v-if="editor.isEditable && bubbleMenusEnable"></BubbleMenus>
 		<FloatMenus :editor="editor" v-if="editor.isEditable && floatingMenusEnable"></FloatMenus>
-		<BlockMenu :editor="editor" class="absolute" />
+		<MenuLeft :editor="editor" />
+		<MenuRight :editor="editor" />
 
 		<div id="core" :class="{
 			'bg-slate-300/10': isDebug,

@@ -1,13 +1,11 @@
 <script lang="ts" setup>
 import { computed, defineProps, ref } from 'vue'
-import IconDownload from '../ui/icons/IconDownload.vue'
-import IconEdit from '../ui/icons/IconEdit.vue'
 import Button from '../ui/Button.vue'
 import { Editor } from '@tiptap/core'
 import { IMAGE } from '../config/nodes'
 import ImageHelper from '../helper/ImageHelper'
-import IconInfo from '../ui/icons/IconInfo.vue';
 import SmartImage from '../extensions/SmartImage/SmartImage'
+import { RiEditLine, RiDownloadLine, RiShapeLine } from '@remixicon/vue'
 
 let props = defineProps({
     editor: {
@@ -17,6 +15,10 @@ let props = defineProps({
     shape: {
         type: String,
         default: 'rectangle'
+    },
+    iconSize: {
+        type: String,
+        default: '24px'
     }
 })
 
@@ -71,31 +73,30 @@ let shapeClass = computed(() => {
 </script>
 
 <template>
-    <Button @click="changeImage" tip="更换图片" :shape="shape">
-        <IconEdit size="sm" color="primary"></IconEdit>
+    <Button @click="changeImage" tips="更换图片" :shape="shape">
+        <RiEditLine :size="iconSize"></RiEditLine>
     </Button>
-    <Button @click="downloadImage" tip="下载" :shape="shape">
-        <IconDownload size="sm" color="primary"></IconDownload>
+    <Button @click="downloadImage" tips="下载" :shape="shape">
+        <RiDownloadLine :size="iconSize"></RiDownloadLine>
     </Button>
-    <div class="dropdown dropdown-bottom h-8 w-8">
-        <Button tabindex="0" role="button" tip="样式" size="md" :shape="shape">
-            <IconInfo size="md" color="primary"></IconInfo>
-        </Button>
-        <div tabindex="0" class="dropdown-content bg-slate-100 dark:bg-zinc-900 rounded-box z-50 p-2 shadow w-48">
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
+    <Button tips="样式" :shape="shape">
+        <RiShapeLine :size="iconSize"></RiShapeLine>
+
+        <template #dropdown-item>
+            <div class="grid grid-cols-2 z-50 md:grid-cols-4 gap-2 w-32 place-items-center">
                 <div v-for="shape in Object.keys(shapeClass)"
-                    class="w-7 h-7 flex items-center justify-center cursor-pointer transition-colors duration-200 ease-in-out hover:bg-indigo-200/90 rounded-full p-1"
+                    class="w-8 h-8 flex items-center justify-center cursor-pointer transition-colors duration-200 ease-in-out hover:bg-indigo-200/90 rounded-full p-1"
                     :key="shape" @click="props.editor.commands.setShape(shape)">
                     <div :class="[
                         shapeClass[shape],
-                        'w-5 h-5 rounded-full p-1',
-                        { 'ring-1 scale-90': shape === 'none' },
+                        'w-5 h-5 p-1',
+                        { 'ring-1 scale-90 rounded-full': shape === 'none' },
                         { ' bg-cyan-400': shape !== 'none' }
                     ]"></div>
                 </div>
             </div>
-        </div>
-    </div>
+        </template>
+    </Button>
     <input ref="fileInput" multiple="false" accept="image/*" type="file" style="display: none"
         @change="onFileSelected" />
 </template>

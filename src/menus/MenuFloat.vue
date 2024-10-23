@@ -1,16 +1,11 @@
 <script lang="ts" setup>
 import { FloatingMenu } from '@tiptap/vue-3'
 import { Editor as TiptapEditor } from '@tiptap/core'
-import TiptapAgent from '../helper/TiptapHelper'
-import Heading from '../buttons/ButtonHeading.vue'
-import Image from '../buttons/ButtonImage.vue'
-import Draw from '../buttons/ButtonDraw.vue'
-import Table from '../buttons/ButtonTable.vue'
-import TaskList from '../buttons/ButtonTaskList.vue'
-import SmartPre from '../buttons/ButtonSmartPre.vue'
+import { shouldShowFloatingMenu } from '../extensions/SmartMenus'
 import ButtonBar from '../ui/ButtonBar.vue'
-import Kbd from '../buttons/ButtonKbd.vue'
-import BulletList from '../buttons/ButtonBulletList.vue'
+import Button from '../ui/Button.vue'
+import { RiH2, RiH3, RiH4, RiEdit2Line, RiListCheck, RiTaskFill, RiTable2, RiCodeBlock, RiKeyboardBoxLine } from '@remixicon/vue'
+
 defineProps({
   editor: {
     type: TiptapEditor,
@@ -22,7 +17,6 @@ defineProps({
   }
 })
 
-const shouldShowFloatingMenu = TiptapAgent.shouldShowFloatingMenu
 </script>
 <template>
   <!-- 回车后显示的菜单 -->
@@ -30,22 +24,40 @@ const shouldShowFloatingMenu = TiptapAgent.shouldShowFloatingMenu
     <floating-menu :tippy-options="{
       duration: 100,
       maxWidth: 800,
-      placement: 'top',
+      placement: 'right',
       appendTo: 'parent'
     }" :editor="editor" :should-show="shouldShowFloatingMenu">
+      <p class="text-xs prose dark:prose-invert rounded-md bg-white dark:bg-gray-800 px-2 py-1 inline-block mb-2">
+        Floating Menu
+      </p>
       <ButtonBar type="blue" :shape="shape">
-        <Heading :editor="editor" :level="2" :shape="shape" />
-        <Heading :editor="editor" :level="3" :shape="shape" />
-        <Heading :editor="editor" :level="4" :shape="shape" />
-        <Heading :editor="editor" :level="5" :shape="shape" />
-        <Heading :editor="editor" :level="6" :shape="shape" />
-        <Image :editor="editor" :shape="shape" />
-        <Draw :editor="editor" :shape="shape" />
-        <BulletList :editor="editor" :shape="shape"></BulletList>
-        <TaskList :editor="editor" :shape="shape" />
-        <Table :editor="editor" :shape="shape"></Table>
-        <SmartPre :editor="editor" :shape="shape"></SmartPre>
-        <Kbd :editor="editor" :shape="shape"></Kbd>
+        <Button tips="2号标题" :editor="editor" :level="2" :shape="shape">
+          <RiH2></RiH2>
+        </Button>
+        <Button tips="3号标题" :editor="editor" :level="3" :shape="shape">
+          <RiH3></RiH3>
+        </Button>
+        <Button tips="4号标题" :editor="editor" :level="4" :shape="shape">
+          <RiH4></RiH4>
+        </Button>
+        <Button tips="绘图" :editor="editor" :shape="shape">
+          <RiEdit2Line></RiEdit2Line>
+        </Button>
+        <Button tips="列表" :editor="editor" :shape="shape">
+          <RiListCheck></RiListCheck>
+        </Button>
+        <Button tips="任务列表" :editor="editor" :shape="shape">
+          <RiTaskFill></RiTaskFill>
+        </Button>
+        <Button tips="表格" :editor="editor" :shape="shape">
+          <RiTable2></RiTable2>
+        </Button>
+        <Button tips="代码块" :editor="editor" :shape="shape">
+          <RiCodeBlock></RiCodeBlock>
+        </Button>
+        <Button tips="快捷键" :editor="editor" :shape="shape">
+          <RiKeyboardBoxLine></RiKeyboardBoxLine>
+        </Button>
       </ButtonBar>
     </floating-menu>
   </div>

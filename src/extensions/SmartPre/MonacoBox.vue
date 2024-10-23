@@ -10,9 +10,9 @@
         }" @click="onClickIcon" v-show="runVisible && language.runnable" contenteditable="false">
         <template v-if="!runResultVisible">
           <span class="loading loading-spinner" v-if="running"></span>
-          <PlayIcon v-else />
+          <RiPlayCircleFill v-else />
         </template>
-        <CloseIcon v-else="runResultVisible" />
+        <RiCloseCircleFill v-else="runResultVisible" />
       </button>
 
       <!-- 语言 -->
@@ -38,13 +38,12 @@
 import { onMounted, onUnmounted, watch, ref, onBeforeUnmount, computed, onBeforeMount } from 'vue'
 import MonacoBox from './Entities/MonacoBox'
 import webkit from '../../plugins/WebKit'
-import PlayIcon from '../../ui/icons/Play.vue'
-import CloseIcon from '../../ui/icons/Close.vue'
 import Pre from '../../ui/Pre.vue'
 import { v4 as uuidv4 } from 'uuid'
 import * as monaco from "monaco-editor/esm/vs/editor/editor.api"
 import { SmartLanguage, languages } from './Entities/SmartLanguage'
 import LanguageSelect from './LanguageSelect.vue'
+import { RiCloseCircleFill, RiPlayCircleFill } from '@remixicon/vue'
 
 const props = defineProps({
   content: {

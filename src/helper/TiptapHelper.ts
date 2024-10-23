@@ -1,10 +1,8 @@
 import { Editor as EditorVue } from '@tiptap/vue-3'
 import { JSONContent, Editor } from '@tiptap/core'
 import { Node as ProseMirrorNode } from '@tiptap/pm/model';
-import DomHelper from './DomHelper';
 import { A, BANNER, BLOCKQUOTE, BULLET_LIST, CODE_BLOCK, DRAW, HEADING, IMAGE, LIST_ITEM, ORDERED_LIST, STRIKE, TABLE, TABLE_HEADER, TABLE_ROW, TEXT } from '../config/nodes';
 import EditorData from '../model/EditorData';
-import { SmartFocus } from '../extensions/SmartFocus';
 import UUIDHelper from './UUIDHelper';
 import { Root } from '../extensions/Root/Root';
 import SmartDoc from '../extensions/SmartDoc';
@@ -98,12 +96,6 @@ class TiptapHelper {
         })
     }
 
-    static isTableEnable(editor: Editor): Boolean {
-        return editor.extensionManager.extensions.some(extension => {
-            return extension.name === 'smart-table'
-        })
-    }
-
     static getSelectionNodeType(editor: Editor): string {
         let type = "paragraph"
         if (editor.isActive('paragraph')) {
@@ -161,52 +153,6 @@ class TiptapHelper {
         }
 
         return type
-    }
-
-    static shouldShowFloatingMenu(props: {
-        editor: import('@tiptap/core').Editor
-        view: import('prosemirror-view').EditorView
-        state: import('prosemirror-state').EditorState
-        oldState?: import('prosemirror-state').EditorState | undefined
-    }) {
-        let isAtBannerPosition = props.editor.isActive('banner')
-        let isAtSmartImagePosition = props.editor.isActive('image')
-        const excludes = [DRAW, TABLE, A, TABLE_ROW, TABLE_HEADER]
-        const { selection } = props.state
-        const { $anchor, empty } = selection
-        const isEmptyTextBlock =
-            $anchor.parent.isTextblock && !$anchor.parent.type.spec.code && !$anchor.parent.textContent
-        const type = $anchor.parent.type.name
-        const { editor } = props
-
-        // 如果在 H1 中，不展示
-        if (type == HEADING && selection.$head.parent.attrs.level == 1) {
-            return false
-        }
-
-        // 如果在 excludes 中，不展示
-        if (excludes.includes(type)) {
-            return false
-        }
-
-        // 如果 excludes 中的节点 active，不展示
-        if (excludes.some(extension => editor.isActive(extension))) {
-            return false
-        }
-
-        if (isAtBannerPosition && !isEmptyTextBlock) {
-            return false
-        }
-
-        if (isAtSmartImagePosition) {
-            return false
-        }
-
-        if (!isEmptyTextBlock) {
-            return false
-        }
-
-        return true
     }
 
     // 获取尾部位置
@@ -275,28 +221,6 @@ class TiptapHelper {
         })
 
         return errors
-    }
-
-    static getFocusedNodePosition(editor: Editor): { offsetTop: number | null, offsetLeft: number | null } {
-        const focusClassName = editor.extensionManager.extensions.find(extension => extension.name === SmartFocus.name)?.options.className
-        const currentNode: Element | null = DomHelper.querySelector(`.` + focusClassName)
-        if (currentNode === null) {
-            return { offsetTop: null, offsetLeft: null }
-        }
-
-        // 当前元素距离页面顶部的距离
-        let { offsetTop, offsetLeft } = currentNode as HTMLElement
-
-        // 微修正菜单位置
-        offsetTop = currentNode.tagName === 'DIV' ? offsetTop - 8 : offsetTop - 5
-        let offsetY = 0
-        if (editor.isActive('horizontalRule') || editor.isActive('table')) {
-            offsetY = 5
-        }
-        if (editor.isActive('pagination')) {
-            offsetY = -4
-        }
-        return { offsetTop, offsetLeft }
     }
 
     static getTitle(json: JSONContent): string {

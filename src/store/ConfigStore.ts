@@ -24,11 +24,12 @@ import SmartTaskList from "../extensions/SmartTaskList/SmartTaskList"
 import SmartPre from "../extensions/SmartPre/SmartPre"
 import SmartImage from "../extensions/SmartImage/SmartImage"
 import SmartLink from "../extensions/SmartLink/SmartLink"
-import SmartParagraph from "../extensions/SmartParagraph/SmartParagraph"
+import SmartParagraph from "../extensions/SmartParagraph"
 import SmartBulletList from "../extensions/SmartBulletList/SmartBulletList"
 import SmartQuote from "../extensions/SmartQuote/SmartQuote"
-import SmartTableHeader from "../extensions/SmartTableHeader/SmartTableHeader"
-import SmartTableRow from "../extensions/SmartTableRow/SmartTableRow"
+import { SmartActive } from "../extensions/SmartActive"
+import TableRow from "@tiptap/extension-table-row"
+import TableHeader from "@tiptap/extension-table-header"
 import SmartSelection from "../extensions/SmartSelection"
 import { Padding } from "../extensions/Padding"
 import { SmartFocus } from "../extensions/SmartFocus"
@@ -39,6 +40,7 @@ import { Toc } from "../extensions/Toc/Toc"
 import ApiApp from "../plugins/APIApp"
 import { NewLine } from "../extensions/NewLine"
 import { Debug } from "../extensions/Debug"
+import { SmartEvent } from "../extensions/SmartEvent"
 import SmartDoc from "../extensions/SmartDoc"
 import SmartBold from "../extensions/SmartBold"
 import SmartPlaceholder from "../extensions/SmartPlaceholder"
@@ -160,6 +162,7 @@ function makeExtensions(props: makeExtensionsProps) {
             },
         }),
         SmartPre,
+        SmartActive,
         Color.configure({
             types: ['textStyle'],
         }),
@@ -175,7 +178,6 @@ function makeExtensions(props: makeExtensionsProps) {
         SmartFocus.configure({
             className: props.focusClassName,
             mode: 'all',
-            excludeNodes: [ROOT, TOC]
         }),
         SmartHeading,
         History.configure({
@@ -223,6 +225,7 @@ function makeExtensions(props: makeExtensionsProps) {
             nested: true,
         }),
         SmartTaskList,
+        SmartEvent,
         Text,
         Table.configure({
             resizable: true,
@@ -231,11 +234,11 @@ function makeExtensions(props: makeExtensionsProps) {
                 uuid: null
             },
         }),
-        // TableRow,
-        SmartTableRow,
+        TableRow,
+        // SmartTableRow,
         TableCell,
-        // TableHeader,
-        SmartTableHeader,
+        TableHeader,
+        // SmartTableHeader,
         Toc,
         TextAlign.configure({
             types: [HEADING, PARAGRAPH],

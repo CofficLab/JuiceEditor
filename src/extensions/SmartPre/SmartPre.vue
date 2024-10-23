@@ -1,45 +1,10 @@
-<template>
-  <NodeViewWrapper>
-    <Panel
-      :deleteNode="props.deleteNode"
-      :show-border="false"
-      :readOnly="!props.editor.isEditable"
-      :with-padding="false"
-      :editor="props.editor"
-      :node="props.node"
-      :getPos="props.getPos"
-    >
-      <template v-slot:content>
-        <div class="relative" ref="codeDom" v-if="show">
-          <MonacoBox
-            :language="language"
-            :content="code"
-            :readOnly="!props.editor.isEditable"
-            :onContentChanged="onContentUpdated"
-            :onLanguageChanged="onLanguageChanged"
-          ></MonacoBox>
-        </div>
-
-        <NodeViewContent class="hidden"></NodeViewContent>
-      </template>
-
-      <template v-slot:operators>
-        <Button @click="copyToClipboard">
-          <IconCopy />
-        </Button>
-      </template>
-    </Panel>
-  </NodeViewWrapper>
-</template>
-
 <script lang="ts" setup>
 import { NodeViewContent, nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
-import Panel from '../Panel.vue'
 import { computed, onUpdated, ref } from 'vue'
 import { SmartLanguage } from './Entities/SmartLanguage'
 import MonacoBox from './MonacoBox.vue'
 import Button from '../../ui/Button.vue'
-import IconCopy from '../../ui/icons/IconCopy.vue'
+import { RiCopyrightFill } from '@remixicon/vue'
 import EventHelper from '../../helper/EventHelper'
 
 const props = defineProps(nodeViewProps)
@@ -118,3 +83,20 @@ function log(...message: any[]) {
   console.log('🐰 SmartPre:', ...message)
 }
 </script>
+
+<template>
+  <NodeViewWrapper>
+    <div class="relative" ref="codeDom" v-if="show">
+      <MonacoBox :language="language" :content="code" :readOnly="!props.editor.isEditable"
+        :onContentChanged="onContentUpdated" :onLanguageChanged="onLanguageChanged"></MonacoBox>
+    </div>
+
+    <NodeViewContent class="hidden"></NodeViewContent>
+
+
+
+    <!-- <Button @click="copyToClipboard">
+          <RiCopyrightFill size="36px"></RiCopyrightFill>
+        </Button> -->
+  </NodeViewWrapper>
+</template>
