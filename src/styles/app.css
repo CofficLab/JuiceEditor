@@ -1,4 +1,5 @@
 @import './table.css';
+@import './active.css';
 @import './focused.css';
 @import './taskList.css';
 @import './proseMirror.css';

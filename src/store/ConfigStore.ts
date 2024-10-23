@@ -27,8 +27,7 @@ import SmartLink from "../extensions/SmartLink/SmartLink"
 import SmartParagraph from "../extensions/SmartParagraph/SmartParagraph"
 import SmartBulletList from "../extensions/SmartBulletList/SmartBulletList"
 import SmartQuote from "../extensions/SmartQuote/SmartQuote"
-import SmartTableHeader from "../extensions/SmartTableHeader/SmartTableHeader"
-import SmartTableRow from "../extensions/SmartTableRow/SmartTableRow"
+import { SmartActive } from "../extensions/SmartActive"
 import TableRow from "@tiptap/extension-table-row"
 import TableHeader from "@tiptap/extension-table-header"
 import SmartSelection from "../extensions/SmartSelection"
@@ -162,6 +161,7 @@ function makeExtensions(props: makeExtensionsProps) {
             },
         }),
         SmartPre,
+        SmartActive,
         Color.configure({
             types: ['textStyle'],
         }),
@@ -177,7 +177,6 @@ function makeExtensions(props: makeExtensionsProps) {
         SmartFocus.configure({
             className: props.focusClassName,
             mode: 'all',
-            excludeNodes: [ROOT, TOC]
         }),
         SmartHeading,
         History.configure({

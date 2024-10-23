@@ -117,9 +117,10 @@ function updateMenuPosition() {
 </script>
 
 <template>
-    <div v-if="visible" :style="`transform: translate(${marginLeft}px, ${scrollTop}px);`" class="w-22 absolute">
+    <div v-if="visible && shouldShowTableMenu" :style="`transform: translate(${marginLeft}px, ${scrollTop}px);`"
+        class="w-22 absolute">
         <ButtonList>
-            <MenuTable :editor="editor" v-if="shouldShowTableMenu"></MenuTable>
+            <MenuTable :editor="editor"></MenuTable>
         </ButtonList>
     </div>
 </template>

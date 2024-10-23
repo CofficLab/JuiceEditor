@@ -4,7 +4,7 @@ import { Node as ProseMirrorNode } from '@tiptap/pm/model';
 import DomHelper from './DomHelper';
 import { A, BANNER, BLOCKQUOTE, BULLET_LIST, CODE_BLOCK, DRAW, HEADING, IMAGE, LIST_ITEM, ORDERED_LIST, STRIKE, TABLE, TABLE_HEADER, TABLE_ROW, TEXT } from '../config/nodes';
 import EditorData from '../model/EditorData';
-import { SmartFocus } from '../extensions/SmartFocus';
+import { SmartActive } from '../extensions/SmartActive';
 import UUIDHelper from './UUIDHelper';
 import { Root } from '../extensions/Root/Root';
 import SmartDoc from '../extensions/SmartDoc';
@@ -278,8 +278,9 @@ class TiptapHelper {
     }
 
     static getFocusedNodePosition(editor: Editor): { offsetTop: number | null, offsetLeft: number | null } {
-        const focusClassName = editor.extensionManager.extensions.find(extension => extension.name === SmartFocus.name)?.options.className
+        const focusClassName = editor.extensionManager.extensions.find(extension => extension.name === SmartActive.name)?.options.className
         const currentNode: Element | null = DomHelper.querySelector(`.` + focusClassName)
+        console.log(title, 'currentNode', currentNode)
         if (currentNode === null) {
             return { offsetTop: null, offsetLeft: null }
         }
