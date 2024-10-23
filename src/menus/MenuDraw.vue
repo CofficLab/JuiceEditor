@@ -17,6 +17,10 @@ let props = defineProps({
     shape: {
         type: String,
         default: 'rectangle'
+    },
+    iconSize: {
+        type: String,
+        default: '24px'
     }
 })
 
@@ -115,10 +119,10 @@ onUnmounted(() => {
 
 <template>
     <Opening :onReady="open" :visible="isOpening" class="opening" ref="opening"></Opening>
-    <Button @click="downloadImage" tip="下载图片" :shape="shape">
-        <RiDownload2Fill color="primary"></RiDownload2Fill>
+    <Button @click="downloadImage" tips="下载图片" :shape="shape">
+        <RiDownload2Fill :size="iconSize"></RiDownload2Fill>
     </Button>
-    <Button @click="openLoading" tip="打开画图界面" :shape="shape">
-        <RiEdit2Line color="primary"></RiEdit2Line>
+    <Button @click="openLoading" tips="打开画图界面" :shape="shape">
+        <RiEdit2Line :size="iconSize"></RiEdit2Line>
     </Button>
 </template>

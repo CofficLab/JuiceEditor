@@ -5,7 +5,7 @@ import { Editor } from '@tiptap/core'
 import { IMAGE } from '../config/nodes'
 import ImageHelper from '../helper/ImageHelper'
 import SmartImage from '../extensions/SmartImage/SmartImage'
-import { RiDownload2Fill, RiInfoI, RiEdit2Fill } from '@remixicon/vue'
+import { RiDownload2Fill, RiShape2Line, RiEdit2Fill } from '@remixicon/vue'
 
 let props = defineProps({
     editor: {
@@ -15,6 +15,10 @@ let props = defineProps({
     shape: {
         type: String,
         default: 'rectangle'
+    },
+    iconSize: {
+        type: String,
+        default: '24px'
     }
 })
 
@@ -69,31 +73,28 @@ let shapeClass = computed(() => {
 </script>
 
 <template>
-    <Button @click="changeImage" tip="更换图片" :shape="shape">
-        <RiEdit2Fill size="36px"></RiEdit2Fill>
+    <Button @click="changeImage" tips="更换图片" :shape="shape">
+        <RiEdit2Fill :size="iconSize"></RiEdit2Fill>
     </Button>
-    <Button @click="downloadImage" tip="下载" :shape="shape">
-        <RiDownload2Fill color="primary"></RiDownload2Fill>
+    <Button @click="downloadImage" tips="下载" :shape="shape">
+        <RiDownload2Fill :size="iconSize"></RiDownload2Fill>
     </Button>
-    <div class="dropdown dropdown-bottom h-8 w-8">
-        <Button tabindex="0" role="button" tip="样式" size="md" :shape="shape">
-            <RiInfoI color="primary"></RiInfoI>
-        </Button>
-        <div tabindex="0" class="dropdown-content bg-slate-100 dark:bg-zinc-900 rounded-box z-50 p-2 shadow w-48">
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
-                <div v-for="shape in Object.keys(shapeClass)"
-                    class="w-7 h-7 flex items-center justify-center cursor-pointer transition-colors duration-200 ease-in-out hover:bg-indigo-200/90 rounded-full p-1"
-                    :key="shape" @click="props.editor.commands.setShape(shape)">
-                    <div :class="[
-                        shapeClass[shape],
-                        'w-5 h-5 rounded-full p-1',
-                        { 'ring-1 scale-90': shape === 'none' },
-                        { ' bg-cyan-400': shape !== 'none' }
-                    ]"></div>
-                </div>
+    <Button tips="样式" :shape="shape">
+        <RiShape2Line :size="iconSize"></RiShape2Line>
+
+        <template #dropdown-item>
+            <div v-for="shape in Object.keys(shapeClass)"
+                class="w-7 h-7 flex items-center justify-center cursor-pointer transition-colors duration-200 ease-in-out hover:bg-indigo-200/90 rounded-full p-1"
+                :key="shape" @click="props.editor.commands.setShape(shape)">
+                <div :class="[
+                    shapeClass[shape],
+                    'w-5 h-5 rounded-full p-1',
+                    { 'ring-1 scale-90': shape === 'none' },
+                    { ' bg-cyan-400': shape !== 'none' }
+                ]"></div>
             </div>
-        </div>
-    </div>
+        </template>
+    </Button>
     <input ref="fileInput" multiple="false" accept="image/*" type="file" style="display: none"
         @change="onFileSelected" />
 </template>

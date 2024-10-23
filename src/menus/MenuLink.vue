@@ -14,6 +14,10 @@ let props = defineProps({
     shape: {
         type: String,
         default: 'rectangle'
+    },
+    iconSize: {
+        type: String,
+        default: '24px'
     }
 })
 
@@ -44,8 +48,8 @@ watch(text, (newVal) => {
 </script>
 
 <template>
-    <Button tip="在浏览器中打开" @click="openLink" contenteditable="false" shape="rectangle" size="xs">
-        <RiLinkM></RiLinkM>
+    <Button tips="在浏览器中打开" @click="openLink" contenteditable="false" :shape="shape">
+        <RiLinkM :size="iconSize"></RiLinkM>
     </Button>
 
     <input type="text" v-model="href" placeholder="在此输入链接"
@@ -54,7 +58,7 @@ watch(text, (newVal) => {
     <input type="text" v-model="text" placeholder="在此输入文字"
         class="w-48 rounded-none input focus:outline-none focus:ring-1 input-sm" />
 
-    <Button tip="删除链接，保留文字" @click="editor.commands.unsetLink()" contenteditable="false" shape="rectangle">
-        <RiGlobalLine></RiGlobalLine>
+    <Button tips="删除链接，保留文字" @click="editor.commands.unsetLink()" contenteditable="false" :shape="shape">
+        <RiGlobalLine :size="iconSize"></RiGlobalLine>
     </Button>
 </template>
