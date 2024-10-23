@@ -21,5 +21,5 @@ module.exports = {
             '3xl': '1600px'
         }
     },
-    plugins: [require('@tailwindcss/typography')]
+    plugins: [require('@tailwindcss/typography'), require('daisyui')]
 }
