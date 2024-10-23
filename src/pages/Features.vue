@@ -114,8 +114,9 @@ function downloadAsImage() {
                             <div v-for="language in languages" class="text-xs w-12 rounded-full p-1">{{ language }}
                             </div>
                         </div>
-                        <p class="mt-2"><span class="rounded-2xl p-1">有何特别</span></p>
-                        <ul class="list-disc list-inside ml-2 text-sm">
+                        <p class="mt-2"><span class="rounded-2xl p-1 font-bold">有何特别</span></p>
+                        <ul class="list-disc list-inside ml-2 text-sm mt-1">
+                            <li>简单易用</li>
                             <li>优雅简洁的界面</li>
                             <li>丰富强大的 API</li>
                             <li>多平台、多框架的支持</li>
