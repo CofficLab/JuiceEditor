@@ -58,4 +58,4 @@ defineJuiceEditor()
 
 ## About the Author
 
--   [Nookery](https://github.com/nookery)
+Work for Joy & Live for Love ➡️ <https://github.com/nookery>
