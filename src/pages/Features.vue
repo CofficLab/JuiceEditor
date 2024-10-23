@@ -53,7 +53,7 @@ function downloadAsImage() {
             <button @click="downloadAsImage" class="mt-4 p-2 bg-blue-500/50 rounded">Download as Image</button>
         </div>
 
-        <div id="box" class="max-w-4xl mx-auto p-8">
+        <div id="box" class="max-w-4xl mx-auto p-0">
             <div id="section1" :class="cardClass1">
                 <div :class="menuClass" class="w-36 ml-24">
                     <RiH1 :size="iconSize" :color="iconColor" />
