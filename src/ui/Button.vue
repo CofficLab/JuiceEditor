@@ -69,7 +69,6 @@ const dropdownClass = computed(() => {
   if (!dropdownContent.value) return ''
 
   const childCount = dropdownContent.value.children.length
-  console.log(childCount)
   return {
     'grid': childCount > 1,
     'grid-cols-2': childCount > 3 && childCount <= 8,
