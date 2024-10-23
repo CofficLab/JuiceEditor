@@ -51,7 +51,6 @@ const SmartImage = ImageTipTap.extend<ImageOptions>({
                 decagon: 'mask mask-decagon',
                 pentagon: 'mask mask-pentagon',
                 diamond: 'mask mask-diamond',
-                square: 'mask mask-square',
                 circle: 'mask mask-circle',
                 parallelogram: 'mask mask-parallelogram',
                 star: 'mask mask-star',

@@ -5,7 +5,7 @@ import { Editor } from '@tiptap/core'
 import { IMAGE } from '../config/nodes'
 import ImageHelper from '../helper/ImageHelper'
 import SmartImage from '../extensions/SmartImage/SmartImage'
-import { RiDownload2Fill, RiShape2Line, RiEdit2Fill } from '@remixicon/vue'
+import { RiEditLine, RiDownloadLine, RiShapeLine } from '@remixicon/vue'
 
 let props = defineProps({
     editor: {
@@ -74,24 +74,26 @@ let shapeClass = computed(() => {
 
 <template>
     <Button @click="changeImage" tips="更换图片" :shape="shape">
-        <RiEdit2Fill :size="iconSize"></RiEdit2Fill>
+        <RiEditLine :size="iconSize"></RiEditLine>
     </Button>
     <Button @click="downloadImage" tips="下载" :shape="shape">
-        <RiDownload2Fill :size="iconSize"></RiDownload2Fill>
+        <RiDownloadLine :size="iconSize"></RiDownloadLine>
     </Button>
     <Button tips="样式" :shape="shape">
-        <RiShape2Line :size="iconSize"></RiShape2Line>
+        <RiShapeLine :size="iconSize"></RiShapeLine>
 
         <template #dropdown-item>
-            <div v-for="shape in Object.keys(shapeClass)"
-                class="w-7 h-7 flex items-center justify-center cursor-pointer transition-colors duration-200 ease-in-out hover:bg-indigo-200/90 rounded-full p-1"
-                :key="shape" @click="props.editor.commands.setShape(shape)">
-                <div :class="[
-                    shapeClass[shape],
-                    'w-5 h-5 rounded-full p-1',
-                    { 'ring-1 scale-90': shape === 'none' },
-                    { ' bg-cyan-400': shape !== 'none' }
-                ]"></div>
+            <div class="grid grid-cols-2 z-50 md:grid-cols-4 gap-2 w-32 place-items-center">
+                <div v-for="shape in Object.keys(shapeClass)"
+                    class="w-8 h-8 flex items-center justify-center cursor-pointer transition-colors duration-200 ease-in-out hover:bg-indigo-200/90 rounded-full p-1"
+                    :key="shape" @click="props.editor.commands.setShape(shape)">
+                    <div :class="[
+                        shapeClass[shape],
+                        'w-5 h-5 p-1',
+                        { 'ring-1 scale-90 rounded-full': shape === 'none' },
+                        { ' bg-cyan-400': shape !== 'none' }
+                    ]"></div>
+                </div>
             </div>
         </template>
     </Button>
