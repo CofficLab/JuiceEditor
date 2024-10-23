@@ -9,7 +9,7 @@ import MenuImage from './MenuImage.vue'
 import MenuDraw from './MenuDraw.vue'
 import MenuLink from './MenuLink.vue'
 import { computed } from 'vue'
-import { shouldShowBubbleMenu } from '../extensions/SmartMenus/SmartMenus'
+import { shouldShowBubbleMenu } from '../extensions/SmartMenus'
 import Button from '../ui/Button.vue'
 import { RiH2, RiH3, RiH4, RiH5, RiH6, RiText, RiBold, RiItalic, RiStrikethrough } from '@remixicon/vue'
 

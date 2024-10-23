@@ -1,7 +1,7 @@
 import { EditorState } from '@tiptap/pm/state'
 import { EditorView } from '@tiptap/pm/view'
 import { Editor as TiptapEditor } from '@tiptap/core'
-import { IMAGE, TABLE, LINK, TOC, DRAW, TABLE_CELL, TABLE_ROW, TABLE_HEADER, BRANCH, BRANCH_CONTENT } from '../../config/nodes'
+import { IMAGE, TABLE, LINK, TOC, DRAW, TABLE_CELL, TABLE_ROW, TABLE_HEADER, BRANCH, BRANCH_CONTENT } from '../config/nodes'
 import Heading from '@tiptap/extension-heading'
 
 let emoji = '🫧 BubbleMenusExtension'
