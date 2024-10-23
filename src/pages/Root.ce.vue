@@ -19,6 +19,7 @@ import { ref } from 'vue';
 import App from './App.vue'
 import PageMode from '../model/PageMode';
 import Features from './Features.vue'
+import { SmartEvent } from '../extensions/SmartEvent';
 
 
 const props = defineProps({
@@ -143,6 +144,14 @@ function bootProviders(editor: Editor) {
     listenerProvider = new ListenerProvider(config.listeners)
     pluginProvider = new PluginProvider(config.plugins)
 }
+
+window.addEventListener(editor.extensionManager.extensions.find(extension => extension.name === SmartEvent.name)?.options.eventName, ((event: CustomEvent) => {
+    if (event.detail.isError) {
+        messageStore.setErrorEvent(event)
+    } else {
+        messageStore.setMessage(event.detail.message)
+    }
+}) as EventListener);
 
 </script>
 

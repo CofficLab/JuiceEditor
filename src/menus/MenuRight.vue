@@ -43,7 +43,7 @@ watch(
                 updateMenuPosition()
             })
             editor.value.on('focus', () => {
-                let verbose = true
+                let verbose = false
 
                 if (verbose) {
                     console.log(emoji, 'focus')
@@ -75,7 +75,6 @@ function updateMenuPosition() {
 
     // 如果是TOC，不显示
     if (props.editor.isActive(TOC)) {
-        console.log(emoji, 'isActive TOC')
         visible.value = false
         return
     }

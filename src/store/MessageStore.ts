@@ -9,6 +9,7 @@ export const useMessageStore = defineStore('message-store', {
             isDebug: isDebug,
             message: SmartMessage.empty(),
             error: null as Error | null,
+            errorEvent: null as CustomEvent | null,
         }
     },
 
@@ -27,6 +28,10 @@ export const useMessageStore = defineStore('message-store', {
             } else {
                 this.error = error
             }
+        },
+
+        setErrorEvent(event: CustomEvent) {
+            this.errorEvent = event
         },
 
         clearError() {

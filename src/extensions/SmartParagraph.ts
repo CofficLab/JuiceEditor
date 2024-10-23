@@ -1,6 +1,7 @@
 import Paragraph from "@tiptap/extension-paragraph";
 import axios from 'axios';
 import { CommandProps, Editor } from '@tiptap/core';
+import { SmartEventName } from './SmartEvent';
 
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
@@ -9,10 +10,6 @@ declare module '@tiptap/core' {
             setBackgroundColor: (color: string) => ReturnType
             translate: (language: string) => ReturnType
         }
-    }
-
-    interface EditorEvents {
-        'translation:error': string
     }
 }
 
@@ -83,8 +80,6 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
         }
     },
 
-    // addNodeView: () => VueNodeViewRenderer(SmartParagraphVue),
-
     addCommands() {
         return {
             setParagraph: () => ({ commands }) => {
@@ -121,11 +116,7 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
                         const tr = editor.state.tr.replaceWith(start, end, translatedNode);
                         editor.view.dispatch(tr);
                     } catch (error: unknown) {
-                        if (error instanceof Error) {
-                            editor.emit('translation:error', "翻译失败: " + error.message);
-                        } else {
-                            editor.emit('translation:error', '翻译失败: 未知错误');
-                        }
+                        editor.commands.emitError(SmartEventName.TranslationError, (error as Error).message);
                     }
                 })();
 
@@ -153,12 +144,7 @@ async function performTranslation(content: string, language: string, apiUrl: str
             throw new Error(`Translation API returned status code: ${response.status}`);
         }
     } catch (error) {
-        if (error instanceof Error) {
-            throw error;
-        } else {
-            // 如果是axios错误，提供更详细的错信息
-            throw new Error(`Translation failed: ${JSON.stringify(error)}`);
-        }
+        throw error;
     }
 }
 

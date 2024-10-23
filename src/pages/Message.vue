@@ -52,6 +52,7 @@ watch(
       console.log(title, 'messageStore.uuid', newVal)
     }
 
+    pluginProvider.onMessage(messageStore.message.text)
     displayMessage.value = messageStore.message.text
 
     setTimeout(() => {
@@ -59,20 +60,4 @@ watch(
     }, 3000)
   }
 )
-
-watch(() => messageStore.message, () => {
-  pluginProvider.onMessage(messageStore.message.text)
-})
 </script>
-
-<style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-</style>

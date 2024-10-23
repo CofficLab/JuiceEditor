@@ -14,7 +14,8 @@ export const shouldShowBubbleMenu = function (props: {
     from: number
     to: number
 }) {
-    let verbose = true
+    let verbose = false
+
     const { selection } = props.state
     const { empty } = selection
     const shouldShowNodes = [IMAGE, LINK]

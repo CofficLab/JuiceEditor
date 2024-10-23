@@ -24,7 +24,7 @@ import SmartTaskList from "../extensions/SmartTaskList/SmartTaskList"
 import SmartPre from "../extensions/SmartPre/SmartPre"
 import SmartImage from "../extensions/SmartImage/SmartImage"
 import SmartLink from "../extensions/SmartLink/SmartLink"
-import SmartParagraph from "../extensions/SmartParagraph/SmartParagraph"
+import SmartParagraph from "../extensions/SmartParagraph"
 import SmartBulletList from "../extensions/SmartBulletList/SmartBulletList"
 import SmartQuote from "../extensions/SmartQuote/SmartQuote"
 import { SmartActive } from "../extensions/SmartActive"
@@ -40,6 +40,7 @@ import { Toc } from "../extensions/Toc/Toc"
 import ApiApp from "../plugins/APIApp"
 import { NewLine } from "../extensions/NewLine"
 import { Debug } from "../extensions/Debug"
+import { SmartEvent } from "../extensions/SmartEvent"
 import SmartDoc from "../extensions/SmartDoc"
 import SmartBold from "../extensions/SmartBold"
 import SmartPlaceholder from "../extensions/SmartPlaceholder"
@@ -224,6 +225,7 @@ function makeExtensions(props: makeExtensionsProps) {
             nested: true,
         }),
         SmartTaskList,
+        SmartEvent,
         Text,
         Table.configure({
             resizable: true,

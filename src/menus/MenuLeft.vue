@@ -50,7 +50,7 @@ watch(
 				updateMenuPosition()
 			})
 			editor.value.on('focus', () => {
-				let verbose = true
+				let verbose = false
 
 				if (verbose) {
 					console.log(emoji, 'focus')
@@ -82,14 +82,12 @@ function updateMenuPosition() {
 
 	// 如果是TOC，不显示
 	if (props.editor.isActive(TOC)) {
-		console.log(emoji, 'isActive TOC')
 		visible.value = false
 		return
 	}
 
 	// 如果是Heading，且Level=1，不显示
 	if (props.editor.isActive(HEADING) && props.editor.getAttributes(HEADING).level === 1) {
-		console.log(emoji, 'isActive HEADING level 1')
 		visible.value = false
 		return
 	}
