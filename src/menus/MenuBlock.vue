@@ -60,7 +60,7 @@ watch(
 			// 	updateMenuPosition()
 			// })
 			editor.value.on('focus', () => {
-				let verbose = false
+				let verbose = true
 
 				if (verbose) {
 					console.log(emoji, 'focus')
@@ -85,18 +85,21 @@ function updateMenuPosition() {
 
 	// 如果是只读模式，不显示
 	if (props.editor.isEditable == false) {
+
 		visible.value = false
 		return
 	}
 
 	// 如果是TOC，不显示
 	if (props.editor.isActive(TOC)) {
+		console.log(emoji, 'isActive TOC')
 		visible.value = false
 		return
 	}
 
 	// 如果是Heading，且Level=1，不显示
 	if (props.editor.isActive(HEADING) && props.editor.getAttributes(HEADING).level === 1) {
+		console.log(emoji, 'isActive HEADING level 1')
 		visible.value = false
 		return
 	}
@@ -130,7 +133,7 @@ function shouldShowNewLineMenu() {
 </script>
 
 <template>
-	<div v-if="visible" :style="`transform: translate(${marginLeft}px, ${scrollTop}px);`" class="w-22">
+	<div v-if="visible" :style="`transform: translate(${marginLeft}px, ${scrollTop}px);`" class="w-22 absolute">
 		<ButtonList>
 			<Button tips="删除" @click="editor.commands.deleteSelectionNode()" :shape="shape">
 				<RiDeleteBin7Line :size="iconSize"></RiDeleteBin7Line>

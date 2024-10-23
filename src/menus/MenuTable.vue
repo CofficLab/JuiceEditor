@@ -27,7 +27,6 @@ const isEditable = computed(() => props.editor.isEditable)
     <Button @click="focusedNode.deleteColumn().run()" tip="删除当前列">
         <RiDeleteColumn></RiDeleteColumn>
     </Button>
-    <Divider></Divider>
     <Button @click="focusedNode.addRowBefore().run()" tip="在上面加一行">
         <RiInsertRowTop></RiInsertRowTop>
     </Button>
@@ -37,7 +36,6 @@ const isEditable = computed(() => props.editor.isEditable)
     <Button @click="focusedNode.deleteRow().run()" tip="删除当前行">
         <RiDeleteRow></RiDeleteRow>
     </Button>
-    <Divider></Divider>
     <Button @click="focusedNode.mergeCells().run()" tip="合并">
         <RiMergeCellsHorizontal></RiMergeCellsHorizontal>
     </Button>

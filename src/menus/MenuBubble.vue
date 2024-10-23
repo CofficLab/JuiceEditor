@@ -8,7 +8,6 @@ import { DRAW, HEADING, IMAGE, PARAGRAPH, TABLE, TABLE_CELL, TABLE_HEADER, TABLE
 import MenuImage from './MenuImage.vue'
 import MenuDraw from './MenuDraw.vue'
 import MenuLink from './MenuLink.vue'
-import MenuTable from './MenuTable.vue'
 import { computed } from 'vue'
 import Button from '../ui/Button.vue'
 import { RiH2, RiH3, RiH4, RiH5, RiH6, RiText, RiBold, RiItalic, RiStrikethrough } from '@remixicon/vue'
@@ -121,11 +120,6 @@ const shouldShowImageMenu = computed(() => {
 	return props.editor.isActive(IMAGE) && !props.editor.getAttributes(IMAGE).draw
 })
 
-const shouldShowTableMenu = computed(() => {
-	const { selection } = props.editor.state
-	return selection.empty && props.editor.isActive(TABLE)
-})
-
 const shouldShowLinkMenu = computed(() => {
 	return props.editor.isActive(LINK)
 })
@@ -146,7 +140,7 @@ const shouldShowLinkMenu = computed(() => {
 			</p>
 
 			<!-- Heading And Format -->
-			<ButtonBar v-if="(shouldShowHeadingMenu || shouldShowFormatMenu) && !shouldShowTableMenu">
+			<ButtonBar v-if="(shouldShowHeadingMenu || shouldShowFormatMenu)">
 				<Button tips="2号标题" v-if="shouldShowHeadingMenu" :shape="shape"
 					@click="editor.chain().focus().setHeading({ level: 2 }).run()">
 					<RiH2></RiH2>
@@ -193,11 +187,6 @@ const shouldShowLinkMenu = computed(() => {
 			<!-- Image -->
 			<ButtonBar v-if="shouldShowImageMenu">
 				<MenuImage :editor="editor"></MenuImage>
-			</ButtonBar>
-
-			<!-- Table -->
-			<ButtonBar v-if="shouldShowTableMenu">
-				<MenuTable :editor="editor"></MenuTable>
 			</ButtonBar>
 
 			<!-- Link -->

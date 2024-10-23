@@ -1,6 +1,7 @@
 import Focus from '@tiptap/extension-focus'
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
+import TableCell from '@tiptap/extension-table-cell';
 
 export interface FocusOptions {
     /**
@@ -28,7 +29,7 @@ export const SmartFocus = Focus.extend<FocusOptions>({
     addOptions() {
         return {
             className: 'has-focus',
-            excludeNodes: [],
+            excludeNodes: [TableCell.name],
             mode: 'all' as 'all' | 'deepest' | 'shallowest',
         }
     },

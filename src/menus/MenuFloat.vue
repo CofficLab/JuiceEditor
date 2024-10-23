@@ -25,7 +25,7 @@ const shouldShowFloatingMenu = TiptapAgent.shouldShowFloatingMenu
     <floating-menu :tippy-options="{
       duration: 100,
       maxWidth: 800,
-      placement: 'top',
+      placement: 'right',
       appendTo: 'parent'
     }" :editor="editor" :should-show="shouldShowFloatingMenu">
       <p class="text-xs prose dark:prose-invert rounded-md bg-white dark:bg-gray-800 px-2 py-1 inline-block mb-2">
