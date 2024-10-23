@@ -92,14 +92,18 @@ export const useConfigStore = defineStore('config-store', {
 
     actions: {
         setTranslateApi(api: string) {
-            let verbose = false
+            let verbose = true
+
+            if (this.translateApi === api) {
+
+                if (verbose) {
+                    console.log(`${title}.setTranslateApi(${api}) no change`)
+                }
+                return
+            }
 
             if (verbose) {
                 console.log(`${title}.setTranslateApi(${api})`)
-            }
-
-            if (this.translateApi === api) {
-                return
             }
 
             this.translateApi = api
@@ -109,12 +113,16 @@ export const useConfigStore = defineStore('config-store', {
         setDrawIoLink(url: string) {
             let verbose = true
 
-            if (verbose) {
-                console.log(`${title}.setDrawIoLink(${url})`)
+            if (this.drawLink === url) {
+                if (verbose) {
+                    console.log(`${title}.setDrawIoLink(${url}) no change`)
+                }
+
+                return
             }
 
-            if (this.drawLink === url) {
-                return
+            if (verbose) {
+                console.log(`${title}.setDrawIoLink(${url})`)
             }
 
             this.drawLink = url

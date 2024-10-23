@@ -44,13 +44,19 @@ export const useAppStore = defineStore('app-store', {
         },
 
         setReady(reason: string) {
-            let verbose = false
+            let verbose = true
 
             if (verbose) {
                 console.log(title, `setReady, reason(${reason})`)
             }
 
             this.loadingReason = ""
+
+            if (this.ready) {
+                console.log(title, `setReady, reason(${reason}) no change`)
+                return
+            }
+
             this.ready = true
         },
     },

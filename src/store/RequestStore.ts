@@ -17,6 +17,17 @@ export const useRequestStore = defineStore('request-store', {
         },
 
         setBaseUrl(baseUrl: string) {
+            let verbose = true
+
+            if (this.baseUrl === baseUrl) {
+                console.log(`${title}.setBaseUrl(${baseUrl}) no change`)
+                return
+            }
+
+            if (verbose) {
+                console.log(`${title}.setBaseUrl(${baseUrl})`)
+            }
+
             this.baseUrl = baseUrl
         },
 

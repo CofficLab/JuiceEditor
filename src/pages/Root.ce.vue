@@ -21,7 +21,6 @@ import PageMode from '../model/PageMode';
 import Features from './Features.vue'
 import { SmartEvent } from '../extensions/SmartEvent';
 
-
 const props = defineProps({
     readonly: {
         type: Boolean,
