@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { RiBold, RiItalic, RiUnderline, RiStrikethrough, RiInformation2Line, RiH1, RiH2, RiH3, RiLink, RiText } from '@remixicon/vue';
+import { RiBold, RiItalic, RiUnderline, RiStrikethrough, RiInformation2Line, RiH1, RiH2, RiH3, RiLink, RiText, RiDownload2Fill, RiEdit2Fill, RiEdit2Line, RiShape2Fill, RiSquareFill, RiCircleFill, RiTriangleFill, RiStarFill, RiHexagonFill, RiPentagonFill } from '@remixicon/vue';
 import SampleImage from '../assets/sample.jpeg';
 import html2canvas from 'html2canvas';
 import DomHelper from '../helper/DomHelper';
@@ -41,7 +41,7 @@ function downloadAsImage() {
     if (element) {
         html2canvas(element, {
             scale: 2,
-            useCORS: false,
+            useCORS: true,
             logging: false,
             backgroundColor: null,
         }).then(canvas => {
@@ -89,15 +89,17 @@ function downloadAsImage() {
             <div id="section2" class="flex flex-row bg-indigo-500/0 mt-4 rounded-2xl gap-2 justify-between">
                 <div id="image" :class="cardClass2">
                     <div :class="menuClass" class="rounded-box z-50 shadow w-40 ml-40 mb-1 flex flex-row gap-2">
-                        <div :class="shape" v-for="shape in shapeClass" class="w-5 h-5 rounded-full p-1"></div>
+                        <RiSquareFill color="primary" />
+                        <RiCircleFill color="primary" />
+                        <RiTriangleFill color="primary" />
+                        <RiStarFill color="primary" />
+                        <RiHexagonFill color="primary" />
                     </div>
                     <div :class="menuClass" class="mt-1 w-40 ring-1 ml-8">
-                        <RiBold color="primary" />
-                        <RiItalic color="primary" />
-                        <RiUnderline color="primary" />
-                        <RiStrikethrough color="primary" />
+                        <RiDownload2Fill color="primary" />
+                        <RiEdit2Line color="primary" />
                         <div :class="activeMenuClass">
-                            <RiInformation2Line :size="iconSize" color="primary" />
+                            <RiShape2Fill :size="iconSize" color="primary" />
                         </div>
                     </div>
                     <div class="flex justify-start pr-24 ml-4 mt-2">
