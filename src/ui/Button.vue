@@ -20,6 +20,10 @@ const props = defineProps({
   class: {
     type: String,
     default: ''
+  },
+  dropdownPosition: {
+    type: String,
+    default: 'right'
   }
 })
 
@@ -39,7 +43,10 @@ const sizeClass = computed(() => {
 
 <template>
   <div :class="{
-    'dropdown dropdown-hover dropdown-right': true,
+    'dropdown dropdown-hover': true,
+    'dropdown-top': props.dropdownPosition === 'top',
+    'dropdown-right': props.dropdownPosition === 'right',
+    'dropdown-bottom': props.dropdownPosition === 'bottom',
     [sizeClass]: true && props.class.length == 0,
     [props.class]: true
   }">

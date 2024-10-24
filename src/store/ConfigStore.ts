@@ -13,6 +13,7 @@ import Italic from "@tiptap/extension-italic"
 import ListItem from "@tiptap/extension-list-item"
 import Strike from "@tiptap/extension-strike"
 import Dropcursor from '@tiptap/extension-dropcursor'
+import FontFamily from "@tiptap/extension-font-family"
 import Table from "@tiptap/extension-table"
 import Highlight from "@tiptap/extension-highlight"
 import HorizontalRule from "@tiptap/extension-horizontal-rule"
@@ -53,6 +54,7 @@ import SmartPlaceholder from "../extensions/SmartPlaceholder"
 import { HEADING, PARAGRAPH, ROOT, TOC } from "../config/nodes"
 import { Margin } from "../extensions/Margin"
 import TextStyle from "@tiptap/extension-text-style";
+import { SmartFontFamily } from "../extensions/SmartFontFamily";
 
 interface makeExtensionsProps {
     drawIoLink: string,
@@ -155,7 +157,10 @@ function makeExtensions(props: makeExtensionsProps) {
         Branch,
         BranchContent,
         SmartDoc,
-        Dropcursor,
+        Dropcursor.configure({
+            width: 4,
+            class: 'dropcursor-class',
+        }),
         Margin,
         SmartQuote.configure({
             HTMLAttributes: {
@@ -163,6 +168,7 @@ function makeExtensions(props: makeExtensionsProps) {
             },
         }),
         SmartColor,
+        SmartFontFamily,
         SmartBulletList.configure({
             HTMLAttributes: {
                 class: 'bullet-list-class',

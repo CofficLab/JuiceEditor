@@ -8,10 +8,11 @@ import { HEADING, IMAGE, PARAGRAPH, TEXT, LINK } from '../config/nodes'
 import MenuImage from './MenuImage.vue'
 import MenuDraw from './MenuDraw.vue'
 import MenuLink from './MenuLink.vue'
+import FontFamily from '@tiptap/extension-font-family'
 import { computed } from 'vue'
 import { shouldShowBubbleMenu } from '../extensions/SmartMenus'
 import Button from '../ui/Button.vue'
-import { RiH2, RiH3, RiH4, RiH5, RiH6, RiText, RiBold, RiItalic, RiStrikethrough, RiChatQuoteLine, RiPlaneLine, RiPaletteLine, RiSubscript, RiSuperscript, RiUnderline } from '@remixicon/vue'
+import { RiH2, RiH3, RiH4, RiH5, RiH6, RiText, RiBold, RiItalic, RiStrikethrough, RiChatQuoteLine, RiPlaneLine, RiPaletteLine, RiSubscript, RiSuperscript, RiUnderline, RiFontFamily } from '@remixicon/vue'
 import Color from '@tiptap/extension-color'
 
 const props = defineProps({
@@ -78,6 +79,10 @@ const shouldShowLinkMenu = computed(() => {
 
 const textColors = computed(() => {
 	return props.editor.options.extensions.find(extension => extension.name === Color.name)?.options.colors
+})
+
+const fontFamilies = computed(() => {
+	return props.editor.options.extensions.find(extension => extension.name === FontFamily.name)?.options.fontFamilies
 })
 </script>
 
@@ -153,7 +158,7 @@ const textColors = computed(() => {
 					@click="editor.chain().focus().toggleUnderline().run()">
 					<RiUnderline></RiUnderline>
 				</Button>
-				<Button tips="文字颜色" :shape="shape" v-if="shouldShowFormatMenu">
+				<Button tips="文字颜色" :shape="shape" v-if="shouldShowFormatMenu" dropdown-position="top">
 					<RiPaletteLine></RiPaletteLine>
 
 					<template #dropdown-item>
@@ -171,6 +176,29 @@ const textColors = computed(() => {
 
 							}">
 								<div class="w-5 h-5 rounded-full p-1 ring-1 scale-90"></div>
+							</div>
+						</div>
+					</template>
+				</Button>
+				<Button tips="字体" :shape="shape" v-if="shouldShowFormatMenu">
+					<RiFontFamily></RiFontFamily>
+
+					<template #dropdown-item>
+						<div class="grid z-50 grid-cols-1 gap-2 w-56">
+							<div v-for="fontFamily in fontFamilies"
+								@click="editor.chain().focus().setFontFamily(fontFamily).run()" :class="{
+									'w-full h-7 flex items-center justify-center cursor-pointer transition-colors duration-200 ease-in-out hover:bg-indigo-200/90 p-1': true,
+									'is-active': editor.isActive('textStyle', { fontFamily: fontFamily })
+								}">
+								<div class="w-full h-5 p-1" :style="{ fontFamily: fontFamily }">{{ fontFamily
+									}}</div>
+							</div>
+
+							<div @click="editor.chain().focus().unsetFontFamily().run()" :class="{
+								'w-full h-7 flex items-center justify-center cursor-pointer transition-colors duration-200 ease-in-out hover:bg-indigo-200/90 p-1': true,
+
+							}">
+								<div class="w-full h-5 p-1">默认值</div>
 							</div>
 						</div>
 					</template>
