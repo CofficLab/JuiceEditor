@@ -1,7 +1,5 @@
 import { Editor, JSONContent } from '@tiptap/core'
-import { DOC, HEADING } from '../config/nodes'
-import TiptapHelper from '../helper/TiptapHelper'
-import { Root } from '../extensions/Root/Root'
+import { HEADING } from '../config/nodes'
 
 const emoji = '🍉 EditorDoc'
 

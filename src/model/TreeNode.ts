@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import NoUUIDError from '../error/NoUUIDError';
 
 interface TreeNodeParams {
     uuid?: string;
@@ -41,7 +42,7 @@ export default class TreeNode {
         return new TreeNode(object)
     }
 
-    constructor(public params: TreeNodeParams) {
+    constructor(params: TreeNodeParams) {
         if (params.uuid == null) {
             throw new NoUUIDError('uuid is empty')
         }

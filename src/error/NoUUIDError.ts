@@ -5,3 +5,5 @@ class NoUUIDError extends Error {
         Object.setPrototypeOf(this, NoUUIDError.prototype); // 维护原型链
     }
 }
+
+export default NoUUIDError;

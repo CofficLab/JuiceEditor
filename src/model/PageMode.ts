@@ -1,8 +1,8 @@
 export default class PageMode {
-    static NODE_TYPE = 'node'
-    static SLOT_TYPE = 'slot'
-    static BASIC_TYPE = 'basic'
-    static FEATURES_TYPE = 'features'
+    static readonly NODE_TYPE = 'node'
+    static readonly SLOT_TYPE = 'slot'
+    static readonly BASIC_TYPE = 'basic'
+    static readonly FEATURES_TYPE = 'features'
 
     static NODE = new PageMode(PageMode.NODE_TYPE)
     static SLOT = new PageMode(PageMode.SLOT_TYPE)
@@ -20,10 +20,16 @@ export default class PageMode {
     }
 
     isSlot(): boolean {
-        return this.type === PageMode.SLOT_TYPE
+        return this.equals(PageMode.SLOT)
     }
 
     isBasic(): boolean {
-        return this.type === PageMode.BASIC_TYPE
+        return this.equals(PageMode.BASIC)
+    }
+
+    equals(mode: PageMode): boolean {
+        return this.type === mode.type
     }
 }
+
+Object.freeze(PageMode);
