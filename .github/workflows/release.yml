@@ -17,19 +17,19 @@ jobs:
     build:
         runs-on: ubuntu-latest
         steps:
-            - name: 当前用户
+            - name: Current User
               run: whoami
             - name: Checkout
               uses: actions/checkout@v4
-            - name: NPM 版本
-              run: npm -v
-            - name: 安装PNPM
-              run: npm i -g pnpm
-            - name: NPM 安装
-              run: pnpm i
-            - name: NPM 构建
+            - name: Prepare
+              run: |
+                  npm -v
+                  npm i -g pnpm
+            - name: Install
+              run: pnpm i --prod
+            - name: Build
               run: npm run build
-            - name: 上传构件
+            - name: Upload Artifact
               uses: actions/upload-artifact@v4
               with:
                   name: dist
@@ -40,23 +40,21 @@ jobs:
         needs: [build]
         runs-on: ubuntu-latest
         steps:
-            - name: 当前用户
-              run: whoami
             - uses: actions/checkout@v4
               with:
                   token: ${{ secrets.GITHUB_TOKEN }}
-            - name: 生成标签
+            - name: Generate Tag
               run: |
                   git config --global user.name "GitHub Action"
                   git config --global user.email "action@github.com"
                   npm version patch -m "👷 CI: Upgrade to v%s"
                   git push origin main --tags
-            - name: 读取版本，写入文件
+            - name: Read Version
               run: |
                   version=$(node -p "require('./package.json').version")
                   echo $version
                   echo "${version}" >> version.txt
-            - name: 上传构件
+            - name: Upload Artifact
               uses: actions/upload-artifact@v4
               with:
                   name: version
@@ -68,11 +66,11 @@ jobs:
             - tag
         runs-on: ubuntu-latest
         steps:
-            - name: 拉取 main 分支
+            - name: Checkout
               uses: actions/checkout@v4
               with:
                   fetch-depth: 0
-            - name: 配置 Git
+            - name: Configure Git
               run: |
                   git config user.name github-actions
                   git config user.email github-actions@github.com
@@ -89,19 +87,16 @@ jobs:
         needs: [tag]
         steps:
             - uses: actions/checkout@v4
-            - name: 下载版本构件
+            - name: Download Artifact
               uses: actions/download-artifact@v4
               with:
                   name: version
                   path: temp
             - run: ls -alhR
-            - name: 读取版本号
+            - name: Read Version
               run: |
-
                   version=$(cat temp/version.txt)
                   echo $version
-
-                  # 写入环境变量
                   echo "tag=v$version" >> $GITHUB_ENV
             - uses: softprops/action-gh-release@v1
               with:
@@ -123,9 +118,7 @@ jobs:
         permissions:
             actions: write
         steps:
-            - name: 当前用户
-              run: whoami
-            - name: 清理构件
+            - name: Clean Artifact
               uses: geekyeggo/delete-artifact@v4
               with:
                   token: ${{ github.token }}

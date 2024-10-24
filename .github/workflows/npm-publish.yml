@@ -16,12 +16,13 @@ jobs:
               with:
                   node-version: '18'
                   registry-url: 'https://registry.npmjs.org'
-            - run: npm -v
-            - run: npm install -g pnpm
-            - run: pnpm install
-            - run: npm run build
-            - run: ls -la dist
-            - run: npm publish --access public
+            - run: |
+                  npm -v
+                  npm install -g pnpm
+                  pnpm install --prod
+                  npm run build
+                  ls -la dist
+                  npm publish --access public
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 

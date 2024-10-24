@@ -14,5 +14,5 @@ jobs:
             - run: |
                   npm -v
                   npm i -g pnpm
-                  pnpm i
+                  pnpm i --prod
                   npm run build
