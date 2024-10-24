@@ -11,7 +11,7 @@ import MenuLink from './MenuLink.vue'
 import { computed } from 'vue'
 import { shouldShowBubbleMenu } from '../extensions/SmartMenus'
 import Button from '../ui/Button.vue'
-import { RiH2, RiH3, RiH4, RiH5, RiH6, RiText, RiBold, RiItalic, RiStrikethrough, RiChatQuoteLine, RiPlaneLine, RiPaletteLine } from '@remixicon/vue'
+import { RiH2, RiH3, RiH4, RiH5, RiH6, RiText, RiBold, RiItalic, RiStrikethrough, RiChatQuoteLine, RiPlaneLine, RiPaletteLine, RiSubscript, RiSuperscript } from '@remixicon/vue'
 
 const props = defineProps({
 	editor: {
@@ -135,6 +135,14 @@ const shouldShowLinkMenu = computed(() => {
 				<Button tips="高亮" :shape="shape" v-if="shouldShowFormatMenu"
 					@click="editor.chain().focus().toggleHighlight().run()">
 					<RiPaletteLine></RiPaletteLine>
+				</Button>
+				<Button tips="下标" :shape="shape" v-if="shouldShowFormatMenu"
+					@click="editor.chain().focus().toggleSubscript().run()">
+					<RiSubscript></RiSubscript>
+				</Button>
+				<Button tips="上标" :shape="shape" v-if="shouldShowFormatMenu"
+					@click="editor.chain().focus().toggleSuperscript().run()">
+					<RiSuperscript></RiSuperscript>
 				</Button>
 			</ButtonBar>
 

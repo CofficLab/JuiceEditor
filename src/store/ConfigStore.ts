@@ -19,7 +19,9 @@ import HorizontalRule from "@tiptap/extension-horizontal-rule"
 import TableCell from "@tiptap/extension-table-cell"
 import TaskItem from "@tiptap/extension-task-item"
 import HardBreak from "@tiptap/extension-hard-break"
+import Subscript from "@tiptap/extension-subscript"
 import Text from "@tiptap/extension-text"
+import Superscript from "@tiptap/extension-superscript"
 import TextAlign from '@tiptap/extension-text-align'
 import SmartHeading from "../extensions/SmartHeading/SmartHeading"
 import SmartTaskList from "../extensions/SmartTaskList/SmartTaskList"
@@ -178,6 +180,7 @@ function makeExtensions(props: makeExtensionsProps) {
         }),
         SmartPre,
         SmartActive,
+        Superscript,
         Color.configure({
             types: ['textStyle'],
         }),
@@ -231,6 +234,7 @@ function makeExtensions(props: makeExtensionsProps) {
                 class: 'link link-primary link-hover mx-1',
             },
         }),
+        Subscript,
         Strike.configure({
             HTMLAttributes: {
                 class: 'my-custom-class',
