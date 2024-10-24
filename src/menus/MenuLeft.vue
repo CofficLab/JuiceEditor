@@ -11,6 +11,8 @@ import {
 	RiGlobalLine, RiCornerDownLeftLine, RiDivideLine, RiAlignRight,
 	RiH2, RiH3, RiH4, RiH5, RiH6, RiText, RiChatQuoteLine
 } from '@remixicon/vue'
+import Paragraph from '@tiptap/extension-paragraph'
+import Heading from '@tiptap/extension-heading'
 
 const props = defineProps({
 	editor: {
@@ -96,12 +98,6 @@ function updateMenuPosition() {
 		return
 	}
 
-	// 如果是Heading，且Level=1，不显示
-	if (props.editor.isActive(HEADING) && props.editor.getAttributes(HEADING).level === 1) {
-		visible.value = false
-		return
-	}
-
 	let { offsetLeft } = editorDom as HTMLElement
 
 	// 减去的是menu自身的宽度
@@ -124,57 +120,58 @@ function updateMenuPosition() {
 function shouldShowParagraphMenu() {
 	return props.editor.isActive(PARAGRAPH)
 }
-
-function shouldShowNewLineMenu() {
-	return !props.editor.isActive(HEADING)
-}
-
-function shouldShowTextAlignMenu() {
-	return props.editor.isActive(PARAGRAPH) || props.editor.isActive(HEADING)
-}
 </script>
 
 <template>
 	<div v-if="visible" :style="`transform: translate(${marginLeft}px, ${scrollTop}px);`" class="w-22 absolute z-50">
 		<ButtonGroup direction="vertical" :backgroundClass="backgroundClass">
-			<Button tips="删除" @click="editor.commands.deleteSelectionNode()" :shape="shape">
+			<Button tips="删除" @click="editor.commands.deleteSelectionNode()"
+				v-if="!editor.isActive(Heading.name, { level: 1 })" :shape="shape">
 				<RiDeleteBin7Line :size="iconSize"></RiDeleteBin7Line>
 			</Button>
 
-			<Button tips="增加一行" @click="editor.commands.addBlankLineAfterSelection()" :shape="shape">
+			<Button tips="增加一行" v-if="!editor.isActive(Heading.name, { level: 1 })"
+				@click="editor.commands.addBlankLineAfterSelection()" :shape="shape">
 				<RiAddLine :size="iconSize"></RiAddLine>
 			</Button>
 
-			<Button tips="2号标题" v-if="editor.can().setHeading({ level: 2 })" :shape="shape"
-				@click="editor.chain().focus().setHeading({ level: 2 }).run()">
+			<Button tips="2号标题"
+				v-if="editor.can().setHeading({ level: 2 }) && !editor.isActive(Heading.name, { level: 1 })"
+				:shape="shape" @click="editor.chain().focus().setHeading({ level: 2 }).run()">
 				<RiH2></RiH2>
 			</Button>
-			<Button tips="3号标题" v-if="editor.can().setHeading({ level: 3 })" :shape="shape"
-				@click="editor.chain().focus().setHeading({ level: 3 }).run()">
+			<Button tips="3号标题"
+				v-if="editor.can().setHeading({ level: 3 }) && !editor.isActive(Heading.name, { level: 1 })"
+				:shape="shape" @click="editor.chain().focus().setHeading({ level: 3 }).run()">
 				<RiH3></RiH3>
 			</Button>
-			<Button tips="4号标题" v-if="editor.can().setHeading({ level: 4 })" :shape="shape"
-				@click="editor.chain().focus().setHeading({ level: 4 }).run()">
+			<Button tips="4号标题"
+				v-if="editor.can().setHeading({ level: 4 }) && !editor.isActive(Heading.name, { level: 1 })"
+				:shape="shape" @click="editor.chain().focus().setHeading({ level: 4 }).run()">
 				<RiH4></RiH4>
 			</Button>
-			<Button tips="5号标题" v-if="editor.can().setHeading({ level: 5 })" :shape="shape"
-				@click="editor.chain().focus().setHeading({ level: 5 }).run()">
+			<Button tips="5号标题"
+				v-if="editor.can().setHeading({ level: 5 }) && !editor.isActive(Heading.name, { level: 1 })"
+				:shape="shape" @click="editor.chain().focus().setHeading({ level: 5 }).run()">
 				<RiH5></RiH5>
 			</Button>
-			<Button tips="6号标题" v-if="editor.can().setHeading({ level: 6 })" :shape="shape"
-				@click="editor.chain().focus().setHeading({ level: 6 }).run()">
+			<Button tips="6号标题"
+				v-if="editor.can().setHeading({ level: 6 }) && !editor.isActive(Heading.name, { level: 1 })"
+				:shape="shape" @click="editor.chain().focus().setHeading({ level: 6 }).run()">
 				<RiH6></RiH6>
 			</Button>
-			<Button tips="正文" :iconSize="iconSize" :shape="shape" v-if="editor.can().setParagraph()"
+			<Button tips="正文" :iconSize="iconSize" :shape="shape"
+				v-if="editor.can().setParagraph() && !editor.isActive(Heading.name, { level: 1 })"
 				@click="editor.chain().focus().setParagraph().run()">
 				<RiText></RiText>
 			</Button>
-			<Button tips="引用" :shape="shape" v-if="editor.can().toggleBlockquote()"
+			<Button tips="引用" :shape="shape"
+				v-if="editor.isActive(Paragraph.name) && !editor.isActive(Heading.name, { level: 1 })"
 				@click="editor.chain().focus().toggleBlockquote().run()">
 				<RiChatQuoteLine></RiChatQuoteLine>
 			</Button>
 
-			<Button tips="代码块" :shape="shape" v-if="editor.can().toggleCodeBlock()"
+			<Button tips="代码块" :shape="shape" v-if="editor.can().toggleCodeBlock() && editor.isActive(Paragraph.name)"
 				@click="editor.chain().focus().toggleCodeBlock().run()">
 				<RiCodeBoxLine></RiCodeBoxLine>
 			</Button>
@@ -191,17 +188,17 @@ function shouldShowTextAlignMenu() {
 			</Button> -->
 
 			<Button tips="文字靠左" @click="editor.commands.setTextAlign('left')" :shape="shape"
-				v-if="shouldShowTextAlignMenu()">
+				v-if="editor.isActive(Paragraph.name) || editor.isActive(Heading.name)">
 				<RiAlignLeft :size="iconSize"></RiAlignLeft>
 			</Button>
 
 			<Button tips="文字居中" @click="editor.commands.setTextAlign('center')" :shape="shape"
-				v-if="shouldShowTextAlignMenu()">
+				v-if="editor.isActive(Paragraph.name) || editor.isActive(Heading.name)">
 				<RiAlignCenter :size="iconSize"></RiAlignCenter>
 			</Button>
 
 			<Button tips="文字靠右" @click="editor.commands.setTextAlign('right')" :shape="shape"
-				v-if="shouldShowTextAlignMenu()">
+				v-if="editor.isActive(Paragraph.name) || editor.isActive(Heading.name)">
 				<RiAlignRight :size="iconSize"></RiAlignRight>
 			</Button>
 
@@ -209,7 +206,6 @@ function shouldShowTextAlignMenu() {
 
 			<Button tips="样式" :shape="shape" v-if="shouldShowParagraphMenu()">
 				<RiPaletteLine :size="iconSize"></RiPaletteLine>
-
 				<template #dropdown-item>
 					<div class="grid grid-cols-2 z-50 sm:grid-cols-3 md:grid-cols-5 gap-2 w-48">
 						<div v-for="color in Object.keys(colorClass)"
@@ -233,13 +229,15 @@ function shouldShowTextAlignMenu() {
 				</template>
 			</Button>
 
-			<Button tips="空白行" @click="editor.commands.setHardBreak()" :shape="shape">
+			<!-- <Button tips="空白行" v-if="!editor.isActive(Heading.name, { level: 1 })"
+				@click="editor.commands.setHardBreak()" :shape="shape">
 				<RiCornerDownLeftLine :size="iconSize"></RiCornerDownLeftLine>
-			</Button>
+			</Button> -->
 
-			<Button tips="分割线" @click="editor.commands.setHorizontalRule()" :shape="shape">
+			<!-- <Button tips="分割线" v-if="!editor.isActive(Heading.name, { level: 1 })"
+				@click="editor.commands.setHorizontalRule()" :shape="shape">
 				<RiDivideLine :size="iconSize"></RiDivideLine>
-			</Button>
+			</Button> -->
 		</ButtonGroup>
 	</div>
 </template>

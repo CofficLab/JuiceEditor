@@ -4,6 +4,7 @@ import { Editor as TiptapEditor } from '@tiptap/core'
 import { IMAGE, TABLE, LINK, TOC, DRAW, TABLE_CELL, TABLE_ROW, TABLE_HEADER, BRANCH, BRANCH_CONTENT } from '../config/nodes'
 import Heading from '@tiptap/extension-heading'
 import HardBreak from '@tiptap/extension-hard-break'
+import Blockquote from '@tiptap/extension-blockquote'
 
 let emoji = '🫧 BubbleMenusExtension'
 
@@ -92,6 +93,11 @@ export const shouldShowFloatingMenu = function (props: {
 
     // 如果在 H1 中，不展示
     if (type == Heading.name && selection.$head.parent.attrs.level == 1) {
+        return false
+    }
+
+    // 如果当前是引用，不展示
+    if (editor.isActive(Blockquote.name)) {
         return false
     }
 

@@ -32,9 +32,6 @@ defineProps({
       placement: 'right',
       appendTo: 'parent'
     }" :editor="editor" :should-show="shouldShowFloatingMenu">
-      <p class="text-xs prose dark:prose-invert rounded-md bg-white dark:bg-gray-800 px-2 py-1 inline-block mb-2">
-        Floating Menu
-      </p>
       <ButtonGroup direction="horizontal" type="blue" :shape="shape" :backgroundClass="backgroundClass">
         <Button tips="2号标题" :editor="editor" :level="2" :shape="shape">
           <RiH2></RiH2>

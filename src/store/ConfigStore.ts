@@ -13,7 +13,6 @@ import ListItem from "@tiptap/extension-list-item"
 import Strike from "@tiptap/extension-strike"
 import Dropcursor from '@tiptap/extension-dropcursor'
 import Gapcursor from '@tiptap/extension-gapcursor'
-import FontFamily from "@tiptap/extension-font-family"
 import Table from "@tiptap/extension-table"
 import Highlight from "@tiptap/extension-highlight"
 import HorizontalRule from "@tiptap/extension-horizontal-rule"
@@ -27,7 +26,7 @@ import Underline from "@tiptap/extension-underline"
 import { SmartColor } from "../extensions/SmartColor"
 import Superscript from "@tiptap/extension-superscript"
 import TextAlign from '@tiptap/extension-text-align'
-import SmartHeading from "../extensions/SmartHeading/SmartHeading"
+import SmartHeading from "../extensions/SmartHeading"
 import SmartTaskList from "../extensions/SmartTaskList/SmartTaskList"
 import SmartPre from "../extensions/SmartPre/SmartPre"
 import SmartImage from "../extensions/SmartImage/SmartImage"
@@ -52,7 +51,7 @@ import { SmartEvent } from "../extensions/SmartEvent"
 import SmartDoc from "../extensions/SmartDoc"
 import SmartBold from "../extensions/SmartBold"
 import SmartPlaceholder from "../extensions/SmartPlaceholder"
-import { HEADING, PARAGRAPH, ROOT, TOC } from "../config/nodes"
+import { HEADING, PARAGRAPH } from "../config/nodes"
 import { Margin } from "../extensions/Margin"
 import TextStyle from "@tiptap/extension-text-style";
 import { SmartFontFamily } from "../extensions/SmartFontFamily";
@@ -265,7 +264,7 @@ function makeExtensions(props: makeExtensionsProps) {
         TableCell,
         TableHeader,
         // SmartTableHeader,
-        Toc,
+        // Toc,
         HorizontalRule,
         TextAlign.configure({
             types: [HEADING, PARAGRAPH],
