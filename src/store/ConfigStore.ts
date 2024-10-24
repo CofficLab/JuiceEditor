@@ -7,12 +7,12 @@ import EventListener from "../listeners/EventListener";
 import SlotListener from "../listeners/SlotListener";
 import CharacterCount from "@tiptap/extension-character-count"
 import Code from "@tiptap/extension-code"
-import Color from "@tiptap/extension-color"
 import History from "@tiptap/extension-history"
 import Italic from "@tiptap/extension-italic"
 import ListItem from "@tiptap/extension-list-item"
 import Strike from "@tiptap/extension-strike"
 import Dropcursor from '@tiptap/extension-dropcursor'
+import Gapcursor from '@tiptap/extension-gapcursor'
 import FontFamily from "@tiptap/extension-font-family"
 import Table from "@tiptap/extension-table"
 import Highlight from "@tiptap/extension-highlight"
@@ -22,6 +22,7 @@ import TaskItem from "@tiptap/extension-task-item"
 import HardBreak from "@tiptap/extension-hard-break"
 import Subscript from "@tiptap/extension-subscript"
 import Text from "@tiptap/extension-text"
+import ListKeymap from '@tiptap/extension-list-keymap'
 import Underline from "@tiptap/extension-underline"
 import { SmartColor } from "../extensions/SmartColor"
 import Superscript from "@tiptap/extension-superscript"
@@ -191,11 +192,9 @@ function makeExtensions(props: makeExtensionsProps) {
             },
         }),
         SmartPre,
+        Gapcursor,
         SmartActive,
         Superscript,
-        Color.configure({
-            types: ['textStyle'],
-        }),
         CharacterCount,
         SmartImage.configure({
             drawIoLink: props.drawIoLink,
@@ -209,15 +208,10 @@ function makeExtensions(props: makeExtensionsProps) {
             className: props.focusClassName,
             mode: 'all',
         }),
+        ListKeymap,
         SmartHeading,
         History.configure({
             depth: 100,
-        }),
-        Highlight.configure({
-            multicolor: true,
-            HTMLAttributes: {
-                class: 'my-custom-class',
-            },
         }),
         Italic.configure({
             HTMLAttributes: {
