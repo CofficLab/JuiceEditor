@@ -64,3 +64,12 @@ defineJuiceEditor()
 ## About the Author
 
 Work for Joy & Live for Love ➡️ <https://github.com/nookery>
+
+## License
+
+JuiceEditor is released under a dual license:
+
+1. For non-commercial use: [MIT License](LICENSE)
+2. For commercial use or modifications: Please [contact the author](https://github.com/nookery) for a commercial license.
+
+Any use of this software for commercial purposes or any modifications to the source code require explicit permission from the author.
