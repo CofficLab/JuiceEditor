@@ -5,7 +5,7 @@ import Button from '../ui/Button.vue'
 import { HEADING, PARAGRAPH, TOC } from '../config/nodes'
 import ButtonList from '../ui/ButtonList.vue'
 import { getFirstActiveNodePosition } from '../extensions/SmartActive'
-import { RiDeleteBin7Line, RiAddLine, RiIndentDecrease, RiIndentIncrease, RiAlignCenter, RiPaletteLine, RiGlobalLine, RiArrowDownLine, RiCornerDownLeftLine, RiDivideLine } from '@remixicon/vue'
+import { RiDeleteBin7Line, RiAddLine, RiAlignLeft, RiAlignCenter, RiPaletteLine, RiGlobalLine, RiArrowDownLine, RiCornerDownLeftLine, RiDivideLine, RiAlignRight } from '@remixicon/vue'
 
 const props = defineProps({
 	editor: {
@@ -118,6 +118,10 @@ function shouldShowParagraphMenu() {
 function shouldShowNewLineMenu() {
 	return !props.editor.isActive(HEADING)
 }
+
+function shouldShowTextAlignMenu() {
+	return props.editor.isActive(PARAGRAPH) || props.editor.isActive(HEADING)
+}
 </script>
 
 <template>
@@ -132,7 +136,7 @@ function shouldShowNewLineMenu() {
 				<RiAddLine :size="iconSize"></RiAddLine>
 			</Button>
 
-			<Button tips="往左移动" @click="editor.commands.moveLeft()" :shape="shape">
+			<!-- <Button tips="往左移动" @click="editor.commands.moveLeft()" :shape="shape">
 				<RiIndentDecrease :size="iconSize"></RiIndentDecrease>
 			</Button>
 
@@ -142,6 +146,21 @@ function shouldShowNewLineMenu() {
 
 			<Button tips="往右移动" @click="editor.commands.moveRight()" :shape="shape">
 				<RiIndentIncrease :size="iconSize"></RiIndentIncrease>
+			</Button> -->
+
+			<Button tips="文字靠左" @click="editor.commands.setTextAlign('left')" :shape="shape"
+				v-if="shouldShowTextAlignMenu()">
+				<RiAlignLeft :size="iconSize"></RiAlignLeft>
+			</Button>
+
+			<Button tips="文字居中" @click="editor.commands.setTextAlign('center')" :shape="shape"
+				v-if="shouldShowTextAlignMenu()">
+				<RiAlignCenter :size="iconSize"></RiAlignCenter>
+			</Button>
+
+			<Button tips="文字靠右" @click="editor.commands.setTextAlign('right')" :shape="shape"
+				v-if="shouldShowTextAlignMenu()">
+				<RiAlignRight :size="iconSize"></RiAlignRight>
 			</Button>
 
 			<!-- Menu for paragraph -->
