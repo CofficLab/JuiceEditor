@@ -3,7 +3,7 @@ import { EditorState } from '@tiptap/pm/state'
 import { EditorView } from '@tiptap/pm/view'
 import { BubbleMenu } from '@tiptap/vue-3'
 import { Editor as TiptapEditor } from '@tiptap/core'
-import ButtonBar from '../ui/ButtonBar.vue'
+import ButtonGroup from '../ui/ButtonGroup.vue'
 import { HEADING, IMAGE, PARAGRAPH, TEXT, LINK } from '../config/nodes'
 import MenuImage from './MenuImage.vue'
 import MenuDraw from './MenuDraw.vue'
@@ -12,8 +12,9 @@ import FontFamily from '@tiptap/extension-font-family'
 import { computed } from 'vue'
 import { shouldShowBubbleMenu } from '../extensions/SmartMenus'
 import Button from '../ui/Button.vue'
-import { RiH2, RiH3, RiH4, RiH5, RiH6, RiText, RiBold, RiItalic, RiStrikethrough, RiChatQuoteLine, RiPlaneLine, RiPaletteLine, RiSubscript, RiSuperscript, RiUnderline, RiFontFamily, RiCodeBoxLine, RiCodeLine } from '@remixicon/vue'
+import { RiH2, RiH3, RiH4, RiH5, RiH6, RiText, RiBold, RiItalic, RiStrikethrough, RiChatQuoteLine, RiPlaneLine, RiPaletteLine, RiSubscript, RiSuperscript, RiUnderline, RiFontFamily, RiCodeBoxLine, RiCodeLine, RiFontColor } from '@remixicon/vue'
 import Color from '@tiptap/extension-color'
+import { getSelectionTextLength } from '../extensions/SmartSelection'
 
 const props = defineProps({
 	editor: {
@@ -27,6 +28,11 @@ const props = defineProps({
 	shape: {
 		type: String,
 		default: 'rectangle'
+	},
+	backgroundClass: {
+		type: String,
+		required: false,
+		default: 'bg-green-100/95 dark:bg-green-500/95'
 	}
 })
 
@@ -84,6 +90,10 @@ const textColors = computed(() => {
 const fontFamilies = computed(() => {
 	return props.editor.options.extensions.find(extension => extension.name === FontFamily.name)?.options.fontFamilies
 })
+
+const hasSelection = computed(() => {
+	return getSelectionTextLength(props.editor) > 0
+})
 </script>
 
 <template>
@@ -96,86 +106,53 @@ const fontFamilies = computed(() => {
 			appendTo: 'parent',
 			zIndex: 888
 		}" :editor="editor">
-			<p class="text-xs prose dark:prose-invert rounded-md bg-white dark:bg-gray-800 px-2 py-1 inline-block mb-2">
-				Bubble
-			</p>
-
 			<!-- Heading And Format -->
-			<ButtonBar v-if="(shouldShowHeadingMenu || shouldShowFormatMenu)">
-				<Button tips="2号标题" v-if="shouldShowHeadingMenu" :shape="shape"
-					@click="editor.chain().focus().setHeading({ level: 2 }).run()">
-					<RiH2></RiH2>
-				</Button>
-				<Button tips="3号标题" v-if="shouldShowHeadingMenu" :shape="shape"
-					@click="editor.chain().focus().setHeading({ level: 3 }).run()">
-					<RiH3></RiH3>
-				</Button>
-				<Button tips="4号标题" v-if="shouldShowHeadingMenu" :shape="shape"
-					@click="editor.chain().focus().setHeading({ level: 4 }).run()">
-					<RiH4></RiH4>
-				</Button>
-				<Button tips="5号标题" v-if="shouldShowHeadingMenu" :shape="shape"
-					@click="editor.chain().focus().setHeading({ level: 5 }).run()">
-					<RiH5></RiH5>
-				</Button>
-				<Button tips="6号标题" v-if="shouldShowHeadingMenu" :shape="shape"
-					@click="editor.chain().focus().setHeading({ level: 6 }).run()">
-					<RiH6></RiH6>
-				</Button>
-				<Button tips="正文" :iconSize="iconSize" :shape="shape" v-if="shouldShowFormatMenu"
-					@click="editor.chain().focus().setParagraph().run()">
-					<RiText></RiText>
-				</Button>
-				<Button tips="引用" :shape="shape" v-if="shouldShowFormatMenu"
-					@click="editor.chain().focus().toggleBlockquote().run()">
-					<RiChatQuoteLine></RiChatQuoteLine>
-				</Button>
+			<ButtonGroup :backgroundClass="backgroundClass" direction="horizontal"
+				v-if="(shouldShowHeadingMenu || shouldShowFormatMenu)">
+
+
+
 				<Button tips="加粗" :shape="shape" v-if="shouldShowFormatMenu"
 					@click="editor.chain().focus().toggleBold().run()">
 					<RiBold></RiBold>
 				</Button>
-				<Button tips="斜体" :shape="shape" v-if="shouldShowFormatMenu"
+				<Button tips="斜体" :shape="shape" v-if="hasSelection"
 					@click="editor.chain().focus().toggleItalic().run()">
 					<RiItalic></RiItalic>
 				</Button>
-				<Button tips="删除线" :shape="shape" v-if="shouldShowFormatMenu"
+				<Button tips="删除线" :shape="shape" v-if="hasSelection"
 					@click="editor.chain().focus().toggleStrike().run()">
 					<RiStrikethrough></RiStrikethrough>
 				</Button>
-				<Button tips="高亮" :shape="shape" v-if="shouldShowFormatMenu"
+				<Button tips="高亮" :shape="shape" v-if="hasSelection"
 					@click="editor.chain().focus().toggleHighlight().run()">
 					<RiPaletteLine></RiPaletteLine>
 				</Button>
-				<Button tips="下标" :shape="shape" v-if="shouldShowFormatMenu"
+				<Button tips="下标" :shape="shape" v-if="hasSelection"
 					@click="editor.chain().focus().toggleSubscript().run()">
 					<RiSubscript></RiSubscript>
 				</Button>
-				<Button tips="上标" :shape="shape" v-if="shouldShowFormatMenu"
+				<Button tips="上标" :shape="shape" v-if="hasSelection"
 					@click="editor.chain().focus().toggleSuperscript().run()">
 					<RiSuperscript></RiSuperscript>
 				</Button>
-				<Button tips="下划线" :shape="shape" v-if="shouldShowFormatMenu"
+				<Button tips="下划线" :shape="shape" v-if="hasSelection"
 					@click="editor.chain().focus().toggleUnderline().run()">
 					<RiUnderline></RiUnderline>
 				</Button>
-				<Button tips="行内代码" :shape="shape" v-if="shouldShowFormatMenu"
+				<Button tips="行内代码" :shape="shape" v-if="hasSelection"
 					@click="editor.chain().focus().toggleCode().run()">
 					<RiCodeLine></RiCodeLine>
 				</Button>
-				<Button tips="代码块" :shape="shape" v-if="shouldShowFormatMenu"
-					@click="editor.chain().focus().toggleCodeBlock().run()">
-					<RiCodeBoxLine></RiCodeBoxLine>
-				</Button>
-				<Button tips="文字颜色" :shape="shape" v-if="shouldShowFormatMenu" dropdown-position="top">
-					<RiPaletteLine></RiPaletteLine>
+				<Button tips="文字颜色" :shape="shape" v-if="hasSelection" dropdown-position="top">
+					<RiFontColor></RiFontColor>
 
 					<template #dropdown-item>
 						<div class="grid grid-cols-2 z-50 sm:grid-cols-3 md:grid-cols-5 gap-2 w-48">
-							<div v-for="color in textColors" @click="editor.chain().focus().setColor(color).run()"
-								:class="{
-									'w-7 h-7 flex items-center justify-center cursor-pointer transition-colors duration-200 ease-in-out hover:bg-indigo-200/90 rounded-full p-1': true,
-									'is-active': editor.isActive('textStyle', { color: color })
-								}">
+							<div v-for="color in textColors" @click="editor.commands.setColor(color)" :class="{
+								'w-7 h-7 flex items-center justify-center cursor-pointer transition-colors duration-200 ease-in-out hover:bg-indigo-200/90 rounded-full p-1': true,
+								'is-active': editor.isActive('textStyle', { color: color })
+							}">
 								<div class="w-5 h-5 rounded-full p-1" :style="{ backgroundColor: color }"></div>
 							</div>
 
@@ -188,7 +165,7 @@ const fontFamilies = computed(() => {
 						</div>
 					</template>
 				</Button>
-				<Button tips="字体" :shape="shape" v-if="shouldShowFormatMenu">
+				<Button tips="字体" :shape="shape" v-if="editor.can().setFontFamily('inter')">
 					<RiFontFamily></RiFontFamily>
 
 					<template #dropdown-item>
@@ -211,22 +188,22 @@ const fontFamilies = computed(() => {
 						</div>
 					</template>
 				</Button>
-			</ButtonBar>
+			</ButtonGroup>
 
 			<!-- Draw -->
-			<ButtonBar v-if="shouldShowDrawMenu">
+			<ButtonGroup :backgroundClass="backgroundClass" v-if="shouldShowDrawMenu">
 				<MenuDraw :editor="editor"></MenuDraw>
-			</ButtonBar>
+			</ButtonGroup>
 
 			<!-- Image -->
-			<ButtonBar v-if="shouldShowImageMenu">
+			<ButtonGroup :backgroundClass="backgroundClass" v-if="shouldShowImageMenu">
 				<MenuImage :editor="editor"></MenuImage>
-			</ButtonBar>
+			</ButtonGroup>
 
 			<!-- Link -->
-			<ButtonBar v-if="shouldShowLinkMenu">
+			<ButtonGroup :backgroundClass="backgroundClass" v-if="shouldShowLinkMenu">
 				<MenuLink :editor="editor"></MenuLink>
-			</ButtonBar>
+			</ButtonGroup>
 		</bubble-menu>
 	</div>
 </template>

@@ -109,3 +109,15 @@ export function getSelectionText(editor: Editor) {
 	}
 	return editor.state.doc.textBetween(from, to, '')
 }
+
+export function getSelectionTextLength(editor: Editor) {
+	return getSelectionText(editor).length
+}
+
+export function isSelectionEmpty(editor: Editor) {
+	return getSelectionTextLength(editor) == 0
+}
+
+export function hasSelection(editor: Editor) {
+	return !isSelectionEmpty(editor)
+}

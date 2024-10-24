@@ -3,7 +3,7 @@ import { computed, ref, watch } from 'vue'
 import { Editor } from '@tiptap/core'
 import { getFirstActiveNodePosition } from '../extensions/SmartActive'
 import { HEADING, TOC } from '../config/nodes'
-import ButtonList from '../ui/ButtonList.vue'
+import ButtonGroup from '../ui/ButtonGroup.vue'
 import MenuTable from './MenuTable.vue'
 import Table from '@tiptap/extension-table'
 
@@ -19,6 +19,11 @@ const props = defineProps({
     shape: {
         type: String,
         default: 'rectangle'
+    },
+    backgroundClass: {
+        type: String,
+        required: true,
+        default: 'bg-yellow-100/95 dark:bg-yellow-500/95'
     }
 })
 
@@ -108,8 +113,8 @@ function updateMenuPosition() {
 <template>
     <div v-if="visible && shouldShowTableMenu" :style="`transform: translate(${marginLeft}px, ${scrollTop}px);`"
         class="w-22 absolute">
-        <ButtonList>
+        <ButtonGroup direction="vertical" :backgroundClass="backgroundClass">
             <MenuTable :editor="editor"></MenuTable>
-        </ButtonList>
+        </ButtonGroup>
     </div>
 </template>

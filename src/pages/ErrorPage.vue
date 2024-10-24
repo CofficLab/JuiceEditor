@@ -41,18 +41,17 @@ watch(() => messageStore.errorEvent?.detail, (newVal: any) => {
 <template>
   <template v-if="show">
     <Transition name="fade">
-      <div class="fixed inset-0 flex items-center justify-center z-50 w-96 mx-auto">
-        <div class="card glass w-96 shadow-2xl">
-          <figure>
-            <img :src="ErrorIcon" alt="car!" />
+      <div class="fixed inset-0 flex items-center justify-center z-50 max-w-3xl mx-auto prose dark:prose-invert">
+        <div class="card glass max-w-3xl shadow-2xl">
+          <figure class="m-0 p-0">
+            <img :src="ErrorIcon" />
           </figure>
-          <div class="card-body">
-            <h2 class="card-title">错误</h2>
-            <p>{{ displayMessage }}</p>
+          <div class="card-body m-0 pt-0">
+            <h2 class="card-title my-0 py-0">错误</h2>
+            <p class="my-0 py-0">{{ displayMessage }}</p>
 
-            <div v-if="keyValues.length > 0" class="mt-4 bg-slate-300/60 p-3 rounded-lg">
-              <h3 class="font-bold mb-2">调试信息</h3>
-              <table class="w-full text-sm border-collapse">
+            <div v-if="keyValues.length > 0" class="mt-4 bg-slate-300/60 dark:bg-slate-600/60 p-2 rounded-lg">
+              <table class="w-full text-sm border-collapse m-0 p-0">
                 <tr v-for="([key, value], index) in keyValues" :key="key"
                   :class="{ 'border-b border-gray-400': index !== keyValues.length - 1 }">
                   <td class="font-medium text-primary py-2">{{ key }}:</td>
@@ -62,7 +61,7 @@ watch(() => messageStore.errorEvent?.detail, (newVal: any) => {
             </div>
 
             <div class="card-actions justify-end">
-              <button class="btn btn-primary" @click="closeMessage">关闭</button>
+              <button class="btn btn-primary btn-sm" @click="closeMessage">关闭</button>
             </div>
           </div>
         </div>
