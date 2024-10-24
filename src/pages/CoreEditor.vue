@@ -41,10 +41,10 @@ const isDebug = false
 			'xl:bg-purple-300/10': isDebug,
 			'2xl:bg-red-300/10': isDebug,
 			'px-4': true,
-			'flex flex-row pt-4 pb-24': true,
-			'justify-center': true
+			'flex flex-col pt-4 pb-24': true,
+			'justify-center items-center': true
 		}">
-			<EditorContent :editor="editor" :class="{
+			<div :class="{
 				'bg-slate-300/10': true,
 				'md:bg-green-300/10': isDebug,
 				'lg:bg-blue-300/10': isDebug,
@@ -66,7 +66,18 @@ const isDebug = false
 				'dark:bg-zinc-900/30': true,
 				'shadow-inner': true,
 				'rounded container flex flex-col min-h-screen pb-48 prose-sm prose dark:prose-invert': true
-			}" />
+			}">
+				<EditorContent :editor="editor" />
+
+				<div class="w-full flex flex-col justify-end container mt-24 pr-8">
+					<p class="text-xs text-gray-500 text-end">
+						{{ editor.storage.characterCount.characters() }} 个字
+					</p>
+					<p class="text-xs text-gray-500 text-end">
+						{{ editor.storage.characterCount.words() }} 个词
+					</p>
+				</div>
+			</div>
 		</div>
 	</div>
 </template>
