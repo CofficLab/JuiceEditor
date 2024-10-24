@@ -21,6 +21,7 @@ import TaskItem from "@tiptap/extension-task-item"
 import HardBreak from "@tiptap/extension-hard-break"
 import Subscript from "@tiptap/extension-subscript"
 import Text from "@tiptap/extension-text"
+import Underline from "@tiptap/extension-underline"
 import Superscript from "@tiptap/extension-superscript"
 import TextAlign from '@tiptap/extension-text-align'
 import SmartHeading from "../extensions/SmartHeading/SmartHeading"
@@ -50,6 +51,7 @@ import SmartBold from "../extensions/SmartBold"
 import SmartPlaceholder from "../extensions/SmartPlaceholder"
 import { HEADING, PARAGRAPH, ROOT, TOC } from "../config/nodes"
 import { Margin } from "../extensions/Margin"
+import TextStyle from "@tiptap/extension-text-style";
 
 interface makeExtensionsProps {
     drawIoLink: string,
@@ -167,6 +169,8 @@ function makeExtensions(props: makeExtensionsProps) {
             keepMarks: false,
             keepAttributes: false,
         }),
+        TextStyle,
+        Underline,
         SmartBold,
         Highlight.configure({
             HTMLAttributes: {
