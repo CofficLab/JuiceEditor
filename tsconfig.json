@@ -25,6 +25,7 @@
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
-    "src/**/*.vue"
+    "src/**/*.vue",
+    "tests/ui/Button.test.ts"
   ]
 }
