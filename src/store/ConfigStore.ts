@@ -166,6 +166,11 @@ function makeExtensions(props: makeExtensionsProps) {
             keepAttributes: false,
         }),
         SmartBold,
+        Highlight.configure({
+            HTMLAttributes: {
+                class: 'highlight-class',
+            },
+        }),
         Code.configure({
             HTMLAttributes: {
                 class: '',
