@@ -22,6 +22,7 @@ import HardBreak from "@tiptap/extension-hard-break"
 import Subscript from "@tiptap/extension-subscript"
 import Text from "@tiptap/extension-text"
 import Underline from "@tiptap/extension-underline"
+import { SmartColor } from "../extensions/SmartColor"
 import Superscript from "@tiptap/extension-superscript"
 import TextAlign from '@tiptap/extension-text-align'
 import SmartHeading from "../extensions/SmartHeading/SmartHeading"
@@ -161,6 +162,7 @@ function makeExtensions(props: makeExtensionsProps) {
                 class: 'quote-class',
             },
         }),
+        SmartColor,
         SmartBulletList.configure({
             HTMLAttributes: {
                 class: 'bullet-list-class',

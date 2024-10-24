@@ -12,6 +12,7 @@ import { computed } from 'vue'
 import { shouldShowBubbleMenu } from '../extensions/SmartMenus'
 import Button from '../ui/Button.vue'
 import { RiH2, RiH3, RiH4, RiH5, RiH6, RiText, RiBold, RiItalic, RiStrikethrough, RiChatQuoteLine, RiPlaneLine, RiPaletteLine, RiSubscript, RiSuperscript, RiUnderline } from '@remixicon/vue'
+import Color from '@tiptap/extension-color'
 
 const props = defineProps({
 	editor: {
@@ -73,6 +74,10 @@ const shouldShowImageMenu = computed(() => {
 
 const shouldShowLinkMenu = computed(() => {
 	return props.editor.isActive(LINK)
+})
+
+const textColors = computed(() => {
+	return props.editor.options.extensions.find(extension => extension.name === Color.name)?.options.colors
 })
 </script>
 
@@ -147,6 +152,28 @@ const shouldShowLinkMenu = computed(() => {
 				<Button tips="下划线" :shape="shape" v-if="shouldShowFormatMenu"
 					@click="editor.chain().focus().toggleUnderline().run()">
 					<RiUnderline></RiUnderline>
+				</Button>
+				<Button tips="文字颜色" :shape="shape" v-if="shouldShowFormatMenu">
+					<RiPaletteLine></RiPaletteLine>
+
+					<template #dropdown-item>
+						<div class="grid grid-cols-2 z-50 sm:grid-cols-3 md:grid-cols-5 gap-2 w-48">
+							<div v-for="color in textColors" @click="editor.chain().focus().setColor(color).run()"
+								:class="{
+									'w-7 h-7 flex items-center justify-center cursor-pointer transition-colors duration-200 ease-in-out hover:bg-indigo-200/90 rounded-full p-1': true,
+									'is-active': editor.isActive('textStyle', { color: color })
+								}">
+								<div class="w-5 h-5 rounded-full p-1" :style="{ backgroundColor: color }"></div>
+							</div>
+
+							<div @click="editor.chain().focus().unsetColor().run()" :class="{
+								'w-7 h-7 flex items-center justify-center cursor-pointer transition-colors duration-200 ease-in-out hover:bg-indigo-200/90 rounded-full p-1': true,
+
+							}">
+								<div class="w-5 h-5 rounded-full p-1 ring-1 scale-90"></div>
+							</div>
+						</div>
+					</template>
 				</Button>
 			</ButtonBar>
 
