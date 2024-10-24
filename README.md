@@ -61,9 +61,17 @@ defineJuiceEditor()
 - [juice-editor](https://www.npmjs.com/package/@coffic/juice-editor)
 - [juice-editor-draw](https://www.npmjs.com/package/@coffic/juice-editor-draw)
 
-## About the Author
+## Maintainer
 
 Work for Joy & Live for Love ➡️ <https://github.com/nookery>
+
+## Contributing
+
+Show your ❤️ by ⭐️ing this repository! It means a lot.
+
+Clone the repo, do something, make a PR.
+
+Looking forward to your PRs, you amazing ideas.
 
 ## License
 
