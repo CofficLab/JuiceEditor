@@ -15,6 +15,7 @@ import Strike from "@tiptap/extension-strike"
 import Dropcursor from '@tiptap/extension-dropcursor'
 import Table from "@tiptap/extension-table"
 import Highlight from "@tiptap/extension-highlight"
+import HorizontalRule from "@tiptap/extension-horizontal-rule"
 import TableCell from "@tiptap/extension-table-cell"
 import TaskItem from "@tiptap/extension-task-item"
 import HardBreak from "@tiptap/extension-hard-break"
@@ -250,6 +251,7 @@ function makeExtensions(props: makeExtensionsProps) {
         TableHeader,
         // SmartTableHeader,
         Toc,
+        HorizontalRule,
         TextAlign.configure({
             types: [HEADING, PARAGRAPH],
         }),
