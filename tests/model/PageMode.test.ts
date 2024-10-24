@@ -1,4 +1,4 @@
-import PageMode from '../../model/PageMode';
+import PageMode from '../../src/model/PageMode';
 
 describe('PageMode', () => {
     it('should have the correct enum values', () => {

@@ -1,4 +1,4 @@
-import SmartMessage from '../../model/SmartMessage';
+import SmartMessage from '../../src/model/SmartMessage';
 
 describe('SmartMessage', () => {
     test('constructor initializes properties correctly', () => {

@@ -1,6 +1,6 @@
-import TreeNode from '../../model/TreeNode';
+import TreeNode from '../../src/model/TreeNode';
 import { v4 as uuidv4 } from 'uuid';
-import NoUUIDError from '../../error/NoUUIDError';
+import NoUUIDError from '../../src/error/NoUUIDError';
 jest.mock('uuid');
 
 describe('TreeNode', () => {

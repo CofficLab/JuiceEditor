@@ -1,6 +1,6 @@
-import EditorData from '../../model/EditorData';
+import EditorData from '../../src/model/EditorData';
 import { Editor } from '@tiptap/core';
-import { HEADING } from '../../config/nodes';
+import { HEADING } from '../../src/config/nodes';
 
 describe('EditorData', () => {
     describe('constructor and default', () => {
