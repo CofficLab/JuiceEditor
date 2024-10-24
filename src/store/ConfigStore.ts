@@ -17,6 +17,7 @@ import Table from "@tiptap/extension-table"
 import Highlight from "@tiptap/extension-highlight"
 import TableCell from "@tiptap/extension-table-cell"
 import TaskItem from "@tiptap/extension-task-item"
+import HardBreak from "@tiptap/extension-hard-break"
 import Text from "@tiptap/extension-text"
 import TextAlign from '@tiptap/extension-text-align'
 import SmartHeading from "../extensions/SmartHeading/SmartHeading"
@@ -229,6 +230,7 @@ function makeExtensions(props: makeExtensionsProps) {
                 class: 'my-custom-class',
             },
         }),
+        HardBreak,
         TaskItem.configure({
             nested: true,
         }),

@@ -42,6 +42,7 @@
     "@tiptap/extension-focus": "^2.9.1",
     "@tiptap/extension-font-family": "^2.9.1",
     "@tiptap/extension-gapcursor": "^2.9.1",
+    "@tiptap/extension-hard-break": "^2.9.1",
     "@tiptap/extension-heading": "^2.9.1",
     "@tiptap/extension-highlight": "^2.9.1",
     "@tiptap/extension-history": "^2.9.1",
@@ -92,17 +93,17 @@
     "vue-tsc": "^1.8.27"
   },
   "devDependencies": {
-    "jest": "^29.7.0",
-    "ts-jest": "^29.2.5",
-    "jest-environment-jsdom": "^29.7.0",
+    "@coffic/juice-editor-draw": "^0.2.10",
     "@tsconfig/node18": "^18.2.4",
-    "vue-jest": "5.0.0-alpha.10",
     "@types/jest": "^29.5.14",
-    "babel-jest": "^27.5.1",
     "@vue/test-utils": "2.4.6",
     "@vue/tsconfig": "^0.5.1",
     "@vue/vue3-jest": "^29.2.6",
-    "@coffic/juice-editor-draw": "^0.2.10"
+    "babel-jest": "^27.5.1",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "ts-jest": "^29.2.5",
+    "vue-jest": "5.0.0-alpha.10"
   },
   "main": "dist/juice-editor.umd.js",
   "module": "dist/juice-editor.es.js",

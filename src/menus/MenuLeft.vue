@@ -5,7 +5,7 @@ import Button from '../ui/Button.vue'
 import { HEADING, PARAGRAPH, TOC } from '../config/nodes'
 import ButtonList from '../ui/ButtonList.vue'
 import { getFirstActiveNodePosition } from '../extensions/SmartActive'
-import { RiDeleteBin7Line, RiAddLine, RiIndentDecrease, RiIndentIncrease, RiAlignCenter, RiPaletteLine, RiGlobalLine } from '@remixicon/vue'
+import { RiDeleteBin7Line, RiAddLine, RiIndentDecrease, RiIndentIncrease, RiAlignCenter, RiPaletteLine, RiGlobalLine, RiArrowDownLine, RiCornerDownLeftLine } from '@remixicon/vue'
 
 const props = defineProps({
 	editor: {
@@ -170,6 +170,10 @@ function shouldShowNewLineMenu() {
 						</div>
 					</div>
 				</template>
+			</Button>
+
+			<Button tips="空白行" @click="editor.commands.setHardBreak()" :shape="shape">
+				<RiCornerDownLeftLine :size="iconSize"></RiCornerDownLeftLine>
 			</Button>
 		</ButtonList>
 	</div>
