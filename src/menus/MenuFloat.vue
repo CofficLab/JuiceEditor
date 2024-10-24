@@ -4,7 +4,7 @@ import { Editor as TiptapEditor } from '@tiptap/core'
 import { shouldShowFloatingMenu } from '../extensions/SmartMenus'
 import ButtonBar from '../ui/ButtonBar.vue'
 import Button from '../ui/Button.vue'
-import { RiH2, RiH3, RiH4, RiEdit2Line, RiListCheck, RiTaskFill, RiTable2, RiCodeBlock, RiKeyboardBoxLine } from '@remixicon/vue'
+import { RiH2, RiH3, RiH4, RiEdit2Line, RiListCheck, RiTaskFill, RiTable2, RiCodeBlock, RiKeyboardBoxLine, RiChatQuoteLine } from '@remixicon/vue'
 
 defineProps({
   editor: {
@@ -57,6 +57,9 @@ defineProps({
         </Button>
         <Button tips="快捷键" :editor="editor" :shape="shape">
           <RiKeyboardBoxLine></RiKeyboardBoxLine>
+        </Button>
+        <Button tips="引用" :editor="editor" :shape="shape" @click="editor.chain().focus().toggleBlockquote().run()">
+          <RiChatQuoteLine></RiChatQuoteLine>
         </Button>
       </ButtonBar>
     </floating-menu>
