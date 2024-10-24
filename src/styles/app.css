@@ -9,6 +9,7 @@
 @import './main.css';
 @import './children.css';
 @import './editor.css';
+@import './placeholder.css';
 
 @tailwind base;
 @tailwind components;

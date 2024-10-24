@@ -1,13 +1,13 @@
 import { Placeholder } from '@tiptap/extension-placeholder'
-import { HEADING } from '../config/nodes'
+import Heading from '@tiptap/extension-heading'
 
 export const SmartPlaceholder = Placeholder.configure({
     placeholder: ({ node }) => {
-        if (node.type.name === HEADING && node.attrs.level == 1) {
+        if (node.type.name === Heading.name && node.attrs.level == 1) {
             return '输入标题'
         }
 
-        return ''
+        return '输入内容'
     }
 })
 
