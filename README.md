@@ -59,6 +59,7 @@ defineJuiceEditor()
 ## NPM Packages
 
 - [juice-editor](https://www.npmjs.com/package/@coffic/juice-editor)
+- [juice-editor-draw](https://www.npmjs.com/package/@coffic/juice-editor-draw)
 
 ## About the Author
 
