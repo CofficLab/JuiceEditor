@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
 import LocalApp from "../plugins/LocalNodeApp"
 import WebKit from "../plugins/WebKit"
-import EventPlugin from "../plugins/EventPlugin";
 import UrlListener from "../listeners/UrlListener";
 import EventListener from "../listeners/EventListener";
 import SlotListener from "../listeners/SlotListener";
@@ -88,7 +87,6 @@ export const useConfigStore = defineStore('config-store', {
             focusClassName: defaultFocusClassName,
             plugins: [
                 ('webkit' in window) ? new WebKit() : new LocalApp(),
-                new EventPlugin(),
                 new ApiApp()
             ],
             listeners: [
