@@ -12,7 +12,7 @@ import FontFamily from '@tiptap/extension-font-family'
 import { computed } from 'vue'
 import { shouldShowBubbleMenu } from '../extensions/SmartMenus'
 import Button from '../ui/Button.vue'
-import { RiH2, RiH3, RiH4, RiH5, RiH6, RiText, RiBold, RiItalic, RiStrikethrough, RiChatQuoteLine, RiPlaneLine, RiPaletteLine, RiSubscript, RiSuperscript, RiUnderline, RiFontFamily } from '@remixicon/vue'
+import { RiH2, RiH3, RiH4, RiH5, RiH6, RiText, RiBold, RiItalic, RiStrikethrough, RiChatQuoteLine, RiPlaneLine, RiPaletteLine, RiSubscript, RiSuperscript, RiUnderline, RiFontFamily, RiCodeBoxLine, RiCodeLine } from '@remixicon/vue'
 import Color from '@tiptap/extension-color'
 
 const props = defineProps({
@@ -157,6 +157,14 @@ const fontFamilies = computed(() => {
 				<Button tips="下划线" :shape="shape" v-if="shouldShowFormatMenu"
 					@click="editor.chain().focus().toggleUnderline().run()">
 					<RiUnderline></RiUnderline>
+				</Button>
+				<Button tips="行内代码" :shape="shape" v-if="shouldShowFormatMenu"
+					@click="editor.chain().focus().toggleCode().run()">
+					<RiCodeLine></RiCodeLine>
+				</Button>
+				<Button tips="代码块" :shape="shape" v-if="shouldShowFormatMenu"
+					@click="editor.chain().focus().toggleCodeBlock().run()">
+					<RiCodeBoxLine></RiCodeBoxLine>
 				</Button>
 				<Button tips="文字颜色" :shape="shape" v-if="shouldShowFormatMenu" dropdown-position="top">
 					<RiPaletteLine></RiPaletteLine>

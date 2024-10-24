@@ -188,7 +188,7 @@ function makeExtensions(props: makeExtensionsProps) {
         }),
         Code.configure({
             HTMLAttributes: {
-                class: '',
+                class: 'code-class',
             },
         }),
         SmartPre,
