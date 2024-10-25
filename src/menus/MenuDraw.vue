@@ -6,7 +6,7 @@ import Opening from '../extensions/SmartImage/Opening.vue'
 import DrawConfig from '../extensions/SmartImage/DrawConfig'
 import ImageHelper from '../helper/ImageHelper'
 import DrawHelper from '../extensions/SmartImage/DrawHelper'
-import { RiDashboard3Line, RiDownloadLine, RiEditLine, RiShapeLine } from '@remixicon/vue'
+import { RiDownloadLine, RiEditLine, RiShapeLine } from '@remixicon/vue'
 import SmartImage from '../extensions/SmartImage/SmartImage'
 import Image from '@tiptap/extension-image'
 
