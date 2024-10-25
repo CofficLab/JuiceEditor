@@ -3,8 +3,9 @@ import { defineProps } from 'vue'
 import Button from '../ui/Button.vue'
 import { Editor } from '@tiptap/core'
 import { ref, watch } from 'vue'
-import { LINK } from '../config/nodes'
+
 import { RiGlobalLine, RiLinkM } from '@remixicon/vue'
+import Link from '@tiptap/extension-link'
 
 let props = defineProps({
     editor: {
@@ -21,11 +22,11 @@ let props = defineProps({
     }
 })
 
-var href = ref(props.editor.getAttributes(LINK).href)
-var text = ref(props.editor.getAttributes(LINK).text)
+var href = ref(props.editor.getAttributes(Link.name).href)
+var text = ref(props.editor.getAttributes(Link.name).text)
 
 function openLink() {
-    let link = props.editor.getAttributes(LINK)
+    let link = props.editor.getAttributes(Link.name)
     if (link.href) {
         window.open(link.href, '_blank')
     }

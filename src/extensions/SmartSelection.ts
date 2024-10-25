@@ -1,9 +1,9 @@
 import { Editor, Extension, findParentNode } from '@tiptap/core'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
-import { LIST_TYPE } from '../config/nodes'
 import SmartImage from './SmartImage/SmartImage'
 import Table from '@tiptap/extension-table'
+import ListItem from '@tiptap/extension-list-item'
 declare module '@tiptap/core' {
 	interface Commands<ReturnType> {
 		setCurrentNodeSelection: {
@@ -49,7 +49,7 @@ export default Extension.create({
 				() =>
 					({ editor, chain }) => {
 						let parentNode = findParentNode((node) =>
-							LIST_TYPE.includes(node.type.name),
+							[ListItem.name].includes(node.type.name),
 						)(editor.state.selection)
 						if (parentNode) {
 							return chain().setNodeSelection(parentNode.pos).run()
@@ -90,7 +90,7 @@ export function getSelectionNode(editor: Editor) {
 	if (node) {
 		return node
 	}
-	let parentNode = findParentNode((node) => LIST_TYPE.includes(node.type.name))(
+	let parentNode = findParentNode((node) => [ListItem.name].includes(node.type.name))(
 		editor.state.selection,
 	)
 	const { $anchor } = editor.state.selection
@@ -108,4 +108,16 @@ export function getSelectionText(editor: Editor) {
 		return ''
 	}
 	return editor.state.doc.textBetween(from, to, '')
+}
+
+export function getSelectionTextLength(editor: Editor) {
+	return getSelectionText(editor).length
+}
+
+export function isSelectionEmpty(editor: Editor) {
+	return getSelectionTextLength(editor) == 0
+}
+
+export function hasSelection(editor: Editor) {
+	return !isSelectionEmpty(editor)
 }

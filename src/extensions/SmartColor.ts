@@ -1,16 +1,4 @@
-import Paragraph from "@tiptap/extension-paragraph";
 import Color from "@tiptap/extension-color";
-import axios from 'axios';
-import { CommandProps, Editor } from '@tiptap/core';
-import { SmartEventName } from './SmartEvent';
-
-declare module '@tiptap/core' {
-    interface Commands<ReturnType> {
-        SmartColor: {
-            setTextColor: (color: string) => ReturnType
-        }
-    }
-}
 
 export const SmartColor = Color.extend({
     addOptions() {
@@ -43,13 +31,5 @@ export const SmartColor = Color.extend({
                 '#808000', // Olive
             ],
         }
-    },
-
-    addCommands() {
-        return {
-            setTextColor: (color: string) => ({ editor }) => {
-                return editor.chain().focus().setColor(color).run()
-            },
-        };
     },
 });

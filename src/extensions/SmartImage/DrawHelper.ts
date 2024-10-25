@@ -1,37 +1,4 @@
 import SmartTool from "../../helper/SmartTool";
-import { Editor } from "@tiptap/core";
-import SmartImage from "./SmartImage";
-
-function makeDrawDialog(drawIoLink: string): HTMLDialogElement {
-    const drawingPage = document.createElement('iframe')
-    drawingPage.setAttribute('frameborder', '0')
-    drawingPage.setAttribute('src', makeDrawUrl(drawIoLink))
-    drawingPage.setAttribute('width', '100%')
-    drawingPage.setAttribute('height', '100%')
-
-    const drawingDialog = document.createElement('dialog')
-    drawingDialog.style.border = 'none'
-    drawingDialog.style.width = '100%'
-    drawingDialog.style.height = '100%'
-    drawingDialog.style.position = 'fixed'
-    drawingDialog.style.top = '0'
-    drawingDialog.style.right = '0'
-    drawingDialog.style.bottom = '0'
-    drawingDialog.style.left = '0'
-    drawingDialog.style.margin = '0'
-    drawingDialog.style.justifyItems = 'center'
-    drawingDialog.style.padding = '0'
-    drawingDialog.style.overscrollBehavior = 'contain'
-    drawingDialog.style.zIndex = '999'
-    drawingDialog.style.color = 'inherit'
-    drawingDialog.style.overflowY = 'hidden'
-    drawingDialog.style.display = 'grid'
-    drawingDialog.style.opacity = '0'
-
-    drawingDialog.appendChild(drawingPage)
-
-    return drawingDialog
-}
 
 function makeDrawUrl(baseUrl: string): string {
     return baseUrl + SmartTool.httpBuildQuery({
@@ -62,12 +29,6 @@ function makeDrawUrl(baseUrl: string): string {
     })
 }
 
-function getDrawIoLink(editor: Editor): string {
-    return editor.options.extensions.find((extension: any) => extension.name === SmartImage.name)?.options.drawIoLink
-}
-
 export default {
-    makeDrawDialog,
     makeDrawUrl,
-    getDrawIoLink
 }

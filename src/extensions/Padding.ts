@@ -1,7 +1,17 @@
 import { Extension } from '@tiptap/core';
 import { Plugin, PluginKey } from 'prosemirror-state';
 import { Decoration, DecorationSet } from 'prosemirror-view';
-import { ROOT, LIST_ITEM, BULLET_LIST, HEADING, A, TASKLIST, TASK_ITEM, TABLE_CELL, TABLE_HEADER, IMAGE } from '../config/nodes';
+import { BulletList } from '@tiptap/extension-bullet-list'
+import { TaskList } from '@tiptap/extension-task-list'
+import Heading from '@tiptap/extension-heading'
+import { Document } from '@tiptap/extension-document'
+import { Link } from '@tiptap/extension-link'
+import { Image } from '@tiptap/extension-image'
+import { TableCell } from '@tiptap/extension-table-cell'
+import { TableHeader } from '@tiptap/extension-table-header'
+import { ListItem } from '@tiptap/extension-list-item'
+import { TaskItem } from '@tiptap/extension-task-item'
+import { Root } from './Root/Root';
 
 const title = '👔 Padding'
 
@@ -12,23 +22,23 @@ export const Padding = Extension.create({
         return {
             defaultPadding: 'px-8',
             paddingConfig: {
-                [BULLET_LIST]: 'pl-12',
-                [TASKLIST]: 'pl-12',
-                [HEADING]: 'px-8',
+                [BulletList.name]: 'pl-12',
+                [TaskList.name]: 'pl-12',
+                [Heading.name]: 'px-8',
             },
             excludeNodes: [
-                ROOT,
-                A,
-                IMAGE,
+                Root.name,
+                Link.name,
+                Image.name,
             ],
             excludeClass: 'no-padding',
             excludeIfIn: [
-                BULLET_LIST,
-                LIST_ITEM,
-                TASKLIST,
-                TASK_ITEM,
-                TABLE_CELL,
-                TABLE_HEADER
+                BulletList.name,
+                ListItem.name,
+                TaskList.name,
+                TaskItem.name,
+                TableCell.name,
+                TableHeader.name
             ],
         }
     },

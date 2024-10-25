@@ -1,9 +1,13 @@
 import { Extension } from '@tiptap/core';
-import { Plugin, PluginKey } from 'prosemirror-state';
-import { Decoration, DecorationSet } from 'prosemirror-view';
-import { ROOT, LIST_ITEM, BULLET_LIST, HEADING, A, TASKLIST, TASK_ITEM, TABLE_CELL, TABLE_HEADER, IMAGE } from '../config/nodes';
-import SmartImage from './SmartImage/SmartImage';
 import { getSelectionNode } from './SmartSelection';
+import { Root } from './Root/Root';
+import Link from '@tiptap/extension-link';
+import BulletList from '@tiptap/extension-bullet-list';
+import ListItem from '@tiptap/extension-list-item';
+import TaskList from '@tiptap/extension-task-list';
+import TaskItem from '@tiptap/extension-task-item';
+import TableCell from '@tiptap/extension-table-cell';
+import TableHeader from '@tiptap/extension-table-header';
 
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
@@ -24,17 +28,17 @@ export const Margin = Extension.create({
         return {
             defaultMargin: '',
             excludeNodes: [
-                ROOT,
-                A,
+                Root.name,
+                Link.name,
             ],
             excludeClass: 'no-margin',
             excludeIfIn: [
-                BULLET_LIST,
-                LIST_ITEM,
-                TASKLIST,
-                TASK_ITEM,
-                TABLE_CELL,
-                TABLE_HEADER
+                BulletList.name,
+                ListItem.name,
+                TaskList.name,
+                TaskItem.name,
+                TableCell.name,
+                TableHeader.name
             ],
             levels: [
                 'ml-0',

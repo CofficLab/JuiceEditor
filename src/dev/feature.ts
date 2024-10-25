@@ -7,6 +7,8 @@ const featureDoc = `
         <p>JuiceEditor is a powerful and flexible text editor that allows you to create and edit content with ease.</p>
         <h2>Image</h2>
         <img src="https://placehold.co/600x200" class="mx-auto"/>
+        <h2>Code inline</h2>
+        <p><code>console.log("build by cofficlab with love")</code>used to show inline code</p>
         <h2>Diagram</h2>
         <image draw=true src="${sampleImgSrc1}" class="ml-8"></image>
         <h2>Link</h2>

@@ -9,6 +9,7 @@ declare module '@tiptap/core' {
             setParagraph: () => ReturnType
             setBackgroundColor: (color: string) => ReturnType
             translate: (language: string) => ReturnType
+            setTranslateApi: (api: string) => ReturnType
         }
     }
 }
@@ -23,6 +24,14 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
         { tag: "banner" },
         { tag: "p" },
     ],
+
+    addStorage() {
+        return {
+            verbose: true,
+            translateApi: null,
+            title: '🦜 SmartParagraph',
+        }
+    },
 
     addOptions() {
         return {
@@ -80,16 +89,38 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
         }
     },
 
+    onBeforeCreate: function () {
+        let verbose = true;
+
+        if (verbose) {
+            console.log(this.storage.title, 'onBeforeCreate:setTranslateApi', this.options.translateApi);
+        }
+
+        this.storage.translateApi = this.options.translateApi;
+    },
+
     addCommands() {
         return {
             setParagraph: () => ({ commands }) => {
                 return commands.setNode(this.name)
             },
+
             setBackgroundColor: (color: string) => ({ commands }) => {
                 return commands.updateAttributes(this.name, {
                     class: this.options.colorClass[color]
                 })
             },
+
+            setTranslateApi: (api: string) => ({ commands }) => {
+                if (this.storage.verbose) {
+                    console.log(this.storage.title, 'setTranslateApi', api);
+                }
+
+                this.storage.translateApi = api;
+
+                return true;
+            },
+
             translate: (language: string) => ({ editor }: { editor: Editor }) => {
                 if (!editor) {
                     console.error('No editor instance available');
@@ -111,12 +142,15 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
 
                 (async () => {
                     try {
-                        const translatedContent = await performTranslation(content, language, this.options.translateApi);
+                        const translatedContent = await performTranslation(content, language, this.storage.translateApi);
                         const translatedNode = editor.schema.text(translatedContent);
                         const tr = editor.state.tr.replaceWith(start, end, translatedNode);
                         editor.view.dispatch(tr);
                     } catch (error: unknown) {
-                        editor.commands.emitError(SmartEventName.TranslationError, (error as Error).message);
+                        editor.commands.showAlert((error as Error).message, {
+                            language,
+                            api: this.storage.translateApi,
+                        });
                     }
                 })();
 

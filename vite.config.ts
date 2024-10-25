@@ -17,7 +17,7 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     lib: {
-      entry: fileURLToPath(new URL('./src/index.ts', import.meta.url)),
+      entry: fileURLToPath(new URL('./src/prod.ts', import.meta.url)),
       name: 'JuiceEditor',
       fileName: (format) => `juice-editor.${format}.js`
     },

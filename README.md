@@ -17,14 +17,22 @@ npm install @coffic/juice-editor
 2.Use JuiceEditor in your project
 
 ```js
-import { defineJuiceEditor } from '@coffic/juice-editor'
+import editor from '@coffic/juice-editor'
 
-defineJuiceEditor()
+editor.onCreate(() => {
+    console.log('create')
+})
+
+editor.onUpdate(() => {
+    console.log('update')
+})
+
+// When you type 'editor.', the IDE will suggest available APIs
 ```
 
 3.Use JuiceEditor in your template
 
-```vue
+```html
 <juice-editor></juice-editor>
 ```
 

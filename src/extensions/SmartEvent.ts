@@ -1,6 +1,11 @@
 import { Extension } from '@tiptap/core'
 import { Editor } from '@tiptap/core'
 import SmartParagraph from './SmartParagraph'
+import { Slice } from 'prosemirror-model'
+
+export enum EditorErrorType {
+    ContentError = 'content:error',
+}
 
 export enum SmartEventName {
     TranslationError = 'translation:error',
@@ -14,6 +19,8 @@ declare module '@tiptap/core' {
         }
     }
 }
+
+const emoji = "🧩 SmartEvent"
 
 export const SmartEvent = Extension.create({
     name: 'smartEvent',
@@ -45,6 +52,87 @@ export const SmartEvent = Extension.create({
             }
         }
     },
+
+    onBeforeCreate() {
+        let verbose = true
+
+        if (verbose) {
+            console.log(emoji, "onBeforeCreate")
+        }
+    },
+
+    onCreate() {
+        let verbose = true
+
+        if (verbose) {
+            console.log(emoji, "onCreate")
+        }
+    },
+
+    onUpdate() {
+        let verbose = true
+
+        if (verbose) {
+            console.log(emoji, "onUpdate")
+        }
+    },
+    onSelectionUpdate() {
+        let verbose = true
+
+        if (verbose) {
+            console.log(emoji, "onSelectionUpdate")
+        }
+    },
+    onTransaction() {
+        let verbose = true
+
+        if (verbose) {
+            console.log(emoji, "onTransaction")
+        }
+    },
+    onFocus() {
+        let verbose = true
+
+        if (verbose) {
+            console.log(emoji, "onFocus")
+        }
+    },
+    onBlur() {
+        let verbose = true
+
+        if (verbose) {
+            console.log(emoji, "onBlur")
+        }
+    },
+    onDestroy() {
+        let verbose = true
+
+        if (verbose) {
+            console.log(emoji, "onDestroy")
+        }
+    },
+    onPaste(event: ClipboardEvent, slice: Slice) {
+        let verbose = true
+
+        if (verbose) {
+            console.log(emoji, "onPaste", event, slice)
+        }
+    },
+    onDrop(event: DragEvent, slice: Slice, moved: boolean) {
+        let verbose = true
+
+        if (verbose) {
+            console.log(emoji, "onDrop", event, slice, moved)
+        }
+    },
+    onContentError({ editor, error, disableCollaboration }: { editor: Editor; error: Error; disableCollaboration: () => void }) {
+        let verbose = true
+
+        if (verbose) {
+            console.log(emoji, "onContentError", editor, error, disableCollaboration)
+        }
+    },
+
 })
 
 function getDebugInfos(name: SmartEventName, editor: Editor) {

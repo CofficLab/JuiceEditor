@@ -18,8 +18,7 @@
   "scripts": {
     "dev": "npm run draw:build && vite",
     "install:monaco": "cd monaco && pnpm install",
-    "build": "npm run build:clean && vue-tsc --emitDeclarationOnly && vite build && npm run build:types",
-    "build:types": "tsc --emitDeclarationOnly && mv dist/src dist/types",
+    "build": "npm run build:clean && vue-tsc --emitDeclarationOnly && vite build",
     "build:clean": "rm -rf dist && npm run draw:clean",
     "draw:build": "npm run draw:clean && npm run draw:copy",
     "draw:copy": "cp -r node_modules/@coffic/juice-editor-draw/drawio/webapp public/draw",

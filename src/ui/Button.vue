@@ -24,6 +24,10 @@ const props = defineProps({
   dropdownPosition: {
     type: String,
     default: 'right'
+  },
+  dropdownBackgroundClass: {
+    type: String,
+    default: 'bg-base-300 dark:bg-zinc-900'
   }
 })
 
@@ -70,8 +74,10 @@ const sizeClass = computed(() => {
       <slot></slot>
     </button>
 
-    <div tabindex="0" v-if="$slots['dropdown-item']"
-      class="dropdown-content menu bg-slate-100 dark:bg-zinc-900 rounded-box z-50 p-2 shadow">
+    <div tabindex="0" v-if="$slots['dropdown-item']" :class="{
+      [props.dropdownBackgroundClass]: true,
+      'dropdown-content menu rounded-box z-50 p-2 shadow': true
+    }">
       <slot name="dropdown-item"></slot>
     </div>
   </div>

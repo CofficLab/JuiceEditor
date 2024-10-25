@@ -2,7 +2,7 @@
 import { FloatingMenu } from '@tiptap/vue-3'
 import { Editor as TiptapEditor } from '@tiptap/core'
 import { shouldShowFloatingMenu } from '../extensions/SmartMenus'
-import ButtonBar from '../ui/ButtonBar.vue'
+import ButtonGroup from '../ui/ButtonGroup.vue'
 import Button from '../ui/Button.vue'
 import { RiH2, RiH3, RiH4, RiEdit2Line, RiListCheck, RiTaskFill, RiTable2, RiCodeBlock, RiKeyboardBoxLine, RiChatQuoteLine } from '@remixicon/vue'
 
@@ -14,6 +14,11 @@ defineProps({
   shape: {
     type: String,
     default: 'rectangle'
+  },
+  backgroundClass: {
+    type: String,
+    required: false,
+    default: 'bg-cyan-100/95 dark:bg-cyan-500/95'
   }
 })
 
@@ -27,10 +32,7 @@ defineProps({
       placement: 'right',
       appendTo: 'parent'
     }" :editor="editor" :should-show="shouldShowFloatingMenu">
-      <p class="text-xs prose dark:prose-invert rounded-md bg-white dark:bg-gray-800 px-2 py-1 inline-block mb-2">
-        Floating Menu
-      </p>
-      <ButtonBar type="blue" :shape="shape">
+      <ButtonGroup direction="horizontal" type="blue" :shape="shape" :backgroundClass="backgroundClass">
         <Button tips="2号标题" :editor="editor" :level="2" :shape="shape">
           <RiH2></RiH2>
         </Button>
@@ -61,7 +63,7 @@ defineProps({
         <Button tips="引用" :editor="editor" :shape="shape" @click="editor.chain().focus().toggleBlockquote().run()">
           <RiChatQuoteLine></RiChatQuoteLine>
         </Button>
-      </ButtonBar>
+      </ButtonGroup>
     </floating-menu>
   </div>
 </template>

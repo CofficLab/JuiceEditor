@@ -1,6 +1,6 @@
+import Heading from '@tiptap/extension-heading';
 import EditorData from '../../src/model/EditorData';
 import { Editor } from '@tiptap/core';
-import { HEADING } from '../../src/config/nodes';
 
 describe('EditorData', () => {
     describe('constructor and default', () => {
@@ -42,7 +42,7 @@ describe('EditorData', () => {
                     doc: {
                         content: {
                             forEach: jest.fn((callback) => {
-                                callback({ type: { name: HEADING }, textContent: 'Test Title' });
+                                callback({ type: { name: Heading.name }, textContent: 'Test Title' });
                             })
                         }
                     }
