@@ -1,9 +1,6 @@
 import { Extension } from '@tiptap/core';
 import { Plugin, PluginKey } from 'prosemirror-state';
-import { Decoration, DecorationSet } from 'prosemirror-view';
-import { IMAGE, PRE } from '../config/nodes';
 
-const noPaddingTypes = [PRE, IMAGE];
 
 export const Debug = Extension.create({
     name: 'debug',
@@ -13,7 +10,7 @@ export const Debug = Extension.create({
             new Plugin({
                 key: new PluginKey('debug'),
                 props: {
-                    handleClick: (view, event) => {
+                    handleClick: (view) => {
                         var enableDebug = false;
 
                         if (process.env.NODE_ENV == 'development' && enableDebug) {

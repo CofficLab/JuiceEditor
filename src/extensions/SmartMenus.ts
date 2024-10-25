@@ -1,10 +1,15 @@
 import { EditorState } from '@tiptap/pm/state'
 import { EditorView } from '@tiptap/pm/view'
 import { Editor as TiptapEditor } from '@tiptap/core'
-import { IMAGE, TABLE, LINK, TOC, DRAW, TABLE_CELL, TABLE_ROW, TABLE_HEADER, BRANCH, BRANCH_CONTENT } from '../config/nodes'
 import Heading from '@tiptap/extension-heading'
 import HardBreak from '@tiptap/extension-hard-break'
 import Blockquote from '@tiptap/extension-blockquote'
+import Image from '@tiptap/extension-image'
+import Link from '@tiptap/extension-link'
+import { Toc } from '../extensions/Toc/Toc'
+import Table from '@tiptap/extension-table'
+import TableRow from '@tiptap/extension-table-row'
+import TableHeader from '@tiptap/extension-table-header'
 
 let emoji = '🫧 BubbleMenusExtension'
 
@@ -20,8 +25,8 @@ export const shouldShowBubbleMenu = function (props: {
 
     const { selection } = props.state
     const { empty } = selection
-    const shouldShowNodes = [IMAGE, LINK]
-    const excludes = [TOC]
+    const shouldShowNodes = [Image.name, Link.name]
+    const excludes = [Toc.name]
 
     // 如果是只读模式，不显示
     if (props.editor.isEditable == false) {
@@ -83,7 +88,7 @@ export const shouldShowFloatingMenu = function (props: {
 }) {
     let isAtBannerPosition = props.editor.isActive('banner')
     let isAtSmartImagePosition = props.editor.isActive('image')
-    const excludes = [DRAW, TABLE, TABLE_ROW, TABLE_HEADER]
+    const excludes = [Table.name, TableRow.name, TableHeader.name]
     const { selection } = props.state
     const { $anchor, empty } = selection
     const isEmptyTextBlock =

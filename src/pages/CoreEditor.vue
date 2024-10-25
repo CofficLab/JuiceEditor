@@ -28,7 +28,7 @@ defineProps({
 	menuBackgroundClass: {
 		type: String,
 		required: false,
-		default: 'bg-base-300 dark:bg-zinc-900/95'
+		default: 'bg-slate-200 dark:bg-zinc-900/95'
 	}
 })
 

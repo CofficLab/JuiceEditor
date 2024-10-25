@@ -4,7 +4,6 @@ import { EditorView } from '@tiptap/pm/view'
 import { BubbleMenu } from '@tiptap/vue-3'
 import { Editor as TiptapEditor } from '@tiptap/core'
 import ButtonGroup from '../ui/ButtonGroup.vue'
-import { HEADING, IMAGE, PARAGRAPH, TEXT, LINK } from '../config/nodes'
 import MenuImage from './MenuImage.vue'
 import MenuDraw from './MenuDraw.vue'
 import MenuLink from './MenuLink.vue'
@@ -12,9 +11,13 @@ import FontFamily from '@tiptap/extension-font-family'
 import { computed } from 'vue'
 import { shouldShowBubbleMenu } from '../extensions/SmartMenus'
 import Button from '../ui/Button.vue'
-import { RiH2, RiH3, RiH4, RiH5, RiH6, RiText, RiBold, RiItalic, RiStrikethrough, RiChatQuoteLine, RiPlaneLine, RiPaletteLine, RiSubscript, RiSuperscript, RiUnderline, RiFontFamily, RiCodeBoxLine, RiCodeLine, RiFontColor } from '@remixicon/vue'
+import { RiBold, RiItalic, RiStrikethrough, RiPaletteLine, RiSubscript, RiSuperscript, RiUnderline, RiFontFamily, RiCodeLine, RiFontColor } from '@remixicon/vue'
 import Color from '@tiptap/extension-color'
 import { getSelectionTextLength } from '../extensions/SmartSelection'
+import Link from '@tiptap/extension-link'
+import Heading from '@tiptap/extension-heading'
+import Paragraph from '@tiptap/extension-paragraph'
+import Image from '@tiptap/extension-image'
 
 const props = defineProps({
 	editor: {
@@ -48,11 +51,11 @@ const shouldShow = function (props: {
 }
 
 const shouldShowHeadingMenu = computed(() => {
-	if (props.editor.isActive(LINK)) {
+	if (props.editor.isActive(Link.name)) {
 		return false
 	}
 
-	const nodesShow = [HEADING, PARAGRAPH, TEXT]
+	const nodesShow = [Heading.name, Paragraph.name, Text.name]
 
 	return nodesShow.some(node => {
 		return props.editor.isActive(node)
@@ -60,11 +63,11 @@ const shouldShowHeadingMenu = computed(() => {
 })
 
 const shouldShowFormatMenu = computed(() => {
-	if (props.editor.isActive(LINK)) {
+	if (props.editor.isActive(Link.name)) {
 		return false
 	}
 
-	const nodesShow = [HEADING, PARAGRAPH, TEXT]
+	const nodesShow = [Heading.name, Paragraph.name, Text.name]
 
 	return nodesShow.some(node => {
 		return props.editor.isActive(node)
@@ -72,15 +75,15 @@ const shouldShowFormatMenu = computed(() => {
 })
 
 const shouldShowDrawMenu = computed(() => {
-	return props.editor.getAttributes(IMAGE).draw == true
+	return props.editor.getAttributes(Image.name).draw == true
 })
 
 const shouldShowImageMenu = computed(() => {
-	return props.editor.isActive(IMAGE) && !props.editor.getAttributes(IMAGE).draw
+	return props.editor.isActive(Image.name) && !props.editor.getAttributes(Image.name).draw
 })
 
 const shouldShowLinkMenu = computed(() => {
-	return props.editor.isActive(LINK)
+	return props.editor.isActive(Link.name)
 })
 
 const textColors = computed(() => {
@@ -107,11 +110,7 @@ const hasSelection = computed(() => {
 			zIndex: 888
 		}" :editor="editor">
 			<!-- Heading And Format -->
-			<ButtonGroup :backgroundClass="backgroundClass" direction="horizontal"
-				v-if="(shouldShowHeadingMenu || shouldShowFormatMenu)">
-
-
-
+			<ButtonGroup :backgroundClass="backgroundClass" direction="horizontal">
 				<Button tips="加粗" :shape="shape" v-if="shouldShowFormatMenu"
 					@click="editor.chain().focus().toggleBold().run()">
 					<RiBold></RiBold>
@@ -188,21 +187,15 @@ const hasSelection = computed(() => {
 						</div>
 					</template>
 				</Button>
-			</ButtonGroup>
 
-			<!-- Draw -->
-			<ButtonGroup :backgroundClass="backgroundClass" v-if="shouldShowDrawMenu">
-				<MenuDraw :editor="editor"></MenuDraw>
-			</ButtonGroup>
+				<!-- Draw -->
+				<MenuDraw :editor="editor" v-if="shouldShowDrawMenu"></MenuDraw>
 
-			<!-- Image -->
-			<ButtonGroup :backgroundClass="backgroundClass" v-if="shouldShowImageMenu">
-				<MenuImage :editor="editor"></MenuImage>
-			</ButtonGroup>
+				<!-- Image -->
+				<MenuImage :editor="editor" v-if="shouldShowImageMenu"></MenuImage>
 
-			<!-- Link -->
-			<ButtonGroup :backgroundClass="backgroundClass" v-if="shouldShowLinkMenu">
-				<MenuLink :editor="editor"></MenuLink>
+				<!-- Link -->
+				<MenuLink :editor="editor" v-if="shouldShowLinkMenu"></MenuLink>
 			</ButtonGroup>
 		</bubble-menu>
 	</div>

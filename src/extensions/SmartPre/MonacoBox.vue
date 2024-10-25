@@ -37,7 +37,6 @@
 <script lang="ts" setup>
 import { onMounted, onUnmounted, watch, ref, onBeforeUnmount, computed, onBeforeMount } from 'vue'
 import MonacoBox from './Entities/MonacoBox'
-import webkit from '../../plugins/WebKit'
 import Pre from '../../ui/Pre.vue'
 import { v4 as uuidv4 } from 'uuid'
 import * as monaco from "monaco-editor/esm/vs/editor/editor.api"

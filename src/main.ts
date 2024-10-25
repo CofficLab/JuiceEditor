@@ -1,15 +1,25 @@
-import { createApp } from 'vue'
+import { createApp, h, provide } from 'vue'
 import { createPinia } from 'pinia'
 import { defineCustomElement } from 'vue'
-// Change the import statement to use a type assertion
-import Root from './pages/Root.ce.vue' assert { type: 'ce-vue' }
+import tiptapEditor from './editor'
+import EditorAgent from './model/EditorAgent'
+import RootVue from './pages/Root.ce.vue' assert { type: 'ce-vue' }
 
-export function defineJuiceEditor() {
-    let pinia = createPinia()
-    let app = createApp(Root)
+const editorLabel = 'juice-editor'
 
-    app.use(pinia)
+customElements.define(editorLabel, defineCustomElement({
+    setup() {
+        provide('editor', tiptapEditor)
+        const app = createApp(RootVue)
+        app.use(createPinia())
+        app.config.errorHandler = (err) => {
+            console.error(err)
+        }
 
-    customElements.define('juice-editor', defineCustomElement(Root))
-}
+        return () => h(RootVue)
+    },
+}))
 
+const editor = new EditorAgent(tiptapEditor)
+
+export default editor

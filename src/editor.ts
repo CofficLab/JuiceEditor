@@ -1,10 +1,4 @@
-import { defineStore } from "pinia";
-import LocalApp from "../plugins/LocalNodeApp"
-import WebKit from "../plugins/WebKit"
-import EventPlugin from "../plugins/EventPlugin";
-import UrlListener from "../listeners/UrlListener";
-import EventListener from "../listeners/EventListener";
-import SlotListener from "../listeners/SlotListener";
+import { Editor as EditorVue } from '@tiptap/vue-3'
 import CharacterCount from "@tiptap/extension-character-count"
 import Code from "@tiptap/extension-code"
 import History from "@tiptap/extension-history"
@@ -18,44 +12,48 @@ import Highlight from "@tiptap/extension-highlight"
 import HorizontalRule from "@tiptap/extension-horizontal-rule"
 import TableCell from "@tiptap/extension-table-cell"
 import TaskItem from "@tiptap/extension-task-item"
+import { SmartSlot } from "./extensions/SmartSlot"
 import HardBreak from "@tiptap/extension-hard-break"
 import Subscript from "@tiptap/extension-subscript"
 import Text from "@tiptap/extension-text"
 import ListKeymap from '@tiptap/extension-list-keymap'
+import { WebKit } from "./extensions/WebKit"
+import { LocalStorage } from "./extensions/LocalStorage"
 import Underline from "@tiptap/extension-underline"
-import { SmartColor } from "../extensions/SmartColor"
+import { SmartColor } from "./extensions/SmartColor"
 import Superscript from "@tiptap/extension-superscript"
 import TextAlign from '@tiptap/extension-text-align'
-import SmartHeading from "../extensions/SmartHeading"
-import SmartTaskList from "../extensions/SmartTaskList/SmartTaskList"
-import SmartPre from "../extensions/SmartPre/SmartPre"
-import SmartImage from "../extensions/SmartImage/SmartImage"
-import SmartLink from "../extensions/SmartLink/SmartLink"
-import SmartParagraph from "../extensions/SmartParagraph"
-import SmartBulletList from "../extensions/SmartBulletList/SmartBulletList"
-import SmartQuote from "../extensions/SmartQuote"
-import { SmartActive } from "../extensions/SmartActive"
+import { WebStorage } from "./extensions/WebStorage"
+import SmartHeading from "./extensions/SmartHeading"
+import SmartTaskList from "./extensions/SmartTaskList/SmartTaskList"
+import SmartPre from "./extensions/SmartPre/SmartPre"
+import SmartImage from "./extensions/SmartImage/SmartImage"
+import SmartLink from "./extensions/SmartLink/SmartLink"
+import SmartParagraph from "./extensions/SmartParagraph"
+import SmartBulletList from "./extensions/SmartBulletList/SmartBulletList"
+import SmartQuote from "./extensions/SmartQuote"
+import { SmartActive } from "./extensions/SmartActive"
 import TableRow from "@tiptap/extension-table-row"
 import TableHeader from "@tiptap/extension-table-header"
-import SmartSelection from "../extensions/SmartSelection"
-import { Padding } from "../extensions/Padding"
-import { SmartFocus } from "../extensions/SmartFocus"
-import { Branch } from "../extensions/Branch/Branch"
-import { BranchContent } from "../extensions/BranchContent/BranchContent"
-import { Root } from "../extensions/Root/Root"
-import { Toc } from "../extensions/Toc/Toc"
-import ApiApp from "../plugins/APIApp"
-import { NewLine } from "../extensions/NewLine"
-import { Debug } from "../extensions/Debug"
-import { SmartEvent } from "../extensions/SmartEvent"
-import SmartDoc from "../extensions/SmartDoc"
-import SmartBold from "../extensions/SmartBold"
-import SmartPlaceholder from "../extensions/SmartPlaceholder"
-import { HEADING, PARAGRAPH } from "../config/nodes"
-import { Margin } from "../extensions/Margin"
+import SmartSelection from "./extensions/SmartSelection"
+import { Padding } from "./extensions/Padding"
+import { SmartFocus } from "./extensions/SmartFocus"
+import { Branch } from "./extensions/Branch/Branch"
+import { BranchContent } from "./extensions/BranchContent/BranchContent"
+import { Root } from "./extensions/Root/Root"
+import { NewLine } from "./extensions/NewLine"
+import { Debug } from "./extensions/Debug"
+import { SmartEvent } from "./extensions/SmartEvent"
+import SmartDoc from "./extensions/SmartDoc"
+import SmartBold from "./extensions/SmartBold"
+import SmartPlaceholder from "./extensions/SmartPlaceholder"
+import { Margin } from "./extensions/Margin"
 import TextStyle from "@tiptap/extension-text-style";
-import { SmartFontFamily } from "../extensions/SmartFontFamily";
-
+import { SmartFontFamily } from "./extensions/SmartFontFamily";
+import Heading from '@tiptap/extension-heading'
+import Paragraph from '@tiptap/extension-paragraph'
+import { URLListener } from "./extensions/URLListener"
+import { SmartAlert } from "./extensions/SmartAlert/SmartAlert"
 interface makeExtensionsProps {
     drawIoLink: string,
     drawEnable?: boolean,
@@ -64,9 +62,7 @@ interface makeExtensionsProps {
     focusClassName: string
 }
 
-const title = "🔧 ConfigStore"
 const isDebug = process.env.NODE_ENV === 'development'
-const editorLabel = 'juice-editor'
 const defaultTranslateApi = isDebug
     ? 'http://127.0.0.1/api/translate'
     : 'http://127.0.0.1:49493/api/translate'
@@ -74,93 +70,22 @@ const defaultFocusClassName = 'focused'
 const defaultDrawIoLink = isDebug
     ? '/drawio/webapp/index.html?'
     : '/drawio/index.html?'
-const defaultMonacoLink = isDebug
-    ? '/monaco/index.html'
-    : '/editor/monaco/index.html'
-
-export const useConfigStore = defineStore('config-store', {
-    state: () => {
-        return {
-            updatedAt: new Date(),
-            drawLink: defaultDrawIoLink,
-            monacoLink: defaultMonacoLink,
-            translateApi: defaultTranslateApi,
-            focusClassName: defaultFocusClassName,
-            plugins: [
-                ('webkit' in window) ? new WebKit() : new LocalApp(),
-                new EventPlugin(),
-                new ApiApp()
-            ],
-            listeners: [
-                new UrlListener(editorLabel),
-                new EventListener(),
-                new SlotListener(editorLabel)
-            ],
-        }
-    },
-
-    actions: {
-        setTranslateApi(api: string) {
-            let verbose = true
-
-            if (this.translateApi === api) {
-
-                if (verbose) {
-                    console.log(`${title}.setTranslateApi(${api}) no change`)
-                }
-                return
-            }
-
-            if (verbose) {
-                console.log(`${title}.setTranslateApi(${api})`)
-            }
-
-            this.translateApi = api
-            this.updatedAt = new Date()
-        },
-
-        setDrawIoLink(url: string) {
-            let verbose = true
-
-            if (this.drawLink === url) {
-                if (verbose) {
-                    console.log(`${title}.setDrawIoLink(${url}) no change`)
-                }
-
-                return
-            }
-
-            if (verbose) {
-                console.log(`${title}.setDrawIoLink(${url})`)
-            }
-
-            this.drawLink = url
-            this.updatedAt = new Date()
-        },
-
-        getExtensions() {
-            return makeExtensions({
-                translateApi: this.translateApi,
-                focusClassName: this.focusClassName,
-                drawIoLink: this.drawLink,
-            })
-        }
-    }
-})
 
 function makeExtensions(props: makeExtensionsProps) {
     var extensions = [
         Debug,
         Root.extend({
-            content: `${HEADING} block*`,
+            content: `${Heading.name} block*`,
         }),
         Branch,
         BranchContent,
+        SmartAlert,
         SmartDoc,
         Dropcursor.configure({
             width: 4,
             class: 'dropcursor-class',
         }),
+        URLListener,
         Margin,
         SmartQuote.configure({
             HTMLAttributes: {
@@ -179,6 +104,7 @@ function makeExtensions(props: makeExtensionsProps) {
         }),
         TextStyle,
         Underline,
+        WebStorage,
         SmartBold,
         Highlight.configure({
             HTMLAttributes: {
@@ -202,7 +128,6 @@ function makeExtensions(props: makeExtensionsProps) {
                 class: 'smart-image'
             }
         }),
-        // GroupPre,
         SmartFocus.configure({
             className: props.focusClassName,
             mode: 'all',
@@ -222,10 +147,10 @@ function makeExtensions(props: makeExtensionsProps) {
                 class: 'my-custom-class',
             },
         }),
-        // Ring,
         SmartParagraph.configure({
             translateApi: props.translateApi,
         }),
+        LocalStorage,
         Padding,
         NewLine,
         SmartPlaceholder,
@@ -260,24 +185,25 @@ function makeExtensions(props: makeExtensionsProps) {
             },
         }),
         TableRow,
-        // SmartTableRow,
+        WebKit,
         TableCell,
         TableHeader,
-        // SmartTableHeader,
-        // Toc,
         HorizontalRule,
         TextAlign.configure({
-            types: [HEADING, PARAGRAPH],
+            types: [Heading.name, Paragraph.name],
         }),
-        // UUID.configure({
-        //     attributeName: 'uuid',
-        //     types: [PARAGRAPH, HEADING, PRE, TASKLIST, IMAGE, TABLE, A]
-        // }),
-        // Panel,
-        // SmartHover
+        SmartSlot,
     ]
 
     return extensions
 }
 
-export type ConfigStore = ReturnType<typeof useConfigStore>
+const tiptapEditor = new EditorVue({
+    extensions: makeExtensions({
+        drawIoLink: defaultDrawIoLink,
+        translateApi: defaultTranslateApi,
+        focusClassName: defaultFocusClassName
+    })
+})
+
+export default tiptapEditor

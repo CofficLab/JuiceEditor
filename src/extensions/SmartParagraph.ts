@@ -27,7 +27,9 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
 
     addStorage() {
         return {
+            verbose: true,
             translateApi: null,
+            title: '🦜 SmartParagraph',
         }
     },
 
@@ -91,7 +93,7 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
         let verbose = true;
 
         if (verbose) {
-            console.log('onBeforeCreate:setTranslateApi', this.options.translateApi);
+            console.log(this.storage.title, 'onBeforeCreate:setTranslateApi', this.options.translateApi);
         }
 
         this.storage.translateApi = this.options.translateApi;
@@ -110,10 +112,8 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
             },
 
             setTranslateApi: (api: string) => ({ commands }) => {
-                let verbose = true;
-
-                if (verbose) {
-                    console.log('setTranslateApi', api);
+                if (this.storage.verbose) {
+                    console.log(this.storage.title, 'setTranslateApi', api);
                 }
 
                 this.storage.translateApi = api;
@@ -147,7 +147,10 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
                         const tr = editor.state.tr.replaceWith(start, end, translatedNode);
                         editor.view.dispatch(tr);
                     } catch (error: unknown) {
-                        editor.commands.emitError(SmartEventName.TranslationError, (error as Error).message);
+                        editor.commands.showAlert((error as Error).message, {
+                            language,
+                            api: this.storage.translateApi,
+                        });
                     }
                 })();
 

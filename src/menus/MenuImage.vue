@@ -2,7 +2,6 @@
 import { computed, defineProps, ref } from 'vue'
 import Button from '../ui/Button.vue'
 import { Editor } from '@tiptap/core'
-import { IMAGE } from '../config/nodes'
 import ImageHelper from '../helper/ImageHelper'
 import SmartImage from '../extensions/SmartImage/SmartImage'
 import { RiEditLine, RiDownloadLine, RiShapeLine } from '@remixicon/vue'
@@ -62,7 +61,7 @@ async function onFileSelected() {
     const base64 = await fileToBase64(file!)
 
     // base64编码的文件内容
-    props.editor.commands.updateAttributes(IMAGE, {
+    props.editor.commands.updateAttributes(Image.name, {
         src: base64
     })
 }

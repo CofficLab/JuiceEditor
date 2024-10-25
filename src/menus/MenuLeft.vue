@@ -2,7 +2,6 @@
 import { computed, ref, watch } from 'vue'
 import { Editor } from '@tiptap/core'
 import Button from '../ui/Button.vue'
-import { HEADING, PARAGRAPH, TOC } from '../config/nodes'
 import ButtonGroup from '../ui/ButtonGroup.vue'
 import { getFirstActiveNodePosition } from '../extensions/SmartActive'
 import {
@@ -13,6 +12,7 @@ import {
 } from '@remixicon/vue'
 import Paragraph from '@tiptap/extension-paragraph'
 import Heading from '@tiptap/extension-heading'
+import { Toc } from '../extensions/Toc/Toc'
 
 const props = defineProps({
 	editor: {
@@ -93,7 +93,7 @@ function updateMenuPosition() {
 	}
 
 	// 如果是TOC，不显示
-	if (props.editor.isActive(TOC)) {
+	if (props.editor.isActive(Toc.name)) {
 		visible.value = false
 		return
 	}
@@ -118,7 +118,7 @@ function updateMenuPosition() {
 }
 
 function shouldShowParagraphMenu() {
-	return props.editor.isActive(PARAGRAPH)
+	return props.editor.isActive(Paragraph.name)
 }
 </script>
 

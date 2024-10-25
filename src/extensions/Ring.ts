@@ -1,9 +1,8 @@
 import { Extension } from '@tiptap/core';
 import { Plugin, PluginKey } from 'prosemirror-state';
 import { Decoration, DecorationSet } from 'prosemirror-view';
-import { TABLE_CELL, TABLE_HEADER, TABLE_ROW, TASK_ITEM } from '../config/nodes';
 
-const noRingTypes = [TASK_ITEM, TABLE_CELL, TABLE_HEADER, TABLE_ROW]
+const noRingTypes: string[] = []
 
 export const Ring = Extension.create({
     name: 'ring',

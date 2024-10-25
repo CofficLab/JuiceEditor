@@ -1,18 +1,16 @@
-import baseDoc from '../dev/base';
-import bigDoc from '../dev/big';
-import imageDoc from '../dev/image';
-import drawDoc from '../dev/draw';
-import docs from '../dev/docs';
-import pDoc from '../dev/p';
-import tocDoc from '../dev/toc';
-import miniDoc from '../dev/mini';
-import bulletListDoc from '../dev/bulletList';
-import aDoc from '../dev/a';
-import featureDoc from '../dev/feature';
-import tableDoc from '../dev/table';
-import { defineJuiceEditor } from './main'
-
-defineJuiceEditor()
+import baseDoc from './dev/base';
+import bigDoc from './dev/big';
+import imageDoc from './dev/image';
+import drawDoc from './dev/draw';
+import docs from './dev/docs';
+import pDoc from './dev/p';
+import tocDoc from './dev/toc';
+import miniDoc from './dev/mini';
+import bulletListDoc from './dev/bulletList';
+import aDoc from './dev/a';
+import featureDoc from './dev/feature';
+import tableDoc from './dev/table';
+import editor from './main'
 
 const div = document.createElement('div');
 div.style.cssText = `
@@ -53,20 +51,20 @@ document.head.appendChild(styleElement);
 div.id = 'dev-toolbar';
 
 const buttons = [
-    { text: '功能', onclick: () => window.api.node.setHTML(featureDoc) },
-    { text: '小型', onclick: () => window.api.node.setHTML(miniDoc) },
-    { text: '文档组', onclick: () => window.api.node.setHTML(docs) },
-    { text: '混合', onclick: () => window.api.node.setHTML(baseDoc) },
-    { text: '大型', onclick: () => window.api.node.setHTML(bigDoc) },
-    { text: '图片', onclick: () => window.api.node.setHTML(imageDoc) },
-    { text: '表格', onclick: () => window.api.node.setHTML(tableDoc) },
-    { text: '画图', onclick: () => window.api.node.setHTML(drawDoc) },
-    { text: '段落', onclick: () => window.api.node.setHTML(pDoc) },
-    { text: '链接', onclick: () => window.api.node.setHTML(aDoc) },
-    { text: '目录', onclick: () => window.api.node.setHTML(tocDoc) },
-    { text: '列表', onclick: () => window.api.node.setHTML(bulletListDoc) },
-    { text: 'TOC', onclick: () => window.api.node.toggleToc() },
-    { text: '只读/编辑', onclick: () => window.api.node.toggleReadOnly() },
+    { text: '功能', onclick: () => editor.setHtml(featureDoc) },
+    { text: '小型', onclick: () => editor.setHtml(miniDoc) },
+    { text: '文档组', onclick: () => editor.setHtml(docs) },
+    { text: '混合', onclick: () => editor.setHtml(baseDoc) },
+    { text: '大型', onclick: () => editor.setHtml(bigDoc) },
+    { text: '图片', onclick: () => editor.setHtml(imageDoc) },
+    { text: '表格', onclick: () => editor.setHtml(tableDoc) },
+    { text: '画图', onclick: () => editor.setHtml(drawDoc) },
+    { text: '段落', onclick: () => editor.setHtml(pDoc) },
+    { text: '链接', onclick: () => editor.setHtml(aDoc) },
+    { text: '目录', onclick: () => editor.setHtml(tocDoc) },
+    { text: '列表', onclick: () => editor.setHtml(bulletListDoc) },
+    { text: 'TOC', onclick: () => editor.toggleToc() },
+    { text: '只读/编辑', onclick: () => editor.toggleReadOnly() },
 ];
 
 buttons.forEach(button => {
@@ -77,3 +75,15 @@ buttons.forEach(button => {
 });
 
 document.body.insertBefore(div, document.body.firstChild);
+
+const title = "⛰️ Dev"
+
+editor.onCreate(() => {
+    console.log(title, 'create')
+
+    editor.setTranslateApi('https://api.youdao.com/api')
+    editor.setDrawLink('/draw/index.html?')
+    editor.onContentError((error) => {
+        console.log(title, 'contentError', error)
+    })
+})
