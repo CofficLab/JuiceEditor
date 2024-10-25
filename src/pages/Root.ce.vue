@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useAppStore } from '../store/AppStore';
 import Message from './Message.vue';
-import { useModeStore } from '../store/ModeStore';
 import { inject } from 'vue';
 import ErrorPage from './ErrorPage.vue';
 import Loading from '../ui/Loading.vue'
@@ -11,7 +10,7 @@ import App from './App.vue'
 import PageMode from '../model/PageMode';
 import Features from './Features.vue'
 
-const props = defineProps({
+defineProps({
     readonly: {
         type: Boolean,
         default: false
@@ -25,7 +24,6 @@ const props = defineProps({
 
 const title = "💻 App"
 const app = useAppStore()
-const modeStore = useModeStore()
 const renderKey = ref(0);
 var editor: EditorVue = inject('editor')!
 
@@ -36,7 +34,6 @@ editor.on('create', () => {
         console.log(title, "onCreate")
     }
 
-    modeStore.setMode(props.mode, 'App.onCreate')
     app.setReady('App.onCreate')
 })
 

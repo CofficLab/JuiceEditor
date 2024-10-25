@@ -21,10 +21,13 @@ import HardBreak from "@tiptap/extension-hard-break"
 import Subscript from "@tiptap/extension-subscript"
 import Text from "@tiptap/extension-text"
 import ListKeymap from '@tiptap/extension-list-keymap'
+import { WebKit } from "./extensions/WebKit"
+import { LocalStorage } from "./extensions/LocalStorage"
 import Underline from "@tiptap/extension-underline"
 import { SmartColor } from "./extensions/SmartColor"
 import Superscript from "@tiptap/extension-superscript"
 import TextAlign from '@tiptap/extension-text-align'
+import { WebStorage } from "./extensions/WebStorage"
 import SmartHeading from "./extensions/SmartHeading"
 import SmartTaskList from "./extensions/SmartTaskList/SmartTaskList"
 import SmartPre from "./extensions/SmartPre/SmartPre"
@@ -53,6 +56,7 @@ import TextStyle from "@tiptap/extension-text-style";
 import { SmartFontFamily } from "./extensions/SmartFontFamily";
 import Heading from '@tiptap/extension-heading'
 import Paragraph from '@tiptap/extension-paragraph'
+import { URLListener } from "./extensions/URLListener"
 
 interface makeExtensionsProps {
     drawIoLink: string,
@@ -89,6 +93,7 @@ function makeExtensions(props: makeExtensionsProps) {
             width: 4,
             class: 'dropcursor-class',
         }),
+        URLListener,
         Margin,
         SmartQuote.configure({
             HTMLAttributes: {
@@ -107,6 +112,7 @@ function makeExtensions(props: makeExtensionsProps) {
         }),
         TextStyle,
         Underline,
+        WebStorage,
         SmartBold,
         Highlight.configure({
             HTMLAttributes: {
@@ -152,6 +158,7 @@ function makeExtensions(props: makeExtensionsProps) {
         SmartParagraph.configure({
             translateApi: props.translateApi,
         }),
+        LocalStorage,
         Padding,
         NewLine,
         SmartPlaceholder,
@@ -186,6 +193,7 @@ function makeExtensions(props: makeExtensionsProps) {
             },
         }),
         TableRow,
+        WebKit,
         TableCell,
         TableHeader,
         HorizontalRule,

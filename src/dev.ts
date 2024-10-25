@@ -76,8 +76,9 @@ buttons.forEach(button => {
 
 document.body.insertBefore(div, document.body.firstChild);
 
+const title = "⛰️ Dev"
 editor.on('create', () => {
-    console.log('create')
+    console.log(title, 'create')
 })
 
 // init all providers
