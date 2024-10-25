@@ -129,7 +129,6 @@ function makeExtensions(props: makeExtensionsProps) {
                 class: 'smart-image'
             }
         }),
-        // GroupPre,
         SmartFocus.configure({
             className: props.focusClassName,
             mode: 'all',
@@ -149,7 +148,6 @@ function makeExtensions(props: makeExtensionsProps) {
                 class: 'my-custom-class',
             },
         }),
-        // Ring,
         SmartParagraph.configure({
             translateApi: props.translateApi,
         }),
@@ -187,21 +185,12 @@ function makeExtensions(props: makeExtensionsProps) {
             },
         }),
         TableRow,
-        // SmartTableRow,
         TableCell,
         TableHeader,
-        // SmartTableHeader,
-        // Toc,
         HorizontalRule,
         TextAlign.configure({
             types: [Heading.name, Paragraph.name],
         }),
-        // UUID.configure({
-        //     attributeName: 'uuid',
-        //     types: [PARAGRAPH, HEADING, PRE, TASKLIST, IMAGE, TABLE, A]
-        // }),
-        // Panel,
-        // SmartHover
     ]
 
     return extensions

@@ -1,15 +1,15 @@
-import baseDoc from '../dev/base';
-import bigDoc from '../dev/big';
-import imageDoc from '../dev/image';
-import drawDoc from '../dev/draw';
-import docs from '../dev/docs';
-import pDoc from '../dev/p';
-import tocDoc from '../dev/toc';
-import miniDoc from '../dev/mini';
-import bulletListDoc from '../dev/bulletList';
-import aDoc from '../dev/a';
-import featureDoc from '../dev/feature';
-import tableDoc from '../dev/table';
+import baseDoc from './dev/base';
+import bigDoc from './dev/big';
+import imageDoc from './dev/image';
+import drawDoc from './dev/draw';
+import docs from './dev/docs';
+import pDoc from './dev/p';
+import tocDoc from './dev/toc';
+import miniDoc from './dev/mini';
+import bulletListDoc from './dev/bulletList';
+import aDoc from './dev/a';
+import featureDoc from './dev/feature';
+import tableDoc from './dev/table';
 import editor from './main'
 
 const div = document.createElement('div');
@@ -79,3 +79,43 @@ document.body.insertBefore(div, document.body.firstChild);
 editor.on('create', () => {
     console.log('create')
 })
+
+// init all providers
+
+// let apiProvider: ApiProvider | null = null
+// let listenerProvider: ListenerProvider | null = null
+// let pluginProvider: PluginProvider | null = null
+
+// // collect events from every store
+// watch(() => app.ready, () => {
+//     if (app.ready) {
+//         pluginProvider!.onReady(modeStore.mode)
+//     } else {
+//         pluginProvider!.onLoading(app.loadingReason)
+//     }
+// })
+
+// // collect message from every store
+// watch(() => app.message.uuid, () => messageStore.setMessage(app.message))
+
+// // collect error from every store
+// watch(() => app.error, () => messageStore.setError(app.error))
+
+
+// window.addEventListener('downloadImage', ((event: CustomEvent) => {
+//     pluginProvider!.plugins.forEach(plugin => {
+//         plugin.onDownloadImage(event.detail.src, event.detail.name)
+//     })
+// }) as EventListener);
+
+// function bootProviders(editor: EditorVue) {
+//     apiProvider = new ApiProvider({
+//         featureProvider: feature,
+//         modeProvider: modeStore,
+//         requestProvider: requestStore,
+//         editor: editor,
+//         configProvider: config
+//     })
+//     listenerProvider = new ListenerProvider(config.listeners)
+//     pluginProvider = new PluginProvider(config.plugins)
+// }
