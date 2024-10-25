@@ -47,8 +47,12 @@ export default class EditorAgent {
         this.editor.on('update', callback)
     }
 
-    setHtml(html: string) {
-        this.editor.commands.setContent(html, true)
+    setContent(content: string) {
+        this.editor.commands.setContent(content, true)
+    }
+
+    setContentFromWeb(url: string) {
+        this.editor.commands.loadContentFromWeb(url)
     }
 
     /**
