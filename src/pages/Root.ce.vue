@@ -5,7 +5,6 @@ import { useModeStore } from '../store/ModeStore';
 import { inject } from 'vue';
 import ErrorPage from './ErrorPage.vue';
 import Loading from '../ui/Loading.vue'
-import { useConfigStore } from '../store/ConfigStore';
 import { Editor as EditorVue } from '@tiptap/vue-3';
 import { ref } from 'vue';
 import App from './App.vue'

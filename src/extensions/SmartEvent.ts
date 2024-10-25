@@ -20,6 +20,8 @@ declare module '@tiptap/core' {
     }
 }
 
+const emoji = "🧩 SmartEvent"
+
 export const SmartEvent = Extension.create({
     name: 'smartEvent',
 
@@ -52,49 +54,83 @@ export const SmartEvent = Extension.create({
     },
 
     onBeforeCreate() {
-        // Before the view is created.
-        console.log('onBeforeCreate')
+        let verbose = true
+
+        if (verbose) {
+            console.log(emoji, "onBeforeCreate")
+        }
     },
 
     onCreate() {
-        // The editor is ready.
-        console.log('onCreate')
+        let verbose = true
+
+        if (verbose) {
+            console.log(emoji, "onCreate")
+        }
     },
+
     onUpdate() {
-        // The content has changed.
-        console.log('onUpdate')
+        let verbose = true
+
+        if (verbose) {
+            console.log(emoji, "onUpdate")
+        }
     },
     onSelectionUpdate() {
-        // The selection has changed.
-        console.log('onSelectionUpdate')
+        let verbose = true
+
+        if (verbose) {
+            console.log(emoji, "onSelectionUpdate")
+        }
     },
     onTransaction() {
-        // The editor state has changed.
-        console.log('onTransaction')
+        let verbose = true
+
+        if (verbose) {
+            console.log(emoji, "onTransaction")
+        }
     },
     onFocus() {
-        // The editor is focused.
-        console.log('onFocus')
+        let verbose = true
+
+        if (verbose) {
+            console.log(emoji, "onFocus")
+        }
     },
     onBlur() {
-        // The editor isn’t focused anymore.
-        console.log('onBlur')
+        let verbose = true
+
+        if (verbose) {
+            console.log(emoji, "onBlur")
+        }
     },
     onDestroy() {
-        // The editor is being destroyed.
-        console.log('onDestroy')
+        let verbose = true
+
+        if (verbose) {
+            console.log(emoji, "onDestroy")
+        }
     },
     onPaste(event: ClipboardEvent, slice: Slice) {
-        // The editor is being pasted into.
-        console.log('onPaste', event, slice)
+        let verbose = true
+
+        if (verbose) {
+            console.log(emoji, "onPaste", event, slice)
+        }
     },
     onDrop(event: DragEvent, slice: Slice, moved: boolean) {
-        // The editor is being pasted into.
-        console.log('onDrop', event, slice, moved)
+        let verbose = true
+
+        if (verbose) {
+            console.log(emoji, "onDrop", event, slice, moved)
+        }
     },
     onContentError({ editor, error, disableCollaboration }: { editor: Editor; error: Error; disableCollaboration: () => void }) {
-        // The editor content does not match the schema.
-        console.log('onContentError', editor, error, disableCollaboration)
+        let verbose = true
+
+        if (verbose) {
+            console.log(emoji, "onContentError", editor, error, disableCollaboration)
+        }
     },
 
 })

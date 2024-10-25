@@ -16,6 +16,7 @@ import Highlight from "@tiptap/extension-highlight"
 import HorizontalRule from "@tiptap/extension-horizontal-rule"
 import TableCell from "@tiptap/extension-table-cell"
 import TaskItem from "@tiptap/extension-task-item"
+import { SmartSlot } from "./extensions/SmartSlot"
 import HardBreak from "@tiptap/extension-hard-break"
 import Subscript from "@tiptap/extension-subscript"
 import Text from "@tiptap/extension-text"
@@ -191,6 +192,7 @@ function makeExtensions(props: makeExtensionsProps) {
         TextAlign.configure({
             types: [Heading.name, Paragraph.name],
         }),
+        SmartSlot,
     ]
 
     return extensions

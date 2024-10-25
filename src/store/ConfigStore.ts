@@ -4,7 +4,6 @@ import WebKit from "../plugins/WebKit"
 import EventPlugin from "../plugins/EventPlugin";
 import UrlListener from "../listeners/UrlListener";
 import EventListener from "../listeners/EventListener";
-import SlotListener from "../listeners/SlotListener";
 import CharacterCount from "@tiptap/extension-character-count"
 import Code from "@tiptap/extension-code"
 import History from "@tiptap/extension-history"
@@ -94,7 +93,6 @@ export const useConfigStore = defineStore('config-store', {
             listeners: [
                 new UrlListener(editorLabel),
                 new EventListener(),
-                new SlotListener(editorLabel)
             ],
         }
     },
