@@ -204,27 +204,17 @@ const editor = new EditorVue({
     })
 })
 
-function defineJuiceEditor() {
-    console.log('defineJuiceEditor')
-    let pinia = createPinia()
-    let app = createApp(RootVue)
+customElements.define(editorLabel, defineCustomElement({
+    setup() {
+        provide('editor', editor)
+        const app = createApp(RootVue)
+        app.use(createPinia())
+        app.config.errorHandler = (err, vm, info) => {
+            console.error(err)
+        }
 
-    app.use(pinia)
-
-    customElements.define(editorLabel, defineCustomElement({
-        setup() {
-            provide('editor', editor)
-            const app = createApp(RootVue)
-            app.use(pinia)
-            app.config.errorHandler = (err, vm, info) => {
-                console.error(err)
-            }
-
-            return () => h(RootVue)
-        },
-    }))
-}
-
-defineJuiceEditor()
+        return () => h(RootVue)
+    },
+}))
 
 export default editor
