@@ -77,9 +77,9 @@ export const WebKit = Extension.create({
     onCreate() {
         console.log(this.storage.emoji, "onCreate")
 
-        if (!this.storage.enabled) {
-            return
-        }
+        // send message even if enabled is false
+
+        console.log(this.storage.emoji, 'webkit send message: pageLoaded')
 
         if (!('webkit' in window)) {
             return
@@ -169,6 +169,10 @@ export const WebKit = Extension.create({
             },
 
             webKitSendMessage: (data: object) => () => {
+                if (!('webkit' in window)) {
+                    return false
+                }
+
                 try {
                     (window as any).webkit.messageHandlers.sendMessage.postMessage(data);
                 } catch (e: any) {
