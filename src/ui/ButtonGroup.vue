@@ -26,7 +26,7 @@ const props = defineProps({
     backgroundClass: {
         type: String,
         required: true,
-        default: 'bg-red-100/95 dark:bg-red-500/95'
+        default: 'bg-red-900/95 dark:bg-red-500/95'
     },
     shape: {
         type: String,

@@ -27,7 +27,9 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
 
     addStorage() {
         return {
+            verbose: true,
             translateApi: null,
+            title: '🦜 SmartParagraph',
         }
     },
 
@@ -110,10 +112,8 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
             },
 
             setTranslateApi: (api: string) => ({ commands }) => {
-                let verbose = true;
-
-                if (verbose) {
-                    console.log('setTranslateApi', api);
+                if (this.storage.verbose) {
+                    console.log(this.storage.title, 'setTranslateApi', api);
                 }
 
                 this.storage.translateApi = api;

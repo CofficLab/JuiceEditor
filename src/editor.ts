@@ -197,7 +197,7 @@ function makeExtensions(props: makeExtensionsProps) {
     return extensions
 }
 
-const editor = new EditorVue({
+const tiptapEditor = new EditorVue({
     extensions: makeExtensions({
         drawIoLink: defaultDrawIoLink,
         translateApi: defaultTranslateApi,
@@ -205,4 +205,4 @@ const editor = new EditorVue({
     })
 })
 
-export default editor
+export default tiptapEditor

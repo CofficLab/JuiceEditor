@@ -18,6 +18,7 @@ declare module '@tiptap/core' {
             insertImage: () => ReturnType,
             insertDraw: () => ReturnType,
             setShape: (shape: string) => ReturnType,
+            setDrawLink: (link: string) => ReturnType,
         }
     }
 }
@@ -34,6 +35,14 @@ const SmartImage = ImageTipTap.extend<ImageOptions>({
                 tag: 'draw',
             },
         ]
+    },
+
+    addStorage() {
+        return {
+            verbose: true,
+            title: '🐰 SmartImage',
+            drawIoLink: null,
+        }
     },
 
     addOptions() {
@@ -128,7 +137,23 @@ const SmartImage = ImageTipTap.extend<ImageOptions>({
                 return commands.updateAttributes(this.name, {
                     class: className
                 })
+            },
+
+            setDrawLink: (link: string) => ({ commands }) => {
+                if (this.storage.verbose) {
+                    console.log(title, 'setDrawLink', link)
+                }
+
+                this.storage.drawIoLink = link
+
+                return true
             }
+        }
+    },
+
+    onCreate() {
+        if (this.options.drawIoLink) {
+            this.editor.commands.setDrawLink(this.options.drawIoLink)
         }
     }
 })

@@ -51,20 +51,20 @@ document.head.appendChild(styleElement);
 div.id = 'dev-toolbar';
 
 const buttons = [
-    { text: '功能', onclick: () => window.api.node.setHTML(featureDoc) },
-    { text: '小型', onclick: () => window.api.node.setHTML(miniDoc) },
-    { text: '文档组', onclick: () => window.api.node.setHTML(docs) },
-    { text: '混合', onclick: () => window.api.node.setHTML(baseDoc) },
-    { text: '大型', onclick: () => window.api.node.setHTML(bigDoc) },
-    { text: '图片', onclick: () => window.api.node.setHTML(imageDoc) },
-    { text: '表格', onclick: () => window.api.node.setHTML(tableDoc) },
-    { text: '画图', onclick: () => window.api.node.setHTML(drawDoc) },
-    { text: '段落', onclick: () => window.api.node.setHTML(pDoc) },
-    { text: '链接', onclick: () => window.api.node.setHTML(aDoc) },
-    { text: '目录', onclick: () => window.api.node.setHTML(tocDoc) },
-    { text: '列表', onclick: () => window.api.node.setHTML(bulletListDoc) },
-    { text: 'TOC', onclick: () => window.api.node.toggleToc() },
-    { text: '只读/编辑', onclick: () => window.api.node.toggleReadOnly() },
+    { text: '功能', onclick: () => editor.setHtml(featureDoc) },
+    { text: '小型', onclick: () => editor.setHtml(miniDoc) },
+    { text: '文档组', onclick: () => editor.setHtml(docs) },
+    { text: '混合', onclick: () => editor.setHtml(baseDoc) },
+    { text: '大型', onclick: () => editor.setHtml(bigDoc) },
+    { text: '图片', onclick: () => editor.setHtml(imageDoc) },
+    { text: '表格', onclick: () => editor.setHtml(tableDoc) },
+    { text: '画图', onclick: () => editor.setHtml(drawDoc) },
+    { text: '段落', onclick: () => editor.setHtml(pDoc) },
+    { text: '链接', onclick: () => editor.setHtml(aDoc) },
+    { text: '目录', onclick: () => editor.setHtml(tocDoc) },
+    { text: '列表', onclick: () => editor.setHtml(bulletListDoc) },
+    { text: 'TOC', onclick: () => editor.toggleToc() },
+    { text: '只读/编辑', onclick: () => editor.toggleReadOnly() },
 ];
 
 buttons.forEach(button => {
@@ -77,46 +77,10 @@ buttons.forEach(button => {
 document.body.insertBefore(div, document.body.firstChild);
 
 const title = "⛰️ Dev"
-editor.on('create', () => {
+
+editor.onCreate(() => {
     console.log(title, 'create')
+
+    editor.setTranslateApi('https://api.youdao.com/api')
+    editor.setDrawLink('/draw/index.html')
 })
-
-// init all providers
-
-// let apiProvider: ApiProvider | null = null
-// let listenerProvider: ListenerProvider | null = null
-// let pluginProvider: PluginProvider | null = null
-
-// // collect events from every store
-// watch(() => app.ready, () => {
-//     if (app.ready) {
-//         pluginProvider!.onReady(modeStore.mode)
-//     } else {
-//         pluginProvider!.onLoading(app.loadingReason)
-//     }
-// })
-
-// // collect message from every store
-// watch(() => app.message.uuid, () => messageStore.setMessage(app.message))
-
-// // collect error from every store
-// watch(() => app.error, () => messageStore.setError(app.error))
-
-
-// window.addEventListener('downloadImage', ((event: CustomEvent) => {
-//     pluginProvider!.plugins.forEach(plugin => {
-//         plugin.onDownloadImage(event.detail.src, event.detail.name)
-//     })
-// }) as EventListener);
-
-// function bootProviders(editor: EditorVue) {
-//     apiProvider = new ApiProvider({
-//         featureProvider: feature,
-//         modeProvider: modeStore,
-//         requestProvider: requestStore,
-//         editor: editor,
-//         configProvider: config
-//     })
-//     listenerProvider = new ListenerProvider(config.listeners)
-//     pluginProvider = new PluginProvider(config.plugins)
-// }

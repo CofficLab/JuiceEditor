@@ -11,12 +11,13 @@ import FontFamily from '@tiptap/extension-font-family'
 import { computed } from 'vue'
 import { shouldShowBubbleMenu } from '../extensions/SmartMenus'
 import Button from '../ui/Button.vue'
-import { RiH2, RiH3, RiH4, RiH5, RiH6, RiText, RiBold, RiItalic, RiStrikethrough, RiChatQuoteLine, RiPlaneLine, RiPaletteLine, RiSubscript, RiSuperscript, RiUnderline, RiFontFamily, RiCodeBoxLine, RiCodeLine, RiFontColor } from '@remixicon/vue'
+import { RiBold, RiItalic, RiStrikethrough, RiPaletteLine, RiSubscript, RiSuperscript, RiUnderline, RiFontFamily, RiCodeLine, RiFontColor } from '@remixicon/vue'
 import Color from '@tiptap/extension-color'
 import { getSelectionTextLength } from '../extensions/SmartSelection'
 import Link from '@tiptap/extension-link'
 import Heading from '@tiptap/extension-heading'
 import Paragraph from '@tiptap/extension-paragraph'
+import Image from '@tiptap/extension-image'
 
 const props = defineProps({
 	editor: {
@@ -109,11 +110,7 @@ const hasSelection = computed(() => {
 			zIndex: 888
 		}" :editor="editor">
 			<!-- Heading And Format -->
-			<ButtonGroup :backgroundClass="backgroundClass" direction="horizontal"
-				v-if="(shouldShowHeadingMenu || shouldShowFormatMenu)">
-
-
-
+			<ButtonGroup :backgroundClass="backgroundClass" direction="horizontal">
 				<Button tips="加粗" :shape="shape" v-if="shouldShowFormatMenu"
 					@click="editor.chain().focus().toggleBold().run()">
 					<RiBold></RiBold>
@@ -190,21 +187,15 @@ const hasSelection = computed(() => {
 						</div>
 					</template>
 				</Button>
-			</ButtonGroup>
 
-			<!-- Draw -->
-			<ButtonGroup :backgroundClass="backgroundClass" v-if="shouldShowDrawMenu">
-				<MenuDraw :editor="editor"></MenuDraw>
-			</ButtonGroup>
+				<!-- Draw -->
+				<MenuDraw :editor="editor" v-if="shouldShowDrawMenu"></MenuDraw>
 
-			<!-- Image -->
-			<ButtonGroup :backgroundClass="backgroundClass" v-if="shouldShowImageMenu">
-				<MenuImage :editor="editor"></MenuImage>
-			</ButtonGroup>
+				<!-- Image -->
+				<MenuImage :editor="editor" v-if="shouldShowImageMenu"></MenuImage>
 
-			<!-- Link -->
-			<ButtonGroup :backgroundClass="backgroundClass" v-if="shouldShowLinkMenu">
-				<MenuLink :editor="editor"></MenuLink>
+				<!-- Link -->
+				<MenuLink :editor="editor" v-if="shouldShowLinkMenu"></MenuLink>
 			</ButtonGroup>
 		</bubble-menu>
 	</div>
