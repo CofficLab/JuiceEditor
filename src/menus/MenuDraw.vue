@@ -2,13 +2,13 @@
 import { defineProps, ref, onUnmounted, computed } from 'vue'
 import Button from '../ui/Button.vue'
 import { Editor } from '@tiptap/core'
-import { IMAGE } from '../config/nodes'
 import Opening from '../extensions/SmartImage/Opening.vue'
 import DrawConfig from '../extensions/SmartImage/DrawConfig'
 import ImageHelper from '../helper/ImageHelper'
 import DrawHelper from '../extensions/SmartImage/DrawHelper'
 import { RiDashboard3Line, RiDownloadLine, RiEditLine, RiShapeLine } from '@remixicon/vue'
 import SmartImage from '../extensions/SmartImage/SmartImage'
+import Image from '@tiptap/extension-image'
 
 let props = defineProps({
     editor: {
@@ -31,7 +31,7 @@ const drawingDialog = DrawHelper.makeDrawDialog(drawIoLink)
 const isOpening = ref(false)
 const isSelected = ref(false)
 
-const getSrc = () => props.editor.getAttributes(IMAGE).src
+const getSrc = () => props.editor.getAttributes(Image.name).src
 
 const downloadImage = () => {
     const src = getSrc()
@@ -95,7 +95,7 @@ const receive = (event: MessageEvent): void => {
         autosave: () => sendToDrawio({ action: 'export', format: 'xmlpng' }),
         configure: () => sendToDrawio({ action: 'configure', config: DrawConfig }),
         init: () => sendToDrawio({ action: 'load', xmlpng: getSrc(), autosave: 1 }),
-        export: () => props.editor.commands.updateAttributes(IMAGE, { src: msg.data }),
+        export: () => props.editor.commands.updateAttributes(Image.name, { src: msg.data }),
         exit: () => sendToDrawio({ action: 'export', format: 'xmlpng', spinKey: 'saving' }),
         save: () => {
             sendToDrawio({ action: 'export', format: 'xmlpng', spinKey: 'saving' })

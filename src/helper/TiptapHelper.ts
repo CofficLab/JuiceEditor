@@ -1,11 +1,22 @@
 import { Editor as EditorVue } from '@tiptap/vue-3'
 import { JSONContent, Editor } from '@tiptap/core'
 import { Node as ProseMirrorNode } from '@tiptap/pm/model';
-import { A, BANNER, BLOCKQUOTE, BULLET_LIST, CODE_BLOCK, DRAW, HEADING, IMAGE, LIST_ITEM, ORDERED_LIST, STRIKE, TABLE, TABLE_HEADER, TABLE_ROW, TEXT } from '../config/nodes';
 import EditorData from '../model/EditorData';
 import UUIDHelper from './UUIDHelper';
 import { Root } from '../extensions/Root/Root';
 import SmartDoc from '../extensions/SmartDoc';
+import Heading from '@tiptap/extension-heading';
+import CodeBlock from '@tiptap/extension-code-block';
+import Blockquote from '@tiptap/extension-blockquote';
+import BulletList from '@tiptap/extension-bullet-list';
+import OrderedList from '@tiptap/extension-ordered-list';
+import ListItem from '@tiptap/extension-list-item';
+import Table from '@tiptap/extension-table';
+import TableRow from '@tiptap/extension-table-row';
+import TableHeader from '@tiptap/extension-table-header';
+import Link from '@tiptap/extension-link';
+import Strike from '@tiptap/extension-strike';
+import Text from '@tiptap/extension-text';
 
 const title = '📒 TiptapHelper'
 
@@ -100,56 +111,50 @@ class TiptapHelper {
         let type = "paragraph"
         if (editor.isActive('paragraph')) {
             type = "paragraph"
-        } else if (editor.isActive(HEADING, { level: 1 })) {
+        } else if (editor.isActive(Heading.name, { level: 1 })) {
             type = "heading1"
-        } else if (editor.isActive(HEADING, { level: 2 })) {
+        } else if (editor.isActive(Heading.name, { level: 2 })) {
             type = "heading2"
-        } else if (editor.isActive(HEADING, { level: 3 })) {
+        } else if (editor.isActive(Heading.name, { level: 3 })) {
             type = "heading3"
-        } else if (editor.isActive(HEADING, { level: 4 })) {
+        } else if (editor.isActive(Heading.name, { level: 4 })) {
             type = "heading4"
-        } else if (editor.isActive(HEADING, { level: 5 })) {
+        } else if (editor.isActive(Heading.name, { level: 5 })) {
             type = "heading5"
-        } else if (editor.isActive(HEADING, { level: 6 })) {
+        } else if (editor.isActive(Heading.name, { level: 6 })) {
             type = "heading6"
-        } else if (editor.isActive(CODE_BLOCK)) {
+        } else if (editor.isActive(CodeBlock.name)) {
             type = "codeBlock"
-        } else if (editor.isActive(BLOCKQUOTE)) {
+        } else if (editor.isActive(Blockquote.name)) {
             type = "blockquote"
-        } else if (editor.isActive(BULLET_LIST)) {
+        } else if (editor.isActive(BulletList.name)) {
             type = "bulletList"
-        } else if (editor.isActive(ORDERED_LIST)) {
+        } else if (editor.isActive(OrderedList.name)) {
             type = "orderedList"
-        } else if (editor.isActive(LIST_ITEM)) {
+        } else if (editor.isActive(ListItem.name)) {
             type = "listItem"
-        } else if (editor.isActive(IMAGE)) {
+        } else if (editor.isActive(Image.name)) {
             type = "image"
-        } else if (editor.isActive(DRAW)) {
-            type = "draw"
-        } else if (editor.isActive(TABLE)) {
+        } else if (editor.isActive(Table.name)) {
             type = "table"
         } else if (editor.isActive('tableCell')) {
             type = "tableCell"
-        } else if (editor.isActive(TABLE_ROW)) {
+        } else if (editor.isActive(TableRow.name)) {
             type = "tableRow"
-        } else if (editor.isActive(TABLE_HEADER)) {
+        } else if (editor.isActive(TableHeader.name)) {
             type = "tableHeader"
-        } else if (editor.isActive(A)) {
+        } else if (editor.isActive(Link.name)) {
             type = "link"
-        } else if (editor.isActive(STRIKE)) {
+        } else if (editor.isActive(Strike.name)) {
             type = "strike"
         } else if (editor.isActive('code')) {
             type = "code"
         } else if (editor.isActive('italic')) {
             type = "italic"
-        } else if (editor.isActive(ORDERED_LIST)) {
+        } else if (editor.isActive(OrderedList.name)) {
             type = "orderedList"
-        } else if (editor.isActive(BULLET_LIST)) {
+        } else if (editor.isActive(BulletList.name)) {
             type = "bulletList"
-        } else if (editor.isActive(DRAW)) {
-            type = "draw"
-        } else if (editor.isActive(BANNER)) {
-            type = "banner"
         }
 
         return type
@@ -224,7 +229,7 @@ class TiptapHelper {
     }
 
     static getTitle(json: JSONContent): string {
-        if (json.type == TEXT) {
+        if (json.type == Text.name) {
             return json.text ?? ""
         }
 
@@ -257,7 +262,7 @@ class TiptapHelper {
             children.map(child => {
                 child.attrs = child.attrs || {};
 
-                if (child.type == TEXT) {
+                if (child.type == Text.name) {
                     if (newBlock.attrs && newBlock.attrs.uuid) {
                         child.attrs.uuid = "text-" + newBlock.attrs.uuid;
                     }
