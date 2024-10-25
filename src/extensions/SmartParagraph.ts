@@ -93,7 +93,7 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
         let verbose = true;
 
         if (verbose) {
-            console.log('onBeforeCreate:setTranslateApi', this.options.translateApi);
+            console.log(this.storage.title, 'onBeforeCreate:setTranslateApi', this.options.translateApi);
         }
 
         this.storage.translateApi = this.options.translateApi;

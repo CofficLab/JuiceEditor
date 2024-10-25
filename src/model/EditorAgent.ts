@@ -16,8 +16,23 @@ export default class EditorAgent {
         return this.editor.getHTML()
     }
 
+    onBeforeCreate(callback: () => any) {
+        this.editor.on('beforeCreate', callback)
+    }
+
     onCreate(callback: () => any) {
         this.editor.on('create', callback)
+    }
+
+    onContentError(callback: (error: Error) => any) {
+        this.editor.on('contentError', ({ editor, error, disableCollaboration }) => {
+            // The editor content does not match the schema.
+            callback(error)
+        })
+    }
+
+    onDrop(callback: () => any) {
+        this.editor.on('drop', callback)
     }
 
     onUpdate(callback: () => any) {

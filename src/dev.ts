@@ -83,4 +83,7 @@ editor.onCreate(() => {
 
     editor.setTranslateApi('https://api.youdao.com/api')
     editor.setDrawLink('/draw/index.html')
+    editor.onContentError((error) => {
+        console.log(title, 'contentError', error)
+    })
 })
