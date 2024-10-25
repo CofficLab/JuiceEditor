@@ -14,7 +14,7 @@ export const LocalStorage = Extension.create({
     addStorage() {
         return {
             verbose: true,
-            enabled: false,
+            enabled: true,
             emoji: "💾 LocalStorage",
             localStorageKey: 'html',
         }
@@ -23,6 +23,9 @@ export const LocalStorage = Extension.create({
     onCreate() {
         console.log(this.storage.emoji, "onCreate")
 
+        if (!this.storage.enabled) {
+            return
+        }
 
         let saveData = localStorage.getItem(this.storage.localStorageKey)
 
@@ -38,6 +41,12 @@ export const LocalStorage = Extension.create({
     onUpdate() {
         console.log(this.storage.emoji, "onUpdate")
 
+
+
+        if (!this.storage.enabled) {
+            return
+        }
+
         this.editor.commands.save()
     },
 
@@ -46,10 +55,10 @@ export const LocalStorage = Extension.create({
             save: () => () => {
 
                 if (this.storage.verbose) {
-                    console.log(this.storage.emoji, 'saveDoc')
+                    console.log(this.storage.emoji, 'saveDocument')
                 }
 
-                // localStorage.setItem('doc', doc.toJSONString())
+                localStorage.setItem(this.storage.localStorageKey, this.editor.getHTML())
 
                 return true
             }

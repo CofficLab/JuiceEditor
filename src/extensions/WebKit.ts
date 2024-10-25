@@ -61,8 +61,8 @@ import { Extension } from "@tiptap/core"
 
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
-        LocalStorage: {
-            save: () => ReturnType
+        WebKit: {
+            sendToWebKit: () => ReturnType
         }
     }
 }
@@ -174,7 +174,7 @@ export const WebKit = Extension.create({
 
     addCommands() {
         return {
-            save: () => () => {
+            sendToWebKit: () => () => {
 
                 if (this.storage.verbose) {
                     console.log(this.storage.emoji, 'saveDoc')
