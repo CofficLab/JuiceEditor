@@ -3,7 +3,7 @@ import { useMessageStore } from '../store/MessageStore'
 import { useAppStore } from '../store/AppStore';
 import Message from './Message.vue';
 import { useModeStore } from '../store/ModeStore';
-import { watch } from 'vue';
+import { inject, watch } from 'vue';
 import ErrorPage from './ErrorPage.vue';
 import { useRequestStore } from '../store/RequestStore';
 import ListenerProvider from '../provider/ListenerProvider';
@@ -11,15 +11,12 @@ import ApiProvider from '../provider/ApiProvider';
 import { useFeatureStore } from '../store/FeatureStore';
 import PluginProvider from '../provider/PluginProvider';
 import Loading from '../ui/Loading.vue'
-import TiptapAgent from '../helper/TiptapHelper'
-import EditorData from '../model/EditorData'
 import { useConfigStore } from '../store/ConfigStore';
-import { Editor } from '@tiptap/vue-3';
+import { Editor as EditorVue } from '@tiptap/vue-3';
 import { ref } from 'vue';
 import App from './App.vue'
 import PageMode from '../model/PageMode';
 import Features from './Features.vue'
-import { SmartEvent } from '../extensions/SmartEvent';
 
 const props = defineProps({
     readonly: {
@@ -39,9 +36,25 @@ const config = useConfigStore()
 const messageStore = useMessageStore()
 const modeStore = useModeStore()
 const feature = useFeatureStore()
-const requestStore = useRequestStore()
-var editor = createEditor()
 const renderKey = ref(0);
+const requestStore = useRequestStore()
+var editor: EditorVue = inject('editor')!
+
+editor.on('create', () => {
+    let verbose = true
+
+    if (verbose) {
+        console.log(title, "onCreate")
+    }
+
+    modeStore.setMode(props.mode, 'App.onCreate')
+
+    bootProviders(editor)
+    apiProvider!.boot()
+    listenerProvider!.boot(modeStore.mode)
+
+    app.setReady('App.onCreate')
+})
 
 // init all providers
 
@@ -64,11 +77,6 @@ watch(() => app.message.uuid, () => messageStore.setMessage(app.message))
 // collect error from every store
 watch(() => app.error, () => messageStore.setError(app.error))
 
-// if config change, reload
-watch(() => config.updatedAt, () => {
-    pluginProvider!.onConfigChanged()
-    reload('Config Changed')
-})
 
 window.addEventListener('downloadImage', ((event: CustomEvent) => {
     pluginProvider!.plugins.forEach(plugin => {
@@ -76,63 +84,7 @@ window.addEventListener('downloadImage', ((event: CustomEvent) => {
     })
 }) as EventListener);
 
-function createEditor(): Editor {
-    return TiptapAgent.create({
-        extensions: config.getExtensions(),
-        content: EditorData.default().html,
-        editable: !props.readonly,
-        drawEnable: feature.drawEnabled,
-        tableEnable: feature.tableEnabled,
-        onCreate: (doc: EditorData | Error) => {
-            let verbose = false
-
-            if (verbose) {
-                console.log(title, "onCreate", doc)
-            }
-
-            modeStore.setMode(props.mode, 'App.onCreate')
-
-            bootProviders(editor)
-            apiProvider!.boot()
-            listenerProvider!.boot(modeStore.mode)
-
-            app.setReady('App.onCreate')
-        },
-        onUpdate: (data: EditorData | Error) => {
-            let verbose = false
-
-            if (verbose) {
-                console.log(title, "OnUpdate", data)
-            }
-
-            if (!feature.editable) {
-                if (verbose) {
-                    console.log('只读模式，不回调更新')
-                }
-
-                return
-            }
-
-            if (data instanceof Error) {
-                app.setError(data)
-            } else {
-                pluginProvider!.onDocUpdated(data)
-            }
-        },
-        onSelectionUpdate(type) {
-
-        }
-    })
-}
-
-function reload(reason: string) {
-    app.setLoading(reason)
-    editor.destroy()
-    editor = createEditor()
-    renderKey.value += 1;
-}
-
-function bootProviders(editor: Editor) {
+function bootProviders(editor: EditorVue) {
     apiProvider = new ApiProvider({
         featureProvider: feature,
         modeProvider: modeStore,
@@ -143,14 +95,6 @@ function bootProviders(editor: Editor) {
     listenerProvider = new ListenerProvider(config.listeners)
     pluginProvider = new PluginProvider(config.plugins)
 }
-
-window.addEventListener(editor.extensionManager.extensions.find(extension => extension.name === SmartEvent.name)?.options.eventName, ((event: CustomEvent) => {
-    if (event.detail.isError) {
-        messageStore.setErrorEvent(event)
-    } else {
-        messageStore.setMessage(event.detail.message)
-    }
-}) as EventListener);
 
 </script>
 

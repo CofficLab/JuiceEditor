@@ -222,8 +222,7 @@ function defineJuiceEditor() {
 
     app.use(pinia)
 
-    customElements.define('juice-editor', defineCustomElement({
-        render: () => h(RootVue),
+    customElements.define(editorLabel, defineCustomElement({
         setup() {
             provide('editor', editor)
             const app = createApp(RootVue)
@@ -231,6 +230,7 @@ function defineJuiceEditor() {
             app.config.errorHandler = (err, vm, info) => {
                 console.error(err)
             }
+
             return () => h(RootVue)
         },
     }))

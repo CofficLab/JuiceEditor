@@ -1,8 +1,3 @@
-import { defineJuiceEditor } from './main'
-import { EventName, EventType } from './plugins/EventPlugin'
+import editor from './main'
 
-export {
-    defineJuiceEditor,
-    EventName,
-    EventType
-}
+export default editor
