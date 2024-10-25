@@ -7,6 +7,14 @@ export default class EditorAgent {
         this.editor = editor
     }
 
+    disableWebKit() {
+        this.editor.commands.disableWebKit()
+    }
+
+    enableWebKit() {
+        this.editor.commands.enableWebKit()
+    }
+
     /**
      * 获取编辑器中的HTML内容
      *
