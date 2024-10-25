@@ -10,9 +10,7 @@ import bulletListDoc from '../dev/bulletList';
 import aDoc from '../dev/a';
 import featureDoc from '../dev/feature';
 import tableDoc from '../dev/table';
-import { defineJuiceEditor } from './main'
-
-defineJuiceEditor()
+import editor from './main'
 
 const div = document.createElement('div');
 div.style.cssText = `
@@ -77,3 +75,7 @@ buttons.forEach(button => {
 });
 
 document.body.insertBefore(div, document.body.firstChild);
+
+editor.on('create', () => {
+    console.log('create')
+})
