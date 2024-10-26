@@ -2,7 +2,7 @@
 
 ![JuiceEditor](./docs/hero.png)
 
-A powerful rich text editor.
+A powerful rich text editor which name comes from a Chinese word "聚思" (gather your thoughts).
 
 Currently still under development and not yet stable.
 
@@ -46,28 +46,28 @@ editor.onUpdate(() => {
 
 ## Related Projects
 
-- [JuiceEditor-SwiftUI](https://github.com/cofficlab/JuiceEditor-SwiftUI)
-- [JuiceEditor-Playground](https://github.com/cofficlab/JuiceEditor-Playground)
-- [JuiceEditor-Examples](https://github.com/cofficlab/JuiceEditor-Examples)
+-   [JuiceEditor-SwiftUI](https://github.com/cofficlab/JuiceEditor-SwiftUI)
+-   [JuiceEditor-Playground](https://github.com/cofficlab/JuiceEditor-Playground)
+-   [JuiceEditor-Examples](https://github.com/cofficlab/JuiceEditor-Examples)
 
 ## Products based on JuiceEditor
 
-- [KuaiYiZhi APP](https://apps.apple.com/cn/app/%E5%BF%AB%E6%98%93%E7%9F%A5/id6457892799)
-- [KuaiYiZhi](https://www.kuaiyizhi.cn)
+-   [KuaiYiZhi APP](https://apps.apple.com/cn/app/%E5%BF%AB%E6%98%93%E7%9F%A5/id6457892799)
+-   [KuaiYiZhi](https://www.kuaiyizhi.cn)
 
 ## Built based on the following projects
 
-- [Draw.io](https://github.com/jgraph/drawio)
-- [TailwindCSS](https://tailwindcss.com/)
-- [Vue3](https://v3.vuejs.org/)
-- [Tiptap](https://tiptap.dev/)
-- [Heroicons](https://heroicons.com)
-- [RemixIcon](https://remixicon.com)
+-   [Draw.io](https://github.com/jgraph/drawio)
+-   [TailwindCSS](https://tailwindcss.com/)
+-   [Vue3](https://v3.vuejs.org/)
+-   [Tiptap](https://tiptap.dev/)
+-   [Heroicons](https://heroicons.com)
+-   [RemixIcon](https://remixicon.com)
 
 ## NPM Packages
 
-- [juice-editor](https://www.npmjs.com/package/@coffic/juice-editor)
-- [juice-editor-draw](https://www.npmjs.com/package/@coffic/juice-editor-draw)
+-   [juice-editor](https://www.npmjs.com/package/@coffic/juice-editor)
+-   [juice-editor-draw](https://www.npmjs.com/package/@coffic/juice-editor-draw)
 
 ## Maintainer
 
