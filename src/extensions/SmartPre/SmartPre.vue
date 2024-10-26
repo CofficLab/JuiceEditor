@@ -88,8 +88,6 @@ function log(...message: any[]) {
 
     <NodeViewContent class="hidden"></NodeViewContent>
 
-
-
     <!-- <Button @click="copyToClipboard">
           <RiCopyrightFill size="36px"></RiCopyrightFill>
         </Button> -->

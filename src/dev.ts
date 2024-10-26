@@ -11,6 +11,7 @@ import aDoc from './dev/a';
 import featureDoc from './dev/feature';
 import tableDoc from './dev/table';
 import editor from './main'
+import codeBlockDoc from './dev/codeBlock';
 
 const div = document.createElement('div');
 div.style.cssText = `
@@ -66,6 +67,7 @@ const buttons = [
     { text: 'TOC', onclick: () => editor.toggleToc() },
     { text: '只读/编辑', onclick: () => editor.toggleReadOnly() },
     { text: '源码', onclick: () => editor.toggleSourceCode() },
+    { text: '代码块', onclick: () => editor.setContent(codeBlockDoc) },
 ];
 
 buttons.forEach(button => {
