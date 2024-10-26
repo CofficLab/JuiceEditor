@@ -32,10 +32,12 @@ export const WebStorage = Extension.create({
 
     addCommands() {
         return {
-            loadContentFromWeb: (url: string) => ({ editor }) => {
+            loadContentFromWeb: (url: string) => ({ editor, commands }) => {
                 if (this.storage.verbose) {
                     console.log(this.storage.emoji, 'loadContentFromWeb', url)
                 }
+
+                commands.webKitSendDebugMessage(`loadContentFromWeb -> ${url}`)
 
                 new Promise((resolve, reject) => {
                     axios.get(`${url}`)
