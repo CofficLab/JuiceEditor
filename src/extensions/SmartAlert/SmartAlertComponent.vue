@@ -25,7 +25,7 @@ function closeMessage() {
 
 <template>
     <div class="fixed inset-0 flex items-center justify-center z-50 max-w-3xl mx-auto prose dark:prose-invert">
-        <div class="card glass max-w-3xl shadow-2xl">
+        <div class="card glass max-w-3xl shadow-2xl min-w-96">
             <figure class="m-0 p-0">
                 <img :src="ErrorIcon" />
             </figure>

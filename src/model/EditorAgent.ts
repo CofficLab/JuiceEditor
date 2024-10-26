@@ -39,6 +39,7 @@ export default class EditorAgent {
     }
 
     enableWebKit() {
+        console.log(title, 'enableWebKit')
         this.editor.commands.enableWebKit()
     }
 
@@ -84,6 +85,10 @@ export default class EditorAgent {
 
     onUpdate(callback: () => any) {
         this.editor.on('update', callback)
+    }
+
+    setAlert(alert: string) {
+        this.editor.commands.showAlert(alert, {})
     }
 
     setContent(content: string) {

@@ -13,6 +13,7 @@ import HorizontalRule from "@tiptap/extension-horizontal-rule"
 import TableCell from "@tiptap/extension-table-cell"
 import TaskItem from "@tiptap/extension-task-item"
 import { SmartSlot } from "./extensions/SmartSlot"
+import { SmartTitle } from "./extensions/SmartTitle"
 import HardBreak from "@tiptap/extension-hard-break"
 import Subscript from "@tiptap/extension-subscript"
 import Text from "@tiptap/extension-text"
@@ -194,6 +195,7 @@ function makeExtensions(props: makeExtensionsProps) {
             types: [Heading.name, Paragraph.name],
         }),
         SmartSlot,
+        SmartTitle,
         SourceCode
     ]
 
