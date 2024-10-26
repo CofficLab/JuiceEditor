@@ -11,8 +11,16 @@ export default class EditorAgent {
         this.editor.commands.disableWebKit()
     }
 
+    disableLocalStorage() {
+        this.editor.commands.disableLocalStorage()
+    }
+
     enableWebKit() {
         this.editor.commands.enableWebKit()
+    }
+
+    enableLocalStorage() {
+        this.editor.commands.enableLocalStorage()
     }
 
     /**
@@ -53,6 +61,10 @@ export default class EditorAgent {
 
     setContentFromWeb(url: string) {
         this.editor.commands.loadContentFromWeb(url)
+    }
+
+    setContentFromLocalStorage() {
+        this.editor.commands.loadContentFromLocalStorage()
     }
 
     /**
