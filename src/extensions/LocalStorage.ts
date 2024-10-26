@@ -26,19 +26,19 @@ export const LocalStorage = Extension.create({
     },
 
     onBeforeCreate() {
-        if (this.storage.verbose) {
+        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
             console.log(this.storage.emoji, "onBeforeCreate")
         }
     },
 
     onCreate() {
-        if (this.storage.verbose) {
+        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
             console.log(this.storage.emoji, "onCreate")
         }
     },
 
     onUpdate() {
-        if (this.storage.verbose) {
+        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
             console.log(this.storage.emoji, "onUpdate")
         }
 
@@ -53,7 +53,7 @@ export const LocalStorage = Extension.create({
         return {
             save: () => () => {
 
-                if (this.storage.verbose) {
+                if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
                     console.log(this.storage.emoji, 'saveDocument')
                 }
 
@@ -63,7 +63,7 @@ export const LocalStorage = Extension.create({
             },
 
             enableLocalStorage: () => () => {
-                if (this.storage.verbose) {
+                if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
                     console.log(this.storage.emoji, 'enableLocalStorage')
                 }
 
@@ -72,7 +72,7 @@ export const LocalStorage = Extension.create({
             },
 
             disableLocalStorage: () => () => {
-                if (this.storage.verbose) {
+                if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
                     console.log(this.storage.emoji, 'disableLocalStorage')
                 }
 
@@ -94,7 +94,7 @@ export const LocalStorage = Extension.create({
                 let saveData = localStorage.getItem(this.storage.localStorageKey)
 
                 if (saveData) {
-                    if (this.storage.verbose) {
+                    if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
                         console.log(this.storage.emoji, 'setContentFromLocalStorage')
                     }
 

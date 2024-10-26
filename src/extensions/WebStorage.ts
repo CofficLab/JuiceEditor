@@ -19,13 +19,13 @@ export const WebStorage = Extension.create({
     },
 
     onCreate() {
-        if (this.storage.verbose) {
+        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
             console.log(this.storage.emoji, "onCreate")
         }
     },
 
     onUpdate() {
-        if (this.storage.verbose) {
+        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
             console.log(this.storage.emoji, "onUpdate")
         }
     },
@@ -33,7 +33,7 @@ export const WebStorage = Extension.create({
     addCommands() {
         return {
             loadContentFromWeb: (url: string) => ({ editor, commands }) => {
-                if (this.storage.verbose) {
+                if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
                     console.log(this.storage.emoji, 'loadContentFromWeb', url)
                 }
 

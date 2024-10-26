@@ -1,7 +1,6 @@
 import Paragraph from "@tiptap/extension-paragraph";
 import axios from 'axios';
-import { CommandProps, Editor } from '@tiptap/core';
-import { SmartEventName } from './SmartEvent';
+import { Editor } from '@tiptap/core';
 
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
@@ -90,9 +89,7 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
     },
 
     onBeforeCreate: function () {
-        let verbose = true;
-
-        if (verbose) {
+        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
             console.log(this.storage.title, 'onBeforeCreate:setTranslateApi', this.options.translateApi);
         }
 
@@ -112,7 +109,7 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
             },
 
             setTranslateApi: (api: string) => ({ commands }) => {
-                if (this.storage.verbose) {
+                if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
                     console.log(this.storage.title, 'setTranslateApi', api);
                 }
 

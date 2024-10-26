@@ -24,13 +24,15 @@ export const SmartSlot = Extension.create({
     },
 
     onCreate() {
-        console.log(this.storage.emoji, "onCreate")
+        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+            console.log(this.storage.emoji, "onCreate")
+        }
 
         if (!this.storage.enabled) {
             return
         }
 
-        if (this.storage.verbose) {
+        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
             console.log(this.storage.emoji, "Watch Slot content")
         }
 

@@ -153,11 +153,15 @@ export const WebKit = Extension.create({
     },
 
     onCreate() {
-        console.log(this.storage.emoji, "onCreate")
+        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+            console.log(this.storage.emoji, "onCreate")
+        }
 
         // send message even if enabled is false
 
-        console.log(this.storage.emoji, 'webkit send message: pageLoaded')
+        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+            console.log(this.storage.emoji, 'webkit send message: pageLoaded')
+        }
 
         if (!('webkit' in window)) {
             return
@@ -286,9 +290,9 @@ export const WebKit = Extension.create({
             },
 
             enableWebKit: () => () => {
-                // if (this.storage.verbose) {
-                console.log(this.storage.emoji, '启用 WebKit')
-                // }
+                if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+                    console.log(this.storage.emoji, '启用 WebKit')
+                }
 
                 this.storage.enabled = true;
 
@@ -296,7 +300,9 @@ export const WebKit = Extension.create({
             },
 
             disableWebKit: () => () => {
-                console.log(this.storage.emoji, '禁用 WebKit')
+                if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+                    console.log(this.storage.emoji, '禁用 WebKit')
+                }
 
                 this.storage.enabled = false;
 

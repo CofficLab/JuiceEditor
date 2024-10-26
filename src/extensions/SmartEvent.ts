@@ -31,6 +31,12 @@ export const SmartEvent = Extension.create({
         }
     },
 
+    addStorage() {
+        return {
+            verbose: false
+        }
+    },
+
     addCommands() {
         return {
             emit: (event: SmartEventName, message: string, isError: boolean = false) => ({ }) => {
@@ -54,81 +60,59 @@ export const SmartEvent = Extension.create({
     },
 
     onBeforeCreate() {
-        let verbose = true
-
-        if (verbose) {
+        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
             console.log(emoji, "onBeforeCreate")
         }
     },
 
     onCreate() {
-        let verbose = true
-
-        if (verbose) {
+        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
             console.log(emoji, "onCreate")
         }
     },
 
     onUpdate() {
-        let verbose = true
-
-        if (verbose) {
+        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
             console.log(emoji, "onUpdate")
         }
     },
     onSelectionUpdate() {
-        let verbose = true
-
-        if (verbose) {
+        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
             console.log(emoji, "onSelectionUpdate")
         }
     },
     onTransaction() {
-        let verbose = true
-
-        if (verbose) {
+        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
             console.log(emoji, "onTransaction")
         }
     },
     onFocus() {
-        let verbose = true
-
-        if (verbose) {
+        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
             console.log(emoji, "onFocus")
         }
     },
     onBlur() {
-        let verbose = true
-
-        if (verbose) {
+        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
             console.log(emoji, "onBlur")
         }
     },
     onDestroy() {
-        let verbose = true
-
-        if (verbose) {
+        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
             console.log(emoji, "onDestroy")
         }
     },
     onPaste(event: ClipboardEvent, slice: Slice) {
-        let verbose = true
-
-        if (verbose) {
+        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
             console.log(emoji, "onPaste", event, slice)
         }
     },
     onDrop(event: DragEvent, slice: Slice, moved: boolean) {
-        let verbose = true
-
-        if (verbose) {
+        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
             console.log(emoji, "onDrop", event, slice, moved)
         }
     },
     onContentError({ editor, error, disableCollaboration }: { editor: Editor; error: Error; disableCollaboration: () => void }) {
-        let verbose = true
-
-        if (verbose) {
+        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
             console.log(emoji, "onContentError", editor, error, disableCollaboration)
         }
     },

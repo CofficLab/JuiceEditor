@@ -12,8 +12,9 @@ import Highlight from "@tiptap/extension-highlight"
 import HorizontalRule from "@tiptap/extension-horizontal-rule"
 import TableCell from "@tiptap/extension-table-cell"
 import TaskItem from "@tiptap/extension-task-item"
+import { SmartReady } from "./extensions/SmartReady"
 import { SmartSlot } from "./extensions/SmartSlot"
-import { SmartTitle } from "./extensions/SmartTitle"
+import { SmartNodes } from "./extensions/SmartNodes"
 import HardBreak from "@tiptap/extension-hard-break"
 import Subscript from "@tiptap/extension-subscript"
 import Text from "@tiptap/extension-text"
@@ -56,6 +57,7 @@ import Paragraph from '@tiptap/extension-paragraph'
 import { URLListener } from "./extensions/URLListener"
 import { SmartAlert } from "./extensions/SmartAlert/SmartAlert"
 import { SourceCode } from './extensions/SourceCode'
+import { SmartLog } from './extensions/SmartLog'
 interface makeExtensionsProps {
     drawIoLink: string,
     drawEnable?: boolean,
@@ -155,6 +157,7 @@ function makeExtensions(props: makeExtensionsProps) {
         LocalStorage,
         Padding,
         NewLine,
+        SmartLog,
         SmartPlaceholder,
         SmartSelection,
         SmartLink.configure({
@@ -167,6 +170,7 @@ function makeExtensions(props: makeExtensionsProps) {
             },
         }),
         Subscript,
+        SmartReady,
         Strike.configure({
             HTMLAttributes: {
                 class: 'my-custom-class',
@@ -195,7 +199,7 @@ function makeExtensions(props: makeExtensionsProps) {
             types: [Heading.name, Paragraph.name],
         }),
         SmartSlot,
-        SmartTitle,
+        SmartNodes,
         SourceCode
     ]
 

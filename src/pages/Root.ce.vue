@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useAppStore } from '../store/AppStore';
-import Message from './Message.vue';
 import { inject } from 'vue';
 import Loading from '../ui/Loading.vue'
 import { Editor as EditorVue } from '@tiptap/vue-3';
@@ -21,20 +19,8 @@ defineProps({
     }
 })
 
-const title = "💻 App"
-const app = useAppStore()
 const renderKey = ref(0);
 var editor: EditorVue = inject('editor')!
-
-editor.on('create', () => {
-    let verbose = true
-
-    if (verbose) {
-        console.log(title, "onCreate")
-    }
-
-    app.setReady('App.onCreate')
-})
 
 </script>
 
@@ -44,7 +30,7 @@ editor.on('create', () => {
 </style>
 
 <template>
-    <div v-if="app.ready == false"
+    <div v-if="editor && editor.storage.smartReady.ready == false"
         class="fixed inset-0 flex items-center justify-center bg-white dark:bg-black bg-opacity-80 z-50 text-left">
         <div class="transform scale-150">
             <Loading></Loading>
@@ -53,8 +39,5 @@ editor.on('create', () => {
 
     <Features v-if="mode == PageMode.FEATURES.type" />
 
-    <App :editor="editor" :key="renderKey" v-else-if="app.ready" />
-
-    <!-- Message -->
-    <Message></Message>
+    <App :editor="editor" :key="renderKey" v-else-if="editor && editor.storage.smartReady.ready" />
 </template>

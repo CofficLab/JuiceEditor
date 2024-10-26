@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { watch, onUnmounted, computed } from 'vue';
+import { computed } from 'vue';
 import CoreEditor from './CoreEditor.vue'
 import { Editor } from '@tiptap/vue-3';
 import SourceCode from './SourceCode.vue'
@@ -8,14 +8,6 @@ const props = defineProps({
 		type: Editor,
 		required: true
 	}
-})
-
-watch(() => props.editor, () => {
-	console.log('editor changed')
-})
-
-onUnmounted(() => {
-	console.log("onUnmounted")
 })
 
 const showSourceCode = computed(() => {
