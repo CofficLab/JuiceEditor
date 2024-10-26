@@ -143,7 +143,8 @@ const hasSelection = computed(() => {
 					@click="editor.chain().focus().toggleCode().run()">
 					<RiCodeLine></RiCodeLine>
 				</Button>
-				<Button tips="文字颜色" :shape="shape" v-if="hasSelection" dropdown-position="top">
+				<Button tips="文字颜色" :shape="shape" v-if="hasSelection" dropdown-position="top"
+					:dropdown-background-class="backgroundClass">
 					<RiFontColor></RiFontColor>
 
 					<template #dropdown-item>
@@ -164,7 +165,8 @@ const hasSelection = computed(() => {
 						</div>
 					</template>
 				</Button>
-				<Button tips="字体" :shape="shape" v-if="editor.can().setFontFamily('inter')">
+				<Button tips="字体" :shape="shape" v-if="editor.can().setFontFamily('inter')"
+					:dropdown-background-class="backgroundClass">
 					<RiFontFamily></RiFontFamily>
 
 					<template #dropdown-item>
