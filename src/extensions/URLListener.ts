@@ -22,8 +22,6 @@ export const URLListener = Extension.create({
     },
 
     onCreate() {
-        console.log(this.storage.emoji, "onCreate")
-
         if (!this.storage.enabled) {
             return
         }
@@ -34,7 +32,7 @@ export const URLListener = Extension.create({
     addCommands() {
         return {
             onURLChanged: () => () => {
-                if (this.storage.verbose) {
+                if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
                     console.log(this.storage.emoji, 'URL变化了', window.location.hash)
                 }
                 let hash = window.location.hash

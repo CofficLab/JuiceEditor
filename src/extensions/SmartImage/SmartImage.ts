@@ -156,7 +156,7 @@ const SmartImage = ImageTipTap.extend<ImageOptions>({
             },
 
             setDrawLink: (link: string) => ({ commands }) => {
-                if (this.storage.verbose) {
+                if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
                     console.log(title, 'setDrawLink', link)
                 }
 
