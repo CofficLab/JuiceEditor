@@ -104,6 +104,8 @@ export const WebKit = Extension.create({
             return
         }
 
+        this.editor.commands.webKitSendDebugMessage(this.storage.emoji + ' 更新文档')
+
         var messageData: any = {}
         messageData.channel = "updateDoc"
         // messageData.title = doc.title
@@ -187,19 +189,20 @@ export const WebKit = Extension.create({
             },
 
             asyncSendMessage: (data: object) => () => {
-                let verbose = false;
-
                 new Promise((resolve, reject) => {
                     try {
                         (window as any).webkit.messageHandlers.sendMessage.postMessage(data);
                     } catch (e) {
                         console.log(this.storage.emoji, '发送消息失败', e);
+                        this.editor.commands.webKitSendDebugMessage(this.storage.emoji + ' 发送消息失败: ' + e.message)
                         reject(e);
 
                         throw e
                     }
 
-                    if (verbose) {
+                    if (this.storage.verbose) {
+                        console.log(this.storage.emoji, '已发送消息')
+                        this.editor.commands.webKitSendDebugMessage(this.storage.emoji + ' 已发送消息')
                         resolve(this.storage.emoji + ' 已发送消息');
                     }
                 });
