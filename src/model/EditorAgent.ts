@@ -1,5 +1,7 @@
 import { Editor } from "@tiptap/vue-3"
 
+const title = '👨‍💻 EditorAgent'
+
 export default class EditorAgent {
     private editor: Editor
 
@@ -7,20 +9,53 @@ export default class EditorAgent {
         this.editor = editor
     }
 
+    disableEdit() {
+        this.editor.setEditable(false)
+    }
+
     disableWebKit() {
         this.editor.commands.disableWebKit()
+    }
+
+    disableWebKitVerbose() {
+        this.editor.commands.disableWebKitVerbose()
     }
 
     disableLocalStorage() {
         this.editor.commands.disableLocalStorage()
     }
 
+    disableLocalStorageVerbose() {
+        console.log(title, 'disableLocalStorageVerbose')
+        this.editor.commands.disableLocalStorageVerbose()
+    }
+
+    disableSourceCode() {
+        this.editor.commands.hideSourceCode()
+    }
+
+    enableEdit() {
+        this.editor.setEditable(true)
+    }
+
     enableWebKit() {
         this.editor.commands.enableWebKit()
     }
 
+    enableWebKitVerbose() {
+        this.editor.commands.enableWebKitVerbose()
+    }
+
     enableLocalStorage() {
         this.editor.commands.enableLocalStorage()
+    }
+
+    enableLocalStorageVerbose() {
+        this.editor.commands.enableLocalStorageVerbose()
+    }
+
+    enableSourceCode() {
+        this.editor.commands.showSourceCode()
     }
 
     /**
@@ -30,10 +65,6 @@ export default class EditorAgent {
      */
     getHtml() {
         return this.editor.getHTML()
-    }
-
-    onBeforeCreate(callback: () => any) {
-        this.editor.on('beforeCreate', callback)
     }
 
     onCreate(callback: () => any) {
@@ -104,5 +135,9 @@ export default class EditorAgent {
 
     toggleReadOnly() {
         this.editor.setEditable(!this.editor.isEditable)
+    }
+
+    toggleSourceCode() {
+        this.editor.commands.toggleSourceCode()
     }
 }
