@@ -187,7 +187,7 @@ export const WebKit = Extension.create({
 
         var messageData: any = {}
         messageData.channel = "updateDoc"
-        messageData.title = this.editor.storage.title
+        messageData.title = this.editor.storage.smartNodes.title
         messageData.html = this.editor.getHTML()
         messageData.nodes = flattenBlock(this.editor.getJSON()).map(node => {
             if (node.type == Root.name) {
