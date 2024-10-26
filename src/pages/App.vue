@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { watch, onUnmounted, ref } from 'vue';
+import { watch, onUnmounted, computed } from 'vue';
 import CoreEditor from './CoreEditor.vue'
 import { Editor } from '@tiptap/vue-3';
 import SourceCode from './SourceCode.vue'
@@ -18,19 +18,16 @@ onUnmounted(() => {
 	console.log("onUnmounted")
 })
 
-const showSourceCode = ref(false)
-
-function toggleSourceCode() {
-	showSourceCode.value = !showSourceCode.value
-}
+const showSourceCode = computed(() => {
+	return props.editor.storage.sourceCode.shouldShow
+})
 
 </script>
 
 <template>
 	<main class="main text-left">
 		<slot></slot>
-		<CoreEditor :editor="editor" />
-		<div class="h-48 w-full" @dblclick="toggleSourceCode"></div>
 		<SourceCode :editor="editor" v-if="showSourceCode" />
+		<CoreEditor :editor="editor" v-else />
 	</main>
 </template>

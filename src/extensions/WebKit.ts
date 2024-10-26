@@ -37,6 +37,8 @@ declare module '@tiptap/core' {
             asyncSendMessage: (data: object) => ReturnType
             enableWebKit: () => ReturnType
             disableWebKit: () => ReturnType
+            enableWebKitVerbose: () => ReturnType
+            disableWebKitVerbose: () => ReturnType
             webKitDownloadImage: (src: string, name: string) => ReturnType
         }
     }
@@ -47,7 +49,7 @@ export const WebKit = Extension.create({
 
     addStorage() {
         return {
-            verbose: true,
+            verbose: false,
             enabled: false,
             emoji: "🍎 WebKit",
             localStorageKey: 'html',
@@ -55,11 +57,12 @@ export const WebKit = Extension.create({
     },
 
     onBeforeCreate() {
-        console.log(this.storage.emoji, "onBeforeCreate")
-
         if (!this.storage.enabled) {
             return
         }
+
+
+        console.log(this.storage.emoji, "onBeforeCreate")
 
         if (!('webkit' in window)) {
             return
@@ -91,15 +94,17 @@ export const WebKit = Extension.create({
     },
 
     onUpdate() {
-        console.log(this.storage.emoji, "onUpdate")
-
         if (!this.storage.enabled) {
             return
         }
 
+        console.log(this.storage.emoji, "onUpdate")
+
         if (!('webkit' in window)) {
             return
         }
+
+        this.editor.commands.webKitSendDebugMessage(this.storage.emoji + ' 更新文档')
 
         var messageData: any = {}
         messageData.channel = "updateDoc"
@@ -119,11 +124,11 @@ export const WebKit = Extension.create({
     },
 
     onSelectionUpdate() {
-        console.log(this.storage.emoji, "onSelectionUpdate")
-
         if (!this.storage.enabled) {
             return
         }
+
+        console.log(this.storage.emoji, "onSelectionUpdate")
 
         if (!('webkit' in window)) {
             return
@@ -184,19 +189,20 @@ export const WebKit = Extension.create({
             },
 
             asyncSendMessage: (data: object) => () => {
-                let verbose = false;
-
                 new Promise((resolve, reject) => {
                     try {
                         (window as any).webkit.messageHandlers.sendMessage.postMessage(data);
                     } catch (e) {
                         console.log(this.storage.emoji, '发送消息失败', e);
+                        this.editor.commands.webKitSendDebugMessage(this.storage.emoji + ' 发送消息失败: ' + e.message)
                         reject(e);
 
                         throw e
                     }
 
-                    if (verbose) {
+                    if (this.storage.verbose) {
+                        console.log(this.storage.emoji, '已发送消息')
+                        this.editor.commands.webKitSendDebugMessage(this.storage.emoji + ' 已发送消息')
                         resolve(this.storage.emoji + ' 已发送消息');
                     }
                 });
@@ -205,13 +211,31 @@ export const WebKit = Extension.create({
             },
 
             enableWebKit: () => () => {
+                if (this.storage.verbose) {
+                    console.log(this.storage.emoji, '启用 WebKit')
+                }
+
                 this.storage.enabled = true;
 
                 return true;
             },
 
             disableWebKit: () => () => {
+                console.log(this.storage.emoji, '禁用 WebKit')
+
                 this.storage.enabled = false;
+
+                return true;
+            },
+
+            enableWebKitVerbose: () => () => {
+                this.storage.verbose = true;
+
+                return true;
+            },
+
+            disableWebKitVerbose: () => () => {
+                this.storage.verbose = false;
 
                 return true;
             },

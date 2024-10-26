@@ -6,6 +6,8 @@ declare module '@tiptap/core' {
             save: () => ReturnType
             enableLocalStorage: () => ReturnType
             disableLocalStorage: () => ReturnType
+            enableLocalStorageVerbose: () => ReturnType
+            disableLocalStorageVerbose: () => ReturnType
             loadContentFromLocalStorage: () => ReturnType
         }
     }
@@ -24,15 +26,21 @@ export const LocalStorage = Extension.create({
     },
 
     onBeforeCreate() {
-        console.log(this.storage.emoji, "onBeforeCreate")
+        if (this.storage.verbose) {
+            console.log(this.storage.emoji, "onBeforeCreate")
+        }
     },
 
     onCreate() {
-        console.log(this.storage.emoji, "onCreate")
+        if (this.storage.verbose) {
+            console.log(this.storage.emoji, "onCreate")
+        }
     },
 
     onUpdate() {
-        console.log(this.storage.emoji, "onUpdate")
+        if (this.storage.verbose) {
+            console.log(this.storage.emoji, "onUpdate")
+        }
 
         if (!this.storage.enabled) {
             return
@@ -72,12 +80,22 @@ export const LocalStorage = Extension.create({
                 return true
             },
 
+            enableLocalStorageVerbose: () => () => {
+                this.storage.verbose = true;
+                return true;
+            },
+
+            disableLocalStorageVerbose: () => () => {
+                this.storage.verbose = false;
+                return true;
+            },
+
             loadContentFromLocalStorage: () => ({ commands }) => {
                 let saveData = localStorage.getItem(this.storage.localStorageKey)
 
                 if (saveData) {
                     if (this.storage.verbose) {
-                        console.log(this.storage.emoji, 'setContentFromLocalStorage', saveData)
+                        console.log(this.storage.emoji, 'setContentFromLocalStorage')
                     }
 
                     commands.setContent(saveData)

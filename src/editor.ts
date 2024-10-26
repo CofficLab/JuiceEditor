@@ -54,6 +54,7 @@ import Heading from '@tiptap/extension-heading'
 import Paragraph from '@tiptap/extension-paragraph'
 import { URLListener } from "./extensions/URLListener"
 import { SmartAlert } from "./extensions/SmartAlert/SmartAlert"
+import { SourceCode } from './extensions/SourceCode'
 interface makeExtensionsProps {
     drawIoLink: string,
     drawEnable?: boolean,
@@ -193,6 +194,7 @@ function makeExtensions(props: makeExtensionsProps) {
             types: [Heading.name, Paragraph.name],
         }),
         SmartSlot,
+        SourceCode
     ]
 
     return extensions
@@ -202,8 +204,9 @@ const tiptapEditor = new EditorVue({
     extensions: makeExtensions({
         drawIoLink: defaultDrawIoLink,
         translateApi: defaultTranslateApi,
-        focusClassName: defaultFocusClassName
-    })
+        focusClassName: defaultFocusClassName,
+    }),
+    autofocus: 'start',
 })
 
 export default tiptapEditor

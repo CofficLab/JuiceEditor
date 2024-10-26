@@ -65,6 +65,7 @@ const buttons = [
     { text: '列表', onclick: () => editor.setContent(bulletListDoc) },
     { text: 'TOC', onclick: () => editor.toggleToc() },
     { text: '只读/编辑', onclick: () => editor.toggleReadOnly() },
+    { text: '源码', onclick: () => editor.toggleSourceCode() },
 ];
 
 buttons.forEach(button => {
@@ -81,8 +82,10 @@ const title = "⛰️ Dev"
 editor.onCreate(() => {
     console.log(title, 'create')
 
+    editor.disableWebKit()
     editor.setTranslateApi('https://api.youdao.com/api')
     editor.setDrawLink('/draw/index.html?')
+    editor.setContentFromLocalStorage()
     editor.onContentError((error) => {
         console.log(title, 'contentError', error)
     })
