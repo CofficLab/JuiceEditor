@@ -140,6 +140,9 @@ importers:
       '@tiptap/vue-3':
         specifier: ^2.9.1
         version: 2.9.1(@tiptap/core@2.9.1(@tiptap/pm@2.9.1))(@tiptap/pm@2.9.1)(vue@3.5.12(typescript@5.1.6))
+      '@types/node':
+        specifier: ^22.8.1
+        version: 22.8.1
       '@types/turndown':
         specifier: ^5.0.5
         version: 5.0.5
@@ -213,9 +216,6 @@ importers:
       '@types/jest':
         specifier: ^29.5.14
         version: 29.5.14
-      '@types/node':
-        specifier: ^22.8.1
-        version: 22.8.1
       '@vue/test-utils':
         specifier: 2.4.6
         version: 2.4.6
