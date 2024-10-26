@@ -36,26 +36,6 @@ function changeImage() {
     fileInput.value?.click()
 }
 
-function downloadImage() {
-    let verbose = false
-
-    let attrs = props.editor.getAttributes(SmartImage.name)
-    let src: string = attrs.src
-
-    if (verbose) {
-        console.log('downloadImage', SmartImage.name)
-        console.log('downloadImage', attrs)
-        console.log('downloadImage', src)
-    }
-
-    window.dispatchEvent(new CustomEvent('downloadImage', {
-        detail: {
-            src: src,
-            name: "image-" + Date.now() + ImageHelper.getExtension(src)
-        }
-    }))
-}
-
 async function onFileSelected() {
     let file = fileInput.value?.files?.item(0)
     const base64 = await fileToBase64(file!)
@@ -75,7 +55,7 @@ let shapeClass = computed(() => {
     <Button @click="changeImage" tips="更换图片" :shape="shape">
         <RiEditLine :size="iconSize"></RiEditLine>
     </Button>
-    <Button @click="downloadImage" tips="下载" :shape="shape">
+    <Button @click="props.editor.commands.downloadImage()" tips="下载" :shape="shape">
         <RiDownloadLine :size="iconSize"></RiDownloadLine>
     </Button>
     <Button tips="样式" :shape="shape">

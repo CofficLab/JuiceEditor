@@ -7,6 +7,22 @@ export default class EditorAgent {
         this.editor = editor
     }
 
+    disableWebKit() {
+        this.editor.commands.disableWebKit()
+    }
+
+    disableLocalStorage() {
+        this.editor.commands.disableLocalStorage()
+    }
+
+    enableWebKit() {
+        this.editor.commands.enableWebKit()
+    }
+
+    enableLocalStorage() {
+        this.editor.commands.enableLocalStorage()
+    }
+
     /**
      * 获取编辑器中的HTML内容
      *
@@ -39,8 +55,16 @@ export default class EditorAgent {
         this.editor.on('update', callback)
     }
 
-    setHtml(html: string) {
-        this.editor.commands.setContent(html, true)
+    setContent(content: string) {
+        this.editor.commands.setContent(content, true)
+    }
+
+    setContentFromWeb(url: string) {
+        this.editor.commands.loadContentFromWeb(url)
+    }
+
+    setContentFromLocalStorage() {
+        this.editor.commands.loadContentFromLocalStorage()
     }
 
     /**
