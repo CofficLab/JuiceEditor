@@ -192,7 +192,7 @@ export const WebKit = Extension.create({
                 new Promise((resolve, reject) => {
                     try {
                         (window as any).webkit.messageHandlers.sendMessage.postMessage(data);
-                    } catch (e) {
+                    } catch (e: any) {
                         console.log(this.storage.emoji, '发送消息失败', e);
                         this.editor.commands.webKitSendDebugMessage(this.storage.emoji + ' 发送消息失败: ' + e.message)
                         reject(e);
