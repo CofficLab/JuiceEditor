@@ -21,8 +21,8 @@ class EditorFacade implements RootAgent {
         this.options = options
     }
 
-    public static register(label: string, options: EditorFacadeOptions) {
-        console.log(title, 'register')
+    public static register(label: string, options: EditorFacadeOptions): EditorFacade {
+        console.log(title, 'register', label)
 
         const facade = new EditorFacade(options)
         customElements.define(label, defineCustomElement({
@@ -36,6 +36,8 @@ class EditorFacade implements RootAgent {
                 return () => h(RootVue)
             },
         }))
+
+        return facade
     }
 
     public disableWebKit: () => void = () => {
@@ -63,6 +65,33 @@ class EditorFacade implements RootAgent {
     public setContent(content: string) {
         console.log(this.title, 'setContent', content)
         this.editor?.commands.setContent(content)
+    }
+
+    public setTranslateApi(api: string) {
+        console.log(this.title, 'setTranslateApi', api)
+        this.editor?.commands.setTranslateApi(api)
+    }
+
+    public setContentFromLocalStorage() {
+        console.log(this.title, 'setContentFromLocalStorage')
+        this.editor?.commands.loadContentFromLocalStorage()
+    }
+
+    public setDrawLink(link: string) {
+        console.log(this.title, 'setDrawLink', link)
+        this.editor?.commands.setDrawLink(link)
+    }
+
+    public toggleReadOnly() {
+        this.editor?.setEditable(!this.editor?.isEditable)
+    }
+
+    public toggleSourceCode() {
+        this.editor?.commands.toggleSourceCode()
+    }
+
+    public toggleToc() {
+        this.editor?.commands.toggleToc()
     }
 }
 

@@ -10,29 +10,22 @@ import bulletListDoc from './dev/bulletList';
 import aDoc from './dev/a';
 import featureDoc from './dev/feature';
 import tableDoc from './dev/table';
-import editor from './main'
-import editor2 from './main'
+import EditorFacade from './main'
 import codeBlockDoc from './dev/codeBlock';
 
 const title = "⛰️ Dev"
 
-// editor.onCreate = () => {
-//     console.log(title, 'onCreate')
-
-//     editor.disableWebKit()
-//     editor.setTranslateApi('https://api.youdao.com/api')
-//     editor.setDrawLink('/draw/index.html?')
-//     editor.setContentFromLocalStorage()
-//     editor.onContentError = (error) => {
-//         console.log(title, 'contentError', error)
-//     }
-// }
-editor.register('my-editor', {
+const facade = EditorFacade.register('my-editor', {
     onBeforeCreate: () => {
         console.log(title, 'onBeforeCreate for label my-editor')
     },
-    onCreate: () => {
+    onCreate: (editor: EditorFacade) => {
         console.log(title, 'onCreate for label my-editor')
+
+        editor.disableWebKit()
+        editor.setTranslateApi('https://api.youdao.com/api')
+        editor.setDrawLink('/draw/index.html?')
+        editor.setContentFromLocalStorage()
     }
 })
 
@@ -75,22 +68,22 @@ document.head.appendChild(styleElement);
 div.id = 'dev-toolbar';
 
 const buttons = [
-    { text: '功能', onclick: () => editor.setContent(featureDoc) },
-    { text: '小型', onclick: () => editor.setContent(miniDoc) },
-    { text: '文档组', onclick: () => editor.setContent(docs) },
-    { text: '混合', onclick: () => editor.setContent(baseDoc) },
-    { text: '大型', onclick: () => editor.setContent(bigDoc) },
-    { text: '图片', onclick: () => editor.setContent(imageDoc) },
-    { text: '表格', onclick: () => editor.setContent(tableDoc) },
-    { text: '画图', onclick: () => editor.setContent(drawDoc) },
-    { text: '段落', onclick: () => editor.setContent(pDoc) },
-    { text: '链接', onclick: () => editor.setContent(aDoc) },
-    { text: '目录', onclick: () => editor.setContent(tocDoc) },
-    { text: '列表', onclick: () => editor.setContent(bulletListDoc) },
-    { text: 'TOC', onclick: () => editor.toggleToc() },
-    { text: '只读/编辑', onclick: () => editor.toggleReadOnly() },
-    { text: '源码', onclick: () => editor.toggleSourceCode() },
-    { text: '代码块', onclick: () => editor.setContent(codeBlockDoc) },
+    { text: '功能', onclick: () => facade.setContent(featureDoc) },
+    { text: '小型', onclick: () => facade.setContent(miniDoc) },
+    { text: '文档组', onclick: () => facade.setContent(docs) },
+    { text: '混合', onclick: () => facade.setContent(baseDoc) },
+    { text: '大型', onclick: () => facade.setContent(bigDoc) },
+    { text: '图片', onclick: () => facade.setContent(imageDoc) },
+    { text: '表格', onclick: () => facade.setContent(tableDoc) },
+    { text: '画图', onclick: () => facade.setContent(drawDoc) },
+    { text: '段落', onclick: () => facade.setContent(pDoc) },
+    { text: '链接', onclick: () => facade.setContent(aDoc) },
+    { text: '目录', onclick: () => facade.setContent(tocDoc) },
+    { text: '列表', onclick: () => facade.setContent(bulletListDoc) },
+    { text: 'TOC', onclick: () => facade.toggleToc() },
+    { text: '只读/编辑', onclick: () => facade.toggleReadOnly() },
+    { text: '源码', onclick: () => facade.toggleSourceCode() },
+    { text: '代码块', onclick: () => facade.setContent(codeBlockDoc) },
 ];
 
 buttons.forEach(button => {
