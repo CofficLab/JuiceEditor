@@ -27,13 +27,15 @@ editor.onUpdate(() => {
     console.log('update')
 })
 
+editor.register('my-editor')
+
 // When you type 'editor.', the IDE will suggest available APIs
 ```
 
-3.Use JuiceEditor in your template
+3.Use in your template
 
 ```html
-<juice-editor></juice-editor>
+<my-editor></my-editor>
 ```
 
 ## Documentation

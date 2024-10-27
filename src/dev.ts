@@ -11,6 +11,7 @@ import aDoc from './dev/a';
 import featureDoc from './dev/feature';
 import tableDoc from './dev/table';
 import editor from './main'
+import editor2 from './main'
 import codeBlockDoc from './dev/codeBlock';
 
 const div = document.createElement('div');
@@ -81,14 +82,21 @@ document.body.insertBefore(div, document.body.firstChild);
 
 const title = "⛰️ Dev"
 
-editor.onCreate(() => {
-    console.log(title, 'create')
-
-    editor.disableWebKit()
-    editor.setTranslateApi('https://api.youdao.com/api')
-    editor.setDrawLink('/draw/index.html?')
-    editor.setContentFromLocalStorage()
-    editor.onContentError((error) => {
-        console.log(title, 'contentError', error)
-    })
+editor.onBeforeCreate(() => {
+    console.log(title, 'onBeforeCreate for label my-editor')
 })
+// editor.onCreate = () => {
+//     console.log(title, 'onCreate')
+
+//     editor.disableWebKit()
+//     editor.setTranslateApi('https://api.youdao.com/api')
+//     editor.setDrawLink('/draw/index.html?')
+//     editor.setContentFromLocalStorage()
+//     editor.onContentError = (error) => {
+//         console.log(title, 'contentError', error)
+//     }
+// }
+editor.register('my-editor')
+
+
+editor2.register('juice-editor')

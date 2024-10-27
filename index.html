@@ -26,14 +26,8 @@
 
 <body>
   <juice-editor mode="basic"></juice-editor>
-</body>
 
-<script>
-  window.addEventListener('editor-event', (event) => {
-    if (event.detail.type === 'editorReady') {
-      api.config.setDrawIoLink("/public/drawio/webapp/index.html?");
-    }
-  })
-</script>
+  <my-editor mode="features"></my-editor>
+</body>
 
 </html>
