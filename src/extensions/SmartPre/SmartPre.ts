@@ -3,8 +3,6 @@ import { VueNodeViewRenderer } from '@tiptap/vue-3'
 import SmartPreVue from './SmartPre.vue'
 import MonacoBox from './Entities/MonacoBox';
 
-const verbose = true;
-
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     SmartPre: {
@@ -17,8 +15,6 @@ declare module '@tiptap/core' {
 
 // 保存成HTML的时候要考虑HTML转Markdown
 export default CodeBlock.extend({
-  name: 'pre',
-
   addAttributes() {
     return {
       language: {
@@ -53,8 +49,7 @@ export default CodeBlock.extend({
   addCommands() {
     return {
       insertSmartPre:
-        attributes => ({ commands }) => {
-
+        () => ({ commands }) => {
           return commands.insertContent("<pre><code class='language-text'></code></pre>");
         },
       setCodeBlock:
@@ -82,9 +77,7 @@ export default CodeBlock.extend({
   },
 
   onCreate() {
-    // The editor is ready.
-
-    let verbose = false;
+    let verbose = true;
     if (verbose) {
       console.log("Boot Monaco")
     }
@@ -110,11 +103,3 @@ export default CodeBlock.extend({
   //   this.storage.editorUUID = this.editor.options.injectNonce
   // },
 })
-
-function log(...messages: any[]) {
-  if (!verbose) {
-    return;
-  }
-
-  console.log('💼 SmartPre:', ...messages)
-}
