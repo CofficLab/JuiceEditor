@@ -1,5 +1,5 @@
 import EditorFactory from './model/EditorFactory'
+import EditorFacade from './model/EditorFacade'
 
-const editorFactory = new EditorFactory()
 
-export default editorFactory as PublicEditorFactory
+export default EditorFacade

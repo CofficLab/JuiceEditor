@@ -14,6 +14,28 @@ import editor from './main'
 import editor2 from './main'
 import codeBlockDoc from './dev/codeBlock';
 
+const title = "⛰️ Dev"
+
+// editor.onCreate = () => {
+//     console.log(title, 'onCreate')
+
+//     editor.disableWebKit()
+//     editor.setTranslateApi('https://api.youdao.com/api')
+//     editor.setDrawLink('/draw/index.html?')
+//     editor.setContentFromLocalStorage()
+//     editor.onContentError = (error) => {
+//         console.log(title, 'contentError', error)
+//     }
+// }
+editor.register('my-editor', {
+    onBeforeCreate: () => {
+        console.log(title, 'onBeforeCreate for label my-editor')
+    },
+    onCreate: () => {
+        console.log(title, 'onCreate for label my-editor')
+    }
+})
+
 const div = document.createElement('div');
 div.style.cssText = `
         position: fixed;
@@ -80,23 +102,3 @@ buttons.forEach(button => {
 
 document.body.insertBefore(div, document.body.firstChild);
 
-const title = "⛰️ Dev"
-
-editor.onBeforeCreate(() => {
-    console.log(title, 'onBeforeCreate for label my-editor')
-})
-// editor.onCreate = () => {
-//     console.log(title, 'onCreate')
-
-//     editor.disableWebKit()
-//     editor.setTranslateApi('https://api.youdao.com/api')
-//     editor.setDrawLink('/draw/index.html?')
-//     editor.setContentFromLocalStorage()
-//     editor.onContentError = (error) => {
-//         console.log(title, 'contentError', error)
-//     }
-// }
-editor.register('my-editor')
-
-
-editor2.register('juice-editor')

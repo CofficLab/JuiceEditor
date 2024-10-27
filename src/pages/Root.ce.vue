@@ -27,14 +27,13 @@ const editor = new EditorVue({
     editable: true,
     autofocus: 'start',
     onBeforeCreate: () => {
-        rootAgent.onBeforeCreateCallback()
+        rootAgent.onBeforeCreate()
     },
     onCreate: ({ editor }) => {
-        rootAgent.editor = editor
-        rootAgent.onCreateCallback()
+        rootAgent.onCreate(editor)
     },
     onContentError: (error) => {
-        rootAgent.onContentErrorCallback(error.error)
+        rootAgent.onContentError()
     }
 })
 
