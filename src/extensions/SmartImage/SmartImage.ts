@@ -1,5 +1,4 @@
 import ImageTipTap from '@tiptap/extension-image'
-import DomHelper from '../../helper/DomHelper'
 import { createApp, h } from 'vue'
 import Opening from './Opening.vue'
 import Draw from './Draw.vue'
@@ -182,7 +181,7 @@ const SmartImage = ImageTipTap.extend<ImageOptions>({
                 mountPoint.style.backdropFilter = 'blur(10px)'; // 毛玻璃效果
                 (mountPoint.style as any)['WebkitBackdropFilter'] = 'blur(10px)'; // 为Safari浏览器添加前缀
 
-                let shadowRoot = DomHelper.getShadowRoot()
+                let shadowRoot = this.editor.options.element?.shadowRoot
                 if (!shadowRoot) {
                     console.error('No shadow root found');
                     return false;
@@ -211,7 +210,7 @@ const SmartImage = ImageTipTap.extend<ImageOptions>({
                     console.log(this.storage.title, 'closeLoading', reason)
                 }
 
-                let shadowRoot = DomHelper.getShadowRoot()
+                let shadowRoot = this.editor.options.element?.shadowRoot
                 if (!shadowRoot) {
                     console.error('No shadow root found');
                     return false;
@@ -250,7 +249,7 @@ const SmartImage = ImageTipTap.extend<ImageOptions>({
 
                 const src = editor.getAttributes(this.name).src;
 
-                let shadowRoot = DomHelper.getShadowRoot()
+                let shadowRoot = this.editor.options.element?.shadowRoot
                 if (!shadowRoot) {
                     console.error('No shadow root found');
                     return false;
@@ -285,7 +284,7 @@ const SmartImage = ImageTipTap.extend<ImageOptions>({
             closeDraw: () => ({ commands }) => {
                 console.log('closeDraw')
 
-                let shadowRoot = DomHelper.getShadowRoot()
+                let shadowRoot = this.editor.options.element?.shadowRoot
                 if (!shadowRoot) {
                     console.error('No shadow root found');
                     return false;

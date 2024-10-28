@@ -1,11 +1,26 @@
-interface PublicEditorFactory {
+interface Editor {
+    /**
+     * 禁用 WebKit 组件
+     */
     disableWebKit: () => void
+
+    /**
+     * 获取编辑器内容
+     * 
+     * @returns 编辑器内容
+     */
     getContent: () => string
-    onBeforeCreate: (callback: Function) => void
-    onContentError: (callback: (error: Error) => void) => void
-    onCreate: (callback: (Function)) => void
-    register: (label: string) => void
+
+    /**
+     * 设置编辑器内容
+     * 
+     * @param content 编辑器内容
+     */
     setContent: (content: string) => void
+
+    /**
+     * 从本地存储中获取内容，并设置为编辑器内容
+     */
     setContentFromLocalStorage: () => void
 
     /**
@@ -34,7 +49,19 @@ interface PublicEditorFactory {
      * @example editor.setTranslateApi('https://api.youdao.com/api')
      */
     setTranslateApi: (api: string) => void
+
+    /**
+     * 切换只读模式
+     */
     toggleReadOnly: () => void
+
+    /**
+     * 切换源码模式
+     */
     toggleSourceCode: () => void
+
+    /**
+     * 切换目录模式
+     */
     toggleToc: () => void
 }

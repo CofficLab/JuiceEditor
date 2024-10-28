@@ -6,7 +6,7 @@ import App from './App.vue'
 import PageMode from '../model/PageMode';
 import Features from './Features.vue'
 import { makeExtensions, defaultDrawIoLink, defaultTranslateApi, defaultFocusClassName } from '../model/TiptapAgent';
-import RootAgent from '../model/RootAgent';
+import RootAgent from '../interface/RootAgent';
 
 defineProps({
     mode: {

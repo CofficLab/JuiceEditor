@@ -27,7 +27,7 @@ import TextAlign from '@tiptap/extension-text-align'
 import { WebStorage } from "../extensions/WebStorage"
 import SmartHeading from "../extensions/SmartHeading"
 import SmartTaskList from "../extensions/SmartTaskList/SmartTaskList"
-import SmartPre from "../extensions/SmartPre/SmartPre"
+import SmartPre from "../extensions/SmartCodeBlock/SmartCodeBlock"
 import SmartImage from "../extensions/SmartImage/SmartImage"
 import SmartLink from "../extensions/SmartLink/SmartLink"
 import SmartParagraph from "../extensions/SmartParagraph"

@@ -2,7 +2,7 @@
 import { RiBold, RiH1, RiH2, RiH3, RiLink, RiText, RiEdit2Line, RiTriangleLine, RiDownloadLine, RiShapeLine, RiSquareLine, RiCircleLine, RiStarLine, RiHexagonLine } from '@remixicon/vue';
 import SampleImage from '../assets/sample.jpeg';
 import html2canvas from 'html2canvas';
-import DomHelper from '../helper/DomHelper';
+import { ref } from 'vue';
 
 
 const colorClass = [
@@ -27,9 +27,10 @@ const cardClass4 = 'bg-green-100/30 rounded-2xl p-4 shadow-2xl'
 
 const iconColor = 'indigo'
 const iconSize = '24px'
+const box = ref<HTMLElement | null>(null)
 
 function downloadAsImage() {
-    const element = DomHelper.findElement('box');
+    const element = box.value;
     if (element) {
         html2canvas(element, {
             scale: 2,
@@ -53,7 +54,7 @@ function downloadAsImage() {
             <button @click="downloadAsImage" class="mt-4 p-2 bg-blue-500/50 rounded">Download as Image</button>
         </div>
 
-        <div id="box" class="max-w-4xl mx-auto p-0">
+        <div id="box" ref="box" class="max-w-4xl mx-auto p-0">
             <div id="section1" :class="cardClass1">
                 <div :class="menuClass" class="w-36 ml-24">
                     <RiH1 :size="iconSize" :color="iconColor" />

@@ -1,7 +1,6 @@
 import { Extension } from '@tiptap/core';
 import { createApp, h } from 'vue';
 import SmartAlertComponent from './SmartAlertComponent.vue';
-import DomHelper from '../../helper/DomHelper';
 
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
@@ -37,7 +36,7 @@ export const SmartAlert = Extension.create({
                 mountPoint.style.alignItems = 'center';
                 mountPoint.style.zIndex = '9999';
 
-                let shadowRoot = DomHelper.getShadowRoot()
+                let shadowRoot = this.editor.options.element?.shadowRoot
                 if (!shadowRoot) {
                     console.error('No shadow root found');
                     return false;
@@ -66,7 +65,7 @@ export const SmartAlert = Extension.create({
 
             closeAlert: () => ({ view }) => {
                 console.log('closeAlert')
-                const mountPoint = DomHelper.findElement(this.options.mountPointId);
+                const mountPoint = this.editor.options.element?.shadowRoot?.querySelector(`#${this.options.mountPointId}`);
                 if (mountPoint) {
                     mountPoint.remove();
                 }

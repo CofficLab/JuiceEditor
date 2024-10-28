@@ -1,9 +1,7 @@
 import { Editor } from '@tiptap/core'
-import TiptapEditor from './TiptapEditor'
+import TiptapEditor from '../model/TiptapEditor'
 
 interface RootAgent {
-    title: string
-    editor: Editor | null
     onCreate: (editor: TiptapEditor) => void
     onBeforeCreate: () => void
     onContentError: () => void

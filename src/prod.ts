@@ -1,3 +1,6 @@
-import editor from './main'
+import { EditorFactory, Editor } from './main'
 
-export default editor
+export {
+    EditorFactory,
+    Editor as PublicEditor
+}

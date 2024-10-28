@@ -2,7 +2,6 @@ import CodeBlock from '@tiptap/extension-code-block'
 import { VueNodeViewRenderer } from '@tiptap/vue-3'
 import SmartPreVue from './SmartPre.vue'
 import MonacoBox from './Entities/MonacoBox';
-import { title } from 'process';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

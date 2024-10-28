@@ -2,7 +2,6 @@ import { Extension, Editor } from '@tiptap/core'
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
 import { Root } from './Root/Root';
-import DomHelper from '../helper/DomHelper';
 
 interface SmartActiveOptions {
     className: string
@@ -59,7 +58,8 @@ export const SmartActive = Extension.create<SmartActiveOptions>({
 
 export const getFirstActiveNodePosition = (editor: Editor): { offsetTop: number | null, offsetLeft: number | null } => {
     const focusClassName = editor.extensionManager.extensions.find(extension => extension.name === SmartActive.name)?.options.className
-    const currentNode: Element | null = DomHelper.querySelector(`.` + focusClassName)
+    const editorElement = editor.options.element
+    const currentNode: Element | null = editorElement?.querySelector(`.${focusClassName}`)
 
     if (currentNode === null) {
         return { offsetTop: null, offsetLeft: null }
