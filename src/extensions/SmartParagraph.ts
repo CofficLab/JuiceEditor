@@ -1,6 +1,6 @@
 import Paragraph from "@tiptap/extension-paragraph";
 import axios from 'axios';
-import TiptapEditor from "../model/TiptapEditor";
+import { TiptapEditor } from "../model/TiptapGroup";
 
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {

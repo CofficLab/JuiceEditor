@@ -1,4 +1,4 @@
-import TiptapExtension from '../../model/TiptapExtension';
+import { TiptapExtension } from '../../model/TiptapGroup';
 import { createApp, h } from 'vue';
 import Component from './Component.vue';
 

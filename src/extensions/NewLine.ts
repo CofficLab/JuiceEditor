@@ -1,4 +1,4 @@
-import TiptapExtension from '../model/TiptapExtension'
+import { TiptapExtension } from '../model/TiptapGroup'
 import { TextSelection } from '@tiptap/pm/state'
 
 declare module '@tiptap/core' {

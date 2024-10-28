@@ -1,4 +1,4 @@
-import TiptapExtension from '../model/TiptapExtension'
+import { TiptapExtension } from '../model/TiptapGroup';
 
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { defineProps } from 'vue'
 import Button from '../ui/Button.vue'
-import TiptapEditor from '../model/TiptapEditor'
+import { TiptapEditor } from '../model/TiptapGroup'
 import { ref, watch } from 'vue'
 
 import { RiGlobalLine, RiLinkM } from '@remixicon/vue'

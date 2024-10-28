@@ -1,4 +1,4 @@
-import TiptapExtension from '../model/TiptapExtension';
+import { TiptapExtension } from '../model/TiptapGroup';
 import { Plugin, PluginKey } from 'prosemirror-state';
 import { Decoration, DecorationSet } from 'prosemirror-view';
 import { BulletList } from '@tiptap/extension-bullet-list'

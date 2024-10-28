@@ -1,6 +1,6 @@
 import { EditorState } from '@tiptap/pm/state'
 import { EditorView } from '@tiptap/pm/view'
-import TiptapEditor from '../model/TiptapEditor'
+import { TiptapEditor } from '../model/TiptapGroup'
 import Heading from '@tiptap/extension-heading'
 import HardBreak from '@tiptap/extension-hard-break'
 import Blockquote from '@tiptap/extension-blockquote'

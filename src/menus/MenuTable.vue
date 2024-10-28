@@ -1,21 +1,16 @@
 <script lang="ts" setup>
 import { defineProps } from 'vue'
-import TiptapEditor from '../model/TiptapEditor'
+import { TiptapEditor } from '../model/TiptapGroup'
 import { computed } from 'vue'
 import Button from '../ui/Button.vue'
 import {
     RiInsertColumnLeft, RiInsertColumnRight, RiDeleteColumn, RiInsertRowTop,
-    RiInsertRowBottom, RiDeleteRow, RiMergeCellsHorizontal, RiSplitCellsHorizontal, RiHeading,
-    RiText,
-    RiLayoutColumnLine,
-    RiLayoutRowLine,
+    RiInsertRowBottom, RiDeleteRow, RiMergeCellsHorizontal, RiSplitCellsHorizontal,
     RiArrowRightSLine,
     RiArrowLeftSLine,
     RiLayoutColumnFill,
     RiLayoutRowFill
 } from '@remixicon/vue'
-import TableHeader from '@tiptap/extension-table-header'
-import TableRow from '@tiptap/extension-table-row'
 let props = defineProps({
     editor: {
         type: TiptapEditor,

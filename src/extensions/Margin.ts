@@ -1,4 +1,4 @@
-import TiptapExtension from '../model/TiptapExtension';
+import { TiptapExtension } from '../model/TiptapGroup';
 import { getSelectionNode } from './SmartSelection';
 import { Root } from './Root';
 import Link from '@tiptap/extension-link';

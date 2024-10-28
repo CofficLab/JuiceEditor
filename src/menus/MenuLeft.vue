@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
-import TiptapEditor from '../model/TiptapEditor'
+import { TiptapEditor } from '../model/TiptapGroup'
 import Button from '../ui/Button.vue'
 import ButtonGroup from '../ui/ButtonGroup.vue'
 import { getFirstActiveNodePosition } from '../extensions/SmartActive'
 import {
 	RiDeleteBin7Line, RiAddLine, RiCodeBoxLine,
 	RiAlignLeft, RiAlignCenter, RiPaletteLine,
-	RiGlobalLine, RiCornerDownLeftLine, RiDivideLine, RiAlignRight,
-	RiH2, RiH3, RiH4, RiH5, RiH6, RiText, RiChatQuoteLine
+	RiGlobalLine, RiAlignRight,
+	RiH2, RiH3, RiH4, RiText, RiChatQuoteLine
 } from '@remixicon/vue'
 import Paragraph from '@tiptap/extension-paragraph'
 import Heading from '@tiptap/extension-heading'

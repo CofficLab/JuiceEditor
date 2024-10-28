@@ -1,10 +1,9 @@
-import TiptapEditor from './TiptapEditor'
-import RootAgent from '../interface/RootAgent'
+import { TiptapEditor } from './TiptapGroup'
 import EditorOptions from '../interface/EditorOptions'
 
-class JuiceEditor implements RootAgent {
-    private editor: TiptapEditor | null = null
-    private options: EditorOptions
+class Editor {
+    public editor: TiptapEditor | null = null
+    public options: EditorOptions
 
     constructor(options: EditorOptions) {
         this.options = options
@@ -26,27 +25,23 @@ class JuiceEditor implements RootAgent {
         return this.editor?.getHTML() || ''
     }
 
-    public onBeforeCreate() {
-        this.options.onBeforeCreate?.()
-    }
-
-    public onCreate(editor: TiptapEditor) {
-        this.editor = editor
-        this.options.onCreate?.(this)
-    }
-
-    public onContentError() {
-        this.options.onContentError?.()
-    }
-
-    public onUpdate() {
-        this.options.onUpdate?.(this)
-    }
-
     public setContent(content: string) {
         this.editor?.commands.setContent(content, true)
     }
 
+    /**
+     * 设置翻译API接口地址
+     * 
+     * 在需要翻译时，编辑器会向该地址发送 HTTP POST 请求
+     * 
+     * 请求参数：
+     * 
+     * { lang: language, text: content }
+     * 
+     * 返回值：翻译后的文本
+     * @param api 翻译API接口地址
+     * @example editor.setTranslateApi('https://api.youdao.com/api')
+     */
     public setTranslateApi(api: string) {
         this.editor?.commands.setTranslateApi(api)
     }
@@ -55,6 +50,20 @@ class JuiceEditor implements RootAgent {
         this.editor?.commands.loadContentFromLocalStorage()
     }
 
+    public setContentFromUrl(url: string) {
+        this.editor?.commands.setContentFromWeb(url)
+    }
+
+    /**
+     * 设置画图链接
+     * 
+     * 在需要画图时，编辑器会加载该链接的页面
+     * 
+     * 详细文档：https://cofficlab.github.io/en/juiceEditor/documents/components/image.html#draw-a-picture
+     * 
+     * @param link 画图链接
+     * @example editor.setDrawLink('https://embeded.draw.io')
+     */
     public setDrawLink(link: string) {
         this.editor?.commands.setDrawLink(link)
     }
@@ -72,4 +81,4 @@ class JuiceEditor implements RootAgent {
     }
 }
 
-export default JuiceEditor
+export default Editor

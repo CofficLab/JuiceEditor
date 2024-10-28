@@ -1,10 +1,13 @@
 <script lang="ts" setup>
-import { FloatingMenu } from '@tiptap/vue-3'
-import TiptapEditor from '../model/TiptapEditor'
+import { FloatingMenu } from '../model/TiptapGroup'
+import { TiptapEditor } from '../model/TiptapGroup'
 import { shouldShowFloatingMenu } from '../extensions/SmartMenus'
 import ButtonGroup from '../ui/ButtonGroup.vue'
 import Button from '../ui/Button.vue'
-import { RiH2, RiH3, RiH4, RiEdit2Line, RiListCheck, RiTaskFill, RiTable2, RiCodeBlock, RiKeyboardBoxLine, RiChatQuoteLine } from '@remixicon/vue'
+import {
+  RiH2, RiH3, RiH4, RiEdit2Line, RiListCheck, RiTaskFill,
+  RiTable2, RiCodeBlock, RiKeyboardBoxLine, RiChatQuoteLine
+} from '@remixicon/vue'
 
 defineProps({
   editor: {

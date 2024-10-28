@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed, defineProps, ref } from 'vue'
 import Button from '../ui/Button.vue'
-import TiptapEditor from '../model/TiptapEditor'
+import { TiptapEditor } from '../model/TiptapGroup'
 import SmartImage from '../extensions/SmartImage/SmartImage'
 import { RiEditLine, RiDownloadLine, RiShapeLine } from '@remixicon/vue'
 

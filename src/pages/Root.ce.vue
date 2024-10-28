@@ -4,9 +4,9 @@ import Loading from '../ui/Loading.vue'
 import { Editor as EditorVue } from '@tiptap/vue-3';
 import App from './App.vue'
 import { makeExtensions, defaultDrawIoLink, defaultTranslateApi, defaultFocusClassName } from '../model/TiptapAgent';
-import RootAgent from '../interface/RootAgent';
+import Editor from 'src/model/Editor';
 
-const rootAgent: RootAgent = inject('rootAgent')!
+const rootAgent: Editor = inject('rootAgent')!
 
 const editor = new EditorVue({
     extensions: makeExtensions({
@@ -17,13 +17,17 @@ const editor = new EditorVue({
     editable: true,
     autofocus: 'start',
     onBeforeCreate: () => {
-        rootAgent.onBeforeCreate()
+        rootAgent.options.onBeforeCreate?.()
     },
     onCreate: ({ editor }) => {
-        rootAgent.onCreate(editor)
+        rootAgent.editor = editor
+        rootAgent.options.onCreate?.(rootAgent)
     },
     onContentError: (error) => {
-        rootAgent.onContentError()
+        rootAgent.options.onContentError?.()
+    },
+    onUpdate: () => {
+        rootAgent.options.onUpdate?.(rootAgent)
     }
 })
 

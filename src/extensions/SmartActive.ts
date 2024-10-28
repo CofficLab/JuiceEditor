@@ -1,5 +1,4 @@
-import TiptapEditor from '../model/TiptapEditor'
-import TiptapExtension from '../model/TiptapExtension'
+import { TiptapEditor, TiptapExtension } from '../model/TiptapGroup'
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
 import { Root } from './Root';

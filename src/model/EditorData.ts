@@ -1,5 +1,5 @@
 import { JSONContent } from '@tiptap/core'
-import TiptapEditor from './TiptapEditor'
+import { TiptapEditor } from './TiptapGroup'
 import Heading from '@tiptap/extension-heading'
 
 const emoji = '🍉 EditorDoc'

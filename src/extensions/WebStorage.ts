@@ -1,9 +1,9 @@
-import TiptapExtension from '../model/TiptapExtension'
+import { TiptapExtension } from '../model/TiptapGroup'
 import axios from 'axios';
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
         WebStorage: {
-            loadContentFromWeb: (url: string) => ReturnType
+            setContentFromWeb: (url: string) => ReturnType
         }
     }
 }
@@ -32,7 +32,7 @@ export const WebStorage = TiptapExtension.create({
 
     addCommands() {
         return {
-            loadContentFromWeb: (url: string) => ({ editor, commands }) => {
+            setContentFromWeb: (url: string) => ({ editor, commands }) => {
                 if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
                     console.log(this.storage.emoji, 'loadContentFromWeb', url)
                 }

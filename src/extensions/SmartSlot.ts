@@ -1,4 +1,4 @@
-import TiptapExtension from '../model/TiptapExtension'
+import { TiptapExtension } from '../model/TiptapGroup'
 
 const target = document.querySelector('juice-editor')!
 const config = { childList: true, subtree: true, characterData: true }

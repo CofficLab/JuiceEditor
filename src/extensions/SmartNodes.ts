@@ -1,8 +1,9 @@
-import TiptapExtension from '../model/TiptapExtension'
+import { TiptapExtension } from '../model/TiptapGroup'
 import { JSONContent } from "@tiptap/core"
 import { Root } from "./Root"
 import UUIDHelper from "../helper/UUIDHelper"
 import SmartDoc from "./SmartDoc"
+import SmartText from "./SmartText"
 
 function flattenBlock(block: JSONContent): JSONContent[] {
     var newBlock = block
@@ -25,7 +26,7 @@ function flattenBlock(block: JSONContent): JSONContent[] {
         children.map(child => {
             child.attrs = child.attrs || {};
 
-            if (child.type == Text.name) {
+            if (child.type == SmartText.name) {
                 if (newBlock.attrs && newBlock.attrs.uuid) {
                     child.attrs.uuid = "text-" + newBlock.attrs.uuid;
                 }
@@ -64,7 +65,7 @@ function flattenBlock(block: JSONContent): JSONContent[] {
 }
 
 function getTitle(json: JSONContent): string {
-    if (json.type == Text.name) {
+    if (json.type == SmartText.name) {
         return json.text ?? ""
     }
 
@@ -97,5 +98,10 @@ export const SmartNodes = TiptapExtension.create({
     onUpdate() {
         this.storage.nodes = flattenBlock(this.editor.getJSON())
         this.storage.title = getTitle(this.editor.getJSON())
+
+        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+            console.log(this.storage.emoji, "onUpdate:updateTitle", this.storage.title)
+            this.editor.commands.webKitSendDebugMessage(this.storage.emoji + ' Update Title: ' + this.storage.title)
+        }
     },
 })

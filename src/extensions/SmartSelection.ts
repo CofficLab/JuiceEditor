@@ -1,6 +1,6 @@
 import { findParentNode } from '@tiptap/core'
-import TiptapEditor from '../model/TiptapEditor'
-import TiptapExtension from '../model/TiptapExtension'
+import { TiptapEditor } from '../model/TiptapGroup'
+import { TiptapExtension } from '../model/TiptapGroup'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
 import SmartImage from './SmartImage/SmartImage'

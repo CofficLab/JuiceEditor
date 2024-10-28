@@ -23,13 +23,14 @@
 //     }, 500)
 // }
 
-import TiptapExtension from '../model/TiptapExtension'
+import { TiptapExtension } from '../model/TiptapGroup'
 import { JSONContent } from "@tiptap/core"
 
 import { Root } from "./Root"
 import ImageHelper from "../helper/ImageHelper"
 import UUIDHelper from "../helper/UUIDHelper"
 import SmartDoc from "./SmartDoc"
+import SmartText from "./SmartText"
 
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
@@ -69,7 +70,7 @@ function flattenBlock(block: JSONContent): JSONContent[] {
         children.map(child => {
             child.attrs = child.attrs || {};
 
-            if (child.type == Text.name) {
+            if (child.type == SmartText.name) {
                 if (newBlock.attrs && newBlock.attrs.uuid) {
                     child.attrs.uuid = "text-" + newBlock.attrs.uuid;
                 }
@@ -104,11 +105,13 @@ function flattenBlock(block: JSONContent): JSONContent[] {
         }
     })
 
+    console.log("webkit:flattenBlock", collection)
+
     return collection
 }
 
 function getTitle(json: JSONContent): string {
-    if (json.type == Text.name) {
+    if (json.type == SmartText.name) {
         return json.text ?? ""
     }
 
@@ -178,17 +181,13 @@ export const WebKit = TiptapExtension.create({
             return
         }
 
-        console.log(this.storage.emoji, "onUpdate")
-
         if (!('webkit' in window)) {
             return
         }
 
-        this.editor.commands.webKitSendDebugMessage(this.storage.emoji + ' 更新文档')
-
         var messageData: any = {}
         messageData.channel = "updateDoc"
-        messageData.title = this.editor.storage.smartNodes.title
+        messageData.title = getTitle(this.editor.getJSON())
         messageData.html = this.editor.getHTML()
         messageData.nodes = flattenBlock(this.editor.getJSON()).map(node => {
             if (node.type == Root.name) {
@@ -198,6 +197,9 @@ export const WebKit = TiptapExtension.create({
         })
         messageData.wordCount = this.editor.storage.characterCount.words()
         messageData.characterCount = this.editor.storage.characterCount.characters()
+
+        this.editor.commands.webKitSendDebugMessage(this.storage.emoji + ' 更新文档')
+        this.editor.commands.webKitSendDebugMessage(this.storage.emoji + ' Title: ' + messageData.title)
 
         // 异步往 webkit 发送数据，防止界面卡顿
         this.editor.commands.asyncSendMessage(messageData)
@@ -269,6 +271,7 @@ export const WebKit = TiptapExtension.create({
             },
 
             asyncSendMessage: (data: object) => () => {
+                console.log("webkit:asyncSendMessage", data)
                 new Promise((resolve, reject) => {
                     try {
                         (window as any).webkit.messageHandlers.sendMessage.postMessage(data);

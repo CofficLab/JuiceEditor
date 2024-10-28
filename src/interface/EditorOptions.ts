@@ -1,4 +1,4 @@
-import Editor from "../model/JuiceEditor"
+import Editor from "../model/Editor"
 
 interface EditorOptions {
     onCreate?: (editor: Editor) => void

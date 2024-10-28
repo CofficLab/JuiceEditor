@@ -1,7 +1,7 @@
-import JuiceEditor from './model/JuiceEditor'
-import JuiceEditorFactory from './model/JuiceEditorFactory'
+import Editor from './model/Editor'
+import EditorFactory from './model/EditorFactory'
 
 export {
-    JuiceEditor as Editor,
-    JuiceEditorFactory as EditorFactory
+    Editor,
+    EditorFactory
 }

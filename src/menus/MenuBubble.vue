@@ -1,23 +1,21 @@
 <script lang="ts" setup>
-import { EditorState } from '@tiptap/pm/state'
-import { EditorView } from '@tiptap/pm/view'
-import { BubbleMenu } from '@tiptap/vue-3'
-import TiptapEditor from '../model/TiptapEditor'
+import {
+	TiptapEditor, ImageExtension, FontFamilyExtension, LinkExtension, HeadingExtension,
+	ParagraphExtension, ColorExtension, TiptapEditorState, TiptapEditorView
+} from '../model/TiptapGroup'
 import ButtonGroup from '../ui/ButtonGroup.vue'
 import MenuImage from './MenuImage.vue'
 import MenuDraw from './MenuDraw.vue'
 import MenuLink from './MenuLink.vue'
-import FontFamily from '@tiptap/extension-font-family'
 import { computed } from 'vue'
 import { shouldShowBubbleMenu } from '../extensions/SmartMenus'
 import Button from '../ui/Button.vue'
-import { RiBold, RiItalic, RiStrikethrough, RiPaletteLine, RiSubscript, RiSuperscript, RiUnderline, RiFontFamily, RiCodeLine, RiFontColor } from '@remixicon/vue'
-import Color from '@tiptap/extension-color'
+import {
+	RiBold, RiItalic, RiStrikethrough, RiPaletteLine, RiSubscript,
+	RiSuperscript, RiUnderline, RiFontFamily, RiCodeLine, RiFontColor
+} from '@remixicon/vue'
 import { getSelectionTextLength } from '../extensions/SmartSelection'
-import Link from '@tiptap/extension-link'
-import Heading from '@tiptap/extension-heading'
-import Paragraph from '@tiptap/extension-paragraph'
-import Image from '@tiptap/extension-image'
+import SmartText from '../extensions/SmartText'
 
 const props = defineProps({
 	editor: {
@@ -41,33 +39,21 @@ const props = defineProps({
 
 const shouldShow = function (props: {
 	editor: TiptapEditor
-	view: EditorView
-	state: EditorState
-	oldState?: EditorState | undefined
+	view: TiptapEditorView
+	state: TiptapEditorState
+	oldState?: TiptapEditorState | undefined
 	from: number
 	to: number
 }) {
 	return shouldShowBubbleMenu(props)
 }
 
-const shouldShowHeadingMenu = computed(() => {
-	if (props.editor.isActive(Link.name)) {
-		return false
-	}
-
-	const nodesShow = [Heading.name, Paragraph.name, Text.name]
-
-	return nodesShow.some(node => {
-		return props.editor.isActive(node)
-	})
-})
-
 const shouldShowFormatMenu = computed(() => {
-	if (props.editor.isActive(Link.name)) {
+	if (props.editor.isActive(LinkExtension.name)) {
 		return false
 	}
 
-	const nodesShow = [Heading.name, Paragraph.name, Text.name]
+	const nodesShow = [HeadingExtension.name, ParagraphExtension.name, SmartText.name]
 
 	return nodesShow.some(node => {
 		return props.editor.isActive(node)
@@ -75,23 +61,23 @@ const shouldShowFormatMenu = computed(() => {
 })
 
 const shouldShowDrawMenu = computed(() => {
-	return props.editor.getAttributes(Image.name).draw == true
+	return props.editor.getAttributes(ImageExtension.name).draw == true
 })
 
 const shouldShowImageMenu = computed(() => {
-	return props.editor.isActive(Image.name) && !props.editor.getAttributes(Image.name).draw
+	return props.editor.isActive(ImageExtension.name) && !props.editor.getAttributes(ImageExtension.name).draw
 })
 
 const shouldShowLinkMenu = computed(() => {
-	return props.editor.isActive(Link.name)
+	return props.editor.isActive(LinkExtension.name)
 })
 
 const textColors = computed(() => {
-	return props.editor.options.extensions.find(extension => extension.name === Color.name)?.options.colors
+	return props.editor.options.extensions.find(extension => extension.name === ColorExtension.name)?.options.colors
 })
 
 const fontFamilies = computed(() => {
-	return props.editor.options.extensions.find(extension => extension.name === FontFamily.name)?.options.fontFamilies
+	return props.editor.options.extensions.find(extension => extension.name === FontFamilyExtension.name)?.options.fontFamilies
 })
 
 const hasSelection = computed(() => {

@@ -1,5 +1,4 @@
-import TiptapExtension from '../model/TiptapExtension'
-import TiptapEditor from '../model/TiptapEditor'
+import { TiptapExtension, TiptapEditor } from '../model/TiptapGroup'
 import SmartParagraph from './SmartParagraph'
 import { Slice } from 'prosemirror-model'
 
@@ -111,7 +110,7 @@ export const SmartEvent = TiptapExtension.create({
             console.log(emoji, "onDrop", event, slice, moved)
         }
     },
-    onContentError({ editor, error, disableCollaboration }: { editor: Editor; error: Error; disableCollaboration: () => void }) {
+    onContentError({ editor, error, disableCollaboration }: { editor: TiptapEditor; error: Error; disableCollaboration: () => void }) {
         if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
             console.log(emoji, "onContentError", editor, error, disableCollaboration)
         }

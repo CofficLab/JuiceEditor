@@ -10,7 +10,7 @@
 <script lang="ts" setup>
 import { onMounted, onUnmounted, ref } from 'vue'
 import Card from '../../ui/Card.vue'
-import TiptapEditor from '../../model/TiptapEditor';
+import { TiptapEditor } from '../../model/TiptapGroup';
 
 const props = defineProps({
   editor: {

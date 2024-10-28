@@ -1,11 +1,10 @@
 <script lang="ts" setup>
 import { defineProps, computed } from 'vue'
 import Button from '../ui/Button.vue'
-import TiptapEditor from '../model/TiptapEditor'
+import { TiptapEditor } from '../model/TiptapGroup'
 import ImageHelper from '../helper/ImageHelper'
 import { RiDownloadLine, RiEditLine, RiShapeLine } from '@remixicon/vue'
-import SmartImage from '../extensions/SmartImage/SmartImage'
-import Image from '@tiptap/extension-image'
+import { ImageExtension } from '../model/TiptapGroup'
 
 let props = defineProps({
     editor: {
@@ -32,7 +31,7 @@ const downloadImage = () => {
 }
 
 let shapeClass = computed(() => {
-    return props.editor.options.extensions.find(extension => extension.name === SmartImage.name)?.options.shapeClass
+    return props.editor.options.extensions.find(extension => extension.name === ImageExtension.name)?.options.shapeClass
 })
 </script>
 
