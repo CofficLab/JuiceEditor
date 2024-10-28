@@ -13,6 +13,7 @@ import TableCell from "@tiptap/extension-table-cell"
 import TaskItem from "@tiptap/extension-task-item"
 import { SmartReady } from "../extensions/SmartReady"
 import { SmartSlot } from "../extensions/SmartSlot"
+import Features from "../extensions/Features/Features"
 import { SmartNodes } from "../extensions/SmartNodes"
 import HardBreak from "@tiptap/extension-hard-break"
 import Subscript from "@tiptap/extension-subscript"
@@ -26,12 +27,12 @@ import Superscript from "@tiptap/extension-superscript"
 import TextAlign from '@tiptap/extension-text-align'
 import { WebStorage } from "../extensions/WebStorage"
 import SmartHeading from "../extensions/SmartHeading"
-import SmartTaskList from "../extensions/SmartTaskList/SmartTaskList"
+import SmartTaskList from "../extensions/SmartTaskList"
 import SmartPre from "../extensions/SmartCodeBlock/SmartCodeBlock"
 import SmartImage from "../extensions/SmartImage/SmartImage"
-import SmartLink from "../extensions/SmartLink/SmartLink"
+import SmartLink from "../extensions/SmartLink"
 import SmartParagraph from "../extensions/SmartParagraph"
-import SmartBulletList from "../extensions/SmartBulletList/SmartBulletList"
+import SmartBulletList from "../extensions/SmartBulletList"
 import SmartQuote from "../extensions/SmartQuote"
 import { SmartActive } from "../extensions/SmartActive"
 import TableRow from "@tiptap/extension-table-row"
@@ -41,7 +42,7 @@ import { Padding } from "../extensions/Padding"
 import { SmartFocus } from "../extensions/SmartFocus"
 import { Branch } from "../extensions/Branch/Branch"
 import { BranchContent } from "../extensions/BranchContent/BranchContent"
-import { Root } from "../extensions/Root/Root"
+import { Root } from "../extensions/Root"
 import { NewLine } from "../extensions/NewLine"
 import { Debug } from "../extensions/Debug"
 import { SmartEvent } from "../extensions/SmartEvent"
@@ -81,6 +82,7 @@ function makeExtensions(props: makeExtensionsProps) {
             content: `${Heading.name} block*`,
         }),
         Branch,
+        Features,
         BranchContent,
         SmartAlert,
         SmartDoc,

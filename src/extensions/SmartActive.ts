@@ -1,7 +1,7 @@
 import { Extension, Editor } from '@tiptap/core'
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
-import { Root } from './Root/Root';
+import { Root } from './Root';
 
 interface SmartActiveOptions {
     className: string

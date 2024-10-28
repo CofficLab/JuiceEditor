@@ -22,14 +22,14 @@ const editor = EditorFactory.register('my-editor', {
     onCreate: (editor: Editor) => {
         console.log(title, 'onCreate for label my-editor')
 
+
         editor.disableWebKit()
+        editor.enableLog()
         editor.setTranslateApi('https://api.youdao.com/api')
         editor.setDrawLink('/draw/index.html?')
         editor.setContentFromLocalStorage()
     }
 })
-
-EditorFactory.register('magical-editor')
 
 const div = document.createElement('div');
 div.style.cssText = `
@@ -86,6 +86,7 @@ const buttons = [
     { text: '只读/编辑', onclick: () => editor.toggleReadOnly() },
     { text: '源码', onclick: () => editor.toggleSourceCode() },
     { text: '代码块', onclick: () => editor.setContent(codeBlockDoc) },
+    { text: '宣传图', onclick: () => editor.setContent("<h1>宣传图</h1><features-component></features-component>") },
 ];
 
 buttons.forEach(button => {

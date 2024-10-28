@@ -25,7 +25,7 @@
 
 import { Extension, JSONContent } from "@tiptap/core"
 import TiptapHelper from "../helper/TiptapHelper"
-import { Root } from "./Root/Root"
+import { Root } from "./Root"
 import ImageHelper from "../helper/ImageHelper"
 import UUIDHelper from "../helper/UUIDHelper"
 import SmartDoc from "./SmartDoc"

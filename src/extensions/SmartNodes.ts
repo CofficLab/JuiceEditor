@@ -1,5 +1,5 @@
 import { Extension, JSONContent } from "@tiptap/core"
-import { Root } from "./Root/Root"
+import { Root } from "./Root"
 import UUIDHelper from "../helper/UUIDHelper"
 import SmartDoc from "./SmartDoc"
 

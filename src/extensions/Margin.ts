@@ -1,6 +1,6 @@
 import { Extension } from '@tiptap/core';
 import { getSelectionNode } from './SmartSelection';
-import { Root } from './Root/Root';
+import { Root } from './Root';
 import Link from '@tiptap/extension-link';
 import BulletList from '@tiptap/extension-bullet-list';
 import ListItem from '@tiptap/extension-list-item';
@@ -8,6 +8,7 @@ import TaskList from '@tiptap/extension-task-list';
 import TaskItem from '@tiptap/extension-task-item';
 import TableCell from '@tiptap/extension-table-cell';
 import TableHeader from '@tiptap/extension-table-header';
+import Features from './Features/Features';
 
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
@@ -38,7 +39,8 @@ export const Margin = Extension.create({
                 TaskList.name,
                 TaskItem.name,
                 TableCell.name,
-                TableHeader.name
+                TableHeader.name,
+                Features.name,
             ],
             levels: [
                 'ml-0',

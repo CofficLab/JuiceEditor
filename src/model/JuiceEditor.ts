@@ -14,6 +14,10 @@ class JuiceEditor implements RootAgent {
         this.editor?.commands.disableWebKit()
     }
 
+    public enableLog: () => void = () => {
+        this.editor?.commands.enableLog()
+    }
+
     public getContent: () => string = () => {
         return this.editor?.getHTML() || ''
     }
@@ -36,7 +40,7 @@ class JuiceEditor implements RootAgent {
     }
 
     public setContent(content: string) {
-        this.editor?.commands.setContent(content)
+        this.editor?.commands.setContent(content, true)
     }
 
     public setTranslateApi(api: string) {

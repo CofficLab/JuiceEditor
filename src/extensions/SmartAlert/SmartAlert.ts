@@ -63,7 +63,7 @@ export const SmartAlert = Extension.create({
                 return true;
             },
 
-            closeAlert: () => ({ view }) => {
+            closeAlert: () => ({ }) => {
                 console.log('closeAlert')
                 const mountPoint = this.editor.options.element?.shadowRoot?.querySelector(`#${this.options.mountPointId}`);
                 if (mountPoint) {
