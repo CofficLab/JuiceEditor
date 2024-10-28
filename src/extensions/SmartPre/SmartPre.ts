@@ -2,8 +2,7 @@ import CodeBlock from '@tiptap/extension-code-block'
 import { VueNodeViewRenderer } from '@tiptap/vue-3'
 import SmartPreVue from './SmartPre.vue'
 import MonacoBox from './Entities/MonacoBox';
-
-const verbose = true;
+import { title } from 'process';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -17,8 +16,12 @@ declare module '@tiptap/core' {
 
 // 保存成HTML的时候要考虑HTML转Markdown
 export default CodeBlock.extend({
-  name: 'pre',
-
+  addStorage() {
+    return {
+      verbose: true,
+      title: '🍋 SmartPre',
+    }
+  },
   addAttributes() {
     return {
       language: {
@@ -53,8 +56,7 @@ export default CodeBlock.extend({
   addCommands() {
     return {
       insertSmartPre:
-        attributes => ({ commands }) => {
-
+        () => ({ commands }) => {
           return commands.insertContent("<pre><code class='language-text'></code></pre>");
         },
       setCodeBlock:
@@ -68,12 +70,6 @@ export default CodeBlock.extend({
     }
   },
 
-  addStorage() {
-    return {
-      editorUUID: "",
-    }
-  },
-
   onDestroy() {
     let verbose = false;
     if (verbose) {
@@ -82,19 +78,15 @@ export default CodeBlock.extend({
   },
 
   onCreate() {
-    // The editor is ready.
-
-    let verbose = false;
-    if (verbose) {
-      console.log("Boot Monaco")
+    if (this.storage.verbose) {
+      console.log(this.storage.title, 'onCreate', 'boot Monaco')
     }
     MonacoBox.boot()
 
-    let juiceEditor = document.querySelector('juice-editor')
-    let shadowRoot = juiceEditor!.shadowRoot!
+    let dom = this.editor.options.element
     let monacoDom = document.createElement('div')
     monacoDom.id = 'MonacoStyleBox'
-    shadowRoot.appendChild(monacoDom)
+    dom.appendChild(monacoDom)
 
     // 仅用于让Monaco将样式写入dom中
     MonacoBox.createEmptyEditor(monacoDom)
@@ -110,11 +102,3 @@ export default CodeBlock.extend({
   //   this.storage.editorUUID = this.editor.options.injectNonce
   // },
 })
-
-function log(...messages: any[]) {
-  if (!verbose) {
-    return;
-  }
-
-  console.log('💼 SmartPre:', ...messages)
-}

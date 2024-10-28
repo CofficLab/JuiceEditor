@@ -12,6 +12,7 @@ import { TableHeader } from '@tiptap/extension-table-header'
 import { ListItem } from '@tiptap/extension-list-item'
 import { TaskItem } from '@tiptap/extension-task-item'
 import { Root } from './Root/Root';
+import CodeBlock from '@tiptap/extension-code-block';
 
 const title = '👔 Padding'
 
@@ -30,6 +31,7 @@ export const Padding = Extension.create({
                 Root.name,
                 Link.name,
                 Image.name,
+                CodeBlock.name,
             ],
             excludeClass: 'no-padding',
             excludeIfIn: [

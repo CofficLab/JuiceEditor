@@ -25,15 +25,7 @@
 </head>
 
 <body>
-  <juice-editor mode="basic"></juice-editor>
+  <my-editor mode="basic"></my-editor>
 </body>
-
-<script>
-  window.addEventListener('editor-event', (event) => {
-    if (event.detail.type === 'editorReady') {
-      api.config.setDrawIoLink("/public/drawio/webapp/index.html?");
-    }
-  })
-</script>
 
 </html>

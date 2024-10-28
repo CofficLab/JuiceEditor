@@ -135,30 +135,17 @@ function shouldShowParagraphMenu() {
 				<RiAddLine :size="iconSize"></RiAddLine>
 			</Button>
 
-			<Button tips="2号标题"
-				v-if="editor.can().setHeading({ level: 2 }) && !editor.isActive(Heading.name, { level: 1 })"
+			<Button tips="2号标题" v-if="editor.can().setHeading2() && !editor.isActive(Heading.name, { level: 1 })"
 				:shape="shape" @click="editor.chain().focus().setHeading({ level: 2 }).run()">
 				<RiH2></RiH2>
 			</Button>
-			<Button tips="3号标题"
-				v-if="editor.can().setHeading({ level: 3 }) && !editor.isActive(Heading.name, { level: 1 })"
-				:shape="shape" @click="editor.chain().focus().setHeading({ level: 3 }).run()">
+			<Button tips="3号标题" v-if="editor.can().setHeading3() && !editor.isActive(Heading.name, { level: 1 })"
+				:shape="shape" @click="editor.chain().focus().setHeading3().run()">
 				<RiH3></RiH3>
 			</Button>
-			<Button tips="4号标题"
-				v-if="editor.can().setHeading({ level: 4 }) && !editor.isActive(Heading.name, { level: 1 })"
-				:shape="shape" @click="editor.chain().focus().setHeading({ level: 4 }).run()">
+			<Button tips="4号标题" v-if="editor.can().setHeading4() && !editor.isActive(Heading.name, { level: 1 })"
+				:shape="shape" @click="editor.chain().focus().setHeading4().run()">
 				<RiH4></RiH4>
-			</Button>
-			<Button tips="5号标题"
-				v-if="editor.can().setHeading({ level: 5 }) && !editor.isActive(Heading.name, { level: 1 })"
-				:shape="shape" @click="editor.chain().focus().setHeading({ level: 5 }).run()">
-				<RiH5></RiH5>
-			</Button>
-			<Button tips="6号标题"
-				v-if="editor.can().setHeading({ level: 6 }) && !editor.isActive(Heading.name, { level: 1 })"
-				:shape="shape" @click="editor.chain().focus().setHeading({ level: 6 }).run()">
-				<RiH6></RiH6>
 			</Button>
 			<Button tips="正文" :iconSize="iconSize" :shape="shape"
 				v-if="editor.can().setParagraph() && !editor.isActive(Heading.name, { level: 1 })"
@@ -204,7 +191,8 @@ function shouldShowParagraphMenu() {
 
 			<!-- Menu for paragraph -->
 
-			<Button tips="样式" :shape="shape" v-if="shouldShowParagraphMenu()">
+			<Button tips="样式" :shape="shape" v-if="shouldShowParagraphMenu()"
+				:dropdownBackgroundClass="backgroundClass">
 				<RiPaletteLine :size="iconSize"></RiPaletteLine>
 				<template #dropdown-item>
 					<div class="grid grid-cols-2 z-50 sm:grid-cols-3 md:grid-cols-5 gap-2 w-48">
@@ -217,7 +205,8 @@ function shouldShowParagraphMenu() {
 				</template>
 			</Button>
 
-			<Button tips="翻译" :shape="shape" v-if="shouldShowParagraphMenu()">
+			<Button tips="翻译" :shape="shape" v-if="shouldShowParagraphMenu()"
+				:dropdownBackgroundClass="backgroundClass">
 				<RiGlobalLine :size="iconSize"></RiGlobalLine>
 
 				<template #dropdown-item>

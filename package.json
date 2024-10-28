@@ -1,6 +1,6 @@
 {
   "name": "@coffic/juice-editor",
-  "version": "0.9.90",
+  "version": "0.9.95",
   "homepage": "https://cofficlab.github.io/en/juiceEditor",
   "repository": "https://github.com/cofficlab/juiceEditor",
   "files": [
@@ -20,9 +20,9 @@
     "install:monaco": "cd monaco && pnpm install",
     "build": "npm run build:clean && vue-tsc --emitDeclarationOnly && vite build && npm run build:types",
     "build:clean": "rm -rf dist && npm run draw:clean",
-    "build:types": "tsc --emitDeclarationOnly",
+    "build:types": "tsc --emitDeclarationOnly && tsc-alias",
     "draw:build": "npm run draw:clean && npm run draw:copy",
-    "draw:copy": "cp -r node_modules/@coffic/juice-editor-draw/drawio/webapp public/draw",
+    "draw:copy": "npm run draw:clean && cp -rf node_modules/@coffic/juice-editor-draw/dist public/draw",
     "draw:clean": "rm -rf public/draw",
     "test": "jest --coverage --no-warnings"
   },
@@ -70,8 +70,8 @@
     "@tiptap/extension-typography": "^2.9.1",
     "@tiptap/extension-underline": "^2.9.1",
     "@tiptap/pm": "^2.9.1",
+    "@types/node": "^22.8.1",
     "@tiptap/vue-3": "^2.9.1",
-    "@types/node": "^22.7.9",
     "@types/turndown": "^5.0.5",
     "@types/uuid": "^9.0.8",
     "@vitejs/plugin-vue": "^4.6.2",
@@ -80,13 +80,13 @@
     "daisyui": "^4.12.13",
     "html2canvas": "^1.4.1",
     "monaco-editor": "^0.52.0",
-    "pinia": "^2.2.4",
     "postcss": "^8.4.47",
     "postcss-nesting": "^12.1.5",
     "prosemirror-model": "^1.23.0",
     "prosemirror-state": "^1.4.3",
     "prosemirror-view": "^1.34.3",
     "tailwindcss": "^3.4.14",
+    "tsc-alias": "^1.8.10",
     "turndown": "^7.2.0",
     "typescript": "~5.1.6",
     "uuid": "^9.0.1",
@@ -95,7 +95,7 @@
     "vue-tsc": "^1.8.27"
   },
   "devDependencies": {
-    "@coffic/juice-editor-draw": "^0.2.10",
+    "@coffic/juice-editor-draw": "^1.0.5",
     "@tsconfig/node18": "^18.2.4",
     "@types/jest": "^29.5.14",
     "@vue/test-utils": "2.4.6",
@@ -109,12 +109,12 @@
   },
   "main": "dist/juice-editor.umd.js",
   "module": "dist/juice-editor.es.js",
-  "types": "dist/types/index.d.ts",
+  "types": "dist/prod.d.ts",
   "exports": {
     ".": {
       "import": "./dist/juice-editor.es.js",
       "require": "./dist/juice-editor.umd.js",
-      "types": "./dist/types/index.d.ts"
+      "types": "./dist/prod.d.ts"
     }
   }
 }

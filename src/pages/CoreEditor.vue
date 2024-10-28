@@ -1,25 +1,14 @@
 <script lang="ts" setup>
-import { EditorContent } from '@tiptap/vue-3'
+import { EditorContent, Editor as EditorVue } from '@tiptap/vue-3'
 import BubbleMenus from '../menus/MenuBubble.vue'
 import FloatMenus from '../menus/MenuFloat.vue'
 import MenuLeft from '../menus/MenuLeft.vue'
 import MenuRight from '../menus/MenuRight.vue'
-import { Editor as EditorVue } from '@tiptap/vue-3'
 
 defineProps({
 	editor: {
 		type: EditorVue,
 		required: true
-	},
-	bubbleMenusEnable: {
-		type: Boolean,
-		default: true,
-		required: false
-	},
-	floatingMenusEnable: {
-		type: Boolean,
-		default: true,
-		required: false
 	},
 	backgroundClass: {
 		type: String,
@@ -38,10 +27,8 @@ const isDebug = false
 
 <template>
 	<div v-if="editor" id="core-container" class="flex flex-col w-full">
-		<BubbleMenus :backgroundClass="menuBackgroundClass" :editor="editor"
-			v-if="editor.isEditable && bubbleMenusEnable"></BubbleMenus>
-		<FloatMenus :background-class="menuBackgroundClass" :editor="editor"
-			v-if="editor.isEditable && floatingMenusEnable"></FloatMenus>
+		<BubbleMenus :backgroundClass="menuBackgroundClass" :editor="editor"></BubbleMenus>
+		<FloatMenus :background-class="menuBackgroundClass" :editor="editor"></FloatMenus>
 		<MenuLeft :editor="editor" :backgroundClass="menuBackgroundClass" />
 		<MenuRight :editor="editor" :backgroundClass="menuBackgroundClass" />
 
@@ -70,7 +57,7 @@ const isDebug = false
 				'rounded container flex flex-col min-h-screen pb-48': true
 			}">
 				<EditorContent id="editor-content" :editor="editor" />
-				<div id="footer" class="w-full flex flex-col justify-end container mt-24 pr-8">
+				<div id="editor-footer" class="w-full flex flex-col justify-end container mt-24 pr-8">
 					<p class="text-xs text-gray-500 text-end">
 						{{ editor.storage.characterCount.characters() }} 个字 ｜ {{ editor.storage.characterCount.words()
 						}}

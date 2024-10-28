@@ -1,9 +1,9 @@
 import { Extension } from "@tiptap/core"
-
+import axios from 'axios';
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
         WebStorage: {
-            loadFromWebStorage: () => ReturnType
+            loadContentFromWeb: (url: string) => ReturnType
         }
     }
 }
@@ -14,28 +14,46 @@ export const WebStorage = Extension.create({
     addStorage() {
         return {
             verbose: true,
-            enabled: false,
-            baseUrl: 'https://storage.coffic.com',
             emoji: "🌍 WebStorage",
-            localStorageKey: 'html',
         }
     },
 
     onCreate() {
-        console.log(this.storage.emoji, "onCreate")
+        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+            console.log(this.storage.emoji, "onCreate")
+        }
     },
 
     onUpdate() {
-        console.log(this.storage.emoji, "onUpdate")
+        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+            console.log(this.storage.emoji, "onUpdate")
+        }
     },
 
     addCommands() {
         return {
-            loadFromWebStorage: () => () => {
-
-                if (this.storage.verbose) {
-                    console.log(this.storage.emoji, 'loadFromWebStorage')
+            loadContentFromWeb: (url: string) => ({ editor, commands }) => {
+                if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+                    console.log(this.storage.emoji, 'loadContentFromWeb', url)
                 }
+
+                commands.webKitSendDebugMessage(`loadContentFromWeb -> ${url}`)
+
+                new Promise((resolve, reject) => {
+                    axios.get(`${url}`)
+                        .then(response => {
+                            editor.commands.setContent(response.data)
+                            resolve(true)
+                        })
+                        .catch(error => {
+                            console.error('Error loading content:', error)
+                            reject(error)
+
+                            this.editor.commands.showAlert('加载内容失败', {
+                                error: error.message
+                            })
+                        })
+                })
 
                 return true
             }
