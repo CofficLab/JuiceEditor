@@ -1,6 +1,6 @@
 import Heading from '@tiptap/extension-heading';
 import EditorData from '../../src/model/EditorData';
-import TiptapEditor from '../../src/model/TiptapEditor';
+import { TiptapEditor } from '../../src/model/TiptapGroup';
 
 describe('EditorData', () => {
     describe('constructor and default', () => {
