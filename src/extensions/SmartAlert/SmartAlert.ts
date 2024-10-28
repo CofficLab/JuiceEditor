@@ -57,8 +57,7 @@ export const SmartAlert = TiptapExtension.create({
             },
 
             closeAlert: () => ({ }) => {
-                console.log('closeAlert')
-                const mountPoint = this.editor.options.element?.shadowRoot?.querySelector(`#${this.options.mountPointId}`);
+                const mountPoint = this.editor.options.element?.querySelector(`#${this.options.mountPointId}`);
                 if (mountPoint) {
                     mountPoint.remove();
                 }
