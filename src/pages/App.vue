@@ -19,7 +19,10 @@ const showSourceCode = computed(() => {
 <template>
 	<main class="main text-left">
 		<slot></slot>
-		<SourceCode :editor="editor" v-if="showSourceCode" />
-		<CoreEditor :editor="editor" v-else />
+
+		<div class="flex flex-row w-full justify-center gap-0">
+			<SourceCode :editor="editor" v-if="showSourceCode" :class="{ 'w-1/2': true }" />
+			<CoreEditor :editor="editor" :class="{ 'w-1/2': showSourceCode }" />
+		</div>
 	</main>
 </template>

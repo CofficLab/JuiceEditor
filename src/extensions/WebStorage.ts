@@ -1,4 +1,4 @@
-import { Extension } from "@tiptap/core"
+import TiptapExtension from '../model/TiptapExtension'
 import axios from 'axios';
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
@@ -8,7 +8,7 @@ declare module '@tiptap/core' {
     }
 }
 
-export const WebStorage = Extension.create({
+export const WebStorage = TiptapExtension.create({
     name: "webStorage",
 
     addStorage() {

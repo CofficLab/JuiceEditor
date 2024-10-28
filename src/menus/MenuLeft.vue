@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
-import { Editor } from '@tiptap/core'
+import TiptapEditor from '../model/TiptapEditor'
 import Button from '../ui/Button.vue'
 import ButtonGroup from '../ui/ButtonGroup.vue'
 import { getFirstActiveNodePosition } from '../extensions/SmartActive'
@@ -16,7 +16,7 @@ import { Toc } from '../extensions/Toc/Toc'
 
 const props = defineProps({
 	editor: {
-		type: Editor,
+		type: TiptapEditor,
 		required: true
 	},
 	iconSize: {

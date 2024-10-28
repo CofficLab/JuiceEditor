@@ -1,7 +1,4 @@
 import FontFamily from "@tiptap/extension-font-family";
-import axios from 'axios';
-import { CommandProps, Editor } from '@tiptap/core';
-import { SmartEventName } from './SmartEvent';
 
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {

@@ -1,7 +1,7 @@
-import { Extension } from '@tiptap/core';
+import TiptapExtension from '../model/TiptapExtension';
 import { Plugin, PluginKey } from 'prosemirror-state';
 
-export const SmartHover = Extension.create({
+export const SmartHover = TiptapExtension.create({
     name: 'hoverHighlight',
 
     addProseMirrorPlugins() {

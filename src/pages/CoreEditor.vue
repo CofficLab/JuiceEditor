@@ -1,10 +1,9 @@
 <script lang="ts" setup>
-import { EditorContent } from '@tiptap/vue-3'
+import { EditorContent, Editor as EditorVue } from '@tiptap/vue-3'
 import BubbleMenus from '../menus/MenuBubble.vue'
 import FloatMenus from '../menus/MenuFloat.vue'
 import MenuLeft from '../menus/MenuLeft.vue'
 import MenuRight from '../menus/MenuRight.vue'
-import { Editor as EditorVue } from '@tiptap/vue-3'
 
 defineProps({
 	editor: {

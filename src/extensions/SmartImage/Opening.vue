@@ -10,11 +10,11 @@
 <script lang="ts" setup>
 import { onMounted, onUnmounted, ref } from 'vue'
 import Card from '../../ui/Card.vue'
-import { Editor } from '@tiptap/core';
+import TiptapEditor from '../../model/TiptapEditor';
 
 const props = defineProps({
   editor: {
-    type: Editor,
+    type: TiptapEditor,
     required: true
   },
   drawIoLink: {

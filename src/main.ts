@@ -1,23 +1,7 @@
-import { createApp, h, provide } from 'vue'
-import { defineCustomElement } from 'vue'
-import tiptapEditor from './editor'
-import EditorAgent from './model/EditorAgent'
-import RootVue from './pages/Root.ce.vue' assert { type: 'ce-vue' }
+import JuiceEditor from './model/JuiceEditor'
+import JuiceEditorFactory from './model/JuiceEditorFactory'
 
-const editorLabel = 'juice-editor'
-
-customElements.define(editorLabel, defineCustomElement({
-    setup() {
-        provide('editor', tiptapEditor)
-        const app = createApp(RootVue)
-        app.config.errorHandler = (err) => {
-            console.error(err)
-        }
-
-        return () => h(RootVue)
-    },
-}))
-
-const editor = new EditorAgent(tiptapEditor)
-
-export default editor
+export {
+    JuiceEditor as Editor,
+    JuiceEditorFactory as EditorFactory
+}

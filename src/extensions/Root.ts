@@ -1,5 +1,5 @@
 import { Node } from '@tiptap/core'
-import UUIDHelper from '../../helper/UUIDHelper'
+import UUIDHelper from '../helper/UUIDHelper'
 export interface BranchOptions {
     HTMLAttributes: Record<string, any>
 }

@@ -2,7 +2,7 @@
 import { EditorState } from '@tiptap/pm/state'
 import { EditorView } from '@tiptap/pm/view'
 import { BubbleMenu } from '@tiptap/vue-3'
-import { Editor as TiptapEditor } from '@tiptap/core'
+import TiptapEditor from '../model/TiptapEditor'
 import ButtonGroup from '../ui/ButtonGroup.vue'
 import MenuImage from './MenuImage.vue'
 import MenuDraw from './MenuDraw.vue'

@@ -1,7 +1,6 @@
-import { Extension } from '@tiptap/core';
+import TiptapExtension from '../../model/TiptapExtension';
 import { createApp, h } from 'vue';
-import SmartAlertComponent from './SmartAlertComponent.vue';
-import DomHelper from '../../helper/DomHelper';
+import Component from './Component.vue';
 
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
@@ -12,7 +11,7 @@ declare module '@tiptap/core' {
     }
 }
 
-export const SmartAlert = Extension.create({
+export const SmartAlert = TiptapExtension.create({
     name: 'SmartAlert',
 
     addOptions() {
@@ -37,7 +36,7 @@ export const SmartAlert = Extension.create({
                 mountPoint.style.alignItems = 'center';
                 mountPoint.style.zIndex = '9999';
 
-                let shadowRoot = DomHelper.getShadowRoot()
+                let shadowRoot = this.editor.options.element?.shadowRoot
                 if (!shadowRoot) {
                     console.error('No shadow root found');
                     return false;
@@ -48,7 +47,7 @@ export const SmartAlert = Extension.create({
 
                 const app = createApp({
                     render() {
-                        return h(SmartAlertComponent, {
+                        return h(Component, {
                             editor: editor,
                             message,
                             debugInfo,
@@ -64,9 +63,9 @@ export const SmartAlert = Extension.create({
                 return true;
             },
 
-            closeAlert: () => ({ view }) => {
+            closeAlert: () => ({ }) => {
                 console.log('closeAlert')
-                const mountPoint = DomHelper.findElement(this.options.mountPointId);
+                const mountPoint = this.editor.options.element?.shadowRoot?.querySelector(`#${this.options.mountPointId}`);
                 if (mountPoint) {
                     mountPoint.remove();
                 }

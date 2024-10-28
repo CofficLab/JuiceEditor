@@ -23,9 +23,10 @@
 //     }, 500)
 // }
 
-import { Extension, JSONContent } from "@tiptap/core"
-import TiptapHelper from "../helper/TiptapHelper"
-import { Root } from "./Root/Root"
+import TiptapExtension from '../model/TiptapExtension'
+import { JSONContent } from "@tiptap/core"
+
+import { Root } from "./Root"
 import ImageHelper from "../helper/ImageHelper"
 import UUIDHelper from "../helper/UUIDHelper"
 import SmartDoc from "./SmartDoc"
@@ -119,7 +120,7 @@ function getTitle(json: JSONContent): string {
     return getTitle(content[0])
 }
 
-export const WebKit = Extension.create({
+export const WebKit = TiptapExtension.create({
     name: "webkit",
 
     addStorage() {

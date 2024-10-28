@@ -1,22 +1,20 @@
-import { Extension } from '@tiptap/core';
+import TiptapExtension from '../model/TiptapExtension';
 import { Plugin, PluginKey } from 'prosemirror-state';
 import { Decoration, DecorationSet } from 'prosemirror-view';
 import { BulletList } from '@tiptap/extension-bullet-list'
 import { TaskList } from '@tiptap/extension-task-list'
 import Heading from '@tiptap/extension-heading'
-import { Document } from '@tiptap/extension-document'
 import { Link } from '@tiptap/extension-link'
 import { Image } from '@tiptap/extension-image'
 import { TableCell } from '@tiptap/extension-table-cell'
 import { TableHeader } from '@tiptap/extension-table-header'
 import { ListItem } from '@tiptap/extension-list-item'
 import { TaskItem } from '@tiptap/extension-task-item'
-import { Root } from './Root/Root';
+import { Root } from './Root';
 import CodeBlock from '@tiptap/extension-code-block';
+import Features from './Features/Features';
 
-const title = '👔 Padding'
-
-export const Padding = Extension.create({
+export const Padding = TiptapExtension.create({
     name: 'padding',
 
     addOptions() {
@@ -32,6 +30,7 @@ export const Padding = Extension.create({
                 Link.name,
                 Image.name,
                 CodeBlock.name,
+                Features.name,
             ],
             excludeClass: 'no-padding',
             excludeIfIn: [

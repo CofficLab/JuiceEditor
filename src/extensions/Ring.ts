@@ -1,10 +1,10 @@
-import { Extension } from '@tiptap/core';
+import TiptapExtension from '../model/TiptapExtension';
 import { Plugin, PluginKey } from 'prosemirror-state';
 import { Decoration, DecorationSet } from 'prosemirror-view';
 
 const noRingTypes: string[] = []
 
-export const Ring = Extension.create({
+export const Ring = TiptapExtension.create({
     name: 'ring',
 
     addProseMirrorPlugins() {

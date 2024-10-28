@@ -10,8 +10,26 @@ import bulletListDoc from './dev/bulletList';
 import aDoc from './dev/a';
 import featureDoc from './dev/feature';
 import tableDoc from './dev/table';
-import editor from './main'
+import { EditorFactory, Editor } from './main'
 import codeBlockDoc from './dev/codeBlock';
+
+const title = "⛰️ Dev"
+
+const editor = EditorFactory.register('my-editor', {
+    onBeforeCreate: () => {
+        console.log(title, 'onBeforeCreate for label my-editor')
+    },
+    onCreate: (editor: Editor) => {
+        console.log(title, 'onCreate for label my-editor')
+
+
+        editor.disableWebKit()
+        editor.enableLog()
+        editor.setTranslateApi('https://api.youdao.com/api')
+        editor.setDrawLink('/draw/index.html?')
+        editor.setContentFromLocalStorage()
+    }
+})
 
 const div = document.createElement('div');
 div.style.cssText = `
@@ -68,6 +86,7 @@ const buttons = [
     { text: '只读/编辑', onclick: () => editor.toggleReadOnly() },
     { text: '源码', onclick: () => editor.toggleSourceCode() },
     { text: '代码块', onclick: () => editor.setContent(codeBlockDoc) },
+    { text: '宣传图', onclick: () => editor.setContent("<h1>宣传图</h1><features-component></features-component>") },
 ];
 
 buttons.forEach(button => {
@@ -79,16 +98,3 @@ buttons.forEach(button => {
 
 document.body.insertBefore(div, document.body.firstChild);
 
-const title = "⛰️ Dev"
-
-editor.onCreate(() => {
-    console.log(title, 'create')
-
-    editor.disableWebKit()
-    editor.setTranslateApi('https://api.youdao.com/api')
-    editor.setDrawLink('/draw/index.html?')
-    editor.setContentFromLocalStorage()
-    editor.onContentError((error) => {
-        console.log(title, 'contentError', error)
-    })
-})

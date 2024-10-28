@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { defineProps } from 'vue'
 import Button from '../ui/Button.vue'
-import { Editor } from '@tiptap/core'
+import TiptapEditor from '../model/TiptapEditor'
 import { ref, watch } from 'vue'
 
 import { RiGlobalLine, RiLinkM } from '@remixicon/vue'
@@ -9,7 +9,7 @@ import Link from '@tiptap/extension-link'
 
 let props = defineProps({
     editor: {
-        type: Editor,
+        type: TiptapEditor,
         required: true
     },
     shape: {

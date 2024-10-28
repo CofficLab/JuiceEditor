@@ -1,4 +1,4 @@
-import { Extension } from '@tiptap/core';
+import TiptapExtension from '../model/TiptapExtension';
 import { Transaction } from '@tiptap/pm/state';
 export interface UniqueIDOptions {
     attributeName: string;

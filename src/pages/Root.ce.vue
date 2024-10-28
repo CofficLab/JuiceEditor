@@ -2,25 +2,30 @@
 import { inject } from 'vue';
 import Loading from '../ui/Loading.vue'
 import { Editor as EditorVue } from '@tiptap/vue-3';
-import { ref } from 'vue';
 import App from './App.vue'
-import PageMode from '../model/PageMode';
-import Features from './Features.vue'
+import { makeExtensions, defaultDrawIoLink, defaultTranslateApi, defaultFocusClassName } from '../model/TiptapAgent';
+import RootAgent from '../interface/RootAgent';
 
-defineProps({
-    readonly: {
-        type: Boolean,
-        default: false
+const rootAgent: RootAgent = inject('rootAgent')!
+
+const editor = new EditorVue({
+    extensions: makeExtensions({
+        drawIoLink: defaultDrawIoLink,
+        translateApi: defaultTranslateApi,
+        focusClassName: defaultFocusClassName,
+    }),
+    editable: true,
+    autofocus: 'start',
+    onBeforeCreate: () => {
+        rootAgent.onBeforeCreate()
     },
-    mode: {
-        type: String,
-        required: false,
-        default: PageMode.BASIC_TYPE
+    onCreate: ({ editor }) => {
+        rootAgent.onCreate(editor)
+    },
+    onContentError: (error) => {
+        rootAgent.onContentError()
     }
 })
-
-const renderKey = ref(0);
-var editor: EditorVue = inject('editor')!
 
 </script>
 
@@ -37,7 +42,5 @@ var editor: EditorVue = inject('editor')!
         </div>
     </div>
 
-    <Features v-if="mode == PageMode.FEATURES.type" />
-
-    <App :editor="editor" :key="renderKey" v-else-if="editor && editor.storage.smartReady.ready" />
+    <App :editor="editor" v-else-if="editor && editor.storage.smartReady.ready" />
 </template>

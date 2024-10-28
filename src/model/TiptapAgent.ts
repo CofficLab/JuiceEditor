@@ -1,4 +1,3 @@
-import { Editor as EditorVue } from '@tiptap/vue-3'
 import CharacterCount from "@tiptap/extension-character-count"
 import Code from "@tiptap/extension-code"
 import History from "@tiptap/extension-history"
@@ -12,52 +11,53 @@ import Highlight from "@tiptap/extension-highlight"
 import HorizontalRule from "@tiptap/extension-horizontal-rule"
 import TableCell from "@tiptap/extension-table-cell"
 import TaskItem from "@tiptap/extension-task-item"
-import { SmartReady } from "./extensions/SmartReady"
-import { SmartSlot } from "./extensions/SmartSlot"
-import { SmartNodes } from "./extensions/SmartNodes"
+import { SmartReady } from "../extensions/SmartReady"
+import { SmartSlot } from "../extensions/SmartSlot"
+import Features from "../extensions/Features/Features"
+import { SmartNodes } from "../extensions/SmartNodes"
 import HardBreak from "@tiptap/extension-hard-break"
 import Subscript from "@tiptap/extension-subscript"
 import Text from "@tiptap/extension-text"
 import ListKeymap from '@tiptap/extension-list-keymap'
-import { WebKit } from "./extensions/WebKit"
-import { LocalStorage } from "./extensions/LocalStorage"
+import { WebKit } from "../extensions/WebKit"
+import { LocalStorage } from "../extensions/LocalStorage"
 import Underline from "@tiptap/extension-underline"
-import { SmartColor } from "./extensions/SmartColor"
+import { SmartColor } from "../extensions/SmartColor"
 import Superscript from "@tiptap/extension-superscript"
 import TextAlign from '@tiptap/extension-text-align'
-import { WebStorage } from "./extensions/WebStorage"
-import SmartHeading from "./extensions/SmartHeading"
-import SmartTaskList from "./extensions/SmartTaskList/SmartTaskList"
-import SmartPre from "./extensions/SmartPre/SmartPre"
-import SmartImage from "./extensions/SmartImage/SmartImage"
-import SmartLink from "./extensions/SmartLink/SmartLink"
-import SmartParagraph from "./extensions/SmartParagraph"
-import SmartBulletList from "./extensions/SmartBulletList/SmartBulletList"
-import SmartQuote from "./extensions/SmartQuote"
-import { SmartActive } from "./extensions/SmartActive"
+import { WebStorage } from "../extensions/WebStorage"
+import SmartHeading from "../extensions/SmartHeading"
+import SmartTaskList from "../extensions/SmartTaskList"
+import SmartPre from "../extensions/SmartCodeBlock/SmartCodeBlock"
+import SmartImage from "../extensions/SmartImage/SmartImage"
+import SmartLink from "../extensions/SmartLink"
+import SmartParagraph from "../extensions/SmartParagraph"
+import SmartBulletList from "../extensions/SmartBulletList"
+import SmartQuote from "../extensions/SmartQuote"
+import { SmartActive } from "../extensions/SmartActive"
 import TableRow from "@tiptap/extension-table-row"
 import TableHeader from "@tiptap/extension-table-header"
-import SmartSelection from "./extensions/SmartSelection"
-import { Padding } from "./extensions/Padding"
-import { SmartFocus } from "./extensions/SmartFocus"
-import { Branch } from "./extensions/Branch/Branch"
-import { BranchContent } from "./extensions/BranchContent/BranchContent"
-import { Root } from "./extensions/Root/Root"
-import { NewLine } from "./extensions/NewLine"
-import { Debug } from "./extensions/Debug"
-import { SmartEvent } from "./extensions/SmartEvent"
-import SmartDoc from "./extensions/SmartDoc"
-import SmartBold from "./extensions/SmartBold"
-import SmartPlaceholder from "./extensions/SmartPlaceholder"
-import { Margin } from "./extensions/Margin"
+import SmartSelection from "../extensions/SmartSelection"
+import { Padding } from "../extensions/Padding"
+import { SmartFocus } from "../extensions/SmartFocus"
+import { Branch } from "../extensions/Branch/Branch"
+import { BranchContent } from "../extensions/BranchContent/BranchContent"
+import { Root } from "../extensions/Root"
+import { NewLine } from "../extensions/NewLine"
+import { Debug } from "../extensions/Debug"
+import { SmartEvent } from "../extensions/SmartEvent"
+import SmartDoc from "../extensions/SmartDoc"
+import SmartBold from "../extensions/SmartBold"
+import SmartPlaceholder from "../extensions/SmartPlaceholder"
+import { Margin } from "../extensions/Margin"
 import TextStyle from "@tiptap/extension-text-style";
-import { SmartFontFamily } from "./extensions/SmartFontFamily";
+import { SmartFontFamily } from "../extensions/SmartFontFamily";
 import Heading from '@tiptap/extension-heading'
 import Paragraph from '@tiptap/extension-paragraph'
-import { URLListener } from "./extensions/URLListener"
-import { SmartAlert } from "./extensions/SmartAlert/SmartAlert"
-import { SourceCode } from './extensions/SourceCode'
-import { SmartLog } from './extensions/SmartLog'
+import { URLListener } from "../extensions/URLListener"
+import { SmartAlert } from "../extensions/SmartAlert/SmartAlert"
+import { SourceCode } from '../extensions/SourceCode'
+import { SmartLog } from '../extensions/SmartLog'
 interface makeExtensionsProps {
     drawIoLink: string,
     drawEnable?: boolean,
@@ -82,6 +82,7 @@ function makeExtensions(props: makeExtensionsProps) {
             content: `${Heading.name} block*`,
         }),
         Branch,
+        Features,
         BranchContent,
         SmartAlert,
         SmartDoc,
@@ -206,13 +207,9 @@ function makeExtensions(props: makeExtensionsProps) {
     return extensions
 }
 
-const tiptapEditor = new EditorVue({
-    extensions: makeExtensions({
-        drawIoLink: defaultDrawIoLink,
-        translateApi: defaultTranslateApi,
-        focusClassName: defaultFocusClassName,
-    }),
-    autofocus: 'start',
-})
-
-export default tiptapEditor
+export {
+    makeExtensions,
+    defaultDrawIoLink,
+    defaultTranslateApi,
+    defaultFocusClassName
+}

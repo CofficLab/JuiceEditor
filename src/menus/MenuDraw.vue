@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { defineProps, computed } from 'vue'
 import Button from '../ui/Button.vue'
-import { Editor } from '@tiptap/core'
+import TiptapEditor from '../model/TiptapEditor'
 import ImageHelper from '../helper/ImageHelper'
 import { RiDownloadLine, RiEditLine, RiShapeLine } from '@remixicon/vue'
 import SmartImage from '../extensions/SmartImage/SmartImage'
@@ -9,7 +9,7 @@ import Image from '@tiptap/extension-image'
 
 let props = defineProps({
     editor: {
-        type: Editor,
+        type: TiptapEditor,
         required: true
     },
     shape: {

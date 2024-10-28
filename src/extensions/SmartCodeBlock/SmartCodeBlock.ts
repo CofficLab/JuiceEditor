@@ -15,6 +15,12 @@ declare module '@tiptap/core' {
 
 // 保存成HTML的时候要考虑HTML转Markdown
 export default CodeBlock.extend({
+  addStorage() {
+    return {
+      verbose: true,
+      title: '🍋 SmartPre',
+    }
+  },
   addAttributes() {
     return {
       language: {
@@ -63,12 +69,6 @@ export default CodeBlock.extend({
     }
   },
 
-  addStorage() {
-    return {
-      editorUUID: "",
-    }
-  },
-
   onDestroy() {
     let verbose = false;
     if (verbose) {
@@ -77,17 +77,15 @@ export default CodeBlock.extend({
   },
 
   onCreate() {
-    let verbose = true;
-    if (verbose) {
-      console.log("Boot Monaco")
+    if (this.storage.verbose) {
+      console.log(this.storage.title, 'onCreate', 'boot Monaco')
     }
     MonacoBox.boot()
 
-    let juiceEditor = document.querySelector('juice-editor')
-    let shadowRoot = juiceEditor!.shadowRoot!
+    let dom = this.editor.options.element
     let monacoDom = document.createElement('div')
     monacoDom.id = 'MonacoStyleBox'
-    shadowRoot.appendChild(monacoDom)
+    dom.appendChild(monacoDom)
 
     // 仅用于让Monaco将样式写入dom中
     MonacoBox.createEmptyEditor(monacoDom)
