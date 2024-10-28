@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import ErrorIcon from './error.svg';
+import ErrorIcon from './Error.svg';
 import TiptapEditor from '../../model/TiptapEditor';
 
 const props = defineProps({
