@@ -23,7 +23,6 @@ export const SmartAlert = TiptapExtension.create({
     addCommands() {
         return {
             showAlert: (message: string, debugInfo: object = {}) => ({ editor }) => {
-                console.log('showAlert', message)
                 const mountPoint = document.createElement('div');
                 mountPoint.id = this.options.mountPointId;
                 mountPoint.style.position = 'fixed';
@@ -36,14 +35,8 @@ export const SmartAlert = TiptapExtension.create({
                 mountPoint.style.alignItems = 'center';
                 mountPoint.style.zIndex = '9999';
 
-                let shadowRoot = this.editor.options.element?.shadowRoot
-                if (!shadowRoot) {
-                    console.error('No shadow root found');
-                    return false;
-                }
-                shadowRoot.appendChild(mountPoint);
-
-                console.log('debugInfo', debugInfo)
+                let editorElement = this.editor.options.element
+                editorElement.appendChild(mountPoint);
 
                 const app = createApp({
                     render() {
