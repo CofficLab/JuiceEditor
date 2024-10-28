@@ -18,6 +18,10 @@ class JuiceEditor implements RootAgent {
         this.editor?.commands.enableLog()
     }
 
+    public enableWebKit: () => void = () => {
+        this.editor?.commands.enableWebKit()
+    }
+
     public getContent: () => string = () => {
         return this.editor?.getHTML() || ''
     }
