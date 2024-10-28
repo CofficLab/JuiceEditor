@@ -1,4 +1,5 @@
-import { Extension, Editor } from '@tiptap/core'
+import TiptapEditor from '../model/TiptapEditor'
+import TiptapExtension from '../model/TiptapExtension'
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
 import { Root } from './Root';
@@ -8,7 +9,7 @@ interface SmartActiveOptions {
     firstClassName: string
 }
 
-export const SmartActive = Extension.create<SmartActiveOptions>({
+export const SmartActive = TiptapExtension.create<SmartActiveOptions>({
     name: 'active',
 
     addOptions() {
@@ -56,7 +57,7 @@ export const SmartActive = Extension.create<SmartActiveOptions>({
     },
 });
 
-export const getFirstActiveNodePosition = (editor: Editor): { offsetTop: number | null, offsetLeft: number | null } => {
+export const getFirstActiveNodePosition = (editor: TiptapEditor): { offsetTop: number | null, offsetLeft: number | null } => {
     const focusClassName = editor.extensionManager.extensions.find(extension => extension.name === SmartActive.name)?.options.className
     const editorElement = editor.options.element
     const currentNode: Element | null = editorElement?.querySelector(`.${focusClassName}`)

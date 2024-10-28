@@ -1,4 +1,4 @@
-import { Extension } from "@tiptap/core"
+import TiptapExtension from '../model/TiptapExtension'
 
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
@@ -13,7 +13,7 @@ declare module '@tiptap/core' {
     }
 }
 
-export const LocalStorage = Extension.create({
+export const LocalStorage = TiptapExtension.create({
     name: "localStorage",
 
     addStorage() {

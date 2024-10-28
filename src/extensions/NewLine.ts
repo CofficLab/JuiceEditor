@@ -1,4 +1,4 @@
-import { Extension } from '@tiptap/core'
+import TiptapExtension from '../model/TiptapExtension'
 import { TextSelection } from '@tiptap/pm/state'
 
 declare module '@tiptap/core' {
@@ -9,7 +9,7 @@ declare module '@tiptap/core' {
     }
 }
 
-export const NewLine = Extension.create({
+export const NewLine = TiptapExtension.create({
     name: 'newLine',
 
     addCommands() {

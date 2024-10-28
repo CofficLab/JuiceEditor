@@ -1,4 +1,5 @@
-import { Extension, JSONContent } from "@tiptap/core"
+import TiptapExtension from '../model/TiptapExtension'
+import { JSONContent } from "@tiptap/core"
 import { Root } from "./Root"
 import UUIDHelper from "../helper/UUIDHelper"
 import SmartDoc from "./SmartDoc"
@@ -75,7 +76,7 @@ function getTitle(json: JSONContent): string {
     return getTitle(content[0])
 }
 
-export const SmartNodes = Extension.create({
+export const SmartNodes = TiptapExtension.create({
     name: "smartNodes",
 
     addStorage() {

@@ -1,6 +1,6 @@
 import Paragraph from "@tiptap/extension-paragraph";
 import axios from 'axios';
-import { Editor } from '@tiptap/core';
+import TiptapEditor from "../model/TiptapEditor";
 
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
@@ -118,7 +118,7 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
                 return true;
             },
 
-            translate: (language: string) => ({ editor }: { editor: Editor }) => {
+            translate: (language: string) => ({ editor }: { editor: TiptapEditor }) => {
                 if (!editor) {
                     console.error('No editor instance available');
                     return false;

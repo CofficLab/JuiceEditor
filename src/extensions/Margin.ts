@@ -1,4 +1,4 @@
-import { Extension } from '@tiptap/core';
+import TiptapExtension from '../model/TiptapExtension';
 import { getSelectionNode } from './SmartSelection';
 import { Root } from './Root';
 import Link from '@tiptap/extension-link';
@@ -22,7 +22,7 @@ declare module '@tiptap/core' {
 
 const title = '👔 Margin'
 
-export const Margin = Extension.create({
+export const Margin = TiptapExtension.create({
     name: 'margin',
 
     addOptions() {

@@ -1,6 +1,6 @@
 import Heading from '@tiptap/extension-heading';
 import EditorData from '../../src/model/EditorData';
-import { Editor } from '@tiptap/core';
+import TiptapEditor from '../../src/model/TiptapEditor';
 
 describe('EditorData', () => {
     describe('constructor and default', () => {
@@ -47,7 +47,7 @@ describe('EditorData', () => {
                         }
                     }
                 }
-            } as unknown as Editor;
+            } as unknown as TiptapEditor;
 
             const result = EditorData.fromEditor(mockEditor);
             if (result instanceof Error) {
@@ -62,7 +62,7 @@ describe('EditorData', () => {
         it('should return an Error if injectNonce is undefined', () => {
             const mockEditor = {
                 options: {}
-            } as unknown as Editor;
+            } as unknown as TiptapEditor;
 
             const result = EditorData.fromEditor(mockEditor);
             expect(result).toBeInstanceOf(Error);

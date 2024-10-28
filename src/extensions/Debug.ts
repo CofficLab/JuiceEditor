@@ -1,8 +1,7 @@
-import { Extension } from '@tiptap/core';
+import TiptapExtension from '../model/TiptapExtension';
 import { Plugin, PluginKey } from 'prosemirror-state';
 
-
-export const Debug = Extension.create({
+export const Debug = TiptapExtension.create({
     name: 'debug',
 
     addProseMirrorPlugins() {

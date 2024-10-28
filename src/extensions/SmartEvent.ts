@@ -1,5 +1,5 @@
-import { Extension } from '@tiptap/core'
-import { Editor } from '@tiptap/core'
+import TiptapExtension from '../model/TiptapExtension'
+import TiptapEditor from '../model/TiptapEditor'
 import SmartParagraph from './SmartParagraph'
 import { Slice } from 'prosemirror-model'
 
@@ -22,7 +22,7 @@ declare module '@tiptap/core' {
 
 const emoji = "🧩 SmartEvent"
 
-export const SmartEvent = Extension.create({
+export const SmartEvent = TiptapExtension.create({
     name: 'smartEvent',
 
     addOptions() {
@@ -119,7 +119,7 @@ export const SmartEvent = Extension.create({
 
 })
 
-function getDebugInfos(name: SmartEventName, editor: Editor) {
+function getDebugInfos(name: SmartEventName, editor: TiptapEditor) {
     switch (name) {
         case SmartEventName.TranslationError:
             let translateApi = editor.extensionManager.extensions.find(extension => extension.name === SmartParagraph.name)?.options.translateApi

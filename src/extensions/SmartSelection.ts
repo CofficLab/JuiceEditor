@@ -1,4 +1,6 @@
-import { Editor, Extension, findParentNode } from '@tiptap/core'
+import { findParentNode } from '@tiptap/core'
+import TiptapEditor from '../model/TiptapEditor'
+import TiptapExtension from '../model/TiptapExtension'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
 import SmartImage from './SmartImage/SmartImage'
@@ -15,7 +17,7 @@ declare module '@tiptap/core' {
 	}
 }
 
-export default Extension.create({
+export default TiptapExtension.create({
 	name: 'selection',
 	addProseMirrorPlugins() {
 		const { editor } = this
@@ -84,7 +86,7 @@ export default Extension.create({
 	},
 })
 
-export function getSelectionNode(editor: Editor) {
+export function getSelectionNode(editor: TiptapEditor) {
 	// @ts-ignore
 	const { node } = editor.state.selection
 	if (node) {
@@ -102,7 +104,7 @@ export function getSelectionNode(editor: Editor) {
 	return editor.state.selection.node
 }
 
-export function getSelectionText(editor: Editor) {
+export function getSelectionText(editor: TiptapEditor) {
 	const { from, to, empty } = editor.state.selection
 	if (empty) {
 		return ''
@@ -110,14 +112,14 @@ export function getSelectionText(editor: Editor) {
 	return editor.state.doc.textBetween(from, to, '')
 }
 
-export function getSelectionTextLength(editor: Editor) {
+export function getSelectionTextLength(editor: TiptapEditor) {
 	return getSelectionText(editor).length
 }
 
-export function isSelectionEmpty(editor: Editor) {
+export function isSelectionEmpty(editor: TiptapEditor) {
 	return getSelectionTextLength(editor) == 0
 }
 
-export function hasSelection(editor: Editor) {
+export function hasSelection(editor: TiptapEditor) {
 	return !isSelectionEmpty(editor)
 }

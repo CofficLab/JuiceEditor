@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { defineProps } from 'vue'
-import { Editor } from '@tiptap/core'
+import TiptapEditor from '../model/TiptapEditor'
 import { computed } from 'vue'
 import Button from '../ui/Button.vue'
 import {
@@ -18,7 +18,7 @@ import TableHeader from '@tiptap/extension-table-header'
 import TableRow from '@tiptap/extension-table-row'
 let props = defineProps({
     editor: {
-        type: Editor,
+        type: TiptapEditor,
         required: true
     }
 })

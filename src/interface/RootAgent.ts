@@ -1,4 +1,3 @@
-import { Editor } from '@tiptap/core'
 import TiptapEditor from '../model/TiptapEditor'
 
 interface RootAgent {

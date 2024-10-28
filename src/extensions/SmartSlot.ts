@@ -1,4 +1,4 @@
-import { Extension } from "@tiptap/core"
+import TiptapExtension from '../model/TiptapExtension'
 
 const target = document.querySelector('juice-editor')!
 const config = { childList: true, subtree: true, characterData: true }
@@ -12,7 +12,7 @@ declare module '@tiptap/core' {
     }
 }
 
-export const SmartSlot = Extension.create({
+export const SmartSlot = TiptapExtension.create({
     name: "smartSlot",
 
     addStorage() {

@@ -1,4 +1,5 @@
-import { Editor, JSONContent } from '@tiptap/core'
+import { JSONContent } from '@tiptap/core'
+import TiptapEditor from './TiptapEditor'
 import Heading from '@tiptap/extension-heading'
 
 const emoji = '🍉 EditorDoc'
@@ -21,7 +22,7 @@ export default class EditorData {
         return new EditorData()
     }
 
-    static fromEditor(editor: Editor): EditorData | Error {
+    static fromEditor(editor: TiptapEditor): EditorData | Error {
         let verbose = false
 
         if (verbose) {
@@ -80,7 +81,7 @@ export default class EditorData {
         return this.html == doc.html && this.title == doc.title
     }
 
-    private static getTitleFromEditor(editor: Editor): string {
+    private static getTitleFromEditor(editor: TiptapEditor): string {
         let nodes = editor.state.doc.content
         let title = ''
         nodes.forEach((node) => {

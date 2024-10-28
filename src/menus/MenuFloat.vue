@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { FloatingMenu } from '@tiptap/vue-3'
-import { Editor as TiptapEditor } from '@tiptap/core'
+import TiptapEditor from '../model/TiptapEditor'
 import { shouldShowFloatingMenu } from '../extensions/SmartMenus'
 import ButtonGroup from '../ui/ButtonGroup.vue'
 import Button from '../ui/Button.vue'

@@ -1,6 +1,6 @@
-import { Extension } from '@tiptap/core';
+import TiptapExtension from '../../model/TiptapExtension';
 import { createApp, h } from 'vue';
-import SmartAlertComponent from './SmartAlertComponent.vue';
+import Component from './Component.vue';
 
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
@@ -11,7 +11,7 @@ declare module '@tiptap/core' {
     }
 }
 
-export const SmartAlert = Extension.create({
+export const SmartAlert = TiptapExtension.create({
     name: 'SmartAlert',
 
     addOptions() {
@@ -47,7 +47,7 @@ export const SmartAlert = Extension.create({
 
                 const app = createApp({
                     render() {
-                        return h(SmartAlertComponent, {
+                        return h(Component, {
                             editor: editor,
                             message,
                             debugInfo,
