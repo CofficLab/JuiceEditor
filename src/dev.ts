@@ -22,12 +22,12 @@ const editor = EditorFactory.register('my-editor', {
     onCreate: (editor: Editor) => {
         console.log(title, 'onCreate for label my-editor')
 
-
-        editor.disableWebKit()
         editor.enableLog()
+        editor.disableWebKit()
         editor.setTranslateApi('https://api.youdao.com/api')
-        editor.setDrawLink('/draw/index.html?')
         editor.setContentFromLocalStorage()
+        editor.enableLocalStorage()
+        editor.setDrawLink('/draw/index.html?')
     }
 })
 

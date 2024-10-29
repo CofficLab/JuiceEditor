@@ -19,7 +19,7 @@ export const LocalStorage = TiptapExtension.create({
     addStorage() {
         return {
             verbose: true,
-            enabled: true,
+            enabled: false,
             emoji: "💾 LocalStorage",
             localStorageKey: 'html',
         }
@@ -91,13 +91,13 @@ export const LocalStorage = TiptapExtension.create({
             },
 
             loadContentFromLocalStorage: () => ({ commands }) => {
+
                 let saveData = localStorage.getItem(this.storage.localStorageKey)
 
                 if (saveData) {
                     if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
                         console.log(this.storage.emoji, 'setContentFromLocalStorage')
                     }
-
                     commands.setContent(saveData)
                 }
 

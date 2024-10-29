@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { inject } from 'vue';
+import { computed, inject } from 'vue';
 import Loading from '../ui/Loading.vue'
 import { Editor as EditorVue } from '@tiptap/vue-3';
-import App from './App.vue'
+import SourceCode from './SourceCode.vue'
+import CoreEditor from './CoreEditor.vue'
 import { makeExtensions, defaultDrawIoLink, defaultTranslateApi, defaultFocusClassName } from '../model/TiptapAgent';
 import Editor from 'src/model/Editor';
 
@@ -31,6 +32,14 @@ const editor = new EditorVue({
     }
 })
 
+function onMounted() {
+    editor.commands.setMounted()
+}
+
+const showSourceCode = computed(() => {
+    return editor.storage.sourceCode.shouldShow
+})
+
 </script>
 
 <style>
@@ -46,5 +55,12 @@ const editor = new EditorVue({
         </div>
     </div>
 
-    <App :editor="editor" v-else-if="editor && editor.storage.smartReady.ready" />
+    <main class="main text-left" v-if="editor && editor.storage.smartReady.ready">
+        <slot></slot>
+
+        <div class="flex flex-row w-full justify-center gap-0">
+            <SourceCode :editor="editor" v-if="showSourceCode" :class="{ 'w-1/2': true }" />
+            <CoreEditor :editor="editor" :onMounted="onMounted" :class="{ 'w-1/2': showSourceCode }" />
+        </div>
+    </main>
 </template>
