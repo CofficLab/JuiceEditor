@@ -1,7 +1,7 @@
 import CodeBlock from '@tiptap/extension-code-block'
 import { VueNodeViewRenderer } from '@tiptap/vue-3'
 import SmartPreVue from './SmartPre.vue'
-import MonacoBox from './Entities/MonacoBox';
+import MonacoFactory from './Entities/MonacoFactory';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -69,35 +69,7 @@ export default CodeBlock.extend({
     }
   },
 
-  onDestroy() {
-    let verbose = false;
-    if (verbose) {
-      console.log('onTiptapDestroy')
-    }
-  },
-
-  onCreate() {
-    if (this.storage.verbose) {
-      console.log(this.storage.title, 'onCreate', 'boot Monaco')
-    }
-    MonacoBox.boot()
-
-    let dom = this.editor.options.element
-    let monacoDom = document.createElement('div')
-    monacoDom.id = 'MonacoStyleBox'
-    dom.appendChild(monacoDom)
-
-    // 仅用于让Monaco将样式写入dom中
-    MonacoBox.createEmptyEditor(monacoDom)
-  },
-
   onBeforeCreate() {
-    // log('onBeforeCreate, 存储 UUID ->', this.editor.options.injectNonce)
-    // this.storage.editorUUID = this.editor.options.injectNonce
+    MonacoFactory.boot()
   },
-
-  // onUpdate() {
-  //   console.log('🍋 💼 CodeEditor: onTiptapUpdate, UUID', this.editor.options.injectNonce)
-  //   this.storage.editorUUID = this.editor.options.injectNonce
-  // },
 })
