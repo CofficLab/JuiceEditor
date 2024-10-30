@@ -67,8 +67,6 @@ onMounted(() => {
   })
 
   props.editor.on('update', () => {
-    console.log('🍋 💼 SmartPre: editor.update')
-
     monacoEditor!.updateOptions({ readOnly: !props.editor.isEditable })
   })
 })

@@ -3,6 +3,7 @@ import { VueNodeViewRenderer } from '@tiptap/vue-3'
 import SmartPreVue from './SmartPre.vue'
 import MonacoFactory from './MonacoFactory';
 import { Component } from 'vue';
+import { TiptapEditor } from '../../model/TiptapGroup';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -19,7 +20,8 @@ export default CodeBlock.extend({
   addStorage() {
     return {
       verbose: true,
-      title: '🍋 SmartPre',
+      title: '💻 SmartPre',
+      booted: false,
     }
   },
   addAttributes() {
@@ -70,7 +72,23 @@ export default CodeBlock.extend({
     }
   },
 
-  onBeforeCreate() {
-    MonacoFactory.boot()
+  onCreate() {
+    if (this.editor?.isEditable && !this.storage.booted) {
+      if (this.storage.verbose) {
+        console.log(this.storage.title, 'onCreate, boot Monaco')
+      }
+      MonacoFactory.boot()
+      this.storage.booted = true
+    }
   },
+
+  onUpdate() {
+    if (this.editor?.isEditable && !this.storage.booted) {
+      if (this.storage.verbose) {
+        console.log(this.storage.title, 'onUpdate, boot Monaco')
+      }
+      MonacoFactory.boot()
+      this.storage.booted = true
+    }
+  }
 })

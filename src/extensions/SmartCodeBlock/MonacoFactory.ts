@@ -18,6 +18,8 @@ export interface CreateEditorOptions {
     onLanguageChanged?: (lan: SmartLanguage) => void;
 }
 
+const title = '💼 MonacoFactory'
+
 class MonacoFactory {
     static boot() {
         //  https://github.com/microsoft/monaco-editor#faq
@@ -74,7 +76,7 @@ class MonacoFactory {
     static setHeightOfEditor(editor: monaco.editor.IStandaloneCodeEditor) {
         let height = MonacoFactory.getLinesHeight(editor);
 
-        console.log("💼 MonacoBox: 设置高度", height);
+        console.log(title, "set height to", height);
 
         editor.getDomNode()!.style.height = height + "px";
     }
