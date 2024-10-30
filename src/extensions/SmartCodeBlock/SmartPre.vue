@@ -47,6 +47,7 @@ onMounted(() => {
   // Initialize Monaco editor
   monacoEditor = MonacoFactory.createEditor({
     target: editorHost,
+    readOnly: !props.editor.isEditable,
     content: props.node.textContent,
     language: SmartLanguage.fromString(props.node.attrs.language),
     onContentChanged: (editor) => {
@@ -63,6 +64,12 @@ onMounted(() => {
         to: currentNodeTo
       }, `<pre><code class='language-${language.key}'>${content}</code></pre>`)
     }
+  })
+
+  props.editor.on('update', () => {
+    console.log('🍋 💼 SmartPre: editor.update')
+
+    monacoEditor!.updateOptions({ readOnly: !props.editor.isEditable })
   })
 })
 

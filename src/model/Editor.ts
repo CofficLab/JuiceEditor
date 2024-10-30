@@ -89,7 +89,7 @@ class Editor {
     }
 
     public toggleReadOnly() {
-        this.editor?.setEditable(!this.editor?.isEditable)
+        this.editor?.setEditable(!this.editor?.isEditable, true)
     }
 
     public toggleSourceCode() {
