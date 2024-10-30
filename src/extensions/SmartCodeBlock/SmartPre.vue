@@ -17,8 +17,8 @@
 import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3';
 import * as monaco from 'monaco-editor'
 import { defineProps, onBeforeUnmount, onMounted, ref, watch } from 'vue';
-import { SmartLanguage } from './Entities/SmartLanguage';
-import MonacoFactory from './Entities/MonacoFactory';
+import { SmartLanguage } from './SmartLanguage';
+import MonacoFactory from './MonacoFactory';
 import LanguageSelect from './LanguageSelect.vue';
 
 const props = defineProps(nodeViewProps)
@@ -36,10 +36,13 @@ onMounted(() => {
   editorHost.style.width = '100%'
   shadow?.appendChild(editorHost)
 
-  const innerStyle = document.createElement('style');
-  innerStyle.innerText =
-    '@import "node_modules/monaco-editor/min/vs/editor/editor.main.css";';
-  shadow?.appendChild(innerStyle);
+  // Import and set Monaco editor styles
+  import('monaco-editor/min/vs/editor/editor.main.css?raw')
+    .then(cssModule => {
+      const innerStyle = document.createElement('style')
+      innerStyle.textContent = cssModule.default
+      shadow?.appendChild(innerStyle)
+    })
 
   // Initialize Monaco editor
   monacoEditor = MonacoFactory.createEditor({

@@ -14,7 +14,7 @@
 import { onMounted, ref, onBeforeUnmount } from 'vue'
 import { v4 as uuidv4 } from 'uuid'
 import LanguageSelect from './LanguageSelect.vue'
-import { SmartLanguage } from './Entities/SmartLanguage'
+import { SmartLanguage } from '../SmartLanguage'
 
 const verbose = false
 const name = uuidv4()

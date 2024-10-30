@@ -31,7 +31,7 @@ import { ref } from 'vue'
 import MonacoEditor from './MonacoEditor.vue'
 import Pre from '../../ui/Pre.vue'
 import { v4 as uuidv4 } from 'uuid'
-import { SmartLanguage, languages } from './Entities/SmartLanguage'
+import { SmartLanguage, languages } from './SmartLanguage'
 import { RiCloseCircleFill, RiPlayCircleFill } from '@remixicon/vue'
 
 const props = defineProps({

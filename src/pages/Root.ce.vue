@@ -5,7 +5,7 @@ import { Editor as EditorVue } from '@tiptap/vue-3';
 import SourceCode from './SourceCode.vue'
 import CoreEditor from './CoreEditor.vue'
 import { makeExtensions, defaultDrawIoLink, defaultTranslateApi, defaultFocusClassName } from '../model/TiptapAgent';
-import Editor from 'src/model/Editor';
+import Editor from '../model/Editor';
 
 const rootAgent: Editor = inject('rootAgent')!
 
@@ -48,7 +48,6 @@ const showSourceCode = computed(() => {
 
 <style>
 @import '../styles/app.css';
-@import 'monaco-editor/min/vs/editor/editor.main.css';
 </style>
 
 <template>

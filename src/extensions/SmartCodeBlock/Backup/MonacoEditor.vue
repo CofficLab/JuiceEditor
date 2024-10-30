@@ -14,8 +14,8 @@
 <script setup lang="ts">
 import * as monaco from 'monaco-editor'
 import { defineProps, onBeforeUnmount, onMounted, ref } from 'vue';
-import { SmartLanguage } from './Entities/SmartLanguage';
-import MonacoFactory from './Entities/MonacoFactory';
+import { SmartLanguage } from '../SmartLanguage';
+import MonacoFactory from '../MonacoFactory';
 import LanguageSelect from './LanguageSelect.vue';
 
 const props = defineProps({

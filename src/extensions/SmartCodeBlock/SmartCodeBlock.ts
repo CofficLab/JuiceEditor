@@ -1,7 +1,8 @@
 import CodeBlock from '@tiptap/extension-code-block'
 import { VueNodeViewRenderer } from '@tiptap/vue-3'
 import SmartPreVue from './SmartPre.vue'
-import MonacoFactory from './Entities/MonacoFactory';
+import MonacoFactory from './MonacoFactory';
+import { Component } from 'vue';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -49,7 +50,7 @@ export default CodeBlock.extend({
   },
 
   addNodeView() {
-    return VueNodeViewRenderer(SmartPreVue as any)
+    return VueNodeViewRenderer(SmartPreVue as Component)
   },
 
   addCommands() {
