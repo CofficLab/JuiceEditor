@@ -81,6 +81,7 @@ onBeforeUnmount(() => {
 
 function onLanguageChanged(language: SmartLanguage) {
   monaco.editor.setModelLanguage(monacoEditor!.getModel()!, language.getMonacoLanguage());
+  props.updateAttributes({ language: language.key })
 }
 
 watch(() => props.node.textContent, (newContent) => {
