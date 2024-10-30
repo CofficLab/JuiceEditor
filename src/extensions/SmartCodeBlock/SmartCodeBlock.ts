@@ -3,7 +3,6 @@ import { VueNodeViewRenderer } from '@tiptap/vue-3'
 import SmartPreVue from './SmartPre.vue'
 import MonacoFactory from './MonacoFactory';
 import { Component } from 'vue';
-import { TiptapEditor } from '../../model/TiptapGroup';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
