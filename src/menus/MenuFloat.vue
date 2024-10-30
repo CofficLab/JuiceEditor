@@ -25,6 +25,7 @@ defineProps({
   }
 })
 
+
 </script>
 <template>
   <floating-menu :tippy-options="{
@@ -34,32 +35,20 @@ defineProps({
     appendTo: 'parent'
   }" :editor="editor" :should-show="shouldShowFloatingMenu">
     <ButtonGroup direction="horizontal" type="blue" :shape="shape" :backgroundClass="backgroundClass">
-      <Button tips="2号标题" :editor="editor" :level="2" :shape="shape">
-        <RiH2></RiH2>
-      </Button>
-      <Button tips="3号标题" :editor="editor" :level="3" :shape="shape">
-        <RiH3></RiH3>
-      </Button>
-      <Button tips="4号标题" :editor="editor" :level="4" :shape="shape">
-        <RiH4></RiH4>
-      </Button>
-      <Button tips="绘图" :editor="editor" :shape="shape">
+      <Button tips="绘图" :editor="editor" :shape="shape" @click="editor.chain().focus().insertDraw().run()">
         <RiEdit2Line></RiEdit2Line>
       </Button>
-      <Button tips="列表" :editor="editor" :shape="shape">
+      <Button tips="列表" :editor="editor" :shape="shape" @click="editor.chain().focus().toggleBulletList().run()">
         <RiListCheck></RiListCheck>
       </Button>
-      <Button tips="任务列表" :editor="editor" :shape="shape">
+      <Button tips="任务列表" :editor="editor" :shape="shape" @click="editor.chain().focus().toggleTaskList().run()">
         <RiTaskFill></RiTaskFill>
       </Button>
-      <Button tips="表格" :editor="editor" :shape="shape">
+      <Button tips="表格" :editor="editor" :shape="shape" @click="editor.chain().focus().insertTable().run()">
         <RiTable2></RiTable2>
       </Button>
-      <Button tips="代码块" :editor="editor" :shape="shape">
+      <Button tips="代码块" :editor="editor" :shape="shape" @click="editor.chain().focus().insertSmartPre().run()">
         <RiCodeBlock></RiCodeBlock>
-      </Button>
-      <Button tips="快捷键" :editor="editor" :shape="shape">
-        <RiKeyboardBoxLine></RiKeyboardBoxLine>
       </Button>
       <Button tips="引用" :editor="editor" :shape="shape" @click="editor.chain().focus().toggleBlockquote().run()">
         <RiChatQuoteLine></RiChatQuoteLine>

@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import {
 	RiBold, RiItalic, RiStrikethrough, RiPaletteLine, RiSubscript,
-	RiSuperscript, RiUnderline, RiFontFamily, RiCodeLine, RiFontColor
+	RiSuperscript, RiUnderline, RiFontFamily, RiCodeLine, RiFontColor,
+	RiKeyboardBoxLine
 } from '@remixicon/vue'
 import {
 	TiptapEditor, ImageExtension, FontFamilyExtension, LinkExtension, HeadingExtension,
@@ -123,6 +124,9 @@ const hasSelection = computed(() => {
 			</Button>
 			<Button tips="行内代码" :shape="shape" v-if="hasSelection" @click="editor.chain().focus().toggleCode().run()">
 				<RiCodeLine></RiCodeLine>
+			</Button>
+			<Button tips="快捷键" :shape="shape" v-if="hasSelection" @click="editor.chain().focus().toggleKbd().run()">
+				<RiKeyboardBoxLine></RiKeyboardBoxLine>
 			</Button>
 			<Button tips="文字颜色" :shape="shape" v-if="hasSelection" dropdown-position="top"
 				:dropdown-background-class="backgroundClass">

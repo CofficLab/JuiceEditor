@@ -28,6 +28,7 @@ import Features from "../extensions/Features/Features"
 import { SmartNodes } from "../extensions/SmartNodes"
 import { HardBreakExtension } from "../model/TiptapGroup"
 import SmartText from "../extensions/SmartText"
+import { SmartMenusExtension } from "../extensions/SmartMenus"
 import { WebKit } from "../extensions/WebKit"
 import { LocalStorage } from "../extensions/LocalStorage"
 import { SmartColor } from "../extensions/SmartColor"
@@ -62,6 +63,7 @@ import { SourceCode } from '../extensions/SourceCode'
 import { SmartLog } from '../extensions/SmartLog'
 import { makeExtensionsProps } from '../interface/MakeExtensionProps'
 import { SmartApp } from "../extensions/SmartApp"
+import SmartKbd from "../extensions/SmartKbd"
 const isDebug = process.env.NODE_ENV === 'development'
 const defaultTranslateApi = isDebug
     ? 'http://127.0.0.1/api/translate'
@@ -120,7 +122,9 @@ function makeExtensions(props: makeExtensionsProps) {
         SmartPre,
         GapcursorExtension,
         SmartApp,
+        SmartKbd,
         SmartActive,
+        SmartMenusExtension,
         SuperscriptExtension,
         CharacterCountExtension,
         SmartImage.configure({

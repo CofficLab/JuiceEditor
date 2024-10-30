@@ -59,7 +59,11 @@ export default CodeBlock.extend({
     return {
       insertSmartPre:
         () => ({ commands }) => {
-          return commands.insertContent("<pre><code class='language-text'></code></pre>");
+          if (this.storage.verbose) {
+            console.log(this.storage.title, 'insertSmartPre')
+          }
+
+          return commands.insertContent("<pre><code class='language-javascript'></code></pre>");
         },
       setCodeBlock:
         attributes => ({ commands }) => {

@@ -1,6 +1,6 @@
 import { EditorState } from '@tiptap/pm/state'
 import { EditorView } from '@tiptap/pm/view'
-import { TiptapEditor } from '../model/TiptapGroup'
+import { TiptapEditor, TiptapExtension } from '../model/TiptapGroup'
 import Heading from '@tiptap/extension-heading'
 import HardBreak from '@tiptap/extension-hard-break'
 import Blockquote from '@tiptap/extension-blockquote'
@@ -11,7 +11,41 @@ import Table from '@tiptap/extension-table'
 import TableRow from '@tiptap/extension-table-row'
 import TableHeader from '@tiptap/extension-table-header'
 
-let emoji = '🫧 BubbleMenusExtension'
+declare module '@tiptap/core' {
+    interface Commands {
+        SmartMenusExtension: {
+            bubbleMenuAppeared: () => void
+            floatingMenuAppeared: () => void
+        }
+    }
+}
+
+export const SmartMenusExtension = TiptapExtension.create({
+    name: 'smartMenus',
+
+    addStorage() {
+        return {
+            verbose: true,
+            title: '🫧 SmartMenus',
+            bubbleMenuAppeared: false,
+            floatingMenuAppeared: false,
+        }
+    },
+
+    addCommands() {
+        return {
+            bubbleMenuAppeared: () => ({ }) => {
+                this.storage.bubbleMenuAppeared = true
+                return true
+            },
+
+            floatingMenuAppeared: () => ({ }) => {
+                this.storage.floatingMenuAppeared = true
+                return true
+            }
+        }
+    }
+})
 
 export const shouldShowBubbleMenu = function (props: {
     editor: TiptapEditor
@@ -22,11 +56,13 @@ export const shouldShowBubbleMenu = function (props: {
     to: number
 }) {
     let verbose = false
+    let emoji = '🫧'
 
     const { selection } = props.state
     const { empty } = selection
     const shouldShowNodes = [Image.name, Link.name]
     const excludes = [Toc.name]
+
 
     // 如果是只读模式，不显示
     if (props.editor.isEditable == false) {
