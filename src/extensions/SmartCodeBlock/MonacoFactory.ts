@@ -20,6 +20,9 @@ export interface CreateEditorOptions {
 
 class MonacoFactory {
     static boot() {
+        //  https://github.com/microsoft/monaco-editor#faq
+        // ❓ I see the warning "Could not create web worker".What should I do?
+        //   HTML5 does not allow pages loaded on file:// to create web workers. Please load the editor with a web server on http:// or https:// schemes.
         window.MonacoEnvironment = {
             getWorker(_, label) {
                 switch (label) {
