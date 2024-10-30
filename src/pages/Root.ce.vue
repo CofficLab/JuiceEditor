@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { inject } from 'vue';
+import { computed, inject } from 'vue';
 import Loading from '../ui/Loading.vue'
 import { Editor as EditorVue } from '@tiptap/vue-3';
-import App from './App.vue'
+import SourceCode from './SourceCode.vue'
+import CoreEditor from './CoreEditor.vue'
 import { makeExtensions, defaultDrawIoLink, defaultTranslateApi, defaultFocusClassName } from '../model/TiptapAgent';
-import Editor from 'src/model/Editor';
+import Editor from '../model/Editor';
 
 const rootAgent: Editor = inject('rootAgent')!
 
@@ -31,11 +32,22 @@ const editor = new EditorVue({
     }
 })
 
+function onEditorMounted() {
+    editor.chain()
+        .setMounted()
+        .bootSlotListener()
+        .bootLocalStorage()
+        .run()
+}
+
+const showSourceCode = computed(() => {
+    return editor.storage.sourceCode.shouldShow
+})
+
 </script>
 
 <style>
 @import '../styles/app.css';
-@import 'monaco-editor/min/vs/editor/editor.main.css';
 </style>
 
 <template>
@@ -46,5 +58,12 @@ const editor = new EditorVue({
         </div>
     </div>
 
-    <App :editor="editor" v-else-if="editor && editor.storage.smartReady.ready" />
+    <main class="main text-left" v-if="editor && editor.storage.smartReady.ready">
+        <slot></slot>
+
+        <div class="flex flex-row w-full justify-center gap-0">
+            <SourceCode :editor="editor" v-if="showSourceCode" :class="{ 'w-1/2': true }" />
+            <CoreEditor :editor="editor" :onEditorMounted="onEditorMounted" :class="{ 'w-1/2': showSourceCode }" />
+        </div>
+    </main>
 </template>

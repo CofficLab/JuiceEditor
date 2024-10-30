@@ -1,10 +1,5 @@
 <template>
-  <div
-    class="relative w-20"
-    contenteditable="false"
-    @mouseover="showSelect"
-    @mouseleave="hideSelect"
-  >
+  <div class="relative w-20" contenteditable="false" @mouseover="showSelect" @mouseleave="hideSelect">
     <Label>{{ current.getTitle() }}</Label>
     <List :items="languages" :onclick="changed" v-if="shouldShowSelect"></List>
   </div>
@@ -14,7 +9,7 @@
 import { ref } from 'vue'
 import List from '../../ui/List.vue'
 import Label from '../../ui/Label.vue'
-import { SmartLanguage, languages } from './Entities/SmartLanguage'
+import { SmartLanguage, languages } from './SmartLanguage'
 
 const props = defineProps({
   current: {

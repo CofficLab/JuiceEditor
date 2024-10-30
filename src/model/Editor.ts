@@ -13,6 +13,10 @@ class Editor {
         this.editor?.commands.disableWebKit()
     }
 
+    public disableSlotListener: () => void = () => {
+        this.editor?.commands.disableSlotListener()
+    }
+
     public enableLog: () => void = () => {
         this.editor?.commands.enableLog()
     }
@@ -21,8 +25,24 @@ class Editor {
         this.editor?.commands.enableWebKit()
     }
 
+    public enableSlotListener: () => void = () => {
+        this.editor?.commands.enableSlotListener()
+    }
+
+    public enableLocalStorage: () => void = () => {
+        this.editor?.commands.enableLocalStorage()
+    }
+
     public getContent: () => string = () => {
         return this.editor?.getHTML() || ''
+    }
+
+    public setReadOnly: () => void = () => {
+        this.editor?.setEditable(false)
+    }
+
+    public setEditable: () => void = () => {
+        this.editor?.setEditable(true)
     }
 
     public setContent(content: string) {
@@ -47,7 +67,7 @@ class Editor {
     }
 
     public setContentFromLocalStorage() {
-        this.editor?.commands.loadContentFromLocalStorage()
+        this.editor?.commands.setContentFromLocalStorage()
     }
 
     public setContentFromUrl(url: string) {

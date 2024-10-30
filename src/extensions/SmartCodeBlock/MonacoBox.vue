@@ -15,16 +15,8 @@
         <RiCloseCircleFill v-else="runResultVisible" />
       </button>
 
-      <!-- 语言 -->
-      <div contenteditable="false" class="absolute top-0 right-0 z-50">
-        <LanguageSelect :editable="!props.readOnly" :current="language" :on-changed="onLanguageChanged">
-        </LanguageSelect>
-      </div>
-
       <!-- Monaco -->
-      <!-- monaco有时候不能全部占满这个div，会在左侧或右侧留几个像素的padding -->
-      <!-- 所以让这个div的背景色=monaco的背景色 -->
-      <div ref="monacoDom" :id="domId" class="relative z-10 bg-black" contenteditable="true"></div>
+      <MonacoEditor :content="props.content" :language="props.language.key" />
     </div>
 
     <!-- 展示运行结果 -->
@@ -35,13 +27,11 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onUnmounted, watch, ref, onBeforeUnmount, computed, onBeforeMount } from 'vue'
-import MonacoBox from './Entities/MonacoBox'
+import { ref } from 'vue'
+import MonacoEditor from './MonacoEditor.vue'
 import Pre from '../../ui/Pre.vue'
 import { v4 as uuidv4 } from 'uuid'
-import * as monaco from "monaco-editor/esm/vs/editor/editor.api"
-import { SmartLanguage, languages } from './Entities/SmartLanguage'
-import LanguageSelect from './LanguageSelect.vue'
+import { SmartLanguage, languages } from './SmartLanguage'
 import { RiCloseCircleFill, RiPlayCircleFill } from '@remixicon/vue'
 
 const props = defineProps({
@@ -100,7 +90,6 @@ const props = defineProps({
 // 一个页面可能有多个monaco编辑器，每个monaco编辑器都有一个uuid
 const domId = 'monaco-dom-' + uuidv4()
 const resultId = 'result-' + domId
-const monacoDom = ref(null as unknown as HTMLDivElement)
 
 /**
  * 运行按钮相关的属性
@@ -112,8 +101,6 @@ let runResultVisible = ref(false)
 /**
  * editor相关属性
  */
-let lan = ref(languages[0])
-var editor: monaco.editor.IStandaloneCodeEditor
 var lineCount = ref(0)
 
 function getResultElement(): HTMLElement {
@@ -121,73 +108,9 @@ function getResultElement(): HTMLElement {
 }
 
 function stop() {
-  log('stop')
   runResultVisible.value = false
   running.value = false
 }
-
-onMounted(() => {
-  editor = MonacoBox.createEditor({
-    content: props.content,
-    target: monacoDom.value,
-    language: props.language,
-    readOnly: props.readOnly,
-    onCreated(editor) {
-      lan.value = MonacoBox.getLanguage(editor)
-      lineCount.value = editor.getModel()!.getLineCount()
-      // console.log('lines', lineCount.value)
-
-      // setTimeout(() => {
-      //   // 去掉setTimeout则不能获取焦点，原因暂时不明
-      //   // 如果内容为空，说明是新创建的，获取焦点
-      //   if (props.content == '') {
-      //     monacoBox.editor.focus()
-      //   }
-      // }, 0)
-    },
-    onContentChanged(editor) {
-      props.onContentChanged(editor.getValue())
-      lineCount.value = editor.getModel()!.getLineCount()
-    },
-    onLanguageChanged(language) {
-      log('onLanguageChanged ->', language)
-      lan.value = language
-      props.onLanguageChanged(language)
-    }
-  })
-})
-
-onBeforeUnmount(() => {
-  log('before unmounted')
-})
-
-onUnmounted(() => {
-  log('unmounted，销毁 Monaco')
-
-  setTimeout(() => {
-    editor.dispose()
-  }, 1)
-})
-
-watch(
-  () => props.uuid,
-  () => {
-    if (editor.getValue() != props.content) {
-      log('检测到 props.uuid 发生变化，更新content')
-      editor.setValue(props.content)
-    } else {
-      log('检测到 props.uuid 发生变化，但与现有内容一致')
-    }
-  }
-)
-
-watch(
-  () => props.language,
-  () => {
-    log('检测到 props.language 发生变化')
-    MonacoBox.setLanguage(editor, props.language)
-  }
-)
 
 /**
  * 处理页面点击事件
@@ -208,8 +131,8 @@ let onClickIcon = () => {
   running.value = true
 
   setTimeout(() => {
-    let content = editor.getValue() || ''
-    let language = props.language.getTitle() || languages[0].getTitle()
+    // let content = editor.getValue() || ''
+    // let language = props.language.getTitle() || languages[0].getTitle()
     // webkit.runCode(content, language, (result) => {
     //   var output = ''
     //   if (result.length == 0) {
@@ -222,11 +145,5 @@ let onClickIcon = () => {
     //   running.value = false
     // })
   }, 5)
-}
-
-const verbose = false
-function log(...message: any) {
-  if (!verbose) return
-  console.log('🐰 MonacoBox:', ...message)
 }
 </script>

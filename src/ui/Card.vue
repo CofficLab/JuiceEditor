@@ -1,5 +1,6 @@
 <template>
-	<div class="relative flex flex-col justify-center items-center w-full bg-slate-200 rounded-lg shadow-2xl p-0">
+	<div
+		class="relative flex flex-col justify-center items-center w-full bg-slate-200 dark:bg-slate-800 rounded-lg shadow-2xl p-0">
 		<button @click="handleClose" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 hover:ring"
 			v-if="props.onClose">
 			<span class="sr-only">关闭</span>

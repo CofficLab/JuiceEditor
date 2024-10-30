@@ -1,5 +1,4 @@
-import { Mark, mergeAttributes, Node } from "@tiptap/core";
-import { VueNodeViewRenderer } from "@tiptap/vue-3";
+import { Mark, mergeAttributes } from "@tiptap/core";
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {

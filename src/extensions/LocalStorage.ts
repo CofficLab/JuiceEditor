@@ -3,12 +3,13 @@ import { TiptapExtension } from '../model/TiptapGroup';
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
         LocalStorage: {
+            bootLocalStorage: () => ReturnType
             save: () => ReturnType
             enableLocalStorage: () => ReturnType
             disableLocalStorage: () => ReturnType
             enableLocalStorageVerbose: () => ReturnType
             disableLocalStorageVerbose: () => ReturnType
-            loadContentFromLocalStorage: () => ReturnType
+            setContentFromLocalStorage: () => ReturnType
         }
     }
 }
@@ -31,12 +32,6 @@ export const LocalStorage = TiptapExtension.create({
         }
     },
 
-    onCreate() {
-        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
-            console.log(this.storage.emoji, "onCreate")
-        }
-    },
-
     onUpdate() {
         if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
             console.log(this.storage.emoji, "onUpdate")
@@ -52,7 +47,6 @@ export const LocalStorage = TiptapExtension.create({
     addCommands() {
         return {
             save: () => () => {
-
                 if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
                     console.log(this.storage.emoji, 'saveDocument')
                 }
@@ -90,15 +84,35 @@ export const LocalStorage = TiptapExtension.create({
                 return true;
             },
 
-            loadContentFromLocalStorage: () => ({ commands }) => {
+            setContentFromLocalStorage: () => ({ commands }) => {
                 let saveData = localStorage.getItem(this.storage.localStorageKey)
 
                 if (saveData) {
                     if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
-                        console.log(this.storage.emoji, 'setContentFromLocalStorage')
+                        console.log(this.storage.emoji, '📺 setContentFromLocalStorage')
                     }
-
                     commands.setContent(saveData)
+                }
+
+                return true
+            },
+
+            /**
+             * call this after 
+             * - editor is mounted(means the host element is ready, not onCreate)
+             * - slot listener is booted
+             */
+            bootLocalStorage: () => ({ commands }) => {
+                if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+                    console.log(this.storage.emoji, '🚩 boot local storage')
+                }
+
+                if (this.editor.storage.smartSlot.slotHasOriginalContent == false) {
+                    commands.setContentFromLocalStorage()
+                } else {
+                    if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+                        console.log(this.storage.emoji, 'slot has content, skip setContentFromLocalStorage')
+                    }
                 }
 
                 return true

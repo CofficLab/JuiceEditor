@@ -1,7 +1,11 @@
 <script lang="ts" setup>
 import {
+	RiBold, RiItalic, RiStrikethrough, RiPaletteLine, RiSubscript,
+	RiSuperscript, RiUnderline, RiFontFamily, RiCodeLine, RiFontColor
+} from '@remixicon/vue'
+import {
 	TiptapEditor, ImageExtension, FontFamilyExtension, LinkExtension, HeadingExtension,
-	ParagraphExtension, ColorExtension, TiptapEditorState, TiptapEditorView
+	ParagraphExtension, ColorExtension, TiptapEditorState, TiptapEditorView, BubbleMenuExtension
 } from '../model/TiptapGroup'
 import ButtonGroup from '../ui/ButtonGroup.vue'
 import MenuImage from './MenuImage.vue'
@@ -10,10 +14,6 @@ import MenuLink from './MenuLink.vue'
 import { computed } from 'vue'
 import { shouldShowBubbleMenu } from '../extensions/SmartMenus'
 import Button from '../ui/Button.vue'
-import {
-	RiBold, RiItalic, RiStrikethrough, RiPaletteLine, RiSubscript,
-	RiSuperscript, RiUnderline, RiFontFamily, RiCodeLine, RiFontColor
-} from '@remixicon/vue'
 import { getSelectionTextLength } from '../extensions/SmartSelection'
 import SmartText from '../extensions/SmartText'
 
@@ -86,7 +86,7 @@ const hasSelection = computed(() => {
 </script>
 
 <template>
-	<bubble-menu :should-show="shouldShow" :tippy-options="{
+	<BubbleMenuExtension :should-show="shouldShow" :tippy-options="{
 		duration: 100,
 		maxWidth: 800,
 		placement: 'top',
@@ -180,5 +180,5 @@ const hasSelection = computed(() => {
 			<!-- Link -->
 			<MenuLink :editor="editor" v-if="shouldShowLinkMenu"></MenuLink>
 		</ButtonGroup>
-	</bubble-menu>
+	</BubbleMenuExtension>
 </template>

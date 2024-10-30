@@ -1,95 +1,83 @@
-<script lang="ts" setup>
-import { NodeViewContent, nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
-import { computed, onUpdated, ref } from 'vue'
-import { SmartLanguage } from './Entities/SmartLanguage'
-import MonacoBox from './MonacoBox.vue'
-
-const props = defineProps(nodeViewProps)
-const code = ref(props.node.textContent)
-const language = SmartLanguage.fromString(props.node.attrs.language)
-const pos = props.getPos() // 获取当前节点的位置
-const resolvedPos = props.editor.state.doc.resolve(pos) // 解析位置
-const currentNodeIndex = resolvedPos.index() // 获取当前节点在父节点中的索引
-
-const show = computed(() => {
-  let parent = props.editor.state.doc.resolve(props.getPos()).parent
-  if (parent.type.name != 'groupPre') {
-    return true
-  }
-
-  return currentNodeIndex == parent.attrs.current
-})
-
-onUpdated(() => {
-  // 当 Tiptap 更新内容后，该组件不一定会被销毁，可能被 Vue 复用
-  log('updated')
-})
-
-function onLanguageChanged(lan: SmartLanguage) {
-  props.updateAttributes({
-    language: lan.key
-  })
-}
-
-function onContentUpdated(content: string) {
-  let firstChild = props.node.firstChild
-
-  if (firstChild == null) {
-    log('first child is null')
-    props.editor
-      .chain()
-      .insertContentAt(props.getPos() + 1, content)
-      .run()
-    return
-  }
-
-  let firstChildPos = props.getPos() + 1
-  let firstChildPosEnd = firstChildPos + firstChild.nodeSize
-
-  log('insertAt: ', firstChildPos, firstChildPosEnd, content)
-  props.editor
-    .chain()
-    .insertContentAt(
-      {
-        from: firstChildPos,
-        to: firstChildPosEnd
-      },
-      content
-    )
-    .run()
-
-  code.value = content
-}
-
-function copyToClipboard() {
-  navigator.clipboard
-    .writeText(code.value)
-    .then(() => {
-      log('Content copied to clipboard')
-    })
-    .catch((err) => {
-      log('Failed to copy content: ', err)
-    })
-}
-
-const verbose = false
-function log(...message: any[]) {
-  if (!verbose) return
-  console.log('🐰 SmartPre:', ...message)
-}
-</script>
-
 <template>
   <NodeViewWrapper>
-    <div class="relative" ref="codeDom" v-if="show">
-      <MonacoBox :language="language" :content="code" :readOnly="!props.editor.isEditable"
-        :onContentChanged="onContentUpdated" :onLanguageChanged="onLanguageChanged"></MonacoBox>
+    <div class="relative">
+      <div ref="editorContainer" class="w-full">
+        <!-- Shadow DOM will be created here -->
+      </div>
+
+      <div contenteditable="false" class="absolute top-0 right-0 z-50">
+        <LanguageSelect :editable="true" :current="language" :on-changed="onLanguageChanged">
+        </LanguageSelect>
+      </div>
     </div>
-
-    <NodeViewContent class="hidden"></NodeViewContent>
-
-    <!-- <Button @click="copyToClipboard">
-          <RiCopyrightFill size="36px"></RiCopyrightFill>
-        </Button> -->
   </NodeViewWrapper>
 </template>
+
+<script setup lang="ts">
+import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3';
+import * as monaco from 'monaco-editor'
+import { defineProps, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import { SmartLanguage } from './SmartLanguage';
+import MonacoFactory from './MonacoFactory';
+import LanguageSelect from './LanguageSelect.vue';
+
+const props = defineProps(nodeViewProps)
+
+const language = SmartLanguage.fromString(props.node.attrs.language)
+const editorContainer = ref<HTMLDivElement | null>(null)
+var monacoEditor: monaco.editor.IStandaloneCodeEditor | null = null
+
+onMounted(() => {
+  // Create shadow DOM
+  const shadow = editorContainer.value?.attachShadow({ mode: 'open' })
+
+  // Create container for Monaco
+  const editorHost = document.createElement('div')
+  editorHost.style.width = '100%'
+  shadow?.appendChild(editorHost)
+
+  // Import and set Monaco editor styles
+  import('monaco-editor/min/vs/editor/editor.main.css?raw')
+    .then(cssModule => {
+      const innerStyle = document.createElement('style')
+      innerStyle.textContent = cssModule.default
+      shadow?.appendChild(innerStyle)
+    })
+
+  // Initialize Monaco editor
+  monacoEditor = MonacoFactory.createEditor({
+    target: editorHost,
+    content: props.node.textContent,
+    language: SmartLanguage.fromString(props.node.attrs.language),
+    onContentChanged: (editor) => {
+      let content = editor.getValue()
+      let currentNodeFrom = props.getPos()
+      let currentNodeTo = currentNodeFrom + props.node.nodeSize
+
+      if (content == props.node.textContent) {
+        return
+      }
+
+      props.editor.commands.insertContentAt({
+        from: currentNodeFrom,
+        to: currentNodeTo
+      }, `<pre><code class='language-${language.key}'>${content}</code></pre>`)
+    }
+  })
+})
+
+onBeforeUnmount(() => {
+  if (monacoEditor) {
+    monacoEditor.dispose()
+  }
+})
+
+function onLanguageChanged(language: SmartLanguage) {
+  monaco.editor.setModelLanguage(monacoEditor!.getModel()!, language.getMonacoLanguage());
+}
+
+watch(() => props.node.textContent, (newContent) => {
+  monacoEditor!.setValue(newContent)
+})
+
+</script>

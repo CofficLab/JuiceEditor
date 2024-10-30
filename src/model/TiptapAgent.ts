@@ -61,6 +61,7 @@ import { SmartAlert } from "../extensions/SmartAlert/SmartAlert"
 import { SourceCode } from '../extensions/SourceCode'
 import { SmartLog } from '../extensions/SmartLog'
 import { makeExtensionsProps } from '../interface/MakeExtensionProps'
+import { SmartApp } from "../extensions/SmartApp"
 const isDebug = process.env.NODE_ENV === 'development'
 const defaultTranslateApi = isDebug
     ? 'http://127.0.0.1/api/translate'
@@ -118,6 +119,7 @@ function makeExtensions(props: makeExtensionsProps) {
         }),
         SmartPre,
         GapcursorExtension,
+        SmartApp,
         SmartActive,
         SuperscriptExtension,
         CharacterCountExtension,

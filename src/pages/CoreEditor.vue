@@ -4,8 +4,9 @@ import BubbleMenus from '../menus/MenuBubble.vue'
 import FloatMenus from '../menus/MenuFloat.vue'
 import MenuLeft from '../menus/MenuLeft.vue'
 import MenuRight from '../menus/MenuRight.vue'
+import { nextTick, onMounted } from 'vue'
 
-defineProps({
+const props = defineProps({
 	editor: {
 		type: EditorVue,
 		required: true
@@ -18,11 +19,20 @@ defineProps({
 		type: String,
 		required: false,
 		default: 'bg-slate-200 dark:bg-zinc-900/95'
+	},
+	onEditorMounted: {
+		type: Function,
+		required: false
 	}
 })
 
 const isDebug = false
 
+onMounted(() => {
+	nextTick(() => {
+		props.onEditorMounted?.()
+	})
+})
 </script>
 
 <template>

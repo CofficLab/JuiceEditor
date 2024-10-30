@@ -156,7 +156,7 @@ const SmartImage = ImageTipTap.extend<ImageOptions>({
 
             setDrawLink: (link: string) => ({ commands }) => {
                 if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
-                    console.log(title, 'setDrawLink', link)
+                    console.log(title, '⚙️ set draw link', link)
                 }
 
                 this.storage.drawIoLink = link
@@ -177,16 +177,12 @@ const SmartImage = ImageTipTap.extend<ImageOptions>({
                 mountPoint.style.justifyContent = 'center';
                 mountPoint.style.alignItems = 'center';
                 mountPoint.style.zIndex = '9999';
-                mountPoint.style.backgroundColor = 'rgba(255, 255, 255, 0.5)'; // 半透明白色背景
+                mountPoint.style.backgroundColor = 'rgba(128, 128, 128, 0.5)'; // 半透明灰色背景
                 mountPoint.style.backdropFilter = 'blur(10px)'; // 毛玻璃效果
                 (mountPoint.style as any)['WebkitBackdropFilter'] = 'blur(10px)'; // 为Safari浏览器添加前缀
 
-                let shadowRoot = this.editor.options.element?.shadowRoot
-                if (!shadowRoot) {
-                    console.error('No shadow root found');
-                    return false;
-                }
-                shadowRoot.appendChild(mountPoint);
+                let editorElement = editor.options.element
+                editorElement.appendChild(mountPoint);
 
                 const app = createApp({
                     render() {
@@ -206,17 +202,13 @@ const SmartImage = ImageTipTap.extend<ImageOptions>({
             },
 
             closeLoading: (reason: string) => ({ commands }) => {
-                if (this.storage.verbose) {
-                    console.log(this.storage.title, 'closeLoading', reason)
+                if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+                    console.log(this.storage.title, 'closeLoading with reason', reason)
                 }
 
-                let shadowRoot = this.editor.options.element?.shadowRoot
-                if (!shadowRoot) {
-                    console.error('No shadow root found');
-                    return false;
-                }
+                let editorElement = this.editor.options.element
 
-                let openingDom = shadowRoot.getElementById(this.options.mountPointId)
+                let openingDom = editorElement.querySelector(`#${this.options.mountPointId}`)
                 if (openingDom) {
                     openingDom.remove()
                 }
@@ -229,7 +221,7 @@ const SmartImage = ImageTipTap.extend<ImageOptions>({
                     return true
                 }
 
-                if (this.storage.verbose) {
+                if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
                     console.log(this.storage.title, 'openDraw')
                 }
 
@@ -249,12 +241,8 @@ const SmartImage = ImageTipTap.extend<ImageOptions>({
 
                 const src = editor.getAttributes(this.name).src;
 
-                let shadowRoot = this.editor.options.element?.shadowRoot
-                if (!shadowRoot) {
-                    console.error('No shadow root found');
-                    return false;
-                }
-                shadowRoot.appendChild(mountPoint);
+                let editorElement = editor.options.element
+                editorElement.appendChild(mountPoint);
 
                 const app = createApp({
                     render() {
@@ -284,13 +272,9 @@ const SmartImage = ImageTipTap.extend<ImageOptions>({
             closeDraw: () => ({ commands }) => {
                 console.log('closeDraw')
 
-                let shadowRoot = this.editor.options.element?.shadowRoot
-                if (!shadowRoot) {
-                    console.error('No shadow root found');
-                    return false;
-                }
+                let editorElement = this.editor.options.element
 
-                let drawDom = shadowRoot.getElementById(this.options.drawPageId)
+                let drawDom = editorElement.querySelector(`#${this.options.drawPageId}`)
                 if (drawDom) {
                     drawDom.remove()
                 } else {

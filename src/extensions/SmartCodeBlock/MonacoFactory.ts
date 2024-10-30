@@ -18,7 +18,7 @@ export interface CreateEditorOptions {
     onLanguageChanged?: (lan: SmartLanguage) => void;
 }
 
-class MonacoBox {
+class MonacoFactory {
     static boot() {
         window.MonacoEnvironment = {
             getWorker(_, label) {
@@ -69,9 +69,9 @@ class MonacoBox {
     }
 
     static setHeightOfEditor(editor: monaco.editor.IStandaloneCodeEditor) {
-        let height = MonacoBox.getLinesHeight(editor);
+        let height = MonacoFactory.getLinesHeight(editor);
 
-        // console.log("💼 MonacoBox: 设置高度", height);
+        console.log("💼 MonacoBox: 设置高度", height);
 
         editor.getDomNode()!.style.height = height + "px";
     }
@@ -115,28 +115,21 @@ class MonacoBox {
 
         editor.getModel()?.onDidChangeLanguage(() => {
             console.log('🍋 💼 MonacoBox: monaco editor language changed, language id ->', editor.getModel()?.getLanguageId());
-            options.onLanguageChanged?.(MonacoBox.getLanguage(editor));
+            options.onLanguageChanged?.(MonacoFactory.getLanguage(editor));
         });
 
         editor.getModel()!.onDidChangeContent(() => {
             console.log('💼 MonacoBox: monaco content changed');
             options.onContentChanged?.(editor);
-            MonacoBox.setHeightOfEditor(editor)
+            MonacoFactory.setHeightOfEditor(editor)
         });
 
-        MonacoBox.setHeightOfEditor(editor)
+        MonacoFactory.setHeightOfEditor(editor)
 
         options.onCreated?.(editor);
 
         return editor
     }
-
-    static createEmptyEditor(target: HTMLDivElement) {
-        let editor = monaco.editor.create(target, {
-            theme: "hc-black",
-        });
-        editor.dispose()
-    }
 }
 
-export default MonacoBox
+export default MonacoFactory
