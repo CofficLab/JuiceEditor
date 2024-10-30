@@ -110,7 +110,7 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
 
             setTranslateApi: (api: string) => ({ commands }) => {
                 if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
-                    console.log(this.storage.title, 'setTranslateApi', api);
+                    console.log(this.storage.title, '⚙️ set translate api', api);
                 }
 
                 this.storage.translateApi = api;

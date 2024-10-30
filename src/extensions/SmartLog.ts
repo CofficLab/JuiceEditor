@@ -15,6 +15,7 @@ export const SmartLog = TiptapExtension.create({
     addStorage() {
         return {
             enabled: false,
+            emoji: '🔍 SmartLog',
         }
     },
 
@@ -27,6 +28,8 @@ export const SmartLog = TiptapExtension.create({
             },
 
             enableLog: () => () => {
+                console.log(this.storage.emoji, '📜 enableLog')
+
                 this.storage.enabled = true
 
                 return true

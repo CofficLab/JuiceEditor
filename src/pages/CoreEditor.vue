@@ -20,7 +20,7 @@ const props = defineProps({
 		required: false,
 		default: 'bg-slate-200 dark:bg-zinc-900/95'
 	},
-	onMounted: {
+	onEditorMounted: {
 		type: Function,
 		required: false
 	}
@@ -30,7 +30,7 @@ const isDebug = false
 
 onMounted(() => {
 	nextTick(() => {
-		props.onMounted?.()
+		props.onEditorMounted?.()
 	})
 })
 </script>

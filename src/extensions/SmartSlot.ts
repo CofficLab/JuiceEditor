@@ -8,7 +8,7 @@ declare module '@tiptap/core' {
     interface Commands<ReturnType> {
         SmartSlot: {
             loadContentFromSlot: () => ReturnType
-            startSlotListenerOnMount: () => ReturnType
+            bootSlotListener: () => ReturnType
             enableSlotListener: () => ReturnType
             disableSlotListener: () => ReturnType
         }
@@ -38,15 +38,16 @@ export const SmartSlot = TiptapExtension.create({
     addStorage() {
         return {
             verbose: true,
-            enabled: false,
+            enabled: true,
+            slotHasOriginalContent: false,
             emoji: "👂 SlotListener",
         }
     },
     addCommands() {
         return {
-            loadContentFromSlot: () => ({ editor, commands }) => {
-                if (this.storage.verbose) {
-                    console.log(this.storage.emoji, "loadContentFromSlot")
+            loadContentFromSlot: () => ({ chain }) => {
+                if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+                    console.log(this.storage.emoji, "load content from slot")
                 }
 
                 if (!this.storage.enabled) {
@@ -54,9 +55,7 @@ export const SmartSlot = TiptapExtension.create({
                     return false
                 }
 
-                commands.setContent(getHostElementContent(editor))
-
-                return true
+                return chain().setContent(getHostElementContent(this.editor)).run()
             },
 
             enableSlotListener: () => ({ editor }) => {
@@ -69,15 +68,22 @@ export const SmartSlot = TiptapExtension.create({
                 return true
             },
 
-            startSlotListenerOnMount: () => ({ editor, commands }) => {
+            /**
+             * run this after editor is mounted, because we need to get the host element
+             */
+            bootSlotListener: () => ({ editor, commands }) => {
                 if (!this.storage.enabled) {
-                    console.warn('Slot listener is not enabled')
                     return false
                 }
 
-                commands.loadContentFromSlot()
+                console.log(this.storage.emoji, '🚩 boot slot listener')
 
-                console.log(this.storage.emoji, 'startSlotListenerOnMount')
+                let slotContent = getHostElementContent(this.editor).trim()
+
+                if (slotContent.length > 0) {
+                    this.storage.slotHasOriginalContent = true
+                    commands.loadContentFromSlot()
+                }
 
                 let hostElement = getHostElement(editor)
 
@@ -86,7 +92,7 @@ export const SmartSlot = TiptapExtension.create({
                 }
 
                 if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
-                    console.log(this.storage.emoji, "Watch Slot content")
+                    console.log(this.storage.emoji, "watch slot content")
                 }
 
                 observer = new MutationObserver(() => editor.commands.loadContentFromSlot())
@@ -99,7 +105,7 @@ export const SmartSlot = TiptapExtension.create({
                 observer.disconnect()
 
                 if (this.storage.verbose) {
-                    console.log(this.storage.emoji, "Clear slot content")
+                    console.log(this.storage.emoji, "clear slot content")
                 }
 
                 hostElement.innerHTML = ''

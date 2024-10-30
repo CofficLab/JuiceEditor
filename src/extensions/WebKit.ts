@@ -35,7 +35,6 @@ import SmartText from "./SmartText"
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
         WebKit: {
-            sendToWebKit: () => ReturnType
             webKitSendMessage: (data: object) => ReturnType
             webKitSendDebugMessage: (message: string) => ReturnType
             asyncSendMessage: (data: object) => ReturnType
@@ -129,7 +128,7 @@ export const WebKit = TiptapExtension.create({
     addStorage() {
         return {
             verbose: true,
-            enabled: false,
+            enabled: true,
             emoji: "🍎 WebKit",
             localStorageKey: 'html',
         }
@@ -139,9 +138,6 @@ export const WebKit = TiptapExtension.create({
         if (!this.storage.enabled) {
             return
         }
-
-
-        console.log(this.storage.emoji, "onBeforeCreate")
 
         if (!('webkit' in window)) {
             return
@@ -207,13 +203,11 @@ export const WebKit = TiptapExtension.create({
 
     onSelectionUpdate() {
         if (!this.storage.enabled) {
-            return
+            return false
         }
 
-        console.log(this.storage.emoji, "onSelectionUpdate")
-
         if (!('webkit' in window)) {
-            return
+            return false
         }
 
         // 异步往 webkit 发送数据，防止界面卡顿
@@ -227,17 +221,6 @@ export const WebKit = TiptapExtension.create({
 
     addCommands() {
         return {
-            sendToWebKit: () => () => {
-
-                if (this.storage.verbose) {
-                    console.log(this.storage.emoji, 'saveDoc')
-                }
-
-                // localStorage.setItem('doc', doc.toJSONString())
-
-                return true
-            },
-
             webKitSendDebugMessage: (message: string) => () => {
                 if (!this.storage.enabled || !('webkit' in window)) {
                     return false

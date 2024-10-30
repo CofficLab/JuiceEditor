@@ -27,8 +27,6 @@ export const SmartApp = TiptapExtension.create({
                 }
 
                 this.storage.mounted = true
-                editor.commands.enableSlotListener()
-                editor.commands.startSlotListenerOnMount()
                 return true
             },
         }

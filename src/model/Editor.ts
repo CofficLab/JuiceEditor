@@ -67,7 +67,7 @@ class Editor {
     }
 
     public setContentFromLocalStorage() {
-        this.editor?.commands.loadContentFromLocalStorage()
+        this.editor?.commands.setContentFromLocalStorage()
     }
 
     public setContentFromUrl(url: string) {

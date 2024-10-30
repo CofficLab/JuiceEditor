@@ -32,8 +32,12 @@ const editor = new EditorVue({
     }
 })
 
-function onMounted() {
-    editor.commands.setMounted()
+function onEditorMounted() {
+    editor.chain()
+        .setMounted()
+        .bootSlotListener()
+        .bootLocalStorage()
+        .run()
 }
 
 const showSourceCode = computed(() => {
@@ -60,7 +64,7 @@ const showSourceCode = computed(() => {
 
         <div class="flex flex-row w-full justify-center gap-0">
             <SourceCode :editor="editor" v-if="showSourceCode" :class="{ 'w-1/2': true }" />
-            <CoreEditor :editor="editor" :onMounted="onMounted" :class="{ 'w-1/2': showSourceCode }" />
+            <CoreEditor :editor="editor" :onEditorMounted="onEditorMounted" :class="{ 'w-1/2': showSourceCode }" />
         </div>
     </main>
 </template>
