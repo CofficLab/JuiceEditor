@@ -37,6 +37,7 @@ function onEditorMounted() {
         .setMounted()
         .bootSlotListener()
         .bootLocalStorage()
+        .bootWebKit()
         .run()
 }
 

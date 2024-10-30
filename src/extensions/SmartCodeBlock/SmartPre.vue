@@ -47,6 +47,7 @@ onMounted(() => {
   // Initialize Monaco editor
   monacoEditor = MonacoFactory.createEditor({
     target: editorHost,
+    readOnly: !props.editor.isEditable,
     content: props.node.textContent,
     language: SmartLanguage.fromString(props.node.attrs.language),
     onContentChanged: (editor) => {
@@ -64,6 +65,10 @@ onMounted(() => {
       }, `<pre><code class='language-${language.key}'>${content}</code></pre>`)
     }
   })
+
+  props.editor.on('update', () => {
+    monacoEditor!.updateOptions({ readOnly: !props.editor.isEditable })
+  })
 })
 
 onBeforeUnmount(() => {
@@ -74,6 +79,7 @@ onBeforeUnmount(() => {
 
 function onLanguageChanged(language: SmartLanguage) {
   monaco.editor.setModelLanguage(monacoEditor!.getModel()!, language.getMonacoLanguage());
+  props.updateAttributes({ language: language.key })
 }
 
 watch(() => props.node.textContent, (newContent) => {

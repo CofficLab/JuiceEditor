@@ -18,8 +18,13 @@ export interface CreateEditorOptions {
     onLanguageChanged?: (lan: SmartLanguage) => void;
 }
 
+const title = '💼 MonacoFactory'
+
 class MonacoFactory {
     static boot() {
+        //  https://github.com/microsoft/monaco-editor#faq
+        // ❓ I see the warning "Could not create web worker".What should I do?
+        //   HTML5 does not allow pages loaded on file:// to create web workers. Please load the editor with a web server on http:// or https:// schemes.
         window.MonacoEnvironment = {
             getWorker(_, label) {
                 switch (label) {
@@ -71,7 +76,7 @@ class MonacoFactory {
     static setHeightOfEditor(editor: monaco.editor.IStandaloneCodeEditor) {
         let height = MonacoFactory.getLinesHeight(editor);
 
-        console.log("💼 MonacoBox: 设置高度", height);
+        console.log(title, "set height to", height);
 
         editor.getDomNode()!.style.height = height + "px";
     }

@@ -19,7 +19,8 @@ export default CodeBlock.extend({
   addStorage() {
     return {
       verbose: true,
-      title: '🍋 SmartPre',
+      title: '💻 SmartPre',
+      booted: false,
     }
   },
   addAttributes() {
@@ -57,7 +58,11 @@ export default CodeBlock.extend({
     return {
       insertSmartPre:
         () => ({ commands }) => {
-          return commands.insertContent("<pre><code class='language-text'></code></pre>");
+          if (this.storage.verbose) {
+            console.log(this.storage.title, 'insertSmartPre')
+          }
+
+          return commands.insertContent("<pre><code class='language-javascript'></code></pre>");
         },
       setCodeBlock:
         attributes => ({ commands }) => {
@@ -70,7 +75,23 @@ export default CodeBlock.extend({
     }
   },
 
-  onBeforeCreate() {
-    MonacoFactory.boot()
+  onCreate() {
+    if (this.editor?.isEditable && !this.storage.booted) {
+      if (this.storage.verbose) {
+        console.log(this.storage.title, 'onCreate, boot Monaco')
+      }
+      MonacoFactory.boot()
+      this.storage.booted = true
+    }
   },
+
+  onUpdate() {
+    if (this.editor?.isEditable && !this.storage.booted) {
+      if (this.storage.verbose) {
+        console.log(this.storage.title, 'onUpdate, boot Monaco')
+      }
+      MonacoFactory.boot()
+      this.storage.booted = true
+    }
+  }
 })

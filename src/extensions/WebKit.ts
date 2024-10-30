@@ -43,6 +43,7 @@ declare module '@tiptap/core' {
             enableWebKitVerbose: () => ReturnType
             disableWebKitVerbose: () => ReturnType
             webKitDownloadImage: (src: string, name: string) => ReturnType
+            bootWebKit: () => ReturnType
         }
     }
 }
@@ -128,7 +129,7 @@ export const WebKit = TiptapExtension.create({
     addStorage() {
         return {
             verbose: true,
-            enabled: true,
+            enabled: false,
             emoji: "🍎 WebKit",
             localStorageKey: 'html',
         }
@@ -149,26 +150,6 @@ export const WebKit = TiptapExtension.create({
 
         this.editor.commands.webKitSendMessage({
             channel: "loading",
-        })
-    },
-
-    onCreate() {
-        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
-            console.log(this.storage.emoji, "onCreate")
-        }
-
-        // send message even if enabled is false
-
-        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
-            console.log(this.storage.emoji, 'webkit send message: pageLoaded')
-        }
-
-        if (!('webkit' in window)) {
-            return
-        }
-
-        this.editor.commands.webKitSendMessage({
-            channel: "pageLoaded"
         })
     },
 
@@ -245,6 +226,9 @@ export const WebKit = TiptapExtension.create({
 
                 try {
                     (window as any).webkit.messageHandlers.sendMessage.postMessage(data);
+                    if (this.storage.verbose) {
+                        console.log(this.storage.emoji, '已发送消息', data)
+                    }
                 } catch (e: any) {
                     console.warn(this.storage.emoji, '发送消息失败', e.message);
                     return false
@@ -318,6 +302,29 @@ export const WebKit = TiptapExtension.create({
                     base64: ImageHelper.getBase64FromBase64Image(src),
                     name: name
                 });
+            },
+
+            /**
+             * call this method when editor view is mounted
+             */
+            bootWebKit: () => () => {
+                if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+                    console.log(this.storage.emoji, "bootWebKit")
+                }
+
+                if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+                    console.log(this.storage.emoji, 'webkit send message: pageLoaded')
+                }
+
+                if (!('webkit' in window)) {
+                    return true
+                }
+
+                this.editor.commands.webKitSendMessage({
+                    channel: "pageLoaded"
+                })
+
+                return true
             }
         }
     }
