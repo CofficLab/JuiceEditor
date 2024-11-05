@@ -1,8 +1,8 @@
 version: 2
+name: '🍋 NPM Dependencies Update'
 updates:
-  - package-ecosystem: "npm"
-    directory: "/"
-    target-branch: "dev"
-    schedule:
-      interval: "monthly"
-
+    - package-ecosystem: 'npm'
+      directory: '/'
+      target-branch: 'dev'
+      schedule:
+          interval: 'monthly'
