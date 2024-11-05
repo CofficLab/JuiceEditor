@@ -64,6 +64,7 @@ import { SmartLog } from '../extensions/SmartLog'
 import { makeExtensionsProps } from '../interface/MakeExtensionProps'
 import { SmartApp } from "../extensions/SmartApp"
 import SmartKbd from "../extensions/SmartKbd"
+import { DragDrop } from "../extensions/DragDrop"
 const isDebug = process.env.NODE_ENV === 'development'
 const defaultTranslateApi = isDebug
     ? 'http://127.0.0.1/api/translate'
@@ -84,6 +85,7 @@ function makeExtensions(props: makeExtensionsProps) {
         BranchContent,
         SmartAlert,
         SmartDoc,
+        DragDrop,
         DropcursorExtension.configure({
             width: 4,
             class: 'dropcursor-class',
