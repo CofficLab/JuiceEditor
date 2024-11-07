@@ -23,12 +23,12 @@ declare module '@tiptap/core' {
 
 export const colors: Record<string, string> = {
     'default': 'bg-slate-200 dark:bg-zinc-900/95',
-    'red': 'bg-red-200 dark:bg-zinc-900/95',
-    'blue': 'bg-blue-200 dark:bg-zinc-900/95',
-    'green': 'bg-green-200 dark:bg-zinc-900/95',
-    'yellow': 'bg-yellow-200 dark:bg-zinc-900/95',
-    'purple': 'bg-purple-200 dark:bg-zinc-900/95',
-    'pink': 'bg-pink-200 dark:bg-zinc-900/95',
+    'red': 'bg-red-200 dark:bg-red-900/95',
+    'blue': 'bg-blue-200 dark:bg-blue-900/95',
+    'green': 'bg-green-200 dark:bg-green-900/95',
+    'yellow': 'bg-yellow-200 dark:bg-yellow-900/95',
+    'purple': 'bg-purple-200 dark:bg-purple-900/95',
+    'pink': 'bg-pink-200 dark:bg-pink-900/95',
 }
 
 export const SmartMenusExtension = TiptapExtension.create({
