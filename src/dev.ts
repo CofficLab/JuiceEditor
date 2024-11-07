@@ -25,6 +25,7 @@ const editor = EditorFactory.register('my-editor', {
         editor.enableLog()
         editor.setTranslateApi('https://api.youdao.com/api')
         editor.setDrawLink('/draw/index.html?')
+        editor.setMenuBackgroundColor('blue')
     }
 })
 

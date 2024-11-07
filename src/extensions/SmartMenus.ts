@@ -16,8 +16,19 @@ declare module '@tiptap/core' {
         SmartMenusExtension: {
             bubbleMenuAppeared: () => void
             floatingMenuAppeared: () => void
+            setMenuBackgroundColor: (colorName: string) => void
         }
     }
+}
+
+export const colors: Record<string, string> = {
+    'default': 'bg-slate-200 dark:bg-zinc-900/95',
+    'red': 'bg-red-200 dark:bg-zinc-900/95',
+    'blue': 'bg-blue-200 dark:bg-zinc-900/95',
+    'green': 'bg-green-200 dark:bg-zinc-900/95',
+    'yellow': 'bg-yellow-200 dark:bg-zinc-900/95',
+    'purple': 'bg-purple-200 dark:bg-zinc-900/95',
+    'pink': 'bg-pink-200 dark:bg-zinc-900/95',
 }
 
 export const SmartMenusExtension = TiptapExtension.create({
@@ -29,6 +40,7 @@ export const SmartMenusExtension = TiptapExtension.create({
             title: '🫧 SmartMenus',
             bubbleMenuAppeared: false,
             floatingMenuAppeared: false,
+            color: colors.default,
         }
     },
 
@@ -41,6 +53,11 @@ export const SmartMenusExtension = TiptapExtension.create({
 
             floatingMenuAppeared: () => ({ }) => {
                 this.storage.floatingMenuAppeared = true
+                return true
+            },
+
+            setMenuBackgroundColor: (colorName: string) => ({ }) => {
+                this.storage.color = colors[colorName] || colors.default
                 return true
             }
         }

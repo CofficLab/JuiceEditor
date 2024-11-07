@@ -1,5 +1,6 @@
 import { TiptapEditor } from './TiptapGroup'
 import EditorOptions from '../interface/EditorOptions'
+import { colors } from '../extensions/SmartMenus'
 
 class Editor {
     public editor: TiptapEditor | null = null
@@ -47,6 +48,10 @@ class Editor {
 
     public setContent(content: string) {
         this.editor?.commands.setContent(content, true)
+    }
+
+    public setMenuBackgroundColor(colorName: keyof typeof colors) {
+        this.editor?.commands.setMenuBackgroundColor(colorName)
     }
 
     /**

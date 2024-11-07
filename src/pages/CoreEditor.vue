@@ -4,7 +4,7 @@ import BubbleMenus from '../menus/MenuBubble.vue'
 import FloatMenus from '../menus/MenuFloat.vue'
 import MenuLeft from '../menus/MenuLeft.vue'
 import MenuRight from '../menus/MenuRight.vue'
-import { nextTick, onMounted } from 'vue'
+import { computed, nextTick, onMounted } from 'vue'
 
 const props = defineProps({
 	editor: {
@@ -15,11 +15,6 @@ const props = defineProps({
 		type: String,
 		default: 'bg-slate-300/10 dark:bg-zinc-900/30'
 	},
-	menuBackgroundClass: {
-		type: String,
-		required: false,
-		default: 'bg-slate-200 dark:bg-zinc-900/95'
-	},
 	onEditorMounted: {
 		type: Function,
 		required: false
@@ -27,6 +22,9 @@ const props = defineProps({
 })
 
 const isDebug = false
+const menuColor = computed(() => {
+	return props.editor.storage.smartMenus.color
+})
 
 onMounted(() => {
 	nextTick(() => {
@@ -37,10 +35,10 @@ onMounted(() => {
 
 <template>
 	<div v-if="editor" id="core-container" class="flex flex-col w-full">
-		<BubbleMenus :backgroundClass="menuBackgroundClass" :editor="editor"></BubbleMenus>
-		<FloatMenus :background-class="menuBackgroundClass" :editor="editor"></FloatMenus>
-		<MenuLeft :editor="editor" :backgroundClass="menuBackgroundClass" />
-		<MenuRight :editor="editor" :backgroundClass="menuBackgroundClass" />
+		<BubbleMenus :background-class="menuColor" :editor="editor"></BubbleMenus>
+		<FloatMenus :background-class="menuColor" :editor="editor"></FloatMenus>
+		<MenuLeft :editor="editor" :background-class="menuColor" />
+		<MenuRight :editor="editor" :background-class="menuColor" />
 
 		<div id="core" :class="{
 			'bg-slate-300/10': isDebug,
