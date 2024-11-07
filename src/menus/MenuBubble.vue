@@ -2,7 +2,7 @@
 import {
 	RiBold, RiItalic, RiStrikethrough, RiPaletteLine, RiSubscript,
 	RiSuperscript, RiUnderline, RiFontFamily, RiCodeLine, RiFontColor,
-	RiKeyboardBoxLine
+	RiKeyboardBoxLine, RiLinkM
 } from '@remixicon/vue'
 import {
 	TiptapEditor, ImageExtension, FontFamilyExtension, LinkExtension, HeadingExtension,
@@ -121,6 +121,10 @@ const hasSelection = computed(() => {
 			<Button tips="上标" :shape="shape" v-if="hasSelection"
 				@click="editor.chain().focus().toggleSuperscript().run()">
 				<RiSuperscript></RiSuperscript>
+			</Button>
+			<Button tips="链接" :shape="shape" v-if="hasSelection"
+				@click="editor.chain().focus().toggleLink({ href: 'https://cofficlab.github.io' }).run()">
+				<RiLinkM></RiLinkM>
 			</Button>
 			<Button tips="下划线" :shape="shape" v-if="hasSelection"
 				@click="editor.chain().focus().toggleUnderline().run()">

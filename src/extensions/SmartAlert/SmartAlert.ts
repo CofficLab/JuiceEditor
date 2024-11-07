@@ -34,6 +34,7 @@ export const SmartAlert = TiptapExtension.create({
                 mountPoint.style.justifyContent = 'center';
                 mountPoint.style.alignItems = 'center';
                 mountPoint.style.zIndex = '9999';
+                mountPoint.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
 
                 let editorElement = this.editor.options.element
                 editorElement.appendChild(mountPoint);
