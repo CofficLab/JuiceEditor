@@ -73,6 +73,10 @@ const shouldShowLinkMenu = computed(() => {
 	return props.editor.isActive(LinkExtension.name)
 })
 
+const shouldShowFontMenu = computed(() => {
+	return props.editor.can().setFontFamily('inter') && !props.editor.isActive(LinkExtension.name)
+})
+
 const textColors = computed(() => {
 	return props.editor.options.extensions.find(extension => extension.name === ColorExtension.name)?.options.colors
 })
@@ -150,8 +154,7 @@ const hasSelection = computed(() => {
 					</div>
 				</template>
 			</Button>
-			<Button tips="字体" :shape="shape" v-if="editor.can().setFontFamily('inter')"
-				:dropdown-background-class="backgroundClass">
+			<Button tips="字体" :shape="shape" v-if="shouldShowFontMenu" :dropdown-background-class="backgroundClass">
 				<RiFontFamily></RiFontFamily>
 
 				<template #dropdown-item>
