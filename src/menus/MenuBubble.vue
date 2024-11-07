@@ -179,13 +179,13 @@ const hasSelection = computed(() => {
 			</Button>
 
 			<!-- Draw -->
-			<MenuDraw :editor="editor" v-if="shouldShowDrawMenu"></MenuDraw>
+			<MenuDraw :editor="editor" :background-class="backgroundClass" v-if="shouldShowDrawMenu"></MenuDraw>
 
 			<!-- Image -->
-			<MenuImage :editor="editor" v-if="shouldShowImageMenu"></MenuImage>
+			<MenuImage :editor="editor" :background-class="backgroundClass" v-if="shouldShowImageMenu"></MenuImage>
 
 			<!-- Link -->
-			<MenuLink :editor="editor" v-if="shouldShowLinkMenu"></MenuLink>
+			<MenuLink :editor="editor" :background-class="backgroundClass" v-if="shouldShowLinkMenu"></MenuLink>
 		</ButtonGroup>
 	</BubbleMenuExtension>
 </template>

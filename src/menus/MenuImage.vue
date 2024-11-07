@@ -17,6 +17,11 @@ let props = defineProps({
     iconSize: {
         type: String,
         default: '24px'
+    },
+    backgroundClass: {
+        type: String,
+        required: true,
+        default: 'bg-indigo-100/95 dark:bg-indigo-500/95'
     }
 })
 
@@ -57,7 +62,7 @@ let shapeClass = computed(() => {
     <Button @click="props.editor.commands.downloadImage()" tips="下载" :shape="shape">
         <RiDownloadLine :size="iconSize"></RiDownloadLine>
     </Button>
-    <Button tips="样式" :shape="shape">
+    <Button tips="样式" :shape="shape" :dropdownBackgroundClass="backgroundClass">
         <RiShapeLine :size="iconSize"></RiShapeLine>
 
         <template #dropdown-item>

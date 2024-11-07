@@ -18,6 +18,11 @@ let props = defineProps({
     iconSize: {
         type: String,
         default: '24px'
+    },
+    backgroundClass: {
+        type: String,
+        required: true,
+        default: 'bg-indigo-100/95 dark:bg-indigo-500/95'
     }
 })
 
@@ -42,7 +47,7 @@ let shapeClass = computed(() => {
     <Button @click="editor.commands.openLoading" tips="打开画图界面" :shape="shape">
         <RiEditLine :size="iconSize"></RiEditLine>
     </Button>
-    <Button tips="样式" :shape="shape">
+    <Button tips="样式" :shape="shape" :dropdownBackgroundClass="backgroundClass">
         <RiShapeLine :size="iconSize"></RiShapeLine>
 
         <template #dropdown-item>
