@@ -1,9 +1,15 @@
 <script lang="ts" setup>
 import { computed, defineProps, ref } from 'vue'
 import Button from '../ui/Button.vue'
-import { TiptapEditor } from '../model/TiptapGroup'
+import { HeadingExtension, TiptapEditor } from '../model/TiptapGroup'
 import SmartImage from '../extensions/SmartImage/SmartImage'
-import { RiEditLine, RiDownloadLine, RiShapeLine } from '@remixicon/vue'
+import {
+    RiEditLine, RiDownloadLine, RiShapeLine, RiIndentDecrease,
+    RiAlignCenter, RiIndentIncrease, RiDeleteBin7Line
+} from '@remixicon/vue'
+import { shouldShowMarginMenu } from '../extensions/SmartMenus'
+import SmartHeading from '../extensions/SmartHeading'
+
 
 let props = defineProps({
     editor: {
@@ -56,6 +62,24 @@ let shapeClass = computed(() => {
 </script>
 
 <template>
+    <Button tips="删除" @click="editor.commands.deleteSelectionNode()"
+        v-if="!editor.isActive(HeadingExtension.name, { level: 1 })" :shape="shape">
+        <RiDeleteBin7Line :size="iconSize"></RiDeleteBin7Line>
+    </Button>
+
+    <template v-if="shouldShowMarginMenu(props.editor)">
+        <Button tips="左对齐" @click="editor.commands.justifyStart()" :shape="shape">
+            <RiIndentDecrease :size="iconSize"></RiIndentDecrease>
+        </Button>
+
+        <Button tips="居中对齐" @click="editor.commands.justifyCenter()" :shape="shape">
+            <RiAlignCenter :size="iconSize"></RiAlignCenter>
+        </Button>
+
+        <Button tips="右对齐" @click="editor.commands.justifyEnd()" :shape="shape">
+            <RiIndentIncrease :size="iconSize"></RiIndentIncrease>
+        </Button>
+    </template>
     <Button @click="changeImage" tips="更换图片" :shape="shape">
         <RiEditLine :size="iconSize"></RiEditLine>
     </Button>

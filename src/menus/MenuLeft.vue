@@ -1,18 +1,19 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
-import { TiptapEditor } from '../model/TiptapGroup'
+import { ImageExtension, TiptapEditor } from '../model/TiptapGroup'
 import Button from '../ui/Button.vue'
 import ButtonGroup from '../ui/ButtonGroup.vue'
 import { getFirstActiveNodePosition } from '../extensions/SmartActive'
 import {
 	RiDeleteBin7Line, RiAddLine, RiCodeBoxLine,
 	RiAlignLeft, RiAlignCenter, RiPaletteLine,
-	RiGlobalLine, RiAlignRight,
+	RiGlobalLine, RiAlignRight, RiIndentDecrease, RiIndentIncrease,
 	RiH2, RiH3, RiH4, RiText, RiChatQuoteLine
 } from '@remixicon/vue'
 import Paragraph from '@tiptap/extension-paragraph'
 import Heading from '@tiptap/extension-heading'
 import { Toc } from '../extensions/Toc/Toc'
+import { shouldShowTextAlignMenu, shouldShowMarginMenu } from '../extensions/SmartMenus'
 
 const props = defineProps({
 	editor: {
@@ -98,6 +99,12 @@ function updateMenuPosition() {
 		return
 	}
 
+	// hide if image is active
+	if (props.editor.isActive(ImageExtension.name)) {
+		visible.value = false
+		return
+	}
+
 	let { offsetLeft } = editorDom as HTMLElement
 
 	// 减去的是menu自身的宽度
@@ -162,32 +169,20 @@ function shouldShowParagraphMenu() {
 				@click="editor.chain().focus().toggleCodeBlock().run()">
 				<RiCodeBoxLine></RiCodeBoxLine>
 			</Button>
-			<!-- <Button tips="往左移动" @click="editor.commands.moveLeft()" :shape="shape">
-				<RiIndentDecrease :size="iconSize"></RiIndentDecrease>
-			</Button>
 
-			<Button tips="居中对齐" @click="editor.commands.moveCenter()" :shape="shape">
-				<RiAlignCenter :size="iconSize"></RiAlignCenter>
-			</Button>
+			<template v-if="shouldShowTextAlignMenu(props.editor)">
+				<Button tips="文字靠左" @click="editor.commands.setTextAlign('left')" :shape="shape">
+					<RiAlignLeft :size="iconSize"></RiAlignLeft>
+				</Button>
 
-			<Button tips="往右移动" @click="editor.commands.moveRight()" :shape="shape">
-				<RiIndentIncrease :size="iconSize"></RiIndentIncrease>
-			</Button> -->
+				<Button tips="文字居中" @click="editor.commands.setTextAlign('center')" :shape="shape">
+					<RiAlignCenter :size="iconSize"></RiAlignCenter>
+				</Button>
 
-			<Button tips="文字靠左" @click="editor.commands.setTextAlign('left')" :shape="shape"
-				v-if="editor.isActive(Paragraph.name) || editor.isActive(Heading.name)">
-				<RiAlignLeft :size="iconSize"></RiAlignLeft>
-			</Button>
-
-			<Button tips="文字居中" @click="editor.commands.setTextAlign('center')" :shape="shape"
-				v-if="editor.isActive(Paragraph.name) || editor.isActive(Heading.name)">
-				<RiAlignCenter :size="iconSize"></RiAlignCenter>
-			</Button>
-
-			<Button tips="文字靠右" @click="editor.commands.setTextAlign('right')" :shape="shape"
-				v-if="editor.isActive(Paragraph.name) || editor.isActive(Heading.name)">
-				<RiAlignRight :size="iconSize"></RiAlignRight>
-			</Button>
+				<Button tips="文字靠右" @click="editor.commands.setTextAlign('right')" :shape="shape">
+					<RiAlignRight :size="iconSize"></RiAlignRight>
+				</Button>
+			</template>
 
 			<!-- Menu for paragraph -->
 

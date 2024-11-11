@@ -133,7 +133,7 @@ function makeExtensions(props: makeExtensionsProps) {
             drawIoLink: props.drawIoLink,
             allowBase64: true,
             HTMLAttributes: {
-                class: 'smart-image'
+                class: 'not-prose'
             }
         }),
         SmartFocus.configure({

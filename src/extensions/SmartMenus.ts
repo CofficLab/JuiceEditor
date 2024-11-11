@@ -1,6 +1,6 @@
 import { EditorState } from '@tiptap/pm/state'
 import { EditorView } from '@tiptap/pm/view'
-import { TiptapEditor, TiptapExtension } from '../model/TiptapGroup'
+import { ImageExtension, TiptapEditor, TiptapExtension } from '../model/TiptapGroup'
 import Heading from '@tiptap/extension-heading'
 import HardBreak from '@tiptap/extension-hard-break'
 import Blockquote from '@tiptap/extension-blockquote'
@@ -186,5 +186,17 @@ export const shouldShowFloatingMenu = function (props: {
         return false
     }
 
+    return true
+}
+
+export const shouldShowTextAlignMenu = function (editor: TiptapEditor) {
+    if (editor.isActive(ImageExtension.name)) {
+        return false
+    }
+
+    return true
+}
+
+export const shouldShowMarginMenu = function (editor: TiptapEditor) {
     return true
 }

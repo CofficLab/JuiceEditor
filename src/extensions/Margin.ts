@@ -14,8 +14,11 @@ declare module '@tiptap/core' {
     interface Commands<ReturnType> {
         margin: {
             moveRight: () => ReturnType,
-            moveCenter: () => ReturnType,
+            justifyCenter: () => ReturnType,
             moveLeft: () => ReturnType,
+            justifyStart: () => ReturnType,
+            justifyEnd: () => ReturnType,
+            resetMargin: () => ReturnType,
         }
     }
 }
@@ -90,10 +93,14 @@ export const Margin = TiptapExtension.create({
                     }
                 });
 
-                // 删除原有的 margin class
+                // 删除所有 margin 相关的 class
                 this.options.levels.forEach((cls: string) => {
-                    attrs.class = attrs.class.replace(cls, '').trim();
+                    attrs.class = attrs.class.replaceAll(cls, '').trim();
                 });
+
+                attrs.class = attrs.class.replaceAll('mx-auto', '').trim();
+                attrs.class = attrs.class.replaceAll('ml-0', '').trim();
+                attrs.class = attrs.class.replaceAll('mr-0', '').trim();
 
                 // 如果已经是最大索引,则不做任何操作
                 if (currentIndex + 1 >= this.options.levels.length) {
@@ -104,6 +111,7 @@ export const Margin = TiptapExtension.create({
                 attrs.class += ' ' + this.options.levels[nextIndex];
                 return commands.updateAttributes(node.type.name, attrs);
             },
+
             moveLeft: () => ({ commands }) => {
                 let node = getSelectionNode(this.editor);
                 let attrs = { ...node.attrs };
@@ -122,10 +130,14 @@ export const Margin = TiptapExtension.create({
                     }
                 });
 
-                // 删除原有的 margin class
+                // 删除所有 margin 相关的 class
                 this.options.levels.forEach((cls: string) => {
-                    attrs.class = attrs.class.replace(cls, '').trim();
+                    attrs.class = attrs.class.replaceAll(cls, '').trim();
                 });
+
+                attrs.class = attrs.class.replaceAll('mx-auto', '').trim();
+                attrs.class = attrs.class.replaceAll('ml-0', '').trim();
+                attrs.class = attrs.class.replaceAll('mr-0', '').trim();
 
                 // 如果已经是最小索引,则不做任何操作
                 if (currentIndex - 1 < 0) {
@@ -136,17 +148,74 @@ export const Margin = TiptapExtension.create({
                 attrs.class += ' ' + this.options.levels[nextIndex];
                 return commands.updateAttributes(node.type.name, attrs);
             },
-            moveCenter: () => ({ commands }) => {
+
+            justifyCenter: () => ({ commands }) => {
                 let node = getSelectionNode(this.editor);
                 let attrs = { ...node.attrs };
 
                 // 删除所有 margin 相关的 class
                 this.options.levels.forEach((cls: string) => {
-                    attrs.class = attrs.class.replace(cls, '').trim();
+                    attrs.class = attrs.class.replaceAll(cls, '').trim();
                 });
+
+                attrs.class = attrs.class.replaceAll('mx-auto', '').trim();
+                attrs.class = attrs.class.replaceAll('ml-0', '').trim();
+                attrs.class = attrs.class.replaceAll('mr-0', '').trim();
 
                 // 添加 mx-auto 类
                 attrs.class += ' mx-auto';
+
+                return commands.updateAttributes(node.type.name, attrs);
+            },
+
+            justifyStart: () => ({ commands }) => {
+                let node = getSelectionNode(this.editor);
+                let attrs = { ...node.attrs };
+
+                // 删除所有 margin 相关的 class
+                this.options.levels.forEach((cls: string) => {
+                    attrs.class = attrs.class.replaceAll(cls, '').trim();
+                });
+
+                attrs.class = attrs.class.replaceAll('mx-auto', '').trim();
+                attrs.class = attrs.class.replaceAll('ml-0', '').trim();
+                attrs.class = attrs.class.replaceAll('mr-0', '').trim();
+
+                attrs.class += ' mx-auto ml-0';
+
+                return commands.updateAttributes(node.type.name, attrs);
+            },
+
+            justifyEnd: () => ({ commands }) => {
+                let node = getSelectionNode(this.editor);
+                let attrs = { ...node.attrs };
+
+                // 删除所有 margin 相关的 class
+                this.options.levels.forEach((cls: string) => {
+                    attrs.class = attrs.class.replaceAll(cls, '').trim();
+                });
+
+                attrs.class = attrs.class.replaceAll('mx-auto', '').trim();
+                attrs.class = attrs.class.replaceAll('ml-0', '').trim();
+                attrs.class = attrs.class.replaceAll('mr-0', '').trim();
+
+                // 添加新的 class
+                attrs.class += ' mx-auto mr-0';
+                return commands.updateAttributes(node.type.name, attrs);
+            },
+
+            resetMargin: () => ({ commands }) => {
+                let node = getSelectionNode(this.editor);
+                let attrs = { ...node.attrs };
+
+                // 删除所有 margin 相关的 class
+                this.options.levels.forEach((cls: string) => {
+                    attrs.class = attrs.class.replaceAll(cls, '').trim();
+                });
+
+                attrs.class = attrs.class.replaceAll('mx-auto', '').trim();
+                attrs.class = attrs.class.replaceAll('ml-0', '').trim();
+                attrs.class = attrs.class.replaceAll('mr-0', '').trim();
 
                 return commands.updateAttributes(node.type.name, attrs);
             },
