@@ -23,17 +23,13 @@ const link = computed(() => {
 </script>
 
 <template>
-  <Li>
-    <Link :href="link">{{ heading.text }}</Link>
+  <div class="backdrop-blur-sm backdrop-filter not-prose">
+    <Li>
+      <Link :href="link">{{ heading.text }}</Link>
 
-    <Ul v-if="heading.children.length > 0">
-      <HeadingTree :heading="child" v-for="child in heading.children"></HeadingTree>
-    </Ul>
-  </Li>
+      <Ul v-if="heading.children.length > 0">
+        <HeadingTree :heading="child" v-for="child in heading.children"></HeadingTree>
+      </Ul>
+    </Li>
+  </div>
 </template>
-
-<script lang="ts">
-export default {
-  name: 'HeadingTree'
-}
-</script>

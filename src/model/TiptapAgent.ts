@@ -21,12 +21,12 @@ import {
     TableRowExtension,
     UnderlineExtension,
     SuperscriptExtension,
+    HardBreakExtension
 } from "../model/TiptapGroup"
 import { SmartReady } from "../extensions/SmartReady"
 import { SmartSlot } from "../extensions/SmartSlot"
 import Features from "../extensions/Features/Features"
 import { SmartNodes } from "../extensions/SmartNodes"
-import { HardBreakExtension } from "../model/TiptapGroup"
 import SmartText from "../extensions/SmartText"
 import { SmartMenusExtension } from "../extensions/SmartMenus"
 import { WebKit } from "../extensions/WebKit"
@@ -65,6 +65,7 @@ import { makeExtensionsProps } from '../interface/MakeExtensionProps'
 import { SmartApp } from "../extensions/SmartApp"
 import SmartKbd from "../extensions/SmartKbd"
 import { DragDrop } from "../extensions/DragDrop"
+import { SmartToc } from "../extensions/SmartToc/SmartToc"
 const isDebug = process.env.NODE_ENV === 'development'
 const defaultTranslateApi = isDebug
     ? 'http://127.0.0.1/api/translate'
@@ -77,6 +78,7 @@ const defaultDrawIoLink = isDebug
 function makeExtensions(props: makeExtensionsProps) {
     var extensions = [
         Debug,
+        SmartToc,
         Root.extend({
             content: `${HeadingExtension.name} block*`,
         }),

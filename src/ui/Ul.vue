@@ -1,7 +1,5 @@
 <template>
-  <ul
-    class="menu w-full dark:border-gray-700/50 backdrop-blur-sm backdrop-filter border-l border-gray-400/50"
-  >
+  <ul class="menu menu-xs w-full dark:border-gray-700/50 border-l border-gray-400/50 py-0">
     <slot></slot>
   </ul>
 </template>

@@ -5,7 +5,7 @@ import { getFirstActiveNodePosition } from '../extensions/SmartActive'
 import ButtonGroup from '../ui/ButtonGroup.vue'
 import MenuTable from './MenuTable.vue'
 import Table from '@tiptap/extension-table'
-import { Toc } from '../extensions/Toc/Toc'
+import { SmartToc } from '../extensions/SmartToc/SmartToc'
 import Heading from '@tiptap/extension-heading'
 
 const props = defineProps({
@@ -80,7 +80,7 @@ function updateMenuPosition() {
     }
 
     // 如果是TOC，不显示
-    if (props.editor.isActive(Toc.name)) {
+    if (props.editor.isActive(SmartToc.name)) {
         visible.value = false
         return
     }

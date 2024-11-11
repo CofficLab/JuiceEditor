@@ -2,13 +2,13 @@ import { mergeAttributes, Node, Editor } from "@tiptap/core";
 import SmartHeading from "./SmartHeading";
 import { VueNodeViewRenderer } from "@tiptap/vue-3";
 import TocView from "./TocView.vue";
+import { TiptapEditor } from "../../model/TiptapGroup";
 
 declare module '@tiptap/core' {
 	interface Commands<ReturnType> {
 		tableOfContents: {
 			makeTree: () => (options: { editor: Editor }) => SmartHeading
 			makeLink: () => ReturnType
-			hasToc: () => ReturnType
 			addToc: () => ReturnType
 			removeToc: () => ReturnType
 			toggleToc: () => ReturnType
@@ -16,10 +16,13 @@ declare module '@tiptap/core' {
 	}
 }
 
-export const Toc = Node.create({
+export const SmartToc = Node.create({
 	name: "toc",
+
 	group: "block",
+
 	atom: true,
+
 	parseHTML() {
 		return [
 			{
@@ -27,12 +30,23 @@ export const Toc = Node.create({
 			},
 		];
 	},
+
 	renderHTML({ HTMLAttributes }) {
 		return ["toc", mergeAttributes(HTMLAttributes)];
 	},
+
 	addNodeView() {
 		return VueNodeViewRenderer(TocView as any)
 	},
+
+	addStorage() {
+		return {
+			debug: false,
+			verbose: true,
+			title: "🐒 TOC",
+		}
+	},
+
 	addGlobalAttributes() {
 		return [
 			{
@@ -45,26 +59,16 @@ export const Toc = Node.create({
 			},
 		];
 	},
+
 	addCommands() {
 		return {
 			makeTree: () => ({ editor }): SmartHeading => {
 				return SmartHeading.makeTree(editor)
 			},
-			hasToc: () => ({ editor }) => {
-				let result = false
-				editor.state.doc.descendants((node) => {
-					if (node.type.name == this.name) {
-						result = true
-						return
-					}
-				});
 
-				return result
-			},
 			addToc: () => ({ editor, commands }) => {
-				let verbose = true
-				if (verbose) {
-					console.log("addToc, content size is", editor.state.doc.content.size)
+				if (this.storage.verbose) {
+					console.log(this.storage.title, "addToc, content size is", editor.state.doc.content.size)
 				}
 
 				let size = editor.state.doc.content.size
@@ -80,7 +84,12 @@ export const Toc = Node.create({
 					},
 				});
 			},
+
 			removeToc: () => ({ editor, commands }) => {
+				if (this.storage.verbose) {
+					console.log(this.storage.title, "removeToc")
+				}
+
 				let nodesDeleting: { pos: number; size: number; }[] = []
 				editor.state.doc.descendants((node, pos) => {
 					if (node.type.name == this.name) {
@@ -100,17 +109,23 @@ export const Toc = Node.create({
 
 				return true;
 			},
+
 			toggleToc: () => ({ commands }) => {
-				let verbose = false
-				if (verbose) {
-					console.log("toggleToc")
+				if (this.storage.verbose) {
+					console.log(this.storage.title, "toggleToc")
 				}
 
-				if (commands.hasToc()) {
-					return commands.removeToc()
-				}
+				let hasToc = false
 
-				return commands.addToc()
+				this.editor.state.doc.descendants((node) => {
+					if (node.type.name == this.name) {
+						hasToc = true
+
+						return false
+					}
+				});
+
+				return hasToc ? commands.removeToc() : commands.addToc()
 			},
 		};
 	},

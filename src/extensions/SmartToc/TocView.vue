@@ -1,28 +1,24 @@
 <script setup lang="ts">
 import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
-import { onMounted, nextTick, ref, onBeforeUnmount, computed } from 'vue'
+import { onMounted, nextTick, ref, onBeforeUnmount } from 'vue'
 import SmartHeading from './SmartHeading'
 import HeadingTree from './HeadingTree.vue'
 
-const isDebug = false
-const title = '📖 TocView'
 const props = defineProps(nodeViewProps)
 
 let headingTree = ref(new SmartHeading())
 
 function handleUpdate() {
-	let verbose = false
-	if (verbose) {
-		console.log(title, 'handleUpdate')
+	if (props.editor.storage.toc.verbose) {
+		console.log(props.editor.storage.toc.title, 'handleUpdate')
 	}
 
 	headingTree.value = SmartHeading.makeTree(props.editor) as unknown as SmartHeading
 }
 
 onMounted(() => {
-	let verbose = false
-	if (verbose) {
-		console.log(title, 'mounted')
+	if (props.editor.storage.toc.verbose) {
+		console.log(props.editor.storage.toc.title, 'mounted')
 	}
 
 	props.editor.on('update', handleUpdate)
@@ -69,9 +65,8 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
-	let verbose = false
-	if (verbose) {
-		console.log(title, 'onBeforeUnmount')
+	if (props.editor.storage.toc.verbose) {
+		console.log(props.editor.storage.toc.title, 'onBeforeUnmount')
 	}
 
 	props.editor.off('update', handleUpdate)
@@ -82,10 +77,10 @@ onBeforeUnmount(() => {
 	<NodeViewWrapper>
 		<!-- TOC，和顶部留一些距离，因为WEB项目顶部有导航栏 -->
 		<div id="toc" v-if="true" :class="{
-			'md:bg-slate-300/10': false,
-			'lg:bg-blue-300/50': isDebug,
-			'xl:bg-purple-300/50': isDebug,
-			'2xl:bg-red-300/50': isDebug,
+			'md:bg-slate-300/10': props.editor.storage.toc.debug,
+			'lg:bg-blue-300/50': props.editor.storage.toc.debug,
+			'xl:bg-purple-300/50': props.editor.storage.toc.debug,
+			'2xl:bg-red-300/50': props.editor.storage.toc.debug,
 			'fixed right-0 top-12 z-30': true,
 			'flex-row justify-start hidden h-screen overflow-y-scroll': true,
 			'w-48': true,
@@ -94,7 +89,7 @@ onBeforeUnmount(() => {
 			'xl:w-64 4md:right-2': true,
 			'2xl:w-88 2xl:right-24': true
 		}">
-			<div class="w-full my-12 overflow-y-scroll menu menu-xs">
+			<div class="w-full p-0 my-12 overflow-y-scroll menu menu-xs">
 				<HeadingTree :heading="h" v-for="h in headingTree.children"></HeadingTree>
 			</div>
 		</div>

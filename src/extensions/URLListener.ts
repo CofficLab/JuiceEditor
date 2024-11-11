@@ -1,4 +1,4 @@
-import { TiptapExtension } from '../model/TiptapGroup'
+import { TiptapEditor, TiptapExtension } from '../model/TiptapGroup'
 
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
@@ -14,7 +14,7 @@ export const URLListener = TiptapExtension.create({
 
     addStorage() {
         return {
-            verbose: true,
+            verbose: false,
             enabled: true,
             emoji: "👂 URLListener",
             editorLabel: "juice-editor",
@@ -26,7 +26,13 @@ export const URLListener = TiptapExtension.create({
             return
         }
 
-        window.onpopstate = this.editor.commands.onURLChanged
+        window.onpopstate = () => {
+            this.editor.commands.onURLChanged()
+        }
+    },
+
+    onDestroy() {
+        window.onpopstate = null
     },
 
     addCommands() {

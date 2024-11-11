@@ -12,7 +12,7 @@ import {
 } from '@remixicon/vue'
 import Paragraph from '@tiptap/extension-paragraph'
 import Heading from '@tiptap/extension-heading'
-import { Toc } from '../extensions/Toc/Toc'
+import { SmartToc } from '../extensions/SmartToc/SmartToc'
 import { shouldShowTextAlignMenu, shouldShowMarginMenu } from '../extensions/SmartMenus'
 
 const props = defineProps({
@@ -94,7 +94,7 @@ function updateMenuPosition() {
 	}
 
 	// 如果是TOC，不显示
-	if (props.editor.isActive(Toc.name)) {
+	if (props.editor.isActive(SmartToc.name)) {
 		visible.value = false
 		return
 	}

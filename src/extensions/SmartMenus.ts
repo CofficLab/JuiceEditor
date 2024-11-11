@@ -6,7 +6,7 @@ import HardBreak from '@tiptap/extension-hard-break'
 import Blockquote from '@tiptap/extension-blockquote'
 import Image from '@tiptap/extension-image'
 import Link from '@tiptap/extension-link'
-import { Toc } from '../extensions/Toc/Toc'
+import { SmartToc } from './SmartToc/SmartToc'
 import Table from '@tiptap/extension-table'
 import TableRow from '@tiptap/extension-table-row'
 import TableHeader from '@tiptap/extension-table-header'
@@ -78,7 +78,7 @@ export const shouldShowBubbleMenu = function (props: {
     const { selection } = props.state
     const { empty } = selection
     const shouldShowNodes = [Image.name, Link.name]
-    const excludes = [Toc.name]
+    const excludes = [SmartToc.name]
 
 
     // 如果是只读模式，不显示
