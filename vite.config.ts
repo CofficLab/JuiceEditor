@@ -6,6 +6,15 @@ import vue from '@vitejs/plugin-vue'
 // https://vitejs.dev/config/
 export default defineConfig({
   base: './',
+  server: {
+    proxy: {
+      '/proxy': {
+        target: 'http://localhost:49493',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/proxy/, '')
+      }
+    }
+  },
   plugins: [
     vue(),
   ],

@@ -14,6 +14,7 @@ import { EditorFactory, Editor } from './main'
 import codeBlockDoc from './dev/codeBlock';
 
 const title = "⛰️ Dev"
+const translateApi = '/proxy/api/chat'
 
 const editor = EditorFactory.register('my-editor', {
     onBeforeCreate: () => {
@@ -23,7 +24,7 @@ const editor = EditorFactory.register('my-editor', {
         console.log(title, 'onCreate for label my-editor')
 
         editor.enableLog()
-        editor.setTranslateApi('https://api.youdao.com/api')
+        editor.setTranslateApi(translateApi)
         editor.setDrawLink('/draw/index.html?')
         editor.setMenuBackgroundColor('blue')
     }

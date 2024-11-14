@@ -1,6 +1,6 @@
 import Paragraph from "@tiptap/extension-paragraph";
-import axios from 'axios';
-import { TiptapEditor } from "../model/TiptapGroup";
+import { TiptapEditor } from "../../model/TiptapGroup";
+import { translate } from "./Api";
 
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
@@ -136,20 +136,49 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
                 const start = $from.start();
                 const end = $to.end();
                 const content = editor.state.doc.textBetween(start, end, ' ');
+                const debugTitle = this.storage.title;
+                const url = this.storage.translateApi;
 
-                (async () => {
-                    try {
-                        const translatedContent = await performTranslation(content, language, this.storage.translateApi);
-                        const translatedNode = editor.schema.text(translatedContent);
-                        const tr = editor.state.tr.replaceWith(start, end, translatedNode);
-                        editor.view.dispatch(tr);
-                    } catch (error: unknown) {
+                var translatedText = '';
+                var translatedNode = editor.schema.text('翻译中...');
+
+                editor.view.dispatch(editor.state.tr.replaceWith(
+                    start,
+                    end,
+                    translatedNode
+                ));
+
+                translate({
+                    url,
+                    text: content,
+                    language: language,
+                    callback(message) {
+                        console.log(debugTitle, '📤 翻译结果', message);
+
+                        let previousLength = translatedNode.nodeSize;
+                        translatedText += message;
+                        translatedNode = editor.schema.text(translatedText);
+
+                        editor.view.dispatch(editor.state.tr.replaceWith(
+                            start,
+                            start + previousLength,
+                            translatedNode
+                        ));
+                    },
+                    onError(error) {
+                        console.warn(debugTitle, '翻译失败', error);
+                        const errorTr = editor.state.tr.insertText(content, start, start + content.length);
+                        editor.view.dispatch(errorTr);
+
                         editor.commands.showAlert((error as Error).message, {
                             language,
-                            api: this.storage.translateApi,
+                            api: url,
                         });
+                    },
+                    onEnd() {
+                        console.log(debugTitle, '🎉 翻译结束。');
                     }
-                })();
+                });
 
                 return true;
             },
@@ -157,26 +186,5 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
     },
 });
 
-/**
- * Performs translation of the given content.
- * @throws {Error} If the translation fails or if there's a network error.
- */
-async function performTranslation(content: string, language: string, apiUrl: string): Promise<string> {
-    try {
-        const response = await axios.post(apiUrl, {
-            lang: language,
-            text: content
-        });
-
-        // 检查HTTP状态码
-        if (response.status >= 200 && response.status < 300) {
-            return response.data;
-        } else {
-            throw new Error(`Translation API returned status code: ${response.status}`);
-        }
-    } catch (error) {
-        throw error;
-    }
-}
-
 export default SmartParagraph;
+
