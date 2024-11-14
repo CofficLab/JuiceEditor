@@ -1,6 +1,7 @@
 import Paragraph from "@tiptap/extension-paragraph";
 import { TiptapEditor } from "../../model/TiptapGroup";
 import { translate } from "./Api";
+import { Node, Schema } from "prosemirror-model";
 
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
@@ -138,24 +139,23 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
                 const content = editor.state.doc.textBetween(start, end, ' ');
                 const debugTitle = this.storage.title;
                 const url = this.storage.translateApi;
-
+                var originalTextDeleted = false
                 var translatedText = '';
-                var translatedNode = editor.schema.text('翻译中...');
-
-                editor.view.dispatch(editor.state.tr.replaceWith(
-                    start,
-                    end,
-                    translatedNode
-                ));
+                var translatedNode: Node | null = null;
 
                 translate({
                     url,
                     text: content,
                     language: language,
                     callback(message) {
+                        if (!originalTextDeleted) {
+                            editor.view.dispatch(editor.state.tr.delete(start, end));
+                            originalTextDeleted = true;
+                        }
+
                         console.log(debugTitle, '📤 翻译结果', message);
 
-                        let previousLength = translatedNode.nodeSize;
+                        let previousLength = translatedNode?.nodeSize ?? 0;
                         translatedText += message;
                         translatedNode = editor.schema.text(translatedText);
 
