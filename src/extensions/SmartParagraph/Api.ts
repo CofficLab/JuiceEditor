@@ -28,11 +28,9 @@ function sse(options: sendOptions) {
         body: urlencoded,
         headers: headers,
     }).then((response) => {
-        console.log(title, 'HTTP Status Code:', response.status);
-
         if (!response.ok) {
             console.log(title, 'HTTP Error', response);
-            throw new Error('http status code ' + response.status + ' ' + response.statusText);
+            throw new Error(response.status + ' ' + response.statusText);
         }
 
         // 通过 Response 对象的 body 属性来获取 SSE 流数据
@@ -75,8 +73,6 @@ function sse(options: sendOptions) {
         // 开始读取 SSE 数据
         readData();
     }).catch((error) => {
-        console.warn(title, 'Fetch error:', error);
-
         options.onError(error);
     });
 }

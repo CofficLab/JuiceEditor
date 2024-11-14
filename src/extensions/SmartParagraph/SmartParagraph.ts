@@ -166,9 +166,6 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
                     },
                     onError(error) {
                         console.warn(debugTitle, '翻译失败', error);
-                        const errorTr = editor.state.tr.insertText(content, start, start + content.length);
-                        editor.view.dispatch(errorTr);
-
                         editor.commands.showAlert((error as Error).message, {
                             language,
                             api: url,
