@@ -66,6 +66,7 @@ import { SmartApp } from "../extensions/SmartApp"
 import SmartKbd from "../extensions/SmartKbd"
 import { DragDrop } from "../extensions/DragDrop"
 import { SmartToc } from "../extensions/SmartToc/SmartToc"
+import Assistant from "../extensions/Assistant/Assistant"
 const isDebug = process.env.NODE_ENV === 'development'
 const defaultTranslateApi = isDebug
     ? 'http://127.0.0.1/api/translate'
@@ -77,6 +78,7 @@ const defaultDrawIoLink = isDebug
 
 function makeExtensions(props: makeExtensionsProps) {
     var extensions = [
+        Assistant,
         Debug,
         SmartToc,
         Root.extend({

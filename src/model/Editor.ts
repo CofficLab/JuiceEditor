@@ -55,20 +55,21 @@ class Editor {
     }
 
     /**
-     * 设置翻译API接口地址
+     * 设置聊天API接口地址
      * 
-     * 在需要翻译时，编辑器会向该地址发送 HTTP POST 请求
+     * 在需要聊天时，编辑器会向该地址发送 HTTP POST 请求
      * 
      * 请求参数：
      * 
-     * { lang: language, text: content }
+     * { text: content }
      * 
-     * 返回值：翻译后的文本
-     * @param api 翻译API接口地址
-     * @example editor.setTranslateApi('https://api.youdao.com/api')
+     * 返回值：聊天结果
+     * 
+     * @param api 聊天API接口地址
+     * @example editor.setChatApi('https://api.youdao.com/api/chat')
      */
-    public setTranslateApi(api: string) {
-        this.editor?.commands.setTranslateApi(api)
+    public setChatApi(api: string) {
+        this.editor?.commands.setChatApi(api)
     }
 
     public setContentFromLocalStorage() {

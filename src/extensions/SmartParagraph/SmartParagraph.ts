@@ -28,7 +28,6 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
     addStorage() {
         return {
             verbose: true,
-            translateApi: null,
             title: '🦜 SmartParagraph',
         }
     },
@@ -138,7 +137,7 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
                 const end = $to.end();
                 const content = editor.state.doc.textBetween(start, end, ' ');
                 const debugTitle = this.storage.title;
-                const url = this.storage.translateApi;
+                const url = this.editor.storage.assistant.chatApi;
                 var originalTextDeleted = false
                 var translatedText = '';
                 var translatedNode: Node | null = null;
