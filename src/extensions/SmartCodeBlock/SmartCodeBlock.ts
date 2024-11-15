@@ -18,8 +18,8 @@ declare module '@tiptap/core' {
 export default CodeBlock.extend({
   addStorage() {
     return {
-      verbose: true,
-      title: '💻 SmartPre',
+      verbose: false,
+      title: '💻 SmartCodeBlock',
       booted: false,
     }
   },

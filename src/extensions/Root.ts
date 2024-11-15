@@ -1,18 +1,18 @@
 import { Node } from '@tiptap/core'
-import UUIDHelper from '../helper/UUIDHelper'
-export interface BranchOptions {
+
+export interface RootOptions {
     HTMLAttributes: Record<string, any>
 }
 
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
-        branch: {
-            setBranchVersion: (version: number) => ReturnType
+        root: {
+            updateRootUUID: (uuid: string) => ReturnType
         }
     }
 }
 
-export const Root = Node.create<BranchOptions>({
+export const Root = Node.create<RootOptions>({
     name: 'root',
 
     group: 'block',
@@ -54,4 +54,16 @@ export const Root = Node.create<BranchOptions>({
     renderHTML({ HTMLAttributes }) {
         return ['div', { 'data-type': 'root', ...HTMLAttributes }, 0]
     },
+
+    addCommands() {
+        return {
+            updateRootUUID: (uuid: string) => ({ editor, commands }) => {
+                commands.updateAttributes(this.name, {
+                    uuid: uuid
+                })
+
+                return true
+            }
+        }
+    }
 })

@@ -22,7 +22,7 @@ export const WebKit = TiptapExtension.create({
 
     addStorage() {
         return {
-            verbose: true,
+            verbose: false,
             enabled: false,
             emoji: "🍎 WebKit",
             localStorageKey: 'html',

@@ -13,7 +13,7 @@ export const SmartApp = TiptapExtension.create({
 
     addStorage() {
         return {
-            verbose: true,
+            verbose: false,
             mounted: false,
             title: '📱 SmartApp',
         }
@@ -22,7 +22,7 @@ export const SmartApp = TiptapExtension.create({
     addCommands() {
         return {
             setMounted: () => ({ editor }) => {
-                if (this.storage.verbose) {
+                if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
                     console.log(this.storage.title, 'setMounted')
                 }
 

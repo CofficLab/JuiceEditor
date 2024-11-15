@@ -1,5 +1,6 @@
 import { TiptapExtension } from '../model/TiptapGroup'
 import { JSONContent } from "@tiptap/core"
+
 import { Root } from "./Root"
 import SmartDoc from "./SmartDoc"
 import SmartText from "./SmartText"
@@ -11,6 +12,14 @@ class UUIDError extends Error {
         super(message);
         this.name = 'UUIDError';
         this.block = block
+    }
+}
+
+declare module '@tiptap/core' {
+    interface Commands<ReturnType> {
+        smartNodes: {
+            cacheTitleAndNodes: () => ReturnType
+        }
     }
 }
 
@@ -91,27 +100,11 @@ export const SmartNodes = TiptapExtension.create({
 
     addStorage() {
         return {
-            verbose: true,
+            verbose: false,
             enabled: true,
             title: "",
             nodes: [] as JSONContent[],
             emoji: "👫 SmartNodes",
-        }
-    },
-
-    onCreate() {
-        this.storage.title = getTitle(this.editor.getJSON())
-
-        try {
-            this.storage.nodes = flattenBlock(this.editor.getJSON())
-        } catch (e: Error | any) {
-            this.editor.commands.showAlert('缺少 UUID', {
-                error: e.message,
-                block_type: e.block.type,
-                block_attrs: e.block.attrs,
-                reporter: this.storage.emoji,
-                stage: 'onCreate'
-            })
         }
     },
 
@@ -138,4 +131,36 @@ export const SmartNodes = TiptapExtension.create({
             this.editor.commands.webKitSendDebugMessage(this.storage.emoji + ' Update Title: ' + this.storage.title)
         }
     },
+
+    addCommands() {
+        return {
+            /**
+             * call this after 
+             * - editor is mounted(means the host element is ready, not onCreate)
+             * - editor content is ready
+             */
+            cacheTitleAndNodes: () => () => {
+                if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+                    console.log(this.storage.emoji, '🚩 cache title and nodes')
+                }
+
+                this.storage.title = getTitle(this.editor.getJSON())
+
+                try {
+                    this.storage.nodes = flattenBlock(this.editor.getJSON())
+                } catch (e: UUIDError | any) {
+                    this.editor.commands.showAlert('Error saving title and nodes', {
+                        error: e.message,
+                        block_type: e.block.type,
+                        block_attrs: e.block.attrs,
+                        reporter: this.storage.emoji,
+                        stage: 'cacheTitleAndNodes',
+                        html: this.editor.getHTML()
+                    })
+                }
+
+                return true
+            }
+        }
+    }
 })

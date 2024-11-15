@@ -43,7 +43,7 @@ export const WebStorage = TiptapExtension.create({
                     .then(response => {
                         let content = response.data
 
-                        editor.commands.setContent(content, true)
+                        editor.chain().setContent(content, true).updateRootUUID(uuid).run()
                     })
                     .catch(error => {
                         if (error.code === 'ERR_NETWORK' || error.message.includes('CORS')) {
@@ -57,7 +57,8 @@ export const WebStorage = TiptapExtension.create({
                                 url,
                                 uuid,
                                 error: error.message,
-                                reporter: this.storage.emoji
+                                reporter: this.storage.emoji,
+                                stage: 'setContentFromWeb'
                             })
                         }
                     })

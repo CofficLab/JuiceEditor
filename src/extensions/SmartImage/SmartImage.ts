@@ -51,7 +51,7 @@ const SmartImage = ImageTipTap.extend<ImageOptions>({
 
     addStorage() {
         return {
-            verbose: true,
+            verbose: false,
             title: '🐰 SmartImage',
             drawIoLink: null,
             opened: false,
