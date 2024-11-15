@@ -39,21 +39,25 @@ export const WebStorage = TiptapExtension.create({
 
                 commands.webKitSendDebugMessage(`loadContentFromWeb -> ${url}`)
 
-                new Promise((resolve, reject) => {
-                    axios.get(`${url}`)
-                        .then(response => {
-                            editor.commands.setContent(response.data)
-                            resolve(true)
-                        })
-                        .catch(error => {
-                            console.error('Error loading content:', error)
-                            reject(error)
+                axios.get(`${url}`)
+                    .then(response => {
+                        let content = response.data
 
+                        if (content.length == 0) {
                             this.editor.commands.showAlert('加载内容失败', {
-                                error: error.message
+                                error: '内容为空'
                             })
+                        } else {
+                            editor.commands.setContent(content)
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error loading content:', error)
+
+                        this.editor.commands.showAlert('加载内容失败', {
+                            error: error.message
                         })
-                })
+                    })
 
                 return true
             }
