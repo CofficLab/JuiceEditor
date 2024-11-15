@@ -1,5 +1,5 @@
 import { TiptapExtension, TiptapEditor } from '../model/TiptapGroup'
-import SmartParagraph from './SmartParagraph/SmartParagraph'
+import SmartParagraph from './SmartParagraph'
 import { Slice } from 'prosemirror-model'
 
 export enum EditorErrorType {
