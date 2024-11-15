@@ -18,18 +18,6 @@ export const WebStorage = TiptapExtension.create({
         }
     },
 
-    onCreate() {
-        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
-            console.log(this.storage.emoji, "onCreate")
-        }
-    },
-
-    onUpdate() {
-        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
-            console.log(this.storage.emoji, "onUpdate")
-        }
-    },
-
     addCommands() {
         return {
             setContentFromWeb: (url: string, uuid: string) => ({ editor, commands }) => {

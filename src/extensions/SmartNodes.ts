@@ -19,6 +19,8 @@ declare module '@tiptap/core' {
     interface Commands<ReturnType> {
         smartNodes: {
             cacheTitleAndNodes: () => ReturnType
+            enableSmartNodesVerbose: () => ReturnType
+            disableSmartNodesVerbose: () => ReturnType
         }
     }
 }
@@ -98,6 +100,8 @@ function getTitle(json: JSONContent): string {
 export const SmartNodes = TiptapExtension.create({
     name: "smartNodes",
 
+    priority: 1000,
+
     addStorage() {
         return {
             verbose: false,
@@ -159,6 +163,16 @@ export const SmartNodes = TiptapExtension.create({
                     })
                 }
 
+                return true
+            },
+
+            enableSmartNodesVerbose: () => () => {
+                this.storage.verbose = true
+                return true
+            },
+
+            disableSmartNodesVerbose: () => () => {
+                this.storage.verbose = false
                 return true
             }
         }

@@ -26,6 +26,8 @@ export const WebKit = TiptapExtension.create({
             enabled: false,
             emoji: "🍎 WebKit",
             localStorageKey: 'html',
+            sendHtml: true,
+            sendNodes: true,
         }
     },
 
@@ -52,23 +54,43 @@ export const WebKit = TiptapExtension.create({
             return
         }
 
+        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+            console.log(this.storage.emoji, 'onUpdate, sendNodes:', this.storage.sendNodes, 'sendHtml:', this.storage.sendHtml)
+            console.log(this.storage.emoji, 'onUpdate, editor.getHTML()', this.editor.getHTML())
+            console.log(this.storage.emoji, 'onUpdate, nodes', this.editor.storage.smartNodes.nodes)
+        }
+
         if (!('webkit' in window)) {
             return
         }
 
-        var messageData: any = {}
-        messageData.channel = "updateDoc"
-        messageData.title = this.editor.storage.smartNodes.title
-        messageData.html = this.editor.getHTML()
-        messageData.nodes = this.editor.storage.smartNodes.nodes
-        messageData.wordCount = this.editor.storage.characterCount.words()
-        messageData.characterCount = this.editor.storage.characterCount.characters()
+        if (this.storage.sendNodes) {
+            var messageData: any = {}
+            messageData.channel = "updateNodes"
+            messageData.title = this.editor.storage.smartNodes.title
+            messageData.nodes = this.editor.storage.smartNodes.nodes
+            messageData.wordCount = this.editor.storage.characterCount.words()
+            messageData.characterCount = this.editor.storage.characterCount.characters()
 
-        this.editor.commands.webKitSendDebugMessage(this.storage.emoji + ' 更新文档')
-        this.editor.commands.webKitSendDebugMessage(this.storage.emoji + ' Title: ' + messageData.title)
+            this.editor.commands.webKitSendDebugMessage(this.storage.emoji + ' Update Nodes: ' + messageData.nodes.length)
 
-        // 异步往 webkit 发送数据，防止界面卡顿
-        this.editor.commands.asyncSendMessage(messageData)
+            // 异步往 webkit 发送数据，防止界面卡顿
+            this.editor.commands.asyncSendMessage(messageData)
+        }
+
+        if (this.storage.sendHtml) {
+            var messageData: any = {}
+            messageData.channel = "updateHTML"
+            messageData.title = this.editor.storage.smartNodes.title
+            messageData.html = this.editor.getHTML()
+            messageData.wordCount = this.editor.storage.characterCount.words()
+            messageData.characterCount = this.editor.storage.characterCount.characters()
+
+            this.editor.commands.webKitSendDebugMessage(this.storage.emoji + ' Update HTML: ' + messageData.html.length)
+
+            // 异步往 webkit 发送数据，防止界面卡顿
+            this.editor.commands.asyncSendMessage(messageData)
+        }
     },
 
     onSelectionUpdate() {
@@ -172,6 +194,26 @@ export const WebKit = TiptapExtension.create({
             enableWebKitVerbose: () => () => {
                 this.storage.verbose = true;
 
+                return true;
+            },
+
+            enableWebKitSendHtml: () => () => {
+                this.storage.sendHtml = true;
+                return true;
+            },
+
+            disableWebKitSendHtml: () => () => {
+                this.storage.sendHtml = false;
+                return true;
+            },
+
+            enableWebKitSendNodes: () => () => {
+                this.storage.sendNodes = true;
+                return true;
+            },
+
+            disableWebKitSendNodes: () => () => {
+                this.storage.sendNodes = false;
                 return true;
             },
 

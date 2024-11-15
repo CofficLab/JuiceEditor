@@ -33,6 +33,9 @@ const editor = EditorFactory.register('my-editor', {
         editor.setChatApi(chatApi)
         editor.setDrawLink('/draw/index.html?')
         editor.setMenuBackgroundColor('blue')
+        editor.enableWebKit()
+        editor.enableWebKitVerbose()
+        editor.enableSmartNodesVerbose()
 
         window.editor = editor
     }

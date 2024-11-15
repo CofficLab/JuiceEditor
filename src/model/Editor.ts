@@ -26,8 +26,16 @@ class Editor {
         this.editor?.commands.enableWebKit()
     }
 
+    public enableWebKitVerbose: () => void = () => {
+        this.editor?.commands.enableWebKitVerbose()
+    }
+
     public enableSlotListener: () => void = () => {
         this.editor?.commands.enableSlotListener()
+    }
+
+    public enableSmartNodesVerbose: () => void = () => {
+        this.editor?.commands.enableSmartNodesVerbose()
     }
 
     public enableLocalStorage: () => void = () => {
