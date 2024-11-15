@@ -1,6 +1,7 @@
 import Paragraph from "@tiptap/extension-paragraph";
 import { TiptapEditor } from "../model/TiptapGroup";
 import { Node } from "prosemirror-model";
+import uuidHelper from "../helper/UUIDHelper";
 
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
@@ -83,6 +84,12 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
         return {
             class: {
                 default: "p-class"
+            },
+            uuid: {
+                default: uuidHelper.generate(),
+                parseHTML: (element) => {
+                    return element.getAttribute('data-uuid') || uuidHelper.generate()
+                }
             }
         }
     },

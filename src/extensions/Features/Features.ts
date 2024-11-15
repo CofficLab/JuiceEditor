@@ -15,6 +15,9 @@ export default Node.create({
             count: {
                 default: 0,
             },
+            uuid: {
+                default: 'features',
+            },
         }
     },
 

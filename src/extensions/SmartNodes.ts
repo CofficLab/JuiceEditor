@@ -4,6 +4,7 @@ import { JSONContent } from "@tiptap/core"
 import { Root } from "./Root"
 import SmartDoc from "./SmartDoc"
 import SmartText from "./SmartText"
+import Features from './Features/Features'
 
 class UUIDError extends Error {
     block: JSONContent
@@ -32,7 +33,7 @@ function flattenBlock(block: JSONContent): JSONContent[] {
         newBlock.attrs = {}
     }
 
-    if (newBlock.attrs.uuid == null && newBlock.type != SmartDoc.name) {
+    if (!newBlock.attrs.uuid && newBlock.type != SmartDoc.name) {
         throw new UUIDError('UUID is null', newBlock);
     }
 
@@ -159,7 +160,7 @@ export const SmartNodes = TiptapExtension.create({
                         block_attrs: e.block.attrs,
                         reporter: this.storage.emoji,
                         stage: 'cacheTitleAndNodes',
-                        html: this.editor.getHTML()
+                        // html: this.editor.getHTML()
                     })
                 }
 

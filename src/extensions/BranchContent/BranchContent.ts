@@ -1,6 +1,7 @@
 import { Node } from '@tiptap/core'
 import { VueNodeViewRenderer } from '@tiptap/vue-3'
 import BranchContentVue from './BranchContent.vue'
+import UUIDHelper from '../../helper/UUIDHelper';
 
 
 export interface BranchOptions {
@@ -39,6 +40,12 @@ export const BranchContent = Node.create<BranchOptions>({
                     'data-version': attributes.version,
                 }),
             },
+            uuid: {
+                default: UUIDHelper.generate(),
+                parseHTML: (element) => {
+                    return element.getAttribute('data-uuid') || UUIDHelper.generate()
+                }
+            }
         }
     },
 
