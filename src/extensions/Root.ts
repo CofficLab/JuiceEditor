@@ -19,6 +19,13 @@ export const Root = Node.create<BranchOptions>({
 
     content: 'block+',
 
+    addStorage() {
+        return {
+            verbose: true,
+            emoji: '🌲 Root',
+        }
+    },
+
     addOptions() {
         return {
             HTMLAttributes: {},
@@ -28,7 +35,6 @@ export const Root = Node.create<BranchOptions>({
     addAttributes() {
         return {
             uuid: {
-                default: UUIDHelper.generate(),
                 parseHTML: element => element.getAttribute('data-uuid') || '',
                 renderHTML: attributes => ({
                     'data-uuid': attributes.uuid,

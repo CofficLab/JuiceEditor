@@ -1,9 +1,18 @@
 import { TiptapExtension } from '../model/TiptapGroup'
 import { JSONContent } from "@tiptap/core"
 import { Root } from "./Root"
-import UUIDHelper from "../helper/UUIDHelper"
 import SmartDoc from "./SmartDoc"
 import SmartText from "./SmartText"
+
+class UUIDError extends Error {
+    block: JSONContent
+
+    constructor(message: string = 'UUID is null', block: JSONContent) {
+        super(message);
+        this.name = 'UUIDError';
+        this.block = block
+    }
+}
 
 function flattenBlock(block: JSONContent): JSONContent[] {
     var newBlock = block
@@ -12,8 +21,8 @@ function flattenBlock(block: JSONContent): JSONContent[] {
         newBlock.attrs = {}
     }
 
-    if (newBlock.attrs.uuid == null) {
-        newBlock.attrs.uuid = UUIDHelper.generate();
+    if (newBlock.attrs.uuid == null && newBlock.type != SmartDoc.name) {
+        throw new UUIDError('UUID is null', newBlock);
     }
 
     if (newBlock.type == Root.name) {
@@ -92,11 +101,36 @@ export const SmartNodes = TiptapExtension.create({
 
     onCreate() {
         this.storage.title = getTitle(this.editor.getJSON())
-        this.storage.nodes = flattenBlock(this.editor.getJSON())
+
+        try {
+            this.storage.nodes = flattenBlock(this.editor.getJSON())
+        } catch (e: Error | any) {
+            this.editor.commands.showAlert('缺少 UUID', {
+                error: e.message,
+                block_type: e.block.type,
+                block_attrs: e.block.attrs,
+                reporter: this.storage.emoji,
+                stage: 'onCreate'
+            })
+        }
     },
 
     onUpdate() {
-        this.storage.nodes = flattenBlock(this.editor.getJSON())
+        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+            console.log(this.storage.emoji, "onUpdate")
+        }
+
+        try {
+            this.storage.nodes = flattenBlock(this.editor.getJSON())
+        } catch (e: Error | any) {
+            this.editor.commands.showAlert('缺少 UUID', {
+                error: e.message,
+                block_type: e.block.type,
+                block_attrs: e.block.attrs,
+                reporter: this.storage.emoji,
+                stage: 'onUpdate'
+            })
+        }
         this.storage.title = getTitle(this.editor.getJSON())
 
         if (this.storage.verbose && this.editor.storage.smartLog.enabled) {

@@ -34,7 +34,7 @@ export const LocalStorage = TiptapExtension.create({
 
     onUpdate() {
         if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
-            console.log(this.storage.emoji, "onUpdate")
+            console.log(this.storage.emoji, "onUpdate", this.editor.getHTML())
         }
 
         if (!this.storage.enabled) {
