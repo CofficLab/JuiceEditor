@@ -1,4 +1,5 @@
 import Heading from "@tiptap/extension-heading";
+import UUIDHelper from "../helper/UUIDHelper";
 
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
@@ -20,6 +21,9 @@ const SmartHeading = Heading.extend({
             class: {
                 default: "heading-class",
             },
+            uuid: {
+                default: UUIDHelper.generate()
+            }
         }
     },
 

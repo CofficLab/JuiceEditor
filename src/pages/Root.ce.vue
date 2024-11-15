@@ -36,9 +36,11 @@ function onEditorMounted() {
     editor.chain()
         .setMounted()
         .bootSlotListener()
-        .bootLocalStorage()
         .bootWebKit()
+        .bootLocalStorage()
         .run()
+
+    editor.commands.cacheTitleAndNodes()
 }
 
 const showSourceCode = computed(() => {

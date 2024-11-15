@@ -22,7 +22,7 @@ const Assistant = Extension.create({
 
     addStorage() {
         return {
-            verbose: true,
+            verbose: false,
             chatApi: null,
             title: '🦜 Assistant',
         }

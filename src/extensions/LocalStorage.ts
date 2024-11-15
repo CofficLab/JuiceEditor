@@ -19,7 +19,8 @@ export const LocalStorage = TiptapExtension.create({
 
     addStorage() {
         return {
-            verbose: true,
+            verbose: false,
+            printHtml: false,
             enabled: true,
             emoji: "💾 LocalStorage",
             localStorageKey: 'html',
@@ -35,6 +36,11 @@ export const LocalStorage = TiptapExtension.create({
     onUpdate() {
         if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
             console.log(this.storage.emoji, "onUpdate")
+        }
+
+        if (this.storage.printHtml) {
+            console.log(this.storage.emoji, 'the html is')
+            console.log(this.editor.getHTML())
         }
 
         if (!this.storage.enabled) {
@@ -76,6 +82,16 @@ export const LocalStorage = TiptapExtension.create({
 
             enableLocalStorageVerbose: () => () => {
                 this.storage.verbose = true;
+                return true;
+            },
+
+            enableLocalStoragePrintHtml: () => () => {
+                this.storage.printHtml = true;
+                return true;
+            },
+
+            disableLocalStoragePrintHtml: () => () => {
+                this.storage.printHtml = false;
                 return true;
             },
 

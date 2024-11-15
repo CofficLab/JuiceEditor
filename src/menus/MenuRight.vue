@@ -87,7 +87,6 @@ function updateMenuPosition() {
 
     // 如果是Heading，且Level=1，不显示
     if (props.editor.isActive(Heading.name) && props.editor.getAttributes(Heading.name).level === 1) {
-        console.log(emoji, 'isActive HEADING level 1')
         visible.value = false
         return
     }

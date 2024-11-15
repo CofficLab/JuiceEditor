@@ -1,3 +1,9 @@
+declare global {
+    interface Window {
+        editor: Editor;
+    }
+}
+
 import baseDoc from './dev/base';
 import bigDoc from './dev/big';
 import imageDoc from './dev/image';
@@ -27,6 +33,8 @@ const editor = EditorFactory.register('my-editor', {
         editor.setChatApi(chatApi)
         editor.setDrawLink('/draw/index.html?')
         editor.setMenuBackgroundColor('blue')
+
+        window.editor = editor
     }
 })
 

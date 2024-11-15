@@ -37,7 +37,7 @@ export const SmartSlot = TiptapExtension.create({
 
     addStorage() {
         return {
-            verbose: true,
+            verbose: false,
             enabled: true,
             slotHasOriginalContent: false,
             emoji: "👂 SlotListener",
@@ -76,7 +76,9 @@ export const SmartSlot = TiptapExtension.create({
                     return false
                 }
 
-                console.log(this.storage.emoji, '🚩 boot slot listener')
+                if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+                    console.log(this.storage.emoji, '🚩 boot slot listener')
+                }
 
                 let slotContent = getHostElementContent(this.editor).trim()
 

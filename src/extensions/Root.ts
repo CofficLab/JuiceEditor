@@ -1,23 +1,30 @@
 import { Node } from '@tiptap/core'
-import UUIDHelper from '../helper/UUIDHelper'
-export interface BranchOptions {
+
+export interface RootOptions {
     HTMLAttributes: Record<string, any>
 }
 
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
-        branch: {
-            setBranchVersion: (version: number) => ReturnType
+        root: {
+            updateRootUUID: (uuid: string) => ReturnType
         }
     }
 }
 
-export const Root = Node.create<BranchOptions>({
+export const Root = Node.create<RootOptions>({
     name: 'root',
 
     group: 'block',
 
     content: 'block+',
+
+    addStorage() {
+        return {
+            verbose: true,
+            emoji: '🌲 Root',
+        }
+    },
 
     addOptions() {
         return {
@@ -28,7 +35,6 @@ export const Root = Node.create<BranchOptions>({
     addAttributes() {
         return {
             uuid: {
-                default: UUIDHelper.generate(),
                 parseHTML: element => element.getAttribute('data-uuid') || '',
                 renderHTML: attributes => ({
                     'data-uuid': attributes.uuid,
@@ -48,4 +54,16 @@ export const Root = Node.create<BranchOptions>({
     renderHTML({ HTMLAttributes }) {
         return ['div', { 'data-type': 'root', ...HTMLAttributes }, 0]
     },
+
+    addCommands() {
+        return {
+            updateRootUUID: (uuid: string) => ({ editor, commands }) => {
+                commands.updateAttributes(this.name, {
+                    uuid: uuid
+                })
+
+                return true
+            }
+        }
+    }
 })

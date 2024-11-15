@@ -76,8 +76,8 @@ class Editor {
         this.editor?.commands.setContentFromLocalStorage()
     }
 
-    public setContentFromUrl(url: string) {
-        this.editor?.commands.setContentFromWeb(url)
+    public setContentFromUrl(url: string, uuid: string) {
+        this.editor?.commands.setContentFromWeb(url, uuid)
     }
 
     /**
