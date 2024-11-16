@@ -1,7 +1,7 @@
-import TaskList from "@tiptap/extension-task-list";
+import { ListItemExtension } from '../model/TiptapGroup';
 import UUIDHelper from '../helper/UUIDHelper';
 
-const SmartTaskList = TaskList.extend({
+const SmartListItem = ListItemExtension.extend({
     addAttributes() {
         return {
             ...this.parent?.(),
@@ -18,4 +18,4 @@ const SmartTaskList = TaskList.extend({
     },
 });
 
-export default SmartTaskList;
+export default SmartListItem;

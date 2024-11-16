@@ -3,7 +3,7 @@ import { VueNodeViewRenderer } from '@tiptap/vue-3'
 import SmartPreVue from './SmartPre.vue'
 import MonacoFactory from './MonacoFactory';
 import { Component } from 'vue';
-
+import UUIDHelper from '../../helper/UUIDHelper';
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     SmartPre: {
@@ -47,6 +47,12 @@ export default CodeBlock.extend({
         default: 0,
         rendered: true
       },
+      uuid: {
+        default: UUIDHelper.generate(),
+        parseHTML: (element) => {
+          return element.getAttribute('data-uuid') || UUIDHelper.generate()
+        }
+      }
     }
   },
 

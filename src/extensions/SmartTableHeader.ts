@@ -1,13 +1,10 @@
-import TaskList from "@tiptap/extension-task-list";
 import UUIDHelper from '../helper/UUIDHelper';
+import { TableHeaderExtension } from "../model/TiptapGroup";
 
-const SmartTaskList = TaskList.extend({
+const SmartTableHeader = TableHeaderExtension.extend({
     addAttributes() {
         return {
             ...this.parent?.(),
-            class: {
-                default: '',
-            },
             uuid: {
                 default: UUIDHelper.generate(),
                 parseHTML: (element) => {
@@ -18,4 +15,4 @@ const SmartTaskList = TaskList.extend({
     },
 });
 
-export default SmartTaskList;
+export default SmartTableHeader;

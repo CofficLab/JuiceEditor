@@ -1,4 +1,5 @@
 import { Node } from '@tiptap/core'
+import UUIDHelper from '../helper/UUIDHelper';
 
 export interface RootOptions {
     HTMLAttributes: Record<string, any>
@@ -35,7 +36,8 @@ export const Root = Node.create<RootOptions>({
     addAttributes() {
         return {
             uuid: {
-                parseHTML: element => element.getAttribute('data-uuid') || '',
+                default: UUIDHelper.generate(),
+                parseHTML: element => element.getAttribute('data-uuid') || UUIDHelper.generate(),
                 renderHTML: attributes => ({
                     'data-uuid': attributes.uuid,
                 }),

@@ -3,6 +3,7 @@ import SmartHeading from "./SmartHeading";
 import { VueNodeViewRenderer } from "@tiptap/vue-3";
 import TocView from "./TocView.vue";
 import { TiptapEditor } from "../../model/TiptapGroup";
+import uuidHelper from "../../helper/UUIDHelper";
 
 declare module '@tiptap/core' {
 	interface Commands<ReturnType> {
@@ -37,6 +38,17 @@ export const SmartToc = Node.create({
 
 	addNodeView() {
 		return VueNodeViewRenderer(TocView as any)
+	},
+
+	addAttributes() {
+		return {
+			uuid: {
+				default: uuidHelper.generate(),
+				parseHTML: (element) => {
+					return element.getAttribute('data-uuid') || uuidHelper.generate()
+				}
+			}
+		}
 	},
 
 	addStorage() {
