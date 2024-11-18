@@ -5,9 +5,8 @@ import EditorNode from '../model/EditorNode'
 declare module '@tiptap/vue-3' {
     interface Commands<ReturnType> {
         smartDoc: {
-            cacheTitleAndNodes: () => ReturnType
-            enableSmartNodesVerbose: () => ReturnType
-            disableSmartNodesVerbose: () => ReturnType
+            enableDocVerbose: () => ReturnType
+            disableDocVerbose: () => ReturnType
             setDoc: (node: EditorNode) => ReturnType
             setDocContent: (content: string) => ReturnType
             setDocFromJSONString: (jsonString: string) => ReturnType
@@ -23,11 +22,13 @@ const SmartDoc = Document.extend({
     addStorage() {
         return {
             verbose: false,
-            enabled: true,
-            node: EditorNode.empty(),
-            nodes: [] as EditorNode[],
-            emoji: "👫 Doc",
+            doc: EditorNode.empty(),
+            emoji: "🌳 Doc",
         }
+    },
+
+    onCreate() {
+        this.storage.doc = EditorNode.fromEditor(this.editor)
     },
 
     onUpdate() {
@@ -35,47 +36,25 @@ const SmartDoc = Document.extend({
             console.log(this.storage.emoji, "onUpdate")
         }
 
-        this.storage.node = this.storage.node.updateFromEditor(this.editor)
-        this.storage.nodes = this.storage.node.flattened()
-
-        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
-            this.editor.commands.webKitSendDebugMessage(this.storage.emoji + ' Update Title: ' + this.storage.title)
-        }
+        this.storage.doc = this.storage.doc.updateFromEditor(this.editor)
     },
 
     addCommands() {
         return {
-            /**
-             * call this after 
-             * - editor is mounted(means the host element is ready, not onCreate)
-             * - editor content is ready
-             */
-            cacheTitleAndNodes: () => () => {
-                if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
-                    console.log(this.storage.emoji, '🚩 cache title and nodes')
-                }
-
-                this.storage.node = EditorNode.fromEditor(this.editor)
-                this.storage.nodes = this.storage.node.flattened()
-
-                return true
-            },
-
-            enableSmartNodesVerbose: () => () => {
+            enableDocVerbose: () => () => {
                 this.storage.verbose = true
                 return true
             },
 
-            disableSmartNodesVerbose: () => () => {
+            disableDocVerbose: () => () => {
                 this.storage.verbose = false
                 return true
             },
 
-            setDoc: (node: EditorNode) => () => {
-                this.storage.node = node
-                this.storage.nodes = this.storage.node.flattened()
-                this.editor.commands.setContent(node.html ?? "")
-                this.editor.commands.webKitSendDebugMessage(this.storage.emoji + ' Set Node')
+            setDoc: (node: EditorNode) => ({ commands }) => {
+                this.storage.doc = node
+
+                commands.setContent(node.html ?? "")
 
                 return true
             },
@@ -87,9 +66,7 @@ const SmartDoc = Document.extend({
             },
 
             setDocFromJSONString: (jsonString: string) => ({ commands }) => {
-                this.storage.node = EditorNode.fromJSONString(jsonString)
-                this.storage.nodes = this.storage.node.flattened()
-                commands.setContent(this.storage.node.html ?? "")
+                commands.setDoc(EditorNode.fromJSONString(jsonString))
 
                 return true
             }

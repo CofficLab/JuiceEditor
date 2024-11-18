@@ -58,9 +58,10 @@ const WebKit = TiptapExtension.create({
         }
 
         if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
-            console.log(this.storage.emoji, 'onUpdate, node')
-            console.log(this.storage.emoji, this.editor.storage.doc.node)
-            console.log(this.storage.emoji, 'onUpdate, nodes', this.editor.storage.doc.nodes)
+            let doc = this.editor.storage.doc.doc
+            console.log(this.storage.emoji, 'onUpdate, doc')
+            console.log(this.storage.emoji, doc)
+            console.log(this.storage.emoji, 'onUpdate, nodes', doc.flattened())
         }
 
         if (!('webkit' in window)) {

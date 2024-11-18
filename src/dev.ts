@@ -35,7 +35,7 @@ const editor = EditorFactory.register('my-editor', {
         editor.setMenuBackgroundColor('blue')
         editor.enableWebKit()
         editor.enableWebKitVerbose()
-        editor.enableSmartNodesVerbose()
+        editor.enableDocVerbose()
         editor.enableLocalStorage()
         editor.enableLocalStorageVerbose()
 

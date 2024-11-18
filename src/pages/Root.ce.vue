@@ -39,8 +39,6 @@ function onEditorMounted() {
         .bootWebKit()
         .bootLocalStorage()
         .run()
-
-    editor.commands.cacheTitleAndNodes()
 }
 
 const showSourceCode = computed(() => {

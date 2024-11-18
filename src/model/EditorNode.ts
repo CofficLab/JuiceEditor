@@ -28,8 +28,6 @@ class EditorNode {
     }
 
     static fromJSONString(jsonString: string): EditorNode {
-        console.log('fromJSONString', jsonString)
-
         let json = JSON.parse(jsonString)
 
         return new EditorNode()
@@ -83,19 +81,19 @@ class EditorNode {
     }
 
     public flattened(): EditorNode[] {
-        var newBlock = this
-        var flattened: EditorNode[] = []
-        var children = newBlock.children || []
+        const nodeCopy: EditorNode = { ...this }
+        var flattened: EditorNode[] = [nodeCopy]
 
-        if (newBlock.type != SmartDoc.name) {
-            flattened.push(newBlock)
-        }
+        this.children?.forEach(child => {
+            flattened = flattened.concat(child.flattened())
+        })
 
-        if (children.length > 0) {
-            children.forEach(child => {
-                flattened = flattened.concat(child.flattened())
-            })
-        }
+        flattened = flattened.map(n => {
+            const node = new EditorNode();
+            Object.assign(node, n);
+            node.children = undefined;
+            return node;
+        });
 
         return flattened
     }

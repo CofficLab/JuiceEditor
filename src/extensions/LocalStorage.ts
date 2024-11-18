@@ -58,7 +58,7 @@ const LocalStorage = TiptapExtension.create({
                     console.log(this.storage.emoji, 'saveDoc')
                 }
 
-                localStorage.setItem(this.storage.localStorageKey, this.editor.storage.doc.node.serialize())
+                localStorage.setItem(this.storage.localStorageKey, this.editor.storage.doc.doc.serialize())
 
                 return true
             },

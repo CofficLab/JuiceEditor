@@ -34,8 +34,8 @@ class Editor {
         this.editor?.commands.enableSlotListener()
     }
 
-    public enableSmartNodesVerbose: () => void = () => {
-        this.editor?.commands.enableSmartNodesVerbose()
+    public enableDocVerbose: () => void = () => {
+        this.editor?.commands.enableDocVerbose()
     }
 
     public enableLocalStorage: () => void = () => {
