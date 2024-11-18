@@ -77,7 +77,7 @@ const WebKit = TiptapExtension.create({
         // Send Nodes
         if (this.storage.sendNodes) {
             var messageNodes = (new MessageSendNodes())
-                .setNodes(this.editor.storage.doc.nodes)
+                .setNodes(this.editor.storage.doc.doc.flattened())
 
             this.editor.chain()
                 .webKitSendDebugMessage(this.storage.emoji + ' Update Nodes')
