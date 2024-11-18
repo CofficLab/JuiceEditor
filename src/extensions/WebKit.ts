@@ -59,14 +59,6 @@ const WebKit = TiptapExtension.create({
             return
         }
 
-        if (this.storage.verbose) {
-            let doc = this.editor.storage.doc.doc
-            console.log(this.storage.emoji, 'onUpdate, doc')
-            console.log(this.storage.emoji, doc)
-            console.log(this.storage.emoji, 'onUpdate, nodes')
-            console.log(this.storage.emoji, doc.flattened())
-        }
-
         if (!('webkit' in window)) {
             return
         }
