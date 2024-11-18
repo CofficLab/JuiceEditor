@@ -69,17 +69,6 @@ const WebKit = TiptapExtension.create({
             return
         }
 
-        // Send Nodes
-        if (this.storage.sendNodes) {
-            var messageNodes = (new MessageSendNodes())
-                .setNodes(this.editor.storage.doc.nodes)
-
-            this.editor.chain()
-                .webKitSendDebugMessage(this.storage.emoji + ' Update Nodes: ' + messageNodes.nodes.length)
-                .asyncSendMessage(messageNodes)
-                .run()
-        }
-
         // Send Node
         if (this.storage.sendNode) {
             var messageNode = (new MessageSendNode())
@@ -88,6 +77,17 @@ const WebKit = TiptapExtension.create({
             this.editor.chain()
                 .webKitSendDebugMessage(this.storage.emoji + ' Update Node')
                 .asyncSendMessage(messageNode)
+                .run()
+        }
+
+        // Send Nodes
+        if (this.storage.sendNodes) {
+            var messageNodes = (new MessageSendNodes())
+                .setNodes(this.editor.storage.doc.nodes)
+
+            this.editor.chain()
+                .webKitSendDebugMessage(this.storage.emoji + ' Update Nodes')
+                .asyncSendMessage(messageNodes)
                 .run()
         }
     },
