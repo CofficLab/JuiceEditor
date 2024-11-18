@@ -16,6 +16,7 @@ declare module '@tiptap/core' {
             disableWebKitVerbose: () => ReturnType
             webKitDownloadImage: (src: string, name: string) => ReturnType
             bootWebKit: () => ReturnType
+            setWebKitVerbose: (value: boolean) => ReturnType
         }
     }
 }
@@ -57,7 +58,7 @@ const WebKit = TiptapExtension.create({
             return
         }
 
-        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+        if (this.storage.verbose) {
             let doc = this.editor.storage.doc.doc
             console.log(this.storage.emoji, 'onUpdate, doc')
             console.log(this.storage.emoji, doc)
@@ -170,8 +171,8 @@ const WebKit = TiptapExtension.create({
             },
 
             enableWebKit: () => () => {
-                if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
-                    console.log(this.storage.emoji, '启用 WebKit')
+                if (this.storage.verbose) {
+                    console.log(this.storage.emoji, '✅ enableWebKit')
                 }
 
                 this.storage.enabled = true;
@@ -180,7 +181,7 @@ const WebKit = TiptapExtension.create({
             },
 
             disableWebKit: () => () => {
-                if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+                if (this.storage.verbose) {
                     console.log(this.storage.emoji, '禁用 WebKit')
                 }
 
@@ -233,16 +234,9 @@ const WebKit = TiptapExtension.create({
                 });
             },
 
-            /**
-             * call this method when editor view is mounted
-             */
             bootWebKit: () => () => {
-                if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
-                    console.log(this.storage.emoji, "🖥️ bootWebKit")
-                }
-
-                if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
-                    console.log(this.storage.emoji, '🖥️ webkit send message: pageLoaded')
+                if (this.storage.verbose) {
+                    console.log(this.storage.emoji, "🖥️ webkit send message: pageLoaded")
                 }
 
                 if (!('webkit' in window)) {
@@ -254,7 +248,12 @@ const WebKit = TiptapExtension.create({
                 })
 
                 return true
-            }
+            },
+
+            setWebKitVerbose: (value: boolean) => () => {
+                this.storage.verbose = value
+                return true
+            },
         }
     }
 })

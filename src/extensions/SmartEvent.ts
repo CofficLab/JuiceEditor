@@ -59,59 +59,59 @@ export const SmartEvent = TiptapExtension.create({
     },
 
     onBeforeCreate() {
-        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+        if (this.storage.verbose) {
             console.log(emoji, "onBeforeCreate")
         }
     },
 
     onCreate() {
-        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+        if (this.storage.verbose) {
             console.log(emoji, "onCreate")
         }
     },
 
     onUpdate() {
-        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+        if (this.storage.verbose) {
             console.log(emoji, "onUpdate")
         }
     },
     onSelectionUpdate() {
-        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+        if (this.storage.verbose) {
             console.log(emoji, "onSelectionUpdate")
         }
     },
     onTransaction() {
-        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+        if (this.storage.verbose) {
             console.log(emoji, "onTransaction")
         }
     },
     onFocus() {
-        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+        if (this.storage.verbose) {
             console.log(emoji, "onFocus")
         }
     },
     onBlur() {
-        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+        if (this.storage.verbose) {
             console.log(emoji, "onBlur")
         }
     },
     onDestroy() {
-        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+        if (this.storage.verbose) {
             console.log(emoji, "onDestroy")
         }
     },
     onPaste(event: ClipboardEvent, slice: Slice) {
-        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+        if (this.storage.verbose) {
             console.log(emoji, "onPaste", event, slice)
         }
     },
     onDrop(event: DragEvent, slice: Slice, moved: boolean) {
-        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+        if (this.storage.verbose) {
             console.log(emoji, "onDrop", event, slice, moved)
         }
     },
     onContentError({ editor, error, disableCollaboration }: { editor: TiptapEditor; error: Error; disableCollaboration: () => void }) {
-        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+        if (this.storage.verbose) {
             console.log(emoji, "onContentError", editor, error, disableCollaboration)
         }
     },

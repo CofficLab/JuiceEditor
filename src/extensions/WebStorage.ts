@@ -1,5 +1,7 @@
+import EditorNode from '../model/EditorNode';
 import { TiptapExtension } from '../model/TiptapGroup'
 import axios from 'axios';
+
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
         WebStorage: {
@@ -20,8 +22,8 @@ const WebStorage = TiptapExtension.create({
 
     addCommands() {
         return {
-            setContentFromWeb: (url: string, uuid: string) => ({ editor, commands }) => {
-                if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+            setContentFromWeb: (url: string, uuid: string) => ({ editor, commands, chain }) => {
+                if (this.storage.verbose) {
                     console.log(this.storage.emoji, 'loadContentFromWeb', url, 'with uuid', uuid)
                 }
 
@@ -31,7 +33,9 @@ const WebStorage = TiptapExtension.create({
                     .then(response => {
                         let content = response.data
 
-                        editor.chain().setContent(content, true).updateRootUUID(uuid).run()
+                        return chain()
+                            .setDoc((new EditorNode()).setHTML(content).setUUID(uuid))
+                            .run()
                     })
                     .catch(error => {
                         if (error.code === 'ERR_NETWORK' || error.message.includes('CORS')) {

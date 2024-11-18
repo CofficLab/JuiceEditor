@@ -10,7 +10,6 @@ import { TableCell } from '@tiptap/extension-table-cell'
 import { TableHeader } from '@tiptap/extension-table-header'
 import { ListItem } from '@tiptap/extension-list-item'
 import { TaskItem } from '@tiptap/extension-task-item'
-import Root from './Root';
 import CodeBlock from '@tiptap/extension-code-block';
 import Features from './Features/Features';
 
@@ -26,7 +25,6 @@ const Padding = TiptapExtension.create({
                 [Heading.name]: 'px-8',
             },
             excludeNodes: [
-                Root.name,
                 Link.name,
                 Image.name,
                 CodeBlock.name,

@@ -50,7 +50,6 @@ import Padding from "../extensions/Padding"
 import SmartFocus from "../extensions/SmartFocus"
 import Branch from "../extensions/Branch/Branch"
 import BranchContent from "../extensions/BranchContent/BranchContent"
-import Root from "../extensions/Root"
 import NewLine from "../extensions/NewLine"
 import Debug from "../extensions/Debug"
 import { SmartEvent } from "../extensions/SmartEvent"
@@ -60,7 +59,7 @@ import SmartFontFamily from "../extensions/SmartFontFamily";
 import URLListener from "../extensions/URLListener"
 import SmartAlert from "../extensions/SmartAlert/SmartAlert"
 import SourceCode from '../extensions/SourceCode'
-import SmartLog from '../extensions/SmartLog'
+import Verbose from '../extensions/Verbose'
 import makeExtensionsProps from '../interface/MakeExtensionProps'
 import DragDrop from "../extensions/DragDrop"
 import SmartToc from "../extensions/SmartToc/SmartToc"
@@ -113,9 +112,6 @@ function makeExtensions(props: makeExtensionsProps) {
         Margin,
         NewLine,
         Padding,
-        Root.extend({
-            content: `${SmartHeading.name} block*`,
-        }),
         SmartActive,
         SmartAlert,
         SmartBold,
@@ -154,7 +150,7 @@ function makeExtensions(props: makeExtensionsProps) {
             },
         }),
         SmartListItem,
-        SmartLog,
+        Verbose,
         SmartMenusExtension,
         SmartParagraph.configure({
             translateApi: props.translateApi,

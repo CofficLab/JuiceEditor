@@ -1,6 +1,5 @@
 import { TiptapExtension } from '../model/TiptapGroup';
 import { getSelectionNode } from './SmartSelection';
-import Root from './Root';
 import Link from '@tiptap/extension-link';
 import BulletList from '@tiptap/extension-bullet-list';
 import ListItem from '@tiptap/extension-list-item';
@@ -9,7 +8,6 @@ import TaskItem from '@tiptap/extension-task-item';
 import TableCell from '@tiptap/extension-table-cell';
 import TableHeader from '@tiptap/extension-table-header';
 import Features from './Features/Features';
-import { title } from 'process';
 
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
@@ -37,7 +35,6 @@ const Margin = TiptapExtension.create({
         return {
             defaultMargin: '',
             excludeNodes: [
-                Root.name,
                 Link.name,
             ],
             excludeClass: 'no-margin',

@@ -18,8 +18,8 @@ class Editor {
         this.editor?.commands.disableSlotListener()
     }
 
-    public enableLog: () => void = () => {
-        this.editor?.commands.enableLog()
+    public enableVerboseMode: () => void = () => {
+        this.editor?.commands.enableVerboseMode()
     }
 
     public enableWebKit: () => void = () => {
@@ -62,6 +62,10 @@ class Editor {
         this.editor?.setEditable(true)
     }
 
+    public setDocVerbose: (value: boolean) => void = (value: boolean) => {
+        this.editor?.commands.setDocVerbose(value)
+    }
+
     public setContent(content: string) {
         this.editor?.commands.setDocContent(content)
     }
@@ -94,6 +98,14 @@ class Editor {
 
     public setContentFromUrl(url: string, uuid: string) {
         this.editor?.commands.setContentFromWeb(url, uuid)
+    }
+
+    public setLocalStorageVerbose(value: boolean) {
+        this.editor?.commands.setLocalStorageVerbose(value)
+    }
+
+    public setWebKitVerbose(value: boolean) {
+        this.editor?.commands.setWebKitVerbose(value)
     }
 
     /**

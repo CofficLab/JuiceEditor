@@ -41,7 +41,7 @@ const SmartSlot = TiptapExtension.create({
     addStorage() {
         return {
             verbose: false,
-            enabled: true,
+            enabled: false,
             slotHasOriginalContent: false,
             emoji: "👂 SlotListener",
         }
@@ -50,7 +50,7 @@ const SmartSlot = TiptapExtension.create({
     addCommands() {
         return {
             loadContentFromSlot: () => ({ chain }) => {
-                if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+                if (this.storage.verbose) {
                     console.log(this.storage.emoji, "load content from slot")
                 }
 
@@ -82,11 +82,10 @@ const SmartSlot = TiptapExtension.create({
              */
             bootSlotListener: () => ({ editor, commands }) => {
                 if (!this.storage.enabled) {
-                    console.warn('Slot listener is not enabled')
                     return false
                 }
 
-                if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+                if (this.storage.verbose) {
                     console.log(this.storage.emoji, '🖥️ boot slot listener')
                 }
 
@@ -103,7 +102,7 @@ const SmartSlot = TiptapExtension.create({
                     throw new Error("Host element is not initialized")
                 }
 
-                if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+                if (this.storage.verbose) {
                     console.log(this.storage.emoji, "🖥️ watch slot content")
                 }
 

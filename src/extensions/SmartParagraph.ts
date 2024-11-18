@@ -27,7 +27,7 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
 
     addStorage() {
         return {
-            verbose: true,
+            verbose: false,
             title: '🦜 SmartParagraph',
         }
     },
@@ -95,7 +95,7 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
     },
 
     onBeforeCreate: function () {
-        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+        if (this.storage.verbose) {
             console.log(this.storage.title, 'onBeforeCreate:setTranslateApi', this.options.translateApi);
         }
 
@@ -115,7 +115,7 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
             },
 
             setTranslateApi: (api: string) => ({ commands }) => {
-                if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+                if (this.storage.verbose) {
                     console.log(this.storage.title, '⚙️ set translate api', api);
                 }
 

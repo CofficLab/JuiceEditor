@@ -162,7 +162,7 @@ const SmartImage = ImageTipTap.extend<ImageOptions>({
             },
 
             setDrawLink: (link: string) => ({ commands }) => {
-                if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+                if (this.storage.verbose) {
                     console.log(title, '⚙️ set draw link', link)
                 }
 
@@ -209,7 +209,7 @@ const SmartImage = ImageTipTap.extend<ImageOptions>({
             },
 
             closeLoading: (reason: string) => ({ commands }) => {
-                if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+                if (this.storage.verbose) {
                     console.log(this.storage.title, 'closeLoading with reason', reason)
                 }
 
@@ -228,7 +228,7 @@ const SmartImage = ImageTipTap.extend<ImageOptions>({
                     return true
                 }
 
-                if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+                if (this.storage.verbose) {
                     console.log(this.storage.title, 'openDraw')
                 }
 

@@ -31,7 +31,7 @@ const Assistant = Extension.create({
     addCommands() {
         return {
             setChatApi: (api: string) => ({ commands }) => {
-                if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+                if (this.storage.verbose) {
                     console.log(this.storage.title, '⚙️ set chat api', api);
                 }
 

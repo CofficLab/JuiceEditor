@@ -1,7 +1,6 @@
 import { TiptapEditor, TiptapExtension } from '../model/TiptapGroup'
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
-import Root from './Root';
 
 interface SmartActiveOptions {
     className: string
@@ -29,7 +28,7 @@ export const SmartActive = TiptapExtension.create<SmartActiveOptions>({
                         const { from, to } = selection
 
                         doc.nodesBetween(from, to, (node, pos) => {
-                            if (this.editor.isActive(node.type.name) && node.type.name != Root.name) {
+                            if (this.editor.isActive(node.type.name)) {
                                 decorations.push(
                                     Decoration.node(pos, pos + node.nodeSize, {
                                         class: this.options.className,

@@ -29,15 +29,18 @@ const editor = EditorFactory.register('my-editor', {
     onCreate: (editor: Editor) => {
         console.log(title, '🚩 onCreate for label my-editor')
 
-        editor.enableLog()
+        editor.enableVerboseMode()
+
+        editor.setDocVerbose(false)
+        editor.setLocalStorageVerbose(false)
+        editor.setWebKitVerbose(false)
+
+        editor.enableWebKit()
+        editor.enableLocalStorage()
+
         editor.setChatApi(chatApi)
         editor.setDrawLink('/draw/index.html?')
         editor.setMenuBackgroundColor('blue')
-        editor.enableWebKit()
-        editor.enableWebKitVerbose()
-        editor.enableDocVerbose()
-        editor.enableLocalStorage()
-        editor.enableLocalStorageVerbose()
 
         window.editor = editor
     },

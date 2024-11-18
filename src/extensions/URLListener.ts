@@ -38,7 +38,7 @@ const URLListener = TiptapExtension.create({
     addCommands() {
         return {
             onURLChanged: () => ({ chain }) => {
-                if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+                if (this.storage.verbose) {
                     console.log(this.storage.emoji, 'URL变化了', window.location.hash)
                 }
                 let hash = window.location.hash

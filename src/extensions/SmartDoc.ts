@@ -1,6 +1,6 @@
 import { Document } from '@tiptap/extension-document'
-import Root from './Root'
 import EditorNode from '../model/EditorNode'
+import SmartHeading from './SmartHeading'
 
 declare module '@tiptap/vue-3' {
     interface Commands<ReturnType> {
@@ -11,12 +11,13 @@ declare module '@tiptap/vue-3' {
             setDocContent: (content: string) => ReturnType
             setDocFromJSONString: (jsonString: string) => ReturnType
             setMounted: () => ReturnType
+            setDocVerbose: (value: boolean) => ReturnType
         }
     }
 }
 
 const SmartDoc = Document.extend({
-    content: Root.name,
+    content: `${SmartHeading.name} block*`,
 
     priority: 1000,
 
@@ -30,7 +31,7 @@ const SmartDoc = Document.extend({
     },
 
     onUpdate() {
-        if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+        if (this.storage.verbose) {
             console.log(this.storage.emoji, "onUpdate")
         }
 
@@ -66,7 +67,7 @@ const SmartDoc = Document.extend({
             },
 
             setMounted: () => ({ chain }) => {
-                if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+                if (this.storage.verbose) {
                     console.log(this.storage.emoji, '🖥️ setMounted')
                 }
 
@@ -74,12 +75,15 @@ const SmartDoc = Document.extend({
                 this.storage.doc = EditorNode.fromEditor(this.editor)
 
                 return chain()
-                    .enableSlotListener()
-                    .enableSlotListenerVerbose()
                     .bootSlotListener()
-                    .bootWebKit()
                     .bootLocalStorage()
+                    .bootWebKit()
                     .run()
+            },
+
+            setDocVerbose: (value: boolean) => () => {
+                this.storage.verbose = value
+                return true
             },
         }
     }
