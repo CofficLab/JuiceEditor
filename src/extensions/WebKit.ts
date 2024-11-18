@@ -2,7 +2,7 @@ import { TiptapExtension } from '../model/TiptapGroup'
 import ImageHelper from "../helper/ImageHelper"
 import EditorNode from "../model/EditorNode"
 import MessageSendNodes from "../model/MessageSendNodes"
-import MessageSendNode from "../model/MessageSendNode"
+import MessageSendDoc from "../model/MessageSendDoc"
 
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
@@ -31,7 +31,7 @@ const WebKit = TiptapExtension.create({
             enabled: false,
             emoji: "🍎 WebKit",
             localStorageKey: 'html',
-            sendNode: true,
+            sendDoc: true,
             sendNodes: true,
         }
     },
@@ -63,14 +63,14 @@ const WebKit = TiptapExtension.create({
             return
         }
 
-        // Send Node
-        if (this.storage.sendNode) {
-            var messageNode = (new MessageSendNode())
+        // Send Doc
+        if (this.storage.sendDoc) {
+            var messageDoc = (new MessageSendDoc())
                 .setNode(this.editor.storage.doc.doc)
 
             this.editor.chain()
-                .webKitSendDebugMessage(this.storage.emoji + ' Update Node')
-                .asyncSendMessage(messageNode)
+                .webKitSendDebugMessage(this.storage.emoji + ' Update Doc')
+                .asyncSendMessage(messageDoc)
                 .run()
         }
 
