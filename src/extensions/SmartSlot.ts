@@ -35,6 +35,8 @@ function getHostElementContent(editor: Editor): string {
 const SmartSlot = TiptapExtension.create({
     name: "smartSlot",
 
+    priority: 2,
+
     addStorage() {
         return {
             verbose: false,
@@ -43,6 +45,11 @@ const SmartSlot = TiptapExtension.create({
             emoji: "👂 SlotListener",
         }
     },
+
+    onCreate() {
+        console.log(this.storage.emoji, "🚩 onCreate")
+    },
+
     addCommands() {
         return {
             loadContentFromSlot: () => ({ chain }) => {

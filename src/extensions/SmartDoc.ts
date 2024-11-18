@@ -10,6 +10,7 @@ declare module '@tiptap/vue-3' {
             setDoc: (node: EditorNode) => ReturnType
             setDocContent: (content: string) => ReturnType
             setDocFromJSONString: (jsonString: string) => ReturnType
+            setMounted: () => ReturnType
         }
     }
 }
@@ -24,10 +25,12 @@ const SmartDoc = Document.extend({
             verbose: false,
             doc: EditorNode.empty(),
             emoji: "🌳 Doc",
+            mounted: false,
         }
     },
 
     onCreate() {
+        console.log(this.storage.emoji, "🚩 onCreate")
         this.storage.doc = EditorNode.fromEditor(this.editor)
     },
 
@@ -69,7 +72,16 @@ const SmartDoc = Document.extend({
                 commands.setDoc(EditorNode.fromJSONString(jsonString))
 
                 return true
-            }
+            },
+
+            setMounted: () => ({ editor }) => {
+                if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
+                    console.log(this.storage.emoji, '🖥️ setMounted')
+                }
+
+                this.storage.mounted = true
+                return true
+            },
         }
     }
 })

@@ -18,6 +18,8 @@ declare module '@tiptap/core' {
 const LocalStorage = TiptapExtension.create({
     name: "localStorage",
 
+    priority: 1,
+
     addStorage() {
         return {
             verbose: false,
@@ -26,6 +28,10 @@ const LocalStorage = TiptapExtension.create({
             emoji: "💾 LocalStorage",
             localStorageKey: 'doc',
         }
+    },
+
+    onCreate() {
+        console.log(this.storage.emoji, "🚩 onCreate")
     },
 
     onBeforeCreate() {

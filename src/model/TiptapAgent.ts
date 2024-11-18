@@ -62,7 +62,6 @@ import SmartAlert from "../extensions/SmartAlert/SmartAlert"
 import SourceCode from '../extensions/SourceCode'
 import SmartLog from '../extensions/SmartLog'
 import makeExtensionsProps from '../interface/MakeExtensionProps'
-import SmartApp from "../extensions/SmartApp"
 import DragDrop from "../extensions/DragDrop"
 import SmartToc from "../extensions/SmartToc/SmartToc"
 
@@ -119,7 +118,6 @@ function makeExtensions(props: makeExtensionsProps) {
         }),
         SmartActive,
         SmartAlert,
-        SmartApp,
         SmartBold,
         SmartBulletList.configure({
             HTMLAttributes: {
