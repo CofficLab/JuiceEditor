@@ -1,6 +1,6 @@
 import { TiptapExtension } from '../model/TiptapGroup';
 import { getSelectionNode } from './SmartSelection';
-import { Root } from './Root';
+import Root from './Root';
 import Link from '@tiptap/extension-link';
 import BulletList from '@tiptap/extension-bullet-list';
 import ListItem from '@tiptap/extension-list-item';
@@ -25,7 +25,7 @@ declare module '@tiptap/core' {
 
 const title = '👔 Margin'
 
-export const Margin = TiptapExtension.create({
+const Margin = TiptapExtension.create({
     name: 'margin',
 
     addOptions() {
@@ -222,3 +222,5 @@ export const Margin = TiptapExtension.create({
         }
     },
 });
+
+export default Margin

@@ -6,4 +6,4 @@ interface makeExtensionsProps {
     focusClassName: string
 }
 
-export type { makeExtensionsProps }
+export default makeExtensionsProps

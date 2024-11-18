@@ -16,7 +16,7 @@ declare module '@tiptap/core' {
     }
 }
 
-export const BranchContent = Node.create<BranchOptions>({
+const BranchContent = Node.create<BranchOptions>({
     name: 'branchContent',
 
     group: 'block',
@@ -63,3 +63,5 @@ export const BranchContent = Node.create<BranchOptions>({
         return ['div', { 'data-type': 'branch-content', ...HTMLAttributes }, 0]
     },
 })
+
+export default BranchContent

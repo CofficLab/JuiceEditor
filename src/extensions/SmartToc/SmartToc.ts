@@ -17,7 +17,7 @@ declare module '@tiptap/core' {
 	}
 }
 
-export const SmartToc = Node.create({
+const SmartToc = Node.create({
 	name: "toc",
 
 	group: "block",
@@ -142,3 +142,5 @@ export const SmartToc = Node.create({
 		};
 	},
 });
+
+export default SmartToc

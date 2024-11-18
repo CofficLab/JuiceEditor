@@ -10,7 +10,7 @@ declare module '@tiptap/core' {
     }
 }
 
-export const SourceCode = TiptapExtension.create({
+const SourceCode = TiptapExtension.create({
     name: "sourceCode",
 
     addStorage() {
@@ -51,3 +51,5 @@ export const SourceCode = TiptapExtension.create({
         }
     }
 })
+
+export default SourceCode

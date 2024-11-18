@@ -20,7 +20,7 @@ declare module '@tiptap/core' {
     }
 }
 
-export const WebKit = TiptapExtension.create({
+const WebKit = TiptapExtension.create({
     name: "webkit",
 
     addStorage() {
@@ -257,3 +257,5 @@ export const WebKit = TiptapExtension.create({
         }
     }
 })
+
+export default WebKit

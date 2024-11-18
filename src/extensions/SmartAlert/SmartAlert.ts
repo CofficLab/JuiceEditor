@@ -11,7 +11,7 @@ declare module '@tiptap/core' {
     }
 }
 
-export const SmartAlert = TiptapExtension.create({
+const SmartAlert = TiptapExtension.create({
     name: 'SmartAlert',
 
     addOptions() {
@@ -67,3 +67,5 @@ export const SmartAlert = TiptapExtension.create({
         };
     },
 });
+
+export default SmartAlert

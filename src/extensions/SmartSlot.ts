@@ -32,7 +32,7 @@ function getHostElementContent(editor: Editor): string {
     return getHostElement(editor)?.innerHTML ?? ''
 }
 
-export const SmartSlot = TiptapExtension.create({
+const SmartSlot = TiptapExtension.create({
     name: "smartSlot",
 
     addStorage() {
@@ -118,3 +118,5 @@ export const SmartSlot = TiptapExtension.create({
         }
     }
 })
+
+export default SmartSlot

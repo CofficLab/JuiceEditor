@@ -8,7 +8,7 @@ declare module '@tiptap/core' {
     }
 }
 
-export const WebStorage = TiptapExtension.create({
+const WebStorage = TiptapExtension.create({
     name: "webStorage",
 
     addStorage() {
@@ -56,3 +56,5 @@ export const WebStorage = TiptapExtension.create({
         }
     }
 })
+
+export default WebStorage

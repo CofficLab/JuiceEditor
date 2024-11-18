@@ -12,7 +12,7 @@ import {
 } from '@remixicon/vue'
 import Paragraph from '@tiptap/extension-paragraph'
 import Heading from '@tiptap/extension-heading'
-import { SmartToc } from '../extensions/SmartToc/SmartToc'
+import SmartToc from '../extensions/SmartToc/SmartToc'
 import { shouldShowTextAlignMenu, shouldShowMarginMenu } from '../extensions/SmartMenus'
 
 const props = defineProps({

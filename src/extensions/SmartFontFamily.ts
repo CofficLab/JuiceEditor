@@ -8,7 +8,7 @@ declare module '@tiptap/core' {
     }
 }
 
-export const SmartFontFamily = FontFamily.extend({
+const SmartFontFamily = FontFamily.extend({
     addOptions() {
         return {
             ...this.parent?.(),
@@ -22,3 +22,5 @@ export const SmartFontFamily = FontFamily.extend({
         }
     },
 });
+
+export default SmartFontFamily

@@ -9,7 +9,7 @@ declare module '@tiptap/core' {
     }
 }
 
-export const URLListener = TiptapExtension.create({
+const URLListener = TiptapExtension.create({
     name: "urlListener",
 
     addStorage() {
@@ -75,3 +75,5 @@ export const URLListener = TiptapExtension.create({
         }
     }
 })
+
+export default URLListener

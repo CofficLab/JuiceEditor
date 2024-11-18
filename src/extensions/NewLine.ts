@@ -9,7 +9,7 @@ declare module '@tiptap/core' {
     }
 }
 
-export const NewLine = TiptapExtension.create({
+const NewLine = TiptapExtension.create({
     name: 'newLine',
 
     addCommands() {
@@ -44,3 +44,5 @@ export const NewLine = TiptapExtension.create({
         }
     },
 })
+
+export default NewLine

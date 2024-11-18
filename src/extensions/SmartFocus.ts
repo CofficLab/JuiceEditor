@@ -4,5 +4,7 @@ import { Decoration, DecorationSet } from '@tiptap/pm/view'
 import TableCell from '@tiptap/extension-table-cell';
 
 
-export const SmartFocus = Focus.extend({
+const SmartFocus = Focus.extend({
 });
+
+export default SmartFocus

@@ -1,6 +1,6 @@
 import { ImageExtension, TiptapExtension } from '../model/TiptapGroup'
 
-export const DragDrop = TiptapExtension.create({
+const DragDrop = TiptapExtension.create({
     name: 'dragDrop',
 
     addStorage() {
@@ -35,4 +35,6 @@ export const DragDrop = TiptapExtension.create({
             document.removeEventListener('drop', this.storage.dropHandler)
         }
     }
-}) 
+})
+
+export default DragDrop

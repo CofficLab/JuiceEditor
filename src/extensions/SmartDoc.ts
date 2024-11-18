@@ -1,7 +1,7 @@
 import { Document } from '@tiptap/extension-document'
-import { Root } from './Root'
+import Root from './Root'
 
-export const SmartDoc = Document.extend({
+const SmartDoc = Document.extend({
     topNode: false,
     content: Root.name,
     addAttributes() {

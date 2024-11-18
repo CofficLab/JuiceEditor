@@ -10,11 +10,11 @@ import { TableCell } from '@tiptap/extension-table-cell'
 import { TableHeader } from '@tiptap/extension-table-header'
 import { ListItem } from '@tiptap/extension-list-item'
 import { TaskItem } from '@tiptap/extension-task-item'
-import { Root } from './Root';
+import Root from './Root';
 import CodeBlock from '@tiptap/extension-code-block';
 import Features from './Features/Features';
 
-export const Padding = TiptapExtension.create({
+const Padding = TiptapExtension.create({
     name: 'padding',
 
     addOptions() {
@@ -87,3 +87,5 @@ export const Padding = TiptapExtension.create({
         ];
     },
 });
+
+export default Padding

@@ -1,7 +1,7 @@
 import { TiptapExtension } from '../model/TiptapGroup';
 import { Plugin, PluginKey } from 'prosemirror-state';
 
-export const Debug = TiptapExtension.create({
+const Debug = TiptapExtension.create({
     name: 'debug',
 
     addProseMirrorPlugins() {
@@ -31,3 +31,5 @@ export const Debug = TiptapExtension.create({
         ];
     },
 });
+
+export default Debug

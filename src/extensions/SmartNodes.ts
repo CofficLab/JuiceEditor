@@ -11,7 +11,7 @@ declare module '@tiptap/core' {
     }
 }
 
-export const SmartNodes = TiptapExtension.create({
+const SmartNodes = TiptapExtension.create({
     name: "smartNodes",
 
     priority: 1000,
@@ -69,3 +69,5 @@ export const SmartNodes = TiptapExtension.create({
         }
     }
 })
+
+export default SmartNodes

@@ -15,7 +15,7 @@ declare module '@tiptap/core' {
     }
 }
 
-export const Branch = Node.create<BranchOptions>({
+const Branch = Node.create<BranchOptions>({
     name: 'branch',
 
     group: 'block',
@@ -79,3 +79,5 @@ export const Branch = Node.create<BranchOptions>({
         }
     },
 })
+
+export default Branch

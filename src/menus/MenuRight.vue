@@ -5,7 +5,7 @@ import { getFirstActiveNodePosition } from '../extensions/SmartActive'
 import ButtonGroup from '../ui/ButtonGroup.vue'
 import MenuTable from './MenuTable.vue'
 import Table from '@tiptap/extension-table'
-import { SmartToc } from '../extensions/SmartToc/SmartToc'
+import SmartToc from '../extensions/SmartToc/SmartToc'
 import Heading from '@tiptap/extension-heading'
 
 const props = defineProps({

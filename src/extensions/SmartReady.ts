@@ -9,7 +9,7 @@ declare module '@tiptap/core' {
     }
 }
 
-export const SmartReady = TiptapExtension.create({
+const SmartReady = TiptapExtension.create({
     name: "smartReady",
 
     addStorage() {
@@ -38,3 +38,5 @@ export const SmartReady = TiptapExtension.create({
         }
     }
 })
+
+export default SmartReady

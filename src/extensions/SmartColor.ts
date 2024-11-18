@@ -1,6 +1,6 @@
 import Color from "@tiptap/extension-color";
 
-export const SmartColor = Color.extend({
+const SmartColor = Color.extend({
     addOptions() {
         return {
             ...this.parent?.(),
@@ -33,3 +33,5 @@ export const SmartColor = Color.extend({
         }
     },
 });
+
+export default SmartColor

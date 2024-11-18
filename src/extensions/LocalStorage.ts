@@ -14,7 +14,7 @@ declare module '@tiptap/core' {
     }
 }
 
-export const LocalStorage = TiptapExtension.create({
+const LocalStorage = TiptapExtension.create({
     name: "localStorage",
 
     addStorage() {
@@ -136,3 +136,5 @@ export const LocalStorage = TiptapExtension.create({
         }
     }
 })
+
+export default LocalStorage

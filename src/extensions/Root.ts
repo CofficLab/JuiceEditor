@@ -13,7 +13,7 @@ declare module '@tiptap/core' {
     }
 }
 
-export const Root = Node.create<RootOptions>({
+const Root = Node.create<RootOptions>({
     name: 'root',
 
     group: 'block',
@@ -69,3 +69,5 @@ export const Root = Node.create<RootOptions>({
         }
     }
 })
+
+export default Root
