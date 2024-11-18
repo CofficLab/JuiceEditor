@@ -1,7 +1,8 @@
 import { JSONContent } from '@tiptap/vue-3'
+import { TiptapEditor } from '../model/TiptapGroup'
 import SmartText from '../extensions/SmartText'
 import SmartDoc from '../extensions/SmartDoc'
-import { TiptapEditor } from '../model/TiptapGroup'
+import UUIDHelper from '../helper/UUIDHelper'
 
 class EditorNode {
     uuid: string = ""
@@ -9,7 +10,7 @@ class EditorNode {
     wordCount?: number
     characterCount?: number
     html?: string
-    attrs?: Record<string, any> = {}
+    attrs?: Record<string, any> = undefined
     type: string = ""
     children?: EditorNode[] = []
 
@@ -17,10 +18,41 @@ class EditorNode {
         return new EditorNode()
     }
 
-    static fromEditor(editor: TiptapEditor): EditorNode {
+    static fromJSON(json: JSONContent): EditorNode {
         return new EditorNode()
-            .setTitle(getTitle(editor.getJSON()))
+            .setUUID(UUIDHelper.generate())
+            .setTitle(getTitle(json))
+            .setType(json.type ?? "")
+            .setAttrs(json.attrs ?? {})
+            .setChildren(json.content?.map(child => EditorNode.fromJSON(child)) ?? [])
+    }
+
+    static fromJSONString(jsonString: string): EditorNode {
+        console.log('fromJSONString', jsonString)
+
+        let json = JSON.parse(jsonString)
+
+        return new EditorNode()
+            .setUUID(json.uuid)
+            .setHTML(json.html)
+    }
+
+    static fromEditor(editor: TiptapEditor): EditorNode {
+        let json = editor.getJSON()
+
+        return EditorNode.fromJSON(json)
             .setHTML(editor.getHTML())
+            .setWordCount(editor.storage.characterCount.words())
+            .setCharacterCount(editor.storage.characterCount.characters())
+    }
+
+    public updateFromEditor(editor: TiptapEditor): EditorNode {
+        let json = editor.getJSON()
+
+        return this.setHTML(editor.getHTML())
+            .setTitle(getTitle(json))
+            .setType(json.type ?? "")
+            .setChildren(json.content?.map(child => EditorNode.fromJSON(child)) ?? [])
             .setWordCount(editor.storage.characterCount.words())
             .setCharacterCount(editor.storage.characterCount.characters())
     }
@@ -45,6 +77,11 @@ class EditorNode {
         return this
     }
 
+    public setType(type: string): EditorNode {
+        this.type = type
+        return this
+    }
+
     public flattened(): EditorNode[] {
         var newBlock = this
         var flattened: EditorNode[] = []
@@ -61,6 +98,28 @@ class EditorNode {
         }
 
         return flattened
+    }
+
+    public setChildren(children: EditorNode[]): EditorNode {
+        this.children = children
+        return this
+    }
+
+    public setAttrs(attrs: Record<string, any>): EditorNode {
+        this.attrs = attrs
+        return this
+    }
+
+    public setUUID(uuid: string): EditorNode {
+        this.uuid = uuid
+        return this
+    }
+
+    public serialize(): string {
+        return JSON.stringify({
+            html: this.html,
+            uuid: this.uuid,
+        })
     }
 }
 

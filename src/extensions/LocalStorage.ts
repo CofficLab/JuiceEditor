@@ -4,10 +4,11 @@ declare module '@tiptap/core' {
     interface Commands<ReturnType> {
         LocalStorage: {
             bootLocalStorage: () => ReturnType
-            save: () => ReturnType
+            saveLocalStorage: () => ReturnType
             enableLocalStorage: () => ReturnType
             disableLocalStorage: () => ReturnType
             enableLocalStorageVerbose: () => ReturnType
+            enableLocalStoragePrintDocNode: () => ReturnType
             disableLocalStorageVerbose: () => ReturnType
             setContentFromLocalStorage: () => ReturnType
         }
@@ -20,10 +21,10 @@ const LocalStorage = TiptapExtension.create({
     addStorage() {
         return {
             verbose: false,
-            printHtml: false,
+            printDocNode: false,
             enabled: true,
             emoji: "💾 LocalStorage",
-            localStorageKey: 'html',
+            localStorageKey: 'doc',
         }
     },
 
@@ -38,26 +39,26 @@ const LocalStorage = TiptapExtension.create({
             console.log(this.storage.emoji, "onUpdate")
         }
 
-        if (this.storage.printHtml) {
-            console.log(this.storage.emoji, 'the html is')
-            console.log(this.editor.getHTML())
+        if (this.storage.printDocNode) {
+            console.log(this.storage.emoji, 'the doc node is')
+            console.log(this.editor.storage.doc.node)
         }
 
         if (!this.storage.enabled) {
             return
         }
 
-        this.editor.commands.save()
+        this.editor.commands.saveLocalStorage()
     },
 
     addCommands() {
         return {
-            save: () => () => {
+            saveLocalStorage: () => () => {
                 if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
-                    console.log(this.storage.emoji, 'saveDocument')
+                    console.log(this.storage.emoji, 'saveDoc')
                 }
 
-                localStorage.setItem(this.storage.localStorageKey, this.editor.getHTML())
+                localStorage.setItem(this.storage.localStorageKey, this.editor.storage.doc.node.serialize())
 
                 return true
             },
@@ -85,8 +86,8 @@ const LocalStorage = TiptapExtension.create({
                 return true;
             },
 
-            enableLocalStoragePrintHtml: () => () => {
-                this.storage.printHtml = true;
+            enableLocalStoragePrintDocNode: () => () => {
+                this.storage.printDocNode = true;
                 return true;
             },
 
@@ -107,7 +108,8 @@ const LocalStorage = TiptapExtension.create({
                     if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
                         console.log(this.storage.emoji, '📺 setContentFromLocalStorage')
                     }
-                    commands.setContent(saveData)
+
+                    commands.setDocFromJSONString(saveData)
                 }
 
                 return true

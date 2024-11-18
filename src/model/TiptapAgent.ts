@@ -40,7 +40,6 @@ import SmartKbd from "../extensions/SmartKbd"
 import SmartPlaceholder from "../extensions/SmartPlaceholder"
 import SmartReady from "../extensions/SmartReady"
 import SmartSlot from "../extensions/SmartSlot"
-import SmartNodes from "../extensions/SmartNodes"
 import { SmartMenusExtension } from "../extensions/SmartMenus"
 import WebKit from "../extensions/WebKit"
 import LocalStorage from "../extensions/LocalStorage"
@@ -159,7 +158,6 @@ function makeExtensions(props: makeExtensionsProps) {
         SmartListItem,
         SmartLog,
         SmartMenusExtension,
-        SmartNodes,
         SmartParagraph.configure({
             translateApi: props.translateApi,
         }),

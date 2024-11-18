@@ -42,6 +42,14 @@ class Editor {
         this.editor?.commands.enableLocalStorage()
     }
 
+    public enableLocalStorageVerbose: () => void = () => {
+        this.editor?.commands.enableLocalStorageVerbose()
+    }
+
+    public enableLocalStoragePrintDocNode: () => void = () => {
+        this.editor?.commands.enableLocalStoragePrintDocNode()
+    }
+
     public getContent: () => string = () => {
         return this.editor?.getHTML() || ''
     }
@@ -55,7 +63,7 @@ class Editor {
     }
 
     public setContent(content: string) {
-        this.editor?.commands.setContent(content, true)
+        this.editor?.commands.setDocContent(content)
     }
 
     public setMenuBackgroundColor(colorName: keyof typeof colors) {

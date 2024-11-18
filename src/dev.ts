@@ -36,6 +36,8 @@ const editor = EditorFactory.register('my-editor', {
         editor.enableWebKit()
         editor.enableWebKitVerbose()
         editor.enableSmartNodesVerbose()
+        editor.enableLocalStorage()
+        editor.enableLocalStorageVerbose()
 
         window.editor = editor
     }

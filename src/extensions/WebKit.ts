@@ -58,9 +58,9 @@ const WebKit = TiptapExtension.create({
         }
 
         if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
-            console.log(this.storage.emoji, 'onUpdate, sendNodes:', this.storage.sendNodes, 'sendNode:', this.storage.sendNode)
-            console.log(this.storage.emoji, 'onUpdate, node', this.editor.storage.smartNodes.node)
-            console.log(this.storage.emoji, 'onUpdate, nodes', this.editor.storage.smartNodes.nodes)
+            console.log(this.storage.emoji, 'onUpdate, node')
+            console.log(this.storage.emoji, this.editor.storage.doc.node)
+            console.log(this.storage.emoji, 'onUpdate, nodes', this.editor.storage.doc.nodes)
         }
 
         if (!('webkit' in window)) {
@@ -70,7 +70,7 @@ const WebKit = TiptapExtension.create({
         // Send Nodes
         if (this.storage.sendNodes) {
             var messageNodes = (new MessageSendNodes())
-                .setNodes(this.editor.storage.smartNodes.nodes)
+                .setNodes(this.editor.storage.doc.nodes)
 
             this.editor.chain()
                 .webKitSendDebugMessage(this.storage.emoji + ' Update Nodes: ' + messageNodes.nodes.length)
@@ -81,7 +81,7 @@ const WebKit = TiptapExtension.create({
         // Send Node
         if (this.storage.sendNode) {
             var messageNode = (new MessageSendNode())
-                .setNode(this.editor.storage.smartNodes.node)
+                .setNode(this.editor.storage.doc.node)
 
             this.editor.chain()
                 .webKitSendDebugMessage(this.storage.emoji + ' Update Node')
