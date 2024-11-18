@@ -38,7 +38,7 @@ const LocalStorage = TiptapExtension.create({
     },
 
     onUpdate() {
-        if (this.storage.verbose) {
+        if (this.storage.verbose && this.storage.enabled) {
             console.log(this.storage.emoji, "onUpdate")
         }
 
@@ -128,6 +128,10 @@ const LocalStorage = TiptapExtension.create({
              * - editor is mounted(means the host element is ready, not onCreate)
              */
             bootLocalStorage: () => ({ commands }) => {
+                if (!this.storage.enabled) {
+                    return true
+                }
+
                 if (this.storage.verbose) {
                     console.log(this.storage.emoji, '🖥️ boot local storage')
                 }

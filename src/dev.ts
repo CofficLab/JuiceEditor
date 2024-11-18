@@ -31,12 +31,14 @@ const editor = EditorFactory.register('my-editor', {
 
         editor.enableVerboseMode()
 
-        editor.setDocVerbose(false)
-        editor.setLocalStorageVerbose(false)
-        editor.setWebKitVerbose(false)
+        editor.setDocVerbose(true)
+        editor.setLocalStorageVerbose(true)
+        editor.setWebKitVerbose(true)
 
         editor.enableWebKit()
-        editor.enableLocalStorage()
+        editor.disableLocalStorage()
+
+        editor.disableWebKitSendNodes()
 
         editor.setChatApi(chatApi)
         editor.setDrawLink('/draw/index.html?')

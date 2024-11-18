@@ -2,7 +2,7 @@ import { TiptapExtension } from '../model/TiptapGroup'
 import ImageHelper from "../helper/ImageHelper"
 import EditorNode from "../model/EditorNode"
 import MessageSendNodes from "../model/MessageSendNodes"
-import MessageSendNode from "../model/MessageSendNode"
+import MessageSendDoc from "../model/MessageSendDoc"
 
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
@@ -14,6 +14,7 @@ declare module '@tiptap/core' {
             disableWebKit: () => ReturnType
             enableWebKitVerbose: () => ReturnType
             disableWebKitVerbose: () => ReturnType
+            disableWebKitSendNodes: () => ReturnType
             webKitDownloadImage: (src: string, name: string) => ReturnType
             bootWebKit: () => ReturnType
             setWebKitVerbose: (value: boolean) => ReturnType
@@ -30,7 +31,7 @@ const WebKit = TiptapExtension.create({
             enabled: false,
             emoji: "🍎 WebKit",
             localStorageKey: 'html',
-            sendNode: true,
+            sendDoc: true,
             sendNodes: true,
         }
     },
@@ -58,25 +59,18 @@ const WebKit = TiptapExtension.create({
             return
         }
 
-        if (this.storage.verbose) {
-            let doc = this.editor.storage.doc.doc
-            console.log(this.storage.emoji, 'onUpdate, doc')
-            console.log(this.storage.emoji, doc)
-            console.log(this.storage.emoji, 'onUpdate, nodes', doc.flattened())
-        }
-
         if (!('webkit' in window)) {
             return
         }
 
-        // Send Node
-        if (this.storage.sendNode) {
-            var messageNode = (new MessageSendNode())
-                .setNode(this.editor.storage.doc.node)
+        // Send Doc
+        if (this.storage.sendDoc) {
+            var messageDoc = (new MessageSendDoc())
+                .setNode(this.editor.storage.doc.doc)
 
             this.editor.chain()
-                .webKitSendDebugMessage(this.storage.emoji + ' Update Node')
-                .asyncSendMessage(messageNode)
+                .webKitSendDebugMessage(this.storage.emoji + ' Update Doc')
+                .asyncSendMessage(messageDoc)
                 .run()
         }
 
@@ -117,10 +111,6 @@ const WebKit = TiptapExtension.create({
                     return false
                 }
 
-                if (this.storage.verbose) {
-                    console.log(this.storage.emoji, '发送调试消息', message)
-                }
-
                 this.editor.commands.webKitSendMessage({
                     channel: "debug",
                     message: message
@@ -136,11 +126,8 @@ const WebKit = TiptapExtension.create({
 
                 try {
                     (window as any).webkit.messageHandlers.sendMessage.postMessage(data);
-                    if (this.storage.verbose) {
-                        console.log(this.storage.emoji, '已发送消息', data)
-                    }
                 } catch (e: any) {
-                    console.warn(this.storage.emoji, '发送消息失败', e.message);
+                    console.warn(this.storage.emoji, 'webKitSendMessage with error', e.message);
                     return false
                 }
 
@@ -148,22 +135,15 @@ const WebKit = TiptapExtension.create({
             },
 
             asyncSendMessage: (data: object) => () => {
-                console.log("webkit:asyncSendMessage", data)
-                new Promise((resolve, reject) => {
+                if (this.storage.verbose) {
+                    console.log(this.storage.emoji, 'asyncSendMessage', data)
+                }
+
+                new Promise(() => {
                     try {
                         (window as any).webkit.messageHandlers.sendMessage.postMessage(data);
                     } catch (e: any) {
-                        console.log(this.storage.emoji, '发送消息失败', e);
-                        this.editor.commands.webKitSendDebugMessage(this.storage.emoji + ' 发送消息失败: ' + e.message)
-                        reject(e);
-
-                        throw e
-                    }
-
-                    if (this.storage.verbose) {
-                        console.log(this.storage.emoji, '已发送消息')
-                        this.editor.commands.webKitSendDebugMessage(this.storage.emoji + ' 已发送消息')
-                        resolve(this.storage.emoji + ' 已发送消息');
+                        console.log(this.storage.emoji, 'asyncSendMessage with error', e);
                     }
                 });
 
