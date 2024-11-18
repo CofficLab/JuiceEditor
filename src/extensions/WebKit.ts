@@ -1,5 +1,8 @@
 import { TiptapExtension } from '../model/TiptapGroup'
 import ImageHelper from "../helper/ImageHelper"
+import EditorNode from "../model/EditorNode"
+import MessageSendNodes from "../model/MessageSendNodes"
+import MessageSendNode from "../model/MessageSendNode"
 
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
@@ -26,7 +29,7 @@ export const WebKit = TiptapExtension.create({
             enabled: false,
             emoji: "🍎 WebKit",
             localStorageKey: 'html',
-            sendHtml: true,
+            sendNode: true,
             sendNodes: true,
         }
     },
@@ -55,8 +58,8 @@ export const WebKit = TiptapExtension.create({
         }
 
         if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
-            console.log(this.storage.emoji, 'onUpdate, sendNodes:', this.storage.sendNodes, 'sendHtml:', this.storage.sendHtml)
-            console.log(this.storage.emoji, 'onUpdate, editor.getHTML()', this.editor.getHTML())
+            console.log(this.storage.emoji, 'onUpdate, sendNodes:', this.storage.sendNodes, 'sendNode:', this.storage.sendNode)
+            console.log(this.storage.emoji, 'onUpdate, node', this.editor.storage.smartNodes.node)
             console.log(this.storage.emoji, 'onUpdate, nodes', this.editor.storage.smartNodes.nodes)
         }
 
@@ -64,32 +67,26 @@ export const WebKit = TiptapExtension.create({
             return
         }
 
+        // Send Nodes
         if (this.storage.sendNodes) {
-            var messageData: any = {}
-            messageData.channel = "updateNodes"
-            messageData.title = this.editor.storage.smartNodes.title
-            messageData.nodes = this.editor.storage.smartNodes.nodes
-            messageData.wordCount = this.editor.storage.characterCount.words()
-            messageData.characterCount = this.editor.storage.characterCount.characters()
+            var messageNodes = (new MessageSendNodes())
+                .setNodes(this.editor.storage.smartNodes.nodes)
 
-            this.editor.commands.webKitSendDebugMessage(this.storage.emoji + ' Update Nodes: ' + messageData.nodes.length)
-
-            // 异步往 webkit 发送数据，防止界面卡顿
-            this.editor.commands.asyncSendMessage(messageData)
+            this.editor.chain()
+                .webKitSendDebugMessage(this.storage.emoji + ' Update Nodes: ' + messageNodes.nodes.length)
+                .asyncSendMessage(messageNodes)
+                .run()
         }
 
-        if (this.storage.sendHtml) {
-            var messageData: any = {}
-            messageData.channel = "updateHTML"
-            messageData.title = this.editor.storage.smartNodes.title
-            messageData.html = this.editor.getHTML()
-            messageData.wordCount = this.editor.storage.characterCount.words()
-            messageData.characterCount = this.editor.storage.characterCount.characters()
+        // Send Node
+        if (this.storage.sendNode) {
+            var messageNode = (new MessageSendNode())
+                .setNode(this.editor.storage.smartNodes.node)
 
-            this.editor.commands.webKitSendDebugMessage(this.storage.emoji + ' Update HTML: ' + messageData.html.length)
-
-            // 异步往 webkit 发送数据，防止界面卡顿
-            this.editor.commands.asyncSendMessage(messageData)
+            this.editor.chain()
+                .webKitSendDebugMessage(this.storage.emoji + ' Update Node')
+                .asyncSendMessage(messageNode)
+                .run()
         }
     },
 
@@ -197,13 +194,13 @@ export const WebKit = TiptapExtension.create({
                 return true;
             },
 
-            enableWebKitSendHtml: () => () => {
-                this.storage.sendHtml = true;
+            enableWebKitSendNode: () => () => {
+                this.storage.sendNode = true;
                 return true;
             },
 
-            disableWebKitSendHtml: () => () => {
-                this.storage.sendHtml = false;
+            disableWebKitSendNode: () => () => {
+                this.storage.sendNode = false;
                 return true;
             },
 
