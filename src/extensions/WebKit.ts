@@ -136,9 +136,6 @@ const WebKit = TiptapExtension.create({
 
                 try {
                     (window as any).webkit.messageHandlers.sendMessage.postMessage(data);
-                    if (this.storage.verbose) {
-                        console.log(this.storage.emoji, '已发送消息', data)
-                    }
                 } catch (e: any) {
                     console.warn(this.storage.emoji, '发送消息失败', e.message);
                     return false
@@ -148,7 +145,6 @@ const WebKit = TiptapExtension.create({
             },
 
             asyncSendMessage: (data: object) => () => {
-                console.log("webkit:asyncSendMessage", data)
                 new Promise((resolve, reject) => {
                     try {
                         (window as any).webkit.messageHandlers.sendMessage.postMessage(data);
@@ -161,8 +157,6 @@ const WebKit = TiptapExtension.create({
                     }
 
                     if (this.storage.verbose) {
-                        console.log(this.storage.emoji, '已发送消息')
-                        this.editor.commands.webKitSendDebugMessage(this.storage.emoji + ' 已发送消息')
                         resolve(this.storage.emoji + ' 已发送消息');
                     }
                 });
