@@ -18,6 +18,22 @@ class Editor {
         this.editor?.commands.disableSlotListener()
     }
 
+    public disableLocalStorage: () => void = () => {
+        this.editor?.commands.disableLocalStorage()
+    }
+
+    public disableLocalStorageVerbose: () => void = () => {
+        this.editor?.commands.disableLocalStorageVerbose()
+    }
+
+    public disableWebKitVerbose: () => void = () => {
+        this.editor?.commands.disableWebKitVerbose()
+    }
+
+    public disableWebKitSendNodes: () => void = () => {
+        this.editor?.commands.disableWebKitSendNodes()
+    }
+
     public enableVerboseMode: () => void = () => {
         this.editor?.commands.enableVerboseMode()
     }

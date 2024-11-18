@@ -25,17 +25,15 @@ const WebStorage = TiptapExtension.create({
             setContentFromWeb: (url: string, uuid: string) => ({ editor, commands, chain }) => {
                 if (this.storage.verbose) {
                     console.log(this.storage.emoji, 'loadContentFromWeb', url, 'with uuid', uuid)
+                    commands.webKitSendDebugMessage(`loadContentFromWeb -> ${url} with uuid ${uuid}`)
                 }
-
-                commands.webKitSendDebugMessage(`loadContentFromWeb -> ${url} with uuid ${uuid}`)
 
                 axios.get(`${url}`)
                     .then(response => {
                         let content = response.data
 
-                        return chain()
+                        editor.commands
                             .setDoc((new EditorNode()).setHTML(content).setUUID(uuid))
-                            .run()
                     })
                     .catch(error => {
                         if (error.code === 'ERR_NETWORK' || error.message.includes('CORS')) {

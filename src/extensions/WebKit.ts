@@ -14,6 +14,7 @@ declare module '@tiptap/core' {
             disableWebKit: () => ReturnType
             enableWebKitVerbose: () => ReturnType
             disableWebKitVerbose: () => ReturnType
+            disableWebKitSendNodes: () => ReturnType
             webKitDownloadImage: (src: string, name: string) => ReturnType
             bootWebKit: () => ReturnType
             setWebKitVerbose: (value: boolean) => ReturnType
@@ -62,7 +63,8 @@ const WebKit = TiptapExtension.create({
             let doc = this.editor.storage.doc.doc
             console.log(this.storage.emoji, 'onUpdate, doc')
             console.log(this.storage.emoji, doc)
-            console.log(this.storage.emoji, 'onUpdate, nodes', doc.flattened())
+            console.log(this.storage.emoji, 'onUpdate, nodes')
+            console.log(this.storage.emoji, doc.flattened())
         }
 
         if (!('webkit' in window)) {
@@ -72,7 +74,7 @@ const WebKit = TiptapExtension.create({
         // Send Node
         if (this.storage.sendNode) {
             var messageNode = (new MessageSendNode())
-                .setNode(this.editor.storage.doc.node)
+                .setNode(this.editor.storage.doc.doc)
 
             this.editor.chain()
                 .webKitSendDebugMessage(this.storage.emoji + ' Update Node')
@@ -117,10 +119,6 @@ const WebKit = TiptapExtension.create({
                     return false
                 }
 
-                if (this.storage.verbose) {
-                    console.log(this.storage.emoji, '发送调试消息', message)
-                }
-
                 this.editor.commands.webKitSendMessage({
                     channel: "debug",
                     message: message
@@ -137,7 +135,7 @@ const WebKit = TiptapExtension.create({
                 try {
                     (window as any).webkit.messageHandlers.sendMessage.postMessage(data);
                 } catch (e: any) {
-                    console.warn(this.storage.emoji, '发送消息失败', e.message);
+                    console.warn(this.storage.emoji, 'webKitSendMessage with error', e.message);
                     return false
                 }
 
@@ -145,19 +143,15 @@ const WebKit = TiptapExtension.create({
             },
 
             asyncSendMessage: (data: object) => () => {
-                new Promise((resolve, reject) => {
+                if (this.storage.verbose) {
+                    console.log(this.storage.emoji, 'asyncSendMessage', data)
+                }
+
+                new Promise(() => {
                     try {
                         (window as any).webkit.messageHandlers.sendMessage.postMessage(data);
                     } catch (e: any) {
-                        console.log(this.storage.emoji, '发送消息失败', e);
-                        this.editor.commands.webKitSendDebugMessage(this.storage.emoji + ' 发送消息失败: ' + e.message)
-                        reject(e);
-
-                        throw e
-                    }
-
-                    if (this.storage.verbose) {
-                        resolve(this.storage.emoji + ' 已发送消息');
+                        console.log(this.storage.emoji, 'asyncSendMessage with error', e);
                     }
                 });
 
