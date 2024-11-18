@@ -30,10 +30,6 @@ const LocalStorage = TiptapExtension.create({
         }
     },
 
-    onCreate() {
-        console.log(this.storage.emoji, "🚩 onCreate")
-    },
-
     onBeforeCreate() {
         if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
             console.log(this.storage.emoji, "onBeforeCreate")
@@ -124,11 +120,10 @@ const LocalStorage = TiptapExtension.create({
             /**
              * call this after 
              * - editor is mounted(means the host element is ready, not onCreate)
-             * - slot listener is booted
              */
             bootLocalStorage: () => ({ commands }) => {
                 if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
-                    console.log(this.storage.emoji, '🚩 boot local storage')
+                    console.log(this.storage.emoji, '🖥️ boot local storage')
                 }
 
                 if (this.editor.storage.smartSlot.slotHasOriginalContent == false) {

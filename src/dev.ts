@@ -24,10 +24,10 @@ const chatApi = '/proxy/api/chat'
 
 const editor = EditorFactory.register('my-editor', {
     onBeforeCreate: () => {
-        console.log(title, 'onBeforeCreate for label my-editor')
+        console.log(title, '🏭 onBeforeCreate for label my-editor')
     },
     onCreate: (editor: Editor) => {
-        console.log(title, 'onCreate for label my-editor')
+        console.log(title, '🚩 onCreate for label my-editor')
 
         editor.enableLog()
         editor.setChatApi(chatApi)
@@ -40,6 +40,9 @@ const editor = EditorFactory.register('my-editor', {
         editor.enableLocalStorageVerbose()
 
         window.editor = editor
+    },
+    onMounted: (editor: Editor) => {
+        console.log(title, '🖥️ onMounted for label my-editor')
     }
 })
 

@@ -9,6 +9,7 @@ import TaskItem from '@tiptap/extension-task-item';
 import TableCell from '@tiptap/extension-table-cell';
 import TableHeader from '@tiptap/extension-table-header';
 import Features from './Features/Features';
+import { title } from 'process';
 
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
@@ -23,10 +24,14 @@ declare module '@tiptap/core' {
     }
 }
 
-const title = '👔 Margin'
-
 const Margin = TiptapExtension.create({
     name: 'margin',
+
+    addStorage() {
+        return {
+            title: '👔 Margin',
+        }
+    },
 
     addOptions() {
         return {

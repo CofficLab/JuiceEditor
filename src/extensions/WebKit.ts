@@ -238,11 +238,11 @@ const WebKit = TiptapExtension.create({
              */
             bootWebKit: () => () => {
                 if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
-                    console.log(this.storage.emoji, "bootWebKit")
+                    console.log(this.storage.emoji, "🖥️ bootWebKit")
                 }
 
                 if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
-                    console.log(this.storage.emoji, 'webkit send message: pageLoaded')
+                    console.log(this.storage.emoji, '🖥️ webkit send message: pageLoaded')
                 }
 
                 if (!('webkit' in window)) {

@@ -10,6 +10,7 @@ declare module '@tiptap/core' {
             loadContentFromSlot: () => ReturnType
             bootSlotListener: () => ReturnType
             enableSlotListener: () => ReturnType
+            enableSlotListenerVerbose: () => ReturnType
             disableSlotListener: () => ReturnType
         }
     }
@@ -46,10 +47,6 @@ const SmartSlot = TiptapExtension.create({
         }
     },
 
-    onCreate() {
-        console.log(this.storage.emoji, "🚩 onCreate")
-    },
-
     addCommands() {
         return {
             loadContentFromSlot: () => ({ chain }) => {
@@ -63,6 +60,11 @@ const SmartSlot = TiptapExtension.create({
                 }
 
                 return chain().setContent(getHostElementContent(this.editor)).run()
+            },
+
+            enableSlotListenerVerbose: () => ({ editor }) => {
+                this.storage.verbose = true
+                return true
             },
 
             enableSlotListener: () => ({ editor }) => {
@@ -80,11 +82,12 @@ const SmartSlot = TiptapExtension.create({
              */
             bootSlotListener: () => ({ editor, commands }) => {
                 if (!this.storage.enabled) {
+                    console.warn('Slot listener is not enabled')
                     return false
                 }
 
                 if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
-                    console.log(this.storage.emoji, '🚩 boot slot listener')
+                    console.log(this.storage.emoji, '🖥️ boot slot listener')
                 }
 
                 let slotContent = getHostElementContent(this.editor).trim()
@@ -101,7 +104,7 @@ const SmartSlot = TiptapExtension.create({
                 }
 
                 if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
-                    console.log(this.storage.emoji, "watch slot content")
+                    console.log(this.storage.emoji, "🖥️ watch slot content")
                 }
 
                 observer = new MutationObserver(() => editor.commands.loadContentFromSlot())

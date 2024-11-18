@@ -33,12 +33,8 @@ const editor = new EditorVue({
 })
 
 function onEditorMounted() {
-    editor.chain()
-        .setMounted()
-        .bootSlotListener()
-        .bootWebKit()
-        .bootLocalStorage()
-        .run()
+    editor.commands.setMounted()
+    rootAgent.options.onMounted?.(rootAgent)
 }
 
 const showSourceCode = computed(() => {

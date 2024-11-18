@@ -29,11 +29,6 @@ const SmartDoc = Document.extend({
         }
     },
 
-    onCreate() {
-        console.log(this.storage.emoji, "🚩 onCreate")
-        this.storage.doc = EditorNode.fromEditor(this.editor)
-    },
-
     onUpdate() {
         if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
             console.log(this.storage.emoji, "onUpdate")
@@ -54,33 +49,37 @@ const SmartDoc = Document.extend({
                 return true
             },
 
-            setDoc: (node: EditorNode) => ({ commands }) => {
+            setDoc: (node: EditorNode) => ({ commands, tr, chain }) => {
                 this.storage.doc = node
 
-                commands.setContent(node.html ?? "")
-
-                return true
+                return chain()
+                    .setContent(node.html ?? "")
+                    .run()
             },
 
             setDocContent: (content: string) => ({ commands }) => {
-                commands.setContent(content, true)
-
-                return true
+                return commands.setContent(content, true)
             },
 
             setDocFromJSONString: (jsonString: string) => ({ commands }) => {
-                commands.setDoc(EditorNode.fromJSONString(jsonString))
-
-                return true
+                return commands.setDoc(EditorNode.fromJSONString(jsonString))
             },
 
-            setMounted: () => ({ editor }) => {
+            setMounted: () => ({ chain }) => {
                 if (this.storage.verbose && this.editor.storage.smartLog.enabled) {
                     console.log(this.storage.emoji, '🖥️ setMounted')
                 }
 
                 this.storage.mounted = true
-                return true
+                this.storage.doc = EditorNode.fromEditor(this.editor)
+
+                return chain()
+                    .enableSlotListener()
+                    .enableSlotListenerVerbose()
+                    .bootSlotListener()
+                    .bootWebKit()
+                    .bootLocalStorage()
+                    .run()
             },
         }
     }
