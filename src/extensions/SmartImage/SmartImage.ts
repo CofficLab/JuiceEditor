@@ -33,6 +33,8 @@ declare module '@tiptap/core' {
             closeLoading: (reason: string) => ReturnType,
             closeDraw: () => ReturnType,
             downloadImage: () => ReturnType,
+            enableImageVerbose: () => ReturnType,
+            disableImageVerbose: () => ReturnType,
         }
     }
 }
@@ -310,7 +312,17 @@ const SmartImage = ImageTipTap.extend<ImageOptions>({
                 this.editor.commands.webKitDownloadImage(src, attrs.alt)
 
                 return true
-            }
+            },
+
+            enableImageVerbose: () => ({ commands }) => {
+                this.storage.verbose = true;
+                return true;
+            },
+
+            disableImageVerbose: () => ({ commands }) => {
+                this.storage.verbose = false;
+                return true;
+            },
         }
     },
 
