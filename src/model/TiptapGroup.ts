@@ -1,5 +1,6 @@
 import { Editor, Extension } from '@tiptap/core'
 import { BubbleMenu } from '@tiptap/vue-3'
+import Blockquote from '@tiptap/extension-blockquote'
 import CharacterCount from '@tiptap/extension-character-count'
 import Code from '@tiptap/extension-code'
 import Color from '@tiptap/extension-color'
@@ -33,6 +34,7 @@ import TextStyle from '@tiptap/extension-text-style'
 import Underline from "@tiptap/extension-underline"
 
 export {
+    Blockquote as BlockquoteExtension,
     BubbleMenu as BubbleMenuExtension,
     CharacterCount as CharacterCountExtension,
     Code as CodeExtension,

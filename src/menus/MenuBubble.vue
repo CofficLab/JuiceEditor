@@ -12,10 +12,9 @@ import ButtonGroup from '../ui/ButtonGroup.vue'
 import MenuImage from './MenuImage.vue'
 import MenuDraw from './MenuDraw.vue'
 import MenuLink from './MenuLink.vue'
-import { computed } from 'vue'
-import { shouldShowBubbleMenu } from '../extensions/SmartMenus'
+import { computed, ref } from 'vue'
+import { shouldShowBubbleMenu, getSelectionTextLength } from '../extensions/SmartMenus'
 import Button from '../ui/Button.vue'
-import { getSelectionTextLength } from '../extensions/SmartSelection'
 import SmartText from '../extensions/SmartText'
 
 const props = defineProps({
@@ -49,32 +48,36 @@ const shouldShow = function (props: {
 	return shouldShowBubbleMenu(props)
 }
 
-const shouldShowFormatMenu = computed(() => {
-	if (props.editor.isActive(LinkExtension.name)) {
+const hasSelection = computed(() => getSelectionTextLength(props.editor) > 0)
+const shouldShowLinkMenu = ref(false)
+const shouldShowDrawMenu = ref(false)
+const shouldShowImageMenu = ref(false)
+const shouldShowFontMenu = ref(false)
+const shouldShowFormatMenu = ref(false)
+const isEditing = ref(false)
+
+props.editor.on('selectionUpdate', () => {
+	if (isEditing.value) {
 		return false
 	}
 
-	const nodesShow = [HeadingExtension.name, ParagraphExtension.name, SmartText.name]
+	shouldShowLinkMenu.value = false
+	shouldShowDrawMenu.value = false
+	shouldShowImageMenu.value = false
+	shouldShowFontMenu.value = false
+	shouldShowFormatMenu.value = false
 
-	return nodesShow.some(node => {
-		return props.editor.isActive(node)
-	})
-})
-
-const shouldShowDrawMenu = computed(() => {
-	return props.editor.getAttributes(ImageExtension.name).draw == true
-})
-
-const shouldShowImageMenu = computed(() => {
-	return props.editor.isActive(ImageExtension.name) && !props.editor.getAttributes(ImageExtension.name).draw
-})
-
-const shouldShowLinkMenu = computed(() => {
-	return props.editor.isActive(LinkExtension.name)
-})
-
-const shouldShowFontMenu = computed(() => {
-	return props.editor.can().setFontFamily('inter') && !props.editor.isActive(LinkExtension.name)
+	setTimeout(() => {
+		shouldShowLinkMenu.value = props.editor.isActive(LinkExtension.name)
+		shouldShowDrawMenu.value = props.editor.getAttributes(ImageExtension.name).draw == true
+		shouldShowFontMenu.value = props.editor.can().setFontFamily('inter') && !props.editor.isActive(LinkExtension.name)
+		shouldShowImageMenu.value = props.editor.isActive(ImageExtension.name) && !props.editor.getAttributes(ImageExtension.name).draw
+		shouldShowFormatMenu.value = [HeadingExtension.name, ParagraphExtension.name, SmartText.name].some(node => {
+			return props.editor.isActive(node)
+		}) && [LinkExtension.name].every(node => {
+			return !props.editor.isActive(node)
+		})
+	}, 0)
 })
 
 const textColors = computed(() => {
@@ -83,10 +86,6 @@ const textColors = computed(() => {
 
 const fontFamilies = computed(() => {
 	return props.editor.options.extensions.find(extension => extension.name === FontFamilyExtension.name)?.options.fontFamilies
-})
-
-const hasSelection = computed(() => {
-	return getSelectionTextLength(props.editor) > 0
 })
 </script>
 
@@ -189,7 +188,8 @@ const hasSelection = computed(() => {
 			<MenuImage :editor="editor" :background-class="backgroundClass" v-if="shouldShowImageMenu"></MenuImage>
 
 			<!-- Link -->
-			<MenuLink :editor="editor" :background-class="backgroundClass" v-if="shouldShowLinkMenu"></MenuLink>
+			<MenuLink :editor="editor" :background-class="backgroundClass" v-if="shouldShowLinkMenu"
+				:on-edit-start="() => isEditing = true" :on-edit-end="() => isEditing = false"></MenuLink>
 		</ButtonGroup>
 	</BubbleMenuExtension>
 </template>

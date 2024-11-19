@@ -36,13 +36,14 @@ const editor = EditorFactory.register('my-editor', {
         editor.setWebKitVerbose(true)
 
         editor.enableWebKit()
-        editor.disableLocalStorage()
+        editor.enableLocalStorage()
 
         editor.disableWebKitSendNodes()
+        editor.disableLocalStorageVerbose()
 
         editor.setChatApi(chatApi)
         editor.setDrawLink('/draw/index.html?')
-        editor.setMenuBackgroundColor('blue')
+        editor.setMenuBackgroundColor('yellow')
 
         window.editor = editor
     },

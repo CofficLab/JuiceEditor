@@ -1,15 +1,12 @@
 import { EditorState } from '@tiptap/pm/state'
 import { EditorView } from '@tiptap/pm/view'
-import { ImageExtension, TiptapEditor, TiptapExtension } from '../model/TiptapGroup'
-import Heading from '@tiptap/extension-heading'
-import HardBreak from '@tiptap/extension-hard-break'
-import Blockquote from '@tiptap/extension-blockquote'
-import Image from '@tiptap/extension-image'
-import Link from '@tiptap/extension-link'
 import SmartToc from './SmartToc/SmartToc'
-import Table from '@tiptap/extension-table'
-import TableRow from '@tiptap/extension-table-row'
-import TableHeader from '@tiptap/extension-table-header'
+import {
+    ImageExtension, TiptapEditor, TiptapExtension, LinkExtension,
+    HardBreakExtension, HeadingExtension, TableRowExtension,
+    TableExtension, TableHeaderExtension,
+    BlockquoteExtension
+} from '../model/TiptapGroup'
 
 declare module '@tiptap/core' {
     interface Commands {
@@ -29,6 +26,12 @@ export const colors: Record<string, string> = {
     'yellow': 'bg-yellow-200 dark:bg-yellow-900/95',
     'purple': 'bg-purple-200 dark:bg-purple-900/95',
     'pink': 'bg-pink-200 dark:bg-pink-900/95',
+    'indigo': 'bg-indigo-200 dark:bg-indigo-900/95',
+    'orange': 'bg-orange-200 dark:bg-orange-900/95',
+    'cyan': 'bg-cyan-200 dark:bg-cyan-900/95',
+    'teal': 'bg-teal-200 dark:bg-teal-900/95',
+    'lime': 'bg-lime-200 dark:bg-lime-900/95',
+    'amber': 'bg-amber-200 dark:bg-amber-900/95',
 }
 
 export const SmartMenusExtension = TiptapExtension.create({
@@ -77,7 +80,7 @@ export const shouldShowBubbleMenu = function (props: {
 
     const { selection } = props.state
     const { empty } = selection
-    const shouldShowNodes = [Image.name, Link.name]
+    const shouldShowNodes = [ImageExtension.name, LinkExtension.name]
     const excludes = [SmartToc.name]
 
 
@@ -87,7 +90,7 @@ export const shouldShowBubbleMenu = function (props: {
     }
 
     // 如果当前是Heading，且Level=1，不显示
-    if (props.editor.isActive(Heading.name) && props.editor.getAttributes(Heading.name).level === 1) {
+    if (props.editor.isActive(HeadingExtension.name) && props.editor.getAttributes(HeadingExtension.name).level === 1) {
         return false
     }
 
@@ -106,7 +109,7 @@ export const shouldShowBubbleMenu = function (props: {
         return false;
     }
 
-    if (props.editor.isActive(Heading.name, { level: 1 })) {
+    if (props.editor.isActive(HeadingExtension.name, { level: 1 })) {
         if (verbose) {
             console.log(emoji, 'hide bubble menu, current is h1')
         }
@@ -141,7 +144,7 @@ export const shouldShowFloatingMenu = function (props: {
 }) {
     let isAtBannerPosition = props.editor.isActive('banner')
     let isAtSmartImagePosition = props.editor.isActive('image')
-    const excludes = [Table.name, TableRow.name, TableHeader.name]
+    const excludes = [TableExtension.name, TableRowExtension.name, TableHeaderExtension.name]
     const { selection } = props.state
     const { $anchor, empty } = selection
     const isEmptyTextBlock =
@@ -150,17 +153,17 @@ export const shouldShowFloatingMenu = function (props: {
     const { editor } = props
 
     // 如果在 H1 中，不展示
-    if (type == Heading.name && selection.$head.parent.attrs.level == 1) {
+    if (type == HeadingExtension.name && selection.$head.parent.attrs.level == 1) {
         return false
     }
 
     // 如果当前是引用，不展示
-    if (editor.isActive(Blockquote.name)) {
+    if (editor.isActive(BlockquoteExtension.name)) {
         return false
     }
 
     // HardBreak, do not show
-    if (editor.isActive(HardBreak.name)) {
+    if (editor.isActive(HardBreakExtension.name)) {
         return false
     }
 
@@ -199,4 +202,24 @@ export const shouldShowTextAlignMenu = function (editor: TiptapEditor) {
 
 export const shouldShowMarginMenu = function (editor: TiptapEditor) {
     return true
+}
+
+export function getSelectionTextLength(editor: TiptapEditor) {
+    return getSelectionText(editor).length
+}
+
+export function isSelectionEmpty(editor: TiptapEditor) {
+    return getSelectionTextLength(editor) == 0
+}
+
+export function hasSelection(editor: TiptapEditor) {
+    return !isSelectionEmpty(editor)
+}
+
+export function getSelectionText(editor: TiptapEditor) {
+    const { from, to, empty } = editor.state.selection
+    if (empty) {
+        return ''
+    }
+    return editor.state.doc.textBetween(from, to, '')
 }
