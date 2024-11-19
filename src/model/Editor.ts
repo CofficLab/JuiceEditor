@@ -149,6 +149,10 @@ class Editor {
     public toggleToc() {
         this.editor?.commands.toggleToc()
     }
+
+    public toggleTOC() {
+        this.toggleToc()
+    }
 }
 
 export default Editor
