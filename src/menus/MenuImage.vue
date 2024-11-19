@@ -3,13 +3,11 @@ import { computed, defineProps, ref } from 'vue'
 import Button from '../ui/Button.vue'
 import { HeadingExtension, TiptapEditor } from '../model/TiptapGroup'
 import SmartImage from '../extensions/SmartImage/SmartImage'
+import { shouldShowMarginMenu } from '../extensions/SmartMenus'
 import {
     RiEditLine, RiDownloadLine, RiShapeLine, RiIndentDecrease,
     RiAlignCenter, RiIndentIncrease, RiDeleteBin7Line
 } from '@remixicon/vue'
-import { shouldShowMarginMenu } from '../extensions/SmartMenus'
-import SmartHeading from '../extensions/SmartHeading'
-
 
 let props = defineProps({
     editor: {
@@ -50,8 +48,11 @@ async function onFileSelected() {
     let file = fileInput.value?.files?.item(0)
     const base64 = await fileToBase64(file!)
 
-    // base64编码的文件内容
-    props.editor.commands.updateAttributes(Image.name, {
+    if (props.editor.storage.image.verbose) {
+        console.log(props.editor.storage.image.title, 'change image base64')
+    }
+
+    props.editor.commands.updateAttributes(SmartImage.name, {
         src: base64
     })
 }

@@ -1,12 +1,11 @@
 <script lang="ts" setup>
-import { FloatingMenu } from '../model/TiptapGroup'
-import { TiptapEditor } from '../model/TiptapGroup'
+import { FloatingMenu, TiptapEditor } from '../model/TiptapGroup'
 import { shouldShowFloatingMenu } from '../extensions/SmartMenus'
 import ButtonGroup from '../ui/ButtonGroup.vue'
 import Button from '../ui/Button.vue'
 import {
-  RiH2, RiH3, RiH4, RiEdit2Line, RiListCheck, RiTaskFill,
-  RiTable2, RiCodeBlock, RiKeyboardBoxLine, RiChatQuoteLine
+  RiImageLine, RiEdit2Line, RiListCheck, RiTaskFill,
+  RiTable2, RiCodeBlock, RiChatQuoteLine
 } from '@remixicon/vue'
 
 defineProps({
@@ -35,6 +34,9 @@ defineProps({
     appendTo: 'parent'
   }" :editor="editor" :should-show="shouldShowFloatingMenu">
     <ButtonGroup direction="horizontal" type="blue" :shape="shape" :backgroundClass="backgroundClass">
+      <Button tips="图片" :editor="editor" :shape="shape" @click="editor.chain().focus().insertImage().run()">
+        <RiImageLine></RiImageLine>
+      </Button>
       <Button tips="绘图" :editor="editor" :shape="shape" @click="editor.chain().focus().insertDraw().run()">
         <RiEdit2Line></RiEdit2Line>
       </Button>
