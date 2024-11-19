@@ -7,13 +7,13 @@ import { getFirstActiveNodePosition } from '../extensions/SmartActive'
 import {
 	RiDeleteBin7Line, RiAddLine, RiCodeBoxLine,
 	RiAlignLeft, RiAlignCenter, RiPaletteLine,
-	RiGlobalLine, RiAlignRight, RiIndentDecrease, RiIndentIncrease,
+	RiGlobalLine, RiAlignRight,
 	RiH2, RiH3, RiH4, RiText, RiChatQuoteLine
 } from '@remixicon/vue'
 import Paragraph from '@tiptap/extension-paragraph'
 import Heading from '@tiptap/extension-heading'
 import SmartToc from '../extensions/SmartToc/SmartToc'
-import { shouldShowTextAlignMenu, shouldShowMarginMenu } from '../extensions/SmartMenus'
+import { shouldShowTextAlignMenu } from '../extensions/SmartMenus'
 
 const props = defineProps({
 	editor: {
@@ -47,6 +47,12 @@ let colorClass = computed(() => {
 
 let languages = computed(() => {
 	return props.editor.options.extensions.find(extension => extension.name === 'paragraph')?.options.languages
+})
+
+props.editor.on('update', ({ editor }) => {
+	if (editor.isEditable == false) {
+		visible.value = false
+	}
 })
 
 watch(
