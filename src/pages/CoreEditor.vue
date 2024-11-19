@@ -4,16 +4,12 @@ import BubbleMenus from '../menus/MenuBubble.vue'
 import FloatMenus from '../menus/MenuFloat.vue'
 import MenuLeft from '../menus/MenuLeft.vue'
 import MenuRight from '../menus/MenuRight.vue'
-import { computed, nextTick, onMounted } from 'vue'
+import { computed, nextTick, onMounted, ref } from 'vue'
 
 const props = defineProps({
 	editor: {
 		type: EditorVue,
 		required: true
-	},
-	backgroundClass: {
-		type: String,
-		default: 'bg-slate-300/10 dark:bg-zinc-900/30'
 	},
 	onEditorMounted: {
 		type: Function,
@@ -22,8 +18,11 @@ const props = defineProps({
 })
 
 const isDebug = false
-const menuColor = computed(() => {
-	return props.editor.storage.smartMenus.color
+const menuColor = computed(() => props.editor.storage.smartMenus.color)
+const backgroundClass = ref(props.editor.storage.smartBackground.backgroundClass)
+
+props.editor.on('update', ({ editor }) => {
+	backgroundClass.value = editor.storage.smartBackground.backgroundClass
 })
 
 onMounted(() => {

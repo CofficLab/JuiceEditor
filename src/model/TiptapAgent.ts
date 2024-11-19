@@ -18,6 +18,7 @@ import {
 } from "../model/TiptapGroup"
 import Assistant from "../extensions/Assistant"
 import Features from "../extensions/Features/Features"
+import SmartBackground from "../extensions/SmartBackground"
 import SmartTaskItem from "../extensions/SmartTaskItem"
 import SmartListItem from "../extensions/SmartListItem"
 import SmartHeading from "../extensions/SmartHeading"
@@ -114,6 +115,7 @@ function makeExtensions(props: makeExtensionsProps) {
         Padding,
         SmartActive,
         SmartAlert,
+        SmartBackground,
         SmartBold,
         SmartBulletList.configure({
             HTMLAttributes: {

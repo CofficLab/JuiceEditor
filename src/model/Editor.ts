@@ -139,7 +139,7 @@ class Editor {
     }
 
     public toggleReadOnly() {
-        this.editor?.setEditable(!this.editor?.isEditable, true)
+        this.editor?.commands.toggleReadOnly()
     }
 
     public toggleSourceCode() {
