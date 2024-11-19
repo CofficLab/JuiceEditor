@@ -5,6 +5,8 @@ declare module '@tiptap/core' {
         Assistant: {
             setChatApi: (api: string) => ReturnType
             chat: (options: chatOptions) => ReturnType
+            enableAssistantVerbose: () => ReturnType
+            disableAssistantVerbose: () => ReturnType
         }
     }
 }
@@ -51,8 +53,10 @@ const Assistant = Extension.create({
                     urlencoded.append(key, value);
                 });
 
-                console.log(this.storage.title, "Api", options.url)
-                console.log(this.storage.title, "向服务器发送数据", options.params)
+                if (this.storage.verbose) {
+                    console.log(this.storage.title, "Api", options.url)
+                    console.log(this.storage.title, "向服务器发送数据", options.params)
+                }
 
                 fetch(options.url, {
                     method: 'POST',
@@ -108,7 +112,17 @@ const Assistant = Extension.create({
                 });
 
                 return true;
-            }
+            },
+
+            enableAssistantVerbose: () => ({ commands }) => {
+                this.storage.verbose = true;
+                return true;
+            },
+
+            disableAssistantVerbose: () => ({ commands }) => {
+                this.storage.verbose = false;
+                return true;
+            },
         };
     },
 });

@@ -8,6 +8,8 @@ declare module '@tiptap/core' {
         SmartParagraph: {
             setParagraph: () => ReturnType
             setBackgroundColor: (color: string) => ReturnType
+            enableParagraphVerbose: () => ReturnType
+            disableParagraphVerbose: () => ReturnType
             translate: (language: string) => ReturnType
             setTranslateApi: (api: string) => ReturnType
         }
@@ -124,6 +126,16 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
                 return true;
             },
 
+            enableParagraphVerbose: () => ({ commands }) => {
+                this.storage.verbose = true;
+                return true;
+            },
+
+            disableParagraphVerbose: () => ({ commands }) => {
+                this.storage.verbose = false;
+                return true;
+            },
+
             translate: (language: string) => ({ editor }: { editor: TiptapEditor }) => {
                 if (!editor) {
                     console.error('No editor instance available');
@@ -147,6 +159,7 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
                 var originalTextDeleted = false
                 var translatedText = '';
                 var translatedNode: Node | null = null;
+                var verbose = this.storage.verbose;
 
                 this.editor.commands.chat({
                     url,
@@ -159,7 +172,9 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
                             originalTextDeleted = true;
                         }
 
-                        console.log(debugTitle, '📤 翻译结果', message);
+                        if (verbose) {
+                            console.log(debugTitle, '📤 翻译结果', message);
+                        }
 
                         let previousLength = translatedNode?.nodeSize ?? 0;
                         translatedText += message;
@@ -179,7 +194,9 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
                         });
                     },
                     onEnd() {
-                        console.log(debugTitle, '🎉 翻译结束。');
+                        if (verbose) {
+                            console.log(debugTitle, '🎉 翻译结束。');
+                        }
                     }
                 });
 
