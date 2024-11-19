@@ -1,16 +1,11 @@
 import { findParentNode } from '@tiptap/core'
-import { TiptapEditor } from '../model/TiptapGroup'
-import { TiptapExtension } from '../model/TiptapGroup'
+import { TiptapEditor, ListItemExtension, TableExtension, TiptapExtension } from '../model/TiptapGroup'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
 import SmartImage from './SmartImage/SmartImage'
-import Table from '@tiptap/extension-table'
-import ListItem from '@tiptap/extension-list-item'
+
 declare module '@tiptap/core' {
 	interface Commands<ReturnType> {
-		setCurrentNodeSelection: {
-			setCurrentNodeSelection: () => ReturnType
-		}
 		deleteSelectionNode: {
 			deleteSelectionNode: () => ReturnType
 		}
@@ -47,22 +42,6 @@ export default TiptapExtension.create({
 	},
 	addCommands() {
 		return {
-			setCurrentNodeSelection:
-				() =>
-					({ editor, chain }) => {
-						let parentNode = findParentNode((node) =>
-							[ListItem.name].includes(node.type.name),
-						)(editor.state.selection)
-						if (parentNode) {
-							return chain().setNodeSelection(parentNode.pos).run()
-						}
-						// @ts-ignore
-						const { $anchor, node } = editor.state.selection
-						const pos = node?.attrs?.vnode
-							? $anchor.pos
-							: $anchor.pos - $anchor.parentOffset - 1
-						return chain().setNodeSelection(pos).run()
-					},
 			deleteSelectionNode:
 				() =>
 					({ editor, chain }) => {
@@ -72,7 +51,7 @@ export default TiptapExtension.create({
 							return false
 						}
 
-						if (editor.isActive(Table.name)) {
+						if (editor.isActive(TableExtension.name)) {
 							return chain().focus().deleteTable().run()
 						}
 
@@ -92,7 +71,7 @@ export function getSelectionNode(editor: TiptapEditor) {
 	if (node) {
 		return node
 	}
-	let parentNode = findParentNode((node) => [ListItem.name].includes(node.type.name))(
+	let parentNode = findParentNode((node) => [ListItemExtension.name].includes(node.type.name))(
 		editor.state.selection,
 	)
 	const { $anchor } = editor.state.selection
@@ -102,24 +81,4 @@ export function getSelectionNode(editor: TiptapEditor) {
 	editor.commands.selectParentNode()
 	// @ts-ignore
 	return editor.state.selection.node
-}
-
-export function getSelectionText(editor: TiptapEditor) {
-	const { from, to, empty } = editor.state.selection
-	if (empty) {
-		return ''
-	}
-	return editor.state.doc.textBetween(from, to, '')
-}
-
-export function getSelectionTextLength(editor: TiptapEditor) {
-	return getSelectionText(editor).length
-}
-
-export function isSelectionEmpty(editor: TiptapEditor) {
-	return getSelectionTextLength(editor) == 0
-}
-
-export function hasSelection(editor: TiptapEditor) {
-	return !isSelectionEmpty(editor)
 }

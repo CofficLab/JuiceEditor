@@ -3,9 +3,8 @@ import { defineProps } from 'vue'
 import Button from '../ui/Button.vue'
 import { TiptapEditor } from '../model/TiptapGroup'
 import { ref, watch } from 'vue'
-
 import { RiGlobalLine, RiLinkM } from '@remixicon/vue'
-import Link from '@tiptap/extension-link'
+import { LinkExtension } from '../model/TiptapGroup'
 
 let props = defineProps({
     editor: {
@@ -19,33 +18,48 @@ let props = defineProps({
     iconSize: {
         type: String,
         default: '24px'
+    },
+    backgroundClass: {
+        type: String,
+        required: true,
+        default: 'bg-indigo-100/95 dark:bg-indigo-500/95'
+    },
+    onEditStart: {
+        type: Function,
+        required: true
+    },
+    onEditEnd: {
+        type: Function,
+        required: true
     }
 })
 
-var href = ref(props.editor.getAttributes(Link.name).href)
-var text = ref(props.editor.getAttributes(Link.name).text)
+var href = ref(props.editor.getAttributes(LinkExtension.name).href)
+var text = ref(props.editor.getAttributes(LinkExtension.name).text)
 
 function openLink() {
-    let link = props.editor.getAttributes(Link.name)
+    let link = props.editor.getAttributes(LinkExtension.name)
     if (link.href) {
         window.open(link.href, '_blank')
     }
 }
 
-watch(href, (newVal) => {
-    props.editor.chain().extendMarkRange('link').setLink({ href: newVal, target: '_blank' }).run()
-})
-
-watch(text, (newVal) => {
+function updateLink() {
+    props.onEditStart?.()
     props.editor
         .chain()
-        .extendMarkRange('link')
-        .insertContent(newVal, {
+        .extendMarkRange(LinkExtension.name)
+        .insertContent(text.value, {
             updateSelection: false
         })
-        .setLink({ href: href.value })
+        .setLink({ href: href.value, target: '_blank' })
         .run()
-})
+    props.onEditEnd?.()
+}
+
+watch(href, () => updateLink())
+watch(text, () => updateLink())
+
 </script>
 
 <template>
