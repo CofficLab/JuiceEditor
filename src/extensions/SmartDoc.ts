@@ -12,6 +12,8 @@ declare module '@tiptap/vue-3' {
             setDocFromJSONString: (jsonString: string) => ReturnType
             setMounted: () => ReturnType
             setDocVerbose: (value: boolean) => ReturnType
+            setReadOnly: (value: boolean) => ReturnType
+            toggleReadOnly: () => ReturnType
         }
     }
 }
@@ -83,6 +85,27 @@ const SmartDoc = Document.extend({
 
             setDocVerbose: (value: boolean) => () => {
                 this.storage.verbose = value
+                return true
+            },
+
+            setReadOnly: (value: boolean) => () => {
+                if (this.storage.verbose) {
+                    console.log(this.storage.emoji, '🔒 setReadOnly', value)
+                }
+
+                if (value) {
+                    this.editor.commands.setEditorBackground('default')
+                } else {
+                    this.editor.commands.setEditorBackground('gray')
+                }
+
+                this.editor.setEditable(value, true)
+                return true
+            },
+
+            toggleReadOnly: () => () => {
+                this.editor.commands.setReadOnly(!this.editor.isEditable)
+
                 return true
             },
         }

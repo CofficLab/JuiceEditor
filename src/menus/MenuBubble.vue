@@ -56,6 +56,16 @@ const shouldShowFontMenu = ref(false)
 const shouldShowFormatMenu = ref(false)
 const isEditing = ref(false)
 
+props.editor.on('update', ({ editor }) => {
+	if (editor.isEditable == false) {
+		shouldShowLinkMenu.value = false
+		shouldShowDrawMenu.value = false
+		shouldShowImageMenu.value = false
+		shouldShowFontMenu.value = false
+		shouldShowFormatMenu.value = false
+	}
+})
+
 props.editor.on('selectionUpdate', () => {
 	if (isEditing.value) {
 		return false
