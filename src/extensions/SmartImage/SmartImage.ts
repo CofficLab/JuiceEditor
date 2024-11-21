@@ -309,7 +309,7 @@ const SmartImage = ImageTipTap.extend<ImageOptions>({
                     ImageHelper.downloadImageFromUrl(src)
                 }
 
-                this.editor.commands.webKitDownloadImage(src, "image." + ImageHelper.getExtension(src))
+                this.editor.commands.webKitDownloadImage(src, "image" + ImageHelper.getExtension(src))
 
                 return true
             },
