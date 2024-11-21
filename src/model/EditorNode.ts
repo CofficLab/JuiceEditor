@@ -1,7 +1,6 @@
 import { JSONContent } from '@tiptap/vue-3'
 import { TiptapEditor } from '../model/TiptapGroup'
 import SmartText from '../extensions/SmartText'
-import SmartDoc from '../extensions/SmartDoc'
 import UUIDHelper from '../helper/UUIDHelper'
 
 class EditorNode {
@@ -85,7 +84,7 @@ class EditorNode {
         var flattened: EditorNode[] = [nodeCopy]
 
         this.children?.forEach(child => {
-            flattened = flattened.concat(child.flattened())
+            flattened = flattened.concat(child.setParentId(this.uuid).flattened())
         })
 
         flattened = flattened.map(n => {
@@ -111,6 +110,10 @@ class EditorNode {
     public setUUID(uuid: string): EditorNode {
         this.uuid = uuid
         return this
+    }
+
+    public setParentId(parentId: string): EditorNode {
+        return this.setAttrs({ parentId: parentId })
     }
 
     public serialize(): string {
