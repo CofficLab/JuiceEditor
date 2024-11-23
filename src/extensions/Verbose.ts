@@ -31,6 +31,8 @@ const Verbose = TiptapExtension.create({
                     .disableImageVerbose()
                     .disableParagraphVerbose()
                     .disableBackgroundVerbose()
+                    .disableTocVerbose()
+                    .disableCodeBlockVerbose()
                     .run()
             },
 
@@ -45,6 +47,8 @@ const Verbose = TiptapExtension.create({
                     .enableAssistantVerbose()
                     .enableParagraphVerbose()
                     .enableBackgroundVerbose()
+                    .enableTocVerbose()
+                    .enableCodeBlockVerbose()
                     .run()
             },
         }

@@ -13,6 +13,8 @@ declare module '@tiptap/core' {
 			addToc: () => ReturnType
 			removeToc: () => ReturnType
 			toggleToc: () => ReturnType
+			enableTocVerbose: () => ReturnType
+			disableTocVerbose: () => ReturnType
 		}
 	}
 }
@@ -54,7 +56,7 @@ const SmartToc = Node.create({
 	addStorage() {
 		return {
 			debug: false,
-			verbose: true,
+			verbose: false,
 			title: "🐒 TOC",
 		}
 	},
@@ -138,6 +140,18 @@ const SmartToc = Node.create({
 				});
 
 				return hasToc ? commands.removeToc() : commands.addToc()
+			},
+
+			enableTocVerbose: () => ({ }) => {
+				this.storage.verbose = true
+
+				return true
+			},
+
+			disableTocVerbose: () => ({ }) => {
+				this.storage.verbose = false
+
+				return true
 			},
 		};
 	},

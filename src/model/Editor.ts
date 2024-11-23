@@ -34,6 +34,14 @@ class Editor {
         this.editor?.commands.disableWebKitSendNodes()
     }
 
+    public disableCodeBlockVerbose: () => void = () => {
+        this.editor?.commands.disableCodeBlockVerbose()
+    }
+
+    public disableTocVerbose: () => void = () => {
+        this.editor?.commands.disableTocVerbose()
+    }
+
     public enableVerboseMode: () => void = () => {
         this.editor?.commands.enableVerboseMode()
     }

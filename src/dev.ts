@@ -40,10 +40,12 @@ const editor = EditorFactory.register('my-editor', {
 
         editor.disableWebKitSendNodes()
         editor.disableLocalStorageVerbose()
+        editor.disableCodeBlockVerbose()
+        editor.disableTocVerbose()
 
         editor.setChatApi(chatApi)
         editor.setDrawLink('/draw/index.html?')
-        editor.setMenuBackgroundColor('yellow')
+        editor.setMenuBackgroundColor('orange')
 
         window.editor = editor
     },
