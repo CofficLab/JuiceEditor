@@ -7,9 +7,10 @@ import { getFirstActiveNodePosition } from '../extensions/SmartActive'
 import {
 	RiDeleteBin7Line, RiAddLine, RiCodeBoxLine,
 	RiAlignLeft, RiAlignCenter, RiPaletteLine,
-	RiGlobalLine, RiAlignRight,
+	RiAlignRight,
 	RiH2, RiH3, RiH4, RiText, RiChatQuoteLine,
-	RiListView
+	RiListView,
+	RiTranslate
 } from '@remixicon/vue'
 import Paragraph from '@tiptap/extension-paragraph'
 import Heading from '@tiptap/extension-heading'
@@ -214,7 +215,7 @@ function shouldShowParagraphMenu() {
 
 			<Button tips="翻译" :shape="shape" v-if="shouldShowParagraphMenu()"
 				:dropdownBackgroundClass="backgroundClass">
-				<RiGlobalLine :size="iconSize"></RiGlobalLine>
+				<RiTranslate :size="iconSize"></RiTranslate>
 
 				<template #dropdown-item>
 					<div class="grid grid-cols-2 z-50 sm:grid-cols-1 md:grid-cols-2 gap-2 w-24">
