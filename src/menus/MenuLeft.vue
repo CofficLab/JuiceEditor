@@ -8,7 +8,8 @@ import {
 	RiDeleteBin7Line, RiAddLine, RiCodeBoxLine,
 	RiAlignLeft, RiAlignCenter, RiPaletteLine,
 	RiGlobalLine, RiAlignRight,
-	RiH2, RiH3, RiH4, RiText, RiChatQuoteLine
+	RiH2, RiH3, RiH4, RiText, RiChatQuoteLine,
+	RiListView
 } from '@remixicon/vue'
 import Paragraph from '@tiptap/extension-paragraph'
 import Heading from '@tiptap/extension-heading'
@@ -141,6 +142,11 @@ function shouldShowParagraphMenu() {
 			<Button tips="删除" @click="editor.commands.deleteSelectionNode()"
 				v-if="!editor.isActive(Heading.name, { level: 1 })" :shape="shape">
 				<RiDeleteBin7Line :size="iconSize"></RiDeleteBin7Line>
+			</Button>
+
+			<Button tips="目录" @click="editor.commands.toggleToc()" v-if="editor.isActive(Heading.name, { level: 1 })"
+				:shape="shape">
+				<RiListView :size="iconSize"></RiListView>
 			</Button>
 
 			<Button tips="增加一行" v-if="!editor.isActive(Heading.name, { level: 1 })"
