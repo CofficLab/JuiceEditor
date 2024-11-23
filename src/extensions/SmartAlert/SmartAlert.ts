@@ -34,10 +34,19 @@ const SmartAlert = TiptapExtension.create({
                 mountPoint.style.justifyContent = 'center';
                 mountPoint.style.alignItems = 'center';
                 mountPoint.style.zIndex = '9999';
-                mountPoint.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+                mountPoint.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+                mountPoint.style.opacity = '0';
+                mountPoint.style.transform = 'scale(0.95)';
+                mountPoint.style.backgroundColor = 'rgba(0, 0, 0, 0)';
 
                 let editorElement = this.editor.options.element
                 editorElement.appendChild(mountPoint);
+
+                requestAnimationFrame(() => {
+                    mountPoint.style.opacity = '1';
+                    mountPoint.style.transform = 'scale(1)';
+                    mountPoint.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+                });
 
                 const app = createApp({
                     render() {
@@ -46,8 +55,14 @@ const SmartAlert = TiptapExtension.create({
                             message,
                             debugInfo,
                             onClose: () => {
-                                app.unmount();
-                                document.body.removeChild(mountPoint);
+                                mountPoint.style.opacity = '0';
+                                mountPoint.style.transform = 'scale(0.95)';
+                                mountPoint.style.backgroundColor = 'rgba(0, 0, 0, 0)';
+
+                                setTimeout(() => {
+                                    app.unmount();
+                                    editorElement.removeChild(mountPoint);
+                                }, 400);
                             }
                         });
                     }
