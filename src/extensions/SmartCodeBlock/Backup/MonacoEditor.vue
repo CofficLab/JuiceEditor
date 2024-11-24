@@ -52,6 +52,7 @@ onMounted(() => {
         target: editorHost,
         content: props.content,
         language: SmartLanguage.fromString(props.language),
+        verbose: true,
     })
 })
 
