@@ -17,6 +17,7 @@ import {
     HardBreakExtension
 } from "../model/TiptapGroup"
 import Assistant from "../extensions/Assistant"
+import DebugBar from "../extensions/DebugBar/DebugBar"
 import Features from "../extensions/Features/Features"
 import SmartBackground from "../extensions/SmartBackground"
 import SmartTaskItem from "../extensions/SmartTaskItem"
@@ -86,6 +87,7 @@ function makeExtensions(props: makeExtensionsProps) {
             },
         }),
         Debug,
+        DebugBar,
         DragDrop,
         DropcursorExtension.configure({
             width: 4,
