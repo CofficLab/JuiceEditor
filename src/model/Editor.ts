@@ -56,6 +56,14 @@ class Editor {
         this.editor?.commands.disableArticleVerbose()
     }
 
+    public disableImageVerbose: () => void = () => {
+        this.editor?.commands.disableImageVerbose()
+    }
+
+    public disableAssistantVerbose: () => void = () => {
+        this.editor?.commands.disableAssistantVerbose()
+    }
+
     public enableVerboseMode: () => void = () => {
         this.editor?.commands.enableVerboseMode()
     }

@@ -62,6 +62,8 @@ const SmartDoc = Document.extend<SmartDocOptions, SmartDocStorage>({
                     .bootSlotListener()
                     .bootLocalStorage()
                     .bootWebKit()
+                    .bootNodeStore()
+                    .bootToc()
                     .run()
             },
 

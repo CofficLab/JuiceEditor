@@ -38,6 +38,8 @@ const Verbose = TiptapExtension.create<{}, VerboseStorage>({
                     .disableCodeBlockVerbose()
                     .disableArticleVerbose()
                     .disableURLListenerVerbose()
+                    .disableNodeStoreVerbose()
+                    .disableTocVerbose()
                     .run()
             },
 
@@ -55,6 +57,8 @@ const Verbose = TiptapExtension.create<{}, VerboseStorage>({
                     .enableCodeBlockVerbose()
                     .enableArticleVerbose()
                     .enableURLListenerVerbose()
+                    .enableNodeStoreVerbose()
+                    .enableTocVerbose()
                     .run()
             },
         }

@@ -76,7 +76,7 @@ const LocalStorage = TiptapExtension.create<{}, LocalStorageStorage>({
 
             enableLocalStorage: () => () => {
                 if (this.storage.verbose) {
-                    console.log(this.storage.emoji, 'enableLocalStorage')
+                    console.log(this.storage.emoji, '✅ enableLocalStorage')
                 }
 
                 this.storage.enabled = true

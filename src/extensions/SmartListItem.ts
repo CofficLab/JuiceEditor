@@ -9,9 +9,9 @@ const SmartListItem = ListItemExtension.extend({
                 default: '',
             },
             uuid: {
-                default: UUIDHelper.generate(),
+                default: UUIDHelper.generate("SmartListItem"),
                 parseHTML: (element) => {
-                    return element.getAttribute('data-uuid') || UUIDHelper.generate()
+                    return element.getAttribute('data-uuid')
                 }
             }
         }

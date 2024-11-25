@@ -35,14 +35,18 @@ const editor = EditorFactory.register('my-editor', {
         editor.enableLocalStorageVerbose()
         editor.enableWebKitVerbose()
 
-        editor.enableWebKit()
+        // editor.enableWebKit()
         editor.enableLocalStorage()
 
+        // editor.disableWebKit()
         editor.disableWebKitSendNodes()
-        editor.disableLocalStorageVerbose()
+        // editor.disableLocalStorageVerbose()
         editor.disableCodeBlockVerbose()
         editor.disableURLListenerVerbose()
-        editor.disableArticleVerbose()
+        // editor.disableArticleVerbose()
+        editor.disableImageVerbose()
+        editor.disableAssistantVerbose()
+        editor.disableDocVerbose()
 
         editor.setChatApi(chatApi)
         editor.setDrawLink('/draw/index.html?')

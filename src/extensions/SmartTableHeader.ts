@@ -6,9 +6,9 @@ const SmartTableHeader = TableHeaderExtension.extend({
         return {
             ...this.parent?.(),
             uuid: {
-                default: UUIDHelper.generate(),
+                default: UUIDHelper.generate("SmartTableHeader"),
                 parseHTML: (element) => {
-                    return element.getAttribute('data-uuid') || UUIDHelper.generate()
+                    return element.getAttribute('data-uuid')
                 }
             }
         }

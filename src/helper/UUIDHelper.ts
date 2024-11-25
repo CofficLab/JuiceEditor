@@ -1,10 +1,15 @@
 import { v4 as uuidv4 } from 'uuid';
 
 export default class UUIDHelper {
-    static generate(): string {
-        return uuidv4({
+    static generate(reason: string): string {
 
-        });
+        if (!reason) {
+            throw new Error("UUIDHelper.generate: reason is required")
+        }
+
+        // console.log("generate uuid", reason)
+
+        return uuidv4({});
     }
 
     static isUUID(uuid: string): boolean {

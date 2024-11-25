@@ -3,6 +3,7 @@ import { TiptapEditor } from '../model/TiptapGroup'
 import SmartText from '../extensions/SmartText'
 import UUIDHelper from '../helper/UUIDHelper'
 import Article from '../extensions/Article'
+import UUIDError from '../error/UUIDError'
 
 let title = "🧱 EditorNode"
 
@@ -21,19 +22,10 @@ class EditorNode {
 
     static fromJSON(json: JSONContent): EditorNode {
         return new EditorNode()
-            .setUUID(UUIDHelper.generate())
             .setTitle(getTitle(json))
             .setType(json.type ?? "")
             .setAttrs(json.attrs ?? {})
             .setChildren(json.content?.map(child => EditorNode.fromJSON(child)) ?? [])
-    }
-
-    static fromJSONString(jsonString: string): EditorNode {
-        let json = JSON.parse(jsonString)
-
-        return new EditorNode()
-            .setUUID(json.uuid)
-            .setHTML(json.html)
     }
 
     static fromEditor(editor: TiptapEditor): EditorNode {
@@ -49,7 +41,7 @@ class EditorNode {
         let uuid = this.attrs?.uuid
 
         if (!uuid) {
-            throw new Error("UUID is not set")
+            throw new UUIDError("UUID is not set", this)
         }
 
         return uuid
@@ -130,11 +122,11 @@ class EditorNode {
     }
 
     public setUUID(uuid: string): EditorNode {
-        return this.setAttrs({ uuid: uuid })
+        return this.setAttrs({ ...this.attrs, uuid })
     }
 
     public setParentId(parentId: string): EditorNode {
-        return this.setAttrs({ parentId: parentId })
+        return this.setAttrs({ ...this.attrs, parentId });
     }
 }
 

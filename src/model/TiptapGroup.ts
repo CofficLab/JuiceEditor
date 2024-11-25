@@ -33,7 +33,15 @@ import TextAlign from '@tiptap/extension-text-align'
 import TextStyle from '@tiptap/extension-text-style'
 import Underline from "@tiptap/extension-underline"
 
+const priorityOfToc = 10
+const priorityOfNodeStore = 20
+const priorityOfArticle = 100
+
 export {
+    priorityOfToc,
+    priorityOfArticle,
+    priorityOfNodeStore,
+
     Blockquote as BlockquoteExtension,
     BubbleMenu as BubbleMenuExtension,
     CharacterCount as CharacterCountExtension,
