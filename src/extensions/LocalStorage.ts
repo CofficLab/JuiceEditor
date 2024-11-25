@@ -27,7 +27,7 @@ const LocalStorage = TiptapExtension.create({
             printDocNode: false,
             enabled: true,
             emoji: "💾 LocalStorage",
-            localStorageKey: 'doc',
+            localStorageKey: 'html',
         }
     },
 
@@ -44,7 +44,7 @@ const LocalStorage = TiptapExtension.create({
 
         if (this.storage.printDocNode) {
             console.log(this.storage.emoji, 'the doc node is')
-            console.log(this.editor.storage.doc.node)
+            console.log(this.editor.storage.article.article)
         }
 
         if (!this.storage.enabled) {
@@ -61,7 +61,7 @@ const LocalStorage = TiptapExtension.create({
                     console.log(this.storage.emoji, 'saveDoc')
                 }
 
-                localStorage.setItem(this.storage.localStorageKey, this.editor.storage.doc.doc.serialize())
+                localStorage.setItem(this.storage.localStorageKey, this.editor.getHTML())
 
                 return true
             },
@@ -112,7 +112,7 @@ const LocalStorage = TiptapExtension.create({
                         console.log(this.storage.emoji, '📺 setContentFromLocalStorage')
                     }
 
-                    commands.setDocFromJSONString(saveData)
+                    commands.setContent(saveData, true)
                 }
 
                 return true

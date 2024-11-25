@@ -1,7 +1,7 @@
 import { TiptapEditor } from './TiptapGroup'
 import EditorOptions from '../interface/EditorOptions'
 import { colors } from '../extensions/SmartMenus'
-
+import EditorNode from './EditorNode'
 class Editor {
     public editor: TiptapEditor | null = null
     public options: EditorOptions
@@ -38,12 +38,24 @@ class Editor {
         this.editor?.commands.disableCodeBlockVerbose()
     }
 
-    public disableTocVerbose: () => void = () => {
-        this.editor?.commands.disableTocVerbose()
+    public disableDocVerbose: () => void = () => {
+        this.editor?.commands.disableDocVerbose()
+    }
+
+    public disableURLListenerVerbose: () => void = () => {
+        this.editor?.commands.disableURLListenerVerbose()
     }
 
     public enableVerboseMode: () => void = () => {
         this.editor?.commands.enableVerboseMode()
+    }
+
+    public enableDocVerbose: () => void = () => {
+        this.editor?.commands.enableDocVerbose()
+    }
+
+    public enableArticleVerbose: () => void = () => {
+        this.editor?.commands.enableArticleVerbose()
     }
 
     public enableWebKit: () => void = () => {
@@ -58,10 +70,6 @@ class Editor {
         this.editor?.commands.enableSlotListener()
     }
 
-    public enableDocVerbose: () => void = () => {
-        this.editor?.commands.enableDocVerbose()
-    }
-
     public enableLocalStorage: () => void = () => {
         this.editor?.commands.enableLocalStorage()
     }
@@ -74,7 +82,11 @@ class Editor {
         this.editor?.commands.enableLocalStoragePrintDocNode()
     }
 
-    public getContent: () => string = () => {
+    public getNode: () => EditorNode = () => {
+        return this.editor?.storage.article.article
+    }
+
+    public getHTML: () => string = () => {
         return this.editor?.getHTML() || ''
     }
 
@@ -84,10 +96,6 @@ class Editor {
 
     public setEditable: () => void = () => {
         this.editor?.setEditable(true)
-    }
-
-    public setDocVerbose: (value: boolean) => void = (value: boolean) => {
-        this.editor?.commands.setDocVerbose(value)
     }
 
     public setContent(content: string) {

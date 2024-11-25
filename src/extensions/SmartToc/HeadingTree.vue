@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
-import SmartHeading from './SmartHeading'
+import TocHeading from './TocHeading'
 import Link from '../../ui/Link.vue'
 import Li from '../../ui/Li.vue'
 import Ul from '../../ui/Ul.vue'
 
 const props = defineProps({
   heading: {
-    type: SmartHeading,
+    type: TocHeading,
     required: true
   }
 })

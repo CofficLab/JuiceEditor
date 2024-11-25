@@ -1,6 +1,5 @@
 import { EditorState } from '@tiptap/pm/state'
 import { EditorView } from '@tiptap/pm/view'
-import SmartToc from './SmartToc/SmartToc'
 import {
     ImageExtension, TiptapEditor, TiptapExtension, LinkExtension,
     HardBreakExtension, HeadingExtension, TableRowExtension,
@@ -80,8 +79,8 @@ export const shouldShowBubbleMenu = function (props: {
 
     const { selection } = props.state
     const { empty } = selection
-    const shouldShowNodes = [ImageExtension.name, LinkExtension.name]
-    const excludes = [SmartToc.name]
+    const shouldShowNodes: string[] = [ImageExtension.name, LinkExtension.name]
+    const excludes: string[] = []
 
 
     // 如果是只读模式，不显示

@@ -5,6 +5,8 @@ declare module '@tiptap/core' {
         URLListener: {
             onURLChanged: () => ReturnType
             goto: (id: string, offset: number) => ReturnType
+            enableURLListenerVerbose: () => ReturnType
+            disableURLListenerVerbose: () => ReturnType
         }
     }
 }
@@ -67,9 +69,19 @@ const URLListener = TiptapExtension.create({
                         behavior: 'smooth'
                     })
                 } else {
-                    console.log('Target div not found in Shadow DOM')
+                    console.warn(this.storage.emoji, 'Target div not found in Shadow DOM ->', id)
                 }
 
+                return true
+            },
+
+            enableURLListenerVerbose: () => ({ commands }) => {
+                this.storage.verbose = true
+                return true
+            },
+
+            disableURLListenerVerbose: () => ({ commands }) => {
+                this.storage.verbose = false
                 return true
             }
         }
