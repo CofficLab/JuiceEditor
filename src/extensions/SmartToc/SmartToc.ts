@@ -1,11 +1,8 @@
 import { Node } from '@tiptap/core'
-import UUIDHelper from '../../helper/UUIDHelper'
-import EditorNode from '../../model/EditorNode'
 import { createApp, h } from 'vue'
 import TocView from './TocView.vue'
 import SmartHeading from '../SmartHeading'
 import TocHeading from './TocHeading'
-import UUIDError from '../../error/UUIDError'
 import { priorityOfToc } from '../../model/TiptapGroup'
 
 export interface SmartTocStorage {
