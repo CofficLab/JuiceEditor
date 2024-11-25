@@ -100,7 +100,6 @@ const Article = Node.create<BranchOptions>({
                     commands.removeToc()
                 }
 
-                console.log('current attrs', this.editor.getAttributes(this.name))
                 return true
             },
 
@@ -164,7 +163,6 @@ const Article = Node.create<BranchOptions>({
                 }
 
                 commands.updateAttributes(this.name, { toc: true })
-                console.log('current attrs', editor.getAttributes(this.name))
                 return true;
             },
 

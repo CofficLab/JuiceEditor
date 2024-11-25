@@ -2,6 +2,8 @@ import { TiptapEditor } from './TiptapGroup'
 import EditorOptions from '../interface/EditorOptions'
 import { colors } from '../extensions/SmartMenus'
 import EditorNode from './EditorNode'
+import TocHeading from '../extensions/SmartToc/TocHeading'
+
 class Editor {
     public editor: TiptapEditor | null = null
     public options: EditorOptions
@@ -80,6 +82,10 @@ class Editor {
 
     public enableLocalStoragePrintDocNode: () => void = () => {
         this.editor?.commands.enableLocalStoragePrintDocNode()
+    }
+
+    public getHeadings: () => TocHeading[] = () => {
+        return this.editor?.storage.article.headings || []
     }
 
     public getNode: () => EditorNode = () => {
