@@ -51,9 +51,9 @@ export default CodeBlock.extend({
 				rendered: true
 			},
 			uuid: {
-				default: UUIDHelper.generate(),
+				default: UUIDHelper.generate("SmartCodeBlock"),
 				parseHTML: (element) => {
-					return element.getAttribute('data-uuid') || UUIDHelper.generate()
+					return element.getAttribute('data-uuid') || UUIDHelper.generate("SmartCodeBlock")
 				}
 			}
 		}

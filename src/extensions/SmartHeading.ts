@@ -1,5 +1,11 @@
 import Heading from "@tiptap/extension-heading";
 import UUIDHelper from "../helper/UUIDHelper";
+import TocHeading from "./SmartToc/TocHeading";
+export interface SmartHeadingStorage {
+    title: string
+    headings: TocHeading[]
+    verbose: boolean
+}
 
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
@@ -10,11 +16,24 @@ declare module '@tiptap/core' {
             setHeading4: () => ReturnType,
             setHeading5: () => ReturnType,
             setHeading6: () => ReturnType,
+            updateHeadings: () => ReturnType,
         }
     }
 }
 
-const SmartHeading = Heading.extend({
+const SmartHeading = Heading.extend<{}, SmartHeadingStorage>({
+    addStorage() {
+        return {
+            title: "🦊 SmartHeading",
+            headings: [],
+            verbose: false,
+        }
+    },
+
+    onUpdate() {
+        this.editor.commands.updateHeadings()
+    },
+
     addAttributes() {
         return {
             ...this.parent?.(),
@@ -22,7 +41,26 @@ const SmartHeading = Heading.extend({
                 default: "heading-class",
             },
             uuid: {
-                default: UUIDHelper.generate()
+                default: UUIDHelper.generate("SmartHeading"),
+                parseHTML: (element) => {
+                    let dataUUID = element.getAttribute('data-uuid')
+                    let uuid = element.getAttribute('uuid')
+
+                    if (dataUUID) {
+                        return dataUUID
+                    }
+
+                    if (uuid) {
+                        return uuid
+                    }
+
+                    console.warn(this.storage.title, "no uuid found, generating new one")
+
+                    return UUIDHelper.generate("SmartHeading: " + element.toString())
+                },
+                renderHTML: attributes => ({
+                    'data-uuid': attributes.uuid,
+                }),
             }
         }
     },
@@ -36,6 +74,40 @@ const SmartHeading = Heading.extend({
             setHeading4: () => ({ chain }) => chain().setHeading({ level: 4 }).run(),
             setHeading5: () => ({ chain }) => chain().setHeading({ level: 5 }).run(),
             setHeading6: () => ({ chain }) => chain().setHeading({ level: 6 }).run(),
+            updateHeadings: () => ({ tr, state, dispatch }) => {
+                if (this.storage.verbose) {
+                    console.log(this.storage.title, '查找 Headings')
+                }
+                var headings: TocHeading[] = []
+
+                state.doc.descendants((node: any, pos: any) => {
+                    if (['heading'].includes(node.type.name)) {
+                        const id = `heading-${headings.length + 1}`
+
+                        if (node.attrs.id !== id) {
+                            tr.setNodeMarkup(pos, undefined, { ...node.attrs, id })
+                        }
+
+                        headings.push(new TocHeading()
+                            .setId(id)
+                            .setText(node.textContent)
+                            .setLevel(node.attrs.level)
+                        )
+                    }
+                })
+
+                tr.setMeta('addToHistory', false)
+                tr.setMeta('preventUpdate', true)
+
+                if (dispatch) {
+                    dispatch(tr)
+                }
+
+                this.storage.headings = headings
+
+                return true
+            }
+
         }
     },
 })

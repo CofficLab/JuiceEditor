@@ -143,6 +143,10 @@ const WebKit = TiptapExtension.create<{}, WebKitStorage>({
             },
 
             asyncSendMessage: (data: object) => () => {
+                if (!this.storage.enabled || !('webkit' in window)) {
+                    return false
+                }
+
                 if (this.storage.verbose) {
                     console.log(this.storage.emoji, 'asyncSendMessage', data)
                 }
@@ -223,12 +227,12 @@ const WebKit = TiptapExtension.create<{}, WebKitStorage>({
             },
 
             bootWebKit: () => () => {
-                if (this.storage.verbose) {
-                    console.log(this.storage.emoji, "🖥️ webkit send message: pageLoaded")
-                }
-
                 if (!('webkit' in window)) {
                     return true
+                }
+
+                if (this.storage.verbose) {
+                    console.log(this.storage.emoji, "🖥️ webkit send message: pageLoaded")
                 }
 
                 this.editor.commands.webKitSendMessage({

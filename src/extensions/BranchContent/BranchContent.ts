@@ -41,9 +41,9 @@ const BranchContent = Node.create<BranchOptions>({
                 }),
             },
             uuid: {
-                default: UUIDHelper.generate(),
+                default: UUIDHelper.generate("BranchContent"),
                 parseHTML: (element) => {
-                    return element.getAttribute('data-uuid') || UUIDHelper.generate()
+                    return element.getAttribute('data-uuid') || UUIDHelper.generate("BranchContent")
                 }
             }
         }

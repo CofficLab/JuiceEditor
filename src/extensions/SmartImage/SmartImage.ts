@@ -104,9 +104,9 @@ const SmartImage = ImageTipTap.extend<ImageOptions>({
                 default: null,
             },
             uuid: {
-                default: UUIDHelper.generate(),
+                default: UUIDHelper.generate("SmartImage"),
                 parseHTML: (element) => {
-                    return element.getAttribute('data-uuid') || UUIDHelper.generate()
+                    return element.getAttribute('data-uuid') || UUIDHelper.generate("SmartImage")
                 }
             },
             draw: {

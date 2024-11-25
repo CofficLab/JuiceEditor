@@ -64,6 +64,8 @@ import SourceCode from '../extensions/SourceCode'
 import Verbose from '../extensions/Verbose'
 import makeExtensionsProps from '../interface/MakeExtensionProps'
 import DragDrop from "../extensions/DragDrop"
+import NodeStore from "../extensions/NodeStore"
+import SmartToc from "../extensions/SmartToc/SmartToc"
 
 const isDebug = process.env.NODE_ENV === 'development'
 const defaultTranslateApi = isDebug
@@ -114,6 +116,7 @@ function makeExtensions(props: makeExtensionsProps) {
         LocalStorage,
         Margin,
         NewLine,
+        NodeStore,
         Padding,
         SmartActive,
         SmartAlert,
@@ -183,6 +186,7 @@ function makeExtensions(props: makeExtensionsProps) {
         }),
         SmartTaskList,
         SmartText,
+        SmartToc,
         SourceCode,
         StrikeExtension.configure({
             HTMLAttributes: {

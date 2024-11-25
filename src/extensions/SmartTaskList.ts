@@ -9,9 +9,9 @@ const SmartTaskList = TaskList.extend({
                 default: '',
             },
             uuid: {
-                default: UUIDHelper.generate(),
+                default: UUIDHelper.generate("SmartTaskList"),
                 parseHTML: (element) => {
-                    return element.getAttribute('data-uuid') || UUIDHelper.generate()
+                    return element.getAttribute('data-uuid')
                 }
             }
         }

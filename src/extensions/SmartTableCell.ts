@@ -6,9 +6,9 @@ const SmartTableCell = TableCellExtension.extend({
         return {
             ...this.parent?.(),
             uuid: {
-                default: UUIDHelper.generate(),
+                default: UUIDHelper.generate("SmartTableCell"),
                 parseHTML: (element) => {
-                    return element.getAttribute('data-uuid') || UUIDHelper.generate()
+                    return element.getAttribute('data-uuid')
                 }
             }
         }

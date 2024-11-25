@@ -63,7 +63,7 @@ class TocHeading {
     }
 
     static makeTree(editor: TiptapEditor): TocHeading {
-        let headings: TocHeading[] = editor.storage.article.headings
+        let headings: TocHeading[] = editor.storage.heading.headings
 
         //console.log("makeTree with", headings)
         var root = new TocHeading()

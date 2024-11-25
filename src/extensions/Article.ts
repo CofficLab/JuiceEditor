@@ -5,6 +5,8 @@ import { createApp, h } from 'vue'
 import TocView from './SmartToc/TocView.vue'
 import SmartHeading from './SmartHeading'
 import TocHeading from './SmartToc/TocHeading'
+import UUIDError from '../error/UUIDError'
+import { priorityOfArticle } from '../model/TiptapGroup'
 
 export interface ArticleOptions {
     HTMLAttributes: Record<string, any>
@@ -13,7 +15,6 @@ export interface ArticleOptions {
 export interface ArticleStorage {
     verbose: boolean,
     title: string,
-    article: EditorNode,
     mountPointId: string,
     headings: TocHeading[],
 }
@@ -23,11 +24,9 @@ declare module '@tiptap/core' {
         article: {
             enableArticleVerbose: () => ReturnType
             disableArticleVerbose: () => ReturnType
+            createArticle: (title: string) => ReturnType
+            setToc: (display: boolean) => ReturnType
             toggleToc: () => ReturnType
-            addToc: () => ReturnType
-            removeToc: () => ReturnType
-            bootToc: () => ReturnType
-            updateHeadings: () => ReturnType
         }
     }
 }
@@ -37,13 +36,14 @@ const Article = Node.create<ArticleOptions, ArticleStorage>({
 
     group: 'block',
 
+    priority: priorityOfArticle,
+
     content: `${SmartHeading.name} block*`,
 
     addStorage() {
         return {
             verbose: false,
             title: "🏠 Article",
-            article: EditorNode.empty(),
             mountPointId: "smart-toc-mount-point",
             headings: [],
         }
@@ -58,15 +58,15 @@ const Article = Node.create<ArticleOptions, ArticleStorage>({
     addAttributes() {
         return {
             uuid: {
-                default: UUIDHelper.generate(),
-                parseHTML: element => element.getAttribute('data-uuid') || '',
+                default: UUIDHelper.generate("Article"),
+                parseHTML: element => element.getAttribute('data-uuid'),
                 renderHTML: attributes => ({
                     'data-uuid': attributes.uuid,
                 }),
             },
             toc: {
                 default: false,
-                parseHTML: element => element.getAttribute('data-toc') === 'true',
+                parseHTML: element => element.getAttribute('data-toc') == 'true',
                 renderHTML: attributes => ({
                     'data-toc': attributes.toc,
                 }),
@@ -99,142 +99,23 @@ const Article = Node.create<ArticleOptions, ArticleStorage>({
                 return true
             },
 
+            createArticle: (title: string) => ({ commands }) => {
+                let html = `<article><h1>${title}</h1></article>`
+                commands.setContent(html, true)
+
+                return true
+            },
+
+            setToc: (display: boolean) => ({ commands }) => {
+                commands.updateAttributes(this.name, { toc: display })
+                return true
+            },
+
             toggleToc: () => ({ commands }) => {
                 let attributes = this.editor.getAttributes(this.name)
-                console.log(this.storage.title, "toggleToc", attributes)
-
-                if (!attributes.toc) {
-                    commands.addToc()
-                } else {
-                    commands.removeToc()
-                }
-
+                commands.updateAttributes(this.name, { toc: !attributes.toc })
                 return true
             },
-
-            bootToc: () => ({ editor }) => {
-                let attributes = this.editor.getAttributes(this.name)
-                console.log(this.storage.title, "bootToc", attributes)
-
-                if (attributes.toc) {
-
-                    const mountPoint = document.createElement('div');
-                    mountPoint.id = this.storage.mountPointId;
-                    mountPoint.style.position = 'fixed';
-                    mountPoint.style.top = '0';
-                    mountPoint.style.right = '0';
-                    mountPoint.style.height = '100%';
-                    mountPoint.style.display = 'flex';
-                    mountPoint.style.justifyContent = 'flex-end';
-                    mountPoint.style.alignItems = 'flex-start';
-                    mountPoint.style.zIndex = '9999';
-                    mountPoint.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
-                    mountPoint.style.opacity = '0';
-                    mountPoint.style.transform = 'translateX(100%)';
-                    mountPoint.style.backgroundColor = 'white';
-                    mountPoint.style.boxShadow = '-2px 0 8px rgba(0, 0, 0, 0.1)';
-
-                    let editorElement = this.editor.options.element
-                    editorElement.appendChild(mountPoint);
-
-                    requestAnimationFrame(() => {
-                        mountPoint.style.opacity = '1';
-                        mountPoint.style.transform = 'translateX(0)';
-                    });
-
-                    const app = createApp({
-                        render() {
-                            return h(TocView, {
-                                editor: editor,
-                                onClose: () => {
-                                    mountPoint.style.opacity = '0';
-                                    mountPoint.style.transform = 'translateX(100%)';
-                                    mountPoint.style.backgroundColor = 'white';
-
-                                    setTimeout(() => {
-                                        app.unmount();
-                                        editorElement.removeChild(mountPoint);
-                                    }, 400);
-                                }
-                            });
-                        }
-                    });
-
-                    app.mount(mountPoint);
-                }
-
-                return true
-            },
-
-            addToc: () => ({ editor, commands }) => {
-                if (this.storage.verbose) {
-                    console.log(this.storage.title, "addToc")
-                }
-
-                commands.updateAttributes(this.name, { toc: true })
-                return true;
-            },
-
-            removeToc: () => ({ commands }) => {
-                if (this.storage.verbose) {
-                    console.log(this.storage.title, "removeToc")
-                }
-
-                const mountPoint = this.editor.options.element?.querySelector(`#${this.storage.mountPointId}`);
-                if (mountPoint) {
-                    mountPoint.remove();
-                }
-
-                commands.updateAttributes(this.name, { toc: false })
-
-                return true;
-            },
-
-            enableTocVerbose: () => {
-                this.storage.verbose = true
-
-                return true
-            },
-
-            disableTocVerbose: () => {
-                this.storage.verbose = false
-
-                return true
-            },
-
-            updateHeadings: () => ({ tr, state, dispatch }) => {
-                if (this.storage.verbose) {
-                    console.log(this.storage.title, '查找 Headings')
-                }
-                var headings: TocHeading[] = []
-
-                state.doc.descendants((node: any, pos: any) => {
-                    if (['heading'].includes(node.type.name)) {
-                        const id = `heading-${headings.length + 1}`
-
-                        if (node.attrs.id !== id) {
-                            tr.setNodeMarkup(pos, undefined, { ...node.attrs, id })
-                        }
-
-                        headings.push(new TocHeading()
-                            .setId(id)
-                            .setText(node.textContent)
-                            .setLevel(node.attrs.level)
-                        )
-                    }
-                })
-
-                tr.setMeta('addToHistory', false)
-                tr.setMeta('preventUpdate', true)
-
-                if (dispatch) {
-                    dispatch(tr)
-                }
-
-                this.storage.headings = headings
-
-                return true
-            }
         }
     },
 
@@ -250,41 +131,13 @@ const Article = Node.create<ArticleOptions, ArticleStorage>({
         return ['article', { ...HTMLAttributes }, 0]
     },
 
-    onCreate() {
-        let doc = EditorNode.fromEditor(this.editor)
-        this.storage.article = doc.children?.find(node => node.type == Article.name) ?? EditorNode.empty()
-        this.storage.article.setHTML(this.editor.getHTML())
-        this.storage.article.setWordCount(this.editor.storage.characterCount.words())
-        this.storage.article.setCharacterCount(this.editor.storage.characterCount.characters())
-
-        console.log(this.storage.title, "onCreate, article created")
-
-        this.editor.commands.updateHeadings()
-
-        if (this.storage.article?.attrs?.toc) {
-            this.editor.commands.bootToc()
-        }
-    },
-
     onUpdate() {
         if (this.storage.verbose) {
             console.log(this.storage.title, "onUpdate")
         }
 
-        let doc = EditorNode.fromEditor(this.editor)
-        this.storage.article = doc.children?.find(node => node.type == Article.name) ?? EditorNode.empty()
-        this.storage.article.setHTML(this.editor.getHTML())
-        this.storage.article.setWordCount(this.editor.storage.characterCount.words())
-        this.storage.article.setCharacterCount(this.editor.storage.characterCount.characters())
-
         if (this.storage.verbose) {
             console.log(this.storage.title, "onUpdate, article updated")
-        }
-
-        this.editor.commands.updateHeadings()
-
-        if (this.storage.article?.attrs?.toc) {
-            this.editor.commands.bootToc()
         }
     },
 })

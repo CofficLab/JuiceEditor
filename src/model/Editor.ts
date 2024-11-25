@@ -12,6 +12,10 @@ class Editor {
         this.options = options
     }
 
+    public createArticle(title: string) {
+        this.editor?.commands.createArticle(title)
+    }
+
     public disableWebKit: () => void = () => {
         this.editor?.commands.disableWebKit()
     }
@@ -50,6 +54,14 @@ class Editor {
 
     public disableArticleVerbose: () => void = () => {
         this.editor?.commands.disableArticleVerbose()
+    }
+
+    public disableImageVerbose: () => void = () => {
+        this.editor?.commands.disableImageVerbose()
+    }
+
+    public disableAssistantVerbose: () => void = () => {
+        this.editor?.commands.disableAssistantVerbose()
     }
 
     public enableVerboseMode: () => void = () => {
