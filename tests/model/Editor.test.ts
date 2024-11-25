@@ -9,7 +9,7 @@ describe('Editor', () => {
 
     describe('getContent', () => {
         it('should return the current html content', () => {
-            expect(editor.getContent()).toBe('');
+            expect(editor.getHTML()).toBe('');
         });
     });
 });
