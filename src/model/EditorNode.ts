@@ -7,7 +7,6 @@ import Article from '../extensions/Article'
 let title = "🧱 EditorNode"
 
 class EditorNode {
-    uuid: string = ""
     title: string = ""
     wordCount?: number
     characterCount?: number
@@ -44,6 +43,16 @@ class EditorNode {
             .setHTML(editor.getHTML())
             .setWordCount(editor.storage.characterCount.words())
             .setCharacterCount(editor.storage.characterCount.characters())
+    }
+
+    public getUUID(): string {
+        let uuid = this.attrs?.uuid
+
+        if (!uuid) {
+            throw new Error("UUID is not set")
+        }
+
+        return uuid
     }
 
     public updateFromEditor(editor: TiptapEditor, verbose: boolean = false): EditorNode {
@@ -95,7 +104,7 @@ class EditorNode {
             flattened = flattened.concat(
                 child
                     .setHTML(child.type == Article.name ? this.html : undefined)
-                    .setParentId(this.uuid)
+                    .setParentId(this.getUUID())
                     .flattened()
             )
         })
@@ -121,8 +130,7 @@ class EditorNode {
     }
 
     public setUUID(uuid: string): EditorNode {
-        this.uuid = uuid
-        return this
+        return this.setAttrs({ uuid: uuid })
     }
 
     public setParentId(parentId: string): EditorNode {
