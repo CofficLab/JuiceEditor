@@ -96,6 +96,10 @@ class Editor {
         return this.editor?.storage.article.article
     }
 
+    public getNodes: () => EditorNode[] = () => {
+        return this.editor?.storage.article.article.flattened() || []
+    }
+
     public getHTML: () => string = () => {
         return this.editor?.getHTML() || ''
     }

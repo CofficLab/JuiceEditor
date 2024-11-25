@@ -2,6 +2,7 @@ import { JSONContent } from '@tiptap/vue-3'
 import { TiptapEditor } from '../model/TiptapGroup'
 import SmartText from '../extensions/SmartText'
 import UUIDHelper from '../helper/UUIDHelper'
+import Article from '../extensions/Article'
 
 let title = "🧱 EditorNode"
 
@@ -71,7 +72,7 @@ class EditorNode {
         return this
     }
 
-    public setHTML(html: string): EditorNode {
+    public setHTML(html: string | undefined): EditorNode {
         this.html = html
         return this
     }
@@ -91,7 +92,12 @@ class EditorNode {
         var flattened: EditorNode[] = [nodeCopy]
 
         this.children?.forEach(child => {
-            flattened = flattened.concat(child.setParentId(this.uuid).flattened())
+            flattened = flattened.concat(
+                child
+                    .setHTML(child.type == Article.name ? this.html : undefined)
+                    .setParentId(this.uuid)
+                    .flattened()
+            )
         })
 
         flattened = flattened.map(n => {
