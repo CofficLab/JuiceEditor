@@ -95,6 +95,7 @@ div.id = 'dev-toolbar';
 
 const buttons = [
     { text: '功能', onclick: () => editor.setHTML(featureDoc) },
+    { text: '创建文章', onclick: () => editor.createArticle('新文章') },
     { text: '小型', onclick: () => editor.setHTML(miniDoc) },
     { text: '文档组', onclick: () => editor.setHTML(docs) },
     { text: '混合', onclick: () => editor.setHTML(baseDoc) },

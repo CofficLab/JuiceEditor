@@ -28,6 +28,7 @@ declare module '@tiptap/core' {
             removeToc: () => ReturnType
             bootToc: () => ReturnType
             updateHeadings: () => ReturnType
+            createArticle: (title: string) => ReturnType
         }
     }
 }
@@ -59,7 +60,7 @@ const Article = Node.create<ArticleOptions, ArticleStorage>({
         return {
             uuid: {
                 default: UUIDHelper.generate(),
-                parseHTML: element => element.getAttribute('data-uuid') || '',
+                parseHTML: element => element.getAttribute('data-uuid'),
                 renderHTML: attributes => ({
                     'data-uuid': attributes.uuid,
                 }),
@@ -96,6 +97,13 @@ const Article = Node.create<ArticleOptions, ArticleStorage>({
 
             disableArticleVerbose: () => () => {
                 this.storage.verbose = false
+                return true
+            },
+
+            createArticle: (title: string) => ({ commands }) => {
+                let html = `<article><h1>${title}</h1></article>`
+                commands.setContent(html, true)
+
                 return true
             },
 

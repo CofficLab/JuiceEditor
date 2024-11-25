@@ -12,6 +12,10 @@ class Editor {
         this.options = options
     }
 
+    public createArticle(title: string) {
+        this.editor?.commands.createArticle(title)
+    }
+
     public disableWebKit: () => void = () => {
         this.editor?.commands.disableWebKit()
     }

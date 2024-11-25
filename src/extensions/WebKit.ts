@@ -63,13 +63,13 @@ const WebKit = TiptapExtension.create<{}, WebKitStorage>({
     },
 
     onUpdate() {
-        if (!this.storage.enabled) {
-            return
-        }
+        // if (!this.storage.enabled) {
+        //     return
+        // }
 
-        if (!('webkit' in window)) {
-            return
-        }
+        // if (!('webkit' in window)) {
+        //     return
+        // }
 
         // Send Article
         if (this.storage.sendArticle) {
