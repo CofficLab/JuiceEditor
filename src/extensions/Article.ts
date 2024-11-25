@@ -253,10 +253,11 @@ const Article = Node.create<ArticleOptions, ArticleStorage>({
     onCreate() {
         let doc = EditorNode.fromEditor(this.editor)
         this.storage.article = doc.children?.find(node => node.type == Article.name) ?? EditorNode.empty()
-
+        this.storage.article.setHTML(this.editor.getHTML())
+        this.storage.article.setWordCount(this.editor.storage.characterCount.words())
+        this.storage.article.setCharacterCount(this.editor.storage.characterCount.characters())
 
         console.log(this.storage.title, "onCreate, article created")
-
 
         this.editor.commands.updateHeadings()
 
@@ -272,6 +273,9 @@ const Article = Node.create<ArticleOptions, ArticleStorage>({
 
         let doc = EditorNode.fromEditor(this.editor)
         this.storage.article = doc.children?.find(node => node.type == Article.name) ?? EditorNode.empty()
+        this.storage.article.setHTML(this.editor.getHTML())
+        this.storage.article.setWordCount(this.editor.storage.characterCount.words())
+        this.storage.article.setCharacterCount(this.editor.storage.characterCount.characters())
 
         if (this.storage.verbose) {
             console.log(this.storage.title, "onUpdate, article updated")
