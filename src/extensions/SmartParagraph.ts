@@ -73,10 +73,6 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
             languages: [
                 '英语',
                 '汉语',
-                '日语',
-                '韩语',
-                '法语',
-                '德语',
             ],
             translateApi: 'http://127.0.0.1/api/translate',
         }
