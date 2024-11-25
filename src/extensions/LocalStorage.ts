@@ -1,5 +1,13 @@
 import { TiptapExtension } from '../model/TiptapGroup';
 
+export interface LocalStorageStorage {
+    verbose: boolean,
+    printDocNode: boolean,
+    enabled: boolean,
+    emoji: string,
+    localStorageKey: string,
+}
+
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
         LocalStorage: {
@@ -16,7 +24,7 @@ declare module '@tiptap/core' {
     }
 }
 
-const LocalStorage = TiptapExtension.create({
+const LocalStorage = TiptapExtension.create<{}, LocalStorageStorage>({
     name: "localStorage",
 
     priority: 1,
@@ -94,8 +102,8 @@ const LocalStorage = TiptapExtension.create({
                 return true;
             },
 
-            disableLocalStoragePrintHtml: () => () => {
-                this.storage.printHtml = false;
+            disableLocalStoragePrintDocNode: () => () => {
+                this.storage.printDocNode = false;
                 return true;
             },
 

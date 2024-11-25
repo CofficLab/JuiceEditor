@@ -10,6 +10,14 @@ export enum SmartEventName {
     TranslationError = 'translation:error',
 }
 
+export interface SmartEventStorage {
+    verbose: boolean,
+}
+
+export interface SmartEventOptions {
+    eventName: string,
+}
+
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
         SmartEvent: {
@@ -21,7 +29,7 @@ declare module '@tiptap/core' {
 
 const emoji = "🧩 SmartEvent"
 
-export const SmartEvent = TiptapExtension.create({
+export const SmartEvent = TiptapExtension.create<SmartEventOptions, SmartEventStorage>({
     name: 'smartEvent',
 
     addOptions() {

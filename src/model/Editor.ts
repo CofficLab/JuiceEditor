@@ -48,6 +48,10 @@ class Editor {
         this.editor?.commands.disableURLListenerVerbose()
     }
 
+    public disableArticleVerbose: () => void = () => {
+        this.editor?.commands.disableArticleVerbose()
+    }
+
     public enableVerboseMode: () => void = () => {
         this.editor?.commands.enableVerboseMode()
     }
@@ -104,8 +108,12 @@ class Editor {
         this.editor?.setEditable(true)
     }
 
+    public setHTML(HTML: string) {
+        this.editor?.commands.setContent(HTML, true)
+    }
+
     public setContent(content: string) {
-        this.editor?.commands.setDocContent(content)
+        this.setHTML(content)
     }
 
     public setMenuBackgroundColor(colorName: keyof typeof colors) {

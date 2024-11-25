@@ -7,6 +7,17 @@ import {
     BlockquoteExtension
 } from '../model/TiptapGroup'
 
+export interface SmartMenusStorage {
+    verbose: boolean,
+    bubbleMenuAppeared: boolean,
+    floatingMenuAppeared: boolean,
+    color: string,
+}
+
+export interface SmartMenusOptions {
+    eventName: string,
+}
+
 declare module '@tiptap/core' {
     interface Commands {
         SmartMenusExtension: {
@@ -33,7 +44,7 @@ export const colors: Record<string, string> = {
     'amber': 'bg-amber-200 dark:bg-amber-900/95',
 }
 
-export const SmartMenusExtension = TiptapExtension.create({
+export const SmartMenusExtension = TiptapExtension.create<SmartMenusOptions, SmartMenusStorage>({
     name: 'smartMenus',
 
     addStorage() {

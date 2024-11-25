@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject } from 'vue';
+import { computed, inject, ref } from 'vue';
 import Loading from '../ui/Loading.vue'
 import { Editor as EditorVue } from '@tiptap/vue-3';
 import SourceCode from './SourceCode.vue'
@@ -8,7 +8,7 @@ import { makeExtensions, defaultDrawIoLink, defaultTranslateApi, defaultFocusCla
 import Editor from '../model/Editor';
 
 const rootAgent: Editor = inject('rootAgent')!
-
+const ready = ref(false)
 const editor = new EditorVue({
     extensions: makeExtensions({
         drawIoLink: defaultDrawIoLink,
@@ -23,6 +23,7 @@ const editor = new EditorVue({
     onCreate: ({ editor }) => {
         rootAgent.editor = editor
         rootAgent.options.onCreate?.(rootAgent)
+        ready.value = true
     },
     onContentError: (error) => {
         rootAgent.options.onContentError?.()
@@ -48,14 +49,14 @@ const showSourceCode = computed(() => {
 </style>
 
 <template>
-    <div v-if="editor && editor.storage.smartReady.ready == false"
+    <div v-if="editor && !ready"
         class="fixed inset-0 flex items-center justify-center bg-white dark:bg-black bg-opacity-80 z-50 text-left">
         <div class="transform scale-150">
             <Loading></Loading>
         </div>
     </div>
 
-    <main class="main text-left" v-if="editor && editor.storage.smartReady.ready">
+    <main class="main text-left" v-if="editor && ready">
         <slot></slot>
 
         <div class="flex flex-row w-full justify-center gap-0">

@@ -1,5 +1,11 @@
 import { TiptapExtension } from '../model/TiptapGroup'
 
+export interface SourceCodeStorage {
+    verbose: boolean,
+    emoji: string,
+    shouldShow: boolean,
+}
+
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
         sourceCode: {
@@ -10,7 +16,7 @@ declare module '@tiptap/core' {
     }
 }
 
-const SourceCode = TiptapExtension.create({
+const SourceCode = TiptapExtension.create<{}, SourceCodeStorage>({
     name: "sourceCode",
 
     addStorage() {

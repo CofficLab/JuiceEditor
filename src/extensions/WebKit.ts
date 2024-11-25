@@ -1,8 +1,7 @@
 import { TiptapExtension } from '../model/TiptapGroup'
 import ImageHelper from "../helper/ImageHelper"
-import EditorNode from "../model/EditorNode"
 import MessageSendNodes from "../model/MessageSendNodes"
-import MessageSendDoc from "../model/MessageSendDoc"
+import MessageSendArticle from "../model/MessageSendArticle"
 
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
@@ -22,7 +21,16 @@ declare module '@tiptap/core' {
     }
 }
 
-const WebKit = TiptapExtension.create({
+export interface WebKitStorage {
+    verbose: boolean,
+    enabled: boolean,
+    emoji: string,
+    localStorageKey: string,
+    sendArticle: boolean,
+    sendNodes: boolean,
+}
+
+const WebKit = TiptapExtension.create<{}, WebKitStorage>({
     name: "webkit",
 
     addStorage() {
@@ -31,7 +39,7 @@ const WebKit = TiptapExtension.create({
             enabled: false,
             emoji: "🍎 WebKit",
             localStorageKey: 'html',
-            sendDoc: true,
+            sendArticle: true,
             sendNodes: true,
         }
     },
@@ -63,21 +71,21 @@ const WebKit = TiptapExtension.create({
             return
         }
 
-        // Send Doc
-        if (this.storage.sendDoc) {
-            var messageDoc = (new MessageSendDoc())
-                .setNode(this.editor.storage.doc.doc)
+        // Send Article
+        if (this.storage.sendArticle) {
+            var messageArticle = (new MessageSendArticle())
+                .setNode(this.editor.storage.article.article)
 
             this.editor.chain()
-                .webKitSendDebugMessage(this.storage.emoji + ' Update Doc')
-                .asyncSendMessage(messageDoc)
+                .webKitSendDebugMessage(this.storage.emoji + ' Update Article')
+                .asyncSendMessage(messageArticle)
                 .run()
         }
 
         // Send Nodes
         if (this.storage.sendNodes) {
             var messageNodes = (new MessageSendNodes())
-                .setNodes(this.editor.storage.doc.doc.flattened())
+                .setNodes(this.editor.storage.article.article.flattened())
 
             this.editor.chain()
                 .webKitSendDebugMessage(this.storage.emoji + ' Update Nodes')
@@ -176,13 +184,13 @@ const WebKit = TiptapExtension.create({
                 return true;
             },
 
-            enableWebKitSendNode: () => () => {
-                this.storage.sendNode = true;
+            enableWebKitSendArticle: () => () => {
+                this.storage.sendArticle = true;
                 return true;
             },
 
-            disableWebKitSendNode: () => () => {
-                this.storage.sendNode = false;
+            disableWebKitSendArticle: () => () => {
+                this.storage.sendArticle = false;
                 return true;
             },
 

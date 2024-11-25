@@ -1,5 +1,11 @@
 import { Extension } from "@tiptap/core";
 
+export interface AssistantStorage {
+    verbose: boolean,
+    title: string,
+    chatApi: string,
+}
+
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
         Assistant: {
@@ -19,13 +25,13 @@ interface chatOptions {
     onEnd: () => void,
 }
 
-const Assistant = Extension.create({
+const Assistant = Extension.create<{}, AssistantStorage>({
     name: 'assistant',
 
     addStorage() {
         return {
             verbose: false,
-            chatApi: null,
+            chatApi: "",
             title: '🦜 Assistant',
         }
     },
