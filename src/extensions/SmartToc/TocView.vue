@@ -74,7 +74,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-	<NodeViewWrapper>
+	<NodeViewWrapper class="toc-wrapper">
 		<!-- TOC，和顶部留一些距离，因为WEB项目顶部有导航栏 -->
 		<div id="toc" v-if="true" :class="{
 			'md:bg-slate-300/10': props.editor.storage.toc.debug,
