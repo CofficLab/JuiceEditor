@@ -2,13 +2,22 @@ import { Document } from '@tiptap/extension-document'
 import EditorNode from '../model/EditorNode'
 import Article from './Article'
 
+export interface SmartDocStorage {
+    verbose: boolean,
+    emoji: string,
+    mounted: boolean,
+}
+
+export interface SmartDocOptions {
+    content: string,
+    priority: number,
+}
+
 declare module '@tiptap/vue-3' {
     interface Commands<ReturnType> {
         smartDoc: {
             enableDocVerbose: () => ReturnType
             disableDocVerbose: () => ReturnType
-            setDoc: (node: EditorNode) => ReturnType
-            setDocContent: (content: string) => ReturnType
             setMounted: () => ReturnType
             setDocVerbose: (value: boolean) => ReturnType
             setReadOnly: (value: boolean) => ReturnType
@@ -17,7 +26,7 @@ declare module '@tiptap/vue-3' {
     }
 }
 
-const SmartDoc = Document.extend({
+const SmartDoc = Document.extend<SmartDocOptions, SmartDocStorage>({
     content: `${Article.name}`,
 
     priority: 1000,
@@ -42,25 +51,12 @@ const SmartDoc = Document.extend({
                 return true
             },
 
-            setDoc: (node: EditorNode) => ({ commands, tr, chain }) => {
-                this.storage.doc = node
-
-                return chain()
-                    .setContent(node.html ?? "")
-                    .run()
-            },
-
-            setDocContent: (content: string) => ({ commands }) => {
-                return commands.setContent(content, true)
-            },
-
             setMounted: () => ({ chain }) => {
                 if (this.storage.verbose) {
                     console.log(this.storage.emoji, '🖥️ setMounted')
                 }
 
                 this.storage.mounted = true
-                this.storage.doc = EditorNode.fromEditor(this.editor)
 
                 return chain()
                     .bootSlotListener()

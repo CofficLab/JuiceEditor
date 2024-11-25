@@ -1,5 +1,9 @@
 import { TiptapExtension } from '../model/TiptapGroup'
 
+export interface VerboseStorage {
+    emoji: string,
+}
+
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
         verbose: {
@@ -9,7 +13,7 @@ declare module '@tiptap/core' {
     }
 }
 
-const Verbose = TiptapExtension.create({
+const Verbose = TiptapExtension.create<{}, VerboseStorage>({
     name: "verbose",
 
     addStorage() {

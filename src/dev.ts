@@ -42,6 +42,7 @@ const editor = EditorFactory.register('my-editor', {
         editor.disableLocalStorageVerbose()
         editor.disableCodeBlockVerbose()
         editor.disableURLListenerVerbose()
+        editor.disableArticleVerbose()
 
         editor.setChatApi(chatApi)
         editor.setDrawLink('/draw/index.html?')
@@ -93,23 +94,23 @@ document.head.appendChild(styleElement);
 div.id = 'dev-toolbar';
 
 const buttons = [
-    { text: '功能', onclick: () => editor.setContent(featureDoc) },
-    { text: '小型', onclick: () => editor.setContent(miniDoc) },
-    { text: '文档组', onclick: () => editor.setContent(docs) },
-    { text: '混合', onclick: () => editor.setContent(baseDoc) },
-    { text: '大型', onclick: () => editor.setContent(bigDoc) },
-    { text: '图片', onclick: () => editor.setContent(imageDoc) },
-    { text: '表格', onclick: () => editor.setContent(tableDoc) },
-    { text: '画图', onclick: () => editor.setContent(drawDoc) },
-    { text: '段落', onclick: () => editor.setContent(pDoc) },
-    { text: '链接', onclick: () => editor.setContent(aDoc) },
-    { text: '目录', onclick: () => editor.setContent(tocDoc) },
-    { text: '列表', onclick: () => editor.setContent(bulletListDoc) },
+    { text: '功能', onclick: () => editor.setHTML(featureDoc) },
+    { text: '小型', onclick: () => editor.setHTML(miniDoc) },
+    { text: '文档组', onclick: () => editor.setHTML(docs) },
+    { text: '混合', onclick: () => editor.setHTML(baseDoc) },
+    { text: '大型', onclick: () => editor.setHTML(bigDoc) },
+    { text: '图片', onclick: () => editor.setHTML(imageDoc) },
+    { text: '表格', onclick: () => editor.setHTML(tableDoc) },
+    { text: '画图', onclick: () => editor.setHTML(drawDoc) },
+    { text: '段落', onclick: () => editor.setHTML(pDoc) },
+    { text: '链接', onclick: () => editor.setHTML(aDoc) },
+    { text: '目录', onclick: () => editor.setHTML(tocDoc) },
+    { text: '列表', onclick: () => editor.setHTML(bulletListDoc) },
     { text: 'TOC', onclick: () => editor.toggleToc() },
     { text: '只读/编辑', onclick: () => editor.toggleReadOnly() },
     { text: '源码', onclick: () => editor.toggleSourceCode() },
-    { text: '代码块', onclick: () => editor.setContent(codeBlockDoc) },
-    { text: '宣传图', onclick: () => editor.setContent("<h1>宣传图</h1><features-component></features-component>") },
+    { text: '代码块', onclick: () => editor.setHTML(codeBlockDoc) },
+    { text: '宣传图', onclick: () => editor.setHTML("<h1>宣传图</h1><features-component></features-component>") },
 ];
 
 buttons.forEach(button => {

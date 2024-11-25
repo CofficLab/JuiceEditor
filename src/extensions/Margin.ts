@@ -9,6 +9,18 @@ import TableCell from '@tiptap/extension-table-cell';
 import TableHeader from '@tiptap/extension-table-header';
 import Features from './Features/Features';
 
+export interface MarginStorage {
+    title: string,
+    levels: readonly string[],
+}
+
+export interface MarginOptions {
+    defaultMargin: string,
+    excludeNodes: string[],
+    excludeClass: string,
+    excludeIfIn: string[],
+}
+
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
         margin: {
@@ -22,31 +34,12 @@ declare module '@tiptap/core' {
     }
 }
 
-const Margin = TiptapExtension.create({
+const Margin = TiptapExtension.create<MarginOptions, MarginStorage>({
     name: 'margin',
 
     addStorage() {
         return {
             title: '👔 Margin',
-        }
-    },
-
-    addOptions() {
-        return {
-            defaultMargin: '',
-            excludeNodes: [
-                Link.name,
-            ],
-            excludeClass: 'no-margin',
-            excludeIfIn: [
-                BulletList.name,
-                ListItem.name,
-                TaskList.name,
-                TaskItem.name,
-                TableCell.name,
-                TableHeader.name,
-                Features.name,
-            ],
             levels: [
                 'ml-0',
                 'ml-2',
@@ -76,6 +69,25 @@ const Margin = TiptapExtension.create({
         }
     },
 
+    addOptions() {
+        return {
+            defaultMargin: '',
+            excludeNodes: [
+                Link.name,
+            ],
+            excludeClass: 'no-margin',
+            excludeIfIn: [
+                BulletList.name,
+                ListItem.name,
+                TaskList.name,
+                TaskItem.name,
+                TableCell.name,
+                TableHeader.name,
+                Features.name,
+            ]
+        }
+    },
+
     addCommands() {
         return {
             moveRight: () => ({ commands }) => {
@@ -89,14 +101,14 @@ const Margin = TiptapExtension.create({
                 }
 
                 // 找出当前的 level 索引
-                this.options.levels.forEach((cls: string, index: number) => {
+                this.storage.levels.forEach((cls: string, index: number) => {
                     if (attrs.class.includes(cls)) {
                         currentIndex = index;
                     }
                 });
 
                 // 删除所有 margin 相关的 class
-                this.options.levels.forEach((cls: string) => {
+                this.storage.levels.forEach((cls: string) => {
                     attrs.class = attrs.class.replaceAll(cls, '').trim();
                 });
 
@@ -105,12 +117,12 @@ const Margin = TiptapExtension.create({
                 attrs.class = attrs.class.replaceAll('mr-0', '').trim();
 
                 // 如果已经是最大索引,则不做任何操作
-                if (currentIndex + 1 >= this.options.levels.length) {
+                if (currentIndex + 1 >= this.storage.levels.length) {
                     return false;
                 }
 
                 const nextIndex = currentIndex + 1;
-                attrs.class += ' ' + this.options.levels[nextIndex];
+                attrs.class += ' ' + this.storage.levels[nextIndex];
                 return commands.updateAttributes(node.type.name, attrs);
             },
 
@@ -126,14 +138,14 @@ const Margin = TiptapExtension.create({
                 }
 
                 // 找出当前的 level 索引
-                this.options.levels.forEach((cls: string, index: number) => {
+                this.storage.levels.forEach((cls: string, index: number) => {
                     if (attrs.class.includes(cls)) {
                         currentIndex = index;
                     }
                 });
 
                 // 删除所有 margin 相关的 class
-                this.options.levels.forEach((cls: string) => {
+                this.storage.levels.forEach((cls: string) => {
                     attrs.class = attrs.class.replaceAll(cls, '').trim();
                 });
 
@@ -147,7 +159,7 @@ const Margin = TiptapExtension.create({
                 }
 
                 const nextIndex = currentIndex - 1;
-                attrs.class += ' ' + this.options.levels[nextIndex];
+                attrs.class += ' ' + this.storage.levels[nextIndex];
                 return commands.updateAttributes(node.type.name, attrs);
             },
 
@@ -156,7 +168,7 @@ const Margin = TiptapExtension.create({
                 let attrs = { ...node.attrs };
 
                 // 删除所有 margin 相关的 class
-                this.options.levels.forEach((cls: string) => {
+                this.storage.levels.forEach((cls: string) => {
                     attrs.class = attrs.class.replaceAll(cls, '').trim();
                 });
 
@@ -175,7 +187,7 @@ const Margin = TiptapExtension.create({
                 let attrs = { ...node.attrs };
 
                 // 删除所有 margin 相关的 class
-                this.options.levels.forEach((cls: string) => {
+                this.storage.levels.forEach((cls: string) => {
                     attrs.class = attrs.class.replaceAll(cls, '').trim();
                 });
 
@@ -193,7 +205,7 @@ const Margin = TiptapExtension.create({
                 let attrs = { ...node.attrs };
 
                 // 删除所有 margin 相关的 class
-                this.options.levels.forEach((cls: string) => {
+                this.storage.levels.forEach((cls: string) => {
                     attrs.class = attrs.class.replaceAll(cls, '').trim();
                 });
 
@@ -211,7 +223,7 @@ const Margin = TiptapExtension.create({
                 let attrs = { ...node.attrs };
 
                 // 删除所有 margin 相关的 class
-                this.options.levels.forEach((cls: string) => {
+                this.storage.levels.forEach((cls: string) => {
                     attrs.class = attrs.class.replaceAll(cls, '').trim();
                 });
 

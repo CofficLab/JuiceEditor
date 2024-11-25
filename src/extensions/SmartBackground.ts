@@ -1,5 +1,16 @@
 import { TiptapExtension } from '../model/TiptapGroup'
 
+export interface SmartBackgroundOptions {
+    className: string,
+    firstClassName: string,
+}
+
+export interface SmartBackgroundStorage {
+    verbose: boolean,
+    backgroundClass: string,
+    emoji: string,
+}
+
 declare module '@tiptap/vue-3' {
     interface Commands<ReturnType> {
         smartBackground: {
@@ -45,7 +56,7 @@ const backgroundClass = {
     none: 'ring-1 scale-90',
 }
 
-const SmartBackground = TiptapExtension.create({
+const SmartBackground = TiptapExtension.create<SmartBackgroundOptions, SmartBackgroundStorage>({
     name: 'smartBackground',
 
     priority: 1000,

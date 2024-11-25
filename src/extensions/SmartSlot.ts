@@ -1,6 +1,18 @@
 import { Editor } from '@tiptap/core'
 import { TiptapExtension } from '../model/TiptapGroup'
 
+export interface SmartSlotStorage {
+    verbose: boolean,
+    enabled: boolean,
+    slotHasOriginalContent: boolean,
+    emoji: string,
+}
+
+export interface SmartSlotOptions {
+    emoji: string,
+    enabled: boolean,
+}
+
 const config = { childList: true, subtree: true, characterData: true }
 var observer: MutationObserver | null = null
 
@@ -33,7 +45,7 @@ function getHostElementContent(editor: Editor): string {
     return getHostElement(editor)?.innerHTML ?? ''
 }
 
-const SmartSlot = TiptapExtension.create({
+const SmartSlot = TiptapExtension.create<SmartSlotOptions, SmartSlotStorage>({
     name: "smartSlot",
 
     priority: 2,

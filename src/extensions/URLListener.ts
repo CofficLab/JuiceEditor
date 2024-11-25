@@ -1,5 +1,11 @@
 import { TiptapEditor, TiptapExtension } from '../model/TiptapGroup'
 
+export interface URLListenerStorage {
+    verbose: boolean,
+    emoji: string,
+    enabled: boolean,
+}
+
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
         URLListener: {
@@ -11,7 +17,7 @@ declare module '@tiptap/core' {
     }
 }
 
-const URLListener = TiptapExtension.create({
+const URLListener = TiptapExtension.create<{}, URLListenerStorage>({
     name: "urlListener",
 
     addStorage() {

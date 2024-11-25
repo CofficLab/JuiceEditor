@@ -5,8 +5,17 @@ import { createApp, h } from 'vue'
 import TocView from './SmartToc/TocView.vue'
 import SmartHeading from './SmartHeading'
 import TocHeading from './SmartToc/TocHeading'
-export interface BranchOptions {
+
+export interface ArticleOptions {
     HTMLAttributes: Record<string, any>
+}
+
+export interface ArticleStorage {
+    verbose: boolean,
+    title: string,
+    article: EditorNode,
+    mountPointId: string,
+    headings: TocHeading[],
 }
 
 declare module '@tiptap/core' {
@@ -23,7 +32,7 @@ declare module '@tiptap/core' {
     }
 }
 
-const Article = Node.create<BranchOptions>({
+const Article = Node.create<ArticleOptions, ArticleStorage>({
     name: 'article',
 
     group: 'block',
@@ -194,8 +203,7 @@ const Article = Node.create<BranchOptions>({
             },
 
             updateHeadings: () => ({ tr, state, dispatch }) => {
-                let verbose = true
-                if (verbose) {
+                if (this.storage.verbose) {
                     console.log(this.storage.title, '查找 Headings')
                 }
                 var headings: TocHeading[] = []
@@ -252,7 +260,7 @@ const Article = Node.create<BranchOptions>({
 
         this.editor.commands.updateHeadings()
 
-        if (this.storage.article.attrs.toc) {
+        if (this.storage.article?.attrs?.toc) {
             this.editor.commands.bootToc()
         }
     },
@@ -271,7 +279,7 @@ const Article = Node.create<BranchOptions>({
 
         this.editor.commands.updateHeadings()
 
-        if (this.storage.article.attrs.toc) {
+        if (this.storage.article?.attrs?.toc) {
             this.editor.commands.bootToc()
         }
     },

@@ -41,7 +41,6 @@ import SmartDoc from "../extensions/SmartDoc"
 import SmartBold from "../extensions/SmartBold"
 import SmartKbd from "../extensions/SmartKbd"
 import SmartPlaceholder from "../extensions/SmartPlaceholder"
-import SmartReady from "../extensions/SmartReady"
 import SmartSlot from "../extensions/SmartSlot"
 import { SmartMenusExtension } from "../extensions/SmartMenus"
 import WebKit from "../extensions/WebKit"
@@ -167,7 +166,6 @@ function makeExtensions(props: makeExtensionsProps) {
                 class: 'quote-class',
             },
         }),
-        SmartReady,
         SmartSelection,
         SmartSlot,
         SmartTable.configure({
