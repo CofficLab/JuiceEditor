@@ -3,6 +3,8 @@ import { TiptapEditor } from '../model/TiptapGroup'
 import SmartText from '../extensions/SmartText'
 import UUIDHelper from '../helper/UUIDHelper'
 
+let title = "🧱 EditorNode"
+
 class EditorNode {
     uuid: string = ""
     title: string = ""
@@ -10,7 +12,7 @@ class EditorNode {
     characterCount?: number
     html?: string
     attrs?: Record<string, any> = undefined
-    type: string = ""
+    type: string = 'unknown'
     children?: EditorNode[] = []
 
     static empty(): EditorNode {
@@ -43,8 +45,13 @@ class EditorNode {
             .setCharacterCount(editor.storage.characterCount.characters())
     }
 
-    public updateFromEditor(editor: TiptapEditor): EditorNode {
+    public updateFromEditor(editor: TiptapEditor, verbose: boolean = false): EditorNode {
         let json = editor.getJSON()
+
+        if (verbose) {
+            // console.log(title, "updateFromEditor", json)
+            console.log(title, "updateFromEditor with type", json.type)
+        }
 
         return this.setHTML(editor.getHTML())
             .setTitle(getTitle(json))
@@ -114,13 +121,6 @@ class EditorNode {
 
     public setParentId(parentId: string): EditorNode {
         return this.setAttrs({ parentId: parentId })
-    }
-
-    public serialize(): string {
-        return JSON.stringify({
-            html: this.html,
-            uuid: this.uuid,
-        })
     }
 }
 

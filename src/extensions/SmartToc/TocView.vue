@@ -1,24 +1,29 @@
 <script setup lang="ts">
-import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 import { onMounted, nextTick, ref, onBeforeUnmount } from 'vue'
-import SmartHeading from './SmartHeading'
+import TocHeading from './TocHeading'
 import HeadingTree from './HeadingTree.vue'
+import { TiptapEditor } from '../../model/TiptapGroup';
 
-const props = defineProps(nodeViewProps)
+const props = defineProps({
+	editor: {
+		type: TiptapEditor,
+		required: true
+	}
+})
 
-let headingTree = ref(new SmartHeading())
+let headingTree = ref(new TocHeading())
 
 function handleUpdate() {
-	if (props.editor.storage.toc.verbose) {
-		console.log(props.editor.storage.toc.title, 'handleUpdate')
+	if (props.editor.storage.article.verbose) {
+		console.log(props.editor.storage.article.title, 'handleUpdate')
 	}
 
-	headingTree.value = SmartHeading.makeTree(props.editor) as unknown as SmartHeading
+	headingTree.value = TocHeading.makeTree(props.editor) as unknown as TocHeading
 }
 
 onMounted(() => {
-	if (props.editor.storage.toc.verbose) {
-		console.log(props.editor.storage.toc.title, 'mounted')
+	if (props.editor.storage.article.verbose) {
+		console.log(props.editor.storage.article.title, 'mounted')
 	}
 
 	props.editor.on('update', handleUpdate)
@@ -65,8 +70,8 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
-	if (props.editor.storage.toc.verbose) {
-		console.log(props.editor.storage.toc.title, 'onBeforeUnmount')
+	if (props.editor.storage.article.verbose) {
+		console.log(props.editor.storage.article.title, 'onBeforeUnmount')
 	}
 
 	props.editor.off('update', handleUpdate)
@@ -74,13 +79,13 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-	<NodeViewWrapper>
+	<div class="toc-wrapper">
 		<!-- TOC，和顶部留一些距离，因为WEB项目顶部有导航栏 -->
 		<div id="toc" v-if="true" :class="{
-			'md:bg-slate-300/10': props.editor.storage.toc.debug,
-			'lg:bg-blue-300/50': props.editor.storage.toc.debug,
-			'xl:bg-purple-300/50': props.editor.storage.toc.debug,
-			'2xl:bg-red-300/50': props.editor.storage.toc.debug,
+			'md:bg-slate-300/10': props.editor.storage.article.verbose,
+			'lg:bg-blue-300/50': props.editor.storage.article.verbose,
+			'xl:bg-purple-300/50': props.editor.storage.article.verbose,
+			'2xl:bg-red-300/50': props.editor.storage.article.verbose,
 			'fixed right-0 top-12 z-30': true,
 			'flex-row justify-start hidden h-screen overflow-y-scroll': true,
 			'w-48': true,
@@ -93,5 +98,5 @@ onBeforeUnmount(() => {
 				<HeadingTree :heading="h" v-for="h in headingTree.children"></HeadingTree>
 			</div>
 		</div>
-	</NodeViewWrapper>
+	</div>
 </template>

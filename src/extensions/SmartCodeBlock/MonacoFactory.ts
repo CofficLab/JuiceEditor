@@ -16,6 +16,7 @@ export interface CreateEditorOptions {
     onContentChanged?: (editor: monaco.editor.IStandaloneCodeEditor) => void;
     onRunnableChanged?: (value: boolean) => void;
     onLanguageChanged?: (lan: SmartLanguage) => void;
+    verbose: boolean
 }
 
 const title = '💼 MonacoFactory'
@@ -73,10 +74,12 @@ class MonacoFactory {
         return lineCount * lineHeight + padding.top + padding.bottom;
     }
 
-    static setHeightOfEditor(editor: monaco.editor.IStandaloneCodeEditor) {
+    static setHeightOfEditor(editor: monaco.editor.IStandaloneCodeEditor, verbose: boolean) {
         let height = MonacoFactory.getLinesHeight(editor);
 
-        console.log(title, "set height to", height);
+        if (verbose) {
+            console.log(title, "set height to", height);
+        }
 
         editor.getDomNode()!.style.height = height + "px";
     }
@@ -124,12 +127,15 @@ class MonacoFactory {
         });
 
         editor.getModel()!.onDidChangeContent(() => {
-            console.log('💼 MonacoBox: monaco content changed');
+            if (options.verbose) {
+                console.log('💼 MonacoBox: monaco content changed');
+            }
+
             options.onContentChanged?.(editor);
-            MonacoFactory.setHeightOfEditor(editor)
+            MonacoFactory.setHeightOfEditor(editor, options.verbose)
         });
 
-        MonacoFactory.setHeightOfEditor(editor)
+        MonacoFactory.setHeightOfEditor(editor, options.verbose)
 
         options.onCreated?.(editor);
 

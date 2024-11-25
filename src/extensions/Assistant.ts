@@ -43,6 +43,13 @@ const Assistant = Extension.create({
             },
 
             chat: (options: chatOptions) => ({ commands }) => {
+                if (!this.storage.chatApi) {
+                    this.editor.commands.showAlert('请先设置 Chat API', {
+                        description: '翻译等功能需要使用 Chat API',
+                    });
+                    return false;
+                }
+
                 var headers = new Headers();
                 headers.append("Accept", "*/*");
                 headers.append("Connection", "keep-alive");

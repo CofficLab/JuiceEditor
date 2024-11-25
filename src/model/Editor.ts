@@ -1,6 +1,8 @@
 import { TiptapEditor } from './TiptapGroup'
 import EditorOptions from '../interface/EditorOptions'
 import { colors } from '../extensions/SmartMenus'
+import EditorNode from './EditorNode'
+import TocHeading from '../extensions/SmartToc/TocHeading'
 
 class Editor {
     public editor: TiptapEditor | null = null
@@ -34,8 +36,28 @@ class Editor {
         this.editor?.commands.disableWebKitSendNodes()
     }
 
+    public disableCodeBlockVerbose: () => void = () => {
+        this.editor?.commands.disableCodeBlockVerbose()
+    }
+
+    public disableDocVerbose: () => void = () => {
+        this.editor?.commands.disableDocVerbose()
+    }
+
+    public disableURLListenerVerbose: () => void = () => {
+        this.editor?.commands.disableURLListenerVerbose()
+    }
+
     public enableVerboseMode: () => void = () => {
         this.editor?.commands.enableVerboseMode()
+    }
+
+    public enableDocVerbose: () => void = () => {
+        this.editor?.commands.enableDocVerbose()
+    }
+
+    public enableArticleVerbose: () => void = () => {
+        this.editor?.commands.enableArticleVerbose()
     }
 
     public enableWebKit: () => void = () => {
@@ -50,10 +72,6 @@ class Editor {
         this.editor?.commands.enableSlotListener()
     }
 
-    public enableDocVerbose: () => void = () => {
-        this.editor?.commands.enableDocVerbose()
-    }
-
     public enableLocalStorage: () => void = () => {
         this.editor?.commands.enableLocalStorage()
     }
@@ -66,7 +84,15 @@ class Editor {
         this.editor?.commands.enableLocalStoragePrintDocNode()
     }
 
-    public getContent: () => string = () => {
+    public getHeadings: () => TocHeading[] = () => {
+        return this.editor?.storage.article.headings || []
+    }
+
+    public getNode: () => EditorNode = () => {
+        return this.editor?.storage.article.article
+    }
+
+    public getHTML: () => string = () => {
         return this.editor?.getHTML() || ''
     }
 
@@ -76,10 +102,6 @@ class Editor {
 
     public setEditable: () => void = () => {
         this.editor?.setEditable(true)
-    }
-
-    public setDocVerbose: (value: boolean) => void = (value: boolean) => {
-        this.editor?.commands.setDocVerbose(value)
     }
 
     public setContent(content: string) {

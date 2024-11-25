@@ -7,12 +7,13 @@ import { getFirstActiveNodePosition } from '../extensions/SmartActive'
 import {
 	RiDeleteBin7Line, RiAddLine, RiCodeBoxLine,
 	RiAlignLeft, RiAlignCenter, RiPaletteLine,
-	RiGlobalLine, RiAlignRight,
-	RiH2, RiH3, RiH4, RiText, RiChatQuoteLine
+	RiAlignRight,
+	RiH2, RiH3, RiH4, RiText, RiChatQuoteLine,
+	RiListView,
+	RiTranslate
 } from '@remixicon/vue'
 import Paragraph from '@tiptap/extension-paragraph'
 import Heading from '@tiptap/extension-heading'
-import SmartToc from '../extensions/SmartToc/SmartToc'
 import { shouldShowTextAlignMenu } from '../extensions/SmartMenus'
 
 const props = defineProps({
@@ -99,12 +100,6 @@ function updateMenuPosition() {
 		return
 	}
 
-	// 如果是TOC，不显示
-	if (props.editor.isActive(SmartToc.name)) {
-		visible.value = false
-		return
-	}
-
 	// hide if image is active
 	if (props.editor.isActive(ImageExtension.name)) {
 		visible.value = false
@@ -141,6 +136,11 @@ function shouldShowParagraphMenu() {
 			<Button tips="删除" @click="editor.commands.deleteSelectionNode()"
 				v-if="!editor.isActive(Heading.name, { level: 1 })" :shape="shape">
 				<RiDeleteBin7Line :size="iconSize"></RiDeleteBin7Line>
+			</Button>
+
+			<Button tips="目录" @click="editor.commands.toggleToc()" v-if="editor.isActive(Heading.name, { level: 1 })"
+				:shape="shape">
+				<RiListView :size="iconSize"></RiListView>
 			</Button>
 
 			<Button tips="增加一行" v-if="!editor.isActive(Heading.name, { level: 1 })"
@@ -208,7 +208,7 @@ function shouldShowParagraphMenu() {
 
 			<Button tips="翻译" :shape="shape" v-if="shouldShowParagraphMenu()"
 				:dropdownBackgroundClass="backgroundClass">
-				<RiGlobalLine :size="iconSize"></RiGlobalLine>
+				<RiTranslate :size="iconSize"></RiTranslate>
 
 				<template #dropdown-item>
 					<div class="grid grid-cols-2 z-50 sm:grid-cols-1 md:grid-cols-2 gap-2 w-24">

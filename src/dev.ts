@@ -31,19 +31,21 @@ const editor = EditorFactory.register('my-editor', {
 
         editor.enableVerboseMode()
 
-        editor.setDocVerbose(true)
-        editor.setLocalStorageVerbose(true)
-        editor.setWebKitVerbose(true)
+        editor.enableDocVerbose()
+        editor.enableLocalStorageVerbose()
+        editor.enableWebKitVerbose()
 
         editor.enableWebKit()
         editor.enableLocalStorage()
 
         editor.disableWebKitSendNodes()
         editor.disableLocalStorageVerbose()
+        editor.disableCodeBlockVerbose()
+        editor.disableURLListenerVerbose()
 
         editor.setChatApi(chatApi)
         editor.setDrawLink('/draw/index.html?')
-        editor.setMenuBackgroundColor('yellow')
+        editor.setMenuBackgroundColor('orange')
 
         window.editor = editor
     },

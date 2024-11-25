@@ -1,6 +1,6 @@
 import { Document } from '@tiptap/extension-document'
 import EditorNode from '../model/EditorNode'
-import SmartHeading from './SmartHeading'
+import Article from './Article'
 
 declare module '@tiptap/vue-3' {
     interface Commands<ReturnType> {
@@ -9,7 +9,6 @@ declare module '@tiptap/vue-3' {
             disableDocVerbose: () => ReturnType
             setDoc: (node: EditorNode) => ReturnType
             setDocContent: (content: string) => ReturnType
-            setDocFromJSONString: (jsonString: string) => ReturnType
             setMounted: () => ReturnType
             setDocVerbose: (value: boolean) => ReturnType
             setReadOnly: (value: boolean) => ReturnType
@@ -19,25 +18,16 @@ declare module '@tiptap/vue-3' {
 }
 
 const SmartDoc = Document.extend({
-    content: `${SmartHeading.name} block*`,
+    content: `${Article.name}`,
 
     priority: 1000,
 
     addStorage() {
         return {
             verbose: false,
-            doc: EditorNode.empty(),
             emoji: "🌳 Doc",
             mounted: false,
         }
-    },
-
-    onUpdate() {
-        if (this.storage.verbose) {
-            console.log(this.storage.emoji, "onUpdate")
-        }
-
-        this.storage.doc = this.storage.doc.updateFromEditor(this.editor)
     },
 
     addCommands() {
@@ -62,10 +52,6 @@ const SmartDoc = Document.extend({
 
             setDocContent: (content: string) => ({ commands }) => {
                 return commands.setContent(content, true)
-            },
-
-            setDocFromJSONString: (jsonString: string) => ({ commands }) => {
-                return commands.setDoc(EditorNode.fromJSONString(jsonString))
             },
 
             setMounted: () => ({ chain }) => {

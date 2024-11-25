@@ -16,7 +16,9 @@ import {
     SuperscriptExtension,
     HardBreakExtension
 } from "../model/TiptapGroup"
+import Article from "../extensions/Article"
 import Assistant from "../extensions/Assistant"
+import DebugBar from "../extensions/DebugBar/DebugBar"
 import Features from "../extensions/Features/Features"
 import SmartBackground from "../extensions/SmartBackground"
 import SmartTaskItem from "../extensions/SmartTaskItem"
@@ -63,7 +65,6 @@ import SourceCode from '../extensions/SourceCode'
 import Verbose from '../extensions/Verbose'
 import makeExtensionsProps from '../interface/MakeExtensionProps'
 import DragDrop from "../extensions/DragDrop"
-import SmartToc from "../extensions/SmartToc/SmartToc"
 
 const isDebug = process.env.NODE_ENV === 'development'
 const defaultTranslateApi = isDebug
@@ -76,6 +77,7 @@ const defaultDrawIoLink = isDebug
 
 function makeExtensions(props: makeExtensionsProps) {
     var extensions = [
+        Article,
         Assistant,
         Branch,
         BranchContent,
@@ -86,6 +88,7 @@ function makeExtensions(props: makeExtensionsProps) {
             },
         }),
         Debug,
+        DebugBar,
         DragDrop,
         DropcursorExtension.configure({
             width: 4,
@@ -182,7 +185,6 @@ function makeExtensions(props: makeExtensionsProps) {
         }),
         SmartTaskList,
         SmartText,
-        SmartToc,
         SourceCode,
         StrikeExtension.configure({
             HTMLAttributes: {

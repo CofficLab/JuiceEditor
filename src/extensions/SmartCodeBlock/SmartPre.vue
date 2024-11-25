@@ -47,6 +47,7 @@ onMounted(() => {
   // Initialize Monaco editor
   monacoEditor = MonacoFactory.createEditor({
     target: editorHost,
+    verbose: props.editor.storage.codeBlock.verbose,
     readOnly: !props.editor.isEditable,
     content: props.node.textContent,
     language: SmartLanguage.fromString(props.node.attrs.language),

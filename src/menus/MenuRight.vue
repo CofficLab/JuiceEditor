@@ -5,7 +5,6 @@ import { getFirstActiveNodePosition } from '../extensions/SmartActive'
 import ButtonGroup from '../ui/ButtonGroup.vue'
 import MenuTable from './MenuTable.vue'
 import Table from '@tiptap/extension-table'
-import SmartToc from '../extensions/SmartToc/SmartToc'
 import Heading from '@tiptap/extension-heading'
 
 const props = defineProps({
@@ -75,12 +74,6 @@ function updateMenuPosition() {
     // 如果是只读模式，不显示
     if (props.editor.isEditable == false) {
 
-        visible.value = false
-        return
-    }
-
-    // 如果是TOC，不显示
-    if (props.editor.isActive(SmartToc.name)) {
         visible.value = false
         return
     }
