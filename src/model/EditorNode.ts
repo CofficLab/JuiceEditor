@@ -1,9 +1,9 @@
 import { JSONContent } from '@tiptap/vue-3'
 import { TiptapEditor } from '../model/TiptapGroup'
 import SmartText from '../extensions/SmartText'
-import UUIDHelper from '../helper/UUIDHelper'
 import Article from '../extensions/Article'
 import UUIDError from '../error/UUIDError'
+import { CharacterCountStorage } from '@tiptap/extension-character-count'
 
 let title = "🧱 EditorNode"
 
@@ -30,11 +30,12 @@ class EditorNode {
 
     static fromEditor(editor: TiptapEditor): EditorNode {
         let json = editor.getJSON()
+        const characterCount = editor.storage.characterCount as CharacterCountStorage
 
         return EditorNode.fromJSON(json)
             .setHTML(editor.getHTML())
-            .setWordCount(editor.storage.characterCount.words())
-            .setCharacterCount(editor.storage.characterCount.characters())
+            .setWordCount(characterCount.words())
+            .setCharacterCount(characterCount.characters())
     }
 
     public getUUID(): string {
@@ -49,6 +50,7 @@ class EditorNode {
 
     public updateFromEditor(editor: TiptapEditor, verbose: boolean = false): EditorNode {
         let json = editor.getJSON()
+        const characterCount = editor.storage.characterCount as CharacterCountStorage
 
         if (verbose) {
             // console.log(title, "updateFromEditor", json)
@@ -59,8 +61,8 @@ class EditorNode {
             .setTitle(getTitle(json))
             .setType(json.type ?? "")
             .setChildren(json.content?.map(child => EditorNode.fromJSON(child)) ?? [])
-            .setWordCount(editor.storage.characterCount.words())
-            .setCharacterCount(editor.storage.characterCount.characters())
+            .setWordCount(characterCount.words())
+            .setCharacterCount(characterCount.characters())
     }
 
     public setWordCount(wordCount: number): EditorNode {

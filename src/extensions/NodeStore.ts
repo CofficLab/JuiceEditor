@@ -4,7 +4,7 @@ import SmartHeading from './SmartHeading'
 import UUIDError from '../error/UUIDError'
 import Article from './Article'
 import { priorityOfNodeStore } from '../model/TiptapGroup'
-
+import { CharacterCountStorage } from '@tiptap/extension-character-count'
 export interface NodeStoreStorage {
     verbose: boolean,
     title: string,
@@ -67,17 +67,19 @@ const NodeStore = Extension.create<{}, NodeStoreStorage>({
                 return true
             },
 
-            updateNodeStoreStorage: (stage: string) => ({ state, dispatch, tr, commands, editor }) => {
+            updateNodeStoreStorage: (stage: string) => ({ commands, editor }) => {
                 if (this.storage.verbose) {
                     console.log(this.storage.title, "updateNodeStoreStorage", stage)
                 }
+
+                const characterCount = editor.storage.characterCount as CharacterCountStorage
 
                 // Update article
                 let doc = EditorNode.fromEditor(this.editor)
                 this.storage.article = doc.children?.find(node => node.type == Article.name) ?? EditorNode.empty()
                 this.storage.article.setHTML(this.editor.getHTML())
-                this.storage.article.setWordCount(this.editor.storage.characterCount.words())
-                this.storage.article.setCharacterCount(this.editor.storage.characterCount.characters())
+                this.storage.article.setWordCount(characterCount.words())
+                this.storage.article.setCharacterCount(characterCount.characters())
 
                 try {
                     this.storage.article.flattened()
@@ -98,7 +100,7 @@ const NodeStore = Extension.create<{}, NodeStoreStorage>({
                 return true
             },
 
-            bootNodeStore: () => ({ commands, editor }) => {
+            bootNodeStore: () => ({ commands }) => {
                 if (this.storage.verbose) {
                     console.log(this.storage.title, "bootNodeStore")
                 }

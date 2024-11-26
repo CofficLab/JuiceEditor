@@ -1,9 +1,15 @@
-import CodeBlock from '@tiptap/extension-code-block'
+import CodeBlock, { CodeBlockOptions } from '@tiptap/extension-code-block'
 import { VueNodeViewRenderer } from '@tiptap/vue-3'
 import SmartPreVue from './SmartPre.vue'
 import MonacoFactory from './MonacoFactory';
 import { Component } from 'vue';
 import UUIDHelper from '../../helper/UUIDHelper';
+
+export interface SmartCodeBlockStorage {
+	verbose: boolean
+	title: string
+	booted: boolean
+}
 
 declare module '@tiptap/core' {
 	interface Commands<ReturnType> {
@@ -18,7 +24,7 @@ declare module '@tiptap/core' {
 }
 
 // 保存成HTML的时候要考虑HTML转Markdown
-export default CodeBlock.extend({
+export default CodeBlock.extend<CodeBlockOptions, SmartCodeBlockStorage>({
 	addStorage() {
 		return {
 			verbose: false,

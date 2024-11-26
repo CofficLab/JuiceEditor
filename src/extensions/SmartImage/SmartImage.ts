@@ -21,6 +21,13 @@ export interface ImageOptions {
     drawPageId: string,
 }
 
+export interface SmartImageStorage {
+    verbose: boolean,
+    title: string,
+    drawIoLink: string,
+    opened: boolean,
+}
+
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
         SmartImage: {
@@ -41,7 +48,7 @@ declare module '@tiptap/core' {
 
 let title = "🐰 SmartImage"
 
-const SmartImage = ImageTipTap.extend<ImageOptions>({
+const SmartImage = ImageTipTap.extend<ImageOptions, SmartImageStorage>({
     parseHTML() {
         return [
             {
@@ -57,7 +64,7 @@ const SmartImage = ImageTipTap.extend<ImageOptions>({
         return {
             verbose: false,
             title: '🐰 SmartImage',
-            drawIoLink: null,
+            drawIoLink: '',
             opened: false,
         }
     },

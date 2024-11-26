@@ -4,6 +4,7 @@ import TocView from './TocView.vue'
 import SmartHeading from '../SmartHeading'
 import TocHeading from './TocHeading'
 import { priorityOfToc } from '../../model/TiptapGroup'
+import { NodeStoreStorage } from '../NodeStore'
 
 export interface SmartTocStorage {
     verbose: boolean,
@@ -68,7 +69,9 @@ const SmartToc = Node.create<{}, SmartTocStorage>({
                     console.log(this.storage.title, "bootToc")
                 }
 
-                if (this.editor.storage.nodeStore.article?.attrs?.toc) {
+                const nodeStore = this.editor.storage.nodeStore as NodeStoreStorage
+
+                if (nodeStore.article?.attrs?.toc) {
                     commands.displayToc()
                 } else {
                     commands.removeToc()
@@ -159,17 +162,23 @@ const SmartToc = Node.create<{}, SmartTocStorage>({
     },
 
     onCreate() {
-        if (this.editor.storage.nodeStore.article?.attrs?.toc) {
+        const nodeStore = this.editor.storage.nodeStore as NodeStoreStorage
+        const article = nodeStore.article
+
+        if (article?.attrs?.toc) {
             this.editor.commands.bootToc()
         }
     },
 
     onUpdate() {
-        if (this.storage.display && this.editor.storage.nodeStore.article?.attrs?.toc) {
+        const nodeStore = this.editor.storage.nodeStore as NodeStoreStorage
+        const article = nodeStore.article
+
+        if (this.storage.display && article?.attrs?.toc) {
             return
         }
 
-        if (!this.storage.display && !this.editor.storage.nodeStore.article?.attrs?.toc) {
+        if (!this.storage.display && !article?.attrs?.toc) {
             return
         }
 

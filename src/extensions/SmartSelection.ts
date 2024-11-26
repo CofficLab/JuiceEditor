@@ -4,6 +4,10 @@ import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
 import SmartImage from './SmartImage/SmartImage'
 
+export interface SmartSelectionStorage {
+	type: string
+}
+
 declare module '@tiptap/core' {
 	interface Commands<ReturnType> {
 		deleteSelectionNode: {
@@ -12,8 +16,15 @@ declare module '@tiptap/core' {
 	}
 }
 
-export default TiptapExtension.create({
+export default TiptapExtension.create<{}, SmartSelectionStorage>({
 	name: 'selection',
+
+	addStorage() {
+		return {
+			type: 'unknown',
+		}
+	},
+
 	addProseMirrorPlugins() {
 		const { editor } = this
 
@@ -40,6 +51,7 @@ export default TiptapExtension.create({
 			}),
 		]
 	},
+
 	addCommands() {
 		return {
 			deleteSelectionNode:
@@ -62,6 +74,13 @@ export default TiptapExtension.create({
 						return chain().focus().deleteNode(node.type.name).run()
 					},
 		}
+	},
+
+	onSelectionUpdate() {
+		const node = getSelectionNode(this.editor)
+		this.storage.type = node?.type.name ?? 'unknown'
+
+		return true
 	},
 })
 

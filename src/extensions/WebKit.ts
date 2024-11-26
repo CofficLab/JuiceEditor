@@ -2,6 +2,8 @@ import { TiptapExtension } from '../model/TiptapGroup'
 import ImageHelper from "../helper/ImageHelper"
 import MessageSendNodes from "../model/MessageSendNodes"
 import MessageSendArticle from "../model/MessageSendArticle"
+import { NodeStoreStorage } from "./NodeStore"
+import { SmartSelectionStorage } from './SmartSelection'
 
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
@@ -71,10 +73,12 @@ const WebKit = TiptapExtension.create<{}, WebKitStorage>({
             return
         }
 
+        const nodeStore = this.editor.storage.nodeStore as NodeStoreStorage
+
         // Send Article
         if (this.storage.sendArticle) {
             var messageArticle = (new MessageSendArticle())
-                .setNode(this.editor.storage.article.article)
+                .setNode(nodeStore.article)
 
             this.editor.chain()
                 .webKitSendDebugMessage(this.storage.emoji + ' Update Article')
@@ -85,7 +89,7 @@ const WebKit = TiptapExtension.create<{}, WebKitStorage>({
         // Send Nodes
         if (this.storage.sendNodes) {
             var messageNodes = (new MessageSendNodes())
-                .setNodes(this.editor.storage.article.article.flattened())
+                .setNodes(nodeStore.article.flattened())
 
             this.editor.chain()
                 .webKitSendDebugMessage(this.storage.emoji + ' Update Nodes')
@@ -103,10 +107,12 @@ const WebKit = TiptapExtension.create<{}, WebKitStorage>({
             return false
         }
 
+        const smartSelection = this.editor.storage.smartSelection as SmartSelectionStorage
+
         // 异步往 webkit 发送数据，防止界面卡顿
         this.editor.commands.asyncSendMessage({
             channel: "updateSelectionType",
-            type: this.editor.storage.selection.type
+            type: smartSelection.type
         })
 
         return true

@@ -20,6 +20,7 @@ import { defineProps, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { SmartLanguage } from './SmartLanguage';
 import MonacoFactory from './MonacoFactory';
 import LanguageSelect from './LanguageSelect.vue';
+import { SmartCodeBlockStorage } from './SmartCodeBlock';
 
 const props = defineProps(nodeViewProps)
 
@@ -45,9 +46,10 @@ onMounted(() => {
     })
 
   // Initialize Monaco editor
+  const codeBlock = props.editor.storage.codeBlock as SmartCodeBlockStorage
   monacoEditor = MonacoFactory.createEditor({
     target: editorHost,
-    verbose: props.editor.storage.codeBlock.verbose,
+    verbose: codeBlock.verbose,
     readOnly: !props.editor.isEditable,
     content: props.node.textContent,
     language: SmartLanguage.fromString(props.node.attrs.language),
