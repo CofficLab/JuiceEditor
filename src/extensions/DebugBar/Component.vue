@@ -46,10 +46,10 @@ const editorNode = computed(() => nodeStoreStorage.article)
 
 <template>
     <div class="w-full h-12 px-4 bg-slate-800 text-gray-400">
-        <div class="flex justify-between items-center">
+        <div class="flex justify-between items-center h-full">
             <p>{{ type }}</p>
 
-            <div class="card-actions justify-end flex gap-2">
+            <div class="card-actions justify-end flex gap-2 items-center h-full flex-row">
                 <button class="btn btn-primary btn-sm" @click="toggleTree">查看结构</button>
                 <button class="btn btn-primary btn-sm" @click="closeMessage">关闭</button>
             </div>
