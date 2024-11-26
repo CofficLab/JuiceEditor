@@ -53,13 +53,6 @@ const Article = Node.create<ArticleOptions, ArticleStorage>({
 
     addAttributes() {
         return {
-            uuid: {
-                default: UUIDHelper.generate("Article"),
-                parseHTML: element => element.getAttribute('data-uuid'),
-                renderHTML: attributes => ({
-                    'data-uuid': attributes.uuid,
-                }),
-            },
             toc: {
                 default: false,
                 parseHTML: element => element.getAttribute('data-toc') == 'true',

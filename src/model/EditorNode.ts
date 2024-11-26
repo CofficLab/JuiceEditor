@@ -2,7 +2,8 @@ import { JSONContent } from '@tiptap/vue-3'
 import { TiptapEditor } from '../model/TiptapGroup'
 import SmartText from '../extensions/SmartText'
 import Article from '../extensions/Article'
-import UUIDError from '../error/UUIDError'
+import SmartDoc from '../extensions/SmartDoc'
+import { EditorNodeNoParentIdError, EditorNodeNoUUIDError } from '../error/EditorNodeError'
 import { CharacterCountStorage } from '@tiptap/extension-character-count'
 
 let title = "🧱 EditorNode"
@@ -20,19 +21,36 @@ class EditorNode {
         return new EditorNode()
     }
 
-    static fromJSON(json: JSONContent): EditorNode {
-        return new EditorNode()
+    static fromJSON(json: JSONContent, parentId: string): EditorNode {
+        let node = new EditorNode()
             .setTitle(getTitle(json))
             .setType(json.type ?? "")
             .setAttrs(json.attrs ?? {})
-            .setChildren(json.content?.map(child => EditorNode.fromJSON(child)) ?? [])
+            .setParentId(parentId)
+
+        if (node.type == SmartText.name && !node.getParentId()) {
+            throw new EditorNodeNoParentIdError("Parent ID is not set", node)
+        }
+
+        if (node.type === SmartText.name && node.getUUID() === undefined) {
+            node = node.setUUID(node.getParentId()! + '-text')
+        }
+
+        if (node.getUUID() === undefined) {
+            throw new EditorNodeNoUUIDError("UUID is not set", node)
+        }
+
+        node = node
+            .setChildren(json.content?.map(child => EditorNode.fromJSON(child, node.getUUID()!)) ?? [])
+
+        return node
     }
 
     static fromEditor(editor: TiptapEditor): EditorNode {
         let json = editor.getJSON()
         const characterCount = editor.storage.characterCount as CharacterCountStorage
 
-        return EditorNode.fromJSON(json)
+        return EditorNode.fromJSON(json, "")
             .setHTML(editor.getHTML())
             .setWordCount(characterCount.words())
             .setCharacterCount(characterCount.characters())
@@ -41,28 +59,15 @@ class EditorNode {
     public getUUID(): string | undefined {
         let uuid = this.attrs?.uuid
 
-        if (!uuid) {
-            console.warn(title, "UUID is not set", this)
+        if (this.type == SmartDoc.name) {
+            return 'doc'
         }
 
         return uuid
     }
 
-    public updateFromEditor(editor: TiptapEditor, verbose: boolean = false): EditorNode {
-        let json = editor.getJSON()
-        const characterCount = editor.storage.characterCount as CharacterCountStorage
-
-        if (verbose) {
-            // console.log(title, "updateFromEditor", json)
-            console.log(title, "updateFromEditor with type", json.type)
-        }
-
-        return this.setHTML(editor.getHTML())
-            .setTitle(getTitle(json))
-            .setType(json.type ?? "")
-            .setChildren(json.content?.map(child => EditorNode.fromJSON(child)) ?? [])
-            .setWordCount(characterCount.words())
-            .setCharacterCount(characterCount.characters())
+    public getParentId(): string | undefined {
+        return this.attrs?.parentId
     }
 
     public setWordCount(wordCount: number): EditorNode {
@@ -101,7 +106,7 @@ class EditorNode {
         }
 
         if (!uuid) {
-            throw new UUIDError("UUID is not set", this)
+            throw new EditorNodeNoUUIDError("UUID is not set", this)
         }
 
         var flattened: EditorNode[] = [nodeCopy]
@@ -141,6 +146,15 @@ class EditorNode {
 
     public setParentId(parentId: string): EditorNode {
         return this.setAttrs({ ...this.attrs, parentId });
+    }
+
+    public print(indent: string = '') {
+        console.log(`${indent}Type: ${this.type}, UUID: ${this.attrs?.uuid}`);
+        if (this.children) {
+            this.children.forEach(child => {
+                child.print(indent + '  ');
+            });
+        }
     }
 }
 

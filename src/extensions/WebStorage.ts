@@ -5,7 +5,6 @@ import { ArticleHasNoUUIDError, ArticleHasNoHTMLError } from '../error/ArticleEr
 import { DocHasNoContentError, DocHasNoArticleError } from '../error/DocError';
 import EditorNode from 'src/model/EditorNode';
 import Article from './Article';
-import UUIDError from '../error/UUIDError';
 import { ParamErrorNoUUID } from '../error/ParamError';
 
 export interface WebStorageStorage {

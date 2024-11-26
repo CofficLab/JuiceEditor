@@ -83,12 +83,6 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
         return {
             class: {
                 default: "p-class"
-            },
-            uuid: {
-                default: UUIDHelper.generate("SmartParagraph"),
-                parseHTML: (element) => {
-                    return element.getAttribute('data-uuid')
-                }
             }
         }
     },

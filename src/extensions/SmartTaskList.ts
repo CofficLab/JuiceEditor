@@ -1,5 +1,4 @@
 import TaskList from "@tiptap/extension-task-list";
-import UUIDHelper from '../helper/UUIDHelper';
 
 const SmartTaskList = TaskList.extend({
     addAttributes() {
@@ -8,12 +7,6 @@ const SmartTaskList = TaskList.extend({
             class: {
                 default: '',
             },
-            uuid: {
-                default: UUIDHelper.generate("SmartTaskList"),
-                parseHTML: (element) => {
-                    return element.getAttribute('data-uuid')
-                }
-            }
         }
     },
 });

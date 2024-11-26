@@ -1,7 +1,7 @@
 import { Extension } from '@tiptap/core'
 import EditorNode from '../model/EditorNode'
 import SmartHeading from './SmartHeading'
-import UUIDError from '../error/UUIDError'
+import { EditorNodeNoUUIDError, EditorNodeNoParentIdError } from '../error/EditorNodeError'
 import Article from './Article'
 import { priorityOfNodeStore } from '../model/TiptapGroup'
 import { CharacterCountStorage } from '@tiptap/extension-character-count'
@@ -75,21 +75,32 @@ const NodeStore = Extension.create<{}, NodeStoreStorage>({
                 const characterCount = editor.storage.characterCount as CharacterCountStorage
 
                 // Update article
-                let doc = EditorNode.fromEditor(this.editor)
-                this.storage.article = doc.children?.find(node => node.type == Article.name) ?? EditorNode.empty()
-                this.storage.article.setHTML(this.editor.getHTML())
-                this.storage.article.setWordCount(characterCount.words())
-                this.storage.article.setCharacterCount(characterCount.characters())
-
                 try {
-                    this.storage.article.flattened()
+                    let doc = EditorNode.fromEditor(this.editor)
+                    this.storage.article = doc.children?.find(node => node.type == Article.name) ?? EditorNode.empty()
+                    this.storage.article.setHTML(this.editor.getHTML())
+                    this.storage.article.setWordCount(characterCount.words())
+                    this.storage.article.setCharacterCount(characterCount.characters())
                 } catch (error: unknown) {
-                    if (error instanceof UUIDError) {
+                    if (error instanceof EditorNodeNoUUIDError) {
                         commands.showAlert(error.message, {
                             error: error,
                             type: error.block.type,
                             attrs: error.block.attrs,
                             title: error.block.title,
+                            stage: stage,
+                        })
+                    } else if (error instanceof EditorNodeNoParentIdError) {
+                        commands.showAlert(error.message, {
+                            error: error,
+                            type: error.block.type,
+                            attrs: error.block.attrs,
+                            title: error.block.title,
+                            stage: stage,
+                        })
+                    } else {
+                        commands.showAlert("Error updating NodeStore", {
+                            error: error,
                             stage: stage,
                         })
                     }
