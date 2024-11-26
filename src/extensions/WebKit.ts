@@ -4,7 +4,7 @@ import MessageSendNodes from "../model/MessageSendNodes"
 import MessageSendArticle from "../model/MessageSendArticle"
 import { NodeStoreStorage } from "./NodeStore"
 import { SmartSelectionStorage } from './SmartSelection'
-
+import { priorityOfWebKit } from '../model/TiptapGroup'
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
         WebKit: {
@@ -34,6 +34,8 @@ export interface WebKitStorage {
 
 const WebKit = TiptapExtension.create<{}, WebKitStorage>({
     name: "webkit",
+
+    priority: priorityOfWebKit,
 
     addStorage() {
         return {
@@ -107,7 +109,7 @@ const WebKit = TiptapExtension.create<{}, WebKitStorage>({
             return false
         }
 
-        const smartSelection = this.editor.storage.smartSelection as SmartSelectionStorage
+        const smartSelection = this.editor.storage.selection as SmartSelectionStorage
 
         // 异步往 webkit 发送数据，防止界面卡顿
         this.editor.commands.asyncSendMessage({

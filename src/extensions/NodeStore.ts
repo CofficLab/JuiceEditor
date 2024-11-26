@@ -37,7 +37,7 @@ const NodeStore = Extension.create<{}, NodeStoreStorage>({
     addStorage() {
         return {
             verbose: false,
-            title: "🗄️ NodeStore",
+            title: "🚘 NodeStore",
             article: EditorNode.empty(),
         }
     },
@@ -120,19 +120,7 @@ const NodeStore = Extension.create<{}, NodeStoreStorage>({
     },
 
     onUpdate() {
-        if (this.storage.verbose) {
-            console.log(this.storage.title, "onUpdate")
-        }
-
         this.editor.commands.updateNodeStoreStorage("NodeStore:onUpdate")
-
-        if (this.storage.verbose) {
-            console.log(this.storage.title, "onUpdate, article updated")
-        }
-
-        if (this.storage.verbose) {
-            console.log(this.storage.title, "onUpdate, article updated")
-        }
     },
 })
 

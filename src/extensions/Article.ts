@@ -126,16 +126,6 @@ const Article = Node.create<ArticleOptions, ArticleStorage>({
     renderHTML({ HTMLAttributes }) {
         return ['article', { ...HTMLAttributes }, 0]
     },
-
-    onUpdate() {
-        if (this.storage.verbose) {
-            console.log(this.storage.title, "onUpdate")
-        }
-
-        if (this.storage.verbose) {
-            console.log(this.storage.title, "onUpdate, article updated")
-        }
-    },
 })
 
 export default Article

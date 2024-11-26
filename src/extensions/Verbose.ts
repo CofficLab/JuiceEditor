@@ -40,6 +40,7 @@ const Verbose = TiptapExtension.create<{}, VerboseStorage>({
                     .disableURLListenerVerbose()
                     .disableNodeStoreVerbose()
                     .disableTocVerbose()
+                    .disableSmartSelectionVerbose()
                     .run()
             },
 
@@ -59,6 +60,7 @@ const Verbose = TiptapExtension.create<{}, VerboseStorage>({
                     .enableURLListenerVerbose()
                     .enableNodeStoreVerbose()
                     .enableTocVerbose()
+                    .enableSmartSelectionVerbose()
                     .run()
             },
         }

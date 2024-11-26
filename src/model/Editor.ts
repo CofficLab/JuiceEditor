@@ -48,6 +48,10 @@ class Editor {
         this.editor?.commands.disableDocVerbose()
     }
 
+    public disableSmartSelectionVerbose: () => void = () => {
+        this.editor?.commands.disableSmartSelectionVerbose()
+    }
+
     public disableURLListenerVerbose: () => void = () => {
         this.editor?.commands.disableURLListenerVerbose()
     }

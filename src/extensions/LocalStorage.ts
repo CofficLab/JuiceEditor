@@ -48,10 +48,6 @@ const LocalStorage = TiptapExtension.create<{}, LocalStorageStorage>({
     },
 
     onUpdate() {
-        if (this.storage.verbose && this.storage.enabled) {
-            console.log(this.storage.emoji, "onUpdate")
-        }
-
         if (this.storage.printDocNode) {
             console.log(this.storage.emoji, 'the doc node is')
             const nodeStore = this.editor.storage.nodeStore as NodeStoreStorage
