@@ -155,9 +155,9 @@ const WebKit = TiptapExtension.create<{}, WebKitStorage>({
                     return false
                 }
 
-                if (this.storage.verbose) {
-                    console.log(this.storage.emoji, 'asyncSendMessage', data)
-                }
+                // if (this.storage.verbose) {
+                //     console.log(this.storage.emoji, 'asyncSendMessage', data)
+                // }
 
                 new Promise(() => {
                     try {
