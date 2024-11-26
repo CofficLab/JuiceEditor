@@ -55,12 +55,6 @@ export default CodeBlock.extend<CodeBlockOptions, SmartCodeBlockStorage>({
 			height: {
 				default: 0,
 				rendered: true
-			},
-			uuid: {
-				default: UUIDHelper.generate("SmartCodeBlock"),
-				parseHTML: (element) => {
-					return element.getAttribute('data-uuid') || UUIDHelper.generate("SmartCodeBlock")
-				}
 			}
 		}
 	},

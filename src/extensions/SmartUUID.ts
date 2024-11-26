@@ -7,6 +7,7 @@ import SmartTableHeader from './SmartTableHeader'
 import SmartTaskItem from './SmartTaskItem'
 import SmartTaskList from './SmartTaskList'
 import SmartImage from './SmartImage/SmartImage'
+import SmartCodeBlock from './SmartCodeBlock/SmartCodeBlock'
 import { Node } from '@tiptap/core'
 import { Plugin } from 'prosemirror-state'
 import UUIDHelper from '../helper/UUIDHelper'
@@ -37,6 +38,7 @@ const types = {
     [SmartTaskItem.name]: true,
     [SmartTaskList.name]: true,
     [SmartImage.name]: true,
+    [SmartCodeBlock.name]: true,
 }
 
 const SmartUUID = Node.create({

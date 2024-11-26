@@ -147,20 +147,12 @@ class EditorNode {
     public setParentId(parentId: string): EditorNode {
         return this.setAttrs({ ...this.attrs, parentId });
     }
-
-    public print(indent: string = '') {
-        console.log(`${indent}Type: ${this.type}, UUID: ${this.attrs?.uuid}`);
-        if (this.children) {
-            this.children.forEach(child => {
-                child.print(indent + '  ');
-            });
-        }
-    }
 }
 
 function getTitle(json: JSONContent): string {
     if (json.type == SmartText.name) {
-        return json.text ?? ""
+        const text = json.text ?? ""
+        return text.length > 20 ? text.substring(0, 20) + "..." : text
     }
 
     let content = json.content
