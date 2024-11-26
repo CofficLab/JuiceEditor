@@ -84,7 +84,7 @@ const NodeStore = Extension.create<{}, NodeStoreStorage>({
                 } catch (error: unknown) {
                     if (error instanceof EditorNodeNoUUIDError) {
                         commands.showAlert(error.message, {
-                            error: error,
+                            error: error.message,
                             type: error.block.type,
                             attrs: error.block.attrs,
                             title: error.block.title,

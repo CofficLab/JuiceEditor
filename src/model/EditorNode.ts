@@ -36,8 +36,8 @@ class EditorNode {
             node = node.setUUID(node.getParentId()! + '-text')
         }
 
-        if (node.getUUID() === undefined) {
-            throw new EditorNodeNoUUIDError("UUID is not set", node)
+        if (node.getUUID() === undefined && node.type !== SmartDoc.name) {
+            throw new EditorNodeNoUUIDError(title + "::fromJSON -> UUID is not set", node)
         }
 
         node = node
@@ -57,13 +57,7 @@ class EditorNode {
     }
 
     public getUUID(): string | undefined {
-        let uuid = this.attrs?.uuid
-
-        if (this.type == SmartDoc.name) {
-            return 'doc'
-        }
-
-        return uuid
+        return this.attrs?.uuid
     }
 
     public getParentId(): string | undefined {

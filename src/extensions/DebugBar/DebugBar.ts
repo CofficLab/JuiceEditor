@@ -2,11 +2,19 @@ import { TiptapExtension } from '../../model/TiptapGroup';
 import { createApp, h } from 'vue';
 import Component from './Component.vue';
 
+export interface DebugBarStorage {
+    verbose: boolean
+    enabled: boolean
+}
+
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
         DebugBar: {
             showDebugBar: (message: string, debugInfo: object) => ReturnType
             closeDebugBar: () => ReturnType
+            enableDebugBar: () => ReturnType
+            disableDebugBar: () => ReturnType
+            toggleDebugBar: () => ReturnType
         }
     }
 }
@@ -14,8 +22,8 @@ declare module '@tiptap/core' {
 const DebugBar = TiptapExtension.create({
     name: 'DebugBar',
 
-    onCreate() {
-        if (process.env.NODE_ENV === 'development') {
+    onUpdate() {
+        if (this.storage.enabled) {
             this.editor.commands.showDebugBar('Hello', { a: 1, b: 2 })
         }
     },
@@ -23,6 +31,7 @@ const DebugBar = TiptapExtension.create({
     addStorage() {
         return {
             verbose: false,
+            enabled: false,
         }
     },
 
@@ -34,6 +43,27 @@ const DebugBar = TiptapExtension.create({
 
     addCommands() {
         return {
+            enableDebugBar: () => ({ }) => {
+                this.storage.enabled = true
+                return true
+            },
+
+            disableDebugBar: () => ({ }) => {
+                this.storage.enabled = false
+                return true
+            },
+
+            toggleDebugBar: () => ({ }) => {
+                this.storage.enabled = !this.storage.enabled
+
+                if (this.storage.enabled) {
+                    this.editor.commands.showDebugBar('Hello', { a: 1, b: 2 })
+                } else {
+                    this.editor.commands.closeDebugBar()
+                }
+                return true
+            },
+
             showDebugBar: () => ({ editor }) => {
                 const mountPoint = document.createElement('div');
                 mountPoint.id = this.options.mountPointId;

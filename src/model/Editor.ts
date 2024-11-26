@@ -37,6 +37,10 @@ class Editor {
         this.editor?.commands.disableWebKitVerbose()
     }
 
+    public disableDebugBar: () => void = () => {
+        this.editor?.commands.disableDebugBar()
+    }
+
     public disableWebKitSendNodes: () => void = () => {
         this.editor?.commands.disableWebKitSendNodes()
     }
@@ -67,6 +71,10 @@ class Editor {
 
     public disableAssistantVerbose: () => void = () => {
         this.editor?.commands.disableAssistantVerbose()
+    }
+
+    public enableDebugBar: () => void = () => {
+        this.editor?.commands.enableDebugBar()
     }
 
     public enableVerboseMode: () => void = () => {
@@ -209,6 +217,10 @@ class Editor {
 
     public toggleTOC() {
         this.toggleToc()
+    }
+
+    public toggleDebugBar() {
+        this.editor?.commands.toggleDebugBar()
     }
 }
 
