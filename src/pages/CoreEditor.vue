@@ -5,6 +5,9 @@ import FloatMenus from '../menus/MenuFloat.vue'
 import MenuLeft from '../menus/MenuLeft.vue'
 import MenuRight from '../menus/MenuRight.vue'
 import { computed, nextTick, onMounted, ref } from 'vue'
+import { SmartMenusStorage } from '../extensions/SmartMenus'
+import { SmartBackgroundStorage } from '../extensions/SmartBackground'
+import { CharacterCountStorage } from '@tiptap/extension-character-count'
 
 const props = defineProps({
 	editor: {
@@ -18,11 +21,15 @@ const props = defineProps({
 })
 
 const isDebug = false
-const menuColor = computed(() => props.editor.storage.smartMenus.color)
-const backgroundClass = ref(props.editor.storage.smartBackground.backgroundClass)
+const smartMenus = props.editor.storage.smartMenus as SmartMenusStorage
+const smartBackground = props.editor.storage.smartBackground as SmartBackgroundStorage
+const characterCount = props.editor.storage.characterCount as CharacterCountStorage
+
+const menuColor = computed(() => smartMenus.color)
+const backgroundClass = ref(smartBackground.backgroundClass)
 
 props.editor.on('update', ({ editor }) => {
-	backgroundClass.value = editor.storage.smartBackground.backgroundClass
+	backgroundClass.value = smartBackground.backgroundClass
 })
 
 onMounted(() => {
@@ -66,8 +73,7 @@ onMounted(() => {
 				<EditorContent id="editor-content" :editor="editor" />
 				<div id="editor-footer" class="w-full flex flex-col justify-end container mt-24 pr-8">
 					<p class="text-xs text-gray-500 text-end">
-						{{ editor.storage.characterCount.characters() }} 个字 ｜ {{ editor.storage.characterCount.words()
-						}}
+						{{ characterCount.characters() }} 个字 ｜ {{ characterCount.words() }}
 						个词
 					</p>
 				</div>

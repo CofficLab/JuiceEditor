@@ -1,4 +1,6 @@
 import { TiptapExtension } from '../model/TiptapGroup';
+import { NodeStoreStorage } from './NodeStore';
+import { SmartSlotStorage } from './SmartSlot';
 
 export interface LocalStorageStorage {
     verbose: boolean,
@@ -46,13 +48,10 @@ const LocalStorage = TiptapExtension.create<{}, LocalStorageStorage>({
     },
 
     onUpdate() {
-        if (this.storage.verbose && this.storage.enabled) {
-            console.log(this.storage.emoji, "onUpdate")
-        }
-
         if (this.storage.printDocNode) {
             console.log(this.storage.emoji, 'the doc node is')
-            console.log(this.editor.storage.article.article)
+            const nodeStore = this.editor.storage.nodeStore as NodeStoreStorage
+            console.log(nodeStore.article)
         }
 
         if (!this.storage.enabled) {
@@ -144,7 +143,9 @@ const LocalStorage = TiptapExtension.create<{}, LocalStorageStorage>({
                     console.log(this.storage.emoji, '🖥️ boot local storage')
                 }
 
-                if (this.editor.storage.smartSlot.slotHasOriginalContent == false) {
+                const smartSlot = this.editor.storage.smartSlot as SmartSlotStorage
+
+                if (smartSlot.slotHasOriginalContent == false) {
                     commands.setContentFromLocalStorage()
                 } else {
                     if (this.storage.verbose) {

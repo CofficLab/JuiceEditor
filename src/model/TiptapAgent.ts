@@ -66,6 +66,8 @@ import makeExtensionsProps from '../interface/MakeExtensionProps'
 import DragDrop from "../extensions/DragDrop"
 import NodeStore from "../extensions/NodeStore"
 import SmartToc from "../extensions/SmartToc/SmartToc"
+import UUID from "../extensions/UUID/UUID"
+import SmartUUID from "../extensions/SmartUUID"
 
 const isDebug = process.env.NODE_ENV === 'development'
 const defaultTranslateApi = isDebug
@@ -187,6 +189,7 @@ function makeExtensions(props: makeExtensionsProps) {
         SmartTaskList,
         SmartText,
         SmartToc,
+        SmartUUID,
         SourceCode,
         StrikeExtension.configure({
             HTMLAttributes: {
@@ -201,6 +204,9 @@ function makeExtensions(props: makeExtensionsProps) {
         TextStyleExtension,
         UnderlineExtension,
         URLListener,
+        // UUID.configure({
+        //     types: ['heading'],
+        // }),
         WebKit,
         WebStorage,
     ]

@@ -3,7 +3,8 @@ import EditorOptions from '../interface/EditorOptions'
 import { colors } from '../extensions/SmartMenus'
 import EditorNode from './EditorNode'
 import TocHeading from '../extensions/SmartToc/TocHeading'
-
+import { NodeStoreStorage } from '../extensions/NodeStore'
+import { SmartHeadingStorage } from '../extensions/SmartHeading'
 class Editor {
     public editor: TiptapEditor | null = null
     public options: EditorOptions
@@ -46,6 +47,10 @@ class Editor {
 
     public disableDocVerbose: () => void = () => {
         this.editor?.commands.disableDocVerbose()
+    }
+
+    public disableSmartSelectionVerbose: () => void = () => {
+        this.editor?.commands.disableSmartSelectionVerbose()
     }
 
     public disableURLListenerVerbose: () => void = () => {
@@ -101,15 +106,21 @@ class Editor {
     }
 
     public getHeadings: () => TocHeading[] = () => {
-        return this.editor?.storage.article.headings || []
+        const smartHeading = this.editor?.storage.smartHeading as SmartHeadingStorage
+
+        return smartHeading.headings || []
     }
 
     public getNode: () => EditorNode = () => {
-        return this.editor?.storage.article.article
+        const nodeStore = this.editor?.storage.nodeStore as NodeStoreStorage
+
+        return nodeStore.article
     }
 
     public getNodes: () => EditorNode[] = () => {
-        return this.editor?.storage.article.article.flattened() || []
+        const nodeStore = this.editor?.storage.nodeStore as NodeStoreStorage
+
+        return nodeStore.article.flattened()
     }
 
     public getHTML: () => string = () => {

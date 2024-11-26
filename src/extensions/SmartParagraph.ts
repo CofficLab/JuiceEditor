@@ -2,6 +2,7 @@ import Paragraph from "@tiptap/extension-paragraph";
 import { TiptapEditor } from "../model/TiptapGroup";
 import { Node } from "prosemirror-model";
 import UUIDHelper from "../helper/UUIDHelper";
+import { AssistantStorage } from "./Assistant";
 
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
@@ -82,12 +83,6 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
         return {
             class: {
                 default: "p-class"
-            },
-            uuid: {
-                default: UUIDHelper.generate("SmartParagraph"),
-                parseHTML: (element) => {
-                    return element.getAttribute('data-uuid')
-                }
             }
         }
     },
@@ -147,11 +142,12 @@ const SmartParagraph = Paragraph.extend<ParagraphOptions>({
                     return false;
                 }
 
+                const assistant = this.editor.storage.assistant as AssistantStorage
                 const start = $from.start();
                 const end = $to.end();
                 const content = editor.state.doc.textBetween(start, end, ' ');
                 const debugTitle = this.storage.title;
-                const url = this.editor.storage.assistant.chatApi;
+                const url = assistant.chatApi;
                 var originalTextDeleted = false
                 var translatedText = '';
                 var translatedNode: Node | null = null;

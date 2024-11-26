@@ -2,7 +2,7 @@
 import { computed, defineProps, ref } from 'vue'
 import Button from '../ui/Button.vue'
 import { HeadingExtension, TiptapEditor } from '../model/TiptapGroup'
-import SmartImage from '../extensions/SmartImage/SmartImage'
+import SmartImage, { SmartImageStorage } from '../extensions/SmartImage/SmartImage'
 import { shouldShowMarginMenu } from '../extensions/SmartMenus'
 import {
     RiEditLine, RiDownloadLine, RiShapeLine, RiIndentDecrease,
@@ -30,6 +30,7 @@ let props = defineProps({
 })
 
 let fileInput = ref<HTMLInputElement | null>(null)
+const smartImage = props.editor.storage.smartImage as SmartImageStorage
 
 function fileToBase64(file: File) {
     return new Promise((resolve, reject) => {
@@ -48,8 +49,8 @@ async function onFileSelected() {
     let file = fileInput.value?.files?.item(0)
     const base64 = await fileToBase64(file!)
 
-    if (props.editor.storage.image.verbose) {
-        console.log(props.editor.storage.image.title, 'change image base64')
+    if (smartImage.verbose) {
+        console.log(smartImage.title, 'change image base64')
     }
 
     props.editor.commands.updateAttributes(SmartImage.name, {

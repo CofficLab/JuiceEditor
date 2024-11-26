@@ -6,6 +6,7 @@ import SourceCode from './SourceCode.vue'
 import CoreEditor from './CoreEditor.vue'
 import { makeExtensions, defaultDrawIoLink, defaultTranslateApi, defaultFocusClassName } from '../model/TiptapAgent';
 import Editor from '../model/Editor';
+import { SourceCodeStorage } from '../extensions/SourceCode';
 
 const rootAgent: Editor = inject('rootAgent')!
 const ready = ref(false)
@@ -39,7 +40,8 @@ function onEditorMounted() {
 }
 
 const showSourceCode = computed(() => {
-    return editor.storage.sourceCode.shouldShow
+    const sourceCode = editor.storage.sourceCode as SourceCodeStorage
+    return sourceCode.shouldShow
 })
 
 </script>

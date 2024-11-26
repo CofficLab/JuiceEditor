@@ -1,14 +1,10 @@
-import { Extension, Node } from '@tiptap/core'
-import UUIDHelper from '../helper/UUIDHelper'
+import { Extension } from '@tiptap/core'
 import EditorNode from '../model/EditorNode'
-import { createApp, h } from 'vue'
-import TocView from './SmartToc/TocView.vue'
 import SmartHeading from './SmartHeading'
-import TocHeading from './SmartToc/TocHeading'
-import UUIDError from '../error/UUIDError'
+import { EditorNodeNoUUIDError, EditorNodeNoParentIdError } from '../error/EditorNodeError'
 import Article from './Article'
 import { priorityOfNodeStore } from '../model/TiptapGroup'
-
+import { CharacterCountStorage } from '@tiptap/extension-character-count'
 export interface NodeStoreStorage {
     verbose: boolean,
     title: string,
@@ -41,7 +37,7 @@ const NodeStore = Extension.create<{}, NodeStoreStorage>({
     addStorage() {
         return {
             verbose: false,
-            title: "🗄️ NodeStore",
+            title: "🚘 NodeStore",
             article: EditorNode.empty(),
         }
     },
@@ -71,27 +67,40 @@ const NodeStore = Extension.create<{}, NodeStoreStorage>({
                 return true
             },
 
-            updateNodeStoreStorage: (stage: string) => ({ state, dispatch, tr, commands, editor }) => {
+            updateNodeStoreStorage: (stage: string) => ({ commands, editor }) => {
                 if (this.storage.verbose) {
                     console.log(this.storage.title, "updateNodeStoreStorage", stage)
                 }
 
-                // Update article
-                let doc = EditorNode.fromEditor(this.editor)
-                this.storage.article = doc.children?.find(node => node.type == Article.name) ?? EditorNode.empty()
-                this.storage.article.setHTML(this.editor.getHTML())
-                this.storage.article.setWordCount(this.editor.storage.characterCount.words())
-                this.storage.article.setCharacterCount(this.editor.storage.characterCount.characters())
+                const characterCount = editor.storage.characterCount as CharacterCountStorage
 
+                // Update article
                 try {
-                    this.storage.article.flattened()
+                    let doc = EditorNode.fromEditor(this.editor)
+                    this.storage.article = doc.children?.find(node => node.type == Article.name) ?? EditorNode.empty()
+                    this.storage.article.setHTML(this.editor.getHTML())
+                    this.storage.article.setWordCount(characterCount.words())
+                    this.storage.article.setCharacterCount(characterCount.characters())
                 } catch (error: unknown) {
-                    if (error instanceof UUIDError) {
+                    if (error instanceof EditorNodeNoUUIDError) {
                         commands.showAlert(error.message, {
                             error: error,
                             type: error.block.type,
                             attrs: error.block.attrs,
                             title: error.block.title,
+                            stage: stage,
+                        })
+                    } else if (error instanceof EditorNodeNoParentIdError) {
+                        commands.showAlert(error.message, {
+                            error: error,
+                            type: error.block.type,
+                            attrs: error.block.attrs,
+                            title: error.block.title,
+                            stage: stage,
+                        })
+                    } else {
+                        commands.showAlert("Error updating NodeStore", {
+                            error: error,
                             stage: stage,
                         })
                     }
@@ -102,7 +111,7 @@ const NodeStore = Extension.create<{}, NodeStoreStorage>({
                 return true
             },
 
-            bootNodeStore: () => ({ commands, editor }) => {
+            bootNodeStore: () => ({ commands }) => {
                 if (this.storage.verbose) {
                     console.log(this.storage.title, "bootNodeStore")
                 }
@@ -122,19 +131,7 @@ const NodeStore = Extension.create<{}, NodeStoreStorage>({
     },
 
     onUpdate() {
-        if (this.storage.verbose) {
-            console.log(this.storage.title, "onUpdate")
-        }
-
         this.editor.commands.updateNodeStoreStorage("NodeStore:onUpdate")
-
-        if (this.storage.verbose) {
-            console.log(this.storage.title, "onUpdate, article updated")
-        }
-
-        if (this.storage.verbose) {
-            console.log(this.storage.title, "onUpdate, article updated")
-        }
     },
 })
 

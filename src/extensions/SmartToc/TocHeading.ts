@@ -1,4 +1,5 @@
 import { TiptapEditor } from "../../model/TiptapGroup"
+import { SmartHeadingStorage } from "../SmartHeading"
 
 const title = '🌳 SmartHeading'
 
@@ -63,7 +64,8 @@ class TocHeading {
     }
 
     static makeTree(editor: TiptapEditor): TocHeading {
-        let headings: TocHeading[] = editor.storage.heading.headings
+        const heading = editor.storage.heading as SmartHeadingStorage
+        let headings: TocHeading[] = heading.headings
 
         //console.log("makeTree with", headings)
         var root = new TocHeading()

@@ -1,11 +1,7 @@
 import { Node } from '@tiptap/core'
 import UUIDHelper from '../helper/UUIDHelper'
-import EditorNode from '../model/EditorNode'
-import { createApp, h } from 'vue'
-import TocView from './SmartToc/TocView.vue'
 import SmartHeading from './SmartHeading'
 import TocHeading from './SmartToc/TocHeading'
-import UUIDError from '../error/UUIDError'
 import { priorityOfArticle } from '../model/TiptapGroup'
 
 export interface ArticleOptions {
@@ -57,13 +53,6 @@ const Article = Node.create<ArticleOptions, ArticleStorage>({
 
     addAttributes() {
         return {
-            uuid: {
-                default: UUIDHelper.generate("Article"),
-                parseHTML: element => element.getAttribute('data-uuid'),
-                renderHTML: attributes => ({
-                    'data-uuid': attributes.uuid,
-                }),
-            },
             toc: {
                 default: false,
                 parseHTML: element => element.getAttribute('data-toc') == 'true',
@@ -129,16 +118,6 @@ const Article = Node.create<ArticleOptions, ArticleStorage>({
 
     renderHTML({ HTMLAttributes }) {
         return ['article', { ...HTMLAttributes }, 0]
-    },
-
-    onUpdate() {
-        if (this.storage.verbose) {
-            console.log(this.storage.title, "onUpdate")
-        }
-
-        if (this.storage.verbose) {
-            console.log(this.storage.title, "onUpdate, article updated")
-        }
     },
 })
 

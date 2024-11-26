@@ -3,6 +3,8 @@ import { onMounted, nextTick, ref, onBeforeUnmount } from 'vue'
 import TocHeading from './TocHeading'
 import HeadingTree from './HeadingTree.vue'
 import { TiptapEditor } from '../../model/TiptapGroup';
+import { NodeStoreStorage } from '../NodeStore';
+import { SmartTocStorage } from './SmartToc';
 
 const props = defineProps({
 	editor: {
@@ -12,18 +14,20 @@ const props = defineProps({
 })
 
 let headingTree = ref(new TocHeading())
+const smartToc = props.editor.storage.smartToc as SmartTocStorage
+const nodeStore = props.editor.storage.nodeStore as NodeStoreStorage
 
 function handleUpdate() {
-	if (props.editor.storage.article.verbose) {
-		console.log(props.editor.storage.article.title, 'handleUpdate')
+	if (smartToc.verbose) {
+		console.log(nodeStore.article.title, 'handleUpdate')
 	}
 
 	headingTree.value = TocHeading.makeTree(props.editor) as unknown as TocHeading
 }
 
 onMounted(() => {
-	if (props.editor.storage.article.verbose) {
-		console.log(props.editor.storage.article.title, 'mounted')
+	if (smartToc.verbose) {
+		console.log(nodeStore.article.title, 'mounted')
 	}
 
 	props.editor.on('update', handleUpdate)
@@ -70,8 +74,8 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
-	if (props.editor.storage.article.verbose) {
-		console.log(props.editor.storage.article.title, 'onBeforeUnmount')
+	if (smartToc.verbose) {
+		console.log(nodeStore.article.title, 'onBeforeUnmount')
 	}
 
 	props.editor.off('update', handleUpdate)
@@ -82,10 +86,10 @@ onBeforeUnmount(() => {
 	<div class="toc-wrapper">
 		<!-- TOC，和顶部留一些距离，因为WEB项目顶部有导航栏 -->
 		<div id="toc" v-if="true" :class="{
-			'md:bg-slate-300/10': props.editor.storage.article.verbose,
-			'lg:bg-blue-300/50': props.editor.storage.article.verbose,
-			'xl:bg-purple-300/50': props.editor.storage.article.verbose,
-			'2xl:bg-red-300/50': props.editor.storage.article.verbose,
+			'md:bg-slate-300/10': smartToc.verbose,
+			'lg:bg-blue-300/50': smartToc.verbose,
+			'xl:bg-purple-300/50': smartToc.verbose,
+			'2xl:bg-red-300/50': smartToc.verbose,
 			'fixed right-0 top-12 z-30': true,
 			'flex-row justify-start hidden h-screen overflow-y-scroll': true,
 			'w-48': true,

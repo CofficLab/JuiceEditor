@@ -1,5 +1,4 @@
 import Heading from "@tiptap/extension-heading";
-import UUIDHelper from "../helper/UUIDHelper";
 import TocHeading from "./SmartToc/TocHeading";
 export interface SmartHeadingStorage {
     title: string
@@ -39,28 +38,6 @@ const SmartHeading = Heading.extend<{}, SmartHeadingStorage>({
             ...this.parent?.(),
             class: {
                 default: "heading-class",
-            },
-            uuid: {
-                default: UUIDHelper.generate("SmartHeading"),
-                parseHTML: (element) => {
-                    let dataUUID = element.getAttribute('data-uuid')
-                    let uuid = element.getAttribute('uuid')
-
-                    if (dataUUID) {
-                        return dataUUID
-                    }
-
-                    if (uuid) {
-                        return uuid
-                    }
-
-                    console.warn(this.storage.title, "no uuid found, generating new one")
-
-                    return UUIDHelper.generate("SmartHeading: " + element.toString())
-                },
-                renderHTML: attributes => ({
-                    'data-uuid': attributes.uuid,
-                }),
             }
         }
     },
