@@ -38,11 +38,11 @@ class EditorNode {
             .setCharacterCount(characterCount.characters())
     }
 
-    public getUUID(): string {
+    public getUUID(): string | undefined {
         let uuid = this.attrs?.uuid
 
         if (!uuid) {
-            throw new UUIDError("UUID is not set", this)
+            console.warn(title, "UUID is not set", this)
         }
 
         return uuid
@@ -91,14 +91,26 @@ class EditorNode {
     }
 
     public flattened(): EditorNode[] {
-        const nodeCopy: EditorNode = { ...this }
+        var nodeCopy = { ...this }
+        var uuid = this.getUUID()
+
+        if (!uuid && this.type == SmartText.name) {
+            uuid = this.attrs?.parentId + "-text"
+            nodeCopy = { ...this }
+            nodeCopy.attrs = { ...nodeCopy.attrs, uuid }
+        }
+
+        if (!uuid) {
+            throw new UUIDError("UUID is not set", this)
+        }
+
         var flattened: EditorNode[] = [nodeCopy]
 
         this.children?.forEach(child => {
             flattened = flattened.concat(
                 child
                     .setHTML(child.type == Article.name ? this.html : undefined)
-                    .setParentId(this.getUUID())
+                    .setParentId(uuid!)
                     .flattened()
             )
         })

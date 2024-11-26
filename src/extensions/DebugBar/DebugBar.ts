@@ -15,11 +15,9 @@ const DebugBar = TiptapExtension.create({
     name: 'DebugBar',
 
     onCreate() {
-        if (this.storage.verbose) {
-            console.log('DebugBar created');
+        if (process.env.NODE_ENV === 'development') {
+            this.editor.commands.showDebugBar('Hello', { a: 1, b: 2 })
         }
-
-        this.editor.commands.showDebugBar('Hello', { a: 1, b: 2 })
     },
 
     addStorage() {
