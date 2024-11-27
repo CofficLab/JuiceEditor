@@ -5,6 +5,8 @@ import EditorNode from './EditorNode'
 import TocHeading from '../extensions/HeadingStore/TocHeading'
 import { NodeStoreStorage } from '../extensions/NodeStore'
 import { SmartHeadingStorage } from '../extensions/SmartHeading'
+import { HeadingStoreStorage } from '../extensions/HeadingStore/HeadingStore'
+
 class Editor {
     public editor: TiptapEditor | null = null
     public options: EditorOptions
@@ -116,7 +118,7 @@ class Editor {
     public getHeadings: () => TocHeading[] = () => {
         const smartHeading = this.editor?.storage.smartHeading as SmartHeadingStorage
 
-        return smartHeading.headings || []
+        return (this.editor?.storage.headingStore as HeadingStoreStorage).tree.flatten() || []
     }
 
     public getNode: () => EditorNode = () => {
