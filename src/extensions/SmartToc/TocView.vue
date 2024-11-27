@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { onMounted, nextTick, ref, onBeforeUnmount } from 'vue'
-import TocHeading from './TocHeading'
+import TocHeading from '../HeadingStore/TocHeading'
 import HeadingTree from './HeadingTree.vue'
+import { HeadingStoreStorage } from '../HeadingStore/HeadingStore'
 import { TiptapEditor } from '../../model/TiptapGroup';
-import { NodeStoreStorage } from '../NodeStore';
 import { SmartTocStorage } from './SmartToc';
 
 const props = defineProps({
@@ -15,19 +15,18 @@ const props = defineProps({
 
 let headingTree = ref(new TocHeading())
 const smartToc = props.editor.storage.smartToc as SmartTocStorage
-const nodeStore = props.editor.storage.nodeStore as NodeStoreStorage
 
 function handleUpdate() {
 	if (smartToc.verbose) {
-		console.log(nodeStore.article.title, 'handleUpdate')
+		console.log(smartToc.title, 'handleUpdate')
 	}
 
-	headingTree.value = TocHeading.makeTree(props.editor) as unknown as TocHeading
+	headingTree.value = (props.editor.storage.headingStore as HeadingStoreStorage).tree
 }
 
 onMounted(() => {
 	if (smartToc.verbose) {
-		console.log(nodeStore.article.title, 'mounted')
+		console.log(smartToc.title, 'mounted')
 	}
 
 	props.editor.on('update', handleUpdate)
@@ -74,10 +73,6 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
-	if (smartToc.verbose) {
-		console.log(nodeStore.article.title, 'onBeforeUnmount')
-	}
-
 	props.editor.off('update', handleUpdate)
 })
 </script>
@@ -86,10 +81,6 @@ onBeforeUnmount(() => {
 	<div class="toc-wrapper">
 		<!-- TOC，和顶部留一些距离，因为WEB项目顶部有导航栏 -->
 		<div id="toc" v-if="true" :class="{
-			'md:bg-slate-300/10': smartToc.verbose,
-			'lg:bg-blue-300/50': smartToc.verbose,
-			'xl:bg-purple-300/50': smartToc.verbose,
-			'2xl:bg-red-300/50': smartToc.verbose,
 			'fixed right-0 top-12 z-30': true,
 			'flex-row justify-start hidden h-screen overflow-y-scroll': true,
 			'w-48': true,

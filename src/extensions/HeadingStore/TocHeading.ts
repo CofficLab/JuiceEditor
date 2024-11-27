@@ -1,5 +1,5 @@
 import { TiptapEditor } from "../../model/TiptapGroup"
-import { SmartHeadingStorage } from "../SmartHeading"
+import { HeadingStoreStorage } from "./HeadingStore"
 
 const title = '🌳 SmartHeading'
 
@@ -42,6 +42,12 @@ class TocHeading {
         return this.children[this.children.length - 1]
     }
 
+    /**
+     * 将node插入到当前heading中
+     * @param node 
+     * @returns TocHeading
+     * @throws Error
+     */
     appendNode(node: TocHeading): TocHeading {
         if (this.level >= node.level) {
             throw new Error("不能将" + node.level + "级标题插入到" + this.level + "级标题中，append " + node.text + " -> " + this.text)
@@ -63,20 +69,8 @@ class TocHeading {
         return this.updateLastChild(this.children[this.children.length - 1].appendNode(node))
     }
 
-    static makeTree(editor: TiptapEditor): TocHeading {
-        const heading = editor.storage.heading as SmartHeadingStorage
-        let headings: TocHeading[] = heading.headings
-
-        //console.log("makeTree with", headings)
-        var root = new TocHeading()
-
-        headings.forEach((heading) => {
-            //console.log("appendNode", heading)
-            root = root.appendNode(heading)
-        })
-
-        //console.log("makeTree result", root)
-        return root
+    flatten(): TocHeading[] {
+        return this.children.flatMap((child) => [this, ...child.flatten()])
     }
 }
 

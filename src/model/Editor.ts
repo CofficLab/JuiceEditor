@@ -2,9 +2,11 @@ import { TiptapEditor } from './TiptapGroup'
 import EditorOptions from '../interface/EditorOptions'
 import { colors } from '../extensions/SmartMenus'
 import EditorNode from './EditorNode'
-import TocHeading from '../extensions/SmartToc/TocHeading'
+import TocHeading from '../extensions/HeadingStore/TocHeading'
 import { NodeStoreStorage } from '../extensions/NodeStore'
 import { SmartHeadingStorage } from '../extensions/SmartHeading'
+import { HeadingStoreStorage } from '../extensions/HeadingStore/HeadingStore'
+
 class Editor {
     public editor: TiptapEditor | null = null
     public options: EditorOptions
@@ -57,8 +59,20 @@ class Editor {
         this.editor?.commands.disableSmartSelectionVerbose()
     }
 
+    public disableHeadingStoreVerbose: () => void = () => {
+        this.editor?.commands.disableHeadingStoreVerbose()
+    }
+
     public disableURLListenerVerbose: () => void = () => {
         this.editor?.commands.disableURLListenerVerbose()
+    }
+
+    public disableNodeStoreVerbose: () => void = () => {
+        this.editor?.commands.disableNodeStoreVerbose()
+    }
+
+    public disableTocVerbose: () => void = () => {
+        this.editor?.commands.disableTocVerbose()
     }
 
     public disableArticleVerbose: () => void = () => {
@@ -116,7 +130,7 @@ class Editor {
     public getHeadings: () => TocHeading[] = () => {
         const smartHeading = this.editor?.storage.smartHeading as SmartHeadingStorage
 
-        return smartHeading.headings || []
+        return (this.editor?.storage.headingStore as HeadingStoreStorage).tree.flatten() || []
     }
 
     public getNode: () => EditorNode = () => {

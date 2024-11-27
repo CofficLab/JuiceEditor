@@ -2,6 +2,6 @@
     @apply bg-blue-100/10 dark:bg-slate-800/80 ring-1 ring-red-700/20 rounded;
 } */
 
-.has-active:not(.toc-wrapper) {
-    @apply bg-blue-100/10 dark:bg-slate-800/80 ring-1 ring-blue-700/20 rounded;
+.has-active:not(.toc-wrapper):not(article) {
+    @apply bg-blue-100/10 dark:bg-slate-800/80 ring-2 ring-blue-700/20 rounded;
 }

@@ -2,7 +2,7 @@ import { Node } from '@tiptap/core'
 import { createApp, h } from 'vue'
 import TocView from './TocView.vue'
 import SmartHeading from '../SmartHeading'
-import TocHeading from './TocHeading'
+import TocHeading from '../HeadingStore/TocHeading'
 import { priorityOfToc } from '../../model/TiptapGroup'
 import { NodeStoreStorage } from '../NodeStore'
 

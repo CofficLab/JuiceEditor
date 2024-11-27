@@ -1,7 +1,7 @@
 import { Node } from '@tiptap/core'
 import UUIDHelper from '../helper/UUIDHelper'
 import SmartHeading from './SmartHeading'
-import TocHeading from './SmartToc/TocHeading'
+import TocHeading from './HeadingStore/TocHeading'
 import { priorityOfArticle } from '../model/TiptapGroup'
 
 export interface ArticleOptions {

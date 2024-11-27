@@ -1,13 +1,14 @@
-import { findParentNode } from '@tiptap/core'
-import { TiptapEditor, ListItemExtension, TableExtension, TiptapExtension } from '../model/TiptapGroup'
+import { TableExtension, TiptapExtension } from '../model/TiptapGroup'
 import SmartImage from './SmartImage/SmartImage'
 import { priorityOfSelection } from '../model/TiptapGroup'
+import { Node as TiptapNode } from 'prosemirror-model'
 
 export interface SmartSelectionStorage {
-	type: string
+	leafSelectionType: string
 	verbose: boolean
 	title: string
-	selections: string[]
+	selectionTypes: string[]
+	leafSelectionNode: TiptapNode | null
 }
 
 declare module '@tiptap/core' {
@@ -16,6 +17,7 @@ declare module '@tiptap/core' {
 			deleteSelectionNode: () => ReturnType
 			enableSmartSelectionVerbose: () => ReturnType
 			disableSmartSelectionVerbose: () => ReturnType
+			updateSelection: () => ReturnType
 		}
 	}
 }
@@ -27,10 +29,11 @@ export default TiptapExtension.create<{}, SmartSelectionStorage>({
 
 	addStorage() {
 		return {
-			type: 'unknown',
+			leafSelectionType: 'unknown',
 			verbose: false,
 			title: '🛟 SmartSelection',
-			selections: []
+			selectionTypes: [],
+			leafSelectionNode: null
 		}
 	},
 
@@ -47,70 +50,60 @@ export default TiptapExtension.create<{}, SmartSelectionStorage>({
 			},
 
 			deleteSelectionNode: () => ({ editor, chain }) => {
-				const node = getSelectionNode(editor)
-				if (!node) {
-					console.warn("no selected node")
-					return false
+				const type = this.storage.leafSelectionType
+
+				if (this.storage.verbose) {
+					console.log(this.storage.title, "deleteSelectionNode", type)
 				}
 
 				if (editor.isActive(TableExtension.name)) {
 					return chain().focus().deleteTable().run()
 				}
 
-				if (node.type.name === SmartImage.name) {
+				if (type === SmartImage.name) {
 					return chain().focus().deleteSelection().run()
 				}
 
-				return chain().focus().deleteNode(node.type.name).run()
+				return chain().focus().deleteNode(type).run()
 			},
+
+			updateSelection: () => ({ editor }) => {
+				if (this.storage.verbose) {
+					console.log(this.storage.title, "updateSelection")
+				}
+
+				const { selection } = editor.state;
+				const { $from, $to } = selection;
+				var leafNode: TiptapNode | null = null;
+				let types: string[] = [];
+
+				editor.state.doc.nodesBetween($from.pos, $to.pos, (node) => {
+					types.push(node.type.name);
+					leafNode = node;
+				});
+
+				this.storage.selectionTypes = types;
+				this.storage.leafSelectionType = this.storage.selectionTypes[this.storage.selectionTypes.length - 1]
+				this.storage.leafSelectionNode = leafNode;
+
+				return true
+			}
 		}
 	},
 
 	onSelectionUpdate() {
-		const { selection } = this.editor.state;
-		const { $from } = selection;
+		if (this.storage.verbose) {
+			console.log(this.storage.title, "onSelectionUpdate")
+		}
 
-		// // 构建从根节点到当前节点的路径
-		// let node = $from.node();
-		// let path = [];
+		this.editor.commands.updateSelection()
 
-		// // 从当前节点向上遍历到文档根节点
-		// for (let depth = $from.depth; depth >= 0; depth--) {
-		// 	path.unshift(node.type.name);
-		// 	node = $from.node(depth);
-		// }
+		if (this.storage.verbose) {
+			console.log(this.storage.title, "selectionTypes", this.storage.selectionTypes)
+		}
 
-		// this.storage.selections = path
-
-		// const selectedNode = getSelectionNode(this.editor)
-
-		// if (selectedNode?.type.name === this.storage.type) {
-		// 	return
-		// }
-
-		// if (this.storage.verbose) {
-		// 	console.log(this.storage.title, "onSelectionUpdate, type changed", node?.type.name)
-		// }
-
-		// this.storage.type = node?.type.name ?? 'unknown'
+		if (this.storage.verbose) {
+			console.log(this.storage.title, "leafSelectionType", this.storage.leafSelectionType)
+		}
 	},
 })
-
-export function getSelectionNode(editor: TiptapEditor) {
-	console.log("get selection node")
-	// @ts-ignore
-	const { node } = editor.state.selection
-	if (node) {
-		return node
-	}
-	let parentNode = findParentNode((node) => [ListItemExtension.name].includes(node.type.name))(
-		editor.state.selection,
-	)
-	const { $anchor } = editor.state.selection
-	if (parentNode) {
-		return $anchor.node(parentNode.depth)
-	}
-
-	// @ts-ignore
-	return editor.state.selection.node
-}

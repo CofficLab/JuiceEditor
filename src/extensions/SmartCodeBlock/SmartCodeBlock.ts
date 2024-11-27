@@ -1,9 +1,8 @@
 import CodeBlock, { CodeBlockOptions } from '@tiptap/extension-code-block'
 import { VueNodeViewRenderer } from '@tiptap/vue-3'
-import SmartPreVue from './SmartPre.vue'
+import CodeBlockView from './CodeBlockView.vue'
 import MonacoFactory from './MonacoFactory';
 import { Component } from 'vue';
-import UUIDHelper from '../../helper/UUIDHelper';
 
 export interface SmartCodeBlockStorage {
 	verbose: boolean
@@ -60,7 +59,7 @@ export default CodeBlock.extend<CodeBlockOptions, SmartCodeBlockStorage>({
 	},
 
 	addNodeView() {
-		return VueNodeViewRenderer(SmartPreVue as Component)
+		return VueNodeViewRenderer(CodeBlockView as Component)
 	},
 
 	addCommands() {

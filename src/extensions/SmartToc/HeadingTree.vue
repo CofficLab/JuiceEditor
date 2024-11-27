@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
-import TocHeading from './TocHeading'
+import TocHeading from '../HeadingStore/TocHeading'
 import Link from '../../ui/Link.vue'
 import Li from '../../ui/Li.vue'
 import Ul from '../../ui/Ul.vue'

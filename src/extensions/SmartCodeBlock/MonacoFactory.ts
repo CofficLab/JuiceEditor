@@ -16,6 +16,7 @@ export interface CreateEditorOptions {
     onContentChanged?: (editor: monaco.editor.IStandaloneCodeEditor) => void;
     onRunnableChanged?: (value: boolean) => void;
     onLanguageChanged?: (lan: SmartLanguage) => void;
+    onMouseDown?: (e: monaco.editor.IEditorMouseEvent) => void;
     verbose: boolean
 }
 
@@ -138,6 +139,10 @@ class MonacoFactory {
         MonacoFactory.setHeightOfEditor(editor, options.verbose)
 
         options.onCreated?.(editor);
+
+        editor.onMouseDown((e) => {
+            options.onMouseDown?.(e);
+        });
 
         return editor
     }
