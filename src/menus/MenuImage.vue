@@ -30,7 +30,7 @@ let props = defineProps({
 })
 
 let fileInput = ref<HTMLInputElement | null>(null)
-const smartImage = props.editor.storage.smartImage as SmartImageStorage
+const smartImage = props.editor.storage.image as SmartImageStorage
 
 function fileToBase64(file: File) {
     return new Promise((resolve, reject) => {

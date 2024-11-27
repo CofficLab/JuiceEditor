@@ -1,8 +1,7 @@
 .tiptap {
+    user-select: none;
+
     img {
-        display: block;
-        height: auto;
-        max-width: 100%;
         user-select: none;
     }
 }
