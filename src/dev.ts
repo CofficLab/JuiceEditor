@@ -48,7 +48,7 @@ const editor = EditorFactory.register('my-editor', {
         editor.disableImageVerbose()
         editor.disableAssistantVerbose()
         editor.disableDocVerbose()
-        editor.disableSmartSelectionVerbose()
+        // editor.disableSmartSelectionVerbose()
         editor.disableHeadingStoreVerbose()
         editor.disableNodeStoreVerbose()
         editor.disableTocVerbose()

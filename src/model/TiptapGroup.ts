@@ -32,12 +32,14 @@ import TaskItem from "@tiptap/extension-task-item"
 import TextAlign from '@tiptap/extension-text-align'
 import TextStyle from '@tiptap/extension-text-style'
 import Underline from "@tiptap/extension-underline"
+import { Node } from 'prosemirror-model'
 
-const priorityOfSelection = 1
+const priorityOfMargin = 1
 const priorityOfToc = 10
 const priorityOfWebKit = 11
 const priorityOfHeadingStore = 12
 const priorityOfNodeStore = 20
+const priorityOfSelection = 30
 const priorityOfArticle = 100
 
 export {
@@ -47,6 +49,7 @@ export {
     priorityOfNodeStore,
     priorityOfSelection,
     priorityOfHeadingStore,
+    priorityOfMargin,
     
     Blockquote as BlockquoteExtension,
     BubbleMenu as BubbleMenuExtension,
@@ -71,6 +74,7 @@ export {
     ListItem as ListItemExtension,
     ListKeymap as ListKeymapExtension,
     Link as LinkExtension,
+    Node as TiptapNode,
     Paragraph as ParagraphExtension,
     Strike as StrikeExtension,
     Subscript as SubscriptExtension,

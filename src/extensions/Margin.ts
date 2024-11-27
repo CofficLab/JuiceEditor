@@ -1,5 +1,4 @@
 import { TiptapExtension } from '../model/TiptapGroup';
-import { getSelectionNode } from './SmartSelection';
 import Link from '@tiptap/extension-link';
 import BulletList from '@tiptap/extension-bullet-list';
 import ListItem from '@tiptap/extension-list-item';
@@ -9,6 +8,8 @@ import TableCell from '@tiptap/extension-table-cell';
 import TableHeader from '@tiptap/extension-table-header';
 import Features from './Features/Features';
 import Article from './Article';
+import { priorityOfMargin } from '../model/TiptapGroup';
+import { SmartSelectionStorage } from './SmartSelection';
 
 export interface MarginStorage {
     title: string,
@@ -37,6 +38,8 @@ declare module '@tiptap/core' {
 
 const Margin = TiptapExtension.create<MarginOptions, MarginStorage>({
     name: 'margin',
+
+    priority: priorityOfMargin,
 
     addStorage() {
         return {
@@ -93,7 +96,16 @@ const Margin = TiptapExtension.create<MarginOptions, MarginStorage>({
     addCommands() {
         return {
             moveRight: () => ({ commands }) => {
-                let node = getSelectionNode(this.editor);
+                const selectionStorage = this.editor.storage.selection as SmartSelectionStorage
+                let node = selectionStorage.leafSelectionNode;
+
+                if (node == null) {
+                    commands.showAlert('no leaf selection node', {
+                        stage: 'moveRight',
+                    })
+                    return false
+                }
+
                 let attrs = { ...node.attrs };
                 let currentIndex = -1;
 
@@ -129,7 +141,16 @@ const Margin = TiptapExtension.create<MarginOptions, MarginStorage>({
             },
 
             moveLeft: () => ({ commands }) => {
-                let node = getSelectionNode(this.editor);
+                const selectionStorage = this.editor.storage.selection as SmartSelectionStorage
+                let node = selectionStorage.leafSelectionNode;
+
+                if (node == null) {
+                    commands.showAlert('no leaf selection node', {
+                        stage: 'moveLeft',
+                    })
+                    return false
+                }
+
                 let attrs = { ...node.attrs };
                 let currentIndex = -1;
 
@@ -166,7 +187,16 @@ const Margin = TiptapExtension.create<MarginOptions, MarginStorage>({
             },
 
             justifyCenter: () => ({ commands }) => {
-                let node = getSelectionNode(this.editor);
+                const selectionStorage = this.editor.storage.selection as SmartSelectionStorage
+                let node = selectionStorage.leafSelectionNode;
+
+                if (node == null) {
+                    commands.showAlert('no leaf selection node', {
+                        stage: 'justifyCenter',
+                    })
+                    return false
+                }
+
                 let attrs = { ...node.attrs };
 
                 // 删除所有 margin 相关的 class
@@ -185,7 +215,16 @@ const Margin = TiptapExtension.create<MarginOptions, MarginStorage>({
             },
 
             justifyStart: () => ({ commands }) => {
-                let node = getSelectionNode(this.editor);
+                const selectionStorage = this.editor.storage.selection as SmartSelectionStorage
+                let node = selectionStorage.leafSelectionNode;
+
+                if (node == null) {
+                    commands.showAlert('no leaf selection node', {
+                        stage: 'justifyStart',
+                    })
+                    return false
+                }
+
                 let attrs = { ...node.attrs };
 
                 // 删除所有 margin 相关的 class
@@ -203,7 +242,16 @@ const Margin = TiptapExtension.create<MarginOptions, MarginStorage>({
             },
 
             justifyEnd: () => ({ commands }) => {
-                let node = getSelectionNode(this.editor);
+                const selectionStorage = this.editor.storage.selection as SmartSelectionStorage
+                let node = selectionStorage.leafSelectionNode;
+
+                if (node == null) {
+                    commands.showAlert('no leaf selection node', {
+                        stage: 'justifyEnd',
+                    })
+                    return false
+                }
+
                 let attrs = { ...node.attrs };
 
                 // 删除所有 margin 相关的 class
@@ -221,7 +269,16 @@ const Margin = TiptapExtension.create<MarginOptions, MarginStorage>({
             },
 
             resetMargin: () => ({ commands }) => {
-                let node = getSelectionNode(this.editor);
+                const selectionStorage = this.editor.storage.selection as SmartSelectionStorage
+                let node = selectionStorage.leafSelectionNode;
+
+                if (node == null) {
+                    commands.showAlert('no leaf selection node', {
+                        stage: 'resetMargin',
+                    })
+                    return false
+                }
+
                 let attrs = { ...node.attrs };
 
                 // 删除所有 margin 相关的 class
