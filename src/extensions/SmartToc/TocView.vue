@@ -4,7 +4,6 @@ import TocHeading from '../HeadingStore/TocHeading'
 import HeadingTree from './HeadingTree.vue'
 import { HeadingStoreStorage } from '../HeadingStore/HeadingStore'
 import { TiptapEditor } from '../../model/TiptapGroup';
-import { NodeStoreStorage } from '../NodeStore';
 import { SmartTocStorage } from './SmartToc';
 
 const props = defineProps({
@@ -16,11 +15,10 @@ const props = defineProps({
 
 let headingTree = ref(new TocHeading())
 const smartToc = props.editor.storage.smartToc as SmartTocStorage
-const nodeStore = props.editor.storage.nodeStore as NodeStoreStorage
 
 function handleUpdate() {
 	if (smartToc.verbose) {
-		console.log(nodeStore.title, 'handleUpdate')
+		console.log(smartToc.title, 'handleUpdate')
 	}
 
 	headingTree.value = (props.editor.storage.headingStore as HeadingStoreStorage).tree
@@ -28,7 +26,7 @@ function handleUpdate() {
 
 onMounted(() => {
 	if (smartToc.verbose) {
-		console.log(nodeStore.title, 'mounted')
+		console.log(smartToc.title, 'mounted')
 	}
 
 	props.editor.on('update', handleUpdate)
@@ -75,10 +73,6 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
-	if (smartToc.verbose) {
-		console.log(nodeStore.article.title, 'onBeforeUnmount')
-	}
-
 	props.editor.off('update', handleUpdate)
 })
 </script>

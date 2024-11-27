@@ -59,8 +59,20 @@ class Editor {
         this.editor?.commands.disableSmartSelectionVerbose()
     }
 
+    public disableHeadingStoreVerbose: () => void = () => {
+        this.editor?.commands.disableHeadingStoreVerbose()
+    }
+
     public disableURLListenerVerbose: () => void = () => {
         this.editor?.commands.disableURLListenerVerbose()
+    }
+
+    public disableNodeStoreVerbose: () => void = () => {
+        this.editor?.commands.disableNodeStoreVerbose()
+    }
+
+    public disableTocVerbose: () => void = () => {
+        this.editor?.commands.disableTocVerbose()
     }
 
     public disableArticleVerbose: () => void = () => {

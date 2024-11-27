@@ -49,6 +49,9 @@ const editor = EditorFactory.register('my-editor', {
         editor.disableAssistantVerbose()
         editor.disableDocVerbose()
         editor.disableSmartSelectionVerbose()
+        editor.disableHeadingStoreVerbose()
+        editor.disableNodeStoreVerbose()
+        editor.disableTocVerbose()
 
         editor.setChatApi(chatApi)
         editor.setDrawLink('/draw/index.html?')
