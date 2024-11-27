@@ -2,7 +2,7 @@ import { TiptapEditor } from './TiptapGroup'
 import EditorOptions from '../interface/EditorOptions'
 import { colors } from '../extensions/SmartMenus'
 import EditorNode from './EditorNode'
-import TocHeading from '../extensions/SmartToc/TocHeading'
+import TocHeading from '../extensions/HeadingStore/TocHeading'
 import { NodeStoreStorage } from '../extensions/NodeStore'
 import { SmartHeadingStorage } from '../extensions/SmartHeading'
 class Editor {

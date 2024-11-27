@@ -42,6 +42,7 @@ const Verbose = TiptapExtension.create<{}, VerboseStorage>({
                     .disableTocVerbose()
                     .disableSmartSelectionVerbose()
                     .disableSmartUUIDVerbose()
+                    .disableHeadingStoreVerbose()
                     .run()
             },
 
@@ -63,6 +64,7 @@ const Verbose = TiptapExtension.create<{}, VerboseStorage>({
                     .enableTocVerbose()
                     .enableSmartSelectionVerbose()
                     .enableSmartUUIDVerbose()
+                    .enableHeadingStoreVerbose()
                     .run()
             },
         }

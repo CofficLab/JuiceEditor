@@ -36,6 +36,7 @@ import Underline from "@tiptap/extension-underline"
 const priorityOfSelection = 1
 const priorityOfToc = 10
 const priorityOfWebKit = 11
+const priorityOfHeadingStore = 12
 const priorityOfNodeStore = 20
 const priorityOfArticle = 100
 
@@ -45,6 +46,8 @@ export {
     priorityOfWebKit,
     priorityOfNodeStore,
     priorityOfSelection,
+    priorityOfHeadingStore,
+    
     Blockquote as BlockquoteExtension,
     BubbleMenu as BubbleMenuExtension,
     CharacterCount as CharacterCountExtension,

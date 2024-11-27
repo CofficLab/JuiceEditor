@@ -68,6 +68,7 @@ import NodeStore from "../extensions/NodeStore"
 import SmartToc from "../extensions/SmartToc/SmartToc"
 import UUID from "../extensions/UUID/UUID"
 import SmartUUID from "../extensions/SmartUUID"
+import HeadingStore from "../extensions/HeadingStore/HeadingStore"
 
 const isDebug = process.env.NODE_ENV === 'development'
 const defaultTranslateApi = isDebug
@@ -100,6 +101,7 @@ function makeExtensions(props: makeExtensionsProps) {
         Features,
         GapcursorExtension,
         HardBreakExtension,
+        HeadingStore,
         HighlightExtension.configure({
             HTMLAttributes: {
                 class: 'highlight-class',
