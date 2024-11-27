@@ -12,6 +12,7 @@ import { ListItem } from '@tiptap/extension-list-item'
 import { TaskItem } from '@tiptap/extension-task-item'
 import CodeBlock from '@tiptap/extension-code-block';
 import Features from './Features/Features';
+import Article from './Article';
 
 const Padding = TiptapExtension.create({
     name: 'padding',
@@ -29,6 +30,7 @@ const Padding = TiptapExtension.create({
                 Image.name,
                 CodeBlock.name,
                 Features.name,
+                Article.name,
             ],
             excludeClass: 'no-padding',
             excludeIfIn: [

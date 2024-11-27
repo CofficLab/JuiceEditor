@@ -8,6 +8,7 @@ import TaskItem from '@tiptap/extension-task-item';
 import TableCell from '@tiptap/extension-table-cell';
 import TableHeader from '@tiptap/extension-table-header';
 import Features from './Features/Features';
+import Article from './Article';
 
 export interface MarginStorage {
     title: string,
@@ -74,6 +75,7 @@ const Margin = TiptapExtension.create<MarginOptions, MarginStorage>({
             defaultMargin: '',
             excludeNodes: [
                 Link.name,
+                Article.name,
             ],
             excludeClass: 'no-margin',
             excludeIfIn: [
