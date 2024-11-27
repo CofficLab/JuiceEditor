@@ -51,7 +51,7 @@ const HeadingStore = TiptapExtension.create<{}, HeadingStoreStorage>({
 
                 state.doc.descendants((node: any, pos: any) => {
                     if (['heading'].includes(node.type.name)) {
-                        const id = `heading-${currentId + 1}`
+                        const id = `heading-${currentId++}`
 
                         if (node.attrs.id !== id) {
                             tr.setNodeMarkup(pos, undefined, { ...node.attrs, id })
