@@ -1,10 +1,11 @@
 import { TiptapExtension } from '../../model/TiptapGroup';
 import { createApp, h } from 'vue';
-import Component from './Component.vue';
+import DebugView from './DebugView.vue';
 
 export interface DebugBarStorage {
     verbose: boolean
     enabled: boolean
+    mounted: boolean
 }
 
 declare module '@tiptap/core' {
@@ -32,6 +33,7 @@ const DebugBar = TiptapExtension.create({
         return {
             verbose: false,
             enabled: false,
+            mounted: false,
         }
     },
 
@@ -65,6 +67,11 @@ const DebugBar = TiptapExtension.create({
             },
 
             showDebugBar: () => ({ editor }) => {
+                // if already mounted, do nothing
+                if (this.storage.mounted) {
+                    return true
+                }
+
                 const mountPoint = document.createElement('div');
                 mountPoint.id = this.options.mountPointId;
                 mountPoint.style.position = 'fixed';
@@ -92,7 +99,7 @@ const DebugBar = TiptapExtension.create({
 
                 const app = createApp({
                     render() {
-                        return h(Component, {
+                        return h(DebugView, {
                             editor: editor,
                             onClose: () => {
                                 mountPoint.style.opacity = '0';
@@ -109,6 +116,7 @@ const DebugBar = TiptapExtension.create({
                 });
 
                 app.mount(mountPoint);
+                this.storage.mounted = true
                 return true;
             },
 
@@ -117,6 +125,7 @@ const DebugBar = TiptapExtension.create({
                 if (mountPoint) {
                     mountPoint.remove();
                 }
+                this.storage.mounted = false
                 return true;
             },
         };

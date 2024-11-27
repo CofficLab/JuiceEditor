@@ -51,6 +51,7 @@ const editor = EditorFactory.register('my-editor', {
         // editor.disableSmartSelectionVerbose()
         editor.disableHeadingStoreVerbose()
         editor.disableNodeStoreVerbose()
+        editor.disableSmartSelectionVerbose()
         editor.disableTocVerbose()
 
         editor.setChatApi(chatApi)

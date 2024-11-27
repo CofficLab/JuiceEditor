@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { TiptapEditor } from '../../model/TiptapGroup';
 import Tree from './Tree.vue';
-import { NodeStoreStorage } from '../../extensions/NodeStore';
-
+import { NodeStoreStorage } from '../NodeStore';
+import { SmartSelectionStorage } from '../SmartSelection';
 const props = defineProps({
     editor: {
         type: TiptapEditor,
@@ -11,30 +11,21 @@ const props = defineProps({
     }
 })
 
-const type = ref('')
+const address = ref('')
 const showTree = ref(false)
 const nodeStoreStorage = props.editor.storage.nodeStore as NodeStoreStorage
+const selectionStorage = props.editor.storage.selection as SmartSelectionStorage
 
 props.editor.on('selectionUpdate', () => {
-    const { selection } = props.editor.state;
-    const { $from } = selection;
+    address.value = selectionStorage.selectionTypes.join('->');
+})
 
-    // 构建从根节点到当前节点的路径
-    let node = $from.node();
-    let path = [];
-
-    // 从当前节点向上遍历到文档根节点
-    for (let depth = $from.depth; depth >= 0; depth--) {
-        path.unshift(node.type.name);
-        node = $from.node(depth);
-    }
-
-    // 用箭头连接所有节点类型
-    type.value = path.join('->');
+onMounted(() => {
+    address.value = selectionStorage.selectionTypes.join('->');
 })
 
 function closeMessage() {
-    props.editor.commands.closeDebugBar()
+    props.editor.commands.toggleDebugBar()
 }
 
 function toggleTree() {
@@ -47,7 +38,7 @@ const editorNode = computed(() => nodeStoreStorage.article)
 <template>
     <div class="w-full h-12 px-4 bg-slate-800 text-gray-400">
         <div class="flex justify-between items-center h-full">
-            <p>{{ type }}</p>
+            <p>{{ address }}</p>
 
             <div class="card-actions justify-end flex gap-2 items-center h-full flex-row">
                 <button class="btn btn-primary btn-sm" @click="toggleTree">查看结构</button>
