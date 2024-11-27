@@ -86,10 +86,6 @@ onBeforeUnmount(() => {
 	<div class="toc-wrapper">
 		<!-- TOC，和顶部留一些距离，因为WEB项目顶部有导航栏 -->
 		<div id="toc" v-if="true" :class="{
-			'md:bg-slate-300/10': smartToc.verbose,
-			'lg:bg-blue-300/50': smartToc.verbose,
-			'xl:bg-purple-300/50': smartToc.verbose,
-			'2xl:bg-red-300/50': smartToc.verbose,
 			'fixed right-0 top-12 z-30': true,
 			'flex-row justify-start hidden h-screen overflow-y-scroll': true,
 			'w-48': true,
