@@ -114,7 +114,7 @@ const WebKit = TiptapExtension.create<{}, WebKitStorage>({
         // 异步往 webkit 发送数据，防止界面卡顿
         this.editor.commands.asyncSendMessage({
             channel: "updateSelectionType",
-            type: smartSelection.type
+            type: smartSelection.leafSelectionType
         })
 
         return true
