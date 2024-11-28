@@ -7,7 +7,7 @@ import { NodeStoreStorage } from '../extensions/NodeStore'
 import { SmartHeadingStorage } from '../extensions/SmartHeading'
 import { HeadingStoreStorage } from '../extensions/HeadingStore/HeadingStore'
 import { LogStoreStorage } from '../extensions/LogStore'
-
+import SmartLog from './SmartLog'
 class Editor {
     public editor: TiptapEditor | null = null
     public options: EditorOptions
@@ -132,7 +132,7 @@ class Editor {
         this.editor?.commands.enableLocalStoragePrintDocNode()
     }
 
-    public getLogs: () => string[] = () => {
+    public getLogs: () => SmartLog[] = () => {
         const logStore = this.editor?.storage.logStore as LogStoreStorage
 
         return logStore.logs
