@@ -18,7 +18,7 @@ const smartToc = props.editor.storage.smartToc as SmartTocStorage
 
 function handleUpdate() {
 	if (smartToc.verbose) {
-		console.log(smartToc.title, 'handleUpdate')
+		props.editor.commands.appendLog(smartToc.title, '🔄 handleUpdate')
 	}
 
 	headingTree.value = (props.editor.storage.headingStore as HeadingStoreStorage).tree
@@ -26,7 +26,7 @@ function handleUpdate() {
 
 onMounted(() => {
 	if (smartToc.verbose) {
-		console.log(smartToc.title, 'mounted')
+		props.editor.commands.appendLog(smartToc.title, '🔄 mounted')
 	}
 
 	props.editor.on('update', handleUpdate)
@@ -78,20 +78,18 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-	<div class="toc-wrapper">
-		<!-- TOC，和顶部留一些距离，因为WEB项目顶部有导航栏 -->
-		<div id="toc" v-if="true" :class="{
-			'fixed right-0 top-12 z-30': true,
-			'flex-row justify-start hidden h-screen overflow-y-scroll': true,
-			'w-48': true,
-			'md:w-56 md:flex md:right-1': true,
-			'4md:w-48 4md:right-2': true,
-			'xl:w-64 4md:right-2': true,
-			'2xl:w-88 2xl:right-24': true
-		}">
-			<div class="w-full p-0 my-12 overflow-y-scroll menu menu-xs">
-				<HeadingTree :heading="h" v-for="h in headingTree.children"></HeadingTree>
-			</div>
+	<!-- TOC，和顶部留一些距离，因为WEB项目顶部有导航栏 -->
+	<div id="toc" v-if="true" :class="{
+		'fixed right-0 top-12 z-30': true,
+		'flex-row justify-start hidden h-screen overflow-y-scroll': true,
+		'w-48': true,
+		'md:w-56 md:flex md:right-1': true,
+		'4md:w-48 4md:right-2': true,
+		'xl:w-64 4md:right-2': true,
+		'2xl:w-88 2xl:right-24': true
+	}">
+		<div class="w-full p-0 my-12 overflow-y-scroll menu menu-xs">
+			<HeadingTree :heading="h" v-for="h in headingTree.children"></HeadingTree>
 		</div>
 	</div>
 </template>

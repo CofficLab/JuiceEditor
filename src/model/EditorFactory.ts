@@ -11,16 +11,15 @@ class EditorFactory {
      * 
      * @param label 编辑器标签
      * @param options 编辑器配置
-     * @returns 编辑器实例
      */
-    public static register(label: string, options: EditorOptions = {}): Editor {
+    public static register(label: string, options: EditorOptions = {}) {
         console.log(title, 'register', label)
 
-        const editor = new Editor(options)
+        const publicEditor = new Editor(options)
 
         customElements.define(label, defineCustomElement({
             setup() {
-                provide('rootAgent', editor)
+                provide('publicEditor', publicEditor)
                 const app = createApp(RootVue)
                 app.config.errorHandler = (err) => {
                     console.error(err)
@@ -29,8 +28,6 @@ class EditorFactory {
                 return () => h(RootVue)
             },
         }))
-
-        return editor
     }
 }
 

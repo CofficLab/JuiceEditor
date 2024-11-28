@@ -172,7 +172,7 @@ const WebKit = TiptapExtension.create<{}, WebKitStorage>({
 
             enableWebKit: () => () => {
                 if (this.storage.verbose) {
-                    console.log(this.storage.emoji, '✅ enableWebKit')
+                    this.editor.commands.appendLog(this.storage.emoji, '✅ enableWebKit')
                 }
 
                 this.storage.enabled = true;
@@ -182,7 +182,7 @@ const WebKit = TiptapExtension.create<{}, WebKitStorage>({
 
             disableWebKit: () => () => {
                 if (this.storage.verbose) {
-                    console.log(this.storage.emoji, '禁用 WebKit')
+                    this.editor.commands.appendLog(this.storage.emoji, '🔒 disableWebKit')
                 }
 
                 this.storage.enabled = false;
@@ -235,12 +235,16 @@ const WebKit = TiptapExtension.create<{}, WebKitStorage>({
             },
 
             bootWebKit: () => () => {
+                if (this.storage.verbose) {
+                    this.editor.commands.appendLog(this.storage.emoji, '🚀 bootWebKit ' + this.storage.enabled)
+                }
+
                 if (!('webkit' in window)) {
                     return true
                 }
 
                 if (this.storage.verbose) {
-                    console.log(this.storage.emoji, "🖥️ webkit send message: pageLoaded")
+                    this.editor.commands.appendLog(this.storage.emoji, '🖥️ webkit send message: pageLoaded')
                 }
 
                 this.editor.commands.webKitSendMessage({

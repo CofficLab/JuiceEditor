@@ -20,7 +20,6 @@ declare module '@tiptap/core' {
             addToc: () => ReturnType
             removeToc: () => ReturnType
             bootToc: () => ReturnType
-            createArticle: (title: string) => ReturnType
             updateNodeStoreStorage: (stage: string) => ReturnType
             bootNodeStore: () => ReturnType
         }
@@ -69,7 +68,7 @@ const NodeStore = Extension.create<{}, NodeStoreStorage>({
 
             updateNodeStoreStorage: (stage: string) => ({ commands, editor }) => {
                 if (this.storage.verbose) {
-                    console.log(this.storage.title, "updateNodeStoreStorage", stage)
+                    this.editor.commands.appendLog(this.storage.title, '🔄 updateNodeStoreStorage ' + stage)
                 }
 
                 const characterCount = editor.storage.characterCount as CharacterCountStorage
@@ -113,13 +112,13 @@ const NodeStore = Extension.create<{}, NodeStoreStorage>({
 
             bootNodeStore: () => ({ commands }) => {
                 if (this.storage.verbose) {
-                    console.log(this.storage.title, "bootNodeStore")
+                    this.editor.commands.appendLog(this.storage.title, '🔄 bootNodeStore')
                 }
 
                 commands.updateNodeStoreStorage("NodeStore:bootNodeStore")
 
                 if (this.storage.verbose) {
-                    console.log(this.storage.title, "bootNodeStore, article updated", this.storage.article.attrs?.toc)
+                    this.editor.commands.appendLog(this.storage.title, '🔄 bootNodeStore, article updated ' + this.storage.article.attrs?.toc)
                 }
 
                 return true

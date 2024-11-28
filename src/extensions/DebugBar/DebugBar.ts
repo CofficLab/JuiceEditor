@@ -16,6 +16,9 @@ declare module '@tiptap/core' {
             enableDebugBar: () => ReturnType
             disableDebugBar: () => ReturnType
             toggleDebugBar: () => ReturnType
+            bootDebugBar: () => ReturnType
+            enableDebugBarVerbose: () => ReturnType
+            disableDebugBarVerbose: () => ReturnType
         }
     }
 }
@@ -23,17 +26,12 @@ declare module '@tiptap/core' {
 const DebugBar = TiptapExtension.create({
     name: 'DebugBar',
 
-    onUpdate() {
-        if (this.storage.enabled) {
-            this.editor.commands.showDebugBar('Hello', { a: 1, b: 2 })
-        }
-    },
-
     addStorage() {
         return {
             verbose: false,
             enabled: false,
             mounted: false,
+            title: "🛞 Debug Bar",
         }
     },
 
@@ -43,15 +41,33 @@ const DebugBar = TiptapExtension.create({
         }
     },
 
+    onUpdate() {
+        this.editor.commands.bootDebugBar()
+    },
+
     addCommands() {
         return {
             enableDebugBar: () => ({ }) => {
+                if (this.storage.verbose) {
+                    this.editor.commands.appendLog(this.storage.title, '✅ enableDebugBar')
+                }
+
                 this.storage.enabled = true
                 return true
             },
 
             disableDebugBar: () => ({ }) => {
                 this.storage.enabled = false
+                return true
+            },
+
+            enableDebugBarVerbose: () => ({ }) => {
+                this.storage.verbose = true
+                return true
+            },
+
+            disableDebugBarVerbose: () => ({ }) => {
+                this.storage.verbose = false
                 return true
             },
 
@@ -101,16 +117,6 @@ const DebugBar = TiptapExtension.create({
                     render() {
                         return h(DebugView, {
                             editor: editor,
-                            onClose: () => {
-                                mountPoint.style.opacity = '0';
-                                mountPoint.style.transform = 'scale(0.95)';
-                                mountPoint.style.backgroundColor = 'rgba(0, 0, 0, 0)';
-
-                                setTimeout(() => {
-                                    app.unmount();
-                                    editorElement.removeChild(mountPoint);
-                                }, 400);
-                            }
                         });
                     }
                 });
@@ -127,6 +133,18 @@ const DebugBar = TiptapExtension.create({
                 }
                 this.storage.mounted = false
                 return true;
+            },
+
+            bootDebugBar: () => ({ }) => {
+                if (this.storage.verbose) {
+                    this.editor.commands.appendLog(this.storage.title, '🚀 bootDebugBar ' + this.storage.enabled)
+                }
+
+                if (this.storage.enabled) {
+                    this.editor.commands.showDebugBar('Hello', { a: 1, b: 2 })
+                }
+
+                return true
             },
         };
     },

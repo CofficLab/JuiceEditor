@@ -36,7 +36,7 @@ const HeadingStore = TiptapExtension.create<{}, HeadingStoreStorage>({
 
     onUpdate() {
         if (this.storage.verbose) {
-            console.log(this.storage.title, 'onUpdate, update heading tree')
+            this.editor.commands.appendLog(this.storage.title, '🔄 onUpdate, update heading tree')
         }
 
         this.editor.commands.updateHeadings()

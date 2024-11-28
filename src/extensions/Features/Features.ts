@@ -1,7 +1,14 @@
 import { mergeAttributes, Node } from '@tiptap/core'
 import { VueNodeViewRenderer } from '@tiptap/vue-3'
-
 import Component from './Features.vue'
+
+declare module '@tiptap/core' {
+    interface Commands<ReturnType> {
+        features: {
+            setContentFeatures: () => ReturnType
+        }
+    }
+}
 
 export default Node.create({
     name: 'features',
@@ -9,6 +16,15 @@ export default Node.create({
     group: 'block',
 
     atom: true,
+
+    addCommands() {
+        return {
+            setContentFeatures: () => ({ editor, commands }) => {
+                commands.setContent('<h1>宣传图</h1><features-component></features-component>', true)
+                return true
+            }
+        }
+    },
 
     addAttributes() {
         return {

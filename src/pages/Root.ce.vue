@@ -1,15 +1,16 @@
 <script setup lang="ts">
-import { computed, inject, ref } from 'vue';
+import { computed, inject, nextTick, onMounted, ref } from 'vue';
 import Loading from '../ui/Loading.vue'
 import { Editor as EditorVue } from '@tiptap/vue-3';
 import SourceCode from './SourceCode.vue'
 import CoreEditor from './CoreEditor.vue'
 import { makeExtensions, defaultDrawIoLink, defaultTranslateApi, defaultFocusClassName } from '../model/TiptapAgent';
-import Editor from '../model/Editor';
+import PublicEditor from '../model/Editor';
 import { SourceCodeStorage } from '../extensions/SourceCode';
+import { SmartDocStorage } from '../extensions/SmartDoc';
 
-const rootAgent: Editor = inject('rootAgent')!
-const ready = ref(false)
+const publicEditor: PublicEditor = inject('publicEditor')!
+const loading = ref(true)
 const editor = new EditorVue({
     extensions: makeExtensions({
         drawIoLink: defaultDrawIoLink,
@@ -19,30 +20,40 @@ const editor = new EditorVue({
     editable: true,
     autofocus: 'start',
     onBeforeCreate: () => {
-        rootAgent.options.onBeforeCreate?.()
+        publicEditor.options.onBeforeCreate?.()
     },
-    onCreate: ({ editor }) => {
-        rootAgent.editor = editor
-        rootAgent.options.onCreate?.(rootAgent)
-        ready.value = true
+    onCreate: ({ editor: tiptapEditor }) => {
+        publicEditor.editor = tiptapEditor
+        publicEditor.options.onCreate?.(publicEditor)
+        editor.commands.boot()
+        publicEditor.options.onBooted?.(publicEditor)
     },
     onContentError: (error) => {
-        rootAgent.options.onContentError?.()
+        publicEditor.options.onContentError?.()
     },
-    onUpdate: () => {
-        rootAgent.options.onUpdate?.(rootAgent)
+    onUpdate: ({ editor: tiptapEditor }) => {
+        updateLoadingState()
+
+        publicEditor.options.onUpdate?.(publicEditor)
+    },
+    onBlur: ({ editor: tiptapEditor }) => {
+        updateLoadingState()
+    },
+    onDestroy: () => {
+    },
+    onFocus: ({ editor: tiptapEditor }) => {
+        updateLoadingState()
+    },
+    onSelectionUpdate: () => {
     }
 })
 
-function onEditorMounted() {
-    editor.commands.setMounted()
-    rootAgent.options.onMounted?.(rootAgent)
-}
 
-const showSourceCode = computed(() => {
-    const sourceCode = editor.storage.sourceCode as SourceCodeStorage
-    return sourceCode.shouldShow
-})
+
+function updateLoadingState() {
+    const docStorage = editor.storage.doc as SmartDocStorage
+    loading.value = docStorage.loading
+}
 
 </script>
 
@@ -51,19 +62,18 @@ const showSourceCode = computed(() => {
 </style>
 
 <template>
-    <div v-if="editor && !ready"
-        class="fixed inset-0 flex items-center justify-center bg-white dark:bg-black bg-opacity-80 z-50 text-left">
+    <div v-if="loading"
+        class="fixed inset-0 flex items-center justify-center bg-slate-500/20 dark:bg-slate-900 bg-opacity-95 z-50 text-left">
         <div class="transform scale-150">
             <Loading></Loading>
         </div>
     </div>
 
-    <main class="main text-left" v-if="editor && ready">
+    <main class="main text-left" v-if="editor">
         <slot></slot>
 
         <div class="flex flex-row w-full justify-center gap-0">
-            <SourceCode :editor="editor" v-if="showSourceCode" :class="{ 'w-1/2': true }" />
-            <CoreEditor :editor="editor" :onEditorMounted="onEditorMounted" :class="{ 'w-1/2': showSourceCode }" />
+            <CoreEditor :editor="editor" />
         </div>
     </main>
 </template>

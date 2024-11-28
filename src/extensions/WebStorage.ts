@@ -45,6 +45,8 @@ const WebStorage = TiptapExtension.create<{}, WebStorageStorage>({
                         throw new ParamErrorNoUUID('参数错误：UUID为空', 'setContentFromWeb')
                     }
 
+                    commands.setLoading(true)
+
                     axios.get(`${url}`)
                         .then(response => {
                             let content = response.data
@@ -80,6 +82,8 @@ const WebStorage = TiptapExtension.create<{}, WebStorageStorage>({
                         .catch(error => {
                             console.error(this.storage.emoji, 'loadContentFromWeb error', error)
                             throw error
+                        }).finally(() => {
+                            commands.setLoading(false)
                         })
                 } catch (error: any) {
                     if (error.code === 'ERR_NETWORK' || error.message.includes('CORS')) {

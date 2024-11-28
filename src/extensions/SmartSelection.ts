@@ -53,7 +53,7 @@ export default TiptapExtension.create<{}, SmartSelectionStorage>({
 				const type = this.storage.leafSelectionType
 
 				if (this.storage.verbose) {
-					console.log(this.storage.title, "deleteSelectionNode", type)
+					this.editor.commands.appendLog(this.storage.title, '🔄 deleteSelectionNode ' + type)
 				}
 
 				if (editor.isActive(TableExtension.name)) {
@@ -69,7 +69,7 @@ export default TiptapExtension.create<{}, SmartSelectionStorage>({
 
 			updateSelection: () => ({ editor }) => {
 				if (this.storage.verbose) {
-					console.log(this.storage.title, "updateSelection")
+					this.editor.commands.appendLog(this.storage.title, '🔄 updateSelection')
 				}
 
 				const { selection } = editor.state;
@@ -93,17 +93,17 @@ export default TiptapExtension.create<{}, SmartSelectionStorage>({
 
 	onSelectionUpdate() {
 		if (this.storage.verbose) {
-			console.log(this.storage.title, "onSelectionUpdate")
+			this.editor.commands.appendLog(this.storage.title, '🔄 onSelectionUpdate')
 		}
 
 		this.editor.commands.updateSelection()
 
 		if (this.storage.verbose) {
-			console.log(this.storage.title, "selectionTypes", this.storage.selectionTypes)
+			this.editor.commands.appendLog(this.storage.title, '🔄 selectionTypes ' + this.storage.selectionTypes)
 		}
 
 		if (this.storage.verbose) {
-			console.log(this.storage.title, "leafSelectionType", this.storage.leafSelectionType)
+			this.editor.commands.appendLog(this.storage.title, '🔄 leafSelectionType ' + this.storage.leafSelectionType)
 		}
 	},
 })

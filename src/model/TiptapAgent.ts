@@ -66,7 +66,7 @@ import makeExtensionsProps from '../interface/MakeExtensionProps'
 import DragDrop from "../extensions/DragDrop"
 import NodeStore from "../extensions/NodeStore"
 import SmartToc from "../extensions/SmartToc/SmartToc"
-import UUID from "../extensions/UUID/UUID"
+import LogStore from "../extensions/LogStore"
 import SmartUUID from "../extensions/SmartUUID"
 import HeadingStore from "../extensions/HeadingStore/HeadingStore"
 
@@ -118,6 +118,7 @@ function makeExtensions(props: makeExtensionsProps) {
         }),
         ListKeymapExtension,
         LocalStorage,
+        LogStore,
         Margin,
         NewLine,
         NodeStore,

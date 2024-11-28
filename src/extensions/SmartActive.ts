@@ -1,6 +1,7 @@
 import { TiptapEditor, TiptapExtension } from '../model/TiptapGroup'
 import { Plugin, PluginKey } from 'prosemirror-state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
+import Article from './Article'
 
 interface SmartActiveOptions {
     className: string
@@ -35,7 +36,7 @@ export const SmartActive = TiptapExtension.create<SmartActiveOptions>({
                                     })
                                 )
 
-                                if (isFirst) {
+                                if (isFirst && node.type.name != Article.name) {
                                     decorations.push(
                                         Decoration.node(pos, pos + node.nodeSize, {
                                             class: this.options.firstClassName,
@@ -56,7 +57,7 @@ export const SmartActive = TiptapExtension.create<SmartActiveOptions>({
 });
 
 export const getFirstActiveNodePosition = (editor: TiptapEditor): { offsetTop: number | null, offsetLeft: number | null } => {
-    const focusClassName = editor.extensionManager.extensions.find(extension => extension.name === SmartActive.name)?.options.className
+    const focusClassName = editor.extensionManager.extensions.find(extension => extension.name === SmartActive.name)?.options.firstClassName
     const editorElement = editor.options.element
     const currentNode: Element | null = editorElement?.querySelector(`.${focusClassName}`)
 

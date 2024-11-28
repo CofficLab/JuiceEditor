@@ -7,8 +7,8 @@ export interface VerboseStorage {
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
         verbose: {
-            disableVerboseMode: () => ReturnType
-            enableVerboseMode: () => ReturnType
+            disableAllVerbose: () => ReturnType
+            enableAllVerbose: () => ReturnType
         }
     }
 }
@@ -24,8 +24,8 @@ const Verbose = TiptapExtension.create<{}, VerboseStorage>({
 
     addCommands() {
         return {
-            disableVerboseMode: () => ({ chain }) => {
-                console.log(this.storage.emoji, '🚫 disableVerboseMode')
+            disableAllVerbose: () => ({ chain }) => {
+                console.log(this.storage.emoji, '🚫 disableAllVerbose')
 
                 return chain()
                     .disableDocVerbose()
@@ -43,11 +43,12 @@ const Verbose = TiptapExtension.create<{}, VerboseStorage>({
                     .disableSmartSelectionVerbose()
                     .disableSmartUUIDVerbose()
                     .disableHeadingStoreVerbose()
+                    .disableDebugBarVerbose()
                     .run()
             },
 
-            enableVerboseMode: () => ({ chain }) => {
-                console.log(this.storage.emoji, '✅ enableVerboseMode')
+            enableAllVerbose: () => ({ chain }) => {
+                this.editor.commands.appendLog(this.storage.emoji, '✅ enableAllVerbose')
 
                 return chain()
                     .enableDocVerbose()
@@ -65,6 +66,7 @@ const Verbose = TiptapExtension.create<{}, VerboseStorage>({
                     .enableSmartSelectionVerbose()
                     .enableSmartUUIDVerbose()
                     .enableHeadingStoreVerbose()
+                    .enableDebugBarVerbose()
                     .run()
             },
         }
