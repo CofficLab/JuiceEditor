@@ -54,9 +54,10 @@ const SmartDoc = Document.extend<SmartDocOptions, SmartDocStorage>({
                 return true
             },
 
-            boot: () => ({ chain }) => {
+            boot: () => ({ chain, commands }) => {
                 if (this.storage.verbose) {
                     console.log(this.storage.emoji, '🚀 boot')
+                    commands.appendLog(this.storage.emoji + '-> 🚀 boot')
                 }
 
                 chain()
@@ -77,6 +78,7 @@ const SmartDoc = Document.extend<SmartDocOptions, SmartDocStorage>({
             setLoading: (value: boolean) => ({ commands }) => {
                 if (this.storage.verbose) {
                     console.log(this.storage.emoji, '🔄 setLoading', value)
+                    commands.appendLog(this.storage.emoji + '-> 🔄 setLoading ' + value)
                 }
 
                 this.storage.loading = value

@@ -9,7 +9,7 @@ import codeBlockDoc from '../../samples/codeBlock';
 import baseDoc from '../../samples/base';
 import miniDoc from '../../samples/mini';
 import bigDoc from '../../samples/big';
-
+import { LogStoreStorage } from '../LogStore';
 const props = defineProps({
     editor: {
         type: TiptapEditor,
@@ -19,8 +19,10 @@ const props = defineProps({
 
 const address = ref('')
 const showTree = ref(false)
+const showLogs = ref(false)
 const nodeStoreStorage = props.editor.storage.nodeStore as NodeStoreStorage
 const selectionStorage = props.editor.storage.selection as SmartSelectionStorage
+const logStoreStorage = props.editor.storage.logStore as LogStoreStorage
 
 props.editor.on('selectionUpdate', () => {
     address.value = selectionStorage.selectionTypes.join('->');
@@ -36,6 +38,14 @@ function closeMessage() {
 
 function toggleTree() {
     showTree.value = !showTree.value
+}
+
+function getLogs() {
+    return logStoreStorage.logs.join('\n')
+}
+
+function toggleLogsView() {
+    showLogs.value = !showLogs.value
 }
 
 const editorNode = computed(() => nodeStoreStorage.article)
@@ -57,6 +67,7 @@ const editorNode = computed(() => nodeStoreStorage.article)
                 <button class="btn btn-primary btn-sm" @click="editor.commands.updateContent(bigDoc)">大型</button>
                 <button class="btn btn-primary btn-sm" @click="editor.commands.createArticle()">创建文章</button>
                 <button class="btn btn-primary btn-sm" @click="editor.commands.updateContent(featureDoc)">功能</button>
+                <button class="btn btn-primary btn-sm" @click="toggleLogsView">日志</button>
                 <button class="btn btn-primary btn-sm" @click="toggleTree">结构</button>
                 <button class="btn btn-primary btn-sm" @click="closeMessage">关闭</button>
             </div>
@@ -79,6 +90,15 @@ const editorNode = computed(() => nodeStoreStorage.article)
                 <div class="pb-2">
                     <Tree :nodes="[editorNode]" />
                 </div>
+            </div>
+        </div>
+
+        <!-- Logs Modal -->
+        <div v-if="showLogs"
+            class="fixed bottom-24 inset-0 bg-black bg-opacity-50 z-[100] flex items-center justify-center -translate-y-96">
+            <div
+                class="bg-indigo-100/95 rounded-lg p-6 pb-24 w-[90%] max-w-3xl max-h-[75vh] overflow-auto  -translate-y-44">
+                <pre>{{ getLogs() }}</pre>
             </div>
         </div>
     </div>
