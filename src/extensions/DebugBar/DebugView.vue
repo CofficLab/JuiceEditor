@@ -55,11 +55,10 @@ const editorNode = computed(() => nodeStoreStorage.article)
                     @click="props.editor.commands.setContent('<h1>宣传图</h1><features-component></features-component>')">宣传图</button>
                 <button class="btn btn-primary btn-sm" @click="props.editor.commands.setContent(baseDoc)">混合</button>
                 <button class="btn btn-primary btn-sm" @click="props.editor.commands.setContent(miniDoc)">小型</button>
-                <button class="btn btn-primary btn-sm" @click="props.editor.commands.toggleDebugBar()">DebugBar</button>
                 <button class="btn btn-primary btn-sm"
                     @click="props.editor.commands.createArticle('New Article')">创建文章</button>
                 <button class="btn btn-primary btn-sm" @click="props.editor.commands.setContent(featureDoc)">功能</button>
-                <button class="btn btn-primary btn-sm" @click="toggleTree">查看结构</button>
+                <button class="btn btn-primary btn-sm" @click="toggleTree">结构</button>
                 <button class="btn btn-primary btn-sm" @click="closeMessage">关闭</button>
             </div>
         </div>
