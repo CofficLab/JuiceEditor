@@ -24,7 +24,7 @@ const props = defineProps({
         '2xl:max-w-4xl 2xl:px-0': true,
         'dark:bg-zinc-900/30': true,
         'shadow-inner': true,
-        'rounded px-0 container prose-sm prose dark:prose-invert mb-24 pt-8': true
+        'rounded px-0 container prose-sm prose dark:prose-invert h-full': true
     }">
         <pre class="h-full whitespace-pre-wrap break-words">{{ props.editor.getHTML() }}</pre>
     </div>

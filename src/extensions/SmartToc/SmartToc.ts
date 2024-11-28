@@ -66,7 +66,7 @@ const SmartToc = Node.create<{}, SmartTocStorage>({
         return {
             bootToc: () => ({ editor, commands }) => {
                 if (this.storage.verbose) {
-                    console.log(this.storage.title, "bootToc")
+                    console.log(this.storage.title, "🚀 bootToc", this.storage.display)
                 }
 
                 const nodeStore = this.editor.storage.nodeStore as NodeStoreStorage
@@ -94,7 +94,7 @@ const SmartToc = Node.create<{}, SmartTocStorage>({
                 mountPoint.style.display = 'flex';
                 mountPoint.style.justifyContent = 'flex-end';
                 mountPoint.style.alignItems = 'flex-start';
-                mountPoint.style.zIndex = '9999';
+                mountPoint.style.zIndex = '5555';
                 mountPoint.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
                 mountPoint.style.opacity = '0';
                 mountPoint.style.transform = 'translateX(100%)';
@@ -135,10 +135,6 @@ const SmartToc = Node.create<{}, SmartTocStorage>({
             },
 
             removeToc: () => ({ commands }) => {
-                if (this.storage.verbose) {
-                    console.log(this.storage.title, "removeToc")
-                }
-
                 const mountPoint = this.editor.options.element?.querySelector(`#${this.storage.mountPointId}`);
                 if (mountPoint) {
                     mountPoint.remove();

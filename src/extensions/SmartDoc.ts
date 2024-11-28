@@ -1,11 +1,11 @@
 import { Document } from '@tiptap/extension-document'
-import EditorNode from '../model/EditorNode'
 import Article from './Article'
 
 export interface SmartDocStorage {
     verbose: boolean,
     emoji: string,
-    mounted: boolean,
+    booted: boolean,
+    loading: boolean,
 }
 
 export interface SmartDocOptions {
@@ -18,10 +18,11 @@ declare module '@tiptap/vue-3' {
         smartDoc: {
             enableDocVerbose: () => ReturnType
             disableDocVerbose: () => ReturnType
-            setMounted: () => ReturnType
+            boot: () => ReturnType
             setDocVerbose: (value: boolean) => ReturnType
             setReadOnly: (value: boolean) => ReturnType
             toggleReadOnly: () => ReturnType
+            setLoading: (value: boolean) => ReturnType
         }
     }
 }
@@ -35,7 +36,8 @@ const SmartDoc = Document.extend<SmartDocOptions, SmartDocStorage>({
         return {
             verbose: false,
             emoji: "🌳 Doc",
-            mounted: false,
+            booted: false,
+            loading: true,
         }
     },
 
@@ -51,20 +53,39 @@ const SmartDoc = Document.extend<SmartDocOptions, SmartDocStorage>({
                 return true
             },
 
-            setMounted: () => ({ chain }) => {
+            boot: () => ({ chain }) => {
                 if (this.storage.verbose) {
-                    console.log(this.storage.emoji, '🖥️ setMounted')
+                    console.log(this.storage.emoji, '🚀 boot')
                 }
 
-                this.storage.mounted = true
-
-                return chain()
+                chain()
                     .bootSlotListener()
                     .bootLocalStorage()
                     .bootWebKit()
                     .bootNodeStore()
                     .bootToc()
+                    .bootDebugBar()
+                    .setLoading(false)
                     .run()
+
+                this.storage.booted = true
+
+                return true
+            },
+
+            setLoading: (value: boolean) => ({ commands }) => {
+                if (this.storage.verbose) {
+                    console.log(this.storage.emoji, '🔄 setLoading', value)
+                }
+
+                this.storage.loading = value
+                if (this.storage.loading) {
+                    commands.blur()
+                } else {
+                    commands.focus()
+                }
+
+                return true
             },
 
             setDocVerbose: (value: boolean) => () => {

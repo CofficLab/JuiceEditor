@@ -4,19 +4,17 @@ import BubbleMenus from '../menus/MenuBubble.vue'
 import FloatMenus from '../menus/MenuFloat.vue'
 import MenuLeft from '../menus/MenuLeft.vue'
 import MenuRight from '../menus/MenuRight.vue'
+import SourceCode from './SourceCode.vue'
 import { computed, nextTick, onMounted, ref } from 'vue'
 import { SmartMenusStorage } from '../extensions/SmartMenus'
 import { SmartBackgroundStorage } from '../extensions/SmartBackground'
 import { CharacterCountStorage } from '@tiptap/extension-character-count'
+import { SourceCodeStorage } from '../extensions/SourceCode'
 
 const props = defineProps({
 	editor: {
 		type: EditorVue,
 		required: true
-	},
-	onEditorMounted: {
-		type: Function,
-		required: false
 	}
 })
 
@@ -24,19 +22,17 @@ const isDebug = false
 const smartMenus = props.editor.storage.smartMenus as SmartMenusStorage
 const smartBackground = props.editor.storage.smartBackground as SmartBackgroundStorage
 const characterCount = props.editor.storage.characterCount as CharacterCountStorage
-
 const menuColor = computed(() => smartMenus.color)
 const backgroundClass = ref(smartBackground.backgroundClass)
+const showSourceCode = computed(() => {
+	const sourceCode = props.editor.storage.sourceCode as SourceCodeStorage
+	return sourceCode.shouldShow
+})
 
 props.editor.on('update', ({ editor }) => {
 	backgroundClass.value = smartBackground.backgroundClass
 })
 
-onMounted(() => {
-	nextTick(() => {
-		props.onEditorMounted?.()
-	})
-})
 </script>
 
 <template>
@@ -53,9 +49,11 @@ onMounted(() => {
 			'xl:bg-purple-300/10': isDebug,
 			'2xl:bg-red-300/10': isDebug,
 			'px-4': true,
-			'flex flex-col pt-4 pb-24': true,
+			'flex flex-row pt-4 pb-24 gap-2': true,
 			'justify-center items-center': true
 		}">
+			<SourceCode :editor="editor" v-if="showSourceCode" :class="{ 'w-1/2': true }" />
+
 			<div id="editor-container" :class="{
 				'md:bg-green-300/10': isDebug,
 				'lg:bg-blue-300/10': isDebug,

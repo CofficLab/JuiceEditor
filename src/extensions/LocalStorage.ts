@@ -140,7 +140,7 @@ const LocalStorage = TiptapExtension.create<{}, LocalStorageStorage>({
                 }
 
                 if (this.storage.verbose) {
-                    console.log(this.storage.emoji, '🖥️ boot local storage')
+                    console.log(this.storage.emoji, '🚀 bootLocalStorage', this.storage.enabled)
                 }
 
                 const smartSlot = this.editor.storage.smartSlot as SmartSlotStorage

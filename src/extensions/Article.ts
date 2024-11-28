@@ -1,7 +1,5 @@
 import { Node } from '@tiptap/core'
-import UUIDHelper from '../helper/UUIDHelper'
 import SmartHeading from './SmartHeading'
-import TocHeading from './HeadingStore/TocHeading'
 import { priorityOfArticle } from '../model/TiptapGroup'
 
 export interface ArticleOptions {
@@ -12,7 +10,6 @@ export interface ArticleStorage {
     verbose: boolean,
     title: string,
     mountPointId: string,
-    headings: TocHeading[],
 }
 
 declare module '@tiptap/core' {
@@ -41,7 +38,6 @@ const Article = Node.create<ArticleOptions, ArticleStorage>({
             verbose: false,
             title: "🏠 Article",
             mountPointId: "smart-toc-mount-point",
-            headings: [],
         }
     },
 
@@ -59,7 +55,7 @@ const Article = Node.create<ArticleOptions, ArticleStorage>({
                 renderHTML: attributes => ({
                     'data-toc': attributes.toc,
                 }),
-            },
+            }
         }
     },
 

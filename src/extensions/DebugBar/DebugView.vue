@@ -4,6 +4,11 @@ import { TiptapEditor } from '../../model/TiptapGroup';
 import Tree from './Tree.vue';
 import { NodeStoreStorage } from '../NodeStore';
 import { SmartSelectionStorage } from '../SmartSelection';
+import featureDoc from '../../samples/feature';
+import codeBlockDoc from '../../samples/codeBlock';
+import baseDoc from '../../samples/base';
+import miniDoc from '../../samples/mini';
+
 const props = defineProps({
     editor: {
         type: TiptapEditor,
@@ -41,6 +46,19 @@ const editorNode = computed(() => nodeStoreStorage.article)
             <p>{{ address }}</p>
 
             <div class="card-actions justify-end flex gap-2 items-center h-full flex-row">
+                <button class="btn btn-primary btn-sm" @click="props.editor.commands.toggleToc()">TOC</button>
+                <button class="btn btn-primary btn-sm" @click="props.editor.commands.toggleReadOnly()">只读/编辑</button>
+                <button class="btn btn-primary btn-sm" @click="props.editor.commands.toggleSourceCode()">源码</button>
+                <button class="btn btn-primary btn-sm"
+                    @click="props.editor.commands.setContent(codeBlockDoc)">代码块</button>
+                <button class="btn btn-primary btn-sm"
+                    @click="props.editor.commands.setContent('<h1>宣传图</h1><features-component></features-component>')">宣传图</button>
+                <button class="btn btn-primary btn-sm" @click="props.editor.commands.setContent(baseDoc)">混合</button>
+                <button class="btn btn-primary btn-sm" @click="props.editor.commands.setContent(miniDoc)">小型</button>
+                <button class="btn btn-primary btn-sm" @click="props.editor.commands.toggleDebugBar()">DebugBar</button>
+                <button class="btn btn-primary btn-sm"
+                    @click="props.editor.commands.createArticle('New Article')">创建文章</button>
+                <button class="btn btn-primary btn-sm" @click="props.editor.commands.setContent(featureDoc)">功能</button>
                 <button class="btn btn-primary btn-sm" @click="toggleTree">查看结构</button>
                 <button class="btn btn-primary btn-sm" @click="closeMessage">关闭</button>
             </div>

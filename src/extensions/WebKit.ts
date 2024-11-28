@@ -182,7 +182,7 @@ const WebKit = TiptapExtension.create<{}, WebKitStorage>({
 
             disableWebKit: () => () => {
                 if (this.storage.verbose) {
-                    console.log(this.storage.emoji, '禁用 WebKit')
+                    console.log(this.storage.emoji, '🔒 disableWebKit')
                 }
 
                 this.storage.enabled = false;
@@ -235,6 +235,10 @@ const WebKit = TiptapExtension.create<{}, WebKitStorage>({
             },
 
             bootWebKit: () => () => {
+                if (this.storage.verbose) {
+                    console.log(this.storage.emoji, "🚀 bootWebKit", this.storage.enabled)
+                }
+
                 if (!('webkit' in window)) {
                     return true
                 }

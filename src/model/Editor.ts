@@ -91,12 +91,16 @@ class Editor {
         this.editor?.commands.enableDebugBar()
     }
 
-    public enableVerboseMode: () => void = () => {
-        this.editor?.commands.enableVerboseMode()
+    public enableAllVerbose: () => void = () => {
+        this.editor?.commands.enableAllVerbose()
     }
 
     public enableDocVerbose: () => void = () => {
         this.editor?.commands.enableDocVerbose()
+    }
+
+    public enableDebugBarVerbose: () => void = () => {
+        this.editor?.commands.enableDebugBarVerbose()
     }
 
     public enableArticleVerbose: () => void = () => {
