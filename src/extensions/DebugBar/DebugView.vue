@@ -8,6 +8,7 @@ import featureDoc from '../../samples/feature';
 import codeBlockDoc from '../../samples/codeBlock';
 import baseDoc from '../../samples/base';
 import miniDoc from '../../samples/mini';
+import bigDoc from '../../samples/big';
 
 const props = defineProps({
     editor: {
@@ -46,18 +47,16 @@ const editorNode = computed(() => nodeStoreStorage.article)
             <p>{{ address }}</p>
 
             <div class="card-actions justify-end flex gap-2 items-center h-full flex-row">
-                <button class="btn btn-primary btn-sm" @click="props.editor.commands.toggleToc()">TOC</button>
-                <button class="btn btn-primary btn-sm" @click="props.editor.commands.toggleReadOnly()">只读/编辑</button>
-                <button class="btn btn-primary btn-sm" @click="props.editor.commands.toggleSourceCode()">源码</button>
-                <button class="btn btn-primary btn-sm"
-                    @click="props.editor.commands.setContent(codeBlockDoc)">代码块</button>
-                <button class="btn btn-primary btn-sm"
-                    @click="props.editor.commands.setContent('<h1>宣传图</h1><features-component></features-component>')">宣传图</button>
-                <button class="btn btn-primary btn-sm" @click="props.editor.commands.setContent(baseDoc)">混合</button>
-                <button class="btn btn-primary btn-sm" @click="props.editor.commands.setContent(miniDoc)">小型</button>
-                <button class="btn btn-primary btn-sm"
-                    @click="props.editor.commands.createArticle('New Article')">创建文章</button>
-                <button class="btn btn-primary btn-sm" @click="props.editor.commands.setContent(featureDoc)">功能</button>
+                <button class="btn btn-primary btn-sm" @click="editor.commands.toggleToc()">TOC</button>
+                <button class="btn btn-primary btn-sm" @click="editor.commands.toggleReadOnly()">只读/编辑</button>
+                <button class="btn btn-primary btn-sm" @click="editor.commands.toggleSourceCode()">源码</button>
+                <button class="btn btn-primary btn-sm" @click="editor.commands.updateContent(codeBlockDoc)">代码块</button>
+                <button class="btn btn-primary btn-sm" @click="editor.commands.setContentFeatures()">宣传图</button>
+                <button class="btn btn-primary btn-sm" @click="editor.commands.updateContent(baseDoc)">混合</button>
+                <button class="btn btn-primary btn-sm" @click="editor.commands.updateContent(miniDoc)">小型</button>
+                <button class="btn btn-primary btn-sm" @click="editor.commands.updateContent(bigDoc)">大型</button>
+                <button class="btn btn-primary btn-sm" @click="editor.commands.createArticle()">创建文章</button>
+                <button class="btn btn-primary btn-sm" @click="editor.commands.updateContent(featureDoc)">功能</button>
                 <button class="btn btn-primary btn-sm" @click="toggleTree">结构</button>
                 <button class="btn btn-primary btn-sm" @click="closeMessage">关闭</button>
             </div>

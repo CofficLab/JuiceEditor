@@ -23,6 +23,7 @@ declare module '@tiptap/vue-3' {
             setReadOnly: (value: boolean) => ReturnType
             toggleReadOnly: () => ReturnType
             setLoading: (value: boolean) => ReturnType
+            updateContent: (content: string) => ReturnType
         }
     }
 }
@@ -85,6 +86,11 @@ const SmartDoc = Document.extend<SmartDocOptions, SmartDocStorage>({
                     commands.focus()
                 }
 
+                return true
+            },
+
+            updateContent: (content: string) => ({ commands }) => {
+                commands.setContent(content, true)
                 return true
             },
 

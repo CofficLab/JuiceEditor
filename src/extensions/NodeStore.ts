@@ -20,7 +20,6 @@ declare module '@tiptap/core' {
             addToc: () => ReturnType
             removeToc: () => ReturnType
             bootToc: () => ReturnType
-            createArticle: (title: string) => ReturnType
             updateNodeStoreStorage: (stage: string) => ReturnType
             bootNodeStore: () => ReturnType
         }

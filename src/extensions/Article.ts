@@ -17,7 +17,7 @@ declare module '@tiptap/core' {
         article: {
             enableArticleVerbose: () => ReturnType
             disableArticleVerbose: () => ReturnType
-            createArticle: (title: string) => ReturnType
+            createArticle: (title?: string) => ReturnType
             setToc: (display: boolean) => ReturnType
             toggleToc: () => ReturnType
         }
@@ -84,7 +84,7 @@ const Article = Node.create<ArticleOptions, ArticleStorage>({
                 return true
             },
 
-            createArticle: (title: string) => ({ commands }) => {
+            createArticle: (title: string = "New Article") => ({ commands }) => {
                 let html = `<article><h1>${title}</h1></article>`
                 commands.setContent(html, true)
 
