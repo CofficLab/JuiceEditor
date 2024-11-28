@@ -18,7 +18,7 @@ const smartToc = props.editor.storage.smartToc as SmartTocStorage
 
 function handleUpdate() {
 	if (smartToc.verbose) {
-		console.log(smartToc.title, 'handleUpdate')
+		props.editor.commands.appendLog(smartToc.title, '🔄 handleUpdate')
 	}
 
 	headingTree.value = (props.editor.storage.headingStore as HeadingStoreStorage).tree
@@ -26,7 +26,7 @@ function handleUpdate() {
 
 onMounted(() => {
 	if (smartToc.verbose) {
-		console.log(smartToc.title, 'mounted')
+		props.editor.commands.appendLog(smartToc.title, '🔄 mounted')
 	}
 
 	props.editor.on('update', handleUpdate)

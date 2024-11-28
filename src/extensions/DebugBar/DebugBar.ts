@@ -41,11 +41,15 @@ const DebugBar = TiptapExtension.create({
         }
     },
 
+    onUpdate() {
+        this.editor.commands.bootDebugBar()
+    },
+
     addCommands() {
         return {
             enableDebugBar: () => ({ }) => {
                 if (this.storage.verbose) {
-                    console.log(this.storage.title, '✅ enableDebugBar')
+                    this.editor.commands.appendLog(this.storage.title, '✅ enableDebugBar')
                 }
 
                 this.storage.enabled = true
@@ -113,16 +117,6 @@ const DebugBar = TiptapExtension.create({
                     render() {
                         return h(DebugView, {
                             editor: editor,
-                            onClose: () => {
-                                mountPoint.style.opacity = '0';
-                                mountPoint.style.transform = 'scale(0.95)';
-                                mountPoint.style.backgroundColor = 'rgba(0, 0, 0, 0)';
-
-                                setTimeout(() => {
-                                    app.unmount();
-                                    editorElement.removeChild(mountPoint);
-                                }, 400);
-                            }
                         });
                     }
                 });
@@ -143,7 +137,7 @@ const DebugBar = TiptapExtension.create({
 
             bootDebugBar: () => ({ }) => {
                 if (this.storage.verbose) {
-                    console.log(this.storage.title, '🚀 bootDebugBar', this.storage.enabled)
+                    this.editor.commands.appendLog(this.storage.title, '🚀 bootDebugBar ' + this.storage.enabled)
                 }
 
                 if (this.storage.enabled) {

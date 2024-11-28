@@ -66,7 +66,7 @@ const SmartToc = Node.create<{}, SmartTocStorage>({
         return {
             bootToc: () => ({ editor, commands }) => {
                 if (this.storage.verbose) {
-                    console.log(this.storage.title, "🚀 bootToc", this.storage.display)
+                    this.editor.commands.appendLog(this.storage.title, '🚀 bootToc ' + this.storage.display)
                 }
 
                 const nodeStore = this.editor.storage.nodeStore as NodeStoreStorage
@@ -82,7 +82,7 @@ const SmartToc = Node.create<{}, SmartTocStorage>({
 
             displayToc: () => ({ editor }) => {
                 if (this.storage.verbose) {
-                    console.log(this.storage.title, "displayToc")
+                    this.editor.commands.appendLog(this.storage.title, '🔄 displayToc')
                 }
 
                 const mountPoint = document.createElement('div');

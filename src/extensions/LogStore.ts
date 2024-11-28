@@ -1,10 +1,12 @@
 import { Extension } from '@tiptap/core'
 import SmartHeading from './SmartHeading'
+import SmartLog from '../model/SmartLog'
 import { priorityOfNodeStore } from '../model/TiptapGroup'
+
 export interface LogStoreStorage {
     verbose: boolean,
     title: string,
-    logs: string[],
+    logs: SmartLog[],
 }
 
 declare module '@tiptap/core' {
@@ -12,7 +14,7 @@ declare module '@tiptap/core' {
         logStore: {
             enableLogStoreVerbose: () => ReturnType
             disableLogStoreVerbose: () => ReturnType
-            appendLog: (log: string) => ReturnType
+            appendLog: (channel: string, message: string) => ReturnType
         }
     }
 }
@@ -57,8 +59,8 @@ const LogStore = Extension.create<{}, LogStoreStorage>({
                 return true
             },
 
-            appendLog: (log: string) => () => {
-                this.storage.logs.push(log)
+            appendLog: (channel: string, message: string) => () => {
+                this.storage.logs.push(new SmartLog(channel, message))
                 return true
             },
         }

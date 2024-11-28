@@ -10,6 +10,7 @@ import baseDoc from '../../samples/base';
 import miniDoc from '../../samples/mini';
 import bigDoc from '../../samples/big';
 import { LogStoreStorage } from '../LogStore';
+import LogViewer from './LogViewer.vue'
 const props = defineProps({
     editor: {
         type: TiptapEditor,
@@ -40,10 +41,6 @@ function toggleTree() {
     showTree.value = !showTree.value
 }
 
-function getLogs() {
-    return logStoreStorage.logs.join('\n')
-}
-
 function toggleLogsView() {
     showLogs.value = !showLogs.value
 }
@@ -52,7 +49,13 @@ const editorNode = computed(() => nodeStoreStorage.article)
 </script>
 
 <template>
-    <div class="w-full h-12 px-4 bg-slate-800 text-gray-400">
+    <!-- LogViewer - Move it before the DebugBar div -->
+    <LogViewer v-if="showLogs"
+        class="fixed bottom-[3rem] left-0 right-0 h-[30vh] bg-white shadow-lg z-[90] overflow-auto"
+        :logs="logStoreStorage.logs" @close="toggleLogsView" />
+
+    <!-- DebugBar -->
+    <div class="w-full h-12 px-4 bg-slate-800 text-gray-400 relative z-[100]">
         <div class="flex justify-between items-center h-full">
             <p>{{ address }}</p>
 
@@ -73,32 +76,11 @@ const editorNode = computed(() => nodeStoreStorage.article)
             </div>
         </div>
 
-        <!-- Tree Modal -->
+        <!-- Tree View -->
         <div v-if="showTree"
-            class="fixed bottom-24 inset-0 bg-black bg-opacity-50 z-[100] flex items-center justify-center -translate-y-96">
-            <div
-                class="bg-indigo-100/95 rounded-lg p-6 pb-24 w-[90%] max-w-3xl max-h-[75vh] overflow-auto  -translate-y-44">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-bold text-gray-900">节点结构</h3>
-                    <button class="text-gray-500 hover:text-gray-700" @click="toggleTree">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-                </div>
-                <div class="pb-2">
-                    <Tree :nodes="[editorNode]" />
-                </div>
-            </div>
-        </div>
-
-        <!-- Logs Modal -->
-        <div v-if="showLogs"
-            class="fixed bottom-24 inset-0 bg-black bg-opacity-50 z-[100] flex items-center justify-center -translate-y-96">
-            <div
-                class="bg-indigo-100/95 rounded-lg p-6 pb-24 w-[90%] max-w-3xl max-h-[75vh] overflow-auto  -translate-y-44">
-                <pre>{{ getLogs() }}</pre>
+            class="fixed bottom-[3rem] left-0 right-0 h-[30vh] bg-cyan-100/95 shadow-lg z-[90] overflow-auto">
+            <div class="p-6">
+                <Tree :node="editorNode" :is-root="true" @close="toggleTree" />
             </div>
         </div>
     </div>

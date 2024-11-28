@@ -155,8 +155,8 @@ const SmartImage = ImageTipTap.extend<ImageOptions, SmartImageStorage>({
                 var verbose = true;
                 var className = this.options.shapeClass[shape] || '';
 
-                if (verbose) {
-                    console.log(title, "setShape", shape, className)
+                if (this.storage.verbose) {
+                    this.editor.commands.appendLog(this.storage.title, '🔄 setShape ' + shape + ' ' + className)
                 }
 
                 return commands.updateAttributes(this.name, {
@@ -166,7 +166,7 @@ const SmartImage = ImageTipTap.extend<ImageOptions, SmartImageStorage>({
 
             setDrawLink: (link: string) => ({ commands }) => {
                 if (this.storage.verbose) {
-                    console.log(title, '⚙️ set draw link', link)
+                    this.editor.commands.appendLog(this.storage.title, '⚙️ set draw link ' + link)
                 }
 
                 this.storage.drawIoLink = link

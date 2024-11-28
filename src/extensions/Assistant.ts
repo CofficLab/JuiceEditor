@@ -40,7 +40,7 @@ const Assistant = Extension.create<{}, AssistantStorage>({
         return {
             setChatApi: (api: string) => ({ commands }) => {
                 if (this.storage.verbose) {
-                    console.log(this.storage.title, '⚙️ set chat api', api);
+                    this.editor.commands.appendLog(this.storage.title, '⚙️ set chat api ' + api);
                 }
 
                 this.storage.chatApi = api;
@@ -67,8 +67,8 @@ const Assistant = Extension.create<{}, AssistantStorage>({
                 });
 
                 if (this.storage.verbose) {
-                    console.log(this.storage.title, "Api", options.url)
-                    console.log(this.storage.title, "向服务器发送数据", options.params)
+                    this.editor.commands.appendLog(this.storage.title, '📡 Api ' + options.url)
+                    this.editor.commands.appendLog(this.storage.title, '📡 向服务器发送数据 ' + options.params)
                 }
 
                 fetch(options.url, {

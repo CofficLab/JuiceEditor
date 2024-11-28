@@ -65,7 +65,7 @@ const LocalStorage = TiptapExtension.create<{}, LocalStorageStorage>({
         return {
             saveLocalStorage: () => () => {
                 if (this.storage.verbose) {
-                    console.log(this.storage.emoji, 'saveDoc')
+                    this.editor.commands.appendLog(this.storage.emoji, '🔄 saveDoc')
                 }
 
                 localStorage.setItem(this.storage.localStorageKey, this.editor.getHTML())
@@ -75,7 +75,7 @@ const LocalStorage = TiptapExtension.create<{}, LocalStorageStorage>({
 
             enableLocalStorage: () => () => {
                 if (this.storage.verbose) {
-                    console.log(this.storage.emoji, '✅ enableLocalStorage')
+                    this.editor.commands.appendLog(this.storage.emoji, '✅ enableLocalStorage')
                 }
 
                 this.storage.enabled = true
@@ -84,7 +84,7 @@ const LocalStorage = TiptapExtension.create<{}, LocalStorageStorage>({
 
             disableLocalStorage: () => () => {
                 if (this.storage.verbose) {
-                    console.log(this.storage.emoji, 'disableLocalStorage')
+                    this.editor.commands.appendLog(this.storage.emoji, '🔄 disableLocalStorage')
                 }
 
                 this.storage.enabled = false
@@ -116,7 +116,7 @@ const LocalStorage = TiptapExtension.create<{}, LocalStorageStorage>({
 
                 if (saveData) {
                     if (this.storage.verbose) {
-                        console.log(this.storage.emoji, '📺 setContentFromLocalStorage')
+                        this.editor.commands.appendLog(this.storage.emoji, '📺 setContentFromLocalStorage')
                     }
 
                     commands.setContent(saveData, true)
@@ -140,7 +140,7 @@ const LocalStorage = TiptapExtension.create<{}, LocalStorageStorage>({
                 }
 
                 if (this.storage.verbose) {
-                    console.log(this.storage.emoji, '🚀 bootLocalStorage', this.storage.enabled)
+                    this.editor.commands.appendLog(this.storage.emoji, '🚀 bootLocalStorage ' + this.storage.enabled)
                 }
 
                 const smartSlot = this.editor.storage.smartSlot as SmartSlotStorage
@@ -149,7 +149,7 @@ const LocalStorage = TiptapExtension.create<{}, LocalStorageStorage>({
                     commands.setContentFromLocalStorage()
                 } else {
                     if (this.storage.verbose) {
-                        console.log(this.storage.emoji, 'slot has content, skip setContentFromLocalStorage')
+                        this.editor.commands.appendLog(this.storage.emoji, '🔄 slot has content, skip setContentFromLocalStorage')
                     }
                 }
 

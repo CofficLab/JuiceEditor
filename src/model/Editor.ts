@@ -6,6 +6,7 @@ import TocHeading from '../extensions/HeadingStore/TocHeading'
 import { NodeStoreStorage } from '../extensions/NodeStore'
 import { SmartHeadingStorage } from '../extensions/SmartHeading'
 import { HeadingStoreStorage } from '../extensions/HeadingStore/HeadingStore'
+import { LogStoreStorage } from '../extensions/LogStore'
 
 class Editor {
     public editor: TiptapEditor | null = null
@@ -129,6 +130,12 @@ class Editor {
 
     public enableLocalStoragePrintDocNode: () => void = () => {
         this.editor?.commands.enableLocalStoragePrintDocNode()
+    }
+
+    public getLogs: () => string[] = () => {
+        const logStore = this.editor?.storage.logStore as LogStoreStorage
+
+        return logStore.logs
     }
 
     public getHeadings: () => TocHeading[] = () => {

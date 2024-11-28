@@ -17,7 +17,8 @@ EditorFactory.register('my-editor', {
         console.log(title, '🚩 onCreate for label my-editor')
 
         // Enable Verbose
-        editor.enableDocVerbose()
+        editor.enableAllVerbose()
+        // editor.enableDocVerbose()
         // editor.enableDebugBarVerbose()
 
         // Enable Features

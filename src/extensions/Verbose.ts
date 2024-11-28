@@ -48,7 +48,7 @@ const Verbose = TiptapExtension.create<{}, VerboseStorage>({
             },
 
             enableAllVerbose: () => ({ chain }) => {
-                console.log(this.storage.emoji, '✅ enableAllVerbose')
+                this.editor.commands.appendLog(this.storage.emoji, '✅ enableAllVerbose')
 
                 return chain()
                     .enableDocVerbose()
