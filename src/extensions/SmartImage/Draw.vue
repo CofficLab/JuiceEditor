@@ -4,7 +4,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onUnmounted, ref, onBeforeMount } from 'vue'
+import { onUnmounted, ref, onBeforeMount } from 'vue'
 import DrawHelper from './DrawHelper';
 import DrawConfig from './DrawConfig';
 

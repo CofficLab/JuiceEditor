@@ -1,9 +1,7 @@
 import { generateHTML, generateJSON, JSONContent } from '@tiptap/core';
 import { TiptapExtension } from '../model/TiptapGroup'
 import axios from 'axios';
-import { ArticleHasNoUUIDError, ArticleHasNoHTMLError } from '../error/ArticleError';
 import { DocHasNoContentError, DocHasNoArticleError } from '../error/DocError';
-import EditorNode from 'src/model/EditorNode';
 import Article from './Article';
 import { ParamErrorNoUUID } from '../error/ParamError';
 
@@ -45,7 +43,12 @@ const WebStorage = TiptapExtension.create<{}, WebStorageStorage>({
                         throw new ParamErrorNoUUID('参数错误：UUID为空', 'setContentFromWeb')
                     }
 
-                    commands.setLoading(true)
+                    let loadingTimeout: NodeJS.Timeout | null = null
+
+                    // Set loading after 1 second delay
+                    loadingTimeout = setTimeout(() => {
+                        commands.setLoading(true)
+                    }, 1000)
 
                     axios.get(`${url}`)
                         .then(response => {
@@ -82,7 +85,12 @@ const WebStorage = TiptapExtension.create<{}, WebStorageStorage>({
                         .catch(error => {
                             console.error(this.storage.emoji, 'loadContentFromWeb error', error)
                             throw error
-                        }).finally(() => {
+                        })
+                        .finally(() => {
+                            // Clear timeout if request finishes before 1 second
+                            if (loadingTimeout) {
+                                clearTimeout(loadingTimeout)
+                            }
                             commands.setLoading(false)
                         })
                 } catch (error: any) {

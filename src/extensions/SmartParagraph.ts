@@ -1,7 +1,6 @@
 import Paragraph from "@tiptap/extension-paragraph";
 import { TiptapEditor } from "../model/TiptapGroup";
 import { Node } from "prosemirror-model";
-import UUIDHelper from "../helper/UUIDHelper";
 import { AssistantStorage } from "./Assistant";
 
 declare module '@tiptap/core' {

@@ -1,4 +1,4 @@
-import { TiptapEditor, TiptapExtension } from '../model/TiptapGroup'
+import { TiptapExtension } from '../model/TiptapGroup'
 
 export interface URLListenerStorage {
     verbose: boolean,

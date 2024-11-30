@@ -1,5 +1,4 @@
-import UUIDHelper from '../helper/UUIDHelper';
-import { TableExtension, TaskItemExtension } from "../model/TiptapGroup";
+import { TableExtension } from "../model/TiptapGroup";
 
 const SmartTable = TableExtension.extend({
     addAttributes() {

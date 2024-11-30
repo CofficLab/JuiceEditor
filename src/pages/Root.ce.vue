@@ -48,13 +48,10 @@ const editor = new EditorVue({
     }
 })
 
-
-
 function updateLoadingState() {
     const docStorage = editor.storage.doc as SmartDocStorage
     loading.value = docStorage.loading
 }
-
 </script>
 
 <style>
