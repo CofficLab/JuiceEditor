@@ -71,11 +71,15 @@ const WebKit = TiptapExtension.create<{}, WebKitStorage>({
             return
         }
 
+        const nodeStore = this.editor.storage.nodeStore as NodeStoreStorage
+
+        // if (this.storage.verbose) {
+        //     console.log(this.storage.emoji, 'onUpdate', nodeStore.article.flattened())
+        // }
+
         if (!('webkit' in window)) {
             return
         }
-
-        const nodeStore = this.editor.storage.nodeStore as NodeStoreStorage
 
         // Send Article
         if (this.storage.sendArticle) {

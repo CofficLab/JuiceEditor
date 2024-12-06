@@ -13,6 +13,7 @@ class EditorNode {
     wordCount?: number
     characterCount?: number
     html?: string
+    text?: string
     attrs?: Record<string, any> = undefined
     type: string = 'unknown'
     children?: EditorNode[] = []
@@ -27,6 +28,7 @@ class EditorNode {
             .setType(json.type ?? "")
             .setAttrs(json.attrs ?? {})
             .setParentId(parentId)
+            .setText(json.text ?? undefined)
 
         if (node.type == SmartText.name && !node.getParentId()) {
             throw new EditorNodeNoParentIdError("Parent ID is not set", node)
@@ -140,6 +142,11 @@ class EditorNode {
 
     public setParentId(parentId: string): EditorNode {
         return this.setAttrs({ ...this.attrs, parentId });
+    }
+
+    public setText(text: string | undefined): EditorNode {
+        this.text = text
+        return this
     }
 }
 
