@@ -42,33 +42,7 @@ const editor = EditorFactory.register('my-editor', {
 
 ### Swift Package
 
-1. Add the package to your project's dependencies:
-
-```swift
-dependencies: [
-    .package(url: "https://github.com/CofficLab/JuiceEditor.git", from: "1.0.0")
-]
-```
-
-2. Download WebApp:
-   - Go to [Releases](https://github.com/CofficLab/JuiceEditor/releases)
-   - Download `webapp.zip` for the version you're using
-   - Extract it to `Sources/JuiceEditorKit/Resources/WebApp` in your project
-
-3. Import and use in your code:
-
-```swift
-import JuiceEditorKit
-
-// Use the editor in your SwiftUI view
-struct ContentView: View {
-    var body: some View {
-        JuiceEditor()
-    }
-}
-```
-
-Note: Make sure the WebApp version matches your package version.
+<https://github.com/CofficLab/JuiceEditorKit>
 
 ## Documentation
 
@@ -80,27 +54,28 @@ Note: Make sure the WebApp version matches your package version.
 
 ## Related Projects
 
-- [JuiceEditor-Playground](https://github.com/cofficlab/JuiceEditor-Playground)
-- [JuiceEditor-Examples](https://github.com/cofficlab/JuiceEditor-Examples)
+-   [JuiceEditorKit](https://github.com/CofficLab/JuiceEditorKit)
+-   [JuiceEditor-Playground](https://github.com/cofficlab/JuiceEditor-Playground)
+-   [JuiceEditor-Examples](https://github.com/cofficlab/JuiceEditor-Examples)
 
 ## Products based on JuiceEditor
 
-- [KuaiYiZhi APP](https://apps.apple.com/cn/app/%E5%BF%AB%E6%98%93%E7%9F%A5/id6457892799)
-- [KuaiYiZhi](https://www.kuaiyizhi.cn)
+-   [KuaiYiZhi APP](https://apps.apple.com/cn/app/%E5%BF%AB%E6%98%93%E7%9F%A5/id6457892799)
+-   [KuaiYiZhi](https://www.kuaiyizhi.cn)
 
 ## Built based on the following projects
 
-- [Draw.io](https://github.com/jgraph/drawio)
-- [TailwindCSS](https://tailwindcss.com/)
-- [Vue3](https://v3.vuejs.org/)
-- [Tiptap](https://tiptap.dev/)
-- [Heroicons](https://heroicons.com)
-- [RemixIcon](https://remixicon.com)
+-   [Draw.io](https://github.com/jgraph/drawio)
+-   [TailwindCSS](https://tailwindcss.com/)
+-   [Vue3](https://v3.vuejs.org/)
+-   [Tiptap](https://tiptap.dev/)
+-   [Heroicons](https://heroicons.com)
+-   [RemixIcon](https://remixicon.com)
 
 ## NPM Packages
 
-- [juice-editor](https://www.npmjs.com/package/@coffic/juice-editor)
-- [juice-editor-draw](https://www.npmjs.com/package/@coffic/juice-editor-draw)
+-   [juice-editor](https://www.npmjs.com/package/@coffic/juice-editor)
+-   [juice-editor-draw](https://www.npmjs.com/package/@coffic/juice-editor-draw)
 
 ## Maintainer
 
