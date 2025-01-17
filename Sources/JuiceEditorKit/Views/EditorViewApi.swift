@@ -33,10 +33,7 @@ public extension EditorView {
 
     @discardableResult
     func disableDebugBar() async throws -> Any {
-        debug("disableDebugBar")
-        let result = try await run("window.editor.disableDebugBar()")
-        debug("disableDebugBar result: \(result)")
-        return result
+        try await run("window.editor.disableDebugBar()")
     }
 
     func disableFloatingMenuAndBubbleMenu() async throws -> Any {
@@ -273,13 +270,7 @@ public extension EditorView {
     }
 
     func run(_ script: String) async throws -> Any {
-        "nil"
-//        try await self.webView.content.run(script)
-    }
-
-    func evaluateJavaScript(_ script: String) async throws -> Any {
-        "nil"
-//        try await self.webView.content.evaluateJavaScript(script)
+        self.webView?.evaluateJavaScript(script)
     }
 
     func closeDraw() async throws -> Any {
