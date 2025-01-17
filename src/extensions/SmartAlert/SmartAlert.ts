@@ -35,18 +35,12 @@ const SmartAlert = TiptapExtension.create({
                 mountPoint.style.alignItems = 'center';
                 mountPoint.style.zIndex = '9999';
                 mountPoint.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
-                mountPoint.style.opacity = '0';
+                mountPoint.style.opacity = '1';
                 mountPoint.style.transform = 'scale(0.95)';
                 mountPoint.style.backgroundColor = 'rgba(0, 0, 0, 0)';
 
                 let editorElement = this.editor.options.element
                 editorElement.appendChild(mountPoint);
-
-                requestAnimationFrame(() => {
-                    mountPoint.style.opacity = '1';
-                    mountPoint.style.transform = 'scale(1)';
-                    mountPoint.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-                });
 
                 const app = createApp({
                     render() {

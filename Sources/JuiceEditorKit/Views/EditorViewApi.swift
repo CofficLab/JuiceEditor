@@ -31,8 +31,16 @@ public extension EditorView {
         try await run("window.editor.disableFloatingMenu()")
     }
 
-    func disableFlotingMenuAndBubbleMenu() async throws -> Any {
-        try await run("window.editor.disableFlotingMenuAndBubbleMenu()")
+    @discardableResult
+    func disableDebugBar() async throws -> Any {
+        debug("disableDebugBar")
+        let result = try await run("window.editor.disableDebugBar()")
+        debug("disableDebugBar result: \(result)")
+        return result
+    }
+
+    func disableFloatingMenuAndBubbleMenu() async throws -> Any {
+        try await run("window.editor.disableFloatingMenuAndBubbleMenu()")
     }
 
     func disableEdit() async throws -> Any {

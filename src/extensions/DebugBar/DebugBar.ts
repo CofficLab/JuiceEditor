@@ -58,6 +58,13 @@ const DebugBar = TiptapExtension.create({
 
             disableDebugBar: () => ({ }) => {
                 this.storage.enabled = false
+
+                if (this.storage.verbose) {
+                    this.editor.commands.appendLog(this.storage.title, '🚀 disableDebugBar')
+                    console.log('disableDebugBar')
+                }
+
+                this.editor.commands.closeDebugBar()
                 return true
             },
 
@@ -88,6 +95,10 @@ const DebugBar = TiptapExtension.create({
                     return true
                 }
 
+                if (this.storage.verbose) {
+                    console.log('showDebugBar')
+                }
+
                 const mountPoint = document.createElement('div');
                 mountPoint.id = this.options.mountPointId;
                 mountPoint.style.position = 'fixed';
@@ -99,19 +110,13 @@ const DebugBar = TiptapExtension.create({
                 mountPoint.style.justifyContent = 'center';
                 mountPoint.style.zIndex = '9999';
                 mountPoint.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
-                mountPoint.style.opacity = '0';
+                mountPoint.style.opacity = '1';
                 mountPoint.style.transformOrigin = 'bottom';
                 mountPoint.style.transform = 'scale(0.95)';
                 mountPoint.style.backgroundColor = 'rgba(0, 0, 0, 0)';
 
                 let editorElement = this.editor.options.element
                 editorElement.appendChild(mountPoint);
-
-                requestAnimationFrame(() => {
-                    mountPoint.style.opacity = '1';
-                    mountPoint.style.transform = 'scale(1)';
-                    mountPoint.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-                });
 
                 const app = createApp({
                     render() {

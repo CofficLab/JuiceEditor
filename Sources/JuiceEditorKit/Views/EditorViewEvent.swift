@@ -11,6 +11,8 @@ extension EditorView {
             do {
                 try await self.setChatApi(server.chatApi)
                 try await self.setDrawLink(server.drawIoLink)
+                try await self.disableFloatingMenu()
+                try await self.disableDebugBar()
 
                 self.delegate.onReady()
             } catch {
@@ -132,7 +134,6 @@ extension EditorView {
         } else {
         }
     }
-
 }
 
 #Preview {

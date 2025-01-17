@@ -7,7 +7,7 @@ import Vapor
 public class HTTPServer: ObservableObject, SuperThread {
     public var app: Application?
     public let directoryPath: String
-    public let isDevMode = true
+    public let isDevMode = false
     public var port: Int = 49493
     public let vueDevServerURL = "http://localhost:5173"
     public var delegate: EditorDelegate
@@ -127,5 +127,5 @@ extension HTTPServer {
 #Preview {
     EditorView(verbose: true)
         .frame(height: 1000)
-        .frame(width: 700)
+        .frame(width: 1700)
 }

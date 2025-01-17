@@ -50,7 +50,7 @@ extension EditorDelegate {
     }
 
     public func onReady() {
-        warning("Editor Ready")
+        warning("EditorDelegate: Editor Ready")
     }
 
     public func onUpdateNodes(_ nodes: [EditorNode]) {
@@ -80,6 +80,6 @@ public struct DefaultDelegate: EditorDelegate {}
 
 #Preview {
     EditorView(verbose: true)
-        .frame(height: 1000)
-        .frame(width: 700)
+        .frame(height: 1500)
+        .frame(width: 900)
 }
