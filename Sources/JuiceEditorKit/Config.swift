@@ -5,7 +5,7 @@ import SwiftUI
 import WebKit
 import Foundation
 
-struct Config {
+public struct Config {
     static var rootEmoji = "🖼️"
     
     static var publicDir = Bundle.main.url(forResource: "dist", withExtension: nil)
@@ -87,7 +87,7 @@ struct Config {
 
     static var currentDirectoryPath = FileManager.default.currentDirectoryPath
     
-    static var webAppPath: String = {
+    public static var webAppPath: String = {
         let settingsURL = Bundle.module.url(forResource: "WebApp", withExtension: nil)
 
         if let settingsURL = settingsURL {
