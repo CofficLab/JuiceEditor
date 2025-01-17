@@ -24,6 +24,7 @@ extension EditorView {
         isServerStarted = true
         self.webView = self.server.baseURL
             .makeWebView(onCustomMessage: onCustomMessage)
+            .verboseMode(false)
     }
 
     func onJSCallUpdateArticle(_ n: Notification) {

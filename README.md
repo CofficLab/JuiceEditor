@@ -8,13 +8,15 @@ Currently still under development and not yet stable.
 
 ## Quick Start
 
-1.Install JuiceEditor
+### JavaScript/TypeScript
+
+1. Install JuiceEditor
 
 ```bash
 npm install @coffic/juice-editor
 ```
 
-2.Use JuiceEditor in your project
+2. Use JuiceEditor in your project
 
 ```js
 import { EditorFactory, Editor } from '@coffic/juice-editor'
@@ -25,7 +27,6 @@ const editor = EditorFactory.register('my-editor', {
     },
     onCreate: (editor: Editor) => {
         console.log('onCreate for label my-editor')
-
         editor.enableLog()
     }
 })
@@ -33,11 +34,41 @@ const editor = EditorFactory.register('my-editor', {
 // When you type 'editor.', the IDE will suggest available APIs
 ```
 
-3.Use in your template
+3. Use in your template
 
 ```html
 <my-editor></my-editor>
 ```
+
+### Swift Package
+
+1. Add the package to your project's dependencies:
+
+```swift
+dependencies: [
+    .package(url: "https://github.com/CofficLab/JuiceEditor.git", from: "1.0.0")
+]
+```
+
+2. Download WebApp:
+   - Go to [Releases](https://github.com/CofficLab/JuiceEditor/releases)
+   - Download `webapp.zip` for the version you're using
+   - Extract it to `Sources/JuiceEditorKit/Resources/WebApp` in your project
+
+3. Import and use in your code:
+
+```swift
+import JuiceEditorKit
+
+// Use the editor in your SwiftUI view
+struct ContentView: View {
+    var body: some View {
+        JuiceEditor()
+    }
+}
+```
+
+Note: Make sure the WebApp version matches your package version.
 
 ## Documentation
 
@@ -49,7 +80,6 @@ const editor = EditorFactory.register('my-editor', {
 
 ## Related Projects
 
-- [JuiceEditor-SwiftUI](https://github.com/cofficlab/JuiceEditor-SwiftUI)
 - [JuiceEditor-Playground](https://github.com/cofficlab/JuiceEditor-Playground)
 - [JuiceEditor-Examples](https://github.com/cofficlab/JuiceEditor-Examples)
 
