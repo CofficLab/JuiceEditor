@@ -12,8 +12,13 @@ node_modules
 /dist
 /public/draw
 dist-ssr
+/dist-demo
 coverage
 *.local
+
+.build/
+.swiftpm/
+Sources/JuiceEditorKit/WebApp/
 
 /cypress/videos/
 /cypress/screenshots/
