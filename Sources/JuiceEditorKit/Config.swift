@@ -6,27 +6,29 @@ import WebKit
 import Foundation
 
 public struct Config {
-    static var rootEmoji = "🖼️"
+    public static var rootEmoji = "🖼️"
     
-    static var publicDir = Bundle.main.url(forResource: "dist", withExtension: nil)
+    public static var publicDir = Bundle.main.url(forResource: "dist", withExtension: nil)
     
     private var fileManager = FileManager.default
     
-    var sandboxPrivateKeyURL: URL {
+    public var sandboxPrivateKeyURL: URL {
         getRunnerDir().appending(component: "private_key")
     }
     
-    func getDocumentsURL() -> URL {
+    public init() {}
+    
+    public func getDocumentsURL() -> URL {
         fileManager
             .urls(for: .documentDirectory, in: .userDomainMask)
             .first!
     }
     
-    func getKnownHostsURL() -> URL {
+    public func getKnownHostsURL() -> URL {
         getRunnerDir().appending(component: "known_hosts")
     }
     
-    func getAppDir() -> URL {
+    public func getAppDir() -> URL {
         var isDir: ObjCBool = true
         let url = getDocumentsURL().appendingPathComponent(
             "Kuaiyizhi",
@@ -47,7 +49,7 @@ public struct Config {
         return url
     }
     
-    func getTempDir() -> URL {
+    public func getTempDir() -> URL {
         var isDir: ObjCBool = true
         let url = getAppDir()
             .appendingPathComponent("temp", isDirectory: true)
@@ -66,7 +68,7 @@ public struct Config {
         return url
     }
     
-    func getRunnerDir() -> URL {
+    public func getRunnerDir() -> URL {
         var isDir: ObjCBool = true
         let url = getAppDir()
             .appendingPathComponent("runner", isDirectory: true)
@@ -85,7 +87,7 @@ public struct Config {
         return url
     }
 
-    static var currentDirectoryPath = FileManager.default.currentDirectoryPath
+    public static var currentDirectoryPath = FileManager.default.currentDirectoryPath
     
     public static var webAppPath: String = {
         let settingsURL = Bundle.module.url(forResource: "WebApp", withExtension: nil)
