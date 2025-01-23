@@ -84,7 +84,7 @@
     "html2canvas": "^1.4.1",
     "monaco-editor": "^0.52.0",
     "postcss": "^8.4.49",
-    "postcss-nesting": "^12.1.5",
+    "postcss-nesting": "^13.0.1",
     "prosemirror-model": "^1.24.0",
     "prosemirror-state": "^1.4.3",
     "prosemirror-view": "^1.37.0",
