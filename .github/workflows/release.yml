@@ -115,7 +115,6 @@ jobs:
               with:
                   tag_name: ${{ env.tag }}
                   files: |
-                      webapp.zip
                       ./**/*.dmg
                       ./**/*.zip
                       ./**/*.exe
