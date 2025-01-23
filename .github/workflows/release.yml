@@ -28,12 +28,21 @@ jobs:
             - name: Install
               run: pnpm i --prod
             - name: Build
-              run: npm run build
-            - name: Upload Artifact
+              run: |
+                  npm run build
+                  npm run build:demo  # 构建 webapp
+                  cd dist-demo && zip -r ../webapp.zip .  # 将 webapp 打包
+            - name: Upload Dist Artifact
               uses: actions/upload-artifact@v4
               with:
                   name: dist
                   path: dist
+                  retention-days: 1
+            - name: Upload WebApp Artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: webapp
+                  path: webapp.zip
                   retention-days: 1
 
     tag:
@@ -87,12 +96,16 @@ jobs:
         needs: [tag]
         steps:
             - uses: actions/checkout@v4
-            - name: Download Artifact
+            - name: Download Version Artifact
               uses: actions/download-artifact@v4
               with:
                   name: version
                   path: temp
-            - run: ls -alhR
+            - name: Download WebApp Artifact
+              uses: actions/download-artifact@v4
+              with:
+                  name: webapp
+                  path: .
             - name: Read Version
               run: |
                   version=$(cat temp/version.txt)
@@ -102,6 +115,7 @@ jobs:
               with:
                   tag_name: ${{ env.tag }}
                   files: |
+                      webapp.zip
                       ./**/*.dmg
                       ./**/*.zip
                       ./**/*.exe
@@ -125,3 +139,4 @@ jobs:
                   name: |
                       dist
                       version
+                      webapp

@@ -30,6 +30,7 @@ export interface WebKitStorage {
     localStorageKey: string,
     sendArticle: boolean,
     sendNodes: boolean,
+    messageHandler: string,
 }
 
 const WebKit = TiptapExtension.create<{}, WebKitStorage>({
@@ -45,6 +46,7 @@ const WebKit = TiptapExtension.create<{}, WebKitStorage>({
             localStorageKey: 'html',
             sendArticle: true,
             sendNodes: true,
+            messageHandler: 'customMessage',
         }
     },
 
@@ -145,10 +147,9 @@ const WebKit = TiptapExtension.create<{}, WebKitStorage>({
                 }
 
                 try {
-                    (window as any).webkit.messageHandlers.sendMessage.postMessage(data);
+                    (window as any).webkit.messageHandlers[this.storage.messageHandler].postMessage(data);
                 } catch (e: any) {
                     console.warn(this.storage.emoji, 'webKitSendMessage with error', e.message);
-                    return false
                 }
 
                 return true
@@ -159,13 +160,13 @@ const WebKit = TiptapExtension.create<{}, WebKitStorage>({
                     return false
                 }
 
-                // if (this.storage.verbose) {
-                //     console.log(this.storage.emoji, 'asyncSendMessage', data)
-                // }
+                if (this.storage.verbose) {
+                    console.log(this.storage.emoji, 'asyncSendMessage', data)
+                }
 
                 new Promise(() => {
                     try {
-                        (window as any).webkit.messageHandlers.sendMessage.postMessage(data);
+                        (window as any).webkit.messageHandlers[this.storage.messageHandler].postMessage(data);
                     } catch (e: any) {
                         console.log(this.storage.emoji, 'asyncSendMessage with error', e);
                     }

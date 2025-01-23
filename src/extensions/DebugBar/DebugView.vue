@@ -34,7 +34,7 @@ onMounted(() => {
 })
 
 function closeMessage() {
-    props.editor.commands.toggleDebugBar()
+    props.editor.commands.disableDebugBar()
 }
 
 function toggleTree() {

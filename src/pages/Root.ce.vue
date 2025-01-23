@@ -27,6 +27,7 @@ const editor = new EditorVue({
         publicEditor.options.onCreate?.(publicEditor)
         editor.commands.boot()
         publicEditor.options.onBooted?.(publicEditor)
+        updateLoadingState()
     },
     onContentError: (error) => {
         publicEditor.options.onContentError?.()
