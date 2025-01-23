@@ -8,6 +8,11 @@ import { SmartHeadingStorage } from '../extensions/SmartHeading'
 import { HeadingStoreStorage } from '../extensions/HeadingStore/HeadingStore'
 import { LogStoreStorage } from '../extensions/LogStore'
 import SmartLog from './SmartLog'
+/**
+ * 编辑器核心类
+ * 
+ * 提供编辑器的主要功能接口，包括内容管理、调试功能、状态控制等
+ */
 class Editor {
     public editor: TiptapEditor | null = null
     public options: EditorOptions
@@ -16,8 +21,24 @@ class Editor {
         this.options = options
     }
 
+    /**
+     * 创建一篇新文章
+     * @param title 文章标题
+     */
     public createArticle(title: string) {
         this.editor?.commands.createArticle(title)
+    }
+
+    public createImage() {
+        this.editor?.commands.insertImage()
+    }
+
+    public createCodeBlock() {
+        this.editor?.commands.insertSmartPre()
+    }
+
+    public disableEdit() {
+        this.editor?.commands.setReadOnly(true)
     }
 
     public disableWebKit: () => void = () => {
@@ -132,50 +153,108 @@ class Editor {
         this.editor?.commands.enableLocalStoragePrintDocNode()
     }
 
+    /**
+     * 获取编辑器的日志记录
+     * @returns 日志记录数组
+     */
     public getLogs: () => SmartLog[] = () => {
         const logStore = this.editor?.storage.logStore as LogStoreStorage
 
         return logStore.logs
     }
 
+    /**
+     * 获取文档中的所有标题
+     * @returns 标题节点数组
+     */
     public getHeadings: () => TocHeading[] = () => {
         const smartHeading = this.editor?.storage.smartHeading as SmartHeadingStorage
 
         return (this.editor?.storage.headingStore as HeadingStoreStorage).tree.flatten() || []
     }
 
+    /**
+     * 获取当前文档的根节点
+     * @returns 编辑器根节点
+     */
     public getNode: () => EditorNode = () => {
         const nodeStore = this.editor?.storage.nodeStore as NodeStoreStorage
 
         return nodeStore.article
     }
 
+    /**
+     * 获取文档中的所有节点
+     * @returns 节点数组
+     */
     public getNodes: () => EditorNode[] = () => {
         const nodeStore = this.editor?.storage.nodeStore as NodeStoreStorage
 
         return nodeStore.article.flattened()
     }
 
+    /**
+     * 获取编辑器的 HTML 内容
+     * @returns HTML 字符串
+     */
     public getHTML: () => string = () => {
         return this.editor?.getHTML() || ''
     }
 
+    public insertImage() {
+        this.createImage()
+    }
+
+    public insertCodeBlock() {
+        this.createCodeBlock()
+    }
+
+    public insertDraw() {
+        this.insertDrawing()
+    }
+
+    public insertDrawing() {
+        this.editor?.commands.insertDraw()
+    }
+
+    public insertTodo() {
+        this.editor?.commands.toggleTaskList()
+    }
+
+    /**
+     * 设置编辑器为只读模式
+     */
     public setReadOnly: () => void = () => {
         this.editor?.setEditable(false)
     }
 
+    /**
+     * 设置编辑器为可编辑模式
+     */
     public setEditable: () => void = () => {
         this.editor?.setEditable(true)
     }
 
+    /**
+     * 设置编辑器的 HTML 内容
+     * @param HTML HTML 字符串
+     */
     public setHTML(HTML: string) {
         this.editor?.commands.setContent(HTML, true)
     }
 
+    /**
+     * 设置编辑器内容
+     * @param content 要设置的内容
+     */
     public setContent(content: string) {
         this.setHTML(content)
     }
 
+    /**
+     * 设置菜单背景颜色
+     * @param colorName 颜色名称
+     */
     public setMenuBackgroundColor(colorName: keyof typeof colors) {
         this.editor?.commands.setMenuBackgroundColor(colorName)
     }
@@ -198,10 +277,18 @@ class Editor {
         this.editor?.commands.setChatApi(api)
     }
 
+    /**
+     * 从本地存储加载内容
+     */
     public setContentFromLocalStorage() {
         this.editor?.commands.setContentFromLocalStorage()
     }
 
+    /**
+     * 从指定 URL 加载内容
+     * @param url 内容的 URL 地址
+     * @param uuid 唯一标识符
+     */
     public setContentFromUrl(url: string, uuid: string) {
         this.editor?.commands.setContentFromWeb(url, uuid)
     }
@@ -228,22 +315,46 @@ class Editor {
         this.editor?.commands.setDrawLink(link)
     }
 
+    public toggleBold() {
+        this.editor?.commands.toggleBold()
+    }
+
+    public toggleItalic() {
+        this.editor?.commands.toggleItalic()
+    }
+
+    /**
+     * 切换编辑器的只读状态
+     */
     public toggleReadOnly() {
         this.editor?.commands.toggleReadOnly()
     }
 
+    /**
+     * 切换源代码视图
+     */
     public toggleSourceCode() {
         this.editor?.commands.toggleSourceCode()
     }
 
+    /**
+     * 切换目录显示
+     */
     public toggleToc() {
         this.editor?.commands.toggleToc()
     }
 
+    /**
+     * 切换目录显示（别名）
+     * @deprecated 请使用 toggleToc() 方法
+     */
     public toggleTOC() {
         this.toggleToc()
     }
 
+    /**
+     * 切换调试栏显示
+     */
     public toggleDebugBar() {
         this.editor?.commands.toggleDebugBar()
     }
